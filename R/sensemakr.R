@@ -38,7 +38,6 @@ sensemakr <- function(...){
 
 ##' @param model the model.
 ##' @name sensemakr
-## cjh -yo.
 sensemakr.lm <- function(...){
   # stats <- get stats()
   # benchmarks <- get benchmarks()
