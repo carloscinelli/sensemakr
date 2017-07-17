@@ -8,16 +8,16 @@
 \usage{
 sensemakr(...)
 
-\method{sensemakr}{lm}(...)
+\method{sensemakr}{lm}(model, D, X = NULL, ...)
 }
 \arguments{
 \item{...}{extra arguments}
 
+\item{model}{the model.}
+
 \item{D}{character vector with the treatment variable.}
 
 \item{X}{character vector with the covariates for benchmarking.}
-
-\item{model}{the model.}
 }
 \value{
 The function returns an object of class 'sensemakr' which is a list with the main

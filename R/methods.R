@@ -28,7 +28,10 @@ worstcaseplot <- function(...){
 }
 
 print.sensemade <- function(x, ...){
-  # pretty print of the object
+
+  cat("Sensitivity Analysis for the linear model:\n\n",
+      as.character(x$model$call), "\n\n")
+  str(x, max.level = 1)
 }
 
 

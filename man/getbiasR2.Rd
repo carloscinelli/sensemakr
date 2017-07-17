@@ -4,18 +4,16 @@
 \alias{getbiasR2}
 \title{Computes  bias caused by unobserved confounder}
 \usage{
-getbiasR2(...)
+getbiasR2(se, df, r2d, r2y, ...)
 }
 \arguments{
-\item{estimate}{original original  treatment effect estimate}
-
 \item{se}{standard error of original  treatment effect estimate}
 
 \item{df}{degrees of freedom of the original linear model}
 
-\item{R2d}{hypothetical partial R2 of the confounder with the treatment}
+\item{r2d}{hypothetical partial R2 of the confounder with the treatment}
 
-\item{R2y}{hypothetical partial R2 of the confounder with the outcome}
+\item{r2y}{hypothetical partial R2 of the confounder with the outcome}
 }
 \description{
 This function computes the bias caused by an unobserved confounder
