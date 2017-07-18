@@ -6,18 +6,18 @@
 \alias{sensemakr.lm}
 \title{Senstivity abalysis of linear models}
 \usage{
-sensemakr(model, D, X = NULL, ...)
+sensemakr(model, ...)
 
-\method{sensemakr}{lm}(model, D, X = NULL, ...)
+\method{sensemakr}{lm}(model, treatment, benchmarks = NULL)
 }
 \arguments{
 \item{model}{the model.}
 
+\item{...}{extra arguments}
+
 \item{D}{character vector with the treatment variable.}
 
 \item{X}{character vector with the covariates for benchmarking.}
-
-\item{...}{extra arguments}
 }
 \value{
 The function returns an object of class 'sensemakr' which is a list with the main
@@ -59,7 +59,7 @@ model  <- lm(peacefactor ~ directlyharmed + age + farmer_dar + herder_dar +
 X = c("herder_dar", "female", "age", "pastvoted", "farmer_dar")
 
 # runs benchmarking etc
-sense <- sensemakr(model=model, D="directlyharmed", benchmarks=X)
+sense <- sensemakr(model, treatment = "directlyharmed", benchmarks = X)
 
 # plots
 

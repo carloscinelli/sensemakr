@@ -42,7 +42,7 @@
 ##' X = c("herder_dar", "female", "age", "pastvoted", "farmer_dar")
 ##'
 ##' # runs benchmarking etc
-##' sense <- sensemakr(model=model, D="directlyharmed", benchmarks=X)
+##' sense <- sensemakr(model, treatment = "directlyharmed", benchmarks = X)
 ##'
 ##' # plots
 ##'
@@ -68,7 +68,7 @@
 ##' @export
 ##' @importFrom graphics abline legend lines plot points rug text
 ##' @importFrom stats coef df.residual formula model.matrix sd update vcov
-sensemakr <- function(model, D, X = NULL, ...){
+sensemakr <- function(model, ...){
   UseMethod("sensemakr")
 }
 
@@ -76,7 +76,9 @@ sensemakr <- function(model, D, X = NULL, ...){
 ##' @param model the model.
 ##' @name sensemakr
 ##' @export
-sensemakr.lm <- function(model, D, X=NULL, ...){
+sensemakr.lm <- function(model, treatment, benchmarks=NULL){
+  D <- treatment
+  X <- benchmarks
   # stats <- get stats()
   # benchmarks <- get benchmarks()
   # compute bias and include ob data.frames
