@@ -36,43 +36,65 @@ contourplot <- function(x,
                          ...){
 
   contour <- match.arg(contour)
-  benchmarks <- x$benchmarks$benchmark_R2
-  top <- min(c(nrow(benchmarks), top))
-  benchmarks <- benchmarks[1:top, ]
-  r2y <- benchmarks$r2y
-  r2d <- benchmarks$r2d
-  se <- x$treat.stats$se
-  df <- x$treat.stats$df
-  estimate <- x$treat.stats$estimate
-  t <- estimate/se
 
+  #### benchmark data ####
+  benchmarks  <- x$benchmarks$benchmark_R2
+  top         <- min(c(nrow(benchmarks), top))
+  benchmarks  <- benchmarks[1:top, ]
+  r2y         <- benchmarks$r2y
+  r2d         <- benchmarks$r2d
+  ####
+
+  #### contour data (treatment effec data) ####
+  estimate    <- x$treat.stats$estimate
+  se          <- x$treat.stats$se
+  df          <- x$treat.stats$df
+  t           <- estimate/se
+
+  #### computing contours ####
+
+  ## sequence of R2y and R2d
   if (is.null(lim)) lim <- max(c(r2y, r2d), na.rm = TRUE) + 0.1
   s <- seq(0, lim, by = 0.001)
 
+  ## level curves
   if (contour == "estimate") {
-    z <- adjust_estimate(estimate, outer(s, s, getbiasR2, se = se, df = df))
+    # estimate level curve
+    z      <- adjust_estimate(estimate, outer(s, s, getbiasR2, se = se, df = df))
     labels <- paste0(benchmarks$covariate, "\n", "(",round(benchmarks$adj_est_r2, 3),")")
-    lev <- 0
+    lev    <- 0
+
   } else if (contour == "t-value") {
-    z <-  outer(s, s, gettR2, t = t, df = df)
+    # t-value level curve
+    z      <- outer(s, s, gettR2, t = t, df = df)
     labels <- paste0(benchmarks$covariate, "\n", "(",round(benchmarks$adj_t_r2, 3),")")
-    lev <- 2
+    lev    <- 2
+
   } else if (contour == "lower bound" | contour == "upper bound" ) {
+    # CI level curves
     new_estimate <- adjust_estimate(estimate, outer(s, s, getbiasR2, se = se, df = df))
     new_se       <- outer(s, s, getseR2, se = se, df = df)
+
     if (contour == "lower bound") {
-      z <- new_estimate - 2*new_se
+      # CI lower bound
+      z                    <- new_estimate - 2*new_se
       benchmarks$adj_lw_r2 <- benchmarks$adj_est_r2 - 2*benchmarks$adj_se_r2
-      labs <- benchmarks$adj_lw_r2
+      labs                 <- benchmarks$adj_lw_r2
+
     } else {
-      z <- new_estimate + 2*new_se
+      # CI upper bound
+      z                    <- new_estimate + 2*new_se
       benchmarks$adj_up_r2 <- benchmarks$adj_est_r2 + 2*benchmarks$adj_se_r2
-      labs <- benchmarks$adj_up_r2
+      labs                 <- benchmarks$adj_up_r2
+
     }
     labels <- paste0(benchmarks$covariate, "\n", "(",round(labs, 3),")")
     lev <- 0
-  }
 
+  }
+  ####
+
+  ## plot contours with benchmarks
   contour(s, s, z, nlevels = nlevels,
           xlab = xlab,
           ylab = ylab,
@@ -80,7 +102,8 @@ contourplot <- function(x,
   points(r2d, r2y, pch = 23, col = "black", bg = "red", cex = cex)
   contour(s, s, z = z, level = lev, add = TRUE, col = "red", lwd = 2, lty = 2)
 
-  # create a better function for positioning labels and substitute jitter
+  #### add labels ####
+  # todo: try to create a better function for positioning labels and substitute jitter
   if (is.null(x.label))
     r2dl <- jitter(r2d, factor = 20)
 
@@ -90,11 +113,17 @@ contourplot <- function(x,
   text(r2dl, r2yl, labels = labels, cex = 0.7)
 
   labels <- data.frame(labels = labels,x = r2dl, y = r2yl, stringsAsFactors = FALSE)
+  ####
+
+  #### data for reproducibility ####
   rownames(z) <- colnames(z) <- s
   out <- list(plot_type = paste(contour,"contours"),
               contours = z,
               benchmarks = benchmarks,
               labels = labels)
+
+  ####
+
   invisible(out)
 }
 
