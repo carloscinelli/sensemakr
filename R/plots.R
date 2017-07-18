@@ -32,8 +32,7 @@ contourplot <- function(x,
                         main = paste("Sensitivity of",  contour, "to unobserved confounder\nContours of adjusted estimates"),
                         top = 3,
                         x.label = NULL,
-                        y.label = NULL,
-                         ...){
+                        y.label = NULL){
 
   contour <- match.arg(contour)
 
@@ -137,8 +136,7 @@ worstcaseplot <- function(x,
                           index = NULL,
                           xlab = "Hypothetical partial R2 of unobserved confounder(s) with treatment",
                           ylab = "Adjusted estimate",
-                          main = "Sensitivity of estimate to unobserved confounder(s)\n\"Worst-case\" scenarios of partial R2 with outcome",
-                          ...){
+                          main = "Sensitivity of estimate to unobserved confounder(s)\n\"Worst-case\" scenarios of partial R2 with outcome"){
   benchmarks <- x$benchmarks$benchmark_R2
   r2d <- benchmarks$r2d
 

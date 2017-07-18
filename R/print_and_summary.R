@@ -1,7 +1,7 @@
 # prints ------------------------------------------------------------------
 
 ##' @export
-print.sensemade <- function(x, str = TRUE, ...){
+print.sensemade <- function(x, str = TRUE){
 
   cat("Sensitivity Analysis\n\n")
   cat("Model:", trimws(deparse(formula(x$info$model))), "\n\n")
@@ -14,7 +14,7 @@ print.sensemade <- function(x, str = TRUE, ...){
 
 
 ##' @export
-summary.sensemade <- function(object, ...){
+summary.sensemade <- function(object){
   # bunch of useful things
   # return list with several useful things
   # returns a obj of class summary.sensemade
@@ -80,7 +80,7 @@ worstcaseinterpret <- function(sensemade, scenarios = c(1, 0.8, 0.5), q = 1){
 }
 
 ##' @export
-print.summary.sensemade <- function(x, q = 1, ...){
+print.summary.sensemade <- function(x, q = 1){
  # pretty print for the summary
   cat("Sensitivity Analysis\n\n")
   cat("Model:", trimws(deparse(formula(x$info$model))), "\n\n")
