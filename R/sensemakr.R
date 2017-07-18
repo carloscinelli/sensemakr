@@ -3,7 +3,7 @@
 ##' @description Description.
 ##'
 ##' @param D  character vector with the treatment variable.
-##' @param X  character vector with the covariates for benchmarking.
+##' @param group_list  character vector with the covariates for benchmarking.
 ##' @param ... extra arguments
 ##' @return The function returns an object of class 'sensemakr' which is a list with the main
 ##' results for sensitivity analysis, namely:
