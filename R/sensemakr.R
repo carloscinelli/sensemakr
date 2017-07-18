@@ -141,6 +141,8 @@ benchmarkr <- function(model, D, X = NULL, ...){
                               r2d = r2d,
                               bias_r2 = bias_r2,
                               adj_est_r2 = adjust_estimate(estimate, bias_r2),
+                              adj_se_r2 = getseR2(sed, df.out, r2y, r2d),
+                              adj_t_r2 = gettR2(estimate, sed, df.out, r2y, r2d),
                               row.names = NULL,
                               stringsAsFactors = FALSE)
 
@@ -180,6 +182,10 @@ getbiasR2 <- function(se, df, r2d, r2y, ...){
   bias <- sqrt(r2y*r2d/(1 - r2d))*se*sqrt(df)
   return(bias)
 }
+
+getseR2   <- function(se, df, r2y, r2d) sqrt((1 - r2y)/(1 - r2d))*se*sqrt(df/(df - 1))
+
+gettR2    <- function(estimate, se, df, r2y, r2d) (estimate - getbiasR2(se, df, r2y, r2d))/getseR2(se, df, r2y, r2d)
 
 adjust_estimate <- function(estimate, bias) sign(estimate)*(abs(estimate) - bias)
 
