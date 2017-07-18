@@ -13,14 +13,11 @@ data("darfur")
 model  <- lm(peacefactor ~ directlyharmed + age + farmer_dar + herder_dar +
                pastvoted + hhsize_darfur + female + village, data = darfur)
 
-# treatment
-D <- "directlyharmed"
-
 # benchmark variables
 X = c("herder_dar", "female", "age", "pastvoted", "farmer_dar")
 
 # runs benchmarking etc
-sense <- sensemakr(model, D, X)
+sense <- sensemakr(model=model, D="directlyharmed", benchmarks=X)
 
 # plots
 
@@ -32,10 +29,15 @@ plot4_data <- plot(sense, contour = "upper bound")
 
 ## worst-case plot
 plot5_data <- plot(sense, type = "worst-case")
+# note, let's me the benchmark ticks at the bottom much more visible
+# and let's reduce number of lines that show and/or label them better.
 
 # testing verbal outputs
 interpret(sense)
-interpret(sense, q = 0.5)
-interpret(sense, q = 0.6)
-summary(sense)
+interpret(sense, q = 0.5) #throws warning
+interpret(sense, q = 0.6) #throws warning.
+
+summary(sense) #needs more output/ to be different from interpret().
+
+
 

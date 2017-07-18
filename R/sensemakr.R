@@ -31,7 +31,7 @@
 ##' Cite paper(s)
 ##'
 ##' @export
-sensemakr <- function(...){
+sensemakr <- function(model, D, X=NULL,...){
   UseMethod("sensemakr")
 }
 
@@ -39,11 +39,12 @@ sensemakr <- function(...){
 ##' @param model the model.
 ##' @name sensemakr
 ##' @export
-sensemakr.lm <- function(model, D, X = NULL, ...){
+sensemakr.lm <- function(model, D, X=NULL, ...){
   # stats <- get stats()
   # benchmarks <- get benchmarks()
   # compute bias and include ob data.frames
   # returns pretty list with class "sensemade"
+
   treat.stats <- getstats(model, D)
   benchmarks  <- benchmarkr(model, D, X)
   out <- list(treat.stats = treat.stats,
