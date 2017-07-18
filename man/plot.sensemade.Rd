@@ -4,7 +4,7 @@
 \alias{plot.sensemade}
 \title{Sensitivity plots}
 \usage{
-\method{plot}{sensemade}(x, type = "xxx", ...)
+\method{plot}{sensemade}(x, type = c("contour", "worst-case"), ...)
 }
 \arguments{
 \item{x}{sensemade object}

@@ -10,16 +10,17 @@
 ##'
 ##'
 ##' @return a ggplot object with the plot.
-plot.sensemade <- function(x, type = "contour", ...){
+##' @export
+plot.sensemade <- function(x, type = c("contour", "worst-case"), ...){
+  type <- match.arg(type)
   switch(type,
          contour = contourplot(x, ...),
-         worstcase = worstcaseplot(x, ...)
+         `worst-case` = worstcaseplot(x, ...)
   )
 }
-# x <- sense
-# contour = "estimate"
-# lim <- 0.3
 
+
+##' @export
 contourplot <- function(x,
                         contour = c("estimate","t-value", "lower bound", "upper bound"),
                         nlevels = 15,
@@ -112,10 +113,7 @@ contourplot <- function(x,
 # data <- contourplot(sense, contour = "lower bound")
 # data <- worstcaseplot(sense,  scenarios = c(1, 0.8, 0.5))
 
-x <- 10*1:nrow(volcano)
-y <- 10*1:ncol(volcano)
-a <- contourLines(x, y, volcano)
-
+##' @export
 worstcaseplot <- function(x,
                           lim = NULL,
                           scenarios = c(1, 0.8, 0.5),
