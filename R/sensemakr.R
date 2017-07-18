@@ -3,7 +3,7 @@
 ##' @description Description.
 ##'
 ##' @param D  character vector with the treatment variable.
-##' @param X  character vector with the covariates for benchmarking.
+##' @param group_list  character vector with the covariates for benchmarking.
 ##' @param ... extra arguments
 ##' @return The function returns an object of class 'sensemakr' which is a list with the main
 ##' results for sensitivity analysis, namely:
@@ -39,13 +39,13 @@ sensemakr <- function(...){
 ##' @param model the model.
 ##' @name sensemakr
 ##' @export
-sensemakr.lm <- function(model, D, X = NULL, ...){
+sensemakr.lm <- function(model, D, group_list = NULL, ...){
   # stats <- get stats()
   # benchmarks <- get benchmarks()
   # compute bias and include ob data.frames
   # returns pretty list with class "sensemade"
   treat.stats <- getstats(model, D)
-  benchmarks  <- benchmarkr(model, D, X)
+  benchmarks  <- benchmarkr(model, D, group_list)
   out <- list(treat.stats = treat.stats,
               benchmarks = benchmarks,
               model = model)
@@ -78,7 +78,7 @@ getstats <- function(model, D){
 #                  -> if a list of character vectors, then group by list (future work)
 # Output: three data.frames with benchmarks for R2, SD and natural.
 #       - data.frame contains: Names, R2y or delta, R2d or gamma
-benchmarkr <- function(model, D, X = NULL, ...){
+benchmarkr <- function(model, D, group_list = NULL, ...){
 
   treat.stats  <- getstats(model, D)
   estimate     <- treat.stats$estimate
@@ -87,9 +87,17 @@ benchmarkr <- function(model, D, X = NULL, ...){
   summ.out     <- summary(model)
   coef.out     <- coef(summ.out)
 
-  if (is.null(X)) {
-    X <- rownames(coef.out)[!rownames(coef.out) %in% c("(Intercept)",D)]
-  }
+  # if(is.null(X)){
+    # coef.out=coef(summary(lm(data=iris,Sepal.Width~Sepal.Length)))
+    # X is character vector of term names (non intercept, non treatment)
+    X <- rownames(coef.out)[!(rownames(coef.out) %in% c("(Intercept)",D))]
+    # carlos prototype X used as basic row name index of model matrix cols
+
+    # the way X is used, I don't think we need X here
+    # mike anticipated X to be user way to spec list of generic sets of terms
+    # to be used as list of simultaneous vars
+    # X = list('village',c('female','village'),'village')
+  # }
 
   tstats.out        <- coef.out[X, "t value"]
   r2y       <- tstats.out^2/(tstats.out^2 + df.out) # partial R2 with outcome
@@ -160,7 +168,80 @@ benchmarkr <- function(model, D, X = NULL, ...){
                               row.names = NULL,
                               stringsAsFactors = FALSE)
 
+  # any 'blacklisted' terms (outcome model) that should be grouped?
+  # ?class_df_from_term
+  class_df = class_df_from_term(model)
+  blacklist_4_group = c('factor','matrix','smooth')
+  list_term_in_blacklist = lapply(X=class_df,FUN=function(x){x %in% blacklist_4_group})
+  terms_in_blacklist = names(which(unlist(list_term_in_blacklist)))
+
+
+  ############################################
+  # ?groupR2
+  # lapply cycle over 'group_list'
+  # groupR2(model=model)
+  # groupR2(model=treat)
+  ############################################
+  # group_list = list('village',c('female','village'),'village')
+
+  if(!is.null(group_list)){
+    # user spec list of group terms + all RHS terms in group blacklist
+    terms_force_group = append(group_list,terms_in_blacklist)
+    # c(NULL,'a')
+    # c(NULL,NULL)
+  }else{
+    terms_force_group = terms_in_blacklist
+    # terms_force_group = NULL
+  }
+
+  if(!is.null(terms_force_group)){
+
+    # terms_force_group = c('village','female')
+
+    r2y_combinevar = lapply(X=terms_force_group,
+                            FUN=function(X){
+                              groupR2(model=model,terms_4_group=X)
+                            })
+
+    names(r2y_combinevar) = unlist(lapply(terms_force_group,
+                                          FUN=function(X){
+                                            paste0(paste(X,collapse=","))
+                                          }))
+
+
+    r2d_combinevar = lapply(X=terms_force_group,
+                            FUN=function(X){
+                              groupR2(model=treat,terms_4_group=X)
+                            })
+
+    names(r2d_combinevar) = unlist(lapply(terms_force_group,
+                                          FUN=function(X){
+                                            paste0(paste(X,collapse=","))
+                                          }))
+
+    # bias from R2 param,
+    # consult if this applies to groupR2
+    r2pairs = cbind(r2y=r2y_combinevar,r2d=r2d_combinevar)
+
+    bias_r2_combinevar = apply(X=r2pairs,MARGIN=1,
+                               FUN=function(X){
+                                 getbiasR2(sed, df.out, r2y=X$r2y, r2d=X$r2d)
+                                 })
+
+    benchmark_R2_group  <- data.frame(covariate = names(r2y_combinevar),
+                                      r2y = unlist(r2y_combinevar),
+                                      r2d = unlist(r2d_combinevar),
+                                      bias_r2 = bias_r2_combinevar,  # consult
+                                      adj_est_r2 = adjust_estimate(estimate, bias_r2_combinevar),  # consult
+                                      row.names = NULL,
+                                      stringsAsFactors = FALSE)
+  }else{
+    benchmark_R2_group = NULL
+  }
+
+
   benchmarks <- list(benchmark_R2 = benchmark_R2,
+                     benchmark_R2_group = benchmark_R2_group,
                      benchmark_natural = benchmark_natural,
                      benchmark_std = benchmark_std)
 
@@ -181,7 +262,10 @@ getbiasR2 <- function(se, df, r2d, r2y, ...){
   return(bias)
 }
 
-adjust_estimate <- function(estimate, bias) sign(estimate)*(abs(estimate) - bias)
+adjust_estimate <- function(estimate, bias){
+  sign(estimate)*(abs(estimate) - bias)
+  }
+
 
 # getbiasR2.lm(model, D, r2d, r2y){
 #
