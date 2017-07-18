@@ -6,18 +6,18 @@
 \alias{sensemakr.lm}
 \title{Senstivity abalysis of linear models}
 \usage{
-sensemakr(...)
+sensemakr(model, D, X = NULL, ...)
 
 \method{sensemakr}{lm}(model, D, X = NULL, ...)
 }
 \arguments{
-\item{...}{extra arguments}
-
 \item{model}{the model.}
 
 \item{D}{character vector with the treatment variable.}
 
 \item{X}{character vector with the covariates for benchmarking.}
+
+\item{...}{extra arguments}
 }
 \value{
 The function returns an object of class 'sensemakr' which is a list with the main
