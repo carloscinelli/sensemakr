@@ -1,13 +1,19 @@
 # prints ------------------------------------------------------------------
 
+##' @export
 print.sensemade <- function(x, ...){
 
-  cat("Sensitivity Analysis for the linear model:\n\n",
-      as.character(x$model$call), "\n\n")
+  cat("Sensitivity Analysis\n\n")
+  cat("Model:", trimws(deparse(formula(x$info$model))), "\n\n")
+  cat("Treatment:", x$info$treatment, "\n")
+  cat("Outcome:", x$info$outcome, "\n\n")
+  cat("Object content:\n")
   str(x, max.level = 1)
+  cat("\n For more, use plot and summary.")
 }
 
 
+##' @export
 summary.sensemade <- function(object, ...){
   # bunch of useful things
   # return list with several useful things
@@ -15,6 +21,7 @@ summary.sensemade <- function(object, ...){
 
 }
 
+##' @export
 print.summary.sensemade <- function(x, ...){
  # pretty print for the summary
 }

@@ -48,7 +48,9 @@ sensemakr.lm <- function(model, D, X = NULL, ...){
   benchmarks  <- benchmarkr(model, D, X)
   out <- list(treat.stats = treat.stats,
               benchmarks = benchmarks,
-              model = model)
+              info = list(outcome = deparse(model$terms[1][[2]]),
+                          treatment = D,
+                          model = model))
   class(out) <- "sensemade"
   return(out)
 }
