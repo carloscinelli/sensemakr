@@ -46,7 +46,7 @@ interpret <- function(sensemade, q = 1){
 
     cat("An unobserved confounder with the same partial R2 with the treatment as '",
         varR2D, "' (", round(maxR2d,3), ") ", " would be able to cause at most a bias of ",
-        round(maxBias, 3)," with an adjusted estimate of ", round(adjust_estimate(estimate, maxBias), 3),
+        round(maxBias, 3)," with an adjusted treatment effect of ", round(adjust_estimate(estimate, maxBias), 3),
         " in the extreme case where the confouder explains all the residual variance of the outcome (R2y = 1).",
         sep = "")
 
@@ -72,8 +72,10 @@ print.summary.sensemade <- function(x, q = 1, ...){
  # pretty print for the summary
   cat("Sensitivity Analysis\n\n")
   cat("Model:", trimws(deparse(formula(x$info$model))), "\n\n")
-  cat("Treatment:", x$info$treatment, "\n")
   cat("Outcome:", x$info$outcome, "\n\n")
+  cat("Treatment:", x$info$treatment, "\n")
+  cat("Unadjusted Treatment Effect:", round(x$treat.stats$estimate, 3), "\n")
+  cat("\n*** SENSITIVITY TO UNOBSERVED CONFOUNDERS ***\n")
   interpret(x, q = q)
 }
 
