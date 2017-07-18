@@ -25,9 +25,10 @@ sense <- sensemakr(model, D, X)
 # plots
 
 ## contour plot
-plot(sense)
-plot(sense, contour = "t-value")
-plot(sense, contour = "lower bound")
+plot1_data <- plot(sense)
+plot2_data <- plot(sense, contour = "t-value")
+plot3_data <- plot(sense, contour = "lower bound")
+plot4_data <- plot(sense, contour = "upper bound")
 
 ## worst-case plot
-plot(sense, type = "worst-case")
+plot5_data <- plot(sense, type = "worst-case")

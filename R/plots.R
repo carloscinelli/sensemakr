@@ -121,9 +121,17 @@ worstcaseplot <- function(x,
   df <- x$treat.stats$df
 
   if (is.null(lim)) lim <- max(r2d, na.rm = TRUE) + 0.1
-
   s <- seq(0, lim, by = 0.001)
+
+  mr2y <- x$benchmarks$benchmark_all_vars$r2y_all
+
+
   y <- adjust_estimate(estimate, getbiasR2(se = se, df = df, r2y = scenarios[1], r2d = s))
+
+  out <- data.frame(r2d = s,
+                    r2y = scenarios[1],
+                    adj_est = y)
+
 
   plot(s,  y,
        type = "l", bty = "L", xlab = "Hypothetical partial R2 of unobserved confounder(s) with treatment",
@@ -134,15 +142,25 @@ worstcaseplot <- function(x,
 
   for (i in seq_along(scenarios2)) {
     y <- adjust_estimate(estimate, getbiasR2(se = se, df = df, r2y = scenarios2[i], r2d = s))
+    out2 <- data.frame(r2d = s,
+                      r2y = scenarios2[i],
+                      adj_est = y)
+    out <- rbind(out, out2)
     lines(s,  y, lty = i + 1)
   }
 
-  mr2y <- x$benchmarks$benchmark_all_vars$r2y_all
   p    <- length(scenarios)
 
   # max observed R2y
   y <- adjust_estimate(estimate, getbiasR2(se = se, df = df, r2y = mr2y, r2d = s))
   lines(s, y, lty = p + 1, col = "red")
+  out2 <- data.frame(r2d = s,
+                     r2y = mr2y,
+                     adj_est = y)
+  out <- rbind(out, out2)
+
+  out <- list(plot_type = "worst case plot",
+              adjusted_estimates = out)
 
   legend("topright",
          lty = c((1:p), p + 1),
@@ -152,5 +170,5 @@ worstcaseplot <- function(x,
          title = "Hypothetical partial R2 of unobserved confounder(s) with outcome",
          cex  = cex.legend)
   rug(x = r2d, col = "red")
-
+  invisible(out)
 }
