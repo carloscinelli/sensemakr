@@ -228,6 +228,7 @@ getbiasR2 <- function(se, df, r2d, r2y, ...){
 getseR2   <- function(se, df, r2y, r2d) sqrt((1 - r2y)/(1 - r2d))*se*sqrt(df/(df - 1))
 gettR2    <- function(t,df, r2y, r2d)  (t/sqrt(df) - sqrt(r2d*(r2y/(1 - r2y))))*sqrt((1 - r2d)/(1 - r2y))*sqrt(df - 1)
 
+
 adjust_estimate <- function(estimate, bias) sign(estimate)*(abs(estimate) - bias)
 
 # getbiasR2.lm(model, D, r2d, r2y){

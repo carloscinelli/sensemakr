@@ -2,3 +2,6 @@
 ^\.Rproj\.user$
 ^README\.Rmd$
 ^README-.*\.png$
+^appveyor\.yml$
+^\.travis\.yml$
+^codecov\.yml$
