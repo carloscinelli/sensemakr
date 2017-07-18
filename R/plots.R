@@ -31,6 +31,8 @@ contourplot <- function(x,
                         ylab = "Hypothetical partial R2 of unobserved confounder with the outcome",
                         main = paste("Sensitivity of",  contour, "to unobserved confounder\nContours of adjusted estimates"),
                         top = 3,
+                        x.label = NULL,
+                        y.label = NULL,
                          ...){
 
   contour <- match.arg(contour)
@@ -49,28 +51,12 @@ contourplot <- function(x,
 
   if (contour == "estimate") {
     z <- adjust_estimate(estimate, outer(s, s, getbiasR2, se = se, df = df))
-    contour(s, s, z, nlevels = nlevels,
-            xlab = xlab,
-            ylab = ylab,
-            main = main)
-    points(r2d, r2y, pch = 23, col = "black", bg = "red", cex = cex)
-    contour(s, s, z = z, level = 0, add = TRUE, col = "red", lwd = 2, lty = 2)
     labels <- paste0(benchmarks$covariate, "\n", "(",round(benchmarks$adj_est_r2, 3),")")
-    r2dl <- jitter(r2d, factor = 20)
-    r2yl <- jitter(r2y, factor = 20)
-    text(r2dl, r2yl, labels = labels, cex = 0.7)
+    lev <- 0
   } else if (contour == "t-value") {
     z <-  outer(s, s, gettR2, t = t, df = df)
-    contour(s, s, z, nlevels = nlevels,
-            xlab = xlab,
-            ylab = ylab,
-            main = main)
-    points(r2d, r2y, pch = 23, col = "black", bg = "red", cex = cex)
     labels <- paste0(benchmarks$covariate, "\n", "(",round(benchmarks$adj_t_r2, 3),")")
-    contour(s, s, z = z, level = 2, add = TRUE, col = "red", lwd = 2, lty = 2)
-    r2dl <- jitter(r2d, factor = 20)
-    r2yl <- jitter(r2y, factor = 20)
-    text(r2dl, r2yl, labels = labels, cex = 0.7)
+    lev <- 2
   } else if (contour == "lower bound" | contour == "upper bound" ) {
     new_estimate <- adjust_estimate(estimate, outer(s, s, getbiasR2, se = se, df = df))
     new_se       <- outer(s, s, getseR2, se = se, df = df)
@@ -83,18 +69,25 @@ contourplot <- function(x,
       benchmarks$adj_up_r2 <- benchmarks$adj_est_r2 + 2*benchmarks$adj_se_r2
       labs <- benchmarks$adj_up_r2
     }
-    contour(s, s, z, nlevels = nlevels,
-            xlab = xlab,
-            ylab = ylab,
-            main = main)
-    points(r2d, r2y, pch = 23, col = "black", bg = "red", cex = cex)
     labels <- paste0(benchmarks$covariate, "\n", "(",round(labs, 3),")")
-    contour(s, s, z = z, level = 0, add = TRUE, col = "red", lwd = 2, lty = 2)
-    r2dl <- jitter(r2d, factor = 20)
-    r2yl <- jitter(r2y, factor = 20)
-    text(r2dl, r2yl, labels = labels, cex = 0.7)
-
+    lev <- 0
   }
+
+  contour(s, s, z, nlevels = nlevels,
+          xlab = xlab,
+          ylab = ylab,
+          main = main)
+  points(r2d, r2y, pch = 23, col = "black", bg = "red", cex = cex)
+  contour(s, s, z = z, level = lev, add = TRUE, col = "red", lwd = 2, lty = 2)
+
+  # create a better function for positioning labels and substitute jitter
+  if (is.null(x.label))
+    r2dl <- jitter(r2d, factor = 20)
+
+  if (is.null(y.label))
+    r2yl <- jitter(r2y, factor = 20)
+
+  text(r2dl, r2yl, labels = labels, cex = 0.7)
 
   labels <- data.frame(labels = labels,x = r2dl, y = r2yl, stringsAsFactors = FALSE)
   rownames(z) <- colnames(z) <- s
@@ -105,11 +98,13 @@ contourplot <- function(x,
   invisible(out)
 }
 
+contourplot
+
 ##' @export
 worstcaseplot <- function(x,
                           lim = NULL,
                           scenarios = c(1, 0.8, 0.5),
-                          cex.legend = 0.5,
+                          cex.legend = 0.6,
                           index = NULL, ...){
   benchmarks <- x$benchmarks$benchmark_R2
   r2d <- benchmarks$r2d

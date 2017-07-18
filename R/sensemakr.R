@@ -212,29 +212,26 @@ groupR2 <- function(model, coefs){
   f*q / (f*q + df)
 }
 
-##' @title Computes  bias caused by unobserved confounder
-##' @description  This function computes the bias caused by an unobserved confounder
+##' @title Computes effects on estimate, standard error and t-value caused by unobserved confounder
+##' @description  These functions compute the bias caused by an unobserved confounder with a specific pair
+##' of partial R2 with the treatment and with the outcome.
 ##' with certain characteristics.
 ##'
 ##' @param se       standard error of original  treatment effect estimate
 ##' @param df       degrees of freedom of the original linear model
 ##' @param r2d      hypothetical partial R2 of the confounder with the treatment
 ##' @param r2y      hypothetical partial R2 of the confounder with the outcome
-getbiasR2 <- function(se, df, r2d, r2y, ...){
-  bias <- sqrt(r2y*r2d/(1 - r2d))*se*sqrt(df)
-  return(bias)
-}
+##' @param ...      extra arguments
+##' @export
+getbiasR2 <- function(se, df, r2d, r2y, ...) bias <- sqrt(r2y*r2d/(1 - r2d))*se*sqrt(df)
 
+##' @export
+##' @name getbiasR2
 getseR2   <- function(se, df, r2y, r2d) sqrt((1 - r2y)/(1 - r2d))*se*sqrt(df/(df - 1))
+
+##' @export
+##' @name getbiasR2
 gettR2    <- function(t,df, r2y, r2d)  (t/sqrt(df) - sqrt(r2d*(r2y/(1 - r2y))))*sqrt((1 - r2d)/(1 - r2y))*sqrt(df - 1)
 
 
 adjust_estimate <- function(estimate, bias) sign(estimate)*(abs(estimate) - bias)
-
-# getbiasR2.lm(model, D, r2d, r2y){
-#
-# }
-
-# getbiasR2.sensemade()
-
-# mike test push pull
