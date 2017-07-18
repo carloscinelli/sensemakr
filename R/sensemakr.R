@@ -129,12 +129,24 @@ benchmarkr <- function(model, D, X = NULL, ...){
 
   # space for groups R2
   # compute groups R2 and bind on r2y r2d
+  # worst case scenario benchmark
+  allvars <- rownames(coef.out)[!rownames(coef.out) %in% D]
+  r2y_all <- groupR2(model, allvars)
+  r2d_all <- groupR2(treat, allvars)
+  bias_all <- getbiasR2(sed, df.out, r2y_all, r2d_all)
 
   # biases
   bias_r2 = getbiasR2(sed, df.out, r2y, r2d)
   bias_nat = impact*imbalance
   bias_std = imp_std*imb_std
 
+  benchmark_all_vars <- data.frame(r2y_all = r2y_all,
+                                  r2d_all = r2d_all,
+                                  adj_est_all = adjust_estimate(estimate, bias_all),
+                                  adj_se_r2 = getseR2(sed, df.out, r2y_all, r2d_all),
+                                  adj_t_r2 = gettR2(estimate/sed, df.out, r2y_all, r2d_all),
+                                  row.names = NULL,
+                                  stringsAsFactors = FALSE)
 
   benchmark_R2  <- data.frame(covariate = X,
                               r2y = r2y,
@@ -142,9 +154,10 @@ benchmarkr <- function(model, D, X = NULL, ...){
                               bias_r2 = bias_r2,
                               adj_est_r2 = adjust_estimate(estimate, bias_r2),
                               adj_se_r2 = getseR2(sed, df.out, r2y, r2d),
-                              adj_t_r2 = gettR2(estimate, sed, df.out, r2y, r2d),
+                              adj_t_r2 = gettR2(estimate/sed, df.out, r2y, r2d),
                               row.names = NULL,
                               stringsAsFactors = FALSE)
+  benchmark_R2 <- benchmark_R2[order(benchmark_R2$bias_r2, decreasing = TRUE), ]
 
   benchmark_natural <- data.frame(covariate = X,
                                   impact = impact,
@@ -153,6 +166,7 @@ benchmarkr <- function(model, D, X = NULL, ...){
                                   adj_est_nat = adjust_estimate(estimate, bias_nat),
                                   row.names = NULL,
                                   stringsAsFactors = FALSE)
+  benchmark_natural <- benchmark_natural[order(benchmark_natural$bias_nat, decreasing = TRUE), ]
 
   benchmark_std <- data.frame(covariate = X,
                               impact_std = imp_std,
@@ -161,13 +175,41 @@ benchmarkr <- function(model, D, X = NULL, ...){
                               adj_est_std = adjust_estimate(estimate_std, bias_std),
                               row.names = NULL,
                               stringsAsFactors = FALSE)
+  benchmark_std <- benchmark_std[order(benchmark_std$bias_std, decreasing = TRUE), ]
 
-  benchmarks <- list(benchmark_R2 = benchmark_R2,
+  benchmarks <- list(benchmark_all_vars = benchmark_all_vars,
+                     benchmark_R2 = benchmark_R2,
                      benchmark_natural = benchmark_natural,
                      benchmark_std = benchmark_std)
 
   return(benchmarks)
 
+}
+
+
+groupR2 <- function(model, coefs){
+
+  # betas
+  betas <- coef(model)
+
+  # var-covar matrix
+  V <- vcov(model)
+
+  # degrees of freedom
+  df <- df.residual(model)
+
+  # coefs to group
+  indx <- names(betas) %in% coefs
+
+  if (length(indx) == 0) {
+    warning(paste("No covariates found matching the word:", coefs, "\nNA returned"))
+    return(NA)
+  }
+
+  # compute F and R2
+  q <- length(indx)
+  f <- (t(betas[indx]) %*% solve(V[indx, indx]) %*% betas[indx])/q
+  f*q / (f*q + df)
 }
 
 ##' @title Computes  bias caused by unobserved confounder
@@ -184,8 +226,7 @@ getbiasR2 <- function(se, df, r2d, r2y, ...){
 }
 
 getseR2   <- function(se, df, r2y, r2d) sqrt((1 - r2y)/(1 - r2d))*se*sqrt(df/(df - 1))
-
-gettR2    <- function(estimate, se, df, r2y, r2d) (estimate - getbiasR2(se, df, r2y, r2d))/getseR2(se, df, r2y, r2d)
+gettR2    <- function(t,df, r2y, r2d)  (t/sqrt(df) - sqrt(r2d*(r2y/(1 - r2y))))*sqrt((1 - r2d)/(1 - r2y))*sqrt(df - 1)
 
 adjust_estimate <- function(estimate, bias) sign(estimate)*(abs(estimate) - bias)
 
