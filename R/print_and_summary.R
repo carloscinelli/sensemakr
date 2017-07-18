@@ -8,7 +8,7 @@ print.sensemade <- function(x, str = TRUE, ...){
   cat("Treatment:", x$info$treatment, "\n")
   cat("Outcome:", x$info$outcome, "\n\n")
   cat("Object content:\n")
-  if(str) str(x, max.level = 1)
+  if (str) str(x, max.level = 1)
   cat("\n For more, use plot and summary.")
 }
 
@@ -36,11 +36,11 @@ interpret <- function(sensemade, q = 1){
   varR2Y <- sensemade$benchmarks$benchmark_R2$covariate[idxr2y]
   maxR2y <- sensemade$benchmarks$benchmark_R2$r2y[idxr2d]
   r2dc   <- t^2/(t^2 + (maxR2y/q^2)*df)
-  r2yc   <- ((q*t)^2)*((1-maxR2d)/(maxR2d*df))
+  r2yc   <- ((q*t)^2)*((1 - maxR2d)/(maxR2d*df))
 
   cat("\n")
   cat("---Using the covariate most strongly associated with the treatment assignment as a benchmark---\n\n")
-  if (r2yc > 1){
+  if (r2yc > 1) {
 
     maxBias <- (getbiasR2(se, df = df, r2d = maxR2d, r2y = 1))
 
