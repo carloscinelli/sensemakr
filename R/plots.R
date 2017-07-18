@@ -132,7 +132,7 @@ contourplot
 ##' @export
 worstcaseplot <- function(x,
                           lim = NULL,
-                          scenarios = c(1, 0.8, 0.5),
+                          scenarios = c(1, 0.3),
                           cex.legend = 0.6,
                           index = NULL,
                           xlab = "Hypothetical partial R2 of unobserved confounder(s) with treatment",
