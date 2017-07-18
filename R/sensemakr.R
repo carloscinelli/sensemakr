@@ -106,8 +106,7 @@ benchmarkr <- function(model, D, X = NULL, ...){
 
   ## R2d: gets t-statistics from treatment regression
   coef.treat <- coef(summ.treat)
-  pick       <- rownames(coef.treat)[!rownames(coef.treat) %in% "(Intercept)"]
-  tstats.treat        <- coef.treat[pick, "t value"] # excludes intercept
+  tstats.treat  <- coef.treat[X, "t value"] # excludes intercept
   r2d       <- tstats.treat^2/(tstats.treat^2 + df.treat) # partial R2 with treatment
 
 
@@ -121,9 +120,10 @@ benchmarkr <- function(model, D, X = NULL, ...){
 
   ## standardized coefficients
   sdy       <- sd(model$model[[1]]) # sd of outcome
-  Xn         <- model.matrix(model)
-  sdd       <- sd(Xn[,2]) # sd of treatment
-  sdx       <- apply(Xn[,-c(1:2)], 2, sd) # sd of covariates
+  Xn        <- model.matrix(model)[,c(D,X)]
+  sdd       <- sd(Xn[,D]) # sd of treatment
+  sdx       <- apply(Xn[,X], 2, sd) # sd of covariates
+  estimate_std <- estimate*(sdd/sdy)
   imp_std   <- impact*(sdx/sdy)
   imb_std   <- imbalance*(sdd/sdx)
 
@@ -156,7 +156,7 @@ benchmarkr <- function(model, D, X = NULL, ...){
                               impact_std = imp_std,
                               imbalance_std = imb_std,
                               bias_std = bias_std,
-                              adj_est_std = adjust_estimate(estimate, bias_std),
+                              adj_est_std = adjust_estimate(estimate_std, bias_std),
                               row.names = NULL,
                               stringsAsFactors = FALSE)
 
