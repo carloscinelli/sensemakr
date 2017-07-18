@@ -2,9 +2,17 @@
 % Please edit documentation in R/sensemakr.R
 \name{getbiasR2}
 \alias{getbiasR2}
-\title{Computes  bias caused by unobserved confounder}
+\alias{getbiasR2}
+\alias{getseR2}
+\alias{getbiasR2}
+\alias{gettR2}
+\title{Computes effects on estimate, standard error and t-value caused by unobserved confounder}
 \usage{
 getbiasR2(se, df, r2d, r2y, ...)
+
+getseR2(se, df, r2y, r2d)
+
+gettR2(t, df, r2y, r2d)
 }
 \arguments{
 \item{se}{standard error of original  treatment effect estimate}
@@ -14,8 +22,11 @@ getbiasR2(se, df, r2d, r2y, ...)
 \item{r2d}{hypothetical partial R2 of the confounder with the treatment}
 
 \item{r2y}{hypothetical partial R2 of the confounder with the outcome}
+
+\item{...}{extra arguments}
 }
 \description{
-This function computes the bias caused by an unobserved confounder
+These functions compute the bias caused by an unobserved confounder with a specific pair
+of partial R2 with the treatment and with the outcome.
 with certain characteristics.
 }
