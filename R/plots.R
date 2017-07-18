@@ -105,14 +105,6 @@ contourplot <- function(x,
   invisible(out)
 }
 
-# sense <- sensemakr(model, D, X)
-# debugonce(sensemakr)
-# data <- contourplot(sense, lim = 0.3)
-# data <- contourplot(sense, contour = "t-value")
-# data <- contourplot(sense, contour = "upper bound")
-# data <- contourplot(sense, contour = "lower bound")
-# data <- worstcaseplot(sense,  scenarios = c(1, 0.8, 0.5))
-
 ##' @export
 worstcaseplot <- function(x,
                           lim = NULL,
