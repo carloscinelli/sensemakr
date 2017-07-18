@@ -66,6 +66,18 @@ interpret <- function(sensemade, q = 1){
   cat("\n\n")
 }
 
+worstcaseinterpret <- function(sensemade, scenarios = c(1, 0.8, 0.5), q = 1){
+  estimate <- sensemade$treat.stats$estimate
+  se <- sensemade$treat.stats$se
+  t <- estimate/se
+  df <- sensemade$treat.stats$df
+  r2dc   <- t^2/(t^2 + (scenarios/q^2)*df)
+
+  cat("Considering the extreme scenarios of unobserved confounders explaining ",
+  paste0(scenarios*100, "%", collapse = ", "), " of the residual variance of the outcome, they would have",
+  " to, respectively, explain at least ", paste0(round(r2dc*100, 2), "%", collapse = ", "),
+  " of the treatment assignment to reduce the treatment effect in ", round(q*100, 2), "%.", sep = "")
+}
 
 ##' @export
 print.summary.sensemade <- function(x, q = 1, ...){
@@ -76,6 +88,9 @@ print.summary.sensemade <- function(x, q = 1, ...){
   cat("Treatment:", x$info$treatment, "\n")
   cat("Unadjusted Treatment Effect:", round(x$treat.stats$estimate, 3), "\n")
   cat("\n*** SENSITIVITY TO UNOBSERVED CONFOUNDERS ***\n")
+  cat("\n### Worst Case Scenarios ###\n\n")
+  worstcaseinterpret(x, q = q)
+  cat("\n\n### Benchmarking ###\n")
   interpret(x, q = q)
 }
 
