@@ -32,3 +32,9 @@ plot4_data <- plot(sense, contour = "upper bound")
 
 ## worst-case plot
 plot5_data <- plot(sense, type = "worst-case")
+
+# testing verbal outputs
+interpret(sense)
+interpret(sense, q = 0.5)
+summary(sense)
+
