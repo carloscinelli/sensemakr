@@ -72,7 +72,7 @@ print.summary.sensemade <- function(x, q = 1, ...){
  # pretty print for the summary
   cat("Sensitivity Analysis\n\n")
   cat("Model:", trimws(deparse(formula(x$info$model))), "\n\n")
-  cat("Outcome:", x$info$outcome, "\n\n")
+  cat("Outcome:", x$info$outcome, "\n")
   cat("Treatment:", x$info$treatment, "\n")
   cat("Unadjusted Treatment Effect:", round(x$treat.stats$estimate, 3), "\n")
   cat("\n*** SENSITIVITY TO UNOBSERVED CONFOUNDERS ***\n")
