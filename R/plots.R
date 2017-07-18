@@ -45,7 +45,7 @@ contourplot <- function(x,
   r2d         <- benchmarks$r2d
   ####
 
-  #### contour data (treatment effec data) ####
+  #### contour data (treatment effect data) ####
   estimate    <- x$treat.stats$estimate
   se          <- x$treat.stats$se
   df          <- x$treat.stats$df
@@ -77,14 +77,14 @@ contourplot <- function(x,
 
     if (contour == "lower bound") {
       # CI lower bound
-      z                    <- new_estimate - 2*new_se
-      benchmarks$adj_lw_r2 <- benchmarks$adj_est_r2 - 2*benchmarks$adj_se_r2
+      z                    <- new_estimate - 1.96*new_se
+      benchmarks$adj_lw_r2 <- benchmarks$adj_est_r2 - 1.96*benchmarks$adj_se_r2
       labs                 <- benchmarks$adj_lw_r2
 
     } else {
       # CI upper bound
-      z                    <- new_estimate + 2*new_se
-      benchmarks$adj_up_r2 <- benchmarks$adj_est_r2 + 2*benchmarks$adj_se_r2
+      z                    <- new_estimate + 1.96*new_se
+      benchmarks$adj_up_r2 <- benchmarks$adj_est_r2 + 1.96*benchmarks$adj_se_r2
       labs                 <- benchmarks$adj_up_r2
 
     }
