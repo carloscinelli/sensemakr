@@ -134,7 +134,11 @@ worstcaseplot <- function(x,
                           lim = NULL,
                           scenarios = c(1, 0.8, 0.5),
                           cex.legend = 0.6,
-                          index = NULL, ...){
+                          index = NULL,
+                          xlab = "Hypothetical partial R2 of unobserved confounder(s) with treatment",
+                          ylab = "Adjusted estimate",
+                          main = "Sensitivity of estimate to unobserved confounder(s)\n\"Worst-case\" scenarios of partial R2 with outcome",
+                          ...){
   benchmarks <- x$benchmarks$benchmark_R2
   r2d <- benchmarks$r2d
 
@@ -158,9 +162,11 @@ worstcaseplot <- function(x,
 
 
   plot(s,  y,
-       type = "l", bty = "L", xlab = "Hypothetical partial R2 of unobserved confounder(s) with treatment",
-       ylab = "Adjusted estimate",
-       main = "Sensitivity of estimate to unobserved confounder(s)\n\"Worst-case\" scenarios of partial R2 with outcome", ...)
+       type = "l", bty = "L",
+       xlab = xlab,
+       ylab = ylab,
+       main = main,
+       ...)
   abline(h = 0, col = "red", lty = 5)
   scenarios2 <- scenarios[-1]
 
