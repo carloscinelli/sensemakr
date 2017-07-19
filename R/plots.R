@@ -15,7 +15,7 @@ plot.sensemade <- function(x, type = c("contour", "worst-case"), ...){
   type <- match.arg(type)
   switch(type,
          contour = contourplot(x, ...),
-         `worst-case` = worstcaseplot(x, ...)
+         "worst-case" = worstcaseplot(x, ...)
   )
 }
 
@@ -163,8 +163,7 @@ worstcaseplot <- function(x,
        type = "l", bty = "L",
        xlab = xlab,
        ylab = ylab,
-       main = main,
-       ...)
+       main = main)
   abline(h = 0, col = "red", lty = 5)
   scenarios2 <- scenarios[-1]
 
