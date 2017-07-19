@@ -58,7 +58,6 @@
 ##' # testing verbal outputs
 ##' interpret(sense)
 ##' interpret(sense, q = 0.5)
-##' interpret(sense, q = 0.6)
 ##'
 ##' summary(sense)
 ##'
