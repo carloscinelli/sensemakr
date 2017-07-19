@@ -1,6 +1,4 @@
-
 # graphics ----------------------------------------------------------------
-
 ##' @title Sensitivity plots
 ##' @description Several sensitivity plots.
 ##'
@@ -15,7 +13,7 @@ plot.sensemade <- function(x, type = c("contour", "worst-case"), ...){
   type <- match.arg(type)
   switch(type,
          contour = contourplot(x, ...),
-         `worst-case` = worstcaseplot(x, ...)
+         "worst-case" = worstcaseplot(x, ...)
   )
 }
 
@@ -32,8 +30,7 @@ contourplot <- function(x,
                         main = paste("Sensitivity of",  contour, "to unobserved confounder\nContours of adjusted estimates"),
                         top = 3,
                         x.label = NULL,
-                        y.label = NULL,
-                         ...){
+                        y.label = NULL){
 
   contour <- match.arg(contour)
 
@@ -45,7 +42,7 @@ contourplot <- function(x,
   r2d         <- benchmarks$r2d
   ####
 
-  #### contour data (treatment effec data) ####
+  #### contour data (treatment effect data) ####
   estimate    <- x$treat.stats$estimate
   se          <- x$treat.stats$se
   df          <- x$treat.stats$df
@@ -77,14 +74,14 @@ contourplot <- function(x,
 
     if (contour == "lower bound") {
       # CI lower bound
-      z                    <- new_estimate - 2*new_se
-      benchmarks$adj_lw_r2 <- benchmarks$adj_est_r2 - 2*benchmarks$adj_se_r2
+      z                    <- new_estimate - 1.96*new_se
+      benchmarks$adj_lw_r2 <- benchmarks$adj_est_r2 - 1.96*benchmarks$adj_se_r2
       labs                 <- benchmarks$adj_lw_r2
 
     } else {
       # CI upper bound
-      z                    <- new_estimate + 2*new_se
-      benchmarks$adj_up_r2 <- benchmarks$adj_est_r2 + 2*benchmarks$adj_se_r2
+      z                    <- new_estimate + 1.96*new_se
+      benchmarks$adj_up_r2 <- benchmarks$adj_est_r2 + 1.96*benchmarks$adj_se_r2
       labs                 <- benchmarks$adj_up_r2
 
     }
@@ -132,13 +129,12 @@ contourplot
 ##' @export
 worstcaseplot <- function(x,
                           lim = NULL,
-                          scenarios = c(1, 0.8, 0.5),
+                          scenarios = c(1, 0.3),
                           cex.legend = 0.6,
                           index = NULL,
                           xlab = "Hypothetical partial R2 of unobserved confounder(s) with treatment",
                           ylab = "Adjusted estimate",
-                          main = "Sensitivity of estimate to unobserved confounder(s)\n\"Worst-case\" scenarios of partial R2 with outcome",
-                          ...){
+                          main = "Sensitivity of estimate to unobserved confounder(s)\n\"Worst-case\" scenarios of partial R2 with outcome"){
   benchmarks <- x$benchmarks$benchmark_R2
   r2d <- benchmarks$r2d
 
@@ -165,8 +161,7 @@ worstcaseplot <- function(x,
        type = "l", bty = "L",
        xlab = xlab,
        ylab = ylab,
-       main = main,
-       ...)
+       main = main)
   abline(h = 0, col = "red", lty = 5)
   scenarios2 <- scenarios[-1]
 

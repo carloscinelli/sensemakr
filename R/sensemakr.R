@@ -1,10 +1,8 @@
-# test branch push to groups test
-
 ##' @title Senstivity abalysis of linear models
 ##'
 ##' @description Description.
 ##'
-##' @param D  character vector with the treatment variable.
+##' @param treatment  character vector with the treatment variable.
 ##' @param X  character vector with the covariates for benchmarking.
 ##' @param ... extra arguments
 ##' @return The function returns an object of class 'sensemakr' which is a list with the main
@@ -59,7 +57,6 @@
 ##'
 ##' # testing verbal outputs
 ##' interpret(sense)
-##' interpret(sense, q = 0.5)
 ##' interpret(sense, q = 0.6)
 ##'
 ##' summary(sense)
@@ -70,7 +67,7 @@
 ##' @export
 ##' @importFrom graphics abline legend lines plot points rug text
 ##' @importFrom stats coef df.residual formula model.matrix sd update vcov
-sensemakr <- function(model, ...){
+sensemakr <- function(model, treatment, benchmarks, ...){
   UseMethod("sensemakr")
 }
 
@@ -227,11 +224,6 @@ benchmarkr <- function(model, D, X = NULL, group_list=NULL, ...){
                               stringsAsFactors = FALSE)
   benchmark_std <- benchmark_std[order(benchmark_std$bias_std, decreasing = TRUE), ]
 
-  # fetch from master origin
-  # c50d5b87f5ae4fce42afec26748f758cf659d152
-  # group code below
-
-  # <<<<<<< HEAD
 
   # any 'blacklisted' terms (outcome model) that should be grouped?
   # ?class_df_from_term

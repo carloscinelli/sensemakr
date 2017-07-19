@@ -6,18 +6,18 @@
 \alias{sensemakr.lm}
 \title{Senstivity abalysis of linear models}
 \usage{
-sensemakr(model, D, X = NULL, ...)
+sensemakr(model, ...)
 
-\method{sensemakr}{lm}(model, D, X = NULL, ...)
+\method{sensemakr}{lm}(model, treatment, benchmarks = NULL)
 }
 \arguments{
 \item{model}{the model.}
 
+\item{...}{extra arguments}
+
 \item{D}{character vector with the treatment variable.}
 
 \item{X}{character vector with the covariates for benchmarking.}
-
-\item{...}{extra arguments}
 }
 \value{
 The function returns an object of class 'sensemakr' which is a list with the main
@@ -43,7 +43,41 @@ results for sensitivity analysis, namely:
 Description.
 }
 \examples{
-# worked out example
+rm(list = ls())
+
+# library
+library(sensemakr)
+
+# loads data
+data("darfur")
+
+# fits model
+model  <- lm(peacefactor ~ directlyharmed + age + farmer_dar + herder_dar +
+               pastvoted + hhsize_darfur + female + village, data = darfur)
+
+# benchmark variables
+X = c("herder_dar", "female", "age", "pastvoted", "farmer_dar")
+
+# runs benchmarking etc
+sense <- sensemakr(model, treatment = "directlyharmed", benchmarks = X)
+
+# plots
+
+## contour plot
+plot1_data <- plot(sense)
+plot2_data <- plot(sense, contour = "t-value")
+plot3_data <- plot(sense, contour = "lower bound")
+plot4_data <- plot(sense, contour = "upper bound")
+
+## worst-case plot
+plot5_data <- plot(sense, type = "worst-case")
+
+# testing verbal outputs
+interpret(sense)
+interpret(sense, q = 0.5)
+interpret(sense, q = 0.6)
+
+summary(sense)
 
 }
 \references{

@@ -4,7 +4,7 @@ data("darfur",package='sensemakr')
 mod_test  <- lm(peacefactor ~ directlyharmed + female + village, data = darfur)
 
 
-test = sensemakr.lm(model=mod_test,treatment='directlyharmed')
+test = sensemakr.lm(model=mod_test,D='directlyharmed')
 str(test,max.level=1)
 str(test$benchmarks,max.level=1)
 
@@ -17,7 +17,7 @@ head(test$benchmarks$benchmark_R2)
 # user supplied group_list for arbitrary grouping of terms
 # each list entry is a character vector.
 # elements of a character vector are simultaneously with-held
-test2 = sensemakr.lm(model=mod_test,treatment='directlyharmed',
+test2 = sensemakr.lm(model=mod_test,D='directlyharmed',
                      group_list = list(c('village','female')))
 
 str(test2$benchmarks,max.level=1)
