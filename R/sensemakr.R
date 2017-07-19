@@ -2,7 +2,7 @@
 ##'
 ##' @description Description.
 ##'
-##' @param D  character vector with the treatment variable.
+##' @param treatment  character vector with the treatment variable.
 ##' @param X  character vector with the covariates for benchmarking.
 ##' @param ... extra arguments
 ##' @return The function returns an object of class 'sensemakr' which is a list with the main
@@ -67,7 +67,7 @@
 ##' @export
 ##' @importFrom graphics abline legend lines plot points rug text
 ##' @importFrom stats coef df.residual formula model.matrix sd update vcov
-sensemakr <- function(model, ...){
+sensemakr <- function(model, treatment, benchmarks, ...){
   UseMethod("sensemakr")
 }
 
