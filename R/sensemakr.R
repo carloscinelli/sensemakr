@@ -71,7 +71,6 @@ sensemakr <- function(model, treatment, benchmarks, ...){
   UseMethod("sensemakr")
 }
 
-
 ##' @param model the model.
 ##' @name sensemakr
 ##' @export

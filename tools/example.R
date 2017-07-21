@@ -23,6 +23,7 @@ sense <- sensemakr(model=model, treatment="directlyharmed", benchmarks=X)
 
 ## contour plot
 plot1_data <- plot(sense)
+plot(sense, lim=.2)
 plot2_data <- plot(sense, contour = "t-value")
 plot3_data <- plot(sense, contour = "lower bound")
 plot4_data <- plot(sense, contour = "upper bound")

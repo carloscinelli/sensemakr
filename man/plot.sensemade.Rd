@@ -19,3 +19,4 @@ a ggplot object with the plot.
 \description{
 Several sensitivity plots.
 }
+

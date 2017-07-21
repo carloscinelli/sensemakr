@@ -2,20 +2,19 @@
 % Please edit documentation in R/sensemakr.R
 \name{sensemakr}
 \alias{sensemakr}
-\alias{sensemakr}
 \alias{sensemakr.lm}
 \title{Senstivity abalysis of linear models}
 \usage{
-sensemakr(model, ...)
+sensemakr(model, treatment, benchmarks, ...)
 
 \method{sensemakr}{lm}(model, treatment, benchmarks = NULL)
 }
 \arguments{
 \item{model}{the model.}
 
-\item{...}{extra arguments}
+\item{treatment}{character vector with the treatment variable.}
 
-\item{D}{character vector with the treatment variable.}
+\item{...}{extra arguments}
 
 \item{X}{character vector with the covariates for benchmarking.}
 }
@@ -75,7 +74,6 @@ plot5_data <- plot(sense, type = "worst-case")
 # testing verbal outputs
 interpret(sense)
 interpret(sense, q = 0.5)
-interpret(sense, q = 0.6)
 
 summary(sense)
 
@@ -83,3 +81,4 @@ summary(sense)
 \references{
 Cite paper(s)
 }
+
