@@ -56,7 +56,6 @@
 ##' # testing verbal outputs
 ##' interpret(sense)
 ##' interpret(sense, q = 0.5)
-##' interpret(sense, q = 0.6)
 ##'
 ##' summary(sense)
 ##'
@@ -66,10 +65,9 @@
 ##' @export
 ##' @importFrom graphics abline legend lines plot points rug text
 ##' @importFrom stats coef df.residual formula model.matrix sd update vcov
-sensemakr <- function(model, ...){
+sensemakr <- function(model, treatment, benchmarks, ...){
   UseMethod("sensemakr")
 }
-
 
 ##' @param model the model.
 ##' @param treatment  character vector with the treatment variable.

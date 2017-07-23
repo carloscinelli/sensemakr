@@ -1,6 +1,4 @@
-
 # graphics ----------------------------------------------------------------
-
 ##' @title Sensitivity plots
 ##' @description Several sensitivity plots.
 ##'
