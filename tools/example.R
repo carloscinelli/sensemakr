@@ -19,8 +19,6 @@ X = c("herder_dar", "female", "age", "pastvoted", "farmer_dar")
 # runs benchmarking etc
 sense <- sensemakr(model=model, treatment="directlyharmed", benchmarks=X)
 
-# plots
-
 ## contour plot
 plot1_data <- plot(sense)
 plot(sense, lim=.2)

@@ -8,20 +8,20 @@
 \alias{get_t}
 \title{Computes effects on estimate, standard error and t-value caused by unobserved confounder}
 \usage{
-get_bias(se, df, r2d, r2y)
+get_bias(se, df, r2y, r2d)
 
 get_se(se, df, r2y, r2d)
 
-get_t(t, df, r2y, r2d)
+get_t(t, df, r2y, r2d, reduce = TRUE)
 }
 \arguments{
 \item{se}{standard error of original  treatment effect estimate}
 
 \item{df}{degrees of freedom of the original linear model}
 
-\item{r2d}{hypothetical partial R2 of the confounder with the treatment}
-
 \item{r2y}{hypothetical partial R2 of the confounder with the outcome}
+
+\item{r2d}{hypothetical partial R2 of the confounder with the treatment}
 
 \item{...}{extra arguments}
 }
