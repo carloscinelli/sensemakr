@@ -1,3 +1,5 @@
+# formalize
+
 data("darfur",package='sensemakr')
 
 # model the user wants to run sensitivity analysis
