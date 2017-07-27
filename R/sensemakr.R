@@ -2,8 +2,6 @@
 ##'
 ##' @description Description.
 ##'
-##' @param treatment  character vector with the treatment variable.
-##' @param X  character vector with the covariates for benchmarking.
 ##' @param ... extra arguments
 ##' @return The function returns an object of class 'sensemakr' which is a list with the main
 ##' results for sensitivity analysis, namely:
@@ -71,8 +69,9 @@ sensemakr <- function(model, treatment, benchmarks, ...){
   UseMethod("sensemakr")
 }
 
-
 ##' @param model the model.
+##' @param treatment  character vector with the treatment variable.
+##' @param benchmarks  character vector with the covariates for benchmarking.
 ##' @name sensemakr
 ##' @export
 sensemakr.lm <- function(model, treatment, benchmarks=NULL, group_list=NULL){
@@ -154,7 +153,7 @@ benchmarkr <- function(model, D, X = NULL, group_list=NULL, ...){
   ## reverse engineering to get coefficients in original scale
 
   sed2      <- sed/(sqrt((1 - r2y)/(1 - r2d))*sqrt((df.out + 1)/(df.out))) # readjusts standard error
-  covariate.bias      <- getbiasR2(r2y, r2d,se = sed2, df = df.out + 1)  # gets gamma*delta
+  covariate.bias      <- get_bias(r2y = r2y, r2d = r2d, se = sed2, df = df.out + 1)  # gets gamma*delta
 
   impact    <- coef(summ.out)[X, "Estimate"]
   imbalance <- covariate.bias/impact
@@ -178,20 +177,25 @@ benchmarkr <- function(model, D, X = NULL, group_list=NULL, ...){
   all_rhs = (attr(terms(formula(model)),'term.labels'))
   allvars = all_rhs[!(all_rhs %in% D)]
 
+  # 1 conflict resolved here, when merging group main branch
+  # =======
+  # allvars <- rownames(coef.out)[!rownames(coef.out) %in% c(D,"(Intercept)")]
+  # >>>>>>> master
+  
   r2y_all <- groupR2(model, allvars)
   r2d_all <- groupR2(treat, allvars)
-  bias_all <- getbiasR2(sed, df.out, r2y_all, r2d_all)
+  bias_all <- get_bias(se = sed, df = df.out, r2y = r2y_all, r2d = r2d_all)
 
   # biases
-  bias_r2 = getbiasR2(sed, df.out, r2y, r2d)
+  bias_r2 = get_bias(se = sed, df = df.out, r2y = r2y, r2d =  r2d)
   bias_nat = impact*imbalance
   bias_std = imp_std*imb_std
 
   benchmark_all_vars <- data.frame(r2y_all = r2y_all,
                                   r2d_all = r2d_all,
                                   adj_est_all = adjust_estimate(estimate, bias_all),
-                                  adj_se_r2 = getseR2(sed, df.out, r2y_all, r2d_all),
-                                  adj_t_r2 = gettR2(estimate/sed, df.out, r2y_all, r2d_all),
+                                  adj_se_r2 = get_se(se = sed, df = df.out, r2y = r2y_all,r2d =  r2d_all),
+                                  adj_t_r2 = get_t(t = estimate/sed, df =  df.out, r2y = r2y_all, r2d = r2d_all),
                                   row.names = NULL,
                                   stringsAsFactors = FALSE)
 
@@ -200,10 +204,11 @@ benchmarkr <- function(model, D, X = NULL, group_list=NULL, ...){
                               r2d = r2d,
                               bias_r2 = bias_r2,
                               adj_est_r2 = adjust_estimate(estimate, bias_r2),
-                              adj_se_r2 = getseR2(sed, df.out, r2y, r2d),
-                              adj_t_r2 = gettR2(estimate/sed, df.out, r2y, r2d),
+                              adj_se_r2 = get_se(se = sed, df = df.out, r2y = r2y, r2d = r2d),
+                              adj_t_r2 = get_t(t = estimate/sed, df = df.out, r2y = r2y, r2d = r2d),
                               row.names = NULL,
                               stringsAsFactors = FALSE)
+
   benchmark_R2 <- benchmark_R2[order(benchmark_R2$bias_r2, decreasing = TRUE), ]
 
   benchmark_natural <- data.frame(covariate = X,
@@ -213,6 +218,7 @@ benchmarkr <- function(model, D, X = NULL, group_list=NULL, ...){
                                   adj_est_nat = adjust_estimate(estimate, bias_nat),
                                   row.names = NULL,
                                   stringsAsFactors = FALSE)
+
   benchmark_natural <- benchmark_natural[order(benchmark_natural$bias_nat, decreasing = TRUE), ]
 
   benchmark_std <- data.frame(covariate = X,
@@ -222,6 +228,7 @@ benchmarkr <- function(model, D, X = NULL, group_list=NULL, ...){
                               adj_est_std = adjust_estimate(estimate_std, bias_std),
                               row.names = NULL,
                               stringsAsFactors = FALSE)
+
   benchmark_std <- benchmark_std[order(benchmark_std$bias_std, decreasing = TRUE), ]
 
 
@@ -437,21 +444,32 @@ groupR2 <- function(model,terms_4_group){
 ##' @param r2y      hypothetical partial R2 of the confounder with the outcome
 ##' @param ...      extra arguments
 ##' @export
-getbiasR2 <- function(se, df, r2d, r2y) {
+get_bias <- function(se, df, r2y, r2d) {
   sqrt(r2y*r2d/(1 - r2d))*se*sqrt(df)
 }
 
 ##' @export
-##' @name getbiasR2
-getseR2   <- function(se, df, r2y, r2d){
+##' @name get_bias
+get_se   <- function(se, df, r2y, r2d){
   sqrt((1 - r2y)/(1 - r2d))*se*sqrt(df/(df - 1))
 }
 
 ##' @export
-##' @name getbiasR2
-gettR2    <- function(t,df, r2y, r2d){
-  (t/sqrt(df) - sqrt(r2d*(r2y/(1 - r2y))))*sqrt((1 - r2d)/(1 - r2y))*sqrt(df - 1)
+##' @name get_bias
+get_t    <- function(t, df, r2y, r2d, reduce = TRUE){
+  if (reduce) {
+   adj_t <- sign(t)*(abs(t)/sqrt(df) - sqrt(r2y*(r2d/(1 - r2d))))*sqrt((1 - r2d)/(1 - r2y))*sqrt(df - 1)
+  } else {
+    adj_t <- sign(t)*(abs(t)/sqrt(df) + sqrt(r2y*(r2d/(1 - r2d))))*sqrt((1 - r2d)/(1 - r2y))*sqrt(df - 1)
+  }
+  return(adj_t)
+
 }
+
+# get_t2    <- function(r2, df, r2y, r2d){
+#   (sqrt((r2)/(1-r2)) - sqrt(r2y*(r2d/(1 - r2d))))*sqrt((1 - r2d)/(1 - r2y))*sqrt(df - 1)
+# }
+
 
 
 adjust_estimate <- function(estimate, bias, reduce = TRUE){
@@ -460,4 +478,8 @@ adjust_estimate <- function(estimate, bias, reduce = TRUE){
   } else {
     return(sign(estimate)*(abs(estimate) + bias))
   }
+}
+
+t_to_r2 <- function(t, df){
+  t^2/(t^2 + df)
 }

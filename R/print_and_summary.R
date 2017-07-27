@@ -1,5 +1,8 @@
 # prints ------------------------------------------------------------------
 
+# A method must have all the arguments of the generic, including … if the generic does.
+# A method must have arguments in exactly the same order as the generic.
+
 ##' @export
 print.sensemade <- function(x, str = TRUE){
 
@@ -42,7 +45,7 @@ interpret <- function(sensemade, q = 1){
   cat("---Using the covariate most strongly associated with the treatment assignment as a benchmark---\n\n")
   if (r2yc > 1) {
 
-    maxBias <- (getbiasR2(se, df = df, r2d = maxR2d, r2y = 1))
+    maxBias <- (get_bias(se, df = df, r2d = maxR2d, r2y = 1))
 
     cat("An unobserved confounder with the same partial R2 with the treatment as '",
         varR2D, "' (", round(maxR2d,3), ") ", " would be able to cause at most a bias of ",
