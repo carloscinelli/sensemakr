@@ -17,6 +17,7 @@ plot.sensemade <- function(x, type = c("contour", "worst-case"), ...){
   )
 }
 
+# A method must have all the arguments of the generic, including … if the generic does.
 
 ##' @export
 contourplot <- function(x,
@@ -57,20 +58,20 @@ contourplot <- function(x,
   ## level curves
   if (contour == "estimate") {
     # estimate level curve
-    z      <- adjust_estimate(estimate, outer(s, s, getbiasR2, se = se, df = df))
+    z      <- adjust_estimate(estimate, outer(s, s, get_bias, se = se, df = df))
     labels <- paste0(benchmarks$covariate, "\n", "(",round(benchmarks$adj_est_r2, 3),")")
     lev    <- 0
 
   } else if (contour == "t-value") {
     # t-value level curve
-    z      <- outer(s, s, gettR2, t = t, df = df)
+    z      <- outer(s, s, get_t, t = t, df = df)
     labels <- paste0(benchmarks$covariate, "\n", "(",round(benchmarks$adj_t_r2, 3),")")
     lev    <- 2
 
   } else if (contour == "lower bound" | contour == "upper bound" ) {
     # CI level curves
-    new_estimate <- adjust_estimate(estimate, outer(s, s, getbiasR2, se = se, df = df))
-    new_se       <- outer(s, s, getseR2, se = se, df = df)
+    new_estimate <- adjust_estimate(estimate, outer(s, s, get_bias, se = se, df = df))
+    new_se       <- outer(s, s, get_se, se = se, df = df)
 
     if (contour == "lower bound") {
       # CI lower bound
@@ -150,7 +151,7 @@ worstcaseplot <- function(x,
   mr2y <- x$benchmarks$benchmark_all_vars$r2y_all
 
 
-  y <- adjust_estimate(estimate, getbiasR2(se = se, df = df, r2y = scenarios[1], r2d = s))
+  y <- adjust_estimate(estimate, get_bias(se = se, df = df, r2y = scenarios[1], r2d = s))
 
   out <- data.frame(r2d = s,
                     r2y = scenarios[1],
@@ -166,7 +167,7 @@ worstcaseplot <- function(x,
   scenarios2 <- scenarios[-1]
 
   for (i in seq_along(scenarios2)) {
-    y <- adjust_estimate(estimate, getbiasR2(se = se, df = df, r2y = scenarios2[i], r2d = s))
+    y <- adjust_estimate(estimate, get_bias(se = se, df = df, r2y = scenarios2[i], r2d = s))
     out2 <- data.frame(r2d = s,
                       r2y = scenarios2[i],
                       adj_est = y)
@@ -177,7 +178,7 @@ worstcaseplot <- function(x,
   p    <- length(scenarios)
 
   # max observed R2y
-  y <- adjust_estimate(estimate, getbiasR2(se = se, df = df, r2y = mr2y, r2d = s))
+  y <- adjust_estimate(estimate, get_bias(se = se, df = df, r2y = mr2y, r2d = s))
   lines(s, y, lty = p + 1, col = "red")
   out2 <- data.frame(r2d = s,
                      r2y = mr2y,
