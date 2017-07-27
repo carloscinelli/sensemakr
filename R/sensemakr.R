@@ -72,6 +72,7 @@ sensemakr <- function(model, treatment, benchmarks, ...){
 ##' @param model the model.
 ##' @param treatment  character vector with the treatment variable.
 ##' @param benchmarks  character vector with the covariates for benchmarking.
+##' @param group_list a list of character vectors where elements within one vector are terms that should be grouped.
 ##' @name sensemakr
 ##' @export
 sensemakr.lm <- function(model, treatment, benchmarks=NULL, group_list=NULL){
@@ -289,7 +290,7 @@ benchmarkr <- function(model, D, X = NULL, group_list=NULL, ...){
 
     bias_r2_combinevar = apply(X=r2pairs,MARGIN=1,
                                FUN=function(XX){
-                                 getbiasR2(sed, df.out, r2y=XX$r2y, r2d=XX$r2d)
+                                 get_bias(sed, df.out, r2y=XX$r2y, r2d=XX$r2d)
                                  })
 
     benchmark_R2_group  <- data.frame(covariate = names(r2y_combinevar),

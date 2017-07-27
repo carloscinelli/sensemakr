@@ -8,7 +8,8 @@
 \usage{
 sensemakr(model, treatment, benchmarks, ...)
 
-\method{sensemakr}{lm}(model, treatment, benchmarks = NULL)
+\method{sensemakr}{lm}(model, treatment, benchmarks = NULL,
+  group_list = NULL)
 }
 \arguments{
 \item{model}{the model.}
@@ -18,6 +19,8 @@ sensemakr(model, treatment, benchmarks, ...)
 \item{benchmarks}{character vector with the covariates for benchmarking.}
 
 \item{...}{extra arguments}
+
+\item{group_list}{a list of character vectors where elements within one vector are terms that should be grouped.}
 }
 \value{
 The function returns an object of class 'sensemakr' which is a list with the main
@@ -74,7 +77,7 @@ plot5_data <- plot(sense, type = "worst-case")
 
 # testing verbal outputs
 interpret(sense)
-interpret(sense, q = 0.5)
+interpret(sense, q = 0.6)
 
 summary(sense)
 
