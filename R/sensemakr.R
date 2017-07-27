@@ -177,6 +177,11 @@ benchmarkr <- function(model, D, X = NULL, group_list=NULL, ...){
   all_rhs = (attr(terms(formula(model)),'term.labels'))
   allvars = all_rhs[!(all_rhs %in% D)]
 
+  # 1 conflict resolved here, when merging group main branch
+  # =======
+  # allvars <- rownames(coef.out)[!rownames(coef.out) %in% c(D,"(Intercept)")]
+  # >>>>>>> master
+
   r2y_all <- groupR2(model, allvars)
   r2d_all <- groupR2(treat, allvars)
   bias_all <- get_bias(se = sed, df = df.out, r2y = r2y_all, r2d = r2d_all)
