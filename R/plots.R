@@ -41,7 +41,21 @@ contourplot <- function(x,
   benchmarks  <- benchmarks[1:top, ]
   r2y         <- benchmarks$r2y
   r2d         <- benchmarks$r2d
+  benchmarks_group  <- x$benchmarks$benchmark_R2_group
+  r2y_group = benchmarks_group$r2y
+  r2d_group = benchmarks_group$r2d
   ####
+
+  # NOTE: if-else masking of design matrix columns tied to overall grouping
+  # design choice, make user mask these low level points
+  # via 'showvars' argument
+
+  # eg, we will always plot the points tied to 'grouping' benchmarks
+  # but we will not mask the points tied to the levels of the 'grouping' benchmarks
+
+  # one way to 'mask' is line 178 of https://github.com/statsccpr/ovb/blob/master/R/ovb.R
+
+
 
   #### contour data (treatment effect data) ####
   estimate    <- x$treat.stats$estimate
@@ -52,7 +66,7 @@ contourplot <- function(x,
   #### computing contours ####
 
   ## sequence of R2y and R2d
-  if (is.null(lim)) lim <- max(c(r2y, r2d), na.rm = TRUE) + 0.1
+  if (is.null(lim)) lim <- max(c(r2y, r2d, r2y_group, r2d_group), na.rm = TRUE) + 0.1
   s <- seq(0, lim, by = 0.001)
 
   ## level curves
@@ -99,6 +113,7 @@ contourplot <- function(x,
           main = main)
   points(r2d, r2y, pch = 23, col = "black", bg = "red", cex = cex)
   contour(s, s, z = z, level = lev, add = TRUE, col = "red", lwd = 2, lty = 2)
+  points(r2d_group, r2y_group, pch = 23, col = "black", bg = "cyan", cex = cex)
 
   #### add labels ####
   # todo: try to create a better function for positioning labels and substitute jitter
@@ -110,6 +125,17 @@ contourplot <- function(x,
 
   text(r2dl, r2yl, labels = labels, cex = 0.7)
 
+  if(nrow(benchmarks_group)>0){
+
+    labels_group <- benchmarks_group$covariate
+
+    text(x=benchmarks_group$r2d,
+         y=benchmarks_group$r2y,
+         labels=labels_group,
+         cex=0.7,
+         pos=4)
+  }
+
   labels <- data.frame(labels = labels,x = r2dl, y = r2yl, stringsAsFactors = FALSE)
   ####
 
@@ -118,6 +144,7 @@ contourplot <- function(x,
   out <- list(plot_type = paste(contour,"contours"),
               contours = z,
               benchmarks = benchmarks,
+              benchmarks_group = benchmarks_group,
               labels = labels)
 
   ####

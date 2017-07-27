@@ -38,4 +38,10 @@ test_that("Testing group terms", {
   capture_output(head(test2$benchmarks$benchmark_R2),print=TRUE)
 
   # so, can 'mask' later in print/summary/plot methods
+
+  # test plots for groups
+  plot_group_1 <- plot(test)
+  plot_group_2 <- plot(test2)
+
 })
+
