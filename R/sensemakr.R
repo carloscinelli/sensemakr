@@ -55,7 +55,7 @@
 ##'
 ##' # testing verbal outputs
 ##' interpret(sense)
-##' interpret(sense, q = 0.5)
+##' interpret(sense, q = 0.6)
 ##'
 ##' summary(sense)
 ##'
@@ -74,7 +74,7 @@ sensemakr <- function(model, treatment, benchmarks, ...){
 ##' @param benchmarks  character vector with the covariates for benchmarking.
 ##' @name sensemakr
 ##' @export
-sensemakr.lm <- function(model, treatment, benchmarks=NULL){
+sensemakr.lm <- function(model, treatment, benchmarks=NULL, group_list=NULL){
   D <- treatment
   X <- benchmarks
   # stats <- get stats()
@@ -83,7 +83,7 @@ sensemakr.lm <- function(model, treatment, benchmarks=NULL){
   # returns pretty list with class "sensemade"
 
   treat.stats <- getstats(model, D)
-  benchmarks  <- benchmarkr(model, D, X)
+  benchmarks  <- benchmarkr(model, D, X, group_list)
   out <- list(treat.stats = treat.stats,
               benchmarks = benchmarks,
               info = list(outcome = deparse(model$terms[1][[2]]),
@@ -118,7 +118,7 @@ getstats <- function(model, D){
 #                  -> if a list of character vectors, then group by list (future work)
 # Output: three data.frames with benchmarks for R2, SD and natural.
 #       - data.frame contains: Names, R2y or delta, R2d or gamma
-benchmarkr <- function(model, D, X = NULL, ...){
+benchmarkr <- function(model, D, X = NULL, group_list=NULL, ...){
 
   treat.stats  <- getstats(model, D)
   estimate     <- treat.stats$estimate
@@ -170,7 +170,18 @@ benchmarkr <- function(model, D, X = NULL, ...){
   # space for groups R2
   # compute groups R2 and bind on r2y r2d
   # worst case scenario benchmark
-  allvars <- rownames(coef.out)[!rownames(coef.out) %in% c(D,"(Intercept)")]
+  # allvars <- rownames(coef.out)[!rownames(coef.out) %in% D]
+
+  # rownames of coef printout is not safe
+  # mike note: use this instead
+  all_rhs = (attr(terms(formula(model)),'term.labels'))
+  allvars = all_rhs[!(all_rhs %in% D)]
+
+  # 1 conflict resolved here, when merging group main branch
+  # =======
+  # allvars <- rownames(coef.out)[!rownames(coef.out) %in% c(D,"(Intercept)")]
+  # >>>>>>> master
+
   r2y_all <- groupR2(model, allvars)
   r2d_all <- groupR2(treat, allvars)
   bias_all <- get_bias(se = sed, df = df.out, r2y = r2y_all, r2d = r2d_all)
@@ -220,8 +231,83 @@ benchmarkr <- function(model, D, X = NULL, ...){
 
   benchmark_std <- benchmark_std[order(benchmark_std$bias_std, decreasing = TRUE), ]
 
+
+  # any 'blacklisted' terms (outcome model) that should be grouped?
+  # ?class_df_from_term
+  class_df = class_df_from_term(model)
+  blacklist_4_group = c('factor','matrix','smooth')
+  list_term_in_blacklist = lapply(X=class_df,FUN=function(XX){XX %in% blacklist_4_group})
+  terms_in_blacklist = names(which(unlist(list_term_in_blacklist)))
+
+
+  ############################################
+  # ?groupR2
+  # lapply cycle over 'group_list'
+  # groupR2(model=model)
+  # groupR2(model=treat)
+  ############################################
+  # group_list = list('village',c('female','village'),'village')
+
+  if(!is.null(group_list)){
+    # user spec list of group terms + all RHS terms in group blacklist
+    terms_force_group = append(group_list,terms_in_blacklist)
+    # c(NULL,'a')
+    # c(NULL,NULL)
+  }else{
+    terms_force_group = terms_in_blacklist
+    # terms_force_group = NULL
+  }
+
+  if(!is.null(terms_force_group)){
+
+    # terms_force_group = c('village','female')
+
+    r2y_combinevar = lapply(X=terms_force_group,
+                            FUN=function(XX){
+                              groupR2(model=model,terms_4_group=XX)
+                            })
+
+    names(r2y_combinevar) = unlist(lapply(terms_force_group,
+                                          FUN=function(XX){
+                                            paste0(paste(XX,collapse=","))
+                                          }))
+
+
+    r2d_combinevar = lapply(X=terms_force_group,
+                            FUN=function(XX){
+                              groupR2(model=treat,terms_4_group=XX)
+                            })
+
+    names(r2d_combinevar) = unlist(lapply(terms_force_group,
+                                          FUN=function(XX){
+                                            paste0(paste(XX,collapse=","))
+                                          }))
+
+    # bias from R2 param,
+    # consult if this applies to groupR2
+    r2pairs = cbind(r2y=r2y_combinevar,r2d=r2d_combinevar)
+
+    bias_r2_combinevar = apply(X=r2pairs,MARGIN=1,
+                               FUN=function(XX){
+                                 getbiasR2(sed, df.out, r2y=XX$r2y, r2d=XX$r2d)
+                                 })
+
+    benchmark_R2_group  <- data.frame(covariate = names(r2y_combinevar),
+                                      r2y = unlist(r2y_combinevar),
+                                      r2d = unlist(r2d_combinevar),
+                                      bias_r2 = bias_r2_combinevar,  # consult
+                                      adj_est_r2 = adjust_estimate(estimate, bias_r2_combinevar),  # consult
+                                      row.names = NULL,
+                                      stringsAsFactors = FALSE)
+  }else{
+    benchmark_R2_group = NULL
+  }
+
+
+
   benchmarks <- list(benchmark_all_vars = benchmark_all_vars,
                      benchmark_R2 = benchmark_R2,
+                     benchmark_R2_group = benchmark_R2_group,
                      benchmark_natural = benchmark_natural,
                      benchmark_std = benchmark_std)
 
@@ -230,7 +316,60 @@ benchmarkr <- function(model, D, X = NULL, ...){
 }
 
 
-groupR2 <- function(model, coefs){
+#' @title The function '?groupR2()'
+#' @description forms R2 quantities for a model.matrix column group tied to their model's term
+#'
+#' @param model an 'lm' object
+#' @param terms_4_group a character vector of one or more terms to be viewed together as a single group.
+#' NOTE: The elements in 'terms_4_group' must match the character values of "(attr(terms(formula(model)),'term.labels'))".
+#'
+#' @return a numeric scalar representing the R2 value of with-holding the model matrix columns associated with 'terms_4_group'
+#' @export
+#'
+#' @examples none, a low level helper
+
+groupR2 <- function(model,terms_4_group){
+
+  # carlos example
+  # allvars <- rownames(coef.out)[!rownames(coef.out) %in% D]
+  # terms_4_group = allvars
+
+
+  # use terms instead
+  # allvars = (attr(terms(formula(model)),'term.labels'))
+  # terms_4_group = allvars
+
+  # using the auto printout of coef reduces paste(term,level)
+  # 'villageZalingi'
+  # thats why use term(formula) so can just use 'village'
+
+
+  #######################################
+  # arg check
+  # terms_4_group = c('village','blah')
+  # terms_4_group = list('female',
+  #                      c('village','female'),
+  #                      'blah',
+  #                      c('village',"`I(age/5)`"))
+
+  #######################################
+
+  lgl_a_term_not_found = lapply(X=terms_4_group,
+                                FUN=function(X){
+                                  # X=terms_4_group[[1]]
+                                  # note: wants backticked "`I(age/5)`"
+                                  lgl_a_term_not_found = any(!(unlist(X) %in% ((attr(terms(formula(model)),'term.labels')))))
+                                })
+
+  if(any(unlist(lgl_a_term_not_found))==TRUE){
+
+    msg = paste('One of your terms specified in the "terms_4_group" argument is not found in your "model" argument.',
+                'Please make sure the character vectors in "terms_4_group" take on values from "attr(terms(model),"term.labels")".',
+                'You may need to include backticks ``,as in "terms_4_group=list(c("`I(foo)`"))"'
+    )
+    stop(msg)
+  }
+
 
   # betas
   betas <- coef(model)
@@ -241,19 +380,58 @@ groupR2 <- function(model, coefs){
   # degrees of freedom
   df <- df.residual(model)
 
-  # coefs to group
-  indx <- names(betas) %in% coefs
+
+  # (attr(terms(formula(model)),'term.labels'))
+  # terms_4_group = 'village'  # set of factor levels as a group
+  # terms_4_group = c('village','female')  # set of covars as a group
+
+  rhs_in_term = which((attr(terms(formula(model)),'term.labels')) %in% terms_4_group)
+
+  # use model$assign instead of attr(model.matrix(model),'assign')
+  # identical(model$assign,attr(model.matrix(model),'assign'))
+  # indx_mm_of_term = (attr(model.matrix(model),'assign')) %in% rhs_in_term
+
+  indx_mm_of_term = (model$assign) %in% rhs_in_term
+
+
+  indx = which(indx_mm_of_term)
 
   if (length(indx) == 0) {
-    warning(paste("No covariates found matching the word:", coefs, "\nNA returned"))
+
+    warning(paste("No model.matrix columns found matching the term:",
+                  terms_4_group,
+                  "\nNA returned"))
+
     return(NA)
+
   }
+
 
   # compute F and R2
   q <- length(indx)
-  f <- (t(betas[indx]) %*% solve(V[indx, indx]) %*% betas[indx])/q
-  f*q / (f*q + df)
+
+  f <- (t(betas[indx]) %*% solve(V[indx, indx],betas[indx]))/q
+
+  # mikenote: tuck two terms into solve(A,x) for num stabilit eg, solve(A,b) = inv(A) %*% b
+  # f <- (t(betas[indx]) %*% solve(V[indx, indx]) %*% betas[indx])/q
+
+  # The r2 value to be returned
+  r2_group = f*q / (f*q + df)
+  return(r2_group)
+
+  # mikenote: optional return q and f? if needed later in biasR2(r2y,r2d,k)
 }
+
+# mikenote: controlling 'terms_4_group' allows us to enforce groupR2
+# on blacklisted classes like 'factor'
+# class_df = class_df_from_term(model)
+# # class 'blacklist' check
+# blacklist = c('factor','matrix','smooth')
+# term_in_blacklist = lapply(X=class_df,FUN=function(x){x %in% blacklist})
+# list_term_in_blacklist = names(which(unlist(term_in_blacklist)))
+# r2_y_blacklist = sapply(X=list_term_in_blacklist,FUN=groupR2,model=model)
+
+
 
 ##' @title Computes effects on estimate, standard error and t-value caused by unobserved confounder
 ##' @description  These functions compute the bias caused by an unobserved confounder with a specific pair
