@@ -304,10 +304,40 @@ benchmarkr <- function(model, D, X = NULL, group_list=NULL, ...){
     benchmark_R2_group = NULL
   }
 
+  #############################################
+  # 'benchmark_masked' has redundant information
+  # but needed for future optional masking of a
+  # parent groups' lower level model matrix quantities
+  # better to compute here in sensemakr()
+  # and make use of it in later methods
+  #############################################
+
+  if(is.null(terms_force_group)==FALSE){
+
+    # mask out redundant 'low-level' model matrix benchmarks
+    # that are tied to their parent group
+
+    names_mm_ea_group = lapply(X=terms_force_group,
+                               FUN=function(terms_force_group){
+                                 rhs_in_term = which((attr(terms(formula(model)),'term.labels')) %in% terms_force_group)
+                                 indx_mm_of_term = (model$assign) %in% rhs_in_term
+                                 names_mm_of_term = colnames(X)[indx_mm_of_term]  # X was initial model.matrix
+                                 return(names_mm_of_term)
+                               })
+
+    # rownames(benchmarks)
+    # unique(unlist(names_mm_ea_group))
+    # (!rownames(benchmarks) %in% unique(unlist(names_mm_ea_group)))
+    # turn on row names
+    benchmark_masked = benchmark_all_vars[(!rownames(benchmark_all_vars) %in% unique(unlist(names_mm_ea_group))), ]
+  }else{
+    benchmark_masked = NULL
+  }
 
 
   benchmarks <- list(benchmark_all_vars = benchmark_all_vars,
                      benchmark_R2 = benchmark_R2,
+                     benchmark_masked = benchmark_masked,
                      benchmark_R2_group = benchmark_R2_group,
                      benchmark_natural = benchmark_natural,
                      benchmark_std = benchmark_std)

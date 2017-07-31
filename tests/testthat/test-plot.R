@@ -29,4 +29,20 @@ test_that("Testing plots", {
   plot4_data <- plot(sense, contour = "upper bound")
   ## worst-case plot
   plot5_data <- plot(sense, type = "worst-case")
+
+  # mike stress test
+
+  # error if X is just a single element vector
+  X = c("female")
+
+  # runs benchmarking etc
+  sense <- sensemakr(model=model, treatment="directlyharmed", benchmarks=X)
+
+  # if X is two element vector, then text labels and points not aligned
+  # point position is the same, but labels shifted extremely up
+  X = c("female", "age")
+  sense <- sensemakr(model=model, treatment="directlyharmed", benchmarks=X)
+  plot1_data <- plot(sense)
+
+
 })

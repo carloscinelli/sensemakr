@@ -46,7 +46,7 @@ contourplot <- function(x,
   r2d_group = benchmarks_group$r2d
   ####
 
-  # NOTE: if-else masking of design matrix columns tied to overall grouping
+  # NOTE: if-else masking of design matrix columns tied to their overall grouping
   # design choice, make user mask these low level points
   # via 'showvars' argument
 
