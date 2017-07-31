@@ -35,13 +35,16 @@ contourplot <- function(x,
 
   contour <- match.arg(contour)
 
+  # x = sense
+
   #### benchmark data ####
-  benchmarks  <- x$benchmarks$benchmark_R2
+  benchmarks  <- x$benchmarks$benchmark_eachvar
   top         <- min(c(nrow(benchmarks), top))
   benchmarks  <- benchmarks[1:top, ]
   r2y         <- benchmarks$r2y
   r2d         <- benchmarks$r2d
-  benchmarks_group  <- x$benchmarks$benchmark_R2_group
+
+  benchmarks_group  <- x$benchmarks$benchmark_group
   r2y_group = benchmarks_group$r2y
   r2d_group = benchmarks_group$r2d
   ####
@@ -111,6 +114,7 @@ contourplot <- function(x,
           xlab = xlab,
           ylab = ylab,
           main = main)
+
   points(r2d, r2y, pch = 23, col = "black", bg = "red", cex = cex)
   contour(s, s, z = z, level = lev, add = TRUE, col = "red", lwd = 2, lty = 2)
   points(r2d_group, r2y_group, pch = 23, col = "black", bg = "cyan", cex = cex)
@@ -163,7 +167,10 @@ worstcaseplot <- function(x,
                           xlab = "Hypothetical partial R2 of unobserved confounder(s) with treatment",
                           ylab = "Adjusted estimate",
                           main = "Sensitivity of estimate to unobserved confounder(s)\n\"Worst-case\" scenarios of partial R2 with outcome"){
-  benchmarks <- x$benchmarks$benchmark_R2
+
+  # names(x$benchmarks)
+
+  benchmarks <- x$benchmarks$benchmark_eachvar
   r2d <- benchmarks$r2d
 
   if (!is.null(index)) r2d <- r2d[index]
@@ -175,7 +182,7 @@ worstcaseplot <- function(x,
   if (is.null(lim)) lim <- max(r2d, na.rm = TRUE) + 0.1
   s <- seq(0, lim, by = 0.001)
 
-  mr2y <- x$benchmarks$benchmark_all_vars$r2y_all
+  mr2y <- x$benchmarks$benchmark_dropallvar$r2y_all
 
 
   y <- adjust_estimate(estimate, get_bias(se = se, df = df, r2y = scenarios[1], r2d = s))
@@ -223,5 +230,8 @@ worstcaseplot <- function(x,
          title = "Hypothetical partial R2 of unobserved confounder(s) with outcome",
          cex  = cex.legend)
   rug(x = r2d, col = "red")
+
+  # figure out rug on grouped terms
+
   invisible(out)
 }

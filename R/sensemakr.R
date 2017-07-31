@@ -75,20 +75,30 @@ sensemakr <- function(model, treatment, benchmarks, ...){
 ##' @param group_list a list of character vectors where elements within one vector are terms that should be grouped.
 ##' @name sensemakr
 ##' @export
-sensemakr.lm <- function(model, treatment, benchmarks=NULL, group_list=NULL){
+sensemakr.lm <- function(model, treatment, # benchmarks=NULL,
+                         group_list=NULL){
+  # note: explicitly replace
+  # all instances of D with treatment
+
   D <- treatment
-  X <- benchmarks
+  # X <- benchmarks
   # stats <- get stats()
   # benchmarks <- get benchmarks()
   # compute bias and include ob data.frames
   # returns pretty list with class "sensemade"
 
   treat.stats <- getstats(model, D)
-  benchmarks  <- benchmarkr(model, D, X, group_list)
+  benchmarks  <- benchmarkr(model, D, # X,
+                            group_list)
+
+  names(benchmarks)
+  # benchmarks$benchmark_masked
+
   out <- list(treat.stats = treat.stats,
               benchmarks = benchmarks,
               info = list(outcome = deparse(model$terms[1][[2]]),
                           treatment = D,
+                          # maybe return 'treatment model'
                           model = model))
   class(out) <- "sensemade"
   return(out)
@@ -119,7 +129,9 @@ getstats <- function(model, D){
 #                  -> if a list of character vectors, then group by list (future work)
 # Output: three data.frames with benchmarks for R2, SD and natural.
 #       - data.frame contains: Names, R2y or delta, R2d or gamma
-benchmarkr <- function(model, D, X = NULL, group_list=NULL, ...){
+benchmarkr <- function(model, D, # X = NULL,
+                       group_list=NULL, ...){
+
 
   treat.stats  <- getstats(model, D)
   estimate     <- treat.stats$estimate
@@ -128,9 +140,18 @@ benchmarkr <- function(model, D, X = NULL, group_list=NULL, ...){
   summ.out     <- summary(model)
   coef.out     <- coef(summ.out)
 
-  if (is.null(X)) {
+  # get rid of X=NULL argument (doesn't think its useful as user arg)
+  # sensemakr(...,X=foo) more like use case for plot(...,showvars=foo)
+  # eg, do not expose X as arg to user in sensemakr()
+  # so, do not use this if condition
+  # therefore, X = all columns of model matrix that is neither intercept nor D
+
+  # if (is.null(X)) {
+
+  # NOTE: figure out safer way to exclude Intercept
     X <- rownames(coef.out)[!rownames(coef.out) %in% c("(Intercept)",D)]
-  }
+
+  # }
 
   tstats.out        <- coef.out[X, "t value"]
   r2y       <- tstats.out^2/(tstats.out^2 + df.out) # partial R2 with outcome
@@ -192,32 +213,42 @@ benchmarkr <- function(model, D, X = NULL, group_list=NULL, ...){
   bias_nat = impact*imbalance
   bias_std = imp_std*imb_std
 
-  benchmark_all_vars <- data.frame(r2y_all = r2y_all,
-                                  r2d_all = r2d_all,
-                                  adj_est_all = adjust_estimate(estimate, bias_all),
-                                  adj_se_r2 = get_se(se = sed, df = df.out, r2y = r2y_all,r2d =  r2d_all),
-                                  adj_t_r2 = get_t(t = estimate/sed, df =  df.out, r2y = r2y_all, r2d = r2d_all),
-                                  row.names = NULL,
-                                  stringsAsFactors = FALSE)
+  # 'benchmark_all_vars' is scenario excluding
+  # everything simultaneously on RHS?
+  # only single row output
 
-  benchmark_R2  <- data.frame(covariate = X,
+  # rename to 'benchmark_dropallvar'
+
+  benchmark_dropallvar <- data.frame(r2y_all = r2y_all,
+                                   r2d_all = r2d_all,
+                                   adj_est_all = adjust_estimate(estimate, bias_all),
+                                   adj_se_r2 = get_se(se = sed, df = df.out, r2y = r2y_all,r2d =  r2d_all),
+                                   adj_t_r2 = get_t(t = estimate/sed, df =  df.out, r2y = r2y_all, r2d = r2d_all),
+                                   # row.names = NULL,
+                                   stringsAsFactors = FALSE)
+
+  # 'benchmark_R2' scenario is only excluding those specified as X
+  # rename to 'benchmark_eachvar'
+
+  benchmark_eachvar  <- data.frame(covariate = X,
                               r2y = r2y,
                               r2d = r2d,
                               bias_r2 = bias_r2,
                               adj_est_r2 = adjust_estimate(estimate, bias_r2),
                               adj_se_r2 = get_se(se = sed, df = df.out, r2y = r2y, r2d = r2d),
                               adj_t_r2 = get_t(t = estimate/sed, df = df.out, r2y = r2y, r2d = r2d),
-                              row.names = NULL,
+                              # row.names = NULL,
+                              # use row.names later
                               stringsAsFactors = FALSE)
 
-  benchmark_R2 <- benchmark_R2[order(benchmark_R2$bias_r2, decreasing = TRUE), ]
+  benchmark_eachvar <- benchmark_eachvar[order(benchmark_eachvar$bias_r2, decreasing = TRUE), ]
 
   benchmark_natural <- data.frame(covariate = X,
                                   impact = impact,
                                   imbalance = imbalance,
                                   bias_nat = bias_nat,
                                   adj_est_nat = adjust_estimate(estimate, bias_nat),
-                                  row.names = NULL,
+                                  # row.names = NULL,
                                   stringsAsFactors = FALSE)
 
   benchmark_natural <- benchmark_natural[order(benchmark_natural$bias_nat, decreasing = TRUE), ]
@@ -227,16 +258,18 @@ benchmarkr <- function(model, D, X = NULL, group_list=NULL, ...){
                               imbalance_std = imb_std,
                               bias_std = bias_std,
                               adj_est_std = adjust_estimate(estimate_std, bias_std),
-                              row.names = NULL,
+                              # row.names = NULL,
                               stringsAsFactors = FALSE)
 
   benchmark_std <- benchmark_std[order(benchmark_std$bias_std, decreasing = TRUE), ]
 
-
+  ##########################################
   # any 'blacklisted' terms (outcome model) that should be grouped?
   # ?class_df_from_term
-  class_df = class_df_from_term(model)
+  ##########################################
   blacklist_4_group = c('factor','matrix','smooth')
+
+  class_df = class_df_from_term(model)
   list_term_in_blacklist = lapply(X=class_df,FUN=function(XX){XX %in% blacklist_4_group})
   terms_in_blacklist = names(which(unlist(list_term_in_blacklist)))
 
@@ -285,7 +318,7 @@ benchmarkr <- function(model, D, X = NULL, group_list=NULL, ...){
                                           }))
 
     # bias from R2 param,
-    # consult if this applies to groupR2
+    # consult if this applies directly to groupR2
     r2pairs = cbind(r2y=r2y_combinevar,r2d=r2d_combinevar)
 
     bias_r2_combinevar = apply(X=r2pairs,MARGIN=1,
@@ -293,22 +326,22 @@ benchmarkr <- function(model, D, X = NULL, group_list=NULL, ...){
                                  get_bias(sed, df.out, r2y=XX$r2y, r2d=XX$r2d)
                                  })
 
-    benchmark_R2_group  <- data.frame(covariate = names(r2y_combinevar),
+    benchmark_group  <- data.frame(covariate = names(r2y_combinevar),
                                       r2y = unlist(r2y_combinevar),
                                       r2d = unlist(r2d_combinevar),
                                       bias_r2 = bias_r2_combinevar,  # consult
                                       adj_est_r2 = adjust_estimate(estimate, bias_r2_combinevar),  # consult
-                                      row.names = NULL,
+                                      # row.names = NULL,
                                       stringsAsFactors = FALSE)
   }else{
-    benchmark_R2_group = NULL
+    benchmark_group = NULL
   }
 
   #############################################
   # 'benchmark_masked' has redundant information
   # but needed for future optional masking of a
   # parent groups' lower level model matrix quantities
-  # better to compute here in sensemakr()
+  # better to mask here in sensemakr()
   # and make use of it in later methods
   #############################################
 
@@ -321,7 +354,9 @@ benchmarkr <- function(model, D, X = NULL, group_list=NULL, ...){
                                FUN=function(terms_force_group){
                                  rhs_in_term = which((attr(terms(formula(model)),'term.labels')) %in% terms_force_group)
                                  indx_mm_of_term = (model$assign) %in% rhs_in_term
-                                 names_mm_of_term = colnames(X)[indx_mm_of_term]  # X was initial model.matrix
+                                 # names_mm_of_term = colnames(X)[indx_mm_of_term]  # X was initial model.matrix
+
+                                 names_mm_of_term = colnames(model.matrix(model))[indx_mm_of_term]
                                  return(names_mm_of_term)
                                })
 
@@ -329,18 +364,32 @@ benchmarkr <- function(model, D, X = NULL, group_list=NULL, ...){
     # unique(unlist(names_mm_ea_group))
     # (!rownames(benchmarks) %in% unique(unlist(names_mm_ea_group)))
     # turn on row names
-    benchmark_masked = benchmark_all_vars[(!rownames(benchmark_all_vars) %in% unique(unlist(names_mm_ea_group))), ]
+    benchmark_masked = benchmark_eachvar[(!rownames(benchmark_eachvar) %in% unique(unlist(names_mm_ea_group))), ]
   }else{
     benchmark_masked = NULL
   }
 
 
-  benchmarks <- list(benchmark_all_vars = benchmark_all_vars,
-                     benchmark_R2 = benchmark_R2,
+
+
+  # benchmark_std = benchmark_std # not necessary
+  #
+  # benchmarks <- list(benchmark_all_vars = benchmark_all_vars,  # used in worst case plot
+  #                    # benchmark_R2 = benchmark_R2,
+  #                    benchmark_masked = benchmark_masked,
+  #                    benchmark_group = benchmark_R2_group,
+  #                    benchmark_natural = benchmark_natural,
+  #                    benchmark_std = benchmark_std)
+
+  # better naming scheme (to disambiguate)
+  benchmarks <- list(benchmark_dropallvar = benchmark_dropallvar,
+                     benchmark_eachvar = benchmark_eachvar,
+                     benchmark_group = benchmark_group,
                      benchmark_masked = benchmark_masked,
-                     benchmark_R2_group = benchmark_R2_group,
-                     benchmark_natural = benchmark_natural,
-                     benchmark_std = benchmark_std)
+                     benchmark_natural = benchmark_natural)
+
+  # names(benchmarks)
+  # str(benchmarks,max.level = 1)
 
   return(benchmarks)
 

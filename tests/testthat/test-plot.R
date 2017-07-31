@@ -14,10 +14,11 @@ test_that("Testing plots", {
                  pastvoted + hhsize_darfur + female + village, data = darfur)
 
   # benchmark variables
-  X = c("herder_dar", "female", "age", "pastvoted", "farmer_dar")
+  # X = c("herder_dar", "female", "age", "pastvoted", "farmer_dar")
 
   # runs benchmarking etc
-  sense <- sensemakr(model=model, treatment="directlyharmed", benchmarks=X)
+  sense <- sensemakr(model=model, treatment="directlyharmed")
+  str(sense$benchmarks)
 
   # plots
 
@@ -30,19 +31,21 @@ test_that("Testing plots", {
   ## worst-case plot
   plot5_data <- plot(sense, type = "worst-case")
 
+  # got rid of 'X' argument in sensemakr(...,X)
+
   # mike stress test
 
   # error if X is just a single element vector
-  X = c("female")
+  # X = c("female")
 
   # runs benchmarking etc
-  sense <- sensemakr(model=model, treatment="directlyharmed", benchmarks=X)
+  # sense <- sensemakr(model=model, treatment="directlyharmed", benchmarks=X)
 
   # if X is two element vector, then text labels and points not aligned
   # point position is the same, but labels shifted extremely up
-  X = c("female", "age")
-  sense <- sensemakr(model=model, treatment="directlyharmed", benchmarks=X)
-  plot1_data <- plot(sense)
+  # X = c("female", "age")
+  # sense <- sensemakr(model=model, treatment="directlyharmed", benchmarks=X)
+  # plot1_data <- plot(sense)
 
 
 })
