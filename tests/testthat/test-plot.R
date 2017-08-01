@@ -37,6 +37,27 @@ test_that("Testing plots", {
   plot(sense,showvars=list('village','villageMngao','age'),lim=0.02)
   plot(sense,showvars=list('village','villageMngao','age'),lim=0.5)
 
+  # a custom grouping term
+  # sensemakr(...,group_list)
+  # propogated to plot(...,showvars)
+
+  test2 = sensemakr(model=model,treatment='directlyharmed',
+                       group_list = list(c('village','female')))
+
+  # notice single group term group_list = list(c('village','female')
+  # must be concatenated as single character vector in showvars
+  # 'village,female' arg of plot()
+  # since the concatenated version is
+  # the row.name returned from sensemakr()
+
+  names(test2$benchmarks)
+  (test2$benchmarks$benchmark_group)
+
+  plot(test2,showvars=list('village,female','village','villageMngao','age'),lim=0.5)
+
+  # 'village,female' does not show below
+  # since incorrectly specified during showvars
+  plot(test2,showvars=list('village , female','village','villageMngao','age'),lim=0.5)
 
 
   plot(sense, lim=.2)
