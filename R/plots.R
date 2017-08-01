@@ -9,7 +9,9 @@
 ##'
 ##' @return a ggplot object with the plot.
 ##' @export
-plot.sensemade <- function(x, type = c("contour", "worst-case"), ...){
+plot.sensemade <- function(x,
+                           type = c("contour", "worst-case"),
+                           ...){
   type <- match.arg(type)
   switch(type,
          contour = contourplot(x, ...),
@@ -21,6 +23,7 @@ plot.sensemade <- function(x, type = c("contour", "worst-case"), ...){
 
 ##' @export
 contourplot <- function(x,
+                        showvars = "masked",
                         contour = c("estimate","t-value", "lower bound", "upper bound"),
                         nlevels = 15,
                         pch = 20,
@@ -29,25 +32,89 @@ contourplot <- function(x,
                         xlab = "Hypothetical partial R2 of unobserved confounder with the treatment",
                         ylab = "Hypothetical partial R2 of unobserved confounder with the outcome",
                         main = paste("Sensitivity of",  contour, "to unobserved confounder\nContours of adjusted estimates"),
-                        top = 3,
+                        top = NULL,
                         x.label = NULL,
                         y.label = NULL){
 
+#   showvars = "masked"
+#   contour = c("estimate","t-value", "lower bound", "upper bound")
+#   nlevels = 15
+#   pch = 20
+#   cex = 1
+#   lim = NULL
+#   xlab = "Hypothetical partial R2 of unobserved confounder with the treatment"
+#   ylab = "Hypothetical partial R2 of unobserved confounder with the outcome"
+#   main = paste("Sensitivity of",  contour, "to unobserved confounder\nContours of adjusted estimates")
+#   top = NULL
+#   x.label = NULL
+#   y.label = NULL
+
   contour <- match.arg(contour)
 
-  # x = sense
+  # 'showvars' options
+  # 1 'masked' (default), plot benchmark_group + benchmark_masked
+  # 2 'all', plot benchmark_eachvar + benchmark_group
+  # 3 list("foo1","foo2"), plot explicit 'foo1' and 'foo2' only
 
-  #### benchmark data ####
-  benchmarks  <- x$benchmarks$benchmark_eachvar
+
+  ################################################
+  # treeage" showvars to determine
+  # subset rows of the benchmark data
+
+  if(is.character(showvars)==TRUE){
+
+    if(showvars=='masked'){
+      # use 'benchmark_masked' instead of 'benchmark_eachvar'
+      benchmarks  <- x$benchmarks$benchmark_masked
+      benchmarks_group  <- x$benchmarks$benchmark_group
+
+    } else if(showvars=='all'){
+      # no subset
+      benchmarks  <- x$benchmarks$benchmark_eachvar
+      benchmarks_group  <- x$benchmarks$benchmark_group
+
+    } else {
+      stop('You have supplied an incompatible "showvars" option')
+    }
+
+  }else if(is.list(showvars)==TRUE){
+    # showvars=list('foo1','foo2')
+
+    # subset 'benchmark_eachvar' and 'benchmark_group'
+    # based on list elements in showvars
+
+    # showvars = list('village','villageMngao','age')
+
+    ind_each_in_showvar = row.names(x$benchmarks$benchmark_eachvar) %in% showvars
+    ind_group_in_showvar = row.names(x$benchmarks$benchmark_group) %in% showvars
+
+    benchmarks = (x$benchmarks$benchmark_eachvar)[ind_each_in_showvar,]
+    benchmarks_group = (x$benchmarks$benchmark_group)[ind_group_in_showvar,]
+
+  } else {
+    stop('You have supplied an incompatible "showvars" option')
+  }
+
+  ###########################
+
+
+  #### subset the benchmark data ####
+
+  # 'benchmarks' assigned earlier based on showvars subset
+  # benchmarks  <- x$benchmarks$benchmark_eachvar
+
   top         <- min(c(nrow(benchmarks), top))
   benchmarks  <- benchmarks[1:top, ]
   r2y         <- benchmarks$r2y
   r2d         <- benchmarks$r2d
 
-  benchmarks_group  <- x$benchmarks$benchmark_group
+  # 'benchmarks_group' assigned earlier based on showvars subset
+  # benchmarks_group  <- x$benchmarks$benchmark_group
   r2y_group = benchmarks_group$r2y
   r2d_group = benchmarks_group$r2d
+
   ####
+
 
   # NOTE: if-else masking of design matrix columns tied to their overall grouping
   # design choice, make user mask these low level points
@@ -57,7 +124,6 @@ contourplot <- function(x,
   # but we will not mask the points tied to the levels of the 'grouping' benchmarks
 
   # one way to 'mask' is line 178 of https://github.com/statsccpr/ovb/blob/master/R/ovb.R
-
 
 
   #### contour data (treatment effect data) ####
@@ -119,6 +185,9 @@ contourplot <- function(x,
   contour(s, s, z = z, level = lev, add = TRUE, col = "red", lwd = 2, lty = 2)
   points(r2d_group, r2y_group, pch = 23, col = "black", bg = "cyan", cex = cex)
 
+
+
+
   #### add labels ####
   # todo: try to create a better function for positioning labels and substitute jitter
   if (is.null(x.label))
@@ -138,6 +207,7 @@ contourplot <- function(x,
          labels=labels_group,
          cex=0.7,
          pos=4)
+
   }
 
   labels <- data.frame(labels = labels,x = r2dl, y = r2yl, stringsAsFactors = FALSE)

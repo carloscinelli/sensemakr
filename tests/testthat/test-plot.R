@@ -24,6 +24,21 @@ test_that("Testing plots", {
 
   ## contour plot
   plot1_data <- plot(sense)
+
+
+
+  plot1_data_showvars <- plot(sense,showvars=showvars)
+
+  expect_error(plot(sense,showvars='blahblah'))
+  expect_error(plot(sense,showvars=c('blahblah')))
+
+  plot(sense,showvars='masked',lim=0.02)
+  plot(sense,showvars='all',lim=0.02)
+  plot(sense,showvars=list('village','villageMngao','age'),lim=0.02)
+  plot(sense,showvars=list('village','villageMngao','age'),lim=0.5)
+
+
+
   plot(sense, lim=.2)
   plot2_data <- plot(sense, contour = "t-value")
   plot3_data <- plot(sense, contour = "lower bound")
