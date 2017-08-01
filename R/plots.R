@@ -12,6 +12,11 @@
 plot.sensemade <- function(x,
                            type = c("contour", "worst-case"),
                            ...){
+
+  # can optionally do showvars arg here
+
+  # one way to generic pass to contourplot() and worstcaseplot()
+
   type <- match.arg(type)
   switch(type,
          contour = contourplot(x, ...),
@@ -230,6 +235,7 @@ contourplot
 
 ##' @export
 worstcaseplot <- function(x,
+                          showvars = "masked",
                           lim = NULL,
                           scenarios = c(1, 0.3),
                           cex.legend = 0.6,
@@ -238,12 +244,63 @@ worstcaseplot <- function(x,
                           ylab = "Adjusted estimate",
                           main = "Sensitivity of estimate to unobserved confounder(s)\n\"Worst-case\" scenarios of partial R2 with outcome"){
 
-  # names(x$benchmarks)
+  # treeage" showvars to determine
+  # subset rows of the benchmark data
 
-  benchmarks <- x$benchmarks$benchmark_eachvar
+  if(is.character(showvars)==TRUE){
+
+    if(showvars=='masked'){
+      # use 'benchmark_masked' instead of 'benchmark_eachvar'
+      benchmarks  <- x$benchmarks$benchmark_masked
+      benchmarks_group  <- x$benchmarks$benchmark_group
+
+    } else if(showvars=='all'){
+      # no subset
+      benchmarks  <- x$benchmarks$benchmark_eachvar
+      benchmarks_group  <- x$benchmarks$benchmark_group
+
+    } else {
+      stop('You have supplied an incompatible "showvars" option')
+    }
+
+  }else if(is.list(showvars)==TRUE){
+    # showvars=list('foo1','foo2')
+
+    # subset 'benchmark_eachvar' and 'benchmark_group'
+    # based on list elements in showvars
+
+    # showvars = list('village','villageMngao','age')
+
+    ind_each_in_showvar = row.names(x$benchmarks$benchmark_eachvar) %in% showvars
+    ind_group_in_showvar = row.names(x$benchmarks$benchmark_group) %in% showvars
+
+    benchmarks = (x$benchmarks$benchmark_eachvar)[ind_each_in_showvar,]
+    benchmarks_group = (x$benchmarks$benchmark_group)[ind_group_in_showvar,]
+
+  } else {
+    stop('You have supplied an incompatible "showvars" option')
+  }
+
+  ###########################
+
+
+  # can optionally do showvars here for worstcaseplot
+
+  # 'benchmarks' assigned earlier based on showvars subset
+
+  # benchmarks <- x$benchmarks$benchmark_eachvar
   r2d <- benchmarks$r2d
 
+  # 'benchmarks_group' assigned earlier based on showvars subset
+  # benchmarks_group  <- x$benchmarks$benchmark_group
+  r2d_group = benchmarks_group$r2d
+
+
+  # mike note: what is index
   if (!is.null(index)) r2d <- r2d[index]
+
+  if (!is.null(index)) r2d_group <- r2d_group[index]
+
 
   estimate <- x$treat.stats$estimate
   se  <- x$treat.stats$se
@@ -299,9 +356,15 @@ worstcaseplot <- function(x,
          ncol = p + 1,
          title = "Hypothetical partial R2 of unobserved confounder(s) with outcome",
          cex  = cex.legend)
+
   rug(x = r2d, col = "red")
 
   # figure out rug on grouped terms
+  # mike has not used 'r2y_group'
+  # confirm with group, if r2d_group used correctly in this context
+
+  rug(x = r2d_group, col = "cyan",lwd=2)
+
 
   invisible(out)
 }

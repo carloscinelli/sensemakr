@@ -20,14 +20,11 @@ test_that("Testing plots", {
   sense <- sensemakr(model=model, treatment="directlyharmed")
   str(sense$benchmarks)
 
-  # plots
 
-  ## contour plot
+  ########################################
+  # contour plot
+  ########################################
   plot1_data <- plot(sense)
-
-
-
-  plot1_data_showvars <- plot(sense,showvars=showvars)
 
   expect_error(plot(sense,showvars='blahblah'))
   expect_error(plot(sense,showvars=c('blahblah')))
@@ -59,13 +56,41 @@ test_that("Testing plots", {
   # since incorrectly specified during showvars
   plot(test2,showvars=list('village , female','village','villageMngao','age'),lim=0.5)
 
-
+  # deafult showvars='masked'
   plot(sense, lim=.2)
   plot2_data <- plot(sense, contour = "t-value")
   plot3_data <- plot(sense, contour = "lower bound")
   plot4_data <- plot(sense, contour = "upper bound")
-  ## worst-case plot
+
+  # with showvars='all'
+  plot(sense, contour = "t-value",showvars='all')
+  plot(sense, contour = "t-value",showvars='all',lim=0.02)
+  plot(sense, contour = "lower bound",showvars='all',lim=0.02)
+  plot(sense, contour = "upper bound",showvars='all',lim=0.02)
+
+  # with showvars explicit
+  plot(sense, contour = "t-value",
+       showvars=list('village','villageMngao','age'))
+  plot(sense, contour = "lower bound",
+       showvars=list('village','villageMngao','age'))
+  plot(sense, contour = "upper bound",
+       showvars=list('village','villageMngao','age'))
+
+
+  ########################################
+  # worst-case plot
+  ########################################
   plot5_data <- plot(sense, type = "worst-case")
+
+  plot(sense, type = "worst-case",showvars='masked',lim=0.5)
+
+  plot(sense, type = "worst-case",showvars='all',lim=0.5)
+
+  plot(sense, type = "worst-case",lim=0.5,
+       showvars=list('village','villageMngao','age'))
+
+
+
 
   # got rid of 'X' argument in sensemakr(...,X)
 
