@@ -26,8 +26,11 @@ test_that("Testing plots", {
   ########################################
   plot1_data <- plot(sense)
 
-  expect_error(plot(sense,showvars='blahblah'))
-  expect_error(plot(sense,showvars=c('blahblah')))
+  expect_error(plot(sense,showvars='blahblah'),
+               'You have supplied an incompatible "showvars" option')
+
+  expect_error(plot(sense,showvars=c('blahblah')),
+               'You have supplied an incompatible "showvars" option')
 
   plot(sense,showvars='masked',lim=0.02)
   plot(sense,showvars='all',lim=0.02)
