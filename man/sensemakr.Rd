@@ -8,8 +8,7 @@
 \usage{
 sensemakr(model, treatment, benchmarks, ...)
 
-\method{sensemakr}{lm}(model, treatment, benchmarks = NULL,
-  group_list = NULL)
+\method{sensemakr}{lm}(model, treatment, group_list = NULL)
 }
 \arguments{
 \item{model}{the model.}

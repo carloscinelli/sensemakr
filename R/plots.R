@@ -237,8 +237,8 @@ contourplot <- function(x,
   rownames(z) <- colnames(z) <- s
   out <- list(plot_type = paste(contour,"contours"),
               contours = z,
-              benchmarks = benchmarks,
-              benchmarks_group = benchmarks_group,
+              benchmarks_2plot1 = benchmarks,
+              benchmarks_2plot2 = benchmarks_group,
               labels = labels)
 
   invisible(out)

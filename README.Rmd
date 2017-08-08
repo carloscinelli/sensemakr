@@ -22,7 +22,7 @@ You can install sensemakr from github with:
 
 ```{r gh-installation, eval = FALSE}
 # install.packages("devtools")
-devtools::install_github("chadhazlett/sensemakr")
+devtools::install_github("chadhazlett/sensemakr",ref = "unify")
 ```
 
 ## Example

@@ -4,10 +4,14 @@
 \alias{plot.sensemade}
 \title{Sensitivity plots}
 \usage{
-\method{plot}{sensemade}(x, type = c("contour", "worst-case"), ...)
+\method{plot}{sensemade}(x, showvars = "masked", type = c("contour",
+  "worst-case"), ...)
 }
 \arguments{
 \item{x}{sensemade object}
+
+\item{showvars}{chooses which subsets of benchmarks to display
+Valid options are: 'masked', 'all', or list('foo1','foo2')}
 
 \item{type}{type of the plot}
 
