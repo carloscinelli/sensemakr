@@ -58,9 +58,87 @@ test_that("Testing plots", {
   (test2$benchmarks$benchmark_group)
 
   plot(test2,lim=0.03)
+  plot(test2,lim=0.5)
 
+  #################
+  # below
   # female masked
   # village made it thru
+  # user speced
+  # sensemakr(...,group_list = list(c('village','female'))
+  #################
+
+  # 'village,female' is a custom user speced group
+  # 'female' is part of that group and is default masked
+  # in plot(showvars='masked')
+  # but 'village' term still makes it thru
+  # because village itself is a group of 'factor levels'
+  # we internally enforced factors to be ploted in showvars
+  # that's why it appears even though 'masked' and
+  # village is part of 'village,female'
+
+  plot(test2,lim=0.02)
+  plot(test2)
+
+  names(test2$benchmarks)
+  head(test2$benchmarks$benchmark_masked)
+  head(test2$benchmarks$benchmark_group)
+
+  # group to group masking not auto-supported by 'showvars'
+  # design matrix to group masking is auto-supported by 'showvars'
+  # see this edge case when
+
+  # edgecase = sensemakr(group_list=list(c('village','female')))
+  # plot(edgecase,showvars='masked')
+
+  # 'village,female' is plotted
+  # 'female' is not plotted, but 'village' (group) is plotted
+  # NOTE: the factor levels of 'village' are not plotted
+
+  # reason is, 'village' itself is a standalone group
+  # hence present in (edgecase$benchmarks$benchmarks_group)
+
+  # 'female' was in (edgecase$benchmarks$benchmark_eachvar)
+  # whose elements qualify to be masked
+  # notice, the factor levels of 'village' are masked
+  # since they are also in (edgecase$benchmarks$benchmark_eachvar)
+
+
+  # keep this behavior as is, force user to specify custom showvars
+  # if they want 'village,female' but not 'village'
+  # if they want to mask specific terms in
+  # 'out_sensemakr$benchmarks$benchmark_group'
+  # they must do it explicily themselves
+
+  # eg
+
+  plot(test2,showvars=list('village,female'),lim=0.5)
+
+  # so make clear that 'masked' does not apply
+  # (edgecase$benchmarks$benchmarks_group)
+
+  # it DOES apply to
+  # (edgecase$benchmarks$benchmarks_eachvar)
+
+
+
+  plot(test2,showvars=list('village,female'),lim=0.5)
+
+  # source of below error was jitter label
+  # deprecated the 'jitter' feature
+
+  # Error in if (xx != 0) xx/10 else z/10 : argument is of length zero
+  # In addition: Warning messages:
+  #   1: In min(x) : no non-missing arguments to min; returning Inf
+  # 2: In max(x) : no non-missing arguments to max; returning -Inf
+  # 3: In is.factor(x) : NaNs produced
+  plot(test2,showvars=list('village,female','village'),lim=0.5)
+
+  plot(test2,showvars=list('village'))
+
+  # no error, source of error was jitter label
+
+  plot(test2,showvars=list('village,female','village','villageMngao'),lim=0.5)
 
   plot(test2,showvars=list('village,female','village','villageMngao','age'),lim=0.5)
 

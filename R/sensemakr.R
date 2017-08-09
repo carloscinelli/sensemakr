@@ -365,6 +365,34 @@ benchmarkr <- function(model, D, # X = NULL,
     # (!rownames(benchmarks) %in% unique(unlist(names_mm_ea_group)))
     # turn on row names
     benchmark_masked = benchmark_eachvar[(!rownames(benchmark_eachvar) %in% unique(unlist(names_mm_ea_group))), ]
+
+    # NOTE: the rows in benchmark_masked are
+    # 'design matrix benchmarks' (eg 'benchmark_eachvar')
+    # that qualify to be masked
+
+    # does not contain 'rows' in benchmark_group
+
+    # eg later on in plot()
+    # group to group masking not auto-supported by 'showvars'
+    # design matrix to group masking is auto-supported by 'showvars'
+    # see this edge case when
+
+    # edgecase = sensemakr(group_list=list(c('village','female')))
+    # plot(edgecase,showvars='masked')
+
+    # 'village,female' is plotted
+    # 'female' is not plotted, but 'village' (group) is plotted
+    # NOTE: the factor levels of 'village' are not plotted
+
+    # reason is, 'village' itself is a standalone group
+    # hence present in (edgecase$benchmarks$benchmarks_group)
+
+    # 'female' was in (edgecase$benchmarks$benchmark_eachvar)
+    # whose elements qualify to be masked
+    # notice, the factor levels of 'village' are masked
+    # since they are also in (edgecase$benchmarks$benchmark_eachvar)
+
+
   }else{
     benchmark_masked = NULL
   }

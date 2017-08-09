@@ -15,7 +15,6 @@ plot.sensemade <- function(x,
                            showvars='masked',
                            type = c("contour", "worst-case"),
                            ...){
-
   ######################################################
   # 'showvars' options
   # 1 'masked' (default), plot benchmark_group + benchmark_masked
@@ -36,8 +35,8 @@ plot.sensemade <- function(x,
 
   if(is.character(showvars)==TRUE){
 
-    x$benchmarks$benchmark_eachvar
-    x$benchmarks$benchmark_group
+    # x$benchmarks$benchmark_eachvar
+    # x$benchmarks$benchmark_group
 
     if(showvars=='masked'){
       # use 'benchmark_masked' instead of 'benchmark_eachvar'
@@ -123,8 +122,18 @@ contourplot <- function(x,
   # benchmarks  <- x$benchmarks$benchmark_eachvar
   benchmarks = x$benchmarks$benchmarks_2plot1
 
+  # potential 0-length error if 'subsetted' out in top level plot()
+  # x$benchmarks$benchmarks_2plot1
+  # nrow(benchmarks)
+  # later on add if(nrow()>0)
+
   # benchmarks_group  <- x$benchmarks$benchmark_group
   benchmarks_group = x$benchmarks$benchmarks_2plot2
+
+
+
+  # if nrow(benchmarks)==0, then after this,
+  # any(is.na(benchmarks))==TRUE
 
 
   top         <- min(c(nrow(benchmarks), top))
@@ -208,13 +217,19 @@ contourplot <- function(x,
   # todo: try to create a better function for positioning labels and substitute jitter
   ######################################################
 
-  if (is.null(x.label))
-    r2dl <- jitter(r2d, factor = 20)
+  # deprecate 'jitter' since it breaks group benchmark plots
 
-  if (is.null(y.label))
-    r2yl <- jitter(r2y, factor = 20)
+#   if (is.null(x.label))
+#     r2dl <- jitter(r2d, factor = 20)
+#
+#   if (is.null(y.label))
+#     r2yl <- jitter(r2y, factor = 20)
+#
+#   text(r2dl, r2yl, labels = labels, cex = 0.7)
+# from r2dl to r2d
+# from r2yl to r2y
 
-  text(r2dl, r2yl, labels = labels, cex = 0.7)
+  text(r2d, r2y, labels = labels, cex = 0.7)
 
   if(nrow(benchmarks_group)>0){
 
@@ -228,7 +243,7 @@ contourplot <- function(x,
 
   }
 
-  labels <- data.frame(labels = labels,x = r2dl, y = r2yl, stringsAsFactors = FALSE)
+  labels <- data.frame(labels = labels,x = r2d, y = r2y, stringsAsFactors = FALSE)
 
   ######################################################
   # data for reproducibility

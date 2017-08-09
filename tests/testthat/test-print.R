@@ -2,6 +2,7 @@ context("Checking print")
 
 test_that("Test print", {
   # loads data
+  library(sensemakr)
   data("darfur")
 
   # fits model
