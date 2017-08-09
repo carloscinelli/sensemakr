@@ -9,12 +9,19 @@ test_that("Test print", {
                  pastvoted + hhsize_darfur + female + village, data = darfur)
 
   # benchmark variables
-  X = c("herder_dar", "female", "age", "pastvoted", "farmer_dar")
+  # X = c("herder_dar", "female", "age", "pastvoted", "farmer_dar")
 
   # runs benchmarking etc
-  sense <- sensemakr(model=model, treatment="directlyharmed", benchmarks=X)
+  sense <- sensemakr(model=model, treatment="directlyharmed")
 
   capture_output(interpret(sense))
+
+  # make sure 'max()' is choosing right benchmark point
+  # currently points at 'female' not 'village'
+  interpret(sense, q = 0.5)
+  interpret(sense, q = 0.6)
+  summary(sense)
+
   capture_output(interpret(sense, q = 0.5)) #throws warning
   capture_output(interpret(sense, q = 0.6)) #throws warning.
 

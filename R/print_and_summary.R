@@ -31,16 +31,25 @@ summary.sensemade <- function(object){
 
 ##' @export
 interpret <- function(sensemade, q = 1){
-  idxr2y <- which.max(sensemade$benchmarks$benchmark_R2$r2y)
-  idxr2d <- which.max(sensemade$benchmarks$benchmark_R2$r2d)
+
+  # from: sensemade$benchmarks$benchmark_eachvar$r2y
+  # to: sensemade$benchmarks$benchmark_eachvar$r2y
+
+  # make sure 'max()' is choosing right benchmark point
+  # currently points at 'female' not 'village',
+  # since 'village' is in (sense$benchmarks$benchmark_group)
+  # currently, only looking at (sensemade$benchmarks$benchmark_eachvar)
+
+  idxr2y <- which.max(sensemade$benchmarks$benchmark_eachvar$r2y)
+  idxr2d <- which.max(sensemade$benchmarks$benchmark_eachvar$r2d)
   estimate <- sensemade$treat.stats$estimate
   se <- sensemade$treat.stats$se
   t <- estimate/se
   df <- sensemade$treat.stats$df
-  varR2D <- sensemade$benchmarks$benchmark_R2$covariate[idxr2d]
-  maxR2d <- sensemade$benchmarks$benchmark_R2$r2d[idxr2d]
-  varR2Y <- sensemade$benchmarks$benchmark_R2$covariate[idxr2y]
-  maxR2y <- sensemade$benchmarks$benchmark_R2$r2y[idxr2d]
+  varR2D <- sensemade$benchmarks$benchmark_eachvar$covariate[idxr2d]
+  maxR2d <- sensemade$benchmarks$benchmark_eachvar$r2d[idxr2d]
+  varR2Y <- sensemade$benchmarks$benchmark_eachvar$covariate[idxr2y]
+  maxR2y <- sensemade$benchmarks$benchmark_eachvar$r2y[idxr2d]
   r2dc   <- t^2/(t^2 + (maxR2y/q^2)*df)
   r2yc   <- ((q*t)^2)*((1 - maxR2d)/(maxR2d*df))
 
