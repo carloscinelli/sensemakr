@@ -12,7 +12,7 @@ You can install sensemakr from github with:
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("chadhazlett/sensemakr",ref = "unify")
+devtools::install_github("chadhazlett/sensemakr")
 ```
 
 Example
