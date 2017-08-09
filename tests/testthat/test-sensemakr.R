@@ -18,10 +18,10 @@ test_that("Testing darfur 'female'", {
                  pastvoted + hhsize_darfur  + village, data = darfur)
 
   # benchmark variables
-  X = c("herder_dar", "age", "pastvoted", "farmer_dar")
+  # X = c("herder_dar", "age", "pastvoted", "farmer_dar")
 
   # runs benchmarking etc
-  sense <- sensemakr(model = model, treatment = "directlyharmed", benchmarks = X)
+  sense <- sensemakr(model = model, treatment = "directlyharmed")
 
   estimate <- coef(summary(model))[2,1]
   se <- coef(summary(model))[2,2]
