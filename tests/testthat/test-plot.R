@@ -32,8 +32,12 @@ test_that("Testing plots", {
   expect_error(plot(sense,showvars=c('blahblah')),
                'You have supplied an incompatible "showvars" option')
 
+  plot(sense,showvars='masked')
   plot(sense,showvars='masked',lim=0.02)
+
+
   plot(sense,showvars='all',lim=0.02)
+
   plot(sense,showvars=list('village','villageMngao','age'),lim=0.02)
   plot(sense,showvars=list('village','villageMngao','age'),lim=0.5)
 
@@ -52,6 +56,11 @@ test_that("Testing plots", {
 
   names(test2$benchmarks)
   (test2$benchmarks$benchmark_group)
+
+  plot(test2,lim=0.03)
+
+  # female masked
+  # village made it thru
 
   plot(test2,showvars=list('village,female','village','villageMngao','age'),lim=0.5)
 

@@ -251,7 +251,7 @@ worstcaseplot <- function(x,
                           lim = NULL,
                           scenarios = c(1, 0.3),
                           cex.legend = 0.6,
-                          index = NULL,
+                          # index = NULL, # carlos round back is this necessary, whats it used for
                           xlab = "Hypothetical partial R2 of unobserved confounder(s) with treatment",
                           ylab = "Adjusted estimate",
                           main = "Sensitivity of estimate to unobserved confounder(s)\n\"Worst-case\" scenarios of partial R2 with outcome"){
@@ -274,10 +274,10 @@ worstcaseplot <- function(x,
   r2d_group = benchmarks_group$r2d
 
 
-  # mike note: what is index
-  if (!is.null(index)) r2d <- r2d[index]
-
-  if (!is.null(index)) r2d_group <- r2d_group[index]
+  # # mike note: what is index
+  # if (!is.null(index)) r2d <- r2d[index]
+  #
+  # if (!is.null(index)) r2d_group <- r2d_group[index]
 
 
   estimate <- x$treat.stats$estimate

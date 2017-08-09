@@ -1,3 +1,6 @@
+# the updated internal name change is not reflected here
+# TODO: push the changes later
+
 # prints ------------------------------------------------------------------
 
 # A method must have all the arguments of the generic, including … if the generic does.
@@ -69,6 +72,7 @@ interpret <- function(sensemade, q = 1){
   cat("\n\n")
 }
 
+##' @export
 worstcaseinterpret <- function(sensemade, scenarios = c(1, 0.8, 0.5), q = 1){
   estimate <- sensemade$treat.stats$estimate
   se <- sensemade$treat.stats$se

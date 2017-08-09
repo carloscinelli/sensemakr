@@ -381,12 +381,13 @@ benchmarkr <- function(model, D, # X = NULL,
   #                    benchmark_natural = benchmark_natural,
   #                    benchmark_std = benchmark_std)
 
-  # better naming scheme (to disambiguate)
   benchmarks <- list(benchmark_dropallvar = benchmark_dropallvar,
                      benchmark_eachvar = benchmark_eachvar,
                      benchmark_group = benchmark_group,
                      benchmark_masked = benchmark_masked,
                      benchmark_natural = benchmark_natural)
+
+  # comment out sd scale
 
   # names(benchmarks)
   # str(benchmarks,max.level = 1)
