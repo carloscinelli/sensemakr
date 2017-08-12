@@ -69,14 +69,14 @@ interpret <- function(sensemade, q = 1){
 
     cat("An unobserved confounder as associated with the treatment as '",
         varR2D, "' (R2d = ", round(maxR2d,3), ") ", " would have to be at least ", round(r2yc/maxR2y, 1),
-        " times more strongly associated with the outcome"," (R2y = ", round(r2yc,3), ") ",
+        " times more strongly associated with the outcome"," (reaching R2y = ", round(r2yc,3), ") ",
         "in order to reduce the treatment effect by ", q*100, "%", sep = "")
   }
   cat("\n\n")
   cat("---Using the covariate most strongly associated with the outcome as a benchmark---\n\n")
   cat("An unobserved confounder as associated with the outcome as '",
       varR2Y, "' (R2y = ", round(maxR2y,3), ") ", " would have to be at least ", round(r2dc/maxR2d, 1),
-      " times as strongly associated with the treatment"," (R2d = ", round(r2dc, 3), ") ",
+      " times as strongly associated with the treatment"," (reaching R2d = ", round(r2dc, 3), ") ",
       "in order to reduce the treatment effect by ", q*100, "%", sep = "")
   cat("\n\n")
 }
