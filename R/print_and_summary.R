@@ -59,7 +59,7 @@ interpret <- function(sensemade, q = 1){
 
     maxBias <- (get_bias(se, df = df, r2d = maxR2d, r2y = 1))
 
-    cat("An unobserved confounder with the same partial R2 with the treatment as '",
+    cat("An unobserved confounder explaining as much of the treatment as '",
         varR2D, "' (", round(maxR2d,3), ") ", " would be able to cause at most a bias of ",
         round(maxBias, 3)," with an adjusted treatment effect of ", round(adjust_estimate(estimate, maxBias), 3),
         " in the extreme case where the confouder explains all the residual variance of the outcome (R2y = 1).",
@@ -67,22 +67,22 @@ interpret <- function(sensemade, q = 1){
 
   } else {
 
-    cat("An unobserved confounder with the same partial R2 with the treatment as '",
+    cat("An unobserved confounder as associated with the treatment as '",
         varR2D, "' (R2d = ", round(maxR2d,3), ") ", " would have to be at least ", round(r2yc/maxR2y, 1),
-        " times as strongly associated with the outcome"," (R2y = ", round(r2yc,3), ") ",
-        "in order to reduce the treatment effect in ", q*100, "%", sep = "")
+        " times more strongly associated with the outcome"," (R2y = ", round(r2yc,3), ") ",
+        "in order to reduce the treatment effect by ", q*100, "%", sep = "")
   }
   cat("\n\n")
   cat("---Using the covariate most strongly associated with the outcome as a benchmark---\n\n")
-  cat("An unobserved confounder with the same partial R2 with the outcome as '",
+  cat("An unobserved confounder as associated with the outcome as '",
       varR2Y, "' (R2y = ", round(maxR2y,3), ") ", " would have to be at least ", round(r2dc/maxR2d, 1),
       " times as strongly associated with the treatment"," (R2d = ", round(r2dc, 3), ") ",
-      "in order to reduce the treatment effect in ", q*100, "%", sep = "")
+      "in order to reduce the treatment effect by ", q*100, "%", sep = "")
   cat("\n\n")
 }
 
 ##' @export
-worstcaseinterpret <- function(sensemade, scenarios = c(1, 0.8, 0.5), q = 1){
+worstcaseinterpret <- function(sensemade, scenarios = c(1, 0.25), q = 1){
   estimate <- sensemade$treat.stats$estimate
   se <- sensemade$treat.stats$se
   t <- estimate/se
@@ -109,15 +109,3 @@ print.summary.sensemade <- function(x, q = 1){
   cat("\n\n### Benchmarking ###\n")
   interpret(x, q = q)
 }
-
-# # this is the idea for the sensemade
-# model <- lm(mtcars)
-# model
-# summarymodel <- summary(model)
-# summarymodel
-# stats:::summary.lm
-# stats:::print.summary.lm
-
-
-# bunch of useful functions for summary
-

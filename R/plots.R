@@ -80,6 +80,7 @@ plot.sensemade <- function(x,
 
 # A method must have all the arguments of the generic, including … if the generic does.
 
+
 ##' @export
 contourplot <- function(x,
                         contour = c("estimate","t-value", "lower bound", "upper bound"),
@@ -259,7 +260,7 @@ contourplot <- function(x,
   invisible(out)
 }
 
-contourplot
+#contourplot
 
 ##' @export
 worstcaseplot <- function(x,
