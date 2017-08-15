@@ -1,13 +1,16 @@
 ## ------------------------------------------------------------------------
-# setwd("~/projects/sensemakr_fin/sensemakr/")
-# devtools::build_vignettes() 
+
 knitr::opts_chunk$set(echo = TRUE,
                       fig.width=6,
                       fig.height=6)
 
 ## ------------------------------------------------------------------------
-devtools::install_github("chadhazlett/sensemakr",force=TRUE)
 
+# devtools::install_github("chadhazlett/sensemakr")
+
+# setwd("~/projects/sensemakr_fin/sensemakr/")
+
+# devtools::build_vignettes() 
 
 
 ## ------------------------------------------------------------------------
@@ -86,7 +89,7 @@ plot(sense_fctr,showvars='all',lim=0.02)
 # plot(sense_fctr,showvars='masked',lim=0.02)
 # same as
 
-plot(sense_fctr,lim=0.02)
+plot(sense_fctr,lim=0.5)
 
 
 ## ------------------------------------------------------------------------

@@ -1,13 +1,19 @@
 ---
 title: "The sensemakr vignette"
-output: rmarkdown::html_vignette
+author: "Michael Tzen, Chad Hazlett, Carlos Cinelli"
+date: "`r Sys.Date()`"
+output:
+  rmarkdown::html_vignette:
+    toc: true
+    keep_md: true
 vignette: >
   %\VignetteIndexEntry{The sensemakr vignette}
   %\VignetteEngine{knitr::rmarkdown}
   \usepackage[utf8]{inputenc}
+  
 ---
 
-# setup
+# Setup
 
 ```{r}
 
@@ -166,7 +172,7 @@ Therefore, we have designated `showvars='masked'` as the default option in `plot
 # plot(sense_fctr,showvars='masked',lim=0.02)
 # same as
 
-plot(sense_fctr,lim=0.02)
+plot(sense_fctr,lim=0.5)
 
 ```
 
@@ -193,7 +199,7 @@ plot(sense_fctr,showvars=list('village','villageMngao','age'),lim=0.02)
 ```
 
 
-# User Specified Groups to Benchmark
+# User Specified Groups as Benchmarks
 
 ## Fit
 
@@ -383,7 +389,7 @@ plot(sense_cust_grp, contour = "upper bound",
 ```
 
 
-### Worst Case Plot
+## Worst Case Plot
 
 ```{r}
 
