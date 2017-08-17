@@ -38,9 +38,13 @@ knitr::opts_chunk$set(echo = TRUE,
 
 
 ```{r}
+
 library(sensemakr)
 data("darfur")
+
+
 ```
+
 
 ## The 3 Steps
 
@@ -48,10 +52,21 @@ data("darfur")
 2) Compute sensitivity quantitites via `sensemakr()`
 3) Plot quantities via `plot()`
 
+We will show 3 examples using the darfur data. The examples sequentially expose increasing amounts of customization that a user can run for their sensitivity analysis. We will provide examples of continuous benchmarks, categorical benchmarks, and user supplied benchmark groups.
+
+```{r}
+
+summary(darfur)
+
+```
+
+In our examples below, the treatment is `directlyharmed` and the outcome is `peacefactor`. 
 
 # Continuous Benchmarks
 
 ## Fit
+
+In the outcome model, there are two continuous covariates, `age` and `hhsize_darfur`.
 
 ```{r}
 model_cntns = lm(data = darfur,
@@ -87,6 +102,8 @@ plot(sense_cntns,showvars=list('age'),lim=0.02)
 ```
 
 # Factor Benchmarks
+
+In the outcome model, there are two continuous covariates, `age` and `hhsize_darfur`. Further, there are two categorical covariates, `female` and `village`.
 
 ## Fit
 
@@ -201,6 +218,8 @@ plot(sense_fctr,showvars=list('village','villageMngao','age'),lim=0.02)
 
 # User Specified Groups as Benchmarks
 
+In the outcome model, there are two continuous covariates, `age` and `hhsize_darfur`. Further, there are two categorical covariates, `female` and `village`. Lastly, we note that the user specified group will not be supplied here in the `lm()` step, but after in the following `sensemakr()` step.
+
 ## Fit
 
 ```{r}
@@ -212,7 +231,7 @@ model_cust_grp  = lm(data = darfur,
 
 ```
 
-notice for this example, we are using the same resulting model fit that was used in the previous example
+Notice for this example, we are using the same resulting model fit that was used in the previous example
 
 ```{r}
 identical(model_cust_grp,model_fctr)
@@ -288,46 +307,45 @@ From the plot (with default showvars='masked'), notice that:
 * the 480 factor levels of ‘village’ are not plotted
 * 'age' is plotted as cyan
 
+#### Explaining showvars='masked' vs showvars='all'
+
 Depending on the showvars option, the plot methods `plot(...,showvars='masked')` (default) or `plot(...,showvars='all')` will only display two sets of points, 
 
-1) `benchmark_group` (both showvars options) 
+1) `benchmark_group` (displayed in both showvars options) 
 and
-2) either of `benchmark_masked` or `benchmark_eachvar`
-
-The terms in `benchmark_masked` are plotted if `plot(...,showvars='masked')`.
+2) either of `benchmark_eachvar` or `benchmark_masked`
 
 The terms in `benchmark_eachvar` are plotted if `plot(...,showvars='all')`
+The terms in `benchmark_masked` are plotted if `plot(...,showvars='masked')`. 
 
-If a term is in `benchmark_eachvar` that is also part of a term in `benchmark_group`, then it does **not** get copied into `benchmark_masked`.
+All sensitivity quantities, related to the columns of the linear model's model matrix, are stored in `benchmark_eachvar`. All terms in `benchmark_eachvar` get plotted if `plot(...,showvars='all')`.
 
+The terms in `benchmark_group` contain any factor variables (the levels of a factor variable grouped together) and any groups specified by the user in the `group_list` argument of `sensemakr()`.
 
-The `female` term is stored in `benchmark_eachvar` and is also part of the `c("village","female")` group. Therefore `female` is **not** stored in `benchmark_masked` and is not displayed in the default `plot(...,showvars='masked')`.
+The terms in `benchmark_masked` form a subset of `benchmark_eachvar`. If a term is in `benchmark_eachvar` that is also part of a term in `benchmark_group`, then it does **not** get copied into `benchmark_masked`.
+If a term is in `benchmark_group`, it is not eligible to be copied into `benchmark_masked`. That is, `benchmark_masked` is the set complement of `benchmark_eachvar` anti-joined against `benchmark_group`. 
 
-The factor levels of `village` are not stored in `benchmark_masked` since they are in `benchmark_eachvar` but also part of the group `village`.
+For example, 
 
-The `village` term itself is a standalone group comprised of 480 levels hence present in `benchmarks_group` . In the examples before, we showed that the internals of `sensemakr()` enforced factor levels to be treated as a group.
+1) The `female` term is stored in `benchmark_eachvar` and is also part of the `c("village","female")` group. Therefore `female` is **not** stored in `benchmark_masked` and is not displayed in the default `plot(...,showvars='masked')`.
 
-The single term `age` is part of the second user specified group 
-`group_list = list(c('village','female'),'age')` .
+2) The factor levels of `village` are not stored in `benchmark_masked` since they are in `benchmark_eachvar` but also part of the group `village`. Therefore the factor levels of village are not displayed in the default `plot(...,showvars='masked')`. 
 
+3) The `village` term itself is a standalone group comprised of 480 levels hence present in `benchmarks_group`. In the examples before, we showed that the internals of `sensemakr()` enforced factor levels to be treated as a group. Therefore the single group term `village` is displayed as cyan in both `showvars='masked'` and `showvars='all'` options. 
 
-More generally, all sensitivity quantities, related to the columns of the linear model's model matrix, are stored in `benchmark_eachvar`. All terms in `benchmark_eachvar` get plotted if `plot(...,showvars='all')`.
-
-If a term is in `benchmark_eachvar` and is also part of a term in `benchmark_group`, then that redundant term is **not** stored in `benchmark_masked`. That is, `benchmark_masked` is the set complement of `benchmark_eachvar` anti-joined against `benchmark_group`. These redundant terms do not get plotted if `plot(...,showvars='masked')`.
-
-If a term is in `benchmark_group`, it is not eligible to be copied into `benchmark_masked`.
-
-
-If the user wishes to mask specific terms in `benchmark_group` they must do it explicily themselves, say if the user wants to plot `village,female` (a user specified group) but not `village` (a sensemakr-enforced group). 
+4) The single term `age` is part of the second user specified group in `group_list = list(c('village','female'),'age')` . Therefore the single group term `age` is displayed as cyan in both `showvars='masked'` and `showvars='all'` options. 
 
 
-### Plot with showvars=list(‘village,female’)
+There may be a situation where the user wants to plot `village,female` (a user specified group) but not plot `village` (a sensemakr-enforced group). More generally, If the user wishes to **not** plot specific terms in `benchmark_group` they must do it explicily themselves via the third showvars option, `plot(...,showvars=list())`.
 
-When choosing explicit groups to plot with the `showvars` argument of `plot()`, you must supply a `list()` whose entries are single character vectors. A single string must concatenate all the terms belonging to a single group (seperated by a spaceless comma).
 
-For example, the plot command `plot(...,showvars=list(‘village,female’))` corresponds with 
+### Plot with specific list items via showvars=list()
 
-the compute command `sensemakr(...,group_list = list(c('village','female')))`
+When choosing explicit groups to plot with the `showvars` argument of `plot()`, you must supply a `list()` whose entries are single character vectors that represent the specific groups you wish to plot. A single string must concatenate all the terms belonging to a single group (seperated by a spaceless comma).
+
+For example, the plot command `plot(...,showvars=list(‘village,female’))` corresponds with the compute command `sensemakr(...,group_list = list(c('village','female')))`
+
+As a result, only the single grouping `village` with `female` is plotted. Notice how `village,female` is plotted but **not** `village`.
 
 
 ```{r}
@@ -336,7 +354,7 @@ plot(sense_cust_grp,showvars=list('village,female'),lim=0.5)
 
 ```
 
-notice how `village,female` is plotted but **not** `village`.
+
 
 
 
