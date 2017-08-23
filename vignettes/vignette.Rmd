@@ -35,30 +35,19 @@ knitr::opts_chunk$set(echo = TRUE,
 ```
 
 ## Darfur Data Example
-
+In this vignette, we will use the example from the paper XXX . Explain.
 
 ```{r}
-
 library(sensemakr)
 data("darfur")
-
-
 ```
-
 
 ## The 3 Steps
-
 1) Fit a linear model via `lm()`
 2) Compute sensitivity quantitites via `sensemakr()`
-3) Plot quantities via `plot()`
+3) Plot quantities via `plot()` and/or summarize them using `summary()`
 
 We will show 3 examples using the darfur data. The examples sequentially expose increasing amounts of customization that a user can run for their sensitivity analysis. We will provide examples of continuous benchmarks, categorical benchmarks, and user supplied benchmark groups.
-
-```{r}
-
-summary(darfur)
-
-```
 
 In our examples below, the treatment is `directlyharmed` and the outcome is `peacefactor`. 
 
@@ -66,7 +55,7 @@ In our examples below, the treatment is `directlyharmed` and the outcome is `pea
 
 ## Fit
 
-In the outcome model, there are two continuous covariates, `age` and `hhsize_darfur`.
+In the outcome model, there are two continuous (or at least ordered) covariates, `age` and `hhsize_darfur`.
 
 ```{r}
 model_cntns = lm(data = darfur,

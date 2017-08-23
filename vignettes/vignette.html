@@ -125,6 +125,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </div>
 <div id="darfur-data-example" class="section level2">
 <h2>Darfur Data Example</h2>
+<p>In this vignette, we will use the example from the paper XXX . Explain.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(sensemakr)
 <span class="kw">data</span>(<span class="st">&quot;darfur&quot;</span>)</code></pre></div>
 </div>
@@ -133,42 +134,9 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <ol style="list-style-type: decimal">
 <li>Fit a linear model via <code>lm()</code></li>
 <li>Compute sensitivity quantitites via <code>sensemakr()</code></li>
-<li>Plot quantities via <code>plot()</code></li>
+<li>Plot quantities via <code>plot()</code> and/or summarize them using <code>summary()</code></li>
 </ol>
 <p>We will show 3 examples using the darfur data. The examples sequentially expose increasing amounts of customization that a user can run for their sensitivity analysis. We will provide examples of continuous benchmarks, categorical benchmarks, and user supplied benchmark groups.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(darfur)</code></pre></div>
-<pre><code>##    wouldvote        peacefactor.V1    FormerEnemiesPeace PeaceWithJJIndiv
-##  Min.   :0.0000   Min.   :0.0000000   Min.   :0.0000     Min.   :0.0000  
-##  1st Qu.:0.0000   1st Qu.:0.0000000   1st Qu.:0.0000     1st Qu.:0.0000  
-##  Median :0.0000   Median :0.2020084   Median :0.0000     Median :0.0000  
-##  Mean   :0.4099   Mean   :0.3235865   Mean   :0.3879     Mean   :0.1724  
-##  3rd Qu.:1.0000   3rd Qu.:0.5929100   3rd Qu.:1.0000     3rd Qu.:0.0000  
-##  Max.   :1.0000   Max.   :1.0000000   Max.   :1.0000     Max.   :1.0000  
-##                                                                          
-##  PeaceWithJJTribes GoSsoldier_execute directlyharmed        age        
-##  Min.   :0.0000    Min.   :0.0000     Min.   :0.0000   Min.   : 18.00  
-##  1st Qu.:0.0000    1st Qu.:0.0000     1st Qu.:0.0000   1st Qu.: 26.00  
-##  Median :0.0000    Median :1.0000     Median :0.0000   Median : 35.00  
-##  Mean   :0.3276    Mean   :0.6223     Mean   :0.4146   Mean   : 37.43  
-##  3rd Qu.:1.0000    3rd Qu.:1.0000     3rd Qu.:1.0000   3rd Qu.: 45.00  
-##  Max.   :1.0000    Max.   :1.0000     Max.   :1.0000   Max.   :100.00  
-##                                                                        
-##    farmer_dar       herder_dar       pastvoted      hhsize_darfur   
-##  Min.   :0.0000   Min.   :0.0000   Min.   :0.0000   Min.   : 1.000  
-##  1st Qu.:1.0000   1st Qu.:0.0000   1st Qu.:0.0000   1st Qu.: 6.000  
-##  Median :1.0000   Median :0.0000   Median :1.0000   Median : 8.000  
-##  Mean   :0.8237   Mean   :0.1489   Mean   :0.6434   Mean   : 9.082  
-##  3rd Qu.:1.0000   3rd Qu.:0.0000   3rd Qu.:1.0000   3rd Qu.:11.000  
-##  Max.   :1.0000   Max.   :1.0000   Max.   :1.0000   Max.   :60.000  
-##                                                                     
-##       village        female      
-##  Kornoy   : 91   Min.   :0.0000  
-##  Silea    : 58   1st Qu.:0.0000  
-##  Abu Gamra: 48   Median :0.0000  
-##  Misteri  : 46   Mean   :0.4561  
-##  Furawiya : 40   3rd Qu.:1.0000  
-##  Kabar    : 35   Max.   :1.0000  
-##  (Other)  :958</code></pre>
 <p>In our examples below, the treatment is <code>directlyharmed</code> and the outcome is <code>peacefactor</code>.</p>
 </div>
 </div>
@@ -176,7 +144,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <h1>Continuous Benchmarks</h1>
 <div id="fit" class="section level2">
 <h2>Fit</h2>
-<p>In the outcome model, there are two continuous covariates, <code>age</code> and <code>hhsize_darfur</code>.</p>
+<p>In the outcome model, there are two continuous (or at least ordered) covariates, <code>age</code> and <code>hhsize_darfur</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model_cntns =<span class="st"> </span><span class="kw">lm</span>(<span class="dt">data =</span> darfur,
                  peacefactor ~<span class="st"> </span>directlyharmed +
 <span class="st">                   </span>age +<span class="st"> </span>hhsize_darfur)</code></pre></div>

@@ -23,7 +23,7 @@ knitr::opts_chunk$set(echo = TRUE,
 ```
 
 ## Darfur Data Example
-
+In this vignette, we will use the example from the paper XXX . Explain.
 
 
 ```r
@@ -31,54 +31,12 @@ library(sensemakr)
 data("darfur")
 ```
 
-
 ## The 3 Steps
-
 1) Fit a linear model via `lm()`
 2) Compute sensitivity quantitites via `sensemakr()`
-3) Plot quantities via `plot()`
+3) Plot quantities via `plot()` and/or summarize them using `summary()`
 
 We will show 3 examples using the darfur data. The examples sequentially expose increasing amounts of customization that a user can run for their sensitivity analysis. We will provide examples of continuous benchmarks, categorical benchmarks, and user supplied benchmark groups.
-
-
-```r
-summary(darfur)
-```
-
-```
-##    wouldvote        peacefactor.V1    FormerEnemiesPeace PeaceWithJJIndiv
-##  Min.   :0.0000   Min.   :0.0000000   Min.   :0.0000     Min.   :0.0000  
-##  1st Qu.:0.0000   1st Qu.:0.0000000   1st Qu.:0.0000     1st Qu.:0.0000  
-##  Median :0.0000   Median :0.2020084   Median :0.0000     Median :0.0000  
-##  Mean   :0.4099   Mean   :0.3235865   Mean   :0.3879     Mean   :0.1724  
-##  3rd Qu.:1.0000   3rd Qu.:0.5929100   3rd Qu.:1.0000     3rd Qu.:0.0000  
-##  Max.   :1.0000   Max.   :1.0000000   Max.   :1.0000     Max.   :1.0000  
-##                                                                          
-##  PeaceWithJJTribes GoSsoldier_execute directlyharmed        age        
-##  Min.   :0.0000    Min.   :0.0000     Min.   :0.0000   Min.   : 18.00  
-##  1st Qu.:0.0000    1st Qu.:0.0000     1st Qu.:0.0000   1st Qu.: 26.00  
-##  Median :0.0000    Median :1.0000     Median :0.0000   Median : 35.00  
-##  Mean   :0.3276    Mean   :0.6223     Mean   :0.4146   Mean   : 37.43  
-##  3rd Qu.:1.0000    3rd Qu.:1.0000     3rd Qu.:1.0000   3rd Qu.: 45.00  
-##  Max.   :1.0000    Max.   :1.0000     Max.   :1.0000   Max.   :100.00  
-##                                                                        
-##    farmer_dar       herder_dar       pastvoted      hhsize_darfur   
-##  Min.   :0.0000   Min.   :0.0000   Min.   :0.0000   Min.   : 1.000  
-##  1st Qu.:1.0000   1st Qu.:0.0000   1st Qu.:0.0000   1st Qu.: 6.000  
-##  Median :1.0000   Median :0.0000   Median :1.0000   Median : 8.000  
-##  Mean   :0.8237   Mean   :0.1489   Mean   :0.6434   Mean   : 9.082  
-##  3rd Qu.:1.0000   3rd Qu.:0.0000   3rd Qu.:1.0000   3rd Qu.:11.000  
-##  Max.   :1.0000   Max.   :1.0000   Max.   :1.0000   Max.   :60.000  
-##                                                                     
-##       village        female      
-##  Kornoy   : 91   Min.   :0.0000  
-##  Silea    : 58   1st Qu.:0.0000  
-##  Abu Gamra: 48   Median :0.0000  
-##  Misteri  : 46   Mean   :0.4561  
-##  Furawiya : 40   3rd Qu.:1.0000  
-##  Kabar    : 35   Max.   :1.0000  
-##  (Other)  :958
-```
 
 In our examples below, the treatment is `directlyharmed` and the outcome is `peacefactor`. 
 
@@ -86,7 +44,7 @@ In our examples below, the treatment is `directlyharmed` and the outcome is `pea
 
 ## Fit
 
-In the outcome model, there are two continuous covariates, `age` and `hhsize_darfur`.
+In the outcome model, there are two continuous (or at least ordered) covariates, `age` and `hhsize_darfur`.
 
 
 ```r
@@ -128,7 +86,7 @@ class(sense_cntns)
 plot(sense_cntns,lim=0.02)
 ```
 
-![](vignette_files/figure-html/unnamed-chunk-7-1.png)<!-- -->
+![](vignette_files/figure-html/unnamed-chunk-6-1.png)<!-- -->
 
 ### Show specific benchmark points from an explicit list
 
@@ -139,13 +97,13 @@ plot(sense_cntns,lim=0.02)
 plot(sense_cntns,showvars=list('age','hhsize_darfur'),lim=0.02)
 ```
 
-![](vignette_files/figure-html/unnamed-chunk-8-1.png)<!-- -->
+![](vignette_files/figure-html/unnamed-chunk-7-1.png)<!-- -->
 
 ```r
 plot(sense_cntns,showvars=list('age'),lim=0.02)
 ```
 
-![](vignette_files/figure-html/unnamed-chunk-8-2.png)<!-- -->
+![](vignette_files/figure-html/unnamed-chunk-7-2.png)<!-- -->
 
 # Factor Benchmarks
 
@@ -268,7 +226,7 @@ Show all low level (design matrix) benchmark points
 plot(sense_fctr,showvars='all',lim=0.02)
 ```
 
-![](vignette_files/figure-html/unnamed-chunk-15-1.png)<!-- -->
+![](vignette_files/figure-html/unnamed-chunk-14-1.png)<!-- -->
 
 Above, we immediately see the reason why using many dummy variables (for a single factor) can pose a challenge for interpretation, visually and contextually.
 
@@ -284,7 +242,7 @@ Therefore, we have designated `showvars='masked'` as the default option in `plot
 plot(sense_fctr,lim=0.5)
 ```
 
-![](vignette_files/figure-html/unnamed-chunk-16-1.png)<!-- -->
+![](vignette_files/figure-html/unnamed-chunk-15-1.png)<!-- -->
 
 ### Show specific benchmark points from an explicit list
 
@@ -306,7 +264,7 @@ plot(sense_fctr,showvars=list('village','villageMngao','age'),lim=0.5)
 plot(sense_fctr,showvars=list('village','villageMngao','age'),lim=0.02)
 ```
 
-![](vignette_files/figure-html/unnamed-chunk-17-1.png)<!-- -->
+![](vignette_files/figure-html/unnamed-chunk-16-1.png)<!-- -->
 
 
 # User Specified Groups as Benchmarks
@@ -439,7 +397,7 @@ colnames(attr(terms(formula(model_cust_grp)),'factor'))
 plot(sense_cust_grp,showvars='all',lim=0.5)
 ```
 
-![](vignette_files/figure-html/unnamed-chunk-23-1.png)<!-- -->
+![](vignette_files/figure-html/unnamed-chunk-22-1.png)<!-- -->
 
 
 ### Plot with showvars=‘masked’
@@ -449,7 +407,7 @@ plot(sense_cust_grp,showvars='all',lim=0.5)
 plot(sense_cust_grp)
 ```
 
-![](vignette_files/figure-html/unnamed-chunk-24-1.png)<!-- -->
+![](vignette_files/figure-html/unnamed-chunk-23-1.png)<!-- -->
 
 From the plot (with default showvars='masked'), notice that:
 
@@ -505,7 +463,7 @@ As a result, only the single grouping `village` with `female` is plotted. Notice
 plot(sense_cust_grp,showvars=list('village,female'),lim=0.5)
 ```
 
-![](vignette_files/figure-html/unnamed-chunk-25-1.png)<!-- -->
+![](vignette_files/figure-html/unnamed-chunk-24-1.png)<!-- -->
 
 
 
@@ -527,7 +485,7 @@ plot(sense_cust_grp, contour = "lower bound")
 plot(sense_cust_grp, contour = "upper bound")
 ```
 
-![](vignette_files/figure-html/unnamed-chunk-26-1.png)<!-- -->
+![](vignette_files/figure-html/unnamed-chunk-25-1.png)<!-- -->
 
 with showvars=‘all’
 
@@ -541,7 +499,7 @@ plot(sense_cust_grp, contour = "lower bound",showvars='all',lim=0.02)
 plot(sense_cust_grp, contour = "upper bound",showvars='all',lim=0.02)
 ```
 
-![](vignette_files/figure-html/unnamed-chunk-27-1.png)<!-- -->
+![](vignette_files/figure-html/unnamed-chunk-26-1.png)<!-- -->
 
 
 with showvars explicit
@@ -561,7 +519,7 @@ plot(sense_cust_grp, contour = "upper bound",
      showvars=list('village','villageMngao','age'))
 ```
 
-![](vignette_files/figure-html/unnamed-chunk-28-1.png)<!-- -->
+![](vignette_files/figure-html/unnamed-chunk-27-1.png)<!-- -->
 
 
 ## Worst Case Plot
@@ -587,6 +545,6 @@ plot(sense_cust_grp, type = "worst-case",lim=0.5,
      showvars=list('village','villageMngao','age'))
 ```
 
-![](vignette_files/figure-html/unnamed-chunk-29-1.png)<!-- -->
+![](vignette_files/figure-html/unnamed-chunk-28-1.png)<!-- -->
 
 
