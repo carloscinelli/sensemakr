@@ -71,7 +71,6 @@ sensemakr <- function(model, treatment, benchmarks, ...){
 
 ##' @param model the model.
 ##' @param treatment  character vector with the treatment variable.
-##' @param benchmarks  character vector with the covariates for benchmarking.
 ##' @param group_list a list of character vectors where elements within one vector are terms that should be grouped.
 ##' @name sensemakr
 ##' @export

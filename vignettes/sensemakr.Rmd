@@ -30,27 +30,88 @@ The latest version of `sensemakr` can be installed by:
 ```
 
 # Basic Usage
+
 We begin by showing basic functionality with the features we expect most users will use most of the time. 
 
 The basic workflow is as follows: 
-1) Fit a linear outcome model via `lm()`. This should have your treatment and your (pre-treatment) covariates on the right hand side.   
-2) Create a sensemakr object, which contains the necessary sensitivity quantitites, using `sensemakr()`.
-3) Explore the results by use of `plot()` and `summary()`.
+1) Fit a linear outcome model via `lm.out=lm()`. This should have your treatment and (pre-treatment) covariates on the right hand side.   
 
+2) Create a sensemakr object, `sense.out=sensemakr(lm.out)`, which contains useful sensitivity quantitites.
+
+3) Explore the results by use of `plot(sense.out)` and `summary(sense.out)`.
 
 ## Darfur Data Example
-In this vignette, we will use the example from the paper XXX . Explain.
+We will use the `Darfur` data to explore these operations. The treatment is exposure to violence, `directlyharmed` a binary indicator for those physically injured during attacks in Darfur.  The outcome is a scale measuring pro-peace attitudes, `peacefactor`. 
+
+We load the data:
 
 ```{r}
 library(sensemakr)
 data("darfur")
 ```
 
+The first step is running the linear outcome model: 
+
+```{r}
+lm.out  <- lm(peacefactor ~ directlyharmed + age + farmer_dar + herder_dar +
+               pastvoted + hhsize_darfur + female + village, data = darfur)
+```
+
+The key covariates here for identification purposes is `village`, a factor with 690 levels indicating the village participants are from. Only conditionally upon village do we expect that `directlyharmed` is "as-if randomized". The other covariate required for identification is `female`, a binary indicator for women. The other covariates are included as auxilliary controls, but mainly for purposes of the sensitivity analysis. 
+
+QUESTION: Are there cases where we'd want to use a covariate as a benchmark but not have it in the model? Maybe a variable that we worry is post-tx?
+
+The second step is to run `sensemakr` on the `lm` object. At defaults this is simply,
+
+```{r}
+library(sensemakr)
+sense.out <- sensemakr(model=lm.out, treatment="directlyharmed")
+```
+
+Note that because no `benchmark` argument was not set, `sensemakr` defaults to using all covariates as benchmarks. For our next task, it will be easier to use only a subsect of the benchmarks: 
+
+```{r}
+X = c("herder_dar", "female", "age", "pastvoted", "farmer_dar")
+
+```
+
+### The `sensemakr` object
+
+The object, `sense.out`, is not usually inspected directly, but contains many valuable quantities.  
+
+sense <- sensemakr(model=model, treatment="directlyharmed", benchmarks=X)
+
+
+Suppose now we are interested in a subset of these covariates 
+
+
+# runs benchmarking etc
+sense <- sensemakr(model=model, treatment="directlyharmed", benchmarks=X)
+
+## contour plot
+plot1_data <- plot(sense)
+plot(sense, lim=.2)
+plot2_data <- plot(sense, contour = "t-value")
+plot3_data <- plot(sense, contour = "lower bound")
+plot4_data <- plot(sense, contour = "upper bound")
+
+## worst-case plot
+plot5_data <- plot(sense, type = "worst-case")
+# note, let's me the benchmark ticks at the bottom much more visible
+# and let's reduce number of lines that show and/or label them better.
+
+# testing verbal outputs
+interpret(sense)
+interpret(sense, q = 0.5) #throws warning
+interpret(sense, q = 0.6) #throws warning.
+
+summary(sense) #needs more output/ to be different from interpret().
+
+
 
 
 We will show 3 examples using the darfur data. The examples sequentially expose increasing amounts of customization that a user can run for their sensitivity analysis. We will provide examples of continuous benchmarks, categorical benchmarks, and user supplied benchmark groups.
 
-In our examples below, the treatment is `directlyharmed` and the outcome is `peacefactor`. 
 
 # Continuous Benchmarks
 
