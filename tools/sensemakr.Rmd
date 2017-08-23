@@ -83,15 +83,27 @@ summary(sense.out)
 
 After recpitulating the model, the outcome variable, the treatment variable, and the (unadjusted) treatment effect estimate, the output goes on to describe two types of analyses: a worst case scenario, and benchmarks.  
 
-The \textit{worst case scenario} considers the sensitivity of results based on the unexplained variance. The worst case is one in which all unexplained variation in the outcome belongs to an omitted confounder. How strongly would such an omitted variable need to be associated with the treatment in order to reduce the treatment effect estimate by some amount -- say 100\%?
+The \textit{worst case scenario} considers the sensitivity of results based on the unexplained variance. The worst case is one in which \textit{all} unexplained variation in the outcome belongs to an omitted confounder. How strongly would such an omitted variable need to be associated with the treatment in order to reduce the treatment effect estimate by some proportion `q`, such as q=0.50 (50\%) or q=1 (100\%)?
 
 
+
+Note you can change q and scenarios.
 
 ## Basic Plotting
 The simplest plot is 
 ```{r}
 plot(sense.out)
 ```
+
+
+Walk through the different plots...
+
+
+# Advanced Usage
+
+Then go through some more customizeable stuff.  
+
+
 
 The benchmarks  
 
