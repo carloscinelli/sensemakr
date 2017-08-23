@@ -29,10 +29,13 @@ The latest version of `sensemakr` can be installed by:
 # devtools::build_vignettes() 
 ```
 
-## The 3 Steps
-1) Fit a linear model via `lm()`
-2) Compute sensitivity quantitites via `sensemakr()`
-3) Plot quantities via `plot()` and/or summarize them using `summary()`
+# Basic Usage
+We begin by showing basic functionality with the features we expect most users will use most of the time. 
+
+The basic workflow is as follows: 
+1) Fit a linear outcome model via `lm()`. This should have your treatment and your (pre-treatment) covariates on the right hand side.   
+2) Create a sensemakr object, which contains the necessary sensitivity quantitites, using `sensemakr()`.
+3) Explore the results by use of `plot()` and `summary()`.
 
 
 ## Darfur Data Example
@@ -42,6 +45,8 @@ In this vignette, we will use the example from the paper XXX . Explain.
 library(sensemakr)
 data("darfur")
 ```
+
+
 
 We will show 3 examples using the darfur data. The examples sequentially expose increasing amounts of customization that a user can run for their sensitivity analysis. We will provide examples of continuous benchmarks, categorical benchmarks, and user supplied benchmark groups.
 
