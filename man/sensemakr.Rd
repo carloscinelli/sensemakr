@@ -15,8 +15,6 @@ sensemakr(model, treatment, benchmarks, ...)
 
 \item{treatment}{character vector with the treatment variable.}
 
-\item{benchmarks}{character vector with the covariates for benchmarking.}
-
 \item{...}{extra arguments}
 
 \item{group_list}{a list of character vectors where elements within one vector are terms that should be grouped.}
