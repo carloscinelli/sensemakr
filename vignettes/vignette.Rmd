@@ -13,10 +13,7 @@ vignette: >
   
 ---
 
-# Setup
-
-```{r}
-
+```{r, echo=FALSE}
 knitr::opts_chunk$set(echo = TRUE,
                       fig.width=6,
                       fig.height=6)
@@ -24,15 +21,19 @@ knitr::opts_chunk$set(echo = TRUE,
 
 ## Install ‘sensemakr’
 
+The latest version of `sensemakr` can be installed by:
+
 ```{r}
-
 # devtools::install_github("chadhazlett/sensemakr")
-
 # setwd("~/projects/sensemakr_fin/sensemakr/")
-
 # devtools::build_vignettes() 
-
 ```
+
+## The 3 Steps
+1) Fit a linear model via `lm()`
+2) Compute sensitivity quantitites via `sensemakr()`
+3) Plot quantities via `plot()` and/or summarize them using `summary()`
+
 
 ## Darfur Data Example
 In this vignette, we will use the example from the paper XXX . Explain.
@@ -41,11 +42,6 @@ In this vignette, we will use the example from the paper XXX . Explain.
 library(sensemakr)
 data("darfur")
 ```
-
-## The 3 Steps
-1) Fit a linear model via `lm()`
-2) Compute sensitivity quantitites via `sensemakr()`
-3) Plot quantities via `plot()` and/or summarize them using `summary()`
 
 We will show 3 examples using the darfur data. The examples sequentially expose increasing amounts of customization that a user can run for their sensitivity analysis. We will provide examples of continuous benchmarks, categorical benchmarks, and user supplied benchmark groups.
 
