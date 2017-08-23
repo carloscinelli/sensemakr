@@ -53,7 +53,7 @@ data("darfur")
 The first step is running the linear outcome model: 
 
 ```{r}
-lm.full  <- lm(peacefactor ~ directlyharmed + age + farmer_dar + herder_dar +
+lm.out  <- lm(peacefactor ~ directlyharmed + age + farmer_dar + herder_dar +
                pastvoted + hhsize_darfur + female + village, data = darfur)
 ```
 

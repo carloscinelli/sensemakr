@@ -20,13 +20,13 @@ print.sensemade <- function(x, str = TRUE){
 
 
 ##' @export
-summary.sensemade <- function(object){
+summary.sensemade <- function(object, q=1){
   # bunch of useful things
   # return list with several useful things
   # returns a obj of class summary.sensemade
   out <- object
   class(out) <- "summary.sensemade"
-  out
+  print.summary.sensemade(out, q=q)
 }
 
 ##' @export
