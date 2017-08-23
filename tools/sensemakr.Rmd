@@ -1,0 +1,488 @@
+---
+title: "The sensemakr vignette"
+author: "Michael Tzen, Chad Hazlett, Carlos Cinelli"
+date: "`r Sys.Date()`"
+output:
+  rmarkdown::html_vignette:
+    toc: true
+    keep_md: true
+vignette: >
+  %\VignetteIndexEntry{The sensemakr vignette}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+  
+---
+
+```{r, echo=FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      fig.width=6,
+                      fig.height=6)
+```
+
+## Install ‘sensemakr’
+
+The latest version of `sensemakr` can be installed by:
+
+```{r}
+# devtools::install_github("chadhazlett/sensemakr")
+# setwd("~/projects/sensemakr_fin/sensemakr/")
+# devtools::build_vignettes() 
+```
+
+# Basic Usage
+
+We begin by showing basic functionality with the features we expect most users will use most of the time. 
+
+The basic workflow is as follows: 
+1) Fit a linear outcome model via `lm.out=lm()`. This should have your treatment and (pre-treatment) covariates on the right hand side.   
+
+2) Create a sensemakr object, `sense.out=sensemakr(lm.out)`, which contains useful sensitivity quantitites.
+
+3) Explore the results by use of `plot(sense.out)` and `summary(sense.out)`.
+
+## Darfur Data Example
+We will use the `Darfur` data to explore these operations. The treatment is exposure to violence, `directlyharmed` a binary indicator for those physically injured during attacks in Darfur.  The outcome is a scale measuring pro-peace attitudes, `peacefactor`. 
+
+We load the data:
+
+```{r}
+library(sensemakr)
+data("darfur")
+```
+
+The first step is running the linear outcome model: 
+
+```{r}
+lm.full  <- lm(peacefactor ~ directlyharmed + age + farmer_dar + herder_dar +
+               pastvoted + hhsize_darfur + female + village, data = darfur)
+```
+
+The key covariates here for identification purposes is `village`, a factor with 690 levels indicating the village participants are from. Only conditionally upon village do we expect that `directlyharmed` is "as-if randomized". The other covariate required for identification is `female`, a binary indicator for women. The other covariates are included as auxilliary controls, but mainly for purposes of the sensitivity analysis. 
+
+QUESTION: Are there cases where we'd want to use a covariate as a benchmark but not have it in the model? Maybe a variable that we worry is post-tx?
+
+The second step is to run `sensemakr` on the `lm` object. At defaults this is simply,
+
+```{r}
+library(sensemakr)
+sense.out <- sensemakr(model=lm.out, treatment="directlyharmed")
+```
+
+The `sensemakr` object, `sense.out`, contains a variety of useful quantities, including `sensemakr\$benchmarks`, which we will explore below. In common use cases, however, investigators would not inspect this directly but would turn to the `plot` and `summary` methods.  
+
+We turn first to the `summary` method to gain substantive insight into the sensitivity analysis itself.
+
+## Summary and Interpretation
+
+Sensitivity analyses describe the type of confounders that would change our conclusions about an analysis. The challenge is in understanding how credibly such a confounder can be ruled out.  The summary methods provide ample interpretive information, describing the sensitivity results in several ways to increase the odds that investigators can meaningfully evaluate whether the types of confounders describes are likely to exist. A second purpose of provide numerous, verbose descriptions is to provide clear and precise language that investigators can refer to and even cite directly to minimize misunderstandings.
+
+The user simply applies the summary method to the `sensemakr` object,
+```{r}
+summary(sense.out)
+```
+
+After recpitulating the model, the outcome variable, the treatment variable, and the (unadjusted) treatment effect estimate, the output goes on to describe two types of analyses: a worst case scenario, and benchmarks.  
+
+The \textit{worst case scenario} considers the sensitivity of results based on the unexplained variance. The worst case is one in which all unexplained variation in the outcome belongs to an omitted confounder. How strongly would such an omitted variable need to be associated with the treatment in order to reduce the treatment effect estimate by some amount -- say 100\%?
+
+
+
+## Basic Plotting
+The simplest plot is 
+```{r}
+plot(sense.out)
+```
+
+The benchmarks  
+
+# runs benchmarking etc
+sense <- sensemakr(model=model, treatment="directlyharmed", benchmarks=X)
+
+## contour plot
+plot1_data <- plot(sense)
+plot(sense, lim=.2)
+plot2_data <- plot(sense, contour = "t-value")
+plot3_data <- plot(sense, contour = "lower bound")
+plot4_data <- plot(sense, contour = "upper bound")
+
+## worst-case plot
+plot5_data <- plot(sense, type = "worst-case")
+# note, let's me the benchmark ticks at the bottom much more visible
+# and let's reduce number of lines that show and/or label them better.
+
+# testing verbal outputs
+interpret(sense)
+interpret(sense, q = 0.5) #throws warning
+interpret(sense, q = 0.6) #throws warning.
+
+summary(sense) #needs more output/ to be different from interpret().
+
+
+
+
+We will show 3 examples using the darfur data. The examples sequentially expose increasing amounts of customization that a user can run for their sensitivity analysis. We will provide examples of continuous benchmarks, categorical benchmarks, and user supplied benchmark groups.
+
+
+# Continuous Benchmarks
+
+## Fit
+
+In the outcome model, there are two continuous (or at least ordered) covariates, `age` and `hhsize_darfur`.
+
+```{r}
+model_cntns = lm(data = darfur,
+                 peacefactor ~ directlyharmed +
+                   age + hhsize_darfur)
+
+```
+
+## Compute
+
+```{r}
+sense_cntns = sensemakr(model=model_cntns,
+                        treatment="directlyharmed")
+
+str(sense_cntns$benchmarks,max.level = 1)
+
+class(sense_cntns)
+
+```
+
+## Plot
+```{r}
+plot(sense_cntns,lim=0.02)
+```
+
+### Show specific benchmark points from an explicit list
+
+
+
+```{r}
+plot(sense_cntns,showvars=list('age','hhsize_darfur'),lim=0.02)
+plot(sense_cntns,showvars=list('age'),lim=0.02)
+```
+
+# Factor Benchmarks
+
+In the outcome model, there are two continuous covariates, `age` and `hhsize_darfur`. Further, there are two categorical covariates, `female` and `village`.
+
+## Fit
+
+```{r}
+
+model_fctr  = lm(data = darfur,
+                 peacefactor ~ directlyharmed + 
+                   age + hhsize_darfur +
+                   female + village)
+
+```
+
+## Compute
+
+
+```{r}
+
+
+sense_fctr = sensemakr(model=model_fctr,
+                       treatment="directlyharmed")
+
+
+```
+
+notice there is a single observation in the `$benchmark_group` item of the `sensemakr` object
+
+```{r}
+str(sense_fctr$benchmarks,max.level = 1)
+
+sense_fctr$benchmarks$benchmark_group
+
+row.names(sense_fctr$benchmarks$benchmark_group)
+
+```
+
+Village enters the linear model as a R-side ‘factor’ variable with 480 levels. These 480 levels are dummy variable columns of the design matrix. Numerically, each level is treated as a set of binary covariates (fixed effects), and so the sensemakr() call treats each of the 480 levels of the village factor as a stand alone dummy variable which results in 480 benchmark points.
+
+These 'low-level' quantities are stored in the `$benchmarks$benchmark_eachvar` item of the `sensemakr` object
+
+```{r}
+
+str(sense_fctr$benchmarks$benchmark_eachvar)
+
+
+```
+
+Although we have 480 dummy variable sensitivity estimates for the village factor levels, we would like to understand the sensitivity when benchamrked to the entire single factor variable as a group
+
+notice that we have also grouped all 480 levels into the single `village` term stored in `str(sense_fctr$benchmarks$benchmark_group)`
+
+```{r}
+
+str(sense_fctr$benchmarks$benchmark_group)
+
+```
+We have also masked out the 480 levels from `str(sense_fctr$benchmarks$benchmark_masked)`
+
+```{r}
+str(sense_fctr$benchmarks$benchmark_masked)
+
+```
+
+## Plot
+
+Show all low level (design matrix) benchmark points
+
+
+```{r}
+
+plot(sense_fctr,showvars='all',lim=0.02)
+
+
+```
+
+Above, we immediately see the reason why using many dummy variables (for a single factor) can pose a challenge for interpretation, visually and contextually.
+
+Contextually, binary contrast columns (for each level) should be viewed as a single grouped ‘village’ factor. Visually, we only want to plot the single `village` factor and mask out its associated 480 individual levels.
+
+Therefore, we have designated `showvars='masked'` as the default option in `plot(...,showvars='masked')`
+
+```{r}
+
+# plot(sense_fctr,showvars='masked',lim=0.02)
+# same as
+
+plot(sense_fctr,lim=0.5)
+
+```
+
+### Show specific benchmark points from an explicit list
+
+Show the three benchmarks:
+
+* the `village` factor group
+* the `villageMngao` level of the village factor
+* the continuous covariate `age`
+
+
+
+```{r}
+
+par(mfrow=c(2,2))
+
+plot(sense_fctr,showvars=list('village','villageMngao','age'),lim=0.5)
+
+
+plot(sense_fctr,showvars=list('village','villageMngao','age'),lim=0.02)
+
+
+```
+
+
+# User Specified Groups as Benchmarks
+
+In the outcome model, there are two continuous covariates, `age` and `hhsize_darfur`. Further, there are two categorical covariates, `female` and `village`. Lastly, we note that the user specified group will not be supplied here in the `lm()` step, but after in the following `sensemakr()` step.
+
+## Fit
+
+```{r}
+model_cust_grp  = lm(data = darfur,
+                     peacefactor ~ directlyharmed + 
+                       age + hhsize_darfur +
+                       female + village
+                     )
+
+```
+
+Notice for this example, we are using the same resulting model fit that was used in the previous example
+
+```{r}
+identical(model_cust_grp,model_fctr)
+
+```
+
+## Compute
+
+Although the model fit step was similar, if the user wishes to compute sensitvitiy quantities for a custom grouping, the grouping must be specified during the `sensemakr()` call using the optional `group_list` argument. As in `sensemakr(...,group_list = list(c('village','female'),'age'))`.
+
+The example `group_list = list(c('village','female'),'age')` has two groups
+
+1) `village` with `female`
+2) `age` by itself
+
+The `group_list` argument expects a list of character vectors. The terms in a character vector comprise a single group. 
+
+
+```{r}
+
+sense_cust_grp = sensemakr(model=model_cust_grp,
+                           treatment="directlyharmed",
+                           group_list = list(c('village','female'),'age')
+                           )
+
+str(sense_cust_grp$benchmarks,max.level = 1)
+```
+
+The sensitivity quantities are stored in the `$benchmarks$benchmark_group` item of the `sensemakr` object
+
+```{r}
+names(sense_cust_grp$benchmarks)
+
+head(sense_cust_grp$benchmarks$benchmark_masked)
+head(sense_cust_grp$benchmarks$benchmark_group)
+```
+
+
+
+
+Terms, eligible for grouping, must be the same terms present in the initial outcome regression model stored in the `lm` object.
+
+```{r}
+class(model_cust_grp)
+
+colnames(attr(terms(formula(model_cust_grp)),'factor'))
+
+```
+
+
+
+
+## Plot
+
+### Plot with showvars=‘all’
+
+```{r}
+plot(sense_cust_grp,showvars='all',lim=0.5)
+```
+
+
+### Plot with showvars=‘masked’
+
+```{r}
+plot(sense_cust_grp)
+```
+
+From the plot (with default showvars='masked'), notice that:
+
+* ‘village,female’ is plotted 
+* ‘female’ is not plotted, 
+* ‘village’ (group) is plotted, 
+* the 480 factor levels of ‘village’ are not plotted
+* 'age' is plotted as cyan
+
+#### Explaining showvars='masked' vs showvars='all'
+
+Depending on the showvars option, the plot methods `plot(...,showvars='masked')` (default) or `plot(...,showvars='all')` will only display two sets of points, 
+
+1) `benchmark_group` (displayed in both showvars options) 
+and
+2) either of `benchmark_eachvar` or `benchmark_masked`
+
+The terms in `benchmark_eachvar` are plotted if `plot(...,showvars='all')`
+The terms in `benchmark_masked` are plotted if `plot(...,showvars='masked')`. 
+
+All sensitivity quantities, related to the columns of the linear model's model matrix, are stored in `benchmark_eachvar`. All terms in `benchmark_eachvar` get plotted if `plot(...,showvars='all')`.
+
+The terms in `benchmark_group` contain any factor variables (the levels of a factor variable grouped together) and any groups specified by the user in the `group_list` argument of `sensemakr()`.
+
+The terms in `benchmark_masked` form a subset of `benchmark_eachvar`. If a term is in `benchmark_eachvar` that is also part of a term in `benchmark_group`, then it does **not** get copied into `benchmark_masked`.
+If a term is in `benchmark_group`, it is not eligible to be copied into `benchmark_masked`. That is, `benchmark_masked` is the set complement of `benchmark_eachvar` anti-joined against `benchmark_group`. 
+
+For example, 
+
+1) The `female` term is stored in `benchmark_eachvar` and is also part of the `c("village","female")` group. Therefore `female` is **not** stored in `benchmark_masked` and is not displayed in the default `plot(...,showvars='masked')`.
+
+2) The factor levels of `village` are not stored in `benchmark_masked` since they are in `benchmark_eachvar` but also part of the group `village`. Therefore the factor levels of village are not displayed in the default `plot(...,showvars='masked')`. 
+
+3) The `village` term itself is a standalone group comprised of 480 levels hence present in `benchmarks_group`. In the examples before, we showed that the internals of `sensemakr()` enforced factor levels to be treated as a group. Therefore the single group term `village` is displayed as cyan in both `showvars='masked'` and `showvars='all'` options. 
+
+4) The single term `age` is part of the second user specified group in `group_list = list(c('village','female'),'age')` . Therefore the single group term `age` is displayed as cyan in both `showvars='masked'` and `showvars='all'` options. 
+
+
+There may be a situation where the user wants to plot `village,female` (a user specified group) but not plot `village` (a sensemakr-enforced group). More generally, If the user wishes to **not** plot specific terms in `benchmark_group` they must do it explicily themselves via the third showvars option, `plot(...,showvars=list())`.
+
+
+### Plot with specific list items via showvars=list()
+
+When choosing explicit groups to plot with the `showvars` argument of `plot()`, you must supply a `list()` whose entries are single character vectors that represent the specific groups you wish to plot. A single string must concatenate all the terms belonging to a single group (seperated by a spaceless comma).
+
+For example, the plot command `plot(...,showvars=list(‘village,female’))` corresponds with the compute command `sensemakr(...,group_list = list(c('village','female')))`
+
+As a result, only the single grouping `village` with `female` is plotted. Notice how `village,female` is plotted but **not** `village`.
+
+
+```{r}
+
+plot(sense_cust_grp,showvars=list('village,female'),lim=0.5)
+
+```
+
+
+
+
+
+# Other Helpful Plots
+
+## Other Contours
+
+with default showvars=‘masked’
+
+```{r}
+
+par(mfrow=c(2,2))
+
+plot(sense_cust_grp, lim=.2)
+plot(sense_cust_grp, contour = "t-value")
+plot(sense_cust_grp, contour = "lower bound")
+plot(sense_cust_grp, contour = "upper bound")
+
+```
+
+with showvars=‘all’
+
+```{r}
+
+par(mfrow=c(2,2))
+
+plot(sense_cust_grp, contour = "t-value",showvars='all')
+plot(sense_cust_grp, contour = "t-value",showvars='all',lim=0.02)
+plot(sense_cust_grp, contour = "lower bound",showvars='all',lim=0.02)
+plot(sense_cust_grp, contour = "upper bound",showvars='all',lim=0.02)
+
+```
+
+
+with showvars explicit
+
+
+```{r}
+
+par(mfrow=c(2,2))
+
+plot(sense_cust_grp, contour = "t-value",
+     showvars=list('village','villageMngao','age'))
+
+plot(sense_cust_grp, contour = "lower bound",
+     showvars=list('village','villageMngao','age'))
+
+plot(sense_cust_grp, contour = "upper bound",
+     showvars=list('village','villageMngao','age'))
+```
+
+
+## Worst Case Plot
+
+```{r}
+
+par(mfrow=c(2,2))
+
+plot(sense_cust_grp, type = "worst-case")
+
+plot(sense_cust_grp, type = "worst-case",showvars='masked',lim=0.5)
+
+plot(sense_cust_grp, type = "worst-case",showvars='all',lim=0.5)
+
+plot(sense_cust_grp, type = "worst-case",lim=0.5,
+     showvars=list('village','villageMngao','age'))
+
+```
+
+
