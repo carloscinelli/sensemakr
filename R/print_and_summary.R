@@ -20,13 +20,13 @@ print.sensemade <- function(x, str = TRUE){
 
 
 ##' @export
-summary.sensemade <- function(object, q=1){
+summary.sensemade <- function(object, q=1,scenarios=c(1,.25)){
   # bunch of useful things
   # return list with several useful things
   # returns a obj of class summary.sensemade
   out <- object
   class(out) <- "summary.sensemade"
-  print.summary.sensemade(out, q=q)
+  print.summary.sensemade(out, q=q, scenarios=scenarios)
 }
 
 ##' @export
@@ -96,7 +96,7 @@ worstcaseinterpret <- function(sensemade, scenarios = c(1, 0.25), q = 1){
 }
 
 ##' @export
-print.summary.sensemade <- function(x, q = 1){
+print.summary.sensemade <- function(x, q = 1, scenarios = c(1,.25)){
  # pretty print for the summary
   cat("Sensitivity Analysis\n\n")
   cat("Model:", trimws(deparse(formula(x$info$model))), "\n\n")
@@ -105,7 +105,7 @@ print.summary.sensemade <- function(x, q = 1){
   cat("Unadjusted Treatment Effect:", round(x$treat.stats$estimate, 3), "\n")
   cat("\n*** SENSITIVITY TO UNOBSERVED CONFOUNDERS ***\n")
   cat("\n### Worst Case Scenarios ###\n\n")
-  worstcaseinterpret(x, q = q)
+  worstcaseinterpret(x, q = q, scenarios=scenarios)
   cat("\n\n### Benchmarking ###\n")
   interpret(x, q = q)
 }
