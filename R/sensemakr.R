@@ -1,8 +1,7 @@
-##' @title Senstivity abalysis of linear models
+##' @title Senstivity analysis of linear models
 ##'
 ##' @description Description.
 ##'
-##' @param ... extra arguments
 ##' @return The function returns an object of class 'sensemakr' which is a list with the main
 ##' results for sensitivity analysis, namely:
 ##' \item{Treat Stats}{
@@ -74,8 +73,7 @@ sensemakr <- function(model, treatment, benchmarks, ...){
 ##' @param group_list a list of character vectors where elements within one vector are terms that should be grouped.
 ##' @name sensemakr
 ##' @export
-sensemakr.lm <- function(model, treatment, # benchmarks=NULL,
-                         group_list=NULL){
+sensemakr.lm <- function(model, treatment, group_list=NULL){
   # note: explicitly replace
   # all instances of D with treatment
 
