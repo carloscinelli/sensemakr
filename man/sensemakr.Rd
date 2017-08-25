@@ -4,7 +4,7 @@
 \alias{sensemakr}
 \alias{sensemakr}
 \alias{sensemakr.lm}
-\title{Senstivity abalysis of linear models}
+\title{Senstivity analysis of linear models}
 \usage{
 sensemakr(model, treatment, benchmarks, ...)
 
@@ -14,8 +14,6 @@ sensemakr(model, treatment, benchmarks, ...)
 \item{model}{the model.}
 
 \item{treatment}{character vector with the treatment variable.}
-
-\item{...}{extra arguments}
 
 \item{group_list}{a list of character vectors where elements within one vector are terms that should be grouped.}
 }
