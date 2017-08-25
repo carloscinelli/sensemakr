@@ -64,7 +64,7 @@
 ##' @export
 ##' @importFrom graphics abline legend lines plot points rug text
 ##' @importFrom stats coef df.residual formula model.matrix sd update vcov
-sensemakr <- function(model, treatment, benchmarks, ...){
+sensemakr <- function(model, treatment, group_list, ...){
   UseMethod("sensemakr")
 }
 

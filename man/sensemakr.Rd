@@ -6,7 +6,7 @@
 \alias{sensemakr.lm}
 \title{Senstivity analysis of linear models}
 \usage{
-sensemakr(model, treatment, benchmarks, ...)
+sensemakr(model, treatment, group_list, ...)
 
 \method{sensemakr}{lm}(model, treatment, group_list = NULL)
 }
