@@ -165,13 +165,26 @@ contourplot = function(x,
   if (contour == "estimate") {
     # estimate level curve
     z      = adjust_estimate(estimate, outer(s, s, get_bias, se = se, df = df))
-    labels = paste0(benchmarks$covariate, "\n", "(",round(benchmarks$adj_est_r2, 3),")")
+
+    # labels = paste0(benchmarks$covariate, "\n", "(",round(benchmarks$adj_est_r2, 3),")")
+    # deprecating benchmarks$covariate
+    # rely on row.names(benchmarks)
+
+    labels = paste0(row.names(benchmarks), "\n", "(",round(benchmarks$adj_est_r2, 3),")")
+
     lev    = 0
 
   } else if (contour == "t-value") {
     # t-value level curve
     z      = outer(s, s, get_t, t = t, df = df)
-    labels = paste0(benchmarks$covariate, "\n", "(",round(benchmarks$adj_t_r2, 3),")")
+
+    # labels = paste0(benchmarks$covariate, "\n", "(",round(benchmarks$adj_t_r2, 3),")")
+    # deprecating benchmarks$covariate
+    # rely on row.names(benchmarks)
+
+    labels = paste0(row.names(benchmarks), "\n", "(",round(benchmarks$adj_t_r2, 3),")")
+
+
     lev    = 2
 
   } else if (contour == "lower bound" | contour == "upper bound" ) {
@@ -192,7 +205,13 @@ contourplot = function(x,
       labs                 = benchmarks$adj_up_r2
 
     }
-    labels = paste0(benchmarks$covariate, "\n", "(",round(labs, 3),")")
+
+    # labels = paste0(benchmarks$covariate, "\n", "(",round(labs, 3),")")
+    # deprecating benchmarks$covariate
+    # rely on row.names(benchmarks)
+
+    labels = paste0(row.names(benchmarks), "\n", "(",round(labs, 3),")")
+
     lev = 0
 
   }

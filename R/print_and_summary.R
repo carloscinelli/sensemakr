@@ -46,9 +46,20 @@ interpret = function(sensemakr, q = 1){
   se = sensemakr$treat.stats$se
   t = estimate/se
   df = sensemakr$treat.stats$df
-  varR2D = sensemakr$benchmarks$benchmark_eachvar$covariate[idxr2d]
+
+  # deprecating benchmarks$covariate
+  # rely on row.names(benchmarks)
+  # varR2D = sensemakr$benchmarks$benchmark_eachvar$covariate[idxr2d]
+  varR2D = row.names(sensemakr$benchmarks$benchmark_eachvar)[idxr2d]
+
   maxR2d = sensemakr$benchmarks$benchmark_eachvar$r2d[idxr2d]
-  varR2Y = sensemakr$benchmarks$benchmark_eachvar$covariate[idxr2y]
+
+  # deprecating benchmarks$covariate
+  # rely on row.names(benchmarks)
+  # varR2Y = sensemakr$benchmarks$benchmark_eachvar$covariate[idxr2y]
+  varR2Y = row.names(sensemakr$benchmarks$benchmark_eachvar)[idxr2y]
+
+
   maxR2y = sensemakr$benchmarks$benchmark_eachvar$r2y[idxr2d]
   r2dc   = t^2/(t^2 + (maxR2y/q^2)*df)
   r2yc   = ((q*t)^2)*((1 - maxR2d)/(maxR2d*df))

@@ -227,7 +227,7 @@ benchmarkr = function(model, D, # X = NULL,
   # 'benchmark_R2' scenario is only excluding those specified as X
   # rename to 'benchmark_eachvar'
 
-  benchmark_eachvar  = data.frame(covariate = X,
+  benchmark_eachvar  = data.frame(# covariate = X,  # rely on row.names(benchmarks)
                               r2y = r2y,
                               r2d = r2d,
                               bias_r2 = bias_r2,
@@ -240,7 +240,7 @@ benchmarkr = function(model, D, # X = NULL,
 
   benchmark_eachvar = benchmark_eachvar[order(benchmark_eachvar$bias_r2, decreasing = TRUE), ]
 
-  benchmark_natural = data.frame(covariate = X,
+  benchmark_natural = data.frame(# covariate = X,  # rely on row.names(benchmarks)
                                   impact = impact,
                                   imbalance = imbalance,
                                   bias_nat = bias_nat,
@@ -250,7 +250,7 @@ benchmarkr = function(model, D, # X = NULL,
 
   benchmark_natural = benchmark_natural[order(benchmark_natural$bias_nat, decreasing = TRUE), ]
 
-  benchmark_std = data.frame(covariate = X,
+  benchmark_std = data.frame(# covariate = X,  # rely on row.names(benchmarks)
                               impact_std = imp_std,
                               imbalance_std = imb_std,
                               bias_std = bias_std,
@@ -323,13 +323,14 @@ benchmarkr = function(model, D, # X = NULL,
                                  get_bias(sed, df.out, r2y=XX$r2y, r2d=XX$r2d)
                                  })
 
-    benchmark_group  = data.frame(covariate = names(r2y_combinevar),
+    benchmark_group  = data.frame(# covariate = names(r2y_combinevar),  # rely on row.names(benchmarks)
                                       r2y = unlist(r2y_combinevar),
                                       r2d = unlist(r2d_combinevar),
                                       bias_r2 = bias_r2_combinevar,  # consult
                                       adj_est_r2 = adjust_estimate(estimate, bias_r2_combinevar),  # consult
                                       # row.names = NULL,
                                       stringsAsFactors = FALSE)
+
   }else{
     benchmark_group = NULL
   }
