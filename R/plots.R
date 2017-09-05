@@ -2,7 +2,7 @@
 ##' @title Sensitivity plots
 ##' @description Several sensitivity plots.
 ##'
-##' @param x sensemade object
+##' @param x sensemakr object
 ##' @param showvars chooses which subsets of benchmarks to display
 ##' Valid options are: 'masked', 'all', or list('foo1','foo2')
 ##' @param type type of the plot
@@ -11,7 +11,7 @@
 ##'
 ##' @return a ggplot object with the plot.
 ##' @export
-plot.sensemade = function(x,
+plot.sensemakr = function(x,
                            showvars='masked',
                            type = c("contour", "worst-case"),
                            ...){
@@ -114,7 +114,7 @@ contourplot = function(x,
   # subset the benchmark data
   ######################################################
 
-  # 'working benchmarks' assigned earlier in generic plot.sensemade()
+  # 'working benchmarks' assigned earlier in generic plot.sensemakr()
   # based on showvars subset
   # x$benchmarks$benchmarks_2plot1
   # x$benchmarks$benchmarks_2plot2
@@ -271,7 +271,7 @@ worstcaseplot = function(x,
                           main = "Sensitivity of estimate to unobserved confounder(s)\n\"Worst-case\" scenarios of partial R2 with outcome"){
 
 
-  # 'working benchmarks' assigned earlier in generic plot.sensemade()
+  # 'working benchmarks' assigned earlier in generic plot.sensemakr()
   # based on showvars subset
   # x$benchmarks$benchmarks_2plot1
   # x$benchmarks$benchmarks_2plot2

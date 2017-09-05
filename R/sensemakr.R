@@ -82,7 +82,7 @@ sensemakr.lm = function(model, treatment, group_list=NULL){
   # stats = get stats()
   # benchmarks = get benchmarks()
   # compute bias and include ob data.frames
-  # returns pretty list with class "sensemade"
+  # returns pretty list with class "sensemakr"
 
   treat.stats = getstats(model, D)
   benchmarks  = benchmarkr(model, D, # X,
@@ -97,7 +97,7 @@ sensemakr.lm = function(model, treatment, group_list=NULL){
                           treatment = D,
                           # maybe return 'treatment model'
                           model = model))
-  class(out) = "sensemade"
+  class(out) = "sensemakr"
   return(out)
 }
 
