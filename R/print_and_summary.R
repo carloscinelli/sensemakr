@@ -7,7 +7,7 @@
 # A method must have arguments in exactly the same order as the generic.
 
 ##' @export
-print.sensemade <- function(x, str = TRUE){
+print.sensemade = function(x, str = TRUE){
 
   cat("Sensitivity Analysis\n\n")
   cat("Model:", trimws(deparse(formula(x$info$model))), "\n\n")
@@ -20,17 +20,17 @@ print.sensemade <- function(x, str = TRUE){
 
 
 ##' @export
-summary.sensemade <- function(object, q=1,scenarios=c(1,.25)){
+summary.sensemade = function(object, q=1,scenarios=c(1,.25)){
   # bunch of useful things
   # return list with several useful things
   # returns a obj of class summary.sensemade
-  out <- object
-  class(out) <- "summary.sensemade"
+  out = object
+  class(out) = "summary.sensemade"
   print.summary.sensemade(out, q=q, scenarios=scenarios)
 }
 
 ##' @export
-interpret <- function(sensemade, q = 1){
+interpret = function(sensemade, q = 1){
 
   # from: sensemade$benchmarks$benchmark_eachvar$r2y
   # to: sensemade$benchmarks$benchmark_eachvar$r2y
@@ -40,24 +40,24 @@ interpret <- function(sensemade, q = 1){
   # since 'village' is in (sense$benchmarks$benchmark_group)
   # currently, only looking at (sensemade$benchmarks$benchmark_eachvar)
 
-  idxr2y <- which.max(sensemade$benchmarks$benchmark_eachvar$r2y)
-  idxr2d <- which.max(sensemade$benchmarks$benchmark_eachvar$r2d)
-  estimate <- sensemade$treat.stats$estimate
-  se <- sensemade$treat.stats$se
-  t <- estimate/se
-  df <- sensemade$treat.stats$df
-  varR2D <- sensemade$benchmarks$benchmark_eachvar$covariate[idxr2d]
-  maxR2d <- sensemade$benchmarks$benchmark_eachvar$r2d[idxr2d]
-  varR2Y <- sensemade$benchmarks$benchmark_eachvar$covariate[idxr2y]
-  maxR2y <- sensemade$benchmarks$benchmark_eachvar$r2y[idxr2d]
-  r2dc   <- t^2/(t^2 + (maxR2y/q^2)*df)
-  r2yc   <- ((q*t)^2)*((1 - maxR2d)/(maxR2d*df))
+  idxr2y = which.max(sensemade$benchmarks$benchmark_eachvar$r2y)
+  idxr2d = which.max(sensemade$benchmarks$benchmark_eachvar$r2d)
+  estimate = sensemade$treat.stats$estimate
+  se = sensemade$treat.stats$se
+  t = estimate/se
+  df = sensemade$treat.stats$df
+  varR2D = sensemade$benchmarks$benchmark_eachvar$covariate[idxr2d]
+  maxR2d = sensemade$benchmarks$benchmark_eachvar$r2d[idxr2d]
+  varR2Y = sensemade$benchmarks$benchmark_eachvar$covariate[idxr2y]
+  maxR2y = sensemade$benchmarks$benchmark_eachvar$r2y[idxr2d]
+  r2dc   = t^2/(t^2 + (maxR2y/q^2)*df)
+  r2yc   = ((q*t)^2)*((1 - maxR2d)/(maxR2d*df))
 
   cat("\n")
   cat("---Using the covariate most strongly associated with the treatment assignment as a benchmark---\n\n")
   if (r2yc > 1) {
 
-    maxBias <- (get_bias(se, df = df, r2d = maxR2d, r2y = 1))
+    maxBias = (get_bias(se, df = df, r2d = maxR2d, r2y = 1))
 
     cat("An unobserved confounder explaining as much of the treatment as '",
         varR2D, "' (", round(maxR2d,3), ") ", " would be able to cause at most a bias of ",
@@ -82,12 +82,12 @@ interpret <- function(sensemade, q = 1){
 }
 
 ##' @export
-worstcaseinterpret <- function(sensemade, scenarios = c(1, 0.25), q = 1){
-  estimate <- sensemade$treat.stats$estimate
-  se <- sensemade$treat.stats$se
-  t <- estimate/se
-  df <- sensemade$treat.stats$df
-  r2dc   <- t^2/(t^2 + (scenarios/q^2)*df)
+worstcaseinterpret = function(sensemade, scenarios = c(1, 0.25), q = 1){
+  estimate = sensemade$treat.stats$estimate
+  se = sensemade$treat.stats$se
+  t = estimate/se
+  df = sensemade$treat.stats$df
+  r2dc   = t^2/(t^2 + (scenarios/q^2)*df)
 
   cat("Considering the extreme scenarios of unobserved confounders explaining ",
   paste0(scenarios*100, "%", collapse = ", "), " of the residual variance of the outcome, they would have",
@@ -96,7 +96,7 @@ worstcaseinterpret <- function(sensemade, scenarios = c(1, 0.25), q = 1){
 }
 
 ##' @export
-print.summary.sensemade <- function(x, q = 1, scenarios = c(1,.25)){
+print.summary.sensemade = function(x, q = 1, scenarios = c(1,.25)){
  # pretty print for the summary
   cat("Sensitivity Analysis\n\n")
   cat("Model:", trimws(deparse(formula(x$info$model))), "\n\n")

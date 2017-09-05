@@ -32,25 +32,25 @@
 ##' data("darfur")
 ##'
 ##' # fits model
-##' model  <- lm(peacefactor ~ directlyharmed + age + farmer_dar + herder_dar +
+##' model  = lm(peacefactor ~ directlyharmed + age + farmer_dar + herder_dar +
 ##'                pastvoted + hhsize_darfur + female + village, data = darfur)
 ##'
 ##' # benchmark variables
 ##' X = c("herder_dar", "female", "age", "pastvoted", "farmer_dar")
 ##'
 ##' # runs benchmarking etc
-##' sense <- sensemakr(model, treatment = "directlyharmed", benchmarks = X)
+##' sense = sensemakr(model, treatment = "directlyharmed", benchmarks = X)
 ##'
 ##' # plots
 ##'
 ##' ## contour plot
-##' plot1_data <- plot(sense)
-##' plot2_data <- plot(sense, contour = "t-value")
-##' plot3_data <- plot(sense, contour = "lower bound")
-##' plot4_data <- plot(sense, contour = "upper bound")
+##' plot1_data = plot(sense)
+##' plot2_data = plot(sense, contour = "t-value")
+##' plot3_data = plot(sense, contour = "lower bound")
+##' plot4_data = plot(sense, contour = "upper bound")
 ##'
 ##' ## worst-case plot
-##' plot5_data <- plot(sense, type = "worst-case")
+##' plot5_data = plot(sense, type = "worst-case")
 ##'
 ##' # testing verbal outputs
 ##' interpret(sense)
@@ -64,7 +64,7 @@
 ##' @export
 ##' @importFrom graphics abline legend lines plot points rug text
 ##' @importFrom stats coef df.residual formula model.matrix sd update vcov
-sensemakr <- function(model, treatment, group_list, ...){
+sensemakr = function(model, treatment, group_list, ...){
   UseMethod("sensemakr")
 }
 
@@ -73,31 +73,31 @@ sensemakr <- function(model, treatment, group_list, ...){
 ##' @param group_list a list of character vectors where elements within one vector are terms that should be grouped.
 ##' @name sensemakr
 ##' @export
-sensemakr.lm <- function(model, treatment, group_list=NULL){
+sensemakr.lm = function(model, treatment, group_list=NULL){
   # note: explicitly replace
   # all instances of D with treatment
 
-  D <- treatment
-  # X <- benchmarks
-  # stats <- get stats()
-  # benchmarks <- get benchmarks()
+  D = treatment
+  # X = benchmarks
+  # stats = get stats()
+  # benchmarks = get benchmarks()
   # compute bias and include ob data.frames
   # returns pretty list with class "sensemade"
 
-  treat.stats <- getstats(model, D)
-  benchmarks  <- benchmarkr(model, D, # X,
+  treat.stats = getstats(model, D)
+  benchmarks  = benchmarkr(model, D, # X,
                             group_list)
 
   names(benchmarks)
   # benchmarks$benchmark_masked
 
-  out <- list(treat.stats = treat.stats,
+  out = list(treat.stats = treat.stats,
               benchmarks = benchmarks,
               info = list(outcome = deparse(model$terms[1][[2]]),
                           treatment = D,
                           # maybe return 'treatment model'
                           model = model))
-  class(out) <- "sensemade"
+  class(out) = "sensemade"
   return(out)
 }
 
@@ -106,12 +106,12 @@ sensemakr.lm <- function(model, treatment, group_list=NULL){
 # It returns a data.frame with the names of the treatment, the estimate, the standard error,
 # and the degrees of freedom.
 #
-getstats <- function(model, D){
-  treat.summary     <- summary(model)
-  df                <- treat.summary$df[2]
-  estimate          <- coef(treat.summary)[D,"Estimate"]
-  se                <- coef(treat.summary)[D,"Std. Error"]
-  treat.stats       <- data.frame(treat = D,
+getstats = function(model, D){
+  treat.summary     = summary(model)
+  df                = treat.summary$df[2]
+  estimate          = coef(treat.summary)[D,"Estimate"]
+  se                = coef(treat.summary)[D,"Std. Error"]
+  treat.stats       = data.frame(treat = D,
                                   estimate = estimate,
                                   se = se,
                                   df = df,
@@ -126,16 +126,16 @@ getstats <- function(model, D){
 #                  -> if a list of character vectors, then group by list (future work)
 # Output: three data.frames with benchmarks for R2, SD and natural.
 #       - data.frame contains: Names, R2y or delta, R2d or gamma
-benchmarkr <- function(model, D, # X = NULL,
+benchmarkr = function(model, D, # X = NULL,
                        group_list=NULL, ...){
 
 
-  treat.stats  <- getstats(model, D)
-  estimate     <- treat.stats$estimate
-  df.out       <- treat.stats$df
-  sed          <- treat.stats$se
-  summ.out     <- summary(model)
-  coef.out     <- coef(summ.out)
+  treat.stats  = getstats(model, D)
+  estimate     = treat.stats$estimate
+  df.out       = treat.stats$df
+  sed          = treat.stats$se
+  summ.out     = summary(model)
+  coef.out     = coef(summ.out)
 
   # get rid of X=NULL argument (doesn't think its useful as user arg)
   # sensemakr(...,X=foo) more like use case for plot(...,showvars=foo)
@@ -146,12 +146,12 @@ benchmarkr <- function(model, D, # X = NULL,
   # if (is.null(X)) {
 
   # NOTE: figure out safer way to exclude Intercept
-    X <- rownames(coef.out)[!rownames(coef.out) %in% c("(Intercept)",D)]
+    X = rownames(coef.out)[!rownames(coef.out) %in% c("(Intercept)",D)]
 
   # }
 
-  tstats.out        <- coef.out[X, "t value"]
-  r2y       <- tstats.out^2/(tstats.out^2 + df.out) # partial R2 with outcome
+  tstats.out        = coef.out[X, "t value"]
+  r2y       = tstats.out^2/(tstats.out^2 + df.out) # partial R2 with outcome
 
 
   string_formula_treat = noquote(paste0(D," ~ . ", paste0("-",D,collapse = "")))
@@ -160,36 +160,36 @@ benchmarkr <- function(model, D, # X = NULL,
 
   # attr(terms(treat),'term.labels')  # no more backtick artifacts after update.lm()
 
-  summ.treat     <- summary(treat)
-  df.treat       <- summ.treat$df[2]
+  summ.treat     = summary(treat)
+  df.treat       = summ.treat$df[2]
 
   ## R2d: gets t-statistics from treatment regression
-  coef.treat <- coef(summ.treat)
-  tstats.treat  <- coef.treat[X, "t value"] # excludes intercept
-  r2d       <- tstats.treat^2/(tstats.treat^2 + df.treat) # partial R2 with treatment
+  coef.treat = coef(summ.treat)
+  tstats.treat  = coef.treat[X, "t value"] # excludes intercept
+  r2d       = tstats.treat^2/(tstats.treat^2 + df.treat) # partial R2 with treatment
 
 
   ## reverse engineering to get coefficients in original scale
 
-  sed2      <- sed/(sqrt((1 - r2y)/(1 - r2d))*sqrt((df.out + 1)/(df.out))) # readjusts standard error
-  covariate.bias      <- get_bias(r2y = r2y, r2d = r2d, se = sed2, df = df.out + 1)  # gets gamma*delta
+  sed2      = sed/(sqrt((1 - r2y)/(1 - r2d))*sqrt((df.out + 1)/(df.out))) # readjusts standard error
+  covariate.bias      = get_bias(r2y = r2y, r2d = r2d, se = sed2, df = df.out + 1)  # gets gamma*delta
 
-  impact    <- coef(summ.out)[X, "Estimate"]
-  imbalance <- covariate.bias/impact
+  impact    = coef(summ.out)[X, "Estimate"]
+  imbalance = covariate.bias/impact
 
   ## standardized coefficients
-  sdy       <- sd(model$model[[1]]) # sd of outcome
-  Xn        <- model.matrix(model)[,c(D,X)]
-  sdd       <- sd(Xn[,D]) # sd of treatment
-  sdx       <- apply(Xn[,X], 2, sd) # sd of covariates
-  estimate_std <- estimate*(sdd/sdy)
-  imp_std   <- impact*(sdx/sdy)
-  imb_std   <- imbalance*(sdd/sdx)
+  sdy       = sd(model$model[[1]]) # sd of outcome
+  Xn        = model.matrix(model)[,c(D,X)]
+  sdd       = sd(Xn[,D]) # sd of treatment
+  sdx       = apply(Xn[,X], 2, sd) # sd of covariates
+  estimate_std = estimate*(sdd/sdy)
+  imp_std   = impact*(sdx/sdy)
+  imb_std   = imbalance*(sdd/sdx)
 
   # space for groups R2
   # compute groups R2 and bind on r2y r2d
   # worst case scenario benchmark
-  # allvars <- rownames(coef.out)[!rownames(coef.out) %in% D]
+  # allvars = rownames(coef.out)[!rownames(coef.out) %in% D]
 
   # rownames of coef printout is not safe
   # mike note: use this instead
@@ -198,12 +198,12 @@ benchmarkr <- function(model, D, # X = NULL,
 
   # 1 conflict resolved here, when merging group main branch
   # =======
-  # allvars <- rownames(coef.out)[!rownames(coef.out) %in% c(D,"(Intercept)")]
+  # allvars = rownames(coef.out)[!rownames(coef.out) %in% c(D,"(Intercept)")]
   # >>>>>>> master
 
-  r2y_all <- groupR2(model, allvars)
-  r2d_all <- groupR2(treat, allvars)
-  bias_all <- get_bias(se = sed, df = df.out, r2y = r2y_all, r2d = r2d_all)
+  r2y_all = groupR2(model, allvars)
+  r2d_all = groupR2(treat, allvars)
+  bias_all = get_bias(se = sed, df = df.out, r2y = r2y_all, r2d = r2d_all)
 
   # biases
   bias_r2 = get_bias(se = sed, df = df.out, r2y = r2y, r2d =  r2d)
@@ -216,7 +216,7 @@ benchmarkr <- function(model, D, # X = NULL,
 
   # rename to 'benchmark_dropallvar'
 
-  benchmark_dropallvar <- data.frame(r2y_all = r2y_all,
+  benchmark_dropallvar = data.frame(r2y_all = r2y_all,
                                    r2d_all = r2d_all,
                                    adj_est_all = adjust_estimate(estimate, bias_all),
                                    adj_se_r2 = get_se(se = sed, df = df.out, r2y = r2y_all,r2d =  r2d_all),
@@ -227,7 +227,7 @@ benchmarkr <- function(model, D, # X = NULL,
   # 'benchmark_R2' scenario is only excluding those specified as X
   # rename to 'benchmark_eachvar'
 
-  benchmark_eachvar  <- data.frame(covariate = X,
+  benchmark_eachvar  = data.frame(covariate = X,
                               r2y = r2y,
                               r2d = r2d,
                               bias_r2 = bias_r2,
@@ -238,9 +238,9 @@ benchmarkr <- function(model, D, # X = NULL,
                               # use row.names later
                               stringsAsFactors = FALSE)
 
-  benchmark_eachvar <- benchmark_eachvar[order(benchmark_eachvar$bias_r2, decreasing = TRUE), ]
+  benchmark_eachvar = benchmark_eachvar[order(benchmark_eachvar$bias_r2, decreasing = TRUE), ]
 
-  benchmark_natural <- data.frame(covariate = X,
+  benchmark_natural = data.frame(covariate = X,
                                   impact = impact,
                                   imbalance = imbalance,
                                   bias_nat = bias_nat,
@@ -248,9 +248,9 @@ benchmarkr <- function(model, D, # X = NULL,
                                   # row.names = NULL,
                                   stringsAsFactors = FALSE)
 
-  benchmark_natural <- benchmark_natural[order(benchmark_natural$bias_nat, decreasing = TRUE), ]
+  benchmark_natural = benchmark_natural[order(benchmark_natural$bias_nat, decreasing = TRUE), ]
 
-  benchmark_std <- data.frame(covariate = X,
+  benchmark_std = data.frame(covariate = X,
                               impact_std = imp_std,
                               imbalance_std = imb_std,
                               bias_std = bias_std,
@@ -258,7 +258,7 @@ benchmarkr <- function(model, D, # X = NULL,
                               # row.names = NULL,
                               stringsAsFactors = FALSE)
 
-  benchmark_std <- benchmark_std[order(benchmark_std$bias_std, decreasing = TRUE), ]
+  benchmark_std = benchmark_std[order(benchmark_std$bias_std, decreasing = TRUE), ]
 
   ##########################################
   # any 'blacklisted' terms (outcome model) that should be grouped?
@@ -323,7 +323,7 @@ benchmarkr <- function(model, D, # X = NULL,
                                  get_bias(sed, df.out, r2y=XX$r2y, r2d=XX$r2d)
                                  })
 
-    benchmark_group  <- data.frame(covariate = names(r2y_combinevar),
+    benchmark_group  = data.frame(covariate = names(r2y_combinevar),
                                       r2y = unlist(r2y_combinevar),
                                       r2d = unlist(r2d_combinevar),
                                       bias_r2 = bias_r2_combinevar,  # consult
@@ -399,14 +399,14 @@ benchmarkr <- function(model, D, # X = NULL,
 
   # benchmark_std = benchmark_std # not necessary
   #
-  # benchmarks <- list(benchmark_all_vars = benchmark_all_vars,  # used in worst case plot
+  # benchmarks = list(benchmark_all_vars = benchmark_all_vars,  # used in worst case plot
   #                    # benchmark_R2 = benchmark_R2,
   #                    benchmark_masked = benchmark_masked,
   #                    benchmark_group = benchmark_R2_group,
   #                    benchmark_natural = benchmark_natural,
   #                    benchmark_std = benchmark_std)
 
-  benchmarks <- list(benchmark_dropallvar = benchmark_dropallvar,
+  benchmarks = list(benchmark_dropallvar = benchmark_dropallvar,
                      benchmark_eachvar = benchmark_eachvar,
                      benchmark_group = benchmark_group,
                      benchmark_masked = benchmark_masked,
@@ -434,10 +434,10 @@ benchmarkr <- function(model, D, # X = NULL,
 #'
 #' @examples none, a low level helper
 
-groupR2 <- function(model,terms_4_group){
+groupR2 = function(model,terms_4_group){
 
   # carlos example
-  # allvars <- rownames(coef.out)[!rownames(coef.out) %in% D]
+  # allvars = rownames(coef.out)[!rownames(coef.out) %in% D]
   # terms_4_group = allvars
 
 
@@ -478,13 +478,13 @@ groupR2 <- function(model,terms_4_group){
 
 
   # betas
-  betas <- coef(model)
+  betas = coef(model)
 
   # var-covar matrix
-  V <- vcov(model)
+  V = vcov(model)
 
   # degrees of freedom
-  df <- df.residual(model)
+  df = df.residual(model)
 
 
   # (attr(terms(formula(model)),'term.labels'))
@@ -514,12 +514,12 @@ groupR2 <- function(model,terms_4_group){
 
 
   # compute F and R2
-  q <- length(indx)
+  q = length(indx)
 
-  f <- (t(betas[indx]) %*% solve(V[indx, indx],betas[indx]))/q
+  f = (t(betas[indx]) %*% solve(V[indx, indx],betas[indx]))/q
 
   # mikenote: tuck two terms into solve(A,x) for num stabilit eg, solve(A,b) = inv(A) %*% b
-  # f <- (t(betas[indx]) %*% solve(V[indx, indx]) %*% betas[indx])/q
+  # f = (t(betas[indx]) %*% solve(V[indx, indx]) %*% betas[indx])/q
 
   # The r2 value to be returned
   r2_group = f*q / (f*q + df)
@@ -550,35 +550,35 @@ groupR2 <- function(model,terms_4_group){
 ##' @param r2y      hypothetical partial R2 of the confounder with the outcome
 ##' @param ...      extra arguments
 ##' @export
-get_bias <- function(se, df, r2y, r2d) {
+get_bias = function(se, df, r2y, r2d) {
   sqrt(r2y*r2d/(1 - r2d))*se*sqrt(df)
 }
 
 ##' @export
 ##' @name get_bias
-get_se   <- function(se, df, r2y, r2d){
+get_se   = function(se, df, r2y, r2d){
   sqrt((1 - r2y)/(1 - r2d))*se*sqrt(df/(df - 1))
 }
 
 ##' @export
 ##' @name get_bias
-get_t    <- function(t, df, r2y, r2d, reduce = TRUE){
+get_t    = function(t, df, r2y, r2d, reduce = TRUE){
   if (reduce) {
-   adj_t <- sign(t)*(abs(t)/sqrt(df) - sqrt(r2y*(r2d/(1 - r2d))))*sqrt((1 - r2d)/(1 - r2y))*sqrt(df - 1)
+   adj_t = sign(t)*(abs(t)/sqrt(df) - sqrt(r2y*(r2d/(1 - r2d))))*sqrt((1 - r2d)/(1 - r2y))*sqrt(df - 1)
   } else {
-    adj_t <- sign(t)*(abs(t)/sqrt(df) + sqrt(r2y*(r2d/(1 - r2d))))*sqrt((1 - r2d)/(1 - r2y))*sqrt(df - 1)
+    adj_t = sign(t)*(abs(t)/sqrt(df) + sqrt(r2y*(r2d/(1 - r2d))))*sqrt((1 - r2d)/(1 - r2y))*sqrt(df - 1)
   }
   return(adj_t)
 
 }
 
-# get_t2    <- function(r2, df, r2y, r2d){
+# get_t2    = function(r2, df, r2y, r2d){
 #   (sqrt((r2)/(1-r2)) - sqrt(r2y*(r2d/(1 - r2d))))*sqrt((1 - r2d)/(1 - r2y))*sqrt(df - 1)
 # }
 
 
 
-adjust_estimate <- function(estimate, bias, reduce = TRUE){
+adjust_estimate = function(estimate, bias, reduce = TRUE){
   if (reduce) {
     return(sign(estimate)*(abs(estimate) - bias))
   } else {
@@ -586,6 +586,6 @@ adjust_estimate <- function(estimate, bias, reduce = TRUE){
   }
 }
 
-t_to_r2 <- function(t, df){
+t_to_r2 = function(t, df){
   t^2/(t^2 + df)
 }

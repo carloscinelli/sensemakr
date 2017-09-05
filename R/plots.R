@@ -11,7 +11,7 @@
 ##'
 ##' @return a ggplot object with the plot.
 ##' @export
-plot.sensemade <- function(x,
+plot.sensemade = function(x,
                            showvars='masked',
                            type = c("contour", "worst-case"),
                            ...){
@@ -22,8 +22,8 @@ plot.sensemade <- function(x,
   # 3 list("foo1","foo2"), plot explicit 'foo1' and 'foo2' only
 
   # later plot methods make use of
-  # benchmarks  <- x$benchmarks$benchmark_eachvar
-  # benchmarks_group  <- x$benchmarks$benchmark_group
+  # benchmarks  = x$benchmarks$benchmark_eachvar
+  # benchmarks_group  = x$benchmarks$benchmark_group
 
   # so create
   # benchmarks = x$benchmarks$benchmarks_2plot1
@@ -45,8 +45,8 @@ plot.sensemade <- function(x,
 
     } else if(showvars=='all'){
       # no subset
-      x$benchmarks$benchmarks_2plot1  <- x$benchmarks$benchmark_eachvar
-      x$benchmarks$benchmarks_2plot2  <- x$benchmarks$benchmark_group
+      x$benchmarks$benchmarks_2plot1  = x$benchmarks$benchmark_eachvar
+      x$benchmarks$benchmarks_2plot2  = x$benchmarks$benchmark_group
 
     } else {
       stop('You have supplied an incompatible "showvars" option')
@@ -71,7 +71,7 @@ plot.sensemade <- function(x,
   }
 
 
-  type <- match.arg(type)
+  type = match.arg(type)
   switch(type,
          contour = contourplot(x, ...),
          "worst-case" = worstcaseplot(x, ...)
@@ -81,7 +81,7 @@ plot.sensemade <- function(x,
 # A method must have all the arguments of the generic, including … if the generic does.
 
 
-contourplot <- function(x,
+contourplot = function(x,
                         contour = c("estimate","t-value", "lower bound", "upper bound"),
                         nlevels = 15,
                         pch = 20,
@@ -106,7 +106,7 @@ contourplot <- function(x,
 #   x.label = NULL
 #   y.label = NULL
 
-  contour <- match.arg(contour)
+  contour = match.arg(contour)
 
 
 
@@ -119,7 +119,7 @@ contourplot <- function(x,
   # x$benchmarks$benchmarks_2plot1
   # x$benchmarks$benchmarks_2plot2
 
-  # benchmarks  <- x$benchmarks$benchmark_eachvar
+  # benchmarks  = x$benchmarks$benchmark_eachvar
   benchmarks = x$benchmarks$benchmarks_2plot1
 
   # potential 0-length error if 'subsetted' out in top level plot()
@@ -127,7 +127,7 @@ contourplot <- function(x,
   # nrow(benchmarks)
   # later on add if(nrow()>0)
 
-  # benchmarks_group  <- x$benchmarks$benchmark_group
+  # benchmarks_group  = x$benchmarks$benchmark_group
   benchmarks_group = x$benchmarks$benchmarks_2plot2
 
 
@@ -136,10 +136,10 @@ contourplot <- function(x,
   # any(is.na(benchmarks))==TRUE
 
 
-  top         <- min(c(nrow(benchmarks), top))
-  benchmarks  <- benchmarks[1:top, ]
-  r2y         <- benchmarks$r2y
-  r2d         <- benchmarks$r2d
+  top         = min(c(nrow(benchmarks), top))
+  benchmarks  = benchmarks[1:top, ]
+  r2y         = benchmarks$r2y
+  r2d         = benchmarks$r2d
 
   r2y_group = benchmarks_group$r2y
   r2d_group = benchmarks_group$r2d
@@ -147,16 +147,16 @@ contourplot <- function(x,
 
 
   #### contour data (treatment effect data) ####
-  estimate    <- x$treat.stats$estimate
-  se          <- x$treat.stats$se
-  df          <- x$treat.stats$df
-  t           <- estimate/se
+  estimate    = x$treat.stats$estimate
+  se          = x$treat.stats$se
+  df          = x$treat.stats$df
+  t           = estimate/se
 
   #### computing contours ####
 
   ## sequence of R2y and R2d
-  if (is.null(lim)) lim <- max(c(r2y, r2d, r2y_group, r2d_group), na.rm = TRUE) + 0.1
-  s <- seq(0, lim, by = 0.001)
+  if (is.null(lim)) lim = max(c(r2y, r2d, r2y_group, r2d_group), na.rm = TRUE) + 0.1
+  s = seq(0, lim, by = 0.001)
 
   ######################################################
   # level curves
@@ -164,36 +164,36 @@ contourplot <- function(x,
 
   if (contour == "estimate") {
     # estimate level curve
-    z      <- adjust_estimate(estimate, outer(s, s, get_bias, se = se, df = df))
-    labels <- paste0(benchmarks$covariate, "\n", "(",round(benchmarks$adj_est_r2, 3),")")
-    lev    <- 0
+    z      = adjust_estimate(estimate, outer(s, s, get_bias, se = se, df = df))
+    labels = paste0(benchmarks$covariate, "\n", "(",round(benchmarks$adj_est_r2, 3),")")
+    lev    = 0
 
   } else if (contour == "t-value") {
     # t-value level curve
-    z      <- outer(s, s, get_t, t = t, df = df)
-    labels <- paste0(benchmarks$covariate, "\n", "(",round(benchmarks$adj_t_r2, 3),")")
-    lev    <- 2
+    z      = outer(s, s, get_t, t = t, df = df)
+    labels = paste0(benchmarks$covariate, "\n", "(",round(benchmarks$adj_t_r2, 3),")")
+    lev    = 2
 
   } else if (contour == "lower bound" | contour == "upper bound" ) {
     # CI level curves
-    new_estimate <- adjust_estimate(estimate, outer(s, s, get_bias, se = se, df = df))
-    new_se       <- outer(s, s, get_se, se = se, df = df)
+    new_estimate = adjust_estimate(estimate, outer(s, s, get_bias, se = se, df = df))
+    new_se       = outer(s, s, get_se, se = se, df = df)
 
     if (contour == "lower bound") {
       # CI lower bound
-      z                    <- new_estimate - 1.96*new_se
-      benchmarks$adj_lw_r2 <- benchmarks$adj_est_r2 - 1.96*benchmarks$adj_se_r2
-      labs                 <- benchmarks$adj_lw_r2
+      z                    = new_estimate - 1.96*new_se
+      benchmarks$adj_lw_r2 = benchmarks$adj_est_r2 - 1.96*benchmarks$adj_se_r2
+      labs                 = benchmarks$adj_lw_r2
 
     } else {
       # CI upper bound
-      z                    <- new_estimate + 1.96*new_se
-      benchmarks$adj_up_r2 <- benchmarks$adj_est_r2 + 1.96*benchmarks$adj_se_r2
-      labs                 <- benchmarks$adj_up_r2
+      z                    = new_estimate + 1.96*new_se
+      benchmarks$adj_up_r2 = benchmarks$adj_est_r2 + 1.96*benchmarks$adj_se_r2
+      labs                 = benchmarks$adj_up_r2
 
     }
-    labels <- paste0(benchmarks$covariate, "\n", "(",round(labs, 3),")")
-    lev <- 0
+    labels = paste0(benchmarks$covariate, "\n", "(",round(labs, 3),")")
+    lev = 0
 
   }
 
@@ -220,10 +220,10 @@ contourplot <- function(x,
   # deprecate 'jitter' since it breaks group benchmark plots
 
 #   if (is.null(x.label))
-#     r2dl <- jitter(r2d, factor = 20)
+#     r2dl = jitter(r2d, factor = 20)
 #
 #   if (is.null(y.label))
-#     r2yl <- jitter(r2y, factor = 20)
+#     r2yl = jitter(r2y, factor = 20)
 #
 #   text(r2dl, r2yl, labels = labels, cex = 0.7)
 # from r2dl to r2d
@@ -233,7 +233,7 @@ contourplot <- function(x,
 
   if(nrow(benchmarks_group)>0){
 
-    labels_group <- benchmarks_group$covariate
+    labels_group = benchmarks_group$covariate
 
     text(x=benchmarks_group$r2d,
          y=benchmarks_group$r2y,
@@ -243,14 +243,14 @@ contourplot <- function(x,
 
   }
 
-  labels <- data.frame(labels = labels,x = r2d, y = r2y, stringsAsFactors = FALSE)
+  labels = data.frame(labels = labels,x = r2d, y = r2y, stringsAsFactors = FALSE)
 
   ######################################################
   # data for reproducibility
   ######################################################
 
-  rownames(z) <- colnames(z) <- s
-  out <- list(plot_type = paste(contour,"contours"),
+  rownames(z) = colnames(z) = s
+  out = list(plot_type = paste(contour,"contours"),
               contours = z,
               benchmarks_2plot1 = benchmarks,
               benchmarks_2plot2 = benchmarks_group,
@@ -261,7 +261,7 @@ contourplot <- function(x,
 
 #contourplot
 
-worstcaseplot <- function(x,
+worstcaseplot = function(x,
                           lim = NULL,
                           scenarios = c(1, 0.3),
                           cex.legend = 0.6,
@@ -276,37 +276,37 @@ worstcaseplot <- function(x,
   # x$benchmarks$benchmarks_2plot1
   # x$benchmarks$benchmarks_2plot2
 
-  # benchmarks <- x$benchmarks$benchmark_eachvar
+  # benchmarks = x$benchmarks$benchmark_eachvar
   benchmarks = x$benchmarks$benchmarks_2plot1
 
-  r2d <- benchmarks$r2d
+  r2d = benchmarks$r2d
 
   # 'benchmarks_group' assigned earlier based on showvars subset
-  # benchmarks_group  <- x$benchmarks$benchmark_group
+  # benchmarks_group  = x$benchmarks$benchmark_group
   benchmarks_group = x$benchmarks$benchmarks_2plot2
 
   r2d_group = benchmarks_group$r2d
 
 
   # # mike note: what is index
-  # if (!is.null(index)) r2d <- r2d[index]
+  # if (!is.null(index)) r2d = r2d[index]
   #
-  # if (!is.null(index)) r2d_group <- r2d_group[index]
+  # if (!is.null(index)) r2d_group = r2d_group[index]
 
 
-  estimate <- x$treat.stats$estimate
-  se  <- x$treat.stats$se
-  df <- x$treat.stats$df
+  estimate = x$treat.stats$estimate
+  se  = x$treat.stats$se
+  df = x$treat.stats$df
 
-  if (is.null(lim)) lim <- max(r2d, na.rm = TRUE) + 0.1
-  s <- seq(0, lim, by = 0.001)
+  if (is.null(lim)) lim = max(r2d, na.rm = TRUE) + 0.1
+  s = seq(0, lim, by = 0.001)
 
-  mr2y <- x$benchmarks$benchmark_dropallvar$r2y_all
+  mr2y = x$benchmarks$benchmark_dropallvar$r2y_all
 
 
-  y <- adjust_estimate(estimate, get_bias(se = se, df = df, r2y = scenarios[1], r2d = s))
+  y = adjust_estimate(estimate, get_bias(se = se, df = df, r2y = scenarios[1], r2d = s))
 
-  out <- data.frame(r2d = s,
+  out = data.frame(r2d = s,
                     r2y = scenarios[1],
                     adj_est = y)
 
@@ -317,28 +317,28 @@ worstcaseplot <- function(x,
        ylab = ylab,
        main = main)
   abline(h = 0, col = "red", lty = 5)
-  scenarios2 <- scenarios[-1]
+  scenarios2 = scenarios[-1]
 
   for (i in seq_along(scenarios2)) {
-    y <- adjust_estimate(estimate, get_bias(se = se, df = df, r2y = scenarios2[i], r2d = s))
-    out2 <- data.frame(r2d = s,
+    y = adjust_estimate(estimate, get_bias(se = se, df = df, r2y = scenarios2[i], r2d = s))
+    out2 = data.frame(r2d = s,
                       r2y = scenarios2[i],
                       adj_est = y)
-    out <- rbind(out, out2)
+    out = rbind(out, out2)
     lines(s,  y, lty = i + 1)
   }
 
-  p    <- length(scenarios)
+  p    = length(scenarios)
 
   # max observed R2y
-  y <- adjust_estimate(estimate, get_bias(se = se, df = df, r2y = mr2y, r2d = s))
+  y = adjust_estimate(estimate, get_bias(se = se, df = df, r2y = mr2y, r2d = s))
   lines(s, y, lty = p + 1, col = "red")
-  out2 <- data.frame(r2d = s,
+  out2 = data.frame(r2d = s,
                      r2y = mr2y,
                      adj_est = y)
-  out <- rbind(out, out2)
+  out = rbind(out, out2)
 
-  out <- list(plot_type = "worst case plot",
+  out = list(plot_type = "worst case plot",
               adjusted_estimates = out)
 
   legend("topright",

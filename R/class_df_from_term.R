@@ -94,7 +94,7 @@ class_df_from_term = function(model,class_post_formula=FALSE){
 #
 # str(iris)
 #
-# model  <- lm(data = iris,Sepal.Length ~ Species + as.numeric(Species) +
+# model  = lm(data = iris,Sepal.Length ~ Species + as.numeric(Species) +
 #                Species:Sepal.Width + as.factor(Sepal.Width)+
 #                as.factor(Sepal.Width)*as.factor(Petal.Length)+
 #                as.numeric(Species)*as.factor(Petal.Length))
@@ -103,6 +103,6 @@ class_df_from_term = function(model,class_post_formula=FALSE){
 #
 # str(iris)
 # made output list structure consistant
-# model  <- lm(data = iris,Sepal.Length ~ Species + Petal.Length)
+# model  = lm(data = iris,Sepal.Length ~ Species + Petal.Length)
 # str(class_df_from_term(model,class_post_formula = FALSE))
 # str(class_df_from_term(model,class_post_formula = TRUE))
