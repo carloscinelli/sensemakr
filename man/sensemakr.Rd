@@ -53,11 +53,9 @@ data("darfur")
 model  = lm(peacefactor ~ directlyharmed + age + farmer_dar + herder_dar +
                pastvoted + hhsize_darfur + female + village, data = darfur)
 
-# benchmark variables
-X = c("herder_dar", "female", "age", "pastvoted", "farmer_dar")
 
 # runs benchmarking etc
-sense = sensemakr(model, treatment = "directlyharmed", benchmarks = X)
+sense = sensemakr(model, treatment = "directlyharmed")
 
 # plots
 
