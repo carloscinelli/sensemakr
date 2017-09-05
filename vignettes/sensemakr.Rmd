@@ -187,7 +187,7 @@ ls(sense.out$benchmarks)
 The `\_dropallvar` variable contains useful information for computing sensitivity parameters, but the quantities of usual interest will be stored in `benchmark_eachvar` and `benchmark_masked`. Both contain similar information, but when grouped variables (such as `village`) are included in the model, looking at `benchmark\_masked` conveniently masks the grouped variables (620 separate indicators in this case):
 
 ```{r}
-round(sense.out$benchmarks$benchmark_masked[,-1],4)
+round(sense.out$benchmarks$benchmark_masked,4)
 ```
 
 The columns `r2y` and `r2d` give the partial `R^2` with the outcome (`y`) and treatment (`d`) respectively.  The `bias\_r2` gives the bias that would be caused by a confounder with the corresponding `r2y` and `r2d`. The adjusted estimated due to this bias --  simply the original estimate minus the proposed bias -- is `adj\_est\_r2`.  Finally, the adjusted `adj\_se\_r2` and `adj\_t\_r2` gives the standard error and t-statistic after adjusting for a hypothetical confounder with the proposed characteristics.  
