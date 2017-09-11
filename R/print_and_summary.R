@@ -36,6 +36,7 @@ summary.sensemakr = function(object, q=1,scenarios=c(1,.25)){
 
 ##' @title Low level function to interpret sensemakr quantities
 ##' @name interpret
+##' @description provides text interpretation in the console
 ##' @param sensemakr object with 'sensemakr' class.
 ##' @param q FOO
 ##' @export
@@ -103,6 +104,7 @@ interpret = function(sensemakr, q = 1){
 
 ##' @title a Low level function to interpret sensemakr quantities
 ##' @name worstcaseinterpret
+##' @description provides text interpretation in the console
 ##' @param sensemakr object with 'sensemakr' class.
 ##' @param scenarios a numeric vector, wher each element represents a scenario
 ##' @param q FOO

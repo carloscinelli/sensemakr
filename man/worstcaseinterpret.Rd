@@ -13,3 +13,6 @@ worstcaseinterpret(sensemakr, scenarios = c(1, 0.25), q = 1)
 
 \item{q}{FOO}
 }
+\description{
+provides text interpretation in the console
+}

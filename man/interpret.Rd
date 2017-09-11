@@ -11,3 +11,6 @@ interpret(sensemakr, q = 1)
 
 \item{q}{FOO}
 }
+\description{
+provides text interpretation in the console
+}
