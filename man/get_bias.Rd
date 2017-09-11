@@ -23,7 +23,9 @@ get_t(t, df, r2y, r2d, reduce = TRUE)
 
 \item{r2d}{hypothetical partial R2 of the confounder with the treatment}
 
-\item{...}{extra arguments}
+\item{t}{the t value of the treatment}
+
+\item{reduce}{a logical (default TRUE) representing if the adjusted t should be reduced}
 }
 \description{
 These functions compute the bias caused by an unobserved confounder with a specific pair

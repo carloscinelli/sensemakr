@@ -520,7 +520,6 @@ groupR2 = function(model,terms_4_group){
 ##' @param df       degrees of freedom of the original linear model
 ##' @param r2d      hypothetical partial R2 of the confounder with the treatment
 ##' @param r2y      hypothetical partial R2 of the confounder with the outcome
-##' @param ...      extra arguments
 ##' @export
 get_bias = function(se, df, r2y, r2d) {
   sqrt(r2y*r2d/(1 - r2d))*se*sqrt(df)
@@ -528,13 +527,16 @@ get_bias = function(se, df, r2y, r2d) {
 
 ##' @export
 ##' @name get_bias
-get_se   = function(se, df, r2y, r2d){
+get_se = function(se, df, r2y, r2d){
   sqrt((1 - r2y)/(1 - r2d))*se*sqrt(df/(df - 1))
 }
 
 ##' @export
 ##' @name get_bias
-get_t    = function(t, df, r2y, r2d, reduce = TRUE){
+##' @param t the t value of the treatment
+##' @param reduce a logical (default TRUE) representing if the adjusted t should be reduced
+
+get_t = function(t, df, r2y, r2d, reduce = TRUE){
   if (reduce) {
    adj_t = sign(t)*(abs(t)/sqrt(df) - sqrt(r2y*(r2d/(1 - r2d))))*sqrt((1 - r2d)/(1 - r2y))*sqrt(df - 1)
   } else {

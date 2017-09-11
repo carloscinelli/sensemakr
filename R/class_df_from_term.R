@@ -22,7 +22,7 @@
 #'
 #' class_df_from_term(model,class_post_formula = FALSE)
 
-##' @importFrom stats terms formula update
+##' @importFrom stats terms as.formula getCall
 class_df_from_term = function(model,class_post_formula=FALSE){
 
   # reusable info
@@ -35,7 +35,7 @@ class_df_from_term = function(model,class_post_formula=FALSE){
 
   list_term_form_uses_col_df = sapply(X=all_rhs_par_form,USE.NAMES=TRUE,
                                       FUN=function(one_term){
-                                        return(all.vars(as.formula(paste0('~',one_term))))
+                                        return(all.vars(stats::as.formula(paste0('~',one_term))))
                                         # crucial that all.vars() interprets formula right
                                       })
 
@@ -65,7 +65,7 @@ class_df_from_term = function(model,class_post_formula=FALSE){
     # looksup against 'dat_in = (eval(getCall(model)$data,environment(terms(model))))[1,]'
 
     # just one row
-    dat_in = (eval(getCall(model)$data,environment(terms(model))))[1,]
+    dat_in = (eval(stats::getCall(model)$data,environment(terms(model))))[1,]
 
     list_class_df_from_term = lapply(list_term_form_uses_col_df,
                                      FUN=function(list_colnames_df_oneterm){
