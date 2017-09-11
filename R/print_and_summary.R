@@ -7,6 +7,7 @@
 # A method must have arguments in exactly the same order as the generic.
 
 ##' @title print.sensemakr is the print method for sensemakr class
+##' @description the print method for sensemakr class
 ##' @param x object with 'sensemakr' class.
 ##' @param str a logical (default TRUE) indicating if the structure should be printed.
 ##' @param ... extra args
@@ -23,6 +24,7 @@ print.sensemakr = function(x,str = TRUE,...){
 }
 
 ##' @title summary.sensemakr is the summary method for sensemakr class
+##' @description the summary method for sensemakr class
 ##' @param object with 'sensemakr' class.
 ##' @param q FOO
 ##' @param scenarios a numeric vector, wher each element represents a scenario
@@ -127,6 +129,7 @@ worstcaseinterpret = function(sensemakr, scenarios = c(1, 0.25), q = 1){
 }
 
 ##' @title print.summary.sensemakr is the print method for the summary of sensemakr
+##' @description the print method for summary of sensemakr class
 ##' @param x object with 'sensemakr' class.
 ##' @param q FOO
 ##' @param scenarios a numeric vector, wher each element represents a scenario

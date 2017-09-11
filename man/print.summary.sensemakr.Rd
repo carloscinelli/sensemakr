@@ -15,3 +15,6 @@
 
 \item{...}{extra args}
 }
+\description{
+the print method for summary of sensemakr class
+}
