@@ -70,12 +70,9 @@ sensemakr = function(model, treatment, group_list, ...){
   UseMethod("sensemakr")
 }
 
-##' @param model the model
-##' @param treatment  character vector with the treatment variable
-##' @param group_list a list of character vectors where elements within one vector are terms that should be grouped
 ##' @name sensemakr
 ##' @export
-sensemakr.lm = function(model, treatment, group_list=NULL){
+sensemakr.lm = function(model, treatment, group_list=NULL,...){
 
 
   D = treatment  # notational convenience

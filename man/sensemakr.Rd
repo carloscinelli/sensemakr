@@ -8,7 +8,7 @@
 \usage{
 sensemakr(model, treatment, group_list, ...)
 
-\method{sensemakr}{lm}(model, treatment, group_list = NULL)
+\method{sensemakr}{lm}(model, treatment, group_list = NULL, ...)
 }
 \arguments{
 \item{model}{the model}
@@ -18,12 +18,6 @@ sensemakr(model, treatment, group_list, ...)
 \item{group_list}{a list of character vectors where elements within one vector are terms that should be grouped}
 
 \item{...}{extra arguments}
-
-\item{model}{the model}
-
-\item{treatment}{character vector with the treatment variable}
-
-\item{group_list}{a list of character vectors where elements within one vector are terms that should be grouped}
 }
 \value{
 The function returns an object of class 'sensemakr' which is a list with the main

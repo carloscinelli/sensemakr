@@ -6,10 +6,12 @@
 # A method must have all the arguments of the generic, including … if the generic does.
 # A method must have arguments in exactly the same order as the generic.
 
+##' @title print.sensemakr is the print method for sensemakr class
 ##' @param x object with 'sensemakr' class.
 ##' @param str a logical (default TRUE) indicating if the structure should be printed.
+##' @param ... extra args
 ##' @export
-print.sensemakr = function(x, str = TRUE){
+print.sensemakr = function(x,str = TRUE,...){
 
   cat("Sensitivity Analysis\n\n")
   cat("Model:", trimws(deparse(formula(x$info$model))), "\n\n")
@@ -20,11 +22,13 @@ print.sensemakr = function(x, str = TRUE){
   cat("\n For more, use plot and summary.")
 }
 
+##' @title summary.sensemakr is the summary method for sensemakr class
 ##' @param object with 'sensemakr' class.
 ##' @param q FOO
 ##' @param scenarios a numeric vector, wher each element represents a scenario
+##' @param ... extra args
 ##' @export
-summary.sensemakr = function(object, q=1,scenarios=c(1,.25)){
+summary.sensemakr = function(object, q=1,scenarios=c(1,.25),...){
   # bunch of useful things
   # return list with several useful things
   # returns a obj of class summary.sensemakr
@@ -122,11 +126,13 @@ worstcaseinterpret = function(sensemakr, scenarios = c(1, 0.25), q = 1){
   " of the treatment assignment to reduce the treatment effect in ", round(q*100, 2), "%.", sep = "")
 }
 
+##' @title print.summary.sensemakr is the print method for the summary of sensemakr
 ##' @param x object with 'sensemakr' class.
 ##' @param q FOO
 ##' @param scenarios a numeric vector, wher each element represents a scenario
+##' @param ... extra args
 ##' @export
-print.summary.sensemakr = function(x, q = 1, scenarios = c(1,.25)){
+print.summary.sensemakr = function(x, q = 1, scenarios = c(1,.25),...){
  # pretty print for the summary
   cat("Sensitivity Analysis\n\n")
   cat("Model:", trimws(deparse(formula(x$info$model))), "\n\n")
