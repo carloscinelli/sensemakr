@@ -59,6 +59,7 @@
 ##' @references
 ##' Cite paper(s)
 ##'
+##' @param ... extra arguments
 ##' @export
 ##' @importFrom graphics abline legend lines plot points rug text
 ##' @importFrom stats coef df.residual formula model.matrix sd update vcov
@@ -121,6 +122,7 @@ getstats = function(model, D){
 # Input: takes an lm object + treatment name + covariates name
 # Output: three data.frames with benchmarks for R2, SD and natural.
 #       - data.frame contains: Names, R2y or delta, R2d or gamma
+##' @importFrom stats terms
 benchmarkr = function(model, D, # X = NULL,
                        group_list=NULL, ...){
 
@@ -417,8 +419,8 @@ benchmarkr = function(model, D, # X = NULL,
 #' @return a numeric scalar representing the R2 value of with-holding the model matrix columns associated with 'terms_4_group'
 #' @export
 #'
-#' @examples none, a low level helper
-
+#' @examples # none, a low level helper
+#' @importFrom stats terms formula update
 groupR2 = function(model,terms_4_group){
 
   #######################################

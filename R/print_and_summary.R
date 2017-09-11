@@ -6,6 +6,8 @@
 # A method must have all the arguments of the generic, including … if the generic does.
 # A method must have arguments in exactly the same order as the generic.
 
+##' @param x object with 'sensemakr' class.
+##' @param str a logical (default TRUE) indicating if the structure should be printed.
 ##' @export
 print.sensemakr = function(x, str = TRUE){
 
@@ -18,7 +20,9 @@ print.sensemakr = function(x, str = TRUE){
   cat("\n For more, use plot and summary.")
 }
 
-
+##' @param object with 'sensemakr' class.
+##' @param q FOO
+##' @param scenarios a numeric vector, wher each element represents a scenario
 ##' @export
 summary.sensemakr = function(object, q=1,scenarios=c(1,.25)){
   # bunch of useful things
@@ -29,6 +33,8 @@ summary.sensemakr = function(object, q=1,scenarios=c(1,.25)){
   print.summary.sensemakr(out, q=q, scenarios=scenarios)
 }
 
+##' @param sensemakr object with 'sensemakr' class.
+##' @param q FOO
 ##' @export
 interpret = function(sensemakr, q = 1){
 
@@ -92,6 +98,9 @@ interpret = function(sensemakr, q = 1){
   cat("\n\n")
 }
 
+##' @param sensemakr object with 'sensemakr' class.
+##' @param scenarios a numeric vector, wher each element represents a scenario
+##' @param q FOO
 ##' @export
 worstcaseinterpret = function(sensemakr, scenarios = c(1, 0.25), q = 1){
   estimate = sensemakr$treat.stats$estimate
@@ -106,6 +115,9 @@ worstcaseinterpret = function(sensemakr, scenarios = c(1, 0.25), q = 1){
   " of the treatment assignment to reduce the treatment effect in ", round(q*100, 2), "%.", sep = "")
 }
 
+##' @param x object with 'sensemakr' class.
+##' @param q FOO
+##' @param scenarios a numeric vector, wher each element represents a scenario
 ##' @export
 print.summary.sensemakr = function(x, q = 1, scenarios = c(1,.25)){
  # pretty print for the summary

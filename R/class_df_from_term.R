@@ -22,6 +22,7 @@
 #'
 #' class_df_from_term(model,class_post_formula = FALSE)
 
+##' @importFrom stats terms formula update
 class_df_from_term = function(model,class_post_formula=FALSE){
 
   # reusable info

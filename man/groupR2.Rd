@@ -19,5 +19,5 @@ a numeric scalar representing the R2 value of with-holding the model matrix colu
 forms R2 quantities for a model.matrix column group tied to their model's term
 }
 \examples{
-none, a low level helper
+# none, a low level helper
 }
