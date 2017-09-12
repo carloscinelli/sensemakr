@@ -17,11 +17,29 @@ You can install sensemakr from github with:
 devtools::install_github("chadhazlett/sensemakr")
 ```
 
+Additionally, if you want to install the companion vignette, use the below command instead:
+
+``` r
+
+devtools::install_github("chadhazlett/sensemakr",build_vignettes = TRUE,force=TRUE)
+
+vignette('sensemakr')
+```
+
 Example
 -------
 
-This is a basic example which shows you how to solve a common problem:
+Below is a basic example of the functionality in the sensemakr package
 
 ``` r
-## basic example code
+
+library(sensemakr)
+
+lm.out  <- lm(peacefactor ~ directlyharmed + age + female + village, data = darfur)
+
+sense.out <- sensemakr(model=lm.out, treatment="directlyharmed")
+
+plot(sense.out, showvars = list("age","female"))
 ```
+
+![](tools/README-example-1.png)

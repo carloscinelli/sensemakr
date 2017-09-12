@@ -19,9 +19,9 @@ test_that("Testing vignette load'", {
   # devtools::install_github("chadhazlett/sensemakr",build_vignettes = TRUE,force=TRUE)
   table_vign = vignette(all=TRUE)
   lgl_sense_vign = 'sensemakr' %in% (table_vign$results)[,'Package']
-  expect_that(lgl_sense_vign, is_true())
+  testthat::expect_that(lgl_sense_vign, testthat::is_true())
 
   out_vign = vignette('sensemakr',package = "sensemakr")
-  expect_that(out_vign, is_a("vignette"))
+  testthat::expect_that(out_vign, testthat::is_a("vignette"))
 
   })
