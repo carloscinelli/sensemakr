@@ -21,7 +21,7 @@
 #' class_df_from_term(model,class_post_formula = TRUE)
 #'
 #' class_df_from_term(model,class_post_formula = FALSE)
-
+#' @export
 ##' @importFrom stats terms as.formula getCall
 class_df_from_term = function(model,class_post_formula=FALSE){
 
