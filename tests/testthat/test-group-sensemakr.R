@@ -26,7 +26,7 @@ test_that("Testing group terms", {
   # each list entry is a character vector.
   # elements of a character vector are simultaneously with-held
 
-  test2 = sensemakr.lm(model=mod_test,treatment='directlyharmed',
+  test2 = sensemakr(model=mod_test,treatment='directlyharmed',
                        group_list = list(c('village','female')))
 
   str(test2$benchmarks,max.level=1)

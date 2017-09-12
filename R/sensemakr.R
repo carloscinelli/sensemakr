@@ -514,10 +514,13 @@ groupR2 = function(model,terms_4_group){
 
 
 # dont think this should be exported
-##' @title Computes effects on estimate, standard error and t-value caused by unobserved confounder
-##' @description  These functions compute the bias caused by an unobserved confounder with a specific pair
+##' @title Computes low level quantities: effects on estimate, standard error and t-value caused by unobserved confounder
+##' @description  These helper functions compute the bias caused by an unobserved confounder with a specific pair
 ##' of partial R2 with the treatment and with the outcome.
 ##' with certain characteristics.
+##'
+##'
+##' NOTE: These are low level helper functions that are NOT exported.
 ##'
 ##' @param se       standard error of original  treatment effect estimate
 ##' @param df       degrees of freedom of the original linear model
@@ -529,6 +532,7 @@ get_bias = function(se, df, r2y, r2d) {
 
 
 # dont think this should be exported
+# note, name is get_bias NOT get_se, to link to single help doc
 ##' @name get_bias
 get_se = function(se, df, r2y, r2d){
   sqrt((1 - r2y)/(1 - r2d))*se*sqrt(df/(df - 1))
@@ -536,20 +540,24 @@ get_se = function(se, df, r2y, r2d){
 
 
 # dont think this should be exported
+# note, name is get_bias NOT get_t, to link to single help doc
 ##' @name get_bias
 ##' @param t the t value of the treatment
-##' @param reduce a logical (default TRUE) representing if the adjusted t should be reduced
+##' @param reduce a logical (default TRUE) representing if the statistics should be reduced
 get_t = function(t, df, r2y, r2d, reduce = TRUE){
   if (reduce) {
-   adj_t = sign(t)*(abs(t)/sqrt(df) - sqrt(r2y*(r2d/(1 - r2d))))*sqrt((1 - r2d)/(1 - r2y))*sqrt(df - 1)
+    adj_t = sign(t)*(abs(t)/sqrt(df) - sqrt(r2y*(r2d/(1 - r2d))))*sqrt((1 - r2d)/(1 - r2y))*sqrt(df - 1)
   } else {
     adj_t = sign(t)*(abs(t)/sqrt(df) + sqrt(r2y*(r2d/(1 - r2d))))*sqrt((1 - r2d)/(1 - r2y))*sqrt(df - 1)
   }
   return(adj_t)
-
 }
 
-# not exported
+# dont think this should be exported
+# note, name is get_bias NOT adjust_estimate, to link to single help doc
+##' @name get_bias
+##' @param estimate the treatment estimate
+##' @param bias the bias amount
 adjust_estimate = function(estimate, bias, reduce = TRUE){
   if (reduce) {
     return(sign(estimate)*(abs(estimate) - bias))
@@ -558,7 +566,9 @@ adjust_estimate = function(estimate, bias, reduce = TRUE){
   }
 }
 
-# not exported
+# dont think this should be exported
+# note, name is get_bias NOT t_to_r2, to link to single help doc
+##' @name get_bias
 t_to_r2 = function(t, df){
   t^2/(t^2 + df)
 }

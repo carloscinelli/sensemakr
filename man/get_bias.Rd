@@ -6,13 +6,21 @@
 \alias{get_se}
 \alias{get_bias}
 \alias{get_t}
-\title{Computes effects on estimate, standard error and t-value caused by unobserved confounder}
+\alias{get_bias}
+\alias{adjust_estimate}
+\alias{get_bias}
+\alias{t_to_r2}
+\title{Computes low level quantities: effects on estimate, standard error and t-value caused by unobserved confounder}
 \usage{
 get_bias(se, df, r2y, r2d)
 
 get_se(se, df, r2y, r2d)
 
 get_t(t, df, r2y, r2d, reduce = TRUE)
+
+adjust_estimate(estimate, bias, reduce = TRUE)
+
+t_to_r2(t, df)
 }
 \arguments{
 \item{se}{standard error of original  treatment effect estimate}
@@ -25,10 +33,17 @@ get_t(t, df, r2y, r2d, reduce = TRUE)
 
 \item{t}{the t value of the treatment}
 
-\item{reduce}{a logical (default TRUE) representing if the adjusted t should be reduced}
+\item{reduce}{a logical (default TRUE) representing if the statistics should be reduced}
+
+\item{estimate}{the treatment estimate}
+
+\item{bias}{the bias amount}
 }
 \description{
-These functions compute the bias caused by an unobserved confounder with a specific pair
+These helper functions compute the bias caused by an unobserved confounder with a specific pair
 of partial R2 with the treatment and with the outcome.
 with certain characteristics.
+
+
+NOTE: These are low level helper functions that are NOT exported.
 }
