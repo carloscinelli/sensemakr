@@ -1,3 +1,4 @@
+# dont think this should be exported
 
 #' @title The function '?class_df_from_term()'
 #' @description Looks up and returns the class of the data.frame column(s) associated with a model's term.
@@ -10,7 +11,6 @@
 #' The vector values are characters for the data frame column's class.
 #' NOTE: If any in-formula transformations were applied, the data.frame referenced would represent an 'intermediate' one
 #' that is not exactly the originating data.frame passed to the 'data' arg of lm(data=.).
-#' @export
 #'
 #' @examples
 #' model = lm(data = iris,Sepal.Length ~ Species + as.numeric(Species) +

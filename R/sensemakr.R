@@ -104,6 +104,7 @@ sensemakr.lm = function(model, treatment, group_list=NULL,...){
 # and the degrees of freedom.
 # future plans, let user supply own output of getstats to be used in downstream benchmarkr()
 
+# not exported
 getstats = function(model, D){
   treat.summary     = summary(model)
   df                = treat.summary$df[2]
@@ -122,6 +123,8 @@ getstats = function(model, D){
 # Input: takes an lm object + treatment name + covariates name
 # Output: three data.frames with benchmarks for R2, SD and natural.
 #       - data.frame contains: Names, R2y or delta, R2d or gamma
+
+# not exported
 ##' @importFrom stats terms
 benchmarkr = function(model, D, # X = NULL,
                        group_list=NULL, ...){
@@ -409,6 +412,7 @@ benchmarkr = function(model, D, # X = NULL,
 }
 
 
+# dont think this should be exported
 #' @title The function '?groupR2()'
 #' @description forms R2 quantities for a model.matrix column group tied to their model's term
 #'
@@ -417,7 +421,6 @@ benchmarkr = function(model, D, # X = NULL,
 #' NOTE: The elements in 'terms_4_group' must match the character values of "(attr(terms(formula(model)),'term.labels'))".
 #'
 #' @return a numeric scalar representing the R2 value of with-holding the model matrix columns associated with 'terms_4_group'
-#' @export
 #'
 #' @examples # none, a low level helper
 #' @importFrom stats terms formula update
@@ -510,7 +513,7 @@ groupR2 = function(model,terms_4_group){
 # r2_y_blacklist = sapply(X=list_term_in_blacklist,FUN=groupR2,model=model)
 
 
-
+# dont think this should be exported
 ##' @title Computes effects on estimate, standard error and t-value caused by unobserved confounder
 ##' @description  These functions compute the bias caused by an unobserved confounder with a specific pair
 ##' of partial R2 with the treatment and with the outcome.
@@ -520,22 +523,22 @@ groupR2 = function(model,terms_4_group){
 ##' @param df       degrees of freedom of the original linear model
 ##' @param r2d      hypothetical partial R2 of the confounder with the treatment
 ##' @param r2y      hypothetical partial R2 of the confounder with the outcome
-##' @export
 get_bias = function(se, df, r2y, r2d) {
   sqrt(r2y*r2d/(1 - r2d))*se*sqrt(df)
 }
 
-##' @export
+
+# dont think this should be exported
 ##' @name get_bias
 get_se = function(se, df, r2y, r2d){
   sqrt((1 - r2y)/(1 - r2d))*se*sqrt(df/(df - 1))
 }
 
-##' @export
+
+# dont think this should be exported
 ##' @name get_bias
 ##' @param t the t value of the treatment
 ##' @param reduce a logical (default TRUE) representing if the adjusted t should be reduced
-
 get_t = function(t, df, r2y, r2d, reduce = TRUE){
   if (reduce) {
    adj_t = sign(t)*(abs(t)/sqrt(df) - sqrt(r2y*(r2d/(1 - r2d))))*sqrt((1 - r2d)/(1 - r2y))*sqrt(df - 1)
@@ -546,12 +549,7 @@ get_t = function(t, df, r2y, r2d, reduce = TRUE){
 
 }
 
-# get_t2    = function(r2, df, r2y, r2d){
-#   (sqrt((r2)/(1-r2)) - sqrt(r2y*(r2d/(1 - r2d))))*sqrt((1 - r2d)/(1 - r2y))*sqrt(df - 1)
-# }
-
-
-
+# not exported
 adjust_estimate = function(estimate, bias, reduce = TRUE){
   if (reduce) {
     return(sign(estimate)*(abs(estimate) - bias))
@@ -560,6 +558,7 @@ adjust_estimate = function(estimate, bias, reduce = TRUE){
   }
 }
 
+# not exported
 t_to_r2 = function(t, df){
   t^2/(t^2 + df)
 }
