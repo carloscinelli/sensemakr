@@ -149,21 +149,21 @@ test_that("Testing plots", {
   # deafult showvars='masked'
   plot(sense, lim=.2)
   plot2_data <- plot(sense, contour = "t-value")
-  plot3_data <- plot(sense, contour = "lower bound")
-  plot4_data <- plot(sense, contour = "upper bound")
+  plot3_data <- plot(sense, contour = "lower-bound")
+  plot4_data <- plot(sense, contour = "upper-bound")
 
   # with showvars='all'
   plot(sense, contour = "t-value",showvars='all')
   plot(sense, contour = "t-value",showvars='all',lim=0.02)
-  plot(sense, contour = "lower bound",showvars='all',lim=0.02)
-  plot(sense, contour = "upper bound",showvars='all',lim=0.02)
+  plot(sense, contour = "lower-bound",showvars='all',lim=0.02)
+  plot(sense, contour = "upper-bound",showvars='all',lim=0.02)
 
   # with showvars explicit
   plot(sense, contour = "t-value",
        showvars=list('village','villageMngao','age'))
-  plot(sense, contour = "lower bound",
+  plot(sense, contour = "lower-bound",
        showvars=list('village','villageMngao','age'))
-  plot(sense, contour = "upper bound",
+  plot(sense, contour = "upper-bound",
        showvars=list('village','villageMngao','age'))
 
 

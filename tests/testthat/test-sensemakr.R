@@ -22,6 +22,9 @@ test_that("Testing darfur 'female'", {
   sense <- sensemakr(model = model, treatment = "directlyharmed")
   methods(sensemakr)
 
+  ls(sense)
+  ls(sense$benchmarks)
+
   expect_that(sense, is_a("sensemakr"))
 
 

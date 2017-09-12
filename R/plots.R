@@ -3,13 +3,13 @@
 ##' @description Several sensitivity plots.
 ##'
 ##' @param x sensemakr object
-##' @param showvars chooses which subsets of benchmarks to display
+##' @param showvars chooses which subsets of benchmarks to display.
 ##' Valid options are: 'masked', 'all', or list('foo1','foo2')
-##' @param type type of the plot
-##' @param ... extra arguments
+##' @param type a character string representing the type of plot: "contour" or "worst-case".
+##' @param ... Arguments to be passed to methods, such as graphical parameters \code{\link{par}} .
 ##'
 ##'
-##' @return a ggplot object with the plot.
+##' @return a plot object
 ##' @export
 plot.sensemakr = function(x,
                            showvars='masked',
@@ -80,9 +80,10 @@ plot.sensemakr = function(x,
 
 # A method must have all the arguments of the generic, including … if the generic does.
 
-
+##' @name plot.sensemakr
+##' @param contour a character string choosing what the contour lines represent: "estimate","t-value", "lower-limit", or "upper-limit"
 contourplot = function(x,
-                        contour = c("estimate","t-value", "lower bound", "upper bound"),
+                        contour = c("estimate","t-value", "lower-limit", "upper-limit"),
                         nlevels = 15,
                         pch = 20,
                         cex = 1,
@@ -94,7 +95,7 @@ contourplot = function(x,
                         x.label = NULL,
                         y.label = NULL){
 
-#   contour = c("estimate","t-value", "lower bound", "upper bound")
+#   contour = c("estimate","t-value", "lower-limit", "upper-limit")
 #   nlevels = 15
 #   pch = 20
 #   cex = 1
@@ -187,19 +188,19 @@ contourplot = function(x,
 
     lev    = 2
 
-  } else if (contour == "lower bound" | contour == "upper bound" ) {
+  } else if (contour == "lower-limit" | contour == "upper-limit" ) {
     # CI level curves
     new_estimate = adjust_estimate(estimate, outer(s, s, get_bias, se = se, df = df))
     new_se       = outer(s, s, get_se, se = se, df = df)
 
-    if (contour == "lower bound") {
-      # CI lower bound
+    if (contour == "lower-limit") {
+      # CI lower-limit
       z                    = new_estimate - 1.96*new_se
       benchmarks$adj_lw_r2 = benchmarks$adj_est_r2 - 1.96*benchmarks$adj_se_r2
       labs                 = benchmarks$adj_lw_r2
 
     } else {
-      # CI upper bound
+      # CI upper-limit
       z                    = new_estimate + 1.96*new_se
       benchmarks$adj_up_r2 = benchmarks$adj_est_r2 + 1.96*benchmarks$adj_se_r2
       labs                 = benchmarks$adj_up_r2

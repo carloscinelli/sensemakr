@@ -2,23 +2,35 @@
 % Please edit documentation in R/plots.R
 \name{plot.sensemakr}
 \alias{plot.sensemakr}
+\alias{plot.sensemakr}
+\alias{contourplot}
 \title{Sensitivity plots}
 \usage{
 \method{plot}{sensemakr}(x, showvars = "masked", type = c("contour",
   "worst-case"), ...)
+
+contourplot(x, contour = c("estimate", "t-value", "lower-limit",
+  "upper-limit"), nlevels = 15, pch = 20, cex = 1, lim = NULL,
+  xlab = "Hypothetical partial R2 of unobserved confounder with the treatment",
+  ylab = "Hypothetical partial R2 of unobserved confounder with the outcome",
+  main = paste("Sensitivity of", contour,
+  "to unobserved confounder\\nContours of adjusted estimates"), top = NULL,
+  x.label = NULL, y.label = NULL)
 }
 \arguments{
 \item{x}{sensemakr object}
 
-\item{showvars}{chooses which subsets of benchmarks to display
+\item{showvars}{chooses which subsets of benchmarks to display.
 Valid options are: 'masked', 'all', or list('foo1','foo2')}
 
-\item{type}{type of the plot}
+\item{type}{a character string representing the type of plot: "contour" or "worst-case".}
 
-\item{...}{extra arguments}
+\item{...}{Arguments to be passed to methods, such as graphical parameters \code{\link{par}} .}
+
+\item{contour}{a character string choosing what the contour lines represent: "estimate","t-value", "lower-limit", or "upper-limit"}
 }
 \value{
-a ggplot object with the plot.
+a plot object
 }
 \description{
 Several sensitivity plots.
