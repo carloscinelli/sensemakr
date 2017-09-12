@@ -64,8 +64,8 @@ sense = sensemakr(model, treatment = "directlyharmed")
 ## contour plot
 plot1_data = plot(sense)
 plot2_data = plot(sense, contour = "t-value")
-plot3_data = plot(sense, contour = "lower bound")
-plot4_data = plot(sense, contour = "upper bound")
+plot3_data = plot(sense, contour = "lower-limit")
+plot4_data = plot(sense, contour = "upper-limit")
 
 ## worst-case plot
 plot5_data = plot(sense, type = "worst-case")
