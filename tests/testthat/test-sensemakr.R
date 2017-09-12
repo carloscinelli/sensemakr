@@ -22,6 +22,9 @@ test_that("Testing darfur 'female'", {
   sense <- sensemakr(model = model, treatment = "directlyharmed")
   methods(sensemakr)
 
+  expect_that(sense, is_a("sensemakr"))
+
+
   # if want to test low level helper calculations
   # sourceable in sensemakr.R
   # they are not exported formally

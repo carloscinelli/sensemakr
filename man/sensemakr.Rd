@@ -11,7 +11,7 @@ sensemakr(model, treatment, group_list, ...)
 \method{sensemakr}{lm}(model, treatment, group_list = NULL, ...)
 }
 \arguments{
-\item{model}{the model}
+\item{model}{the outcome model. Currently, only supports a formal 'lm' object}
 
 \item{treatment}{character vector with the treatment variable}
 
@@ -79,4 +79,7 @@ summary(sense)
 }
 \references{
 Cite paper(s)
+}
+\seealso{
+\code{\link{lm}} for the 'lm' object
 }

@@ -10,6 +10,8 @@
 \alias{adjust_estimate}
 \alias{get_bias}
 \alias{t_to_r2}
+\alias{get_bias}
+\alias{group_r2}
 \title{Computes low level quantities: effects on estimate, standard error and t-value caused by unobserved confounder}
 \usage{
 get_bias(se, df, r2y, r2d)
@@ -21,6 +23,8 @@ get_t(t, df, r2y, r2d, reduce = TRUE)
 adjust_estimate(estimate, bias, reduce = TRUE)
 
 t_to_r2(t, df)
+
+group_r2(model, terms_4_group)
 }
 \arguments{
 \item{se}{standard error of original  treatment effect estimate}
@@ -38,6 +42,9 @@ t_to_r2(t, df)
 \item{estimate}{the treatment estimate}
 
 \item{bias}{the bias amount}
+
+\item{terms_4_group}{a character vector of one or more terms to be viewed together as a single group.
+NOTE: The elements in 'terms_4_group' must match the character values of "(attr(terms(formula(model)),'term.labels'))".}
 }
 \description{
 These helper functions compute the bias caused by an unobserved confounder with a specific pair
@@ -46,4 +53,7 @@ with certain characteristics.
 
 
 NOTE: These are low level helper functions that are NOT exported.
+}
+\examples{
+# none, these are low level helper functions that are not exposed to the user.
 }

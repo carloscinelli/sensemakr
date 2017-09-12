@@ -59,10 +59,11 @@
 ##' @references
 ##' Cite paper(s)
 ##'
-##' @param model the model
+##' @param model the outcome model. Currently, only supports a formal 'lm' object
 ##' @param treatment  character vector with the treatment variable
 ##' @param group_list a list of character vectors where elements within one vector are terms that should be grouped
 ##' @param ... extra arguments
+##' @seealso \code{\link{lm}} for the 'lm' object
 ##' @export
 ##' @importFrom graphics abline legend lines plot points rug text
 ##' @importFrom stats coef df.residual formula model.matrix sd update vcov
@@ -199,8 +200,8 @@ benchmarkr = function(model, D, # X = NULL,
   allvars = all_rhs[!(all_rhs %in% D)]
 
 
-  r2y_all = groupR2(model, allvars)
-  r2d_all = groupR2(treat, allvars)
+  r2y_all = group_r2(model, allvars)
+  r2d_all = group_r2(treat, allvars)
   bias_all = get_bias(se = sed, df = df.out, r2y = r2y_all, r2d = r2d_all)
 
   # biases
@@ -264,10 +265,10 @@ benchmarkr = function(model, D, # X = NULL,
 
 
   ############################################
-  # ?groupR2
+  # ?group_r2
   # lapply cycle over 'group_list'
-  # groupR2(model=model)
-  # groupR2(model=treat)
+  # group_r2(model=model)
+  # group_r2(model=treat)
   ############################################
   # group_list = list('village',c('female','village'),'village')
 
@@ -287,7 +288,7 @@ benchmarkr = function(model, D, # X = NULL,
 
     r2y_combinevar = lapply(X=terms_force_group,
                             FUN=function(XX){
-                              groupR2(model=model,terms_4_group=XX)
+                              group_r2(model=model,terms_4_group=XX)
                             })
 
     names(r2y_combinevar) = unlist(lapply(terms_force_group,
@@ -298,7 +299,7 @@ benchmarkr = function(model, D, # X = NULL,
 
     r2d_combinevar = lapply(X=terms_force_group,
                             FUN=function(XX){
-                              groupR2(model=treat,terms_4_group=XX)
+                              group_r2(model=treat,terms_4_group=XX)
                             })
 
     names(r2d_combinevar) = unlist(lapply(terms_force_group,
@@ -307,7 +308,7 @@ benchmarkr = function(model, D, # X = NULL,
                                           }))
 
     # bias from R2 param,
-    # consult if this applies directly to groupR2
+    # consult if this applies directly to group_r2
     r2pairs = cbind(r2y=r2y_combinevar,r2d=r2d_combinevar)
 
     bias_r2_combinevar = apply(X=r2pairs,MARGIN=1,
@@ -412,19 +413,82 @@ benchmarkr = function(model, D, # X = NULL,
 }
 
 
+
 # dont think this should be exported
-#' @title The function '?groupR2()'
-#' @description forms R2 quantities for a model.matrix column group tied to their model's term
-#'
-#' @param model an 'lm' object
-#' @param terms_4_group a character vector of one or more terms to be viewed together as a single group.
-#' NOTE: The elements in 'terms_4_group' must match the character values of "(attr(terms(formula(model)),'term.labels'))".
-#'
-#' @return a numeric scalar representing the R2 value of with-holding the model matrix columns associated with 'terms_4_group'
-#'
-#' @examples # none, a low level helper
-#' @importFrom stats terms formula update
-groupR2 = function(model,terms_4_group){
+##' @title Computes low level quantities: effects on estimate, standard error and t-value caused by unobserved confounder
+##' @description  These helper functions compute the bias caused by an unobserved confounder with a specific pair
+##' of partial R2 with the treatment and with the outcome.
+##' with certain characteristics.
+##'
+##'
+##' NOTE: These are low level helper functions that are NOT exported.
+##'
+##' @param se       standard error of original  treatment effect estimate
+##' @param df       degrees of freedom of the original linear model
+##' @param r2d      hypothetical partial R2 of the confounder with the treatment
+##' @param r2y      hypothetical partial R2 of the confounder with the outcome
+get_bias = function(se, df, r2y, r2d) {
+  sqrt(r2y*r2d/(1 - r2d))*se*sqrt(df)
+}
+
+
+# dont think this should be exported
+# note, name is get_bias NOT get_se, to link to single help doc
+##' @name get_bias
+get_se = function(se, df, r2y, r2d){
+  sqrt((1 - r2y)/(1 - r2d))*se*sqrt(df/(df - 1))
+}
+
+
+# dont think this should be exported
+# note, name is get_bias NOT get_t, to link to single help doc
+##' @name get_bias
+##' @param t the t value of the treatment
+##' @param reduce a logical (default TRUE) representing if the statistics should be reduced
+get_t = function(t, df, r2y, r2d, reduce = TRUE){
+  if (reduce) {
+    adj_t = sign(t)*(abs(t)/sqrt(df) - sqrt(r2y*(r2d/(1 - r2d))))*sqrt((1 - r2d)/(1 - r2y))*sqrt(df - 1)
+  } else {
+    adj_t = sign(t)*(abs(t)/sqrt(df) + sqrt(r2y*(r2d/(1 - r2d))))*sqrt((1 - r2d)/(1 - r2y))*sqrt(df - 1)
+  }
+  return(adj_t)
+}
+
+# dont think this should be exported
+# note, name is get_bias NOT adjust_estimate, to link to single help doc
+##' @name get_bias
+##' @param estimate the treatment estimate
+##' @param bias the bias amount
+adjust_estimate = function(estimate, bias, reduce = TRUE){
+  if (reduce) {
+    return(sign(estimate)*(abs(estimate) - bias))
+  } else {
+    return(sign(estimate)*(abs(estimate) + bias))
+  }
+}
+
+# dont think this should be exported
+# note, name is get_bias NOT t_to_r2, to link to single help doc
+##' @name get_bias
+t_to_r2 = function(t, df){
+  t^2/(t^2 + df)
+}
+
+# dont think this should be exported
+# note, name is get_bias NOT group_r2, to link to single help doc
+##' @name get_bias
+##'
+##' @param terms_4_group a character vector of one or more terms to be viewed together as a single group.
+##' NOTE: The elements in 'terms_4_group' must match the character values of "(attr(terms(formula(model)),'term.labels'))".
+##'
+##'
+##' @examples # none, these are low level helper functions that are not exposed to the user.
+##' @importFrom stats terms formula update
+group_r2 = function(model,terms_4_group){
+
+
+  ## # @descriptionforms R2 quantities for a model.matrix column group tied to their model's term
+  ## # @return a numeric scalar representing the R2 value of with-holding the model matrix columns associated with 'terms_4_group'
 
   #######################################
   # arg check
@@ -503,72 +567,12 @@ groupR2 = function(model,terms_4_group){
   # mikenote: optional return q and f? if needed later in biasR2(r2y,r2d,k)
 }
 
-# mikenote: controlling 'terms_4_group' allows us to enforce groupR2
+
+# mikenote: controlling 'terms_4_group' allows us to enforce group_r2
 # on blacklisted classes like 'factor'
 # class_df = class_df_from_term(model)
 # # class 'blacklist' check
 # blacklist = c('factor','matrix','smooth')
 # term_in_blacklist = lapply(X=class_df,FUN=function(x){x %in% blacklist})
 # list_term_in_blacklist = names(which(unlist(term_in_blacklist)))
-# r2_y_blacklist = sapply(X=list_term_in_blacklist,FUN=groupR2,model=model)
-
-
-# dont think this should be exported
-##' @title Computes low level quantities: effects on estimate, standard error and t-value caused by unobserved confounder
-##' @description  These helper functions compute the bias caused by an unobserved confounder with a specific pair
-##' of partial R2 with the treatment and with the outcome.
-##' with certain characteristics.
-##'
-##'
-##' NOTE: These are low level helper functions that are NOT exported.
-##'
-##' @param se       standard error of original  treatment effect estimate
-##' @param df       degrees of freedom of the original linear model
-##' @param r2d      hypothetical partial R2 of the confounder with the treatment
-##' @param r2y      hypothetical partial R2 of the confounder with the outcome
-get_bias = function(se, df, r2y, r2d) {
-  sqrt(r2y*r2d/(1 - r2d))*se*sqrt(df)
-}
-
-
-# dont think this should be exported
-# note, name is get_bias NOT get_se, to link to single help doc
-##' @name get_bias
-get_se = function(se, df, r2y, r2d){
-  sqrt((1 - r2y)/(1 - r2d))*se*sqrt(df/(df - 1))
-}
-
-
-# dont think this should be exported
-# note, name is get_bias NOT get_t, to link to single help doc
-##' @name get_bias
-##' @param t the t value of the treatment
-##' @param reduce a logical (default TRUE) representing if the statistics should be reduced
-get_t = function(t, df, r2y, r2d, reduce = TRUE){
-  if (reduce) {
-    adj_t = sign(t)*(abs(t)/sqrt(df) - sqrt(r2y*(r2d/(1 - r2d))))*sqrt((1 - r2d)/(1 - r2y))*sqrt(df - 1)
-  } else {
-    adj_t = sign(t)*(abs(t)/sqrt(df) + sqrt(r2y*(r2d/(1 - r2d))))*sqrt((1 - r2d)/(1 - r2y))*sqrt(df - 1)
-  }
-  return(adj_t)
-}
-
-# dont think this should be exported
-# note, name is get_bias NOT adjust_estimate, to link to single help doc
-##' @name get_bias
-##' @param estimate the treatment estimate
-##' @param bias the bias amount
-adjust_estimate = function(estimate, bias, reduce = TRUE){
-  if (reduce) {
-    return(sign(estimate)*(abs(estimate) - bias))
-  } else {
-    return(sign(estimate)*(abs(estimate) + bias))
-  }
-}
-
-# dont think this should be exported
-# note, name is get_bias NOT t_to_r2, to link to single help doc
-##' @name get_bias
-t_to_r2 = function(t, df){
-  t^2/(t^2 + df)
-}
+# r2_y_blacklist = sapply(X=list_term_in_blacklist,FUN=group_r2,model=model)
