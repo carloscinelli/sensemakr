@@ -43,6 +43,8 @@ group_r2(model, terms_4_group)
 
 \item{bias}{the bias amount}
 
+\item{model}{an `lm` object}
+
 \item{terms_4_group}{a character vector of one or more terms to be viewed together as a single group.
 NOTE: The elements in 'terms_4_group' must match the character values of "(attr(terms(formula(model)),'term.labels'))".}
 }

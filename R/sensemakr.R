@@ -478,6 +478,7 @@ t_to_r2 = function(t, df){
 # note, name is get_bias NOT group_r2, to link to single help doc
 ##' @name get_bias
 ##'
+##' @param model an `lm` object
 ##' @param terms_4_group a character vector of one or more terms to be viewed together as a single group.
 ##' NOTE: The elements in 'terms_4_group' must match the character values of "(attr(terms(formula(model)),'term.labels'))".
 ##'
