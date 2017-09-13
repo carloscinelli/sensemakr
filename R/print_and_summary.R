@@ -3,6 +3,7 @@
 # A method must have arguments in exactly the same order as the generic.
 
 ##' @title The print method for a sensemakr object
+##' @description provides text interpretation in the console
 ##' @param x a `sensemakr` object, result of \code{\link{sensemakr}}
 ##' @param str a logical (default TRUE) indicating if the structure should be printed.
 ##' @param ... extra arguments that might be passed to underlying functions
@@ -35,6 +36,7 @@ print.sensemakr = function(x,str = TRUE,...){
 }
 
 ##' @title The summary method for a sensemakr object
+##' @description creates summary text interpretation
 ##' @param object with 'sensemakr' class.
 ##' @param q numeric value between 0 and 1 representing proportion of alteration to treatment estimates
 ##' @param scenarios a numeric vector where each element represents a R2 scenario
@@ -180,6 +182,7 @@ worstcaseinterpret = function(sensemakr, scenarios = c(1, 0.25), q = 1){
 }
 
 ##' @title The print method for the summary of a sensemakr object
+##' @description provides text interpretation in the console
 ##' @param x a `sensemakr` object, result of \code{\link{sensemakr}}
 ##' @param q numeric value between 0 and 1 representing proportion of alteration to treatment estimates
 ##' @param scenarios a numeric vector where each element represents a R2 scenario

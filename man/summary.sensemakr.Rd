@@ -15,6 +15,9 @@
 
 \item{...}{extra arguments that might be passed to underlying functions}
 }
+\description{
+creates summary text interpretation
+}
 \examples{
 # loads data
 data("darfur")

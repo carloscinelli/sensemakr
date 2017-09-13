@@ -3,7 +3,6 @@
 ##' @description Several sensitivity plots.
 ##'
 ##' @param x a `sensemakr` object, result of \code{\link{sensemakr}}
-##' @param showvars chooses which subsets of benchmarks to display.
 ##' Valid options are: 'masked', 'all', or list('foo1','foo2')
 ##' @param type a character string representing the type of plot: "contour" or "worst-case".
 ##' @param ... extra arguments that might be passed to underlying functions
@@ -102,6 +101,7 @@ plot.sensemakr = function(x,
 # A method must have all the arguments of the generic, including … if the generic does.
 
 ##' @name plot.sensemakr
+##' @param showvars chooses which subsets of benchmarks to display.
 ##' @param contour a character string choosing what the contour lines represent: "estimate","t-value", "lower-limit", or "upper-limit"
 ##' @param nlevels an integer representing how many contour levels to display
 ##' @param lim a single numeric specifying the limits of a square plot window (one numeric applied to both x and y)
@@ -126,7 +126,7 @@ contourplot = function(x,
                        # x.label = NULL,  # deprecated jitter
                        # y.label = NULL,  # deprecated jitter
                        main = paste("Sensitivity of",  contour, "to unobserved confounder\nContours of adjusted estimates")
-){
+                       ){
 
 
   if(is.character(showvars)==TRUE){
@@ -364,7 +364,9 @@ worstcaseplot = function(x,
                          # index = NULL, # carlos round back is this necessary, whats it used for
                          xlab = "Hypothetical partial R2 of unobserved confounder(s) with treatment",
                          ylab = "Adjusted estimate",
-                         main = "Sensitivity of estimate to unobserved confounder(s)\n\"Worst-case\" scenarios of partial R2 with outcome"){
+                         main = paste("Sensitivity of estimate to unobservedconfounder(s)\n",
+                                      "\"Worst-case\" scenarios of partial R2 with outcome")
+                         ){
 
 
   if(is.character(showvars)==TRUE){
