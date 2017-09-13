@@ -7,6 +7,7 @@
 ##' Valid options are: 'masked', 'all', or list('foo1','foo2')
 ##' @param type a character string representing the type of plot: "contour" or "worst-case".
 ##' @param ... Arguments to be passed to methods, such as graphical parameters \code{\link{par}} .
+##' @seealso \code{\link{par}} for graphical parameters
 ##'
 ##'
 ##' @return a plot object
@@ -82,18 +83,27 @@ plot.sensemakr = function(x,
 
 ##' @name plot.sensemakr
 ##' @param contour a character string choosing what the contour lines represent: "estimate","t-value", "lower-limit", or "upper-limit"
+##' @param nlevels an integer representing how many contour levels to display
+##' @param lim a single numeric specifying the limits of a square plot window (one numeric applied to both x and y)
+##' @param top an integer controlling the number of 'top' benchmarks to display
+##' @param pch see \code{\link{par}}
+##' @param cex see \code{\link{par}}
+##' @param xlab see \code{\link{par}}
+##' @param ylab see \code{\link{par}}
+##' @param main see \code{\link{par}}
 contourplot = function(x,
-                        contour = c("estimate","t-value", "lower-limit", "upper-limit"),
-                        nlevels = 15,
-                        pch = 20,
-                        cex = 1,
-                        lim = NULL,
-                        xlab = "Hypothetical partial R2 of unobserved confounder with the treatment",
-                        ylab = "Hypothetical partial R2 of unobserved confounder with the outcome",
-                        main = paste("Sensitivity of",  contour, "to unobserved confounder\nContours of adjusted estimates"),
-                        top = NULL,
-                        x.label = NULL,
-                        y.label = NULL){
+                       contour = c("estimate","t-value", "lower-limit", "upper-limit"),
+                       nlevels = 15,
+                       pch = 20,
+                       cex = 1,
+                       lim = NULL,
+                       xlab = "Hypothetical partial R2 of unobserved confounder with the treatment",
+                       ylab = "Hypothetical partial R2 of unobserved confounder with the outcome",
+                       main = paste("Sensitivity of",  contour, "to unobserved confounder\nContours of adjusted estimates"),
+                       # x.label = NULL,  # deprecated jitter
+                       # y.label = NULL,  # deprecated jitter
+                       top = NULL
+                       ){
 
 #   contour = c("estimate","t-value", "lower-limit", "upper-limit")
 #   nlevels = 15
@@ -279,7 +289,7 @@ contourplot = function(x,
   invisible(out)
 }
 
-#contourplot
+
 
 worstcaseplot = function(x,
                           lim = NULL,

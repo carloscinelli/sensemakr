@@ -14,8 +14,7 @@ contourplot(x, contour = c("estimate", "t-value", "lower-limit",
   xlab = "Hypothetical partial R2 of unobserved confounder with the treatment",
   ylab = "Hypothetical partial R2 of unobserved confounder with the outcome",
   main = paste("Sensitivity of", contour,
-  "to unobserved confounder\\nContours of adjusted estimates"), top = NULL,
-  x.label = NULL, y.label = NULL)
+  "to unobserved confounder\\nContours of adjusted estimates"), top = NULL)
 }
 \arguments{
 \item{x}{sensemakr object}
@@ -28,10 +27,29 @@ Valid options are: 'masked', 'all', or list('foo1','foo2')}
 \item{...}{Arguments to be passed to methods, such as graphical parameters \code{\link{par}} .}
 
 \item{contour}{a character string choosing what the contour lines represent: "estimate","t-value", "lower-limit", or "upper-limit"}
+
+\item{nlevels}{an integer representing how many contour levels to display}
+
+\item{pch}{see \code{\link{par}}}
+
+\item{cex}{see \code{\link{par}}}
+
+\item{lim}{a single numeric specifying the limits of a square plot window (one numeric applied to both x and y)}
+
+\item{xlab}{see \code{\link{par}}}
+
+\item{ylab}{see \code{\link{par}}}
+
+\item{main}{see \code{\link{par}}}
+
+\item{top}{an integer controlling the number of 'top' benchmarks to display}
 }
 \value{
 a plot object
 }
 \description{
 Several sensitivity plots.
+}
+\seealso{
+\code{\link{par}} for graphical parameters
 }
