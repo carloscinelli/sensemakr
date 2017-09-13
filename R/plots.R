@@ -33,9 +33,9 @@
 ##' @return a plot object
 ##' @export
 plot.sensemakr = function(x,
-                           showvars='masked',
-                           type = c("contour", "worst-case"),
-                           ...){
+                          # showvars='masked',  # moved to lower level functions
+                          type = c("contour", "worst-case"),
+                          ...){
   ######################################################
   # 'showvars' options
   # 1 'masked' (default), plot benchmark_group + benchmark_masked
@@ -53,6 +53,81 @@ plot.sensemakr = function(x,
 
   # "treeage" showvars to determine
   # subset rows of the benchmark data
+#
+#   if(is.character(showvars)==TRUE){
+#
+#     # x$benchmarks$benchmark_eachvar
+#     # x$benchmarks$benchmark_group
+#
+#     if(showvars=='masked'){
+#       # use 'benchmark_masked' instead of 'benchmark_eachvar'
+#       x$benchmarks$benchmarks_2plot1 = x$benchmarks$benchmark_masked
+#       x$benchmarks$benchmarks_2plot2 = x$benchmarks$benchmark_group
+#
+#     } else if(showvars=='all'){
+#       # no subset
+#       x$benchmarks$benchmarks_2plot1  = x$benchmarks$benchmark_eachvar
+#       x$benchmarks$benchmarks_2plot2  = x$benchmarks$benchmark_group
+#
+#     } else {
+#       stop('You have supplied an incompatible "showvars" option')
+#     }
+#
+#   }else if(is.list(showvars)==TRUE){
+#     # showvars=list('foo1','foo2')
+#
+#     # subset 'benchmark_eachvar' and 'benchmark_group'
+#     # based on list elements in showvars
+#
+#     # showvars = list('village','villageMngao','age')
+#
+#     ind_each_in_showvar = row.names(x$benchmarks$benchmark_eachvar) %in% showvars
+#     ind_group_in_showvar = row.names(x$benchmarks$benchmark_group) %in% showvars
+#
+#     x$benchmarks$benchmarks_2plot1 = (x$benchmarks$benchmark_eachvar)[ind_each_in_showvar,]
+#     x$benchmarks$benchmarks_2plot2 = (x$benchmarks$benchmark_group)[ind_group_in_showvar,]
+#
+#   } else {
+#     stop('You have supplied an incompatible "showvars" option')
+#   }
+
+
+  type = match.arg(type)
+  switch(type,
+         contour = contourplot(x, ...),
+         "worst-case" = worstcaseplot(x, ...)
+  )
+}
+
+# A method must have all the arguments of the generic, including … if the generic does.
+
+##' @name plot.sensemakr
+##' @param contour a character string choosing what the contour lines represent: "estimate","t-value", "lower-limit", or "upper-limit"
+##' @param nlevels an integer representing how many contour levels to display
+##' @param lim a single numeric specifying the limits of a square plot window (one numeric applied to both x and y)
+##' @param top an integer controlling the number of 'top' ranked benchmarks to display
+##' @param pch see \code{\link{par}}
+##' @param cex see \code{\link{par}}
+##' @param xlab see \code{\link{par}}
+##' @param ylab see \code{\link{par}}
+##' @param main see \code{\link{par}}
+##' @export
+# now with showvars internally, can export
+contourplot = function(x,
+                       showvars='masked',
+                       contour = c("estimate","t-value", "lower-limit", "upper-limit"),
+                       nlevels = 15,
+                       lim = NULL,
+                       top = NULL,
+                       pch = 20,
+                       cex = 1,
+                       xlab = "Hypothetical partial R2 of unobserved confounder with the treatment",
+                       ylab = "Hypothetical partial R2 of unobserved confounder with the outcome",
+                       # x.label = NULL,  # deprecated jitter
+                       # y.label = NULL,  # deprecated jitter
+                       main = paste("Sensitivity of",  contour, "to unobserved confounder\nContours of adjusted estimates")
+){
+
 
   if(is.character(showvars)==TRUE){
 
@@ -91,51 +166,17 @@ plot.sensemakr = function(x,
     stop('You have supplied an incompatible "showvars" option')
   }
 
-
-  type = match.arg(type)
-  switch(type,
-         contour = contourplot(x, ...),
-         "worst-case" = worstcaseplot(x, ...)
-  )
-}
-
-# A method must have all the arguments of the generic, including … if the generic does.
-
-##' @name plot.sensemakr
-##' @param contour a character string choosing what the contour lines represent: "estimate","t-value", "lower-limit", or "upper-limit"
-##' @param nlevels an integer representing how many contour levels to display
-##' @param lim a single numeric specifying the limits of a square plot window (one numeric applied to both x and y)
-##' @param top an integer controlling the number of 'top' ranked benchmarks to display
-##' @param pch see \code{\link{par}}
-##' @param cex see \code{\link{par}}
-##' @param xlab see \code{\link{par}}
-##' @param ylab see \code{\link{par}}
-##' @param main see \code{\link{par}}
-contourplot = function(x,
-                       contour = c("estimate","t-value", "lower-limit", "upper-limit"),
-                       nlevels = 15,
-                       lim = NULL,
-                       top = NULL,
-                       pch = 20,
-                       cex = 1,
-                       xlab = "Hypothetical partial R2 of unobserved confounder with the treatment",
-                       ylab = "Hypothetical partial R2 of unobserved confounder with the outcome",
-                       # x.label = NULL,  # deprecated jitter
-                       # y.label = NULL,  # deprecated jitter
-                       main = paste("Sensitivity of",  contour, "to unobserved confounder\nContours of adjusted estimates")
-                       ){
-
-#   contour = c("estimate","t-value", "lower-limit", "upper-limit")
-#   nlevels = 15
-#   pch = 20
-#   cex = 1
-#   lim = NULL
-#   xlab = "Hypothetical partial R2 of unobserved confounder with the treatment"
-#   ylab = "Hypothetical partial R2 of unobserved confounder with the outcome"
-#   main = paste("Sensitivity of",  contour, "to unobserved confounder\nContours of adjusted estimates")
-#   top = NULL
-#   x.label = NULL
-#   y.label = NULL
+  #   contour = c("estimate","t-value", "lower-limit", "upper-limit")
+  #   nlevels = 15
+  #   pch = 20
+  #   cex = 1
+  #   lim = NULL
+  #   xlab = "Hypothetical partial R2 of unobserved confounder with the treatment"
+  #   ylab = "Hypothetical partial R2 of unobserved confounder with the outcome"
+  #   main = paste("Sensitivity of",  contour, "to unobserved confounder\nContours of adjusted estimates")
+  #   top = NULL
+  #   x.label = NULL
+  #   y.label = NULL
 
   contour = match.arg(contour)
 
@@ -269,15 +310,15 @@ contourplot = function(x,
 
   # deprecate 'jitter' since it breaks group benchmark plots
 
-#   if (is.null(x.label))
-#     r2dl = jitter(r2d, factor = 20)
-#
-#   if (is.null(y.label))
-#     r2yl = jitter(r2y, factor = 20)
-#
-#   text(r2dl, r2yl, labels = labels, cex = 0.7)
-# from r2dl to r2d
-# from r2yl to r2y
+  #   if (is.null(x.label))
+  #     r2dl = jitter(r2d, factor = 20)
+  #
+  #   if (is.null(y.label))
+  #     r2yl = jitter(r2y, factor = 20)
+  #
+  #   text(r2dl, r2yl, labels = labels, cex = 0.7)
+  # from r2dl to r2d
+  # from r2yl to r2y
 
   text(r2d, r2y, labels = labels, cex = 0.7)
 
@@ -301,10 +342,10 @@ contourplot = function(x,
 
   rownames(z) = colnames(z) = s
   out = list(plot_type = paste(contour,"contours"),
-              contours = z,
-              benchmarks_2plot1 = benchmarks,
-              benchmarks_2plot2 = benchmarks_group,
-              labels = labels)
+             contours = z,
+             benchmarks_2plot1 = benchmarks,
+             benchmarks_2plot2 = benchmarks_group,
+             labels = labels)
 
   invisible(out)
 }
@@ -313,15 +354,55 @@ contourplot = function(x,
 ##' @name plot.sensemakr
 ##' @param scenarios a numeric vector where each element represents a worst-case scenario for R2
 ##' @param cex.legend a seperate `cex` argument used for drawing the legend. See \code{\link{par}}
+##' @export
+# now with showvars internally, can export
 worstcaseplot = function(x,
-                          lim = NULL,
-                          scenarios = c(1, 0.3),
-                          cex.legend = 0.6,
-                          # index = NULL, # carlos round back is this necessary, whats it used for
-                          xlab = "Hypothetical partial R2 of unobserved confounder(s) with treatment",
-                          ylab = "Adjusted estimate",
-                          main = "Sensitivity of estimate to unobserved confounder(s)\n\"Worst-case\" scenarios of partial R2 with outcome"){
+                         showvars='masked',
+                         lim = NULL,
+                         scenarios = c(1, 0.3),
+                         cex.legend = 0.6,
+                         # index = NULL, # carlos round back is this necessary, whats it used for
+                         xlab = "Hypothetical partial R2 of unobserved confounder(s) with treatment",
+                         ylab = "Adjusted estimate",
+                         main = "Sensitivity of estimate to unobserved confounder(s)\n\"Worst-case\" scenarios of partial R2 with outcome"){
 
+
+  if(is.character(showvars)==TRUE){
+
+    # x$benchmarks$benchmark_eachvar
+    # x$benchmarks$benchmark_group
+
+    if(showvars=='masked'){
+      # use 'benchmark_masked' instead of 'benchmark_eachvar'
+      x$benchmarks$benchmarks_2plot1 = x$benchmarks$benchmark_masked
+      x$benchmarks$benchmarks_2plot2 = x$benchmarks$benchmark_group
+
+    } else if(showvars=='all'){
+      # no subset
+      x$benchmarks$benchmarks_2plot1  = x$benchmarks$benchmark_eachvar
+      x$benchmarks$benchmarks_2plot2  = x$benchmarks$benchmark_group
+
+    } else {
+      stop('You have supplied an incompatible "showvars" option')
+    }
+
+  }else if(is.list(showvars)==TRUE){
+    # showvars=list('foo1','foo2')
+
+    # subset 'benchmark_eachvar' and 'benchmark_group'
+    # based on list elements in showvars
+
+    # showvars = list('village','villageMngao','age')
+
+    ind_each_in_showvar = row.names(x$benchmarks$benchmark_eachvar) %in% showvars
+    ind_group_in_showvar = row.names(x$benchmarks$benchmark_group) %in% showvars
+
+    x$benchmarks$benchmarks_2plot1 = (x$benchmarks$benchmark_eachvar)[ind_each_in_showvar,]
+    x$benchmarks$benchmarks_2plot2 = (x$benchmarks$benchmark_group)[ind_group_in_showvar,]
+
+  } else {
+    stop('You have supplied an incompatible "showvars" option')
+  }
 
   # 'working benchmarks' assigned earlier in generic plot.sensemakr()
   # based on showvars subset
@@ -359,8 +440,8 @@ worstcaseplot = function(x,
   y = adjust_estimate(estimate, get_bias(se = se, df = df, r2y = scenarios[1], r2d = s))
 
   out = data.frame(r2d = s,
-                    r2y = scenarios[1],
-                    adj_est = y)
+                   r2y = scenarios[1],
+                   adj_est = y)
 
 
   plot(s,  y,
@@ -386,12 +467,12 @@ worstcaseplot = function(x,
   y = adjust_estimate(estimate, get_bias(se = se, df = df, r2y = mr2y, r2d = s))
   lines(s, y, lty = p + 1, col = "red")
   out2 = data.frame(r2d = s,
-                     r2y = mr2y,
-                     adj_est = y)
+                    r2y = mr2y,
+                    adj_est = y)
   out = rbind(out, out2)
 
   out = list(plot_type = "worst case plot",
-              adjusted_estimates = out)
+             adjusted_estimates = out)
 
   legend("topright",
          lty = c((1:p), p + 1),

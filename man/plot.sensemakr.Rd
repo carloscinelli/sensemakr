@@ -8,18 +8,18 @@
 \alias{worstcaseplot}
 \title{The plot method for a sensemakr object}
 \usage{
-\method{plot}{sensemakr}(x, showvars = "masked", type = c("contour",
-  "worst-case"), ...)
+\method{plot}{sensemakr}(x, type = c("contour", "worst-case"), ...)
 
-contourplot(x, contour = c("estimate", "t-value", "lower-limit",
-  "upper-limit"), nlevels = 15, lim = NULL, top = NULL, pch = 20,
-  cex = 1,
+contourplot(x, showvars = "masked", contour = c("estimate", "t-value",
+  "lower-limit", "upper-limit"), nlevels = 15, lim = NULL, top = NULL,
+  pch = 20, cex = 1,
   xlab = "Hypothetical partial R2 of unobserved confounder with the treatment",
   ylab = "Hypothetical partial R2 of unobserved confounder with the outcome",
   main = paste("Sensitivity of", contour,
   "to unobserved confounder\\nContours of adjusted estimates"))
 
-worstcaseplot(x, lim = NULL, scenarios = c(1, 0.3), cex.legend = 0.6,
+worstcaseplot(x, showvars = "masked", lim = NULL, scenarios = c(1, 0.3),
+  cex.legend = 0.6,
   xlab = "Hypothetical partial R2 of unobserved confounder(s) with treatment",
   ylab = "Adjusted estimate",
   main = "Sensitivity of estimate to unobserved confounder(s)\\n\\"Worst-case\\" scenarios of partial R2 with outcome")
@@ -27,12 +27,12 @@ worstcaseplot(x, lim = NULL, scenarios = c(1, 0.3), cex.legend = 0.6,
 \arguments{
 \item{x}{a `sensemakr` object, result of \code{\link{sensemakr}}}
 
-\item{showvars}{chooses which subsets of benchmarks to display.
-Valid options are: 'masked', 'all', or list('foo1','foo2')}
-
 \item{type}{a character string representing the type of plot: "contour" or "worst-case".}
 
 \item{...}{extra arguments that might be passed to underlying functions}
+
+\item{showvars}{chooses which subsets of benchmarks to display.
+Valid options are: 'masked', 'all', or list('foo1','foo2')}
 
 \item{contour}{a character string choosing what the contour lines represent: "estimate","t-value", "lower-limit", or "upper-limit"}
 
