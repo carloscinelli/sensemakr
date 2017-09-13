@@ -74,11 +74,16 @@ sense = sensemakr(model, treatment = "directlyharmed")
 # draws plots
 plot1_data = plot(sense)
 plot2_data = plot(sense, contour = "t-value")
-plot3_data = plot(sense, contour = "lower-limit")
-plot4_data = plot(sense, contour = "upper-limit")
-plot5_data = plot(sense, type = "worst-case")
+plot(sense, contour = "lower-limit")
+plot(sense, contour = "upper-limit")
+plot(sense, type = "worst-case")
 
 
+# calling contourplot() directly instead of using the generic plot()
+contourplot(sense,showvars='all')
+
+# calling worstcaseplot() directly instead of using the generic plot()
+worstcaseplot(sense,showvars='all')
 }
 \seealso{
 See \code{\link{par}} for graphical parameters

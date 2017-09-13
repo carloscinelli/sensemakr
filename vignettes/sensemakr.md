@@ -1,6 +1,6 @@
-# The `Sensemakr` Vignette
+# The `sensemakr` Vignette
 Michael Tzen, Chad Hazlett, Carlos Cinelli  
-`r Sys.Date()`  
+`r format(Sys.time(), '%d %B, %Y')`  
 
 
 # Background
@@ -42,9 +42,7 @@ The latest version of `sensemakr` can be installed by:
 
 
 ```r
-#devtools::install_github("chadhazlett/sensemakr", build_vignettes = TRUE)
-# setwd("~/projects/sensemakr_fin/sensemakr/")
-# devtools::build_vignettes() 
+devtools::install_github("chadhazlett/sensemakr", build_vignettes = TRUE)
 ```
 
 We begin by showing basic functionality with the features we expect most users will use most of the time. 
@@ -133,12 +131,18 @@ worstcaseinterpret(sense.out, scenarios=c(.1,.3), q=.5)
 ### Benchmarking summary
 The summary command above, `summary(sense.out)`, also generates interpretational text related to benchark comparisons. While the benchmark plots (below) provide additional information, these summaries describe two conclusions we expect are often of interest. 
 
-The first block of text uses the covariate most strongly associated with the \textit{treatment} (by partial $R^2$) as the point of interest.  It supposes that a confounder exists that is equally associated with the treatment (in it's own partial $R^2$, in a model that still includes the original covariates). It then makes a worst-case assumption that such a confounder explains all of the residual outcome variance (having a partial $R^2$ of 1 with the outcome), and asks what bias would obtain.  It is thus a kind of worst-case analysis as above, but where the hypothesized relationship of the confounder to the treatment is benchmarked, using the value of the covariate most strongly related to treatment as an example. 
+The first block of text uses the covariate most strongly associated with the \textit{treatment} (by partial $R^2$) as the point of interest.  It supposes that a confounder exists that is equally associated with the treatment (in it's own partial $R^2$, in a model that still includes the original covariates). It then makes a worst-case assumption that such a confounder explains all of the residual outcome variance (having a partial $R^2$ of 1 with the outcome), and asks what bias would be obtained.  It is thus a kind of worst-case analysis as above, but where the hypothesized relationship of the confounder to the treatment is benchmarked, using the value of the covariate most strongly related to treatment as an example. 
 
 The second block of text uses the covariate most strongly associated with the \textit{outcome} as a benchmark. Rather than a worst-case analysis, it instead imagines a confounder with the same relationship to the outcome as this benchmark, and asks how many times more strongly it would have to be related to the outcome than this benchmark is in order to change our adjusted answer by proportion of $q$.
 
+```
 QUESTION: there is a mismatch between these two. Is this what we want?
 
+MT: here?
+## ---Using the covariate most strongly associated with the treatment assignment as a benchmark---
+## ---Using the covariate most strongly associated with the outcome as a benchmark---
+
+```
 
 Note that the benchmark interpretations provided in `summary` come from `interpret()`, which users can also call directly. 
 
@@ -195,17 +199,14 @@ plot(sense.out, showvars = list("pastvoted","female"), contour="lower-limit", li
 ```
 
 ![](sensemakr_files/figure-html/unnamed-chunk-11-2.png)<!-- -->
+
 ### Worst-case plots
 
 The second main plot type is the worst-case plot:
 
-```r
-plot(sense.out, type="worst-case")
-```
 
-```
-## Warning in rug(x = r2d_group, col = "cyan", lwd = 2): some values will be
-## clipped
+```r
+plot(sense.out, type="worst-case",lim=0.5)
 ```
 
 ![](sensemakr_files/figure-html/unnamed-chunk-12-1.png)<!-- -->
@@ -260,7 +261,7 @@ round(sense.out$benchmarks$benchmark_masked,4)
 ## farmer_dar    0.0024 0.0000  0.0001     0.0972    0.0232   4.1838
 ```
 
-The columns `r2y` and `r2d` give the partial `R^2` with the outcome (`y`) and treatment (`d`) respectively.  The `bias\_r2` gives the bias that would be caused by a confounder with the corresponding `r2y` and `r2d`. The adjusted estimated due to this bias -- simply the original estimate minus the proposed bias -- is `adj_est_r2`.  Finally, the adjusted `adj_se_r2` and `adj_t_r2` gives the standard error and t-statistic after adjusting for a hypothetical confounder with the proposed characteristics.  
+The columns `r2y` and `r2d` give the partial `R^2` with the outcome (`y`) and treatment (`d`) respectively.  The `bias_r2` gives the bias that would be caused by a confounder with the corresponding `r2y` and `r2d`. The adjusted estimated due to this bias -- simply the original estimate minus the proposed bias -- is `adj_est_r2`.  Finally, the adjusted `adj_se_r2` and `adj_t_r2` gives the standard error and t-statistic after adjusting for a hypothetical confounder with the proposed characteristics.  
 
 Finally, the parameters for the masked (grouped) variables -- the `village` dummies in this case -- are stored in `benchmark_group`:
 
@@ -283,7 +284,8 @@ Custom groupings can be constructed by specifying them during the `sensemakr()` 
 
 
 ```r
-sense.grp.out= sensemakr(lm.out, treatment="directlyharmed", group_list = list(c("farmer_dar","herder_dar")))
+sense.grp.out = sensemakr(lm.out, treatment="directlyharmed",
+                         group_list = list(c("farmer_dar","herder_dar")))
 ```
 
 The resulting group variables will be named as the first variable name followed by the second variable name with a comma in between, i.e. `farmer_dar,herder_dar`.  We can see the resulting benchmarks for this grouped variable (and `village`, which remains grouped) as in,

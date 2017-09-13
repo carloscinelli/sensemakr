@@ -37,8 +37,8 @@ print.sensemakr = function(x,str = TRUE,...){
 
 ##' @title The summary method for a sensemakr object
 ##' @description creates summary text interpretation
-##' @param object with 'sensemakr' class.
-##' @param q numeric value between 0 and 1 representing proportion of alteration to treatment estimates
+##' @param object a 'sensemakr' object, result of \code{\link{sensemakr}}
+##' @param q a numeric value between 0 and 1 representing proportion of alteration to treatment estimates
 ##' @param scenarios a numeric vector where each element represents a R2 scenario
 ##' @param ... extra arguments that might be passed to underlying functions
 ##' @examples
@@ -68,9 +68,9 @@ summary.sensemakr = function(object, q=1,scenarios=c(1,.25),...){
 ##' @title a function to interpret sensemakr quantities
 ##' @name interpret
 ##' @description provides text interpretation in the console
-##' @param sensemakr object with 'sensemakr' class.
+##' @param sensemakr a 'sensemakr' object, result of \code{\link{sensemakr}}
 ##' @param q numeric value between 0 and 1 representing proportion of alteration to treatment estimates
-##' @seealso \code{\link{summary.sensemakr}}
+##' @seealso \code{\link{summary.sensemakr}} \code{\link{sensemakr}}
 ##' @examples
 ##' # loads data
 ##' data("darfur")
@@ -150,9 +150,9 @@ interpret = function(sensemakr, q = 1){
 ##' @title a function to interpret sensemakr quantities
 ##' @name worstcaseinterpret
 ##' @description provides text interpretation in the console
-##' @param sensemakr object with 'sensemakr' class.
+##' @param sensemakr a 'sensemakr' object, result of \code{\link{sensemakr}}
 ##' @param scenarios a numeric vector where each element represents a R2 scenario
-##' @param q numeric value between 0 and 1 representing proportion of alteration to treatment estimates
+##' @param q a numeric value between 0 and 1 representing proportion of alteration to treatment estimates
 ##' @seealso \code{\link{summary.sensemakr}}
 ##' @examples
 ##' # loads data

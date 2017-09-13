@@ -7,7 +7,7 @@
 interpret(sensemakr, q = 1)
 }
 \arguments{
-\item{sensemakr}{object with 'sensemakr' class.}
+\item{sensemakr}{a 'sensemakr' object, result of \code{\link{sensemakr}}}
 
 \item{q}{numeric value between 0 and 1 representing proportion of alteration to treatment estimates}
 }
@@ -29,5 +29,5 @@ interpret(sense, q = 0.5)
 interpret(sense, q = 0.6)
 }
 \seealso{
-\code{\link{summary.sensemakr}}
+\code{\link{summary.sensemakr}} \code{\link{sensemakr}}
 }

@@ -29,7 +29,7 @@ You can install sensemakr from github with:
 devtools::install_github("chadhazlett/sensemakr")
 ```
 
-The accompanying vignette can be viewed [here](https://github.com/chadhazlett/sensemakr/blob/master/vignettes/sensemakr.Rmd).
+The accompanying vignette can be viewed [here](https://github.com/chadhazlett/sensemakr/blob/master/vignettes/sensemakr.md).
 
 Additionally, if you want to install the companion vignette inside R, use the below command instead:
 

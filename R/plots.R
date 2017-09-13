@@ -23,9 +23,9 @@
 ##' # draws plots
 ##' plot1_data = plot(sense)
 ##' plot2_data = plot(sense, contour = "t-value")
-##' plot3_data = plot(sense, contour = "lower-limit")
-##' plot4_data = plot(sense, contour = "upper-limit")
-##' plot5_data = plot(sense, type = "worst-case")
+##' plot(sense, contour = "lower-limit")
+##' plot(sense, contour = "upper-limit")
+##' plot(sense, type = "worst-case")
 ##'
 ##'
 ##' @export
@@ -110,6 +110,10 @@ plot.sensemakr = function(x,
 ##' @param xlab see \code{\link{par}}
 ##' @param ylab see \code{\link{par}}
 ##' @param main see \code{\link{par}}
+##' @examples
+##' # calling contourplot() directly instead of using the generic plot()
+##' contourplot(sense,showvars='all')
+##'
 ##' @export
 # now with showvars internally, can export
 contourplot = function(x,
@@ -353,6 +357,9 @@ contourplot = function(x,
 ##' @name plot.sensemakr
 ##' @param scenarios a numeric vector where each element represents a worst-case scenario for R2
 ##' @param cex.legend a seperate `cex` argument used for drawing the legend. See \code{\link{par}}
+##' @examples
+##' # calling worstcaseplot() directly instead of using the generic plot()
+##' worstcaseplot(sense,showvars='all')
 ##' @export
 # now with showvars internally, can export
 worstcaseplot = function(x,

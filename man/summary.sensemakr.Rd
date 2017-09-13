@@ -7,9 +7,9 @@
 \method{summary}{sensemakr}(object, q = 1, scenarios = c(1, 0.25), ...)
 }
 \arguments{
-\item{object}{with 'sensemakr' class.}
+\item{object}{a 'sensemakr' object, result of \code{\link{sensemakr}}}
 
-\item{q}{numeric value between 0 and 1 representing proportion of alteration to treatment estimates}
+\item{q}{a numeric value between 0 and 1 representing proportion of alteration to treatment estimates}
 
 \item{scenarios}{a numeric vector where each element represents a R2 scenario}
 
