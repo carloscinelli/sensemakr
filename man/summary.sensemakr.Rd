@@ -2,14 +2,22 @@
 % Please edit documentation in R/print_and_summary.R
 \name{summary.sensemakr}
 \alias{summary.sensemakr}
+\alias{summary.sensemakr}
+\alias{print.summary.sensemakr}
 \title{The summary method for a sensemakr object}
 \usage{
-\method{summary}{sensemakr}(object, q = 1, scenarios = c(1, 0.25), ...)
+\method{summary}{sensemakr}(object, ...)
+
+\method{print}{summary.sensemakr}(x, q = 1, scenarios = c(1, 0.25), ...)
 }
 \arguments{
 \item{object}{a 'sensemakr' object, result of \code{\link{sensemakr}}}
 
-\item{q}{a numeric value between 0 and 1 representing proportion of alteration to treatment estimates}
+\item{...}{extra arguments that might be passed to underlying functions}
+
+\item{x}{a `summary.sensemakr` object, result of \code{\link{summary.sensemakr}}}
+
+\item{q}{numeric value between 0 and 1 representing proportion of alteration to treatment estimates}
 
 \item{scenarios}{a numeric vector where each element represents a R2 scenario}
 
@@ -31,4 +39,18 @@ sense = sensemakr(model, treatment = "directlyharmed")
 
 summary(sense)
 
+out_summary = summary(sense)
+class(out_summary)
+
+
+print(summary(sense))
+
+# NOTE: it is ?print.summary.sensemakr that controls different scenarios
+# not ?summary.sensemakrhttp://lexis.ccpr.ucla.edu:8787/help/library/sensemakr/html/summary.sensemakr.html
+
+print(summary(sense),q = 0.2, scenarios = 0.5)
+
+}
+\seealso{
+\code{\link{print}} \code{\link{sensemakr}}
 }

@@ -38,8 +38,6 @@ print.sensemakr = function(x,str = TRUE,...){
 ##' @title The summary method for a sensemakr object
 ##' @description creates summary text interpretation
 ##' @param object a 'sensemakr' object, result of \code{\link{sensemakr}}
-##' @param q a numeric value between 0 and 1 representing proportion of alteration to treatment estimates
-##' @param scenarios a numeric vector where each element represents a R2 scenario
 ##' @param ... extra arguments that might be passed to underlying functions
 ##' @examples
 ##' # loads data
@@ -54,14 +52,30 @@ print.sensemakr = function(x,str = TRUE,...){
 ##'
 ##' summary(sense)
 ##'
+##' out_summary = summary(sense)
+##' class(out_summary)
+##'
 ##' @export
-summary.sensemakr = function(object, q=1,scenarios=c(1,.25),...){
+summary.sensemakr = function(object,...){
+
   # bunch of useful things
   # return list with several useful things
   # returns a obj of class summary.sensemakr
+
+  # print.summary.sensemakr(out, q=q, scenarios=scenarios)
+
+  # if we use the print.summary.sensemakr() here internally,
+  # the class(out) is not assigned if out_external = summary.sensemakr(object)
+  # class(out_external) is NULL
+  # further, since summary.sensemakr(...) has elipses, can just pass them onto
+  # print.summary.sensemakr(), further print.summary.sensemakr already
+  # has these default arg values,
+  # so redundant to assign them here in summary.sensemakr()
+
   out = object
   class(out) = "summary.sensemakr"
-  print.summary.sensemakr(out, q=q, scenarios=scenarios)
+  return(out)
+
 }
 
 
@@ -181,39 +195,29 @@ worstcaseinterpret = function(sensemakr, scenarios = c(1, 0.25), q = 1){
   " of the treatment assignment to reduce the treatment effect in ", round(q*100, 2), "%.", sep = "")
 }
 
-# doesnt work using same @name as 'summary' to have 'print.summary' share same doc as 'summary'
+# do not export print.summary.sensemakr
 # to mimic doc of ?print.summary.lm
-# yes s3 summary is listed under 'summary.sensemakr'
-# not sure why the S3 print is not listed under 'summary.sensemakr'
 # to truely mimic
 # looks like 'summary.sensemakr needs to be itself a standalone class
-# not really worth it
-# right now it's a function called 'print.summary.sensemakr'
-# that is NOT a print() method for class 'summary.sensemakr'
+# trick is to just use 'summary.sensemakr' as the @name for print.summary.sensemakr
 
-##' @title The print method for the summary of a sensemakr object
-##' @description provides text interpretation in the console
-##' @param x a `sensemakr` object, result of \code{\link{sensemakr}}
+##' @name summary.sensemakr
+##' @param x a `summary.sensemakr` object, result of \code{\link{summary.sensemakr}}
 ##' @param q numeric value between 0 and 1 representing proportion of alteration to treatment estimates
 ##' @param scenarios a numeric vector where each element represents a R2 scenario
 ##' @param ... extra arguments that might be passed to underlying functions
 ##'
-##' @seealso \code{\link{print}}
+##' @seealso \code{\link{print}} \code{\link{sensemakr}}
 ##'
 ##' @examples
-##' # loads data
-##' data("darfur")
-##'
-##' # fits model
-##' model  = lm(peacefactor ~ directlyharmed + age + farmer_dar + herder_dar +
-##'                pastvoted + hhsize_darfur + female + village, data = darfur)
-##'
-##' # runs benchmarking etc
-##' sense = sensemakr(model, treatment = "directlyharmed")
 ##'
 ##' print(summary(sense))
 ##'
-##' @export
+##' # NOTE: it is ?print.summary.sensemakr that controls different scenarios
+##' # not ?summary.sensemakrhttp://lexis.ccpr.ucla.edu:8787/help/library/sensemakr/html/summary.sensemakr.html
+##'
+##' print(summary(sense),q = 0.2, scenarios = 0.5)
+##'
 print.summary.sensemakr = function(x, q = 1, scenarios = c(1,.25),...){
  # pretty print for the summary
   cat("Sensitivity Analysis\n\n")
