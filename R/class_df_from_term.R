@@ -1,6 +1,6 @@
 # dont think this should be exported
 
-#' @title The function '?class_df_from_term()'
+#' @title helper function to figure out classes of a data.frame column used in lm
 #' @description Looks up and returns the class of the data.frame column(s) associated with a model's term.
 #'
 #' @param model an 'lm' object

@@ -1,23 +1,35 @@
 ##' @title Senstivity analysis of linear models
 ##'
 ##' @description Description.
+##' The main function in the package.
 ##'
-##' @return The function returns an object of class 'sensemakr' which is a list with the main
-##' results for sensitivity analysis, namely:
-##' \item{Treat Stats}{
-##'    A list with the main statistics of the treatment estiamate which are needed for computing the sensitivity.
+##' @return The function returns an object of class 'sensemakr' which is a structured list containing
+##' quantities for sensitivity analysis, namely:
+##'
+##' \item{info}{
+##'    A list with information of the original outcome model
 ##'    \itemize{
-##'       \item name
-##'       \item estimate
-##'       \item se
-##'       \item df
+##'       \item model the \code{\link{lm}} object for the original outcome model
+##'       \item outcome the name of the outcome
+##'       \item treatment the name of the treatment
 ##'       }
 ##'   }
-##' \item{Benchmarks}{Benchmark values for the covariates listed on paramter X
+##' \item{treat.stats}{
+##'    A list with the main statistics of the original treatment estimate which are needed for computing the sensitivity analysis.
+##'    \itemize{
+##'       \item df the degrees of freedom
+##'       \item estimate the estimate of the treatment effect
+##'       \item se the standard error of the estimate
+##'       \item treat the name of the treatment
+##'       }
+##'   }
+##' \item{benchmarks}{a list of data frames with sensitivity analysis benchmarks
 ##'     \itemize{
-##'     \item R2 a data.frame with becnhmark values R2.
-##'     \item SD a data.frame with benchmark values
-##'     \item natural a data.frame with...
+##'     \item benchmark_dropallvar contains R2 benchmark values for worst-case scenarios.
+##'     \item benchmark_eachvar contains R2 benchmark values for all columns of the outcome model's design matrix.
+##'     \item benchmark_group contains R2 benchmark values for groups.
+##'     \item benchmark_masked contains non-redundent R2 benchmark values useful for summaries
+##'     \item benchmark_natural contains natural-scaled benchmark values.
 ##'     }
 ##'   }
 ##'
@@ -52,11 +64,15 @@
 ##' @references
 ##' Cite paper(s)
 ##'
-##' @param model the outcome model. Currently, only supports a formal 'lm' object
-##' @param treatment  character vector with the treatment variable
+##' @param model the outcome model. Currently, only supports a formal \code{\link{lm}} object
+##' @param treatment  a character string with the treatment variable's name
 ##' @param group_list a list of character vectors where elements within one vector are terms that should be grouped
-##' @param ... extra arguments
-##' @seealso \code{\link{lm}} for the 'lm' object
+##' @param ... extra arguments that might be passed to underlying functions
+##'
+##' @seealso The list of supported methods for a `sensemakr` object are:
+##' \code{\link{plot.sensemakr}} \code{\link{print.sensemakr}} \code{\link{summary.sensemakr}}
+##' Also see \code{\link{lm}}.
+##'
 ##' @export
 ##' @importFrom graphics abline legend lines plot points rug text
 ##' @importFrom stats coef df.residual formula model.matrix sd update vcov
@@ -80,7 +96,7 @@ sensemakr.lm = function(model, treatment, group_list=NULL,...){
   benchmarks  = benchmarkr(model, D, # X,
                             group_list)
 
-  names(benchmarks)
+  # names(benchmarks)
 
   out = list(treat.stats = treat.stats,
               benchmarks = benchmarks,
@@ -98,7 +114,7 @@ sensemakr.lm = function(model, treatment, group_list=NULL,...){
 # and the degrees of freedom.
 # future plans, let user supply own output of getstats to be used in downstream benchmarkr()
 
-# not exported
+# dont think this should be exported
 getstats = function(model, D){
   treat.summary     = summary(model)
   df                = treat.summary$df[2]
@@ -118,7 +134,7 @@ getstats = function(model, D){
 # Output: three data.frames with benchmarks for R2, SD and natural.
 #       - data.frame contains: Names, R2y or delta, R2d or gamma
 
-# not exported
+# dont think this should be exported
 ##' @importFrom stats terms
 benchmarkr = function(model, D, # X = NULL,
                        group_list=NULL, ...){
@@ -406,12 +422,13 @@ benchmarkr = function(model, D, # X = NULL,
 }
 
 
-
 # dont think this should be exported
-##' @title Computes low level quantities: effects on estimate, standard error and t-value caused by unobserved confounder
-##' @description  These helper functions compute the bias caused by an unobserved confounder with a specific pair
-##' of partial R2 with the treatment and with the outcome.
-##' with certain characteristics.
+
+##' @title non-exported helper functions
+##' @description  These helper functions compute low-level quantitites related to the bias caused
+##' by an unobserved confounder with a specific pair
+##' of partial R2 values with the treatment and with the outcome.
+##' Sensitivity of: estimate, standard error, and t-value due by unobserved confounder
 ##'
 ##'
 ##' NOTE: These are low level helper functions that are NOT exported.
@@ -503,7 +520,7 @@ group_r2 = function(model,terms_4_group){
   if(any(unlist(lgl_a_term_not_found))==TRUE){
 
     msg = paste('One of your terms specified in the "terms_4_group" argument is not found in your "model" argument.',
-                'Please make sure the character vectors in "terms_4_group" take on values from "attr(terms(model),"term.labels")".',
+                'Please make Gre the character vectors in "terms_4_group" take on values from "attr(terms(model),"term.labels")".',
                 'You may need to include backticks ``,as in "terms_4_group=list(c("`I(foo)`"))"'
     )
     stop(msg)
@@ -562,7 +579,7 @@ group_r2 = function(model,terms_4_group){
 }
 
 
-# mikenote: controlling 'terms_4_group' allows us to enforce group_r2
+# mikenote: controlling what is in 'terms_4_group' allows us to enforce group_r2
 # on blacklisted classes like 'factor'
 # class_df = class_df_from_term(model)
 # # class 'blacklist' check

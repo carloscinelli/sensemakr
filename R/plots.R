@@ -1,13 +1,15 @@
 # graphics ----------------------------------------------------------------
-##' @title Sensitivity plots
+##' @title The plot method for a sensemakr object
 ##' @description Several sensitivity plots.
 ##'
-##' @param x sensemakr object
+##' @param x a `sensemakr` object, result of \code{\link{sensemakr}}
 ##' @param showvars chooses which subsets of benchmarks to display.
 ##' Valid options are: 'masked', 'all', or list('foo1','foo2')
 ##' @param type a character string representing the type of plot: "contour" or "worst-case".
-##' @param ... Arguments to be passed to methods, such as graphical parameters \code{\link{par}} .
-##' @seealso \code{\link{par}} for graphical parameters
+##' @param ... extra arguments that might be passed to underlying functions
+##' @seealso See \code{\link{par}} for graphical parameters
+##' and \code{\link{plot}} for the generic plot method
+##'
 ##'
 ##' @examples
 ##' # loads data
@@ -103,7 +105,7 @@ plot.sensemakr = function(x,
 ##' @param contour a character string choosing what the contour lines represent: "estimate","t-value", "lower-limit", or "upper-limit"
 ##' @param nlevels an integer representing how many contour levels to display
 ##' @param lim a single numeric specifying the limits of a square plot window (one numeric applied to both x and y)
-##' @param top an integer controlling the number of 'top' benchmarks to display
+##' @param top an integer controlling the number of 'top' ranked benchmarks to display
 ##' @param pch see \code{\link{par}}
 ##' @param cex see \code{\link{par}}
 ##' @param xlab see \code{\link{par}}
@@ -112,15 +114,15 @@ plot.sensemakr = function(x,
 contourplot = function(x,
                        contour = c("estimate","t-value", "lower-limit", "upper-limit"),
                        nlevels = 15,
+                       lim = NULL,
+                       top = NULL,
                        pch = 20,
                        cex = 1,
-                       lim = NULL,
                        xlab = "Hypothetical partial R2 of unobserved confounder with the treatment",
                        ylab = "Hypothetical partial R2 of unobserved confounder with the outcome",
-                       main = paste("Sensitivity of",  contour, "to unobserved confounder\nContours of adjusted estimates"),
                        # x.label = NULL,  # deprecated jitter
                        # y.label = NULL,  # deprecated jitter
-                       top = NULL
+                       main = paste("Sensitivity of",  contour, "to unobserved confounder\nContours of adjusted estimates")
                        ){
 
 #   contour = c("estimate","t-value", "lower-limit", "upper-limit")
@@ -308,7 +310,9 @@ contourplot = function(x,
 }
 
 
-
+##' @name plot.sensemakr
+##' @param scenarios a numeric vector where each element represents a worst-case scenario for R2
+##' @param cex.legend a seperate `cex` argument used for drawing the legend. See \code{\link{par}}
 worstcaseplot = function(x,
                           lim = NULL,
                           scenarios = c(1, 0.3),

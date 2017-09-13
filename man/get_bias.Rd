@@ -12,7 +12,7 @@
 \alias{t_to_r2}
 \alias{get_bias}
 \alias{group_r2}
-\title{Computes low level quantities: effects on estimate, standard error and t-value caused by unobserved confounder}
+\title{non-exported helper functions}
 \usage{
 get_bias(se, df, r2y, r2d)
 
@@ -49,9 +49,10 @@ group_r2(model, terms_4_group)
 NOTE: The elements in 'terms_4_group' must match the character values of "(attr(terms(formula(model)),'term.labels'))".}
 }
 \description{
-These helper functions compute the bias caused by an unobserved confounder with a specific pair
-of partial R2 with the treatment and with the outcome.
-with certain characteristics.
+These helper functions compute low-level quantitites related to the bias caused
+by an unobserved confounder with a specific pair
+of partial R2 values with the treatment and with the outcome.
+Sensitivity of: estimate, standard error, and t-value due by unobserved confounder
 
 
 NOTE: These are low level helper functions that are NOT exported.

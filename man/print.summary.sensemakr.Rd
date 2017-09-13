@@ -2,21 +2,18 @@
 % Please edit documentation in R/print_and_summary.R
 \name{print.summary.sensemakr}
 \alias{print.summary.sensemakr}
-\title{print.summary.sensemakr is the print method for the summary of sensemakr}
+\title{The print method for the summary of a sensemakr object}
 \usage{
 \method{print}{summary.sensemakr}(x, q = 1, scenarios = c(1, 0.25), ...)
 }
 \arguments{
-\item{x}{object with 'sensemakr' class.}
+\item{x}{a `sensemakr` object, result of \code{\link{sensemakr}}}
 
-\item{q}{FOO}
+\item{q}{numeric value between 0 and 1 representing proportion of alteration to treatment estimates}
 
-\item{scenarios}{a numeric vector, wher each element represents a scenario}
+\item{scenarios}{a numeric vector where each element represents a R2 scenario}
 
-\item{...}{extra args}
-}
-\description{
-the print method for summary of sensemakr class
+\item{...}{extra arguments that might be passed to underlying functions}
 }
 \examples{
 # loads data
@@ -31,4 +28,7 @@ sense = sensemakr(model, treatment = "directlyharmed")
 
 print(summary(sense))
 
+}
+\seealso{
+\code{\link{print}}
 }

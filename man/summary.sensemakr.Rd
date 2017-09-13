@@ -2,21 +2,18 @@
 % Please edit documentation in R/print_and_summary.R
 \name{summary.sensemakr}
 \alias{summary.sensemakr}
-\title{summary.sensemakr is the summary method for sensemakr class}
+\title{The summary method for a sensemakr object}
 \usage{
 \method{summary}{sensemakr}(object, q = 1, scenarios = c(1, 0.25), ...)
 }
 \arguments{
 \item{object}{with 'sensemakr' class.}
 
-\item{q}{FOO}
+\item{q}{numeric value between 0 and 1 representing proportion of alteration to treatment estimates}
 
-\item{scenarios}{a numeric vector, wher each element represents a scenario}
+\item{scenarios}{a numeric vector where each element represents a R2 scenario}
 
-\item{...}{extra args}
-}
-\description{
-the summary method for sensemakr class
+\item{...}{extra arguments that might be passed to underlying functions}
 }
 \examples{
 # loads data

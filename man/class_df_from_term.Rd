@@ -2,7 +2,7 @@
 % Please edit documentation in R/class_df_from_term.R
 \name{class_df_from_term}
 \alias{class_df_from_term}
-\title{The function '?class_df_from_term()'}
+\title{helper function to figure out classes of a data.frame column used in lm}
 \usage{
 class_df_from_term(model, class_post_formula = FALSE)
 }

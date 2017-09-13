@@ -9,9 +9,9 @@ worstcaseinterpret(sensemakr, scenarios = c(1, 0.25), q = 1)
 \arguments{
 \item{sensemakr}{object with 'sensemakr' class.}
 
-\item{scenarios}{a numeric vector, wher each element represents a scenario}
+\item{scenarios}{a numeric vector where each element represents a R2 scenario}
 
-\item{q}{FOO}
+\item{q}{numeric value between 0 and 1 representing proportion of alteration to treatment estimates}
 }
 \description{
 provides text interpretation in the console
@@ -29,4 +29,7 @@ sense = sensemakr(model, treatment = "directlyharmed")
 
 worstcaseinterpret(sense)
 
+}
+\seealso{
+\code{\link{summary.sensemakr}}
 }

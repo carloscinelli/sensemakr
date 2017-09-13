@@ -2,11 +2,13 @@
 # A method must have all the arguments of the generic, including … if the generic does.
 # A method must have arguments in exactly the same order as the generic.
 
-##' @title print.sensemakr is the print method for sensemakr class
-##' @description the print method for sensemakr class
-##' @param x object with 'sensemakr' class.
+##' @title The print method for a sensemakr object
+##' @param x a `sensemakr` object, result of \code{\link{sensemakr}}
 ##' @param str a logical (default TRUE) indicating if the structure should be printed.
-##' @param ... extra args
+##' @param ... extra arguments that might be passed to underlying functions
+##'
+##' @seealso \code{\link{print}}
+##'
 ##' @examples
 ##' # loads data
 ##' data("darfur")
@@ -32,12 +34,11 @@ print.sensemakr = function(x,str = TRUE,...){
   cat("\n For more, use plot and summary.")
 }
 
-##' @title summary.sensemakr is the summary method for sensemakr class
-##' @description the summary method for sensemakr class
+##' @title The summary method for a sensemakr object
 ##' @param object with 'sensemakr' class.
-##' @param q FOO
-##' @param scenarios a numeric vector, wher each element represents a scenario
-##' @param ... extra args
+##' @param q numeric value between 0 and 1 representing proportion of alteration to treatment estimates
+##' @param scenarios a numeric vector where each element represents a R2 scenario
+##' @param ... extra arguments that might be passed to underlying functions
 ##' @examples
 ##' # loads data
 ##' data("darfur")
@@ -62,11 +63,12 @@ summary.sensemakr = function(object, q=1,scenarios=c(1,.25),...){
 }
 
 
-##' @title Low level function to interpret sensemakr quantities
+##' @title a function to interpret sensemakr quantities
 ##' @name interpret
 ##' @description provides text interpretation in the console
 ##' @param sensemakr object with 'sensemakr' class.
-##' @param q FOO
+##' @param q numeric value between 0 and 1 representing proportion of alteration to treatment estimates
+##' @seealso \code{\link{summary.sensemakr}}
 ##' @examples
 ##' # loads data
 ##' data("darfur")
@@ -147,8 +149,9 @@ interpret = function(sensemakr, q = 1){
 ##' @name worstcaseinterpret
 ##' @description provides text interpretation in the console
 ##' @param sensemakr object with 'sensemakr' class.
-##' @param scenarios a numeric vector, wher each element represents a scenario
-##' @param q FOO
+##' @param scenarios a numeric vector where each element represents a R2 scenario
+##' @param q numeric value between 0 and 1 representing proportion of alteration to treatment estimates
+##' @seealso \code{\link{summary.sensemakr}}
 ##' @examples
 ##' # loads data
 ##' data("darfur")
@@ -176,12 +179,14 @@ worstcaseinterpret = function(sensemakr, scenarios = c(1, 0.25), q = 1){
   " of the treatment assignment to reduce the treatment effect in ", round(q*100, 2), "%.", sep = "")
 }
 
-##' @title print.summary.sensemakr is the print method for the summary of sensemakr
-##' @description the print method for summary of sensemakr class
-##' @param x object with 'sensemakr' class.
-##' @param q FOO
-##' @param scenarios a numeric vector, wher each element represents a scenario
-##' @param ... extra args
+##' @title The print method for the summary of a sensemakr object
+##' @param x a `sensemakr` object, result of \code{\link{sensemakr}}
+##' @param q numeric value between 0 and 1 representing proportion of alteration to treatment estimates
+##' @param scenarios a numeric vector where each element represents a R2 scenario
+##' @param ... extra arguments that might be passed to underlying functions
+##'
+##' @seealso \code{\link{print}}
+##'
 ##' @examples
 ##' # loads data
 ##' data("darfur")

@@ -3,7 +3,7 @@
 \docType{data}
 \name{darfur}
 \alias{darfur}
-\title{Darfur Data}
+\title{The Darfur Dataset}
 \format{A data frame.}
 \description{
 Data on attitudes of Darfurian refugees in eastern Chad.

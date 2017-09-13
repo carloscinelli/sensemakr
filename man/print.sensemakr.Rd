@@ -2,19 +2,16 @@
 % Please edit documentation in R/print_and_summary.R
 \name{print.sensemakr}
 \alias{print.sensemakr}
-\title{print.sensemakr is the print method for sensemakr class}
+\title{The print method for a sensemakr object}
 \usage{
 \method{print}{sensemakr}(x, str = TRUE, ...)
 }
 \arguments{
-\item{x}{object with 'sensemakr' class.}
+\item{x}{a `sensemakr` object, result of \code{\link{sensemakr}}}
 
 \item{str}{a logical (default TRUE) indicating if the structure should be printed.}
 
-\item{...}{extra args}
-}
-\description{
-the print method for sensemakr class
+\item{...}{extra arguments that might be passed to underlying functions}
 }
 \examples{
 # loads data
@@ -30,4 +27,7 @@ sense = sensemakr(model, treatment = "directlyharmed")
 print(sense)
 print(sense,str=FALSE)
 
+}
+\seealso{
+\code{\link{print}}
 }

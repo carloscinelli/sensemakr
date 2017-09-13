@@ -4,37 +4,47 @@
 \alias{plot.sensemakr}
 \alias{plot.sensemakr}
 \alias{contourplot}
-\title{Sensitivity plots}
+\alias{plot.sensemakr}
+\alias{worstcaseplot}
+\title{The plot method for a sensemakr object}
 \usage{
 \method{plot}{sensemakr}(x, showvars = "masked", type = c("contour",
   "worst-case"), ...)
 
 contourplot(x, contour = c("estimate", "t-value", "lower-limit",
-  "upper-limit"), nlevels = 15, pch = 20, cex = 1, lim = NULL,
+  "upper-limit"), nlevels = 15, lim = NULL, top = NULL, pch = 20,
+  cex = 1,
   xlab = "Hypothetical partial R2 of unobserved confounder with the treatment",
   ylab = "Hypothetical partial R2 of unobserved confounder with the outcome",
   main = paste("Sensitivity of", contour,
-  "to unobserved confounder\\nContours of adjusted estimates"), top = NULL)
+  "to unobserved confounder\\nContours of adjusted estimates"))
+
+worstcaseplot(x, lim = NULL, scenarios = c(1, 0.3), cex.legend = 0.6,
+  xlab = "Hypothetical partial R2 of unobserved confounder(s) with treatment",
+  ylab = "Adjusted estimate",
+  main = "Sensitivity of estimate to unobserved confounder(s)\\n\\"Worst-case\\" scenarios of partial R2 with outcome")
 }
 \arguments{
-\item{x}{sensemakr object}
+\item{x}{a `sensemakr` object, result of \code{\link{sensemakr}}}
 
 \item{showvars}{chooses which subsets of benchmarks to display.
 Valid options are: 'masked', 'all', or list('foo1','foo2')}
 
 \item{type}{a character string representing the type of plot: "contour" or "worst-case".}
 
-\item{...}{Arguments to be passed to methods, such as graphical parameters \code{\link{par}} .}
+\item{...}{extra arguments that might be passed to underlying functions}
 
 \item{contour}{a character string choosing what the contour lines represent: "estimate","t-value", "lower-limit", or "upper-limit"}
 
 \item{nlevels}{an integer representing how many contour levels to display}
 
+\item{lim}{a single numeric specifying the limits of a square plot window (one numeric applied to both x and y)}
+
+\item{top}{an integer controlling the number of 'top' ranked benchmarks to display}
+
 \item{pch}{see \code{\link{par}}}
 
 \item{cex}{see \code{\link{par}}}
-
-\item{lim}{a single numeric specifying the limits of a square plot window (one numeric applied to both x and y)}
 
 \item{xlab}{see \code{\link{par}}}
 
@@ -42,7 +52,9 @@ Valid options are: 'masked', 'all', or list('foo1','foo2')}
 
 \item{main}{see \code{\link{par}}}
 
-\item{top}{an integer controlling the number of 'top' benchmarks to display}
+\item{scenarios}{a numeric vector where each element represents a worst-case scenario for R2}
+
+\item{cex.legend}{a seperate `cex` argument used for drawing the legend. See \code{\link{par}}}
 }
 \value{
 a plot object
@@ -71,5 +83,6 @@ plot5_data = plot(sense, type = "worst-case")
 
 }
 \seealso{
-\code{\link{par}} for graphical parameters
+See \code{\link{par}} for graphical parameters
+and \code{\link{plot}} for the generic plot method
 }

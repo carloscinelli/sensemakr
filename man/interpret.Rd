@@ -2,14 +2,14 @@
 % Please edit documentation in R/print_and_summary.R
 \name{interpret}
 \alias{interpret}
-\title{Low level function to interpret sensemakr quantities}
+\title{a function to interpret sensemakr quantities}
 \usage{
 interpret(sensemakr, q = 1)
 }
 \arguments{
 \item{sensemakr}{object with 'sensemakr' class.}
 
-\item{q}{FOO}
+\item{q}{numeric value between 0 and 1 representing proportion of alteration to treatment estimates}
 }
 \description{
 provides text interpretation in the console
@@ -27,4 +27,7 @@ sense = sensemakr(model, treatment = "directlyharmed")
 
 interpret(sense, q = 0.5)
 interpret(sense, q = 0.6)
+}
+\seealso{
+\code{\link{summary.sensemakr}}
 }

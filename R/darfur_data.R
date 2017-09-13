@@ -1,6 +1,6 @@
 #### Darfur Data ####
 
-##' Darfur Data
+##' The Darfur Dataset
 ##' @description  Data on attitudes of Darfurian refugees in eastern Chad.
 ##' Key ``treatment'' variable is directharm, which indicates that individual
 ##' was physically injured during attacks on villages in Darfur, largely between
