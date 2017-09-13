@@ -35,8 +35,8 @@ plot(sense.out, showvars = list("pastvoted","female"))
 plot(sense.out, showvars = list("pastvoted","female"), contour="t-value")
 
 ## ------------------------------------------------------------------------
-plot(sense.out, showvars = list("pastvoted","female"), contour="upper bound", lim=.35)
-plot(sense.out, showvars = list("pastvoted","female"), contour="lower bound", lim=.35)
+plot(sense.out, showvars = list("pastvoted","female"), contour="upper-limit", lim=.35)
+plot(sense.out, showvars = list("pastvoted","female"), contour="lower-limit", lim=.35)
 
 ## ------------------------------------------------------------------------
 plot(sense.out, type="worst-case")
@@ -48,7 +48,7 @@ sense.out$treat.stats
 ls(sense.out$benchmarks)
 
 ## ------------------------------------------------------------------------
-round(sense.out$benchmarks$benchmark_masked[,-1],4)
+round(sense.out$benchmarks$benchmark_masked,4)
 
 ## ------------------------------------------------------------------------
 sense.out$benchmarks$benchmark_group

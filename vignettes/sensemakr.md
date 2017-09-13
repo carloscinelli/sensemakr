@@ -8,7 +8,7 @@ Welcome to the vignette for `sensemakr`.  This document briefly describes the ba
 
 ## Introduction to `sensemakr`
 
-The `sensemakr` package simply builds upon and makes more accessible a brand of sensitivity analysis closesly related to well known concepts of \textiT{omitted variable bias.} One has a linear outcome moel, and imagines that certain important confounders might be missing from it.  Given what \textit{is} in the model, what would need to be the properties of an omitted confounder to have biased your estimate by a certain amount (or as we put it, to imply an adjusted estimate that differs from the actual by that amount)?  In addition to changing the point estimate, such a confounder would change the standard errors, t-values, p-values, etc., making the adjusted versions of these quantities of interest as well.  
+The `sensemakr` package simply builds upon and makes more accessible a brand of sensitivity analysis closesly related to well known concepts of \textit{omitted variable bias.} One has a linear outcome moel, and imagines that certain important confounders might be missing from it.  Given what \textit{is} in the model, what would need to be the properties of an omitted confounder to have biased your estimate by a certain amount (or as we put it, to imply an adjusted estimate that differs from the actual by that amount)?  In addition to changing the point estimate, such a confounder would change the standard errors, t-values, p-values, etc., making the adjusted versions of these quantities of interest as well.  
 
 The challenge is to characterize a hypothesized troublesome confounder in such a way that enables the user to ask "is this an unobserved confounder that could likely exist in my circumstance?"  This depends heavily on the research design and information about the treatment assignment process. Sensitivity analysis is only a tool for elaborating our discussion of what might have gone wrong in a given observational analysis -- not for tell us that nothing has gone wrong. 
 
@@ -74,7 +74,7 @@ The second step is to run `sensemakr` on the `lm` object. At defaults this is si
 sense.out <- sensemakr(model=lm.out, treatment="directlyharmed")
 ```
 
-The `sensemakr` object, `sense.out`, contains a variety of useful quantities, including `sensemakr\$benchmarks`, which we will explore below. In common use cases, however, investigators would not inspect this directly but would turn to the `plot` and `summary` methods.  
+The `sensemakr` object, `sense.out`, contains a variety of useful quantities, including `sensemakr$benchmarks`, which we will explore below. In common use cases, however, investigators would not inspect this directly but would turn to the `plot` and `summary` methods.  
 
 We turn first to the `summary` method to gain substantive insight into the sensitivity analysis itself.
 
@@ -169,7 +169,7 @@ plot(sense.out, showvars = list("pastvoted","female"))
 
 ![](sensemakr_files/figure-html/unnamed-chunk-9-1.png)<!-- -->
 
-Finally, by default these contourplots show adjusted point estimates. This is equivalent to setting the `countour` argument to its default value of `estimate`. However `contour` can also be set to `t-value`, `lower bound`, or `upper bound` to show results for the t-statistic and the resulting lower and upper limits of 95\% confidence intervals respectively.  For example, we can inspect the t-values and related benchmarks across values of the sensitivity parameters by
+Finally, by default these contourplots show adjusted point estimates. This is equivalent to setting the `countour` argument to its default value of `estimate`. However `contour` can also be set to `t-value`, `lower-limit`, or `upper-limit` to show results for the t-statistic and the resulting lower and upper limits of 95\% confidence intervals respectively.  For example, we can inspect the t-values and related benchmarks across values of the sensitivity parameters by
 
 
 ```r
@@ -185,13 +185,13 @@ An alternative way of incorporating information about how a hypothesized confoun
 
 
 ```r
-plot(sense.out, showvars = list("pastvoted","female"), contour="upper bound", lim=.35)
+plot(sense.out, showvars = list("pastvoted","female"), contour="upper-limit", lim=.35)
 ```
 
 ![](sensemakr_files/figure-html/unnamed-chunk-11-1.png)<!-- -->
 
 ```r
-plot(sense.out, showvars = list("pastvoted","female"), contour="lower bound", lim=.35)
+plot(sense.out, showvars = list("pastvoted","female"), contour="lower-limit", lim=.35)
 ```
 
 ![](sensemakr_files/figure-html/unnamed-chunk-11-2.png)<!-- -->
@@ -243,11 +243,11 @@ ls(sense.out$benchmarks)
 ## [4] "benchmark_masked"     "benchmark_natural"
 ```
 
-The `\_dropallvar` variable contains useful information for computing sensitivity parameters, but the quantities of usual interest will be stored in `benchmark_eachvar` and `benchmark_masked`. Both contain similar information, but when grouped variables (such as `village`) are included in the model, looking at `benchmark\_masked` conveniently masks the grouped variables (620 separate indicators in this case):
+The `benchmark_dropallvar` list element contains useful information for computing sensitivity parameters, but the quantities of usual interest will be stored in `benchmark_eachvar` and `benchmark_masked`. Both contain similar information, but when grouped variables (such as `village`) are included in the model, looking at `benchmark_masked` conveniently masks the grouped variables (620 separate indicators in this case):
 
 
 ```r
-round(sense.out$benchmarks$benchmark_masked[,-1],4)
+round(sense.out$benchmarks$benchmark_masked,4)
 ```
 
 ```
@@ -260,9 +260,9 @@ round(sense.out$benchmarks$benchmark_masked[,-1],4)
 ## farmer_dar    0.0024 0.0000  0.0001     0.0972    0.0232   4.1838
 ```
 
-The columns `r2y` and `r2d` give the partial `R^2` with the outcome (`y`) and treatment (`d`) respectively.  The `bias\_r2` gives the bias that would be caused by a confounder with the corresponding `r2y` and `r2d`. The adjusted estimated due to this bias --  simply the original estimate minus the proposed bias -- is `adj\_est\_r2`.  Finally, the adjusted `adj\_se\_r2` and `adj\_t\_r2` gives the standard error and t-statistic after adjusting for a hypothetical confounder with the proposed characteristics.  
+The columns `r2y` and `r2d` give the partial `R^2` with the outcome (`y`) and treatment (`d`) respectively.  The `bias\_r2` gives the bias that would be caused by a confounder with the corresponding `r2y` and `r2d`. The adjusted estimated due to this bias -- simply the original estimate minus the proposed bias -- is `adj_est_r2`.  Finally, the adjusted `adj_se_r2` and `adj_t_r2` gives the standard error and t-statistic after adjusting for a hypothetical confounder with the proposed characteristics.  
 
-Finally, the parameters for the masked (grouped) variables -- the `village` dummies in this case -- are stored in `benchmark\_group`:
+Finally, the parameters for the masked (grouped) variables -- the `village` dummies in this case -- are stored in `benchmark_group`:
 
 
 ```r
@@ -270,8 +270,8 @@ sense.out$benchmarks$benchmark_group
 ```
 
 ```
-##         covariate       r2y       r2d  bias_r2 adj_est_r2
-## village   village 0.4242888 0.4169266 0.358447 -0.2611312
+##               r2y       r2d  bias_r2 adj_est_r2
+## village 0.4242888 0.4169266 0.358447 -0.2611312
 ```
 
 
@@ -294,12 +294,9 @@ sense.grp.out$benchmarks$benchmark_group
 ```
 
 ```
-##                                   covariate        r2y         r2d
-## farmer_dar,herder_dar farmer_dar,herder_dar 0.00250921 0.008025826
-## village                             village 0.42428884 0.416926607
-##                          bias_r2  adj_est_r2
-## farmer_dar,herder_dar 0.00293217  0.09438365
-## village               0.35844699 -0.26113117
+##                              r2y         r2d    bias_r2  adj_est_r2
+## farmer_dar,herder_dar 0.00250921 0.008025826 0.00293217  0.09438365
+## village               0.42428884 0.416926607 0.35844699 -0.26113117
 ```
 
 ```r
@@ -308,9 +305,3 @@ plot(sense.grp.out, showvars=list("farmer_dar,herder_dar", "female"))
 
 ![](sensemakr_files/figure-html/unnamed-chunk-18-1.png)<!-- -->
 
-# REMAINING QUESTIONS FOR US
-QUESTION: is it important that showvars accepts a list? Standard usage would seem to be `c()`. I guess its because we are overloading it by also making "masked" and "all" options? XXX
-
-QUESTION: should we rename `lower bound` to `lower limit` or `lower CI` or something? "bound" is too strong. XXX
-
-QUESTION: Are there cases where we'd want to use a covariate as a benchmark but not have it in the model? Maybe a variable that we worry is post-tx? XXX

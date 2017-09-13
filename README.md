@@ -5,7 +5,7 @@
 sensemakr
 =========
 
-The goal of sensemakr is to ...
+The goal of sensemakr is to make a simple sensitivity (to confounding) analysis widely accessible.
 
 Installation
 ------------
@@ -22,9 +22,7 @@ The accompanying vignette can be viewed [here](https://github.com/chadhazlett/se
 Additionally, if you want to install the companion vignette inside R, use the below command instead:
 
 ``` r
-
 devtools::install_github("chadhazlett/sensemakr",build_vignettes = TRUE,force=TRUE)
-
 vignette('sensemakr')
 ```
 
@@ -34,13 +32,9 @@ Example
 Below is a basic example of the functionality in the sensemakr package
 
 ``` r
-
 library(sensemakr)
-
-lm.out  <- lm(peacefactor ~ directlyharmed + age + female + village, data = darfur)
-
-sense.out <- sensemakr(model=lm.out, treatment="directlyharmed")
-
+lm.out  = lm(peacefactor ~ directlyharmed + age + female + village, data = darfur)
+sense.out = sensemakr(model=lm.out, treatment="directlyharmed")
 plot(sense.out, showvars = list("age","female"))
 ```
 
