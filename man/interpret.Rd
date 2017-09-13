@@ -14,3 +14,17 @@ interpret(sensemakr, q = 1)
 \description{
 provides text interpretation in the console
 }
+\examples{
+# loads data
+data("darfur")
+
+# fits model
+model  = lm(peacefactor ~ directlyharmed + age + farmer_dar + herder_dar +
+               pastvoted + hhsize_darfur + female + village, data = darfur)
+
+# runs benchmarking etc
+sense = sensemakr(model, treatment = "directlyharmed")
+
+interpret(sense, q = 0.5)
+interpret(sense, q = 0.6)
+}

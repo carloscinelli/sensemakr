@@ -18,3 +18,17 @@
 \description{
 the summary method for sensemakr class
 }
+\examples{
+# loads data
+data("darfur")
+
+# fits model
+model  = lm(peacefactor ~ directlyharmed + age + farmer_dar + herder_dar +
+               pastvoted + hhsize_darfur + female + village, data = darfur)
+
+# runs benchmarking etc
+sense = sensemakr(model, treatment = "directlyharmed")
+
+summary(sense)
+
+}

@@ -1,7 +1,3 @@
-# the updated internal name change is not reflected here
-# TODO: push the changes later
-
-# prints ------------------------------------------------------------------
 
 # A method must have all the arguments of the generic, including … if the generic does.
 # A method must have arguments in exactly the same order as the generic.
@@ -11,9 +7,22 @@
 ##' @param x object with 'sensemakr' class.
 ##' @param str a logical (default TRUE) indicating if the structure should be printed.
 ##' @param ... extra args
+##' @examples
+##' # loads data
+##' data("darfur")
+##'
+##' # fits model
+##' model  = lm(peacefactor ~ directlyharmed + age + farmer_dar + herder_dar +
+##'                pastvoted + hhsize_darfur + female + village, data = darfur)
+##'
+##' # runs benchmarking etc
+##' sense = sensemakr(model, treatment = "directlyharmed")
+##'
+##' print(sense)
+##' print(sense,str=FALSE)
+##'
 ##' @export
 print.sensemakr = function(x,str = TRUE,...){
-
   cat("Sensitivity Analysis\n\n")
   cat("Model:", trimws(deparse(formula(x$info$model))), "\n\n")
   cat("Treatment:", x$info$treatment, "\n")
@@ -29,6 +38,19 @@ print.sensemakr = function(x,str = TRUE,...){
 ##' @param q FOO
 ##' @param scenarios a numeric vector, wher each element represents a scenario
 ##' @param ... extra args
+##' @examples
+##' # loads data
+##' data("darfur")
+##'
+##' # fits model
+##' model  = lm(peacefactor ~ directlyharmed + age + farmer_dar + herder_dar +
+##'                pastvoted + hhsize_darfur + female + village, data = darfur)
+##'
+##' # runs benchmarking etc
+##' sense = sensemakr(model, treatment = "directlyharmed")
+##'
+##' summary(sense)
+##'
 ##' @export
 summary.sensemakr = function(object, q=1,scenarios=c(1,.25),...){
   # bunch of useful things
@@ -45,6 +67,19 @@ summary.sensemakr = function(object, q=1,scenarios=c(1,.25),...){
 ##' @description provides text interpretation in the console
 ##' @param sensemakr object with 'sensemakr' class.
 ##' @param q FOO
+##' @examples
+##' # loads data
+##' data("darfur")
+##'
+##' # fits model
+##' model  = lm(peacefactor ~ directlyharmed + age + farmer_dar + herder_dar +
+##'                pastvoted + hhsize_darfur + female + village, data = darfur)
+##'
+##' # runs benchmarking etc
+##' sense = sensemakr(model, treatment = "directlyharmed")
+##'
+##' interpret(sense, q = 0.5)
+##' interpret(sense, q = 0.6)
 ##' @export
 interpret = function(sensemakr, q = 1){
 
@@ -108,12 +143,25 @@ interpret = function(sensemakr, q = 1){
   cat("\n\n")
 }
 
-##' @title a Low level function to interpret sensemakr quantities
+##' @title a function to interpret sensemakr quantities
 ##' @name worstcaseinterpret
 ##' @description provides text interpretation in the console
 ##' @param sensemakr object with 'sensemakr' class.
 ##' @param scenarios a numeric vector, wher each element represents a scenario
 ##' @param q FOO
+##' @examples
+##' # loads data
+##' data("darfur")
+##'
+##' # fits model
+##' model  = lm(peacefactor ~ directlyharmed + age + farmer_dar + herder_dar +
+##'                pastvoted + hhsize_darfur + female + village, data = darfur)
+##'
+##' # runs benchmarking etc
+##' sense = sensemakr(model, treatment = "directlyharmed")
+##'
+##' worstcaseinterpret(sense)
+##'
 ##' @export
 worstcaseinterpret = function(sensemakr, scenarios = c(1, 0.25), q = 1){
   estimate = sensemakr$treat.stats$estimate
@@ -134,6 +182,19 @@ worstcaseinterpret = function(sensemakr, scenarios = c(1, 0.25), q = 1){
 ##' @param q FOO
 ##' @param scenarios a numeric vector, wher each element represents a scenario
 ##' @param ... extra args
+##' @examples
+##' # loads data
+##' data("darfur")
+##'
+##' # fits model
+##' model  = lm(peacefactor ~ directlyharmed + age + farmer_dar + herder_dar +
+##'                pastvoted + hhsize_darfur + female + village, data = darfur)
+##'
+##' # runs benchmarking etc
+##' sense = sensemakr(model, treatment = "directlyharmed")
+##'
+##' print(summary(sense))
+##'
 ##' @export
 print.summary.sensemakr = function(x, q = 1, scenarios = c(1,.25),...){
  # pretty print for the summary

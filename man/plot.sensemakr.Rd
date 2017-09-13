@@ -50,6 +50,26 @@ a plot object
 \description{
 Several sensitivity plots.
 }
+\examples{
+# loads data
+data("darfur")
+
+# fits model
+model  = lm(peacefactor ~ directlyharmed + age + farmer_dar + herder_dar +
+               pastvoted + hhsize_darfur + female + village, data = darfur)
+
+# runs benchmarking
+sense = sensemakr(model, treatment = "directlyharmed")
+
+# draws plots
+plot1_data = plot(sense)
+plot2_data = plot(sense, contour = "t-value")
+plot3_data = plot(sense, contour = "lower-limit")
+plot4_data = plot(sense, contour = "upper-limit")
+plot5_data = plot(sense, type = "worst-case")
+
+
+}
 \seealso{
 \code{\link{par}} for graphical parameters
 }
