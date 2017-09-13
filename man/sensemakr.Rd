@@ -4,7 +4,7 @@
 \alias{sensemakr}
 \alias{sensemakr}
 \alias{sensemakr.lm}
-\title{Senstivity analysis of linear models}
+\title{the main function to conduct senstivity analysis of Linear Models}
 \usage{
 sensemakr(model, treatment, group_list, ...)
 
@@ -87,7 +87,7 @@ summary(sense)
 Cite paper(s)
 }
 \seealso{
-The list of supported methods for a `sensemakr` object are:
-\code{\link{plot.sensemakr}} \code{\link{print.sensemakr}} \code{\link{summary.sensemakr}}
+The supported methods for a `sensemakr` object are:
+\code{\link{plot.sensemakr}} \code{\link{print.sensemakr}} \code{\link{summary.sensemakr}}.
 Also see \code{\link{lm}}.
 }

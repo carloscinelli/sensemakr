@@ -327,7 +327,10 @@ contourplot = function(x,
 
   if(nrow(benchmarks_group)>0){
 
-    labels_group = benchmarks_group$covariate
+    # deprecating benchmarks_group$covariate
+    # rely on row.names(benchmarks_group)
+
+    labels_group = row.names(benchmarks_group)
 
     text(x=benchmarks_group$r2d,
          y=benchmarks_group$r2y,

@@ -1,4 +1,4 @@
-##' @title Senstivity analysis of linear models
+##' @title the main function to conduct senstivity analysis of Linear Models
 ##'
 ##' @description Description.
 ##' The main function in the package.
@@ -69,8 +69,8 @@
 ##' @param group_list a list of character vectors where elements within one vector are terms that should be grouped
 ##' @param ... extra arguments that might be passed to underlying functions
 ##'
-##' @seealso The list of supported methods for a `sensemakr` object are:
-##' \code{\link{plot.sensemakr}} \code{\link{print.sensemakr}} \code{\link{summary.sensemakr}}
+##' @seealso The supported methods for a `sensemakr` object are:
+##' \code{\link{plot.sensemakr}} \code{\link{print.sensemakr}} \code{\link{summary.sensemakr}}.
 ##' Also see \code{\link{lm}}.
 ##'
 ##' @export
