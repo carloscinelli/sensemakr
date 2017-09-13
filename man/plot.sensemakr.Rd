@@ -26,14 +26,14 @@ worstcaseplot(x, showvars = "masked", lim = NULL, scenarios = c(1, 0.3),
   "\\"Worst-case\\" scenarios of partial R2 with outcome"))
 }
 \arguments{
-\item{x}{a `sensemakr` object, result of \code{\link{sensemakr}}
-Valid options are: 'masked', 'all', or list('foo1','foo2')}
+\item{x}{a `sensemakr` object, result of \code{\link{sensemakr}}}
 
 \item{type}{a character string representing the type of plot: "contour" or "worst-case".}
 
 \item{...}{extra arguments that might be passed to underlying functions}
 
-\item{showvars}{chooses which subsets of benchmarks to display.}
+\item{showvars}{chooses which subsets of benchmarks to display.
+Valid options are: 'masked', 'all', or list('foo1','foo2')}
 
 \item{contour}{a character string choosing what the contour lines represent: "estimate","t-value", "lower-limit", or "upper-limit"}
 
@@ -56,9 +56,6 @@ Valid options are: 'masked', 'all', or list('foo1','foo2')}
 \item{scenarios}{a numeric vector where each element represents a worst-case scenario for R2}
 
 \item{cex.legend}{a seperate `cex` argument used for drawing the legend. See \code{\link{par}}}
-}
-\value{
-a plot object
 }
 \description{
 Several sensitivity plots.

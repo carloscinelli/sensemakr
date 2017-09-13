@@ -3,7 +3,6 @@
 ##' @description Several sensitivity plots.
 ##'
 ##' @param x a `sensemakr` object, result of \code{\link{sensemakr}}
-##' Valid options are: 'masked', 'all', or list('foo1','foo2')
 ##' @param type a character string representing the type of plot: "contour" or "worst-case".
 ##' @param ... extra arguments that might be passed to underlying functions
 ##' @seealso See \code{\link{par}} for graphical parameters
@@ -29,7 +28,6 @@
 ##' plot5_data = plot(sense, type = "worst-case")
 ##'
 ##'
-##' @return a plot object
 ##' @export
 plot.sensemakr = function(x,
                           # showvars='masked',  # moved to lower level functions
@@ -102,6 +100,7 @@ plot.sensemakr = function(x,
 
 ##' @name plot.sensemakr
 ##' @param showvars chooses which subsets of benchmarks to display.
+##' Valid options are: 'masked', 'all', or list('foo1','foo2')
 ##' @param contour a character string choosing what the contour lines represent: "estimate","t-value", "lower-limit", or "upper-limit"
 ##' @param nlevels an integer representing how many contour levels to display
 ##' @param lim a single numeric specifying the limits of a square plot window (one numeric applied to both x and y)
