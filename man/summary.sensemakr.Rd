@@ -20,8 +20,6 @@
 \item{q}{numeric value between 0 and 1 representing proportion of alteration to treatment estimates}
 
 \item{scenarios}{a numeric vector where each element represents a R2 scenario}
-
-\item{...}{extra arguments that might be passed to underlying functions}
 }
 \description{
 creates summary text interpretation
@@ -46,7 +44,7 @@ class(out_summary)
 print(summary(sense))
 
 # NOTE: it is ?print.summary.sensemakr that controls different scenarios
-# not ?summary.sensemakrhttp://lexis.ccpr.ucla.edu:8787/help/library/sensemakr/html/summary.sensemakr.html
+# not ?summary.sensemak
 
 print(summary(sense),q = 0.2, scenarios = 0.5)
 

@@ -205,7 +205,6 @@ worstcaseinterpret = function(sensemakr, scenarios = c(1, 0.25), q = 1){
 ##' @param x a `summary.sensemakr` object, result of \code{\link{summary.sensemakr}}
 ##' @param q numeric value between 0 and 1 representing proportion of alteration to treatment estimates
 ##' @param scenarios a numeric vector where each element represents a R2 scenario
-##' @param ... extra arguments that might be passed to underlying functions
 ##'
 ##' @seealso \code{\link{print}} \code{\link{sensemakr}}
 ##'
@@ -214,7 +213,7 @@ worstcaseinterpret = function(sensemakr, scenarios = c(1, 0.25), q = 1){
 ##' print(summary(sense))
 ##'
 ##' # NOTE: it is ?print.summary.sensemakr that controls different scenarios
-##' # not ?summary.sensemakrhttp://lexis.ccpr.ucla.edu:8787/help/library/sensemakr/html/summary.sensemakr.html
+##' # not ?summary.sensemak
 ##'
 ##' print(summary(sense),q = 0.2, scenarios = 0.5)
 ##'
