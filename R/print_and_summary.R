@@ -181,6 +181,16 @@ worstcaseinterpret = function(sensemakr, scenarios = c(1, 0.25), q = 1){
   " of the treatment assignment to reduce the treatment effect in ", round(q*100, 2), "%.", sep = "")
 }
 
+# doesnt work using same @name as 'summary' to have 'print.summary' share same doc as 'summary'
+# to mimic doc of ?print.summary.lm
+# yes s3 summary is listed under 'summary.sensemakr'
+# not sure why the S3 print is not listed under 'summary.sensemakr'
+# to truely mimic
+# looks like 'summary.sensemakr needs to be itself a standalone class
+# not really worth it
+# right now it's a function called 'print.summary.sensemakr'
+# that is NOT a print() method for class 'summary.sensemakr'
+
 ##' @title The print method for the summary of a sensemakr object
 ##' @description provides text interpretation in the console
 ##' @param x a `sensemakr` object, result of \code{\link{sensemakr}}
