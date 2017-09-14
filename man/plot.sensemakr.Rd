@@ -33,13 +33,13 @@ worstcaseplot(x, showvars = "masked", lim = NULL, scenarios = c(1, 0.3),
 \item{...}{extra arguments that might be passed to underlying functions}
 
 \item{showvars}{chooses which subsets of benchmarks to display.
-Valid options are: 'masked', 'all', or list('foo1','foo2')}
+Valid options are: 'masked', 'all', or list('foo1','foo2') see \code{\link{list}}}
 
 \item{contour}{a character string choosing what the contour lines represent: "estimate","t-value", "lower-limit", or "upper-limit"}
 
 \item{nlevels}{an integer representing how many contour levels to display}
 
-\item{lim}{a single numeric specifying the limits of a square plot window (one numeric applied to both x and y)}
+\item{lim}{a single numeric specifying the limits of a square plot-window (one numeric applied to both x and y)}
 
 \item{top}{an integer controlling the number of 'top' ranked benchmarks to display}
 
@@ -58,7 +58,7 @@ Valid options are: 'masked', 'all', or list('foo1','foo2')}
 \item{cex.legend}{a seperate `cex` argument used for drawing the legend. See \code{\link{par}}}
 }
 \description{
-Several sensitivity plots.
+This generic plot method can create several sensitivity analysis plots.
 }
 \examples{
 # loads data

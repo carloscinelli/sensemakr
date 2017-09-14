@@ -4,7 +4,7 @@ Title: The 'sensemakr' Package for R Helps You Makesense of Confounding
 Version: 0.1.0
 Author: Chad Hazlett, Carlos Cinelli, Michael Tzen
 Maintainer: The package maintainer <yourself@somewhere.net>
-Description: This package makes use of a custom 'sensemakr' class that enables plot and print methods to make sense of unobserved confounding.
+Description: The package defines a custom 'sensemakr' class that enables plot, summary, and print methods so that the user can make sense of unobserved confounding.
 License: GPL-3
 Encoding: UTF-8
 LazyData: true

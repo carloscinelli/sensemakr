@@ -2,6 +2,7 @@
 
 S3method(plot,sensemakr)
 S3method(print,sensemakr)
+S3method(print,summary.sensemakr)
 S3method(sensemakr,lm)
 S3method(summary,sensemakr)
 export(class_df_from_term)

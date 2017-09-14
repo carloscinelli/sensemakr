@@ -1,6 +1,6 @@
 # graphics ----------------------------------------------------------------
 ##' @title The plot method for a sensemakr object
-##' @description Several sensitivity plots.
+##' @description This generic plot method can create several sensitivity analysis plots.
 ##'
 ##' @param x a `sensemakr` object, result of \code{\link{sensemakr}}
 ##' @param type a character string representing the type of plot: "contour" or "worst-case".
@@ -100,10 +100,10 @@ plot.sensemakr = function(x,
 
 ##' @name plot.sensemakr
 ##' @param showvars chooses which subsets of benchmarks to display.
-##' Valid options are: 'masked', 'all', or list('foo1','foo2')
+##' Valid options are: 'masked', 'all', or list('foo1','foo2') see \code{\link{list}}
 ##' @param contour a character string choosing what the contour lines represent: "estimate","t-value", "lower-limit", or "upper-limit"
 ##' @param nlevels an integer representing how many contour levels to display
-##' @param lim a single numeric specifying the limits of a square plot window (one numeric applied to both x and y)
+##' @param lim a single numeric specifying the limits of a square plot-window (one numeric applied to both x and y)
 ##' @param top an integer controlling the number of 'top' ranked benchmarks to display
 ##' @param pch see \code{\link{par}}
 ##' @param cex see \code{\link{par}}

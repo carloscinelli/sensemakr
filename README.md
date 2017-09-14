@@ -5,7 +5,7 @@
 sensemakr
 =========
 
-The goal of sensemakr is to make a simple sensitivity (to confounding) analysis widely accessible.
+The goal of sensemakr is to make a simple sensitivity (to confounding) analysis widely accessible. The package defines a custom 'sensemakr' class that enables plot, summary, and print methods so that the user can make sense of unobserved confounding.
 
 Installation
 ------------

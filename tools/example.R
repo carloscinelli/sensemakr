@@ -51,5 +51,34 @@ interpret(sense, q = 0.6) #throws warning.
 
 summary(sense) #needs more output/ to be different from interpret().
 
+# docs
+?sensemakr
+?sensemakr.lm
 
+?print.sensemakr
 
+?summary.sensemakr
+?print.summary.sensemakr
+
+# if q and scenarios param specified in summary.sensemakr(...),
+# carried forward to print.summary.sensemakr
+# since it is print.summary.sensemakr(q,scenarios) that has these args in scope
+
+summary(sense,q=0.7)
+print(summary(sense),q=0.7)
+
+summary(sense)
+print(summary(sense))
+
+summary(sense,scenarios=0.3)
+print(summary(sense),scenarios=0.3)
+
+summary(sense,scenarios=0.3,q=0.2)
+print(summary(sense),scenarios=0.3,q=0.2)
+
+print(sense)
+
+?interpret
+?worstcaseinterpret
+
+?plot.sensemakr

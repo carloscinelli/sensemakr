@@ -4,11 +4,19 @@
 \alias{summary.sensemakr}
 \alias{summary.sensemakr}
 \alias{print.summary.sensemakr}
+\alias{summary.sensemakr}
+\alias{interpret}
+\alias{summary.sensemakr}
+\alias{worstcaseinterpret}
 \title{The summary method for a sensemakr object}
 \usage{
 \method{summary}{sensemakr}(object, ...)
 
 \method{print}{summary.sensemakr}(x, q = 1, scenarios = c(1, 0.25), ...)
+
+interpret(object, q = 1)
+
+worstcaseinterpret(object, q = 1, scenarios = c(1, 0.25))
 }
 \arguments{
 \item{object}{a 'sensemakr' object, result of \code{\link{sensemakr}}}
@@ -22,7 +30,13 @@
 \item{scenarios}{a numeric vector where each element represents a R2 scenario}
 }
 \description{
-creates summary text interpretation
+The summary method creates summary text of a sensemakr object.
+
+The companion print method provides text interpretation of a summarized sensemakr object.
+
+Provides text interpretation of sensitivity quantitites.
+
+Provides text interpretation of worst-case sensitivity quantitites.
 }
 \examples{
 # loads data
@@ -43,10 +57,25 @@ class(out_summary)
 
 print(summary(sense))
 
-# NOTE: it is ?print.summary.sensemakr that controls different scenarios
-# not ?summary.sensemak
+# NOTE: if 'q' or 'scenarios' are specified as optional args
+during summary(...) it is carried forward
+into print.summary.sensemakr() and then
+all the way down into interpret() or worstcaseinterpret()
 
 print(summary(sense),q = 0.2, scenarios = 0.5)
+summary(sense,q = 0.2, scenarios = 0.5)
+
+
+interpret(sense, q = 0.5)
+interpret(sense, q = 0.6)
+summary(sense)
+
+
+worstcaseinterpret(sense)
+summary(sense)
+
+worstcaseinterpret(sense,q = 0.2, scenarios = 0.5)
+summary(sense,q = 0.2, scenarios = 0.5)
 
 }
 \seealso{

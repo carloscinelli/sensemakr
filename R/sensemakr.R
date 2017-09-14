@@ -1,7 +1,7 @@
-##' @title the main function to conduct senstivity analysis of Linear Models
+##' @title The main function for senstivity analysis of linear models
 ##'
-##' @description Description.
-##' The main function in the package.
+##' @description
+##' This is the main function of the package. Users should run this function first to start their sensitivity analysis.
 ##'
 ##' @return The function returns an object of class 'sensemakr' which is a structured list containing
 ##' quantities for sensitivity analysis, namely:
@@ -57,9 +57,9 @@
 ##' plot(sense)
 ##'
 ##' # text output
-##' interpret(sense)
-##' interpret(sense, q = 0.6)
 ##' summary(sense)
+##' summary(sense, q = 0.6)
+##'
 ##'
 ##' @references
 ##' Cite paper(s)
@@ -80,6 +80,7 @@ sensemakr = function(model, treatment, group_list, ...){
   UseMethod("sensemakr")
 }
 
+# note, name is sensemakr NOT sensemakr.lm, to link to single help doc
 ##' @name sensemakr
 ##' @export
 sensemakr.lm = function(model, treatment, group_list=NULL,...){

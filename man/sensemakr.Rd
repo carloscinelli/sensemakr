@@ -4,7 +4,7 @@
 \alias{sensemakr}
 \alias{sensemakr}
 \alias{sensemakr.lm}
-\title{the main function to conduct senstivity analysis of Linear Models}
+\title{The main function for senstivity analysis of linear models}
 \usage{
 sensemakr(model, treatment, group_list, ...)
 
@@ -51,8 +51,7 @@ quantities for sensitivity analysis, namely:
   }
 }
 \description{
-Description.
-The main function in the package.
+This is the main function of the package. Users should run this function first to start their sensitivity analysis.
 }
 \examples{
 
@@ -78,9 +77,9 @@ print(sense)
 plot(sense)
 
 # text output
-interpret(sense)
-interpret(sense, q = 0.6)
 summary(sense)
+summary(sense, q = 0.6)
+
 
 }
 \references{
