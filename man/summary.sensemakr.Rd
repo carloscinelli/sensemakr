@@ -58,9 +58,9 @@ class(out_summary)
 print(summary(sense))
 
 # NOTE: if 'q' or 'scenarios' are specified as optional args
-during summary(...) it is carried forward
-into print.summary.sensemakr() and then
-all the way down into interpret() or worstcaseinterpret()
+# during summary(...) it is carried forward
+# into print.summary.sensemakr() and then
+# all the way down into interpret() or worstcaseinterpret()
 
 print(summary(sense),q = 0.2, scenarios = 0.5)
 summary(sense,q = 0.2, scenarios = 0.5)
