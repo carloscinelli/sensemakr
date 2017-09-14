@@ -23,16 +23,14 @@ sensemakr(model, treatment, group_list, ...)
 The function returns an object of class 'sensemakr' which is a structured list containing
 quantities for sensitivity analysis, namely:
 
-\item{info}{
-   A list with information of the original outcome model
+\item{info}{list with information of the original outcome model
    \itemize{
       \item model the \code{\link{lm}} object for the original outcome model
       \item outcome the name of the outcome
       \item treatment the name of the treatment
       }
   }
-\item{treat.stats}{
-   A list with the main statistics of the original treatment estimate which are needed for computing the sensitivity analysis.
+\item{treat.stats}{list with the main statistics of the original treatment estimate which are needed for computing the sensitivity analysis.
    \itemize{
       \item df the degrees of freedom
       \item estimate the estimate of the treatment effect
@@ -40,7 +38,7 @@ quantities for sensitivity analysis, namely:
       \item treat the name of the treatment
       }
   }
-\item{benchmarks}{a list of data frames with sensitivity analysis benchmarks
+\item{benchmarks}{list of data frames with sensitivity analysis benchmarks
     \itemize{
     \item benchmark_dropallvar contains R2 benchmark values for worst-case scenarios.
     \item benchmark_eachvar contains R2 benchmark values for all columns of the outcome model's design matrix.

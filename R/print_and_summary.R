@@ -3,7 +3,7 @@
 # A method must have arguments in exactly the same order as the generic.
 
 ##' @title The print method for a sensemakr object
-##' @description Provides text interpretation of the sensemakr object.
+##' @description Provides text description of the sensemakr object.
 ##' @param x a `sensemakr` object, result of \code{\link{sensemakr}}
 ##' @param str a logical (default TRUE) indicating if the structure should be printed.
 ##' @param ... extra arguments that might be passed to underlying functions

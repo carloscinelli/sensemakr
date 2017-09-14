@@ -78,7 +78,7 @@ We turn first to the `summary` method to gain substantive insight into the sensi
 
 ## Summary and Interpretation
 
-Sensitivity analyses describe the type of confounders that would change our conclusions about an analysis. The challenge is in understanding how credibly such a confounder can be ruled out.  The summary methods provide ample interpretive information, describing the sensitivity results in several ways to increase the odds that investigators can meaningfully evaluate whether the types of confounders describes are likely to exist. A second purpose of provide numerous, verbose descriptions is to provide clear and precise language that investigators can refer to and even cite directly to minimize misunderstandings.
+Sensitivity analyses describe the type of confounders that would change our conclusions about an analysis. The challenge is in understanding how credibly such a confounder can be ruled out.  The summary methods provide ample interpretive information, describing the sensitivity results in several ways to increase the odds that investigators can meaningfully evaluate whether the types of confounders describes are likely to exist. A second purpose of providing numerous, verbose descriptions is to provide clear and precise language that investigators can refer to and even cite directly to minimize misunderstandings.
 
 The user simply applies the summary method to the `sensemakr` object,
 
@@ -135,16 +135,7 @@ The first block of text uses the covariate most strongly associated with the \te
 
 The second block of text uses the covariate most strongly associated with the \textit{outcome} as a benchmark. Rather than a worst-case analysis, it instead imagines a confounder with the same relationship to the outcome as this benchmark, and asks how many times more strongly it would have to be related to the outcome than this benchmark is in order to change our adjusted answer by proportion of $q$.
 
-```
-QUESTION: there is a mismatch between these two. Is this what we want?
-
-MT: here?
-## ---Using the covariate most strongly associated with the treatment assignment as a benchmark---
-## ---Using the covariate most strongly associated with the outcome as a benchmark---
-
-```
-
-Note that the benchmark interpretations provided in `summary` come from `interpret()`, which users can also call directly. 
+Note that the benchmark interpretations provided in the printout of `summary` really come from `interpret()`, which users can also call directly. 
 
 ## Basic Plotting: 
 There are two plot types: (i) contourplots with benchmarks, which can take the form of point estimates, t-statistics, or lower- and upper-limits of confidence intervals, and (ii) worstcase plots. 

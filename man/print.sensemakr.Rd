@@ -14,7 +14,7 @@
 \item{...}{extra arguments that might be passed to underlying functions}
 }
 \description{
-Provides text interpretation of the sensemakr object.
+Provides text description of the sensemakr object.
 }
 \examples{
 # loads data

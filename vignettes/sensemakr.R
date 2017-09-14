@@ -7,10 +7,8 @@ knitr::opts_chunk$set(echo = TRUE,
 library(sensemakr)
 data("darfur")
 
-## ------------------------------------------------------------------------
-#devtools::install_github("chadhazlett/sensemakr", build_vignettes = TRUE)
-# setwd("~/projects/sensemakr_fin/sensemakr/")
-# devtools::build_vignettes() 
+## ---- eval = FALSE-------------------------------------------------------
+#  devtools::install_github("chadhazlett/sensemakr", build_vignettes = TRUE)
 
 ## ------------------------------------------------------------------------
 lm.out  <- lm(peacefactor ~ directlyharmed + age + farmer_dar + herder_dar +
@@ -39,7 +37,7 @@ plot(sense.out, showvars = list("pastvoted","female"), contour="upper-limit", li
 plot(sense.out, showvars = list("pastvoted","female"), contour="lower-limit", lim=.35)
 
 ## ------------------------------------------------------------------------
-plot(sense.out, type="worst-case")
+plot(sense.out, type="worst-case",lim=0.5)
 
 ## ------------------------------------------------------------------------
 sense.out$treat.stats
@@ -54,7 +52,8 @@ round(sense.out$benchmarks$benchmark_masked,4)
 sense.out$benchmarks$benchmark_group
 
 ## ------------------------------------------------------------------------
-sense.grp.out= sensemakr(lm.out, treatment="directlyharmed", group_list = list(c("farmer_dar","herder_dar")))
+sense.grp.out = sensemakr(lm.out, treatment="directlyharmed",
+                         group_list = list(c("farmer_dar","herder_dar")))
 
 ## ------------------------------------------------------------------------
 sense.grp.out$benchmarks$benchmark_group
