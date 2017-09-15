@@ -30,13 +30,13 @@ worstcaseinterpret(object, q = 1, scenarios = c(1, 0.25))
 \item{scenarios}{a numeric vector where each element represents a R2 scenario}
 }
 \description{
-The summary method creates summary text of a sensemakr object.
+The summary.sensemakr() method creates summary text of a sensemakr object.
 
-The companion print method provides text interpretation of a summarized sensemakr object.
+The companion print.summary.sensemakr() method provides text interpretation of a summarized sensemakr object.
 
-Provides text interpretation of sensitivity quantitites.
+The interpret() function provides text interpretation of sensitivity quantitites.
 
-Provides text interpretation of worst-case sensitivity quantitites.
+The worstcaseinterpret() function provides text interpretation of worst-case sensitivity quantitites.
 }
 \examples{
 # loads data

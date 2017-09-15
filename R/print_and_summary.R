@@ -36,9 +36,8 @@ print.sensemakr = function(x,str = TRUE,...){
 }
 
 ##' @title The summary method for a sensemakr object
-##' @description The summary method creates summary text of a sensemakr object.
-##'
-##' The companion print method provides text interpretation of a summarized sensemakr object.
+##' @description
+##' The summary.sensemakr() method creates summary text of a sensemakr object.
 ##'
 ##' @param object a 'sensemakr' object, result of \code{\link{sensemakr}}
 ##' @param ... extra arguments that might be passed to underlying functions
@@ -96,6 +95,10 @@ summary.sensemakr = function(object,...){
 # note, name is summary.sensemakr NOT print.summary.sensemakr, to link to single help doc
 
 ##' @name summary.sensemakr
+##' @description
+##'
+##' The companion print.summary.sensemakr() method provides text interpretation of a summarized sensemakr object.
+##'
 ##' @param x a `summary.sensemakr` object, result of \code{\link{summary.sensemakr}}
 ##' @param q numeric value between 0 and 1 representing proportion of alteration to treatment estimates
 ##' @param scenarios a numeric vector where each element represents a R2 scenario
@@ -142,7 +145,7 @@ print.summary.sensemakr = function(x, q = 1, scenarios = c(1,.25),...){
 # note, name is summary.sensemakr NOT interpret, to link to single help doc
 
 ##' @name summary.sensemakr
-##' @description Provides text interpretation of sensitivity quantitites.
+##' @description The interpret() function provides text interpretation of sensitivity quantitites.
 ##' @examples
 ##'
 ##' interpret(sense, q = 0.5)
@@ -215,7 +218,7 @@ interpret = function(object, q = 1){
 # note, name is summary.sensemakr NOT worstcaseinterpret, to link to single help doc
 
 ##' @name summary.sensemakr
-##' @description Provides text interpretation of worst-case sensitivity quantitites.
+##' @description The worstcaseinterpret() function provides text interpretation of worst-case sensitivity quantitites.
 ##' @examples
 ##'
 ##' worstcaseinterpret(sense)
