@@ -8,8 +8,8 @@
 # even harder to prevent the labels of points from overlapping
 
 
-# ez options to adjustment for label overlap
-# 1) lim to zoom in
+# ez options to adjust for label overlap
+# 1) plot(lim=.) to zoom in
 # 2) plot(ptlab=FALSE) and locator() to choose label placement themselves
 
 
@@ -50,7 +50,7 @@ lab_order = ((plot_out$labels)$labels)[ind_name_order]
 lab_pos_manual = cbind(data.frame(pts_pick),lab_order)
 
 # 1) now plot() but toggle off ptlab
-# 2) add text() using df 'lab_pos_manual' you created
+# 2) add text() using df 'lab_pos_manual' end-user created
 plot(sense,type='contour',ptlab=FALSE,lim=0.02)
 with(lab_pos_manual,text(x,y,lab_order,cex=0.6))
 
@@ -107,7 +107,7 @@ plot_out = contourplot(sense,ptlab=FALSE,lim=0.02)
 
 ?FField::FFieldPtRep
 
-labels = (plot_out$labels)[,'labels']
+labels = (plot_out$labels)$labels
 x_orig = (plot_out$labels)$x
 y_orig = (plot_out$labels)$y
 

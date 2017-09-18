@@ -298,3 +298,105 @@ plot(sense.grp.out, showvars=list("farmer_dar,herder_dar", "female"))
 
 ![](sensemakr_files/figure-html/unnamed-chunk-18-1.png)<!-- -->
 
+## End-User Label Placements
+
+The end-user may not like the default label placements resulting from `plot(type='contour')` (eg
+`contourplot()`). The user may want to fine tune these label placements. Users can easily turn off the label placements using `plot(...,ptlab=FALSE)` and then resort to functions from other R packages, such as the `pointLabel()` function from the [maptools](https://cran.r-project.org/web/packages/maptools/index.html) package. Below, we demonstrate one method to algorithmically overlay the point labels so that they are nicely spaced. 
+
+
+
+```r
+# turn off default labels
+plot_out = contourplot(sense.out,ptlab=FALSE,lim=0.02)
+head(plot_out$labels)  # contains original labels and positions
+```
+
+```
+##                   labels            x            y
+## 1        female\n(0.077) 9.081065e-03 0.1090339154
+## 2           age\n(0.095) 1.115766e-03 0.0080242581
+## 3     pastvoted\n(0.096) 1.489741e-03 0.0050684125
+## 4    herder_dar\n(0.096) 7.898770e-03 0.0002521486
+## 5 hhsize_darfur\n(0.097) 1.740140e-04 0.0005195193
+## 6    farmer_dar\n(0.097) 4.917499e-06 0.0024364946
+```
+
+```r
+# overlay new algorithimically spaced labels
+library(maptools)
+```
+
+```
+## Loading required package: sp
+```
+
+```
+## Checking rgeos availability: TRUE
+```
+
+```r
+# ?maptools::pointLabel
+# "SANN" simulated annealing
+
+with(plot_out$labels,
+     maptools::pointLabel(x, y,
+                labels = labels,
+                method='SANN',
+                offset = 1, cex = .8))
+```
+
+![](sensemakr_files/figure-html/unnamed-chunk-19-1.png)<!-- -->
+
+```r
+# compare to default labels of plot(sensemakr)
+# contourplot(sense.out,ptlab=TRUE,lim=0.02)
+
+## other "GA" genetic algorithm option
+# with(plot_out$labels,
+#      maptools::pointLabel(x, y,
+#                 labels = labels,
+#                 method='GA',
+#                 offset = 1, cex = .8))
+```
+
+Alternatively, the user can resort to manually chosen label locations using R's  `locator()` function. This would be a good solution if the set of labels is small, or at least not overwhelming for the user. The R code is presented below but unevaluated as the `locator()` function is interactive. Since the result of `locator()` is ordered according to the users click-order, this method requires the user to keep track of the point to label mapping. A good strategy is to
+
+1. mentally order the points along one dimension, say the y-axis 
+2. keep track of the sensemakr provided default labels 
+3. activate `locator()` and sequentially click the plot device according to the dimension order
+4. overlay the user's new labels with the `text()` function 
+
+
+```r
+# locator() method eg handpick placements
+
+# First, use default ptlab=TRUE to show default labels
+# human book-keep, figure out order which points are which, 
+plot(sense,type='contour',ptlab=TRUE,lim=0.02)
+
+# one strategy: top to bottom along y-axis
+# age pastvoted framerdar hhsize_darfur herder_dar
+
+# end-user handpicks x-y locations via ?locator()
+# click plot device sequentially according to user's strategy
+pts_pick = locator()
+
+str((plot_out$labels)$labels)
+
+# get index position of '(plot_out$labels)$labels'
+# that matches ranking criteria: y-axis top to bottom
+
+ind_name_order = c(2,3,6,5,4)
+lab_order = ((plot_out$labels)$labels)[ind_name_order]
+lab_pos_manual = cbind(data.frame(pts_pick),lab_order)
+
+# 1) now plot() but toggle off ptlab
+# 2) add text() using end-user created df 'lab_pos_manual' 
+plot(sense,type='contour',ptlab=FALSE,lim=0.02)
+with(lab_pos_manual,text(x,y,lab_order,cex=0.6))
+```
+
+
+Lastly, the user can of course [fine tune](https://flowingdata.com/2014/10/23/moving-past-default-charts/) any of these plot elements outside of R using third-party software such as [Inkscape](https://inkscape.org/en/).
+
+

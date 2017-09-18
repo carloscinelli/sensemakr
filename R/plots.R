@@ -27,6 +27,7 @@
 ##' plot(sense, contour = "upper-limit")
 ##' plot(sense, type = "worst-case")
 ##'
+##' # also see vignette('sensemakr') for further point label customization
 ##'
 ##' @export
 plot.sensemakr = function(x,
