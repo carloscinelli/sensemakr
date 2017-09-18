@@ -105,6 +105,7 @@ plot.sensemakr = function(x,
 ##' @param nlevels an integer representing how many contour levels to display
 ##' @param lim a single numeric specifying the limits of a square plot-window (one numeric applied to both x and y)
 ##' @param top an integer controlling the number of 'top' ranked benchmarks to display
+##' @param ptlab a logical (default TRUE) controlling if points are labeled
 ##' @param pch see \code{\link{par}}
 ##' @param cex see \code{\link{par}}
 ##' @param xlab see \code{\link{par}}
@@ -122,6 +123,7 @@ contourplot = function(x,
                        nlevels = 15,
                        lim = NULL,
                        top = NULL,
+                       ptlab=TRUE,
                        pch = 20,
                        cex = 1,
                        xlab = "Hypothetical partial R2 of unobserved confounder with the treatment",
@@ -323,7 +325,13 @@ contourplot = function(x,
   # from r2dl to r2d
   # from r2yl to r2y
 
-  text(r2d, r2y, labels = labels, cex = 0.7)
+
+
+  if(ptlab==TRUE){
+    # user can toggle off, in case they want to post-process labels themselves
+
+    text(r2d, r2y, labels = labels, cex = 0.7)
+  }
 
   if(nrow(benchmarks_group)>0){
 
@@ -332,11 +340,16 @@ contourplot = function(x,
 
     labels_group = row.names(benchmarks_group)
 
-    text(x=benchmarks_group$r2d,
-         y=benchmarks_group$r2y,
-         labels=labels_group,
-         cex=0.7,
-         pos=4)
+    if(ptlab==TRUE){
+      # user can toggle off, in case they want to post-process labels themselves
+
+      text(x=benchmarks_group$r2d,
+           y=benchmarks_group$r2y,
+           labels=labels_group,
+           cex=0.7,
+           pos=4)
+      }
+
 
   }
 

@@ -26,6 +26,10 @@ print(sense)
 
 ?plot.sensemakr
 
+
+plot(sense,type='contour',ptlab=FALSE)
+plot(sense,type='contour',ptlab=FALSE,lim=0.02)
+
 plot(sense,type='contour')
 plot(sense,type='worst-case',lim=0.6)
 plot(sense,showvars='all',type='contour')

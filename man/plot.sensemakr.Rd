@@ -12,7 +12,7 @@
 
 contourplot(x, showvars = "masked", contour = c("estimate", "t-value",
   "lower-limit", "upper-limit"), nlevels = 15, lim = NULL, top = NULL,
-  pch = 20, cex = 1,
+  ptlab = TRUE, pch = 20, cex = 1,
   xlab = "Hypothetical partial R2 of unobserved confounder with the treatment",
   ylab = "Hypothetical partial R2 of unobserved confounder with the outcome",
   main = paste("Sensitivity of", contour,
@@ -42,6 +42,8 @@ Valid options are: 'masked', 'all', or list('foo1','foo2') see \code{\link{list}
 \item{lim}{a single numeric specifying the limits of a square plot-window (one numeric applied to both x and y)}
 
 \item{top}{an integer controlling the number of 'top' ranked benchmarks to display}
+
+\item{ptlab}{a logical (default TRUE) controlling if points are labeled}
 
 \item{pch}{see \code{\link{par}}}
 
