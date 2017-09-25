@@ -104,14 +104,14 @@ with(plot_out$labels,
 #  
 #  # get index position of '(plot_out$labels)$labels'
 #  # that matches ranking criteria: y-axis top to bottom
-#  
 #  ind_name_order = c(2,3,6,5,4)
 #  lab_order = ((plot_out$labels)$labels)[ind_name_order]
+#  
+#  # create dataframe of handpicked positions and labels
 #  lab_pos_manual = cbind(data.frame(pts_pick),lab_order)
 #  
 #  # 1) now plot() but toggle off ptlab
 #  # 2) add text() using end-user created df 'lab_pos_manual'
 #  plot(sense,type='contour',ptlab=FALSE,lim=0.02)
 #  with(lab_pos_manual,text(x,y,lab_order,cex=0.6))
-#  
 

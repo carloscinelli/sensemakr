@@ -8,7 +8,7 @@ Welcome to the vignette for `sensemakr`.  This document briefly describes the ba
 
 ## Introduction to `sensemakr`
 
-The `sensemakr` package simply builds upon and makes more accessible a brand of sensitivity analysis closesly related to well known concepts of \textit{omitted variable bias.} One has a linear outcome moel, and imagines that certain important confounders might be missing from it.  Given what \textit{is} in the model, what would need to be the properties of an omitted confounder to have biased your estimate by a certain amount (or as we put it, to imply an adjusted estimate that differs from the actual by that amount)?  In addition to changing the point estimate, such a confounder would change the standard errors, t-values, p-values, etc., making the adjusted versions of these quantities of interest as well.  
+The `sensemakr` package simply builds upon and makes more accessible a brand of sensitivity analysis closesly related to well known concepts of \textit{omitted variable bias.} One has a linear outcome model, and imagines that certain important confounders might be missing from it.  Given what \textit{is} in the model, what would need to be the properties of an omitted confounder to have biased your estimate by a certain amount (or as we put it, to imply an adjusted estimate that differs from the actual estimate by that amount)?  In addition to changing the point estimate, such a confounder would change the standard errors, t-values, p-values, etc., making the adjusted versions of these quantities of interest as well.  
 
 The challenge is to characterize a hypothesized troublesome confounder in such a way that enables the user to ask "is this an unobserved confounder that could likely exist in my circumstance?"  This depends heavily on the research design and information about the treatment assignment process. Sensitivity analysis is only a tool for elaborating our discussion of what might have gone wrong in a given observational analysis -- not for tell us that nothing has gone wrong. 
 
@@ -20,11 +20,11 @@ To help investigators make the leap from the sensitivity analysis itself to an u
 
 Benchmark analyses may be presented numerically or graphically. They may also be used to contemplate not only how point estimates change given a hypothesized confounder, but how $t$-values and $p$-values change, for example.  We demonstrate these below.  `sensemakr` also outputs natural language interpretations of benchmark comparisons. 
 
-The second mode of interpretation we use is "worst-case scenarios". The fundmantal inuition is that the error term in a fitted linear model contains all the variation in $Y$ not already explained by covariates, $X$, and treatment $D$. What if nature is cruel, and all that remaining variation is in fact attribtuable to a confounder? In stating this, we have specified that the partial $R^2$ of the confounder with the outcome, given $X$ and $D$, is $1$. The user may alternatively think this is too harsh, and that the partial $R^2$ of the confounder hiding in the residual could be at most $0.30$, for exampl. We can know ask how such a confounder would need to relate to the treatment, in terms of partial $R^2$ as well, in order to change our substantive conclusions by a given amount.  Users may have a research design such that they know a partial $R^2$ with the treatment of even 0.10 is unlikely, because they have already accounted for all plausible systematic sources of treatment assignment. Or, they may have less substantive knowledge, and can only make the weaker claim that it would be very surprising for any unobservable to explain some large portinon of the treatment assignment, making the sensitivity analysis less optimistic. Thus, users are better off with more information and better research designs in these worst-case scenarios. 
+The second mode of interpretation we use is "worst-case scenarios". The fundamental intuition is that the error term in a fitted linear model contains all the variation in $Y$ not already explained by covariates, $X$, and treatment $D$. What if nature is cruel, and all that remaining variation is in fact attribtuable to a confounder? In stating this, we have specified that the partial $R^2$ of the confounder with the outcome, given $X$ and $D$, is $1$. The user may alternatively think this is too harsh, and that the partial $R^2$ of the confounder hiding in the residual could be at most $0.30$, for example. We can now ask how such a confounder would need to relate to the treatment, in terms of partial $R^2$ as well, in order to change our substantive conclusions by a given amount.  Users may have a research design such that they know a partial $R^2$ with the treatment of even 0.10 is unlikely, because they have already accounted for all plausible systematic sources of treatment assignment. Or, they may have less substantive knowledge, and can only make the weaker claim that it would be very surprising for any unobservable to explain some large portion of the treatment assignment, making the sensitivity analysis less optimistic. Thus, users are better off with more information and better research designs in these worst-case scenarios. 
 
 ## Running Example: Natural experiment on the effects of violence on attitudes among Darfurian refugees in Chad. 
 
-Before turning to usage, we introduce the data that will be used. Throughout this vingette, we will use the `Darfur` data to explore these operations. The treatment is exposure to violence, `directlyharmed` a binary indicator for those physically injured during attacks in Darfur.  The outcome is a scale measuring pro-peace attitudes, `peacefactor`. 
+Before turning to usage, we introduce the data that will be used. Throughout this vignette, we will use the `Darfur` data to explore these operations. The treatment is exposure to violence, `directlyharmed` a binary indicator for those physically injured during attacks in Darfur.  The outcome is a scale measuring pro-peace attitudes, `peacefactor`. 
 
 We load the data:
 
@@ -78,7 +78,7 @@ We turn first to the `summary` method to gain substantive insight into the sensi
 
 ## Summary and Interpretation
 
-Sensitivity analyses describe the type of confounders that would change our conclusions about an analysis. The challenge is in understanding how credibly such a confounder can be ruled out.  The summary methods provide ample interpretive information, describing the sensitivity results in several ways to increase the odds that investigators can meaningfully evaluate whether the types of confounders describes are likely to exist. A second purpose of providing numerous, verbose descriptions is to provide clear and precise language that investigators can refer to and even cite directly to minimize misunderstandings.
+Sensitivity analyses describe the type of confounders that would change our conclusions about an analysis. The challenge is in understanding how credibly such a confounder can be ruled out.  The summary methods provide ample interpretive information, describing the sensitivity results in several ways to increase the odds that investigators can meaningfully evaluate whether the types of confounders described are likely to exist. A second purpose of providing numerous, verbose descriptions is to provide clear and precise language that investigators can refer to and even cite directly to minimize misunderstandings.
 
 The user simply applies the summary method to the `sensemakr` object,
 
@@ -151,7 +151,7 @@ plot(sense.out)
 
 As shown, this produces a two-dimensional contour plot. The contour lines give the value of the adjusted treatment effect estimate for each pair of partial $R^2$ parameters of the hypothesized confounder. 
 
-These plot also by definition show each of the covariates included as a benchmark. The majority of these are small red diamonds, which in this case appear tightly clusteres in the lower-left corner.  This indicates that each has a weak relationship with both the treatment and the outcome.  The proper interpretatin of these benchmark points is that "a confounder with the same partial $R^2_D$ and partial $R^2_Y$ as a given covariate would imply an adjusted treatment effect indicated by that covariates benchmark point on the plot."  It is not quite true to say that these benchmarks indicate the adjusted effect "had that covariate been left out", because the quantities are computed as if the covariates included in the model remain in the model.
+These plots also by definition show each of the covariates included as a benchmark. The majority of these are small red diamonds, which in this case appear tightly clustered in the lower-left corner.  This indicates that each has a weak relationship with both the treatment and the outcome.  The proper interpretation of these benchmark points is that "a confounder with the same partial $R^2_D$ and partial $R^2_Y$ as a given covariate would imply an adjusted treatment effect indicated by that covariate's benchmark point on the plot."  It is not quite true to say that these benchmarks indicate the adjusted effect "had that covariate been left out", because the quantities are computed as if the covariates included in the model remain in the model.
 
 Note that "village" is cyan rather than red. This is because it represents a whole group of covariates -- the different levels of the factor variable `village`.  As described in the paper, for variables that occupy multiple columns of the design matrix (or any arbitrary grouping of variables treated as one), the sensitivity parameters computed a worst-case bounds. In this case, `village` was treated as a group by default, because it entered the model as a factor.  See advanced usage below for controlling the construction of groups and their display.
 
@@ -201,7 +201,7 @@ plot(sense.out, type="worst-case",lim=0.5)
 ```
 
 ![](sensemakr_files/figure-html/unnamed-chunk-12-1.png)<!-- -->
-Here the dashed lines show different scenarios. The most severe is the solid line, for which the entire residual from the model is hypohtesized to be a confounder (partial $R^2_Y=1$). One can then follow this line to see where it cross a designated value of the adjusted estimate, such as $0$, which we mark for convenience.  The point at which the line crosses zero correspondons to approximately 0.02 on the horizontal axis. This indicated that an unobserved confounder with partial $R^2_Y=1$, i.e. the entire residual, would need only have a partial $R^2_D$ of about 2\% in order to change the sign of the effect estimate. 
+Here the dashed lines show different scenarios. The most severe is the solid line, for which the entire residual from the model is hypothesized to be a confounder (partial $R^2_Y=1$). One can then follow this line to see where it crosses a designated value of the adjusted estimate, such as $0$, which we mark for convenience.  The point at which the line crosses zero correspondons to approximately 0.02 on the horizontal axis. This indicated that an unobserved confounder with partial $R^2_Y=1$, i.e. the entire residual, would need only have a partial $R^2_D$ of about 2\% in order to change the sign of the effect estimate. 
 
 The tick marks on the horizontal axis show benchmarks -- the partial $R^2_D$ values of observed covariates, for comparison. In this case, we are fortunate that even assuming a confounder with $R^2_Y=1$, though it's $R^2_D$ would need to be only 2\% to eliminate the effect, that is approximately twice the $R^2_D$ of any observable.  Given the research design, we know that the treatment actually consists of injuries that occured during indiscriminate violence. As argued in XXX, the nature of the violence makes it difficult to imagine unoberved confounders predict the assignment of violence more strongly than observables such as  `female`.  This suggests that the result is fairly robust. 
 
@@ -223,7 +223,7 @@ sense.out$treat.stats
 ## 1 directlyharmed 0.09731582 0.02325654 783
 ```
 
-More interestingly, `benchmarks` contain sensitivity parameters associated with each benchmark. A vareity of parameter types are given for each benchmark, each stored in a separate matrix
+More interestingly, `benchmarks` contain sensitivity parameters associated with each benchmark. A variety of parameter types are given for each benchmark, each stored in a separate matrix
 
 
 ```r
@@ -252,7 +252,7 @@ round(sense.out$benchmarks$benchmark_masked,4)
 ## farmer_dar    0.0024 0.0000  0.0001     0.0972    0.0232   4.1838
 ```
 
-The columns `r2y` and `r2d` give the partial `R^2` with the outcome (`y`) and treatment (`d`) respectively.  The `bias_r2` gives the bias that would be caused by a confounder with the corresponding `r2y` and `r2d`. The adjusted estimated due to this bias -- simply the original estimate minus the proposed bias -- is `adj_est_r2`.  Finally, the adjusted `adj_se_r2` and `adj_t_r2` gives the standard error and t-statistic after adjusting for a hypothetical confounder with the proposed characteristics.  
+The columns `r2y` and `r2d` give the partial `R^2` with the outcome (`y`) and treatment (`d`) respectively.  The `bias_r2` gives the bias that would be caused by a confounder with the corresponding `r2y` and `r2d`. The adjusted estimate due to this bias -- simply the original estimate minus the proposed bias -- is `adj_est_r2`.  Finally, the adjusted `adj_se_r2` and `adj_t_r2` gives the standard error and t-statistic after adjusting for a hypothetical confounder with the proposed characteristics.  
 
 Finally, the parameters for the masked (grouped) variables -- the `village` dummies in this case -- are stored in `benchmark_group`:
 
@@ -279,7 +279,7 @@ sense.grp.out = sensemakr(lm.out, treatment="directlyharmed",
                          group_list = list(c("farmer_dar","herder_dar")))
 ```
 
-The resulting group variables will be named as the first variable name followed by the second variable name with a comma in between, i.e. `farmer_dar,herder_dar`.  We can see the resulting benchmarks for this grouped variable (and `village`, which remains grouped) as in,
+The resulting grouped variables will be named as the first variable name followed by the second variable name with a comma in between, i.e. `farmer_dar,herder_dar`.  We can see the resulting benchmarks for this grouped variable (and `village`, which remains grouped) as in,
 
 
 ```r
@@ -301,7 +301,7 @@ plot(sense.grp.out, showvars=list("farmer_dar,herder_dar", "female"))
 ## End-User Label Placements
 
 The end-user may not like the default label placements resulting from `plot(type='contour')` (eg
-`contourplot()`). The user may want to fine tune these label placements. Users can easily turn off the label placements using `plot(...,ptlab=FALSE)` and then resort to functions from other R packages, such as the `pointLabel()` function from the [maptools](https://cran.r-project.org/web/packages/maptools/index.html) package. Below, we demonstrate one method to algorithmically overlay the point labels so that they are nicely spaced. 
+`contourplot`). The user may want to fine tune these label placements. Users can easily turn off the label placements using `plot(...,ptlab=FALSE)` and then resort to functions from other R packages, such as the `pointLabel()` function from the [maptools](https://cran.r-project.org/web/packages/maptools/index.html) package. Below, we demonstrate one method to algorithmically overlay the point labels so that they are nicely spaced. 
 
 
 
@@ -359,7 +359,7 @@ with(plot_out$labels,
 #                 offset = 1, cex = .8))
 ```
 
-Alternatively, the user can resort to manually chosen label locations using R's  `locator()` function. This would be a good solution if the set of labels is small, or at least not overwhelming for the user. The R code is presented below but unevaluated as the `locator()` function is interactive. Since the result of `locator()` is ordered according to the users click-order, this method requires the user to keep track of the point to label mapping. A good strategy is to
+Alternatively, the user can resort to manually chosen label locations using R's  `locator()` function. This would be a good solution if the set of labels is small, or bearable for the user. The R code is presented below but unevaluated as the `locator()` function is interactive. Since the result of `locator()` is ordered according to the user's click-order, this method requires the user to keep track of the point to label mapping. A good strategy is to
 
 1. mentally order the points along one dimension, say the y-axis 
 2. keep track of the sensemakr provided default labels 
@@ -385,9 +385,10 @@ str((plot_out$labels)$labels)
 
 # get index position of '(plot_out$labels)$labels'
 # that matches ranking criteria: y-axis top to bottom
-
 ind_name_order = c(2,3,6,5,4)
 lab_order = ((plot_out$labels)$labels)[ind_name_order]
+
+# create dataframe of handpicked positions and labels
 lab_pos_manual = cbind(data.frame(pts_pick),lab_order)
 
 # 1) now plot() but toggle off ptlab
