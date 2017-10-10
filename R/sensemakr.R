@@ -78,11 +78,21 @@ sensemakr = function(model, treatment, group_list, ...){
   UseMethod("sensemakr")
 }
 
+##' @title  Obtains the robustness value at level q
+##' @param R2_yd Partial R2 of the treatment explaining the outcome.
+##' @param q the q value: we are concerned with bias of 100q% of the original estimate
+##' @name get_RV
+##' @export
+get_RV = function(r2_yd, q=1){
+  a=r2_yd/(1-r2_yd)
+  return((q/2)*(sqrt(q^2*a^2+4*a)- q*a))
+}
+
+
 # note, name is sensemakr NOT sensemakr.lm, to link to single help doc
 ##' @name sensemakr
 ##' @export
 sensemakr.lm = function(model, treatment, group_list=NULL,...){
-
 
   D = treatment  # notational convenience
 
@@ -92,13 +102,21 @@ sensemakr.lm = function(model, treatment, group_list=NULL,...){
   # returns pretty list with class "sensemakr"
 
   treat.stats = getstats(model, D)
+
+  t.treat = treat.stats$estimate/treat.stats$se
+
+  r2_yd = t.treat^2/(t.treat^2+treat.stats$df)
+
+  RV = get_RV(r2_yd=r2_yd, ...)
+
   benchmarks  = benchmarkr(model, D, # X,
                             group_list)
-
   # names(benchmarks)
 
   out = list(treat.stats = treat.stats,
               benchmarks = benchmarks,
+             r2_yd = r2_yd,
+             RV = RV,
               info = list(outcome = deparse(model$terms[1][[2]]),
                           treatment = D,
                           # maybe return 'treatment model'
@@ -436,10 +454,14 @@ benchmarkr = function(model, D, # X = NULL,
 ##' @param df       degrees of freedom of the original linear model
 ##' @param r2d      hypothetical partial R2 of the confounder with the treatment
 ##' @param r2y      hypothetical partial R2 of the confounder with the outcome
+##'
+##'
+##'
+
+
 get_bias = function(se, df, r2y, r2d) {
   sqrt(r2y*r2d/(1 - r2d))*se*sqrt(df)
 }
-
 
 # dont think this should be exported
 # note, name is get_bias NOT get_se, to link to single help doc

@@ -80,7 +80,7 @@ plot(sense, contour = "lower-limit")
 plot(sense, contour = "upper-limit")
 plot(sense, type = "worst-case")
 
-# also see vignette(sensemakr) for further point label customization
+# also see vignette('sensemakr') for further point label customization
 
 # calling contourplot() directly instead of using the generic plot()
 contourplot(sense,showvars='all')

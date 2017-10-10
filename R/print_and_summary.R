@@ -133,6 +133,8 @@ print.summary.sensemakr = function(x, q = 1, scenarios = c(1,.25),...){
   cat("Treatment:", x$info$treatment, "\n")
   cat("Unadjusted Treatment Effect:", round(x$treat.stats$estimate, 3), "\n")
   cat("\n*** SENSITIVITY TO UNOBSERVED CONFOUNDERS ***\n")
+  cat("\n### Robustness Value=",round(x$RV,3)," ###\n\n")
+  cat("Robustness Value: to reduce our estimate by 100q percent, a confounder would have to explain", round(x$RV,3), " of both the treatment and outcome unexplained variation. \n\n")
   cat("\n### Worst Case Scenarios ###\n\n")
   worstcaseinterpret(x, q = q, scenarios=scenarios)
   cat("\n\n### Benchmarking ###\n")
