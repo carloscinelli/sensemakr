@@ -216,7 +216,7 @@ benchmarkr = function(model, D, # X = NULL,
   sdy       = sd(model$model[[1]]) # sd of outcome
   Xn        = model.matrix(model)[,c(D,X)]
   sdd       = sd(Xn[,D]) # sd of treatment
-  sdx       = apply(Xn[,X], 2, sd) # sd of covariates
+  sdx       = apply(Xn[,X, drop = FALSE], 2, sd) # sd of covariates
   estimate_std = estimate*(sdd/sdy)
   imp_std   = impact*(sdx/sdy)
   imb_std   = imbalance*(sdd/sdx)
