@@ -459,14 +459,14 @@ benchmarkr = function(model, D, # X = NULL,
 ##'
 
 
-get_bias = function(se, df, r2y, r2d) {
+get_bias = function(se, df, r2d, r2y) {
   sqrt(r2y*r2d/(1 - r2d))*se*sqrt(df)
 }
 
 # dont think this should be exported
 # note, name is get_bias NOT get_se, to link to single help doc
 ##' @name get_bias
-get_se = function(se, df, r2y, r2d){
+get_se = function(se, df, r2d, r2y){
   sqrt((1 - r2y)/(1 - r2d))*se*sqrt(df/(df - 1))
 }
 
@@ -476,7 +476,7 @@ get_se = function(se, df, r2y, r2d){
 ##' @name get_bias
 ##' @param t the t value of the treatment
 ##' @param reduce a logical (default TRUE) representing if the statistics should be reduced
-get_t = function(t, df, r2y, r2d, reduce = TRUE){
+get_t = function(t, df, r2d, r2y, reduce = TRUE){
   if (reduce) {
     adj_t = sign(t)*(abs(t)/sqrt(df) - sqrt(r2y*(r2d/(1 - r2d))))*sqrt((1 - r2d)/(1 - r2y))*sqrt(df - 1)
   } else {
