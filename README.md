@@ -5,7 +5,9 @@
 sensemakr
 =========
 
-The goal of sensemakr is to make a simple sensitivity (to confounding) analysis widely accessible. The package defines a custom 'sensemakr' class that enables plot, summary, and print methods so that the user can make sense of unobserved confounding.
+Practitioners of causal inference have a wide variety of tools to assess the influence of observed confounders on their effect estimates. sensemakr makes it easy to assess the influence of *un*observed confounders, bound effect estimates, and visually plot confounding.
+
+The package defines a custom `sensemakr` class that enables plot and print methods so that the user can make sense of unobserved confounding.
 
 Installation
 ------------
@@ -17,15 +19,6 @@ You can install sensemakr from github with:
 devtools::install_github("chadhazlett/sensemakr")
 ```
 
-The accompanying vignette can be viewed [here](https://github.com/chadhazlett/sensemakr/blob/master/vignettes/sensemakr.md).
-
-Additionally, if you want to install the companion vignette inside R, use the below command instead:
-
-``` r
-devtools::install_github("chadhazlett/sensemakr",build_vignettes = TRUE,force=TRUE)
-vignette('sensemakr')
-```
-
 Example
 -------
 
@@ -33,9 +26,15 @@ Below is a basic example of the functionality in the sensemakr package
 
 ``` r
 library(sensemakr)
-lm.out  = lm(peacefactor ~ directlyharmed + age + female + village, data = darfur)
-sense.out = sensemakr(model=lm.out, treatment="directlyharmed")
-plot(sense.out, showvars = list("age","female"))
+
+data(darfur)
+
+sense.out = sensemakr(peacefactor ~ directlyharmed + age + female + village,
+                      data = darfur,
+                      treatment = "directlyharmed",
+                      benchmark = c("age", "female"))
+
+plot(sense.out, multipliers_y = 1)
 ```
 
 ![](tools/README-example-1.png)

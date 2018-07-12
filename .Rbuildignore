@@ -1,7 +1,7 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
-^README\.Rmd$
-^README-.*\.png$
-^appveyor\.yml$
-^\.travis\.yml$
-^codecov\.yml$
+^LICENSE\.md$
+^README.Rmd$
+^NEWS.md$
+^cran-comments.md$
+^.yml$

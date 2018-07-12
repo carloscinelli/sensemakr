@@ -2,5 +2,3 @@
 .Rhistory
 .RData
 .Ruserdata
-*.pdf
-inst/doc

@@ -1,19 +1,18 @@
 Package: sensemakr
 Type: Package
-Title: The 'sensemakr' Package for R Helps You Makesense of Confounding
+Title: sensemakr: Make Sense of Confounding
 Version: 0.1.0
-Author: Chad Hazlett, Carlos Cinelli, Michael Tzen
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: The package defines a custom 'sensemakr' class that enables plot, summary, and print methods so that the user can make sense of unobserved confounding.
-License: GPL-3
+Authors@R: c(person("Chad", "Hazlett", email = "chazlett@ucla.edu", role = c("aut", "cre")),
+             person("Carlos", "Cinelli", email = "carloscinelli@ucla.edu", role = c("aut")),
+             person("Aaron", "Rudkin", email = "rudkin@ucla.edu", role = c("aut")))
+Description: Practitioners of causal inference have a wide variety of tools to assess the influence of observed confounders on their effect estimates. sensemakr makes it easy to assess the influence of unobserved confounders, bound effect estimates, and visually plot confounding. 
+   The package defines a custom 'sensemakr' class with plot and print methods, as well as allowing users to directly specify models or data to plot.
+URL: https://github.com/chadhazlett/sensemakr
+BugReports: https://github.com/chadhazlett/sensemakr/issues
+License: MIT + file LICENSE
+Depends: R (>= 3.1.0)
 Encoding: UTF-8
-LazyData: true
 RoxygenNote: 6.0.1
 Suggests:
-    testthat,
-    covr,
-    knitr,
-    rmarkdown,
-    maptools
-VignetteBuilder: knitr
-Depends: R (>= 2.10)
+    testthat
+LazyData: true

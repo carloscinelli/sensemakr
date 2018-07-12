@@ -1,68 +1,146 @@
-context("Checking sensemakr")
+context("test-sensemakr.R")
 
-test_that("Testing darfur 'female'", {
-  # cleans workspace
-  rm(list = ls())
+test_that("load darfur data", {
+  data(darfur)
 
-  # library
-  library(sensemakr)
+  expect_equal(dim(darfur), c(1276, 14))
 
-  # loads data
-  data("darfur")
-
-  # fits model
-  full.model  <- lm(peacefactor ~ directlyharmed + age + female + farmer_dar + herder_dar +
-                      pastvoted + hhsize_darfur  + village, data = darfur)
-
-  model  <- lm(peacefactor ~ directlyharmed + age + farmer_dar + herder_dar +
-                 pastvoted + hhsize_darfur  + village, data = darfur)
-
-
-  # runs benchmarking etc
-  sense <- sensemakr(model = model, treatment = "directlyharmed")
-  methods(sensemakr)
-
-  ls(sense)
-  ls(sense$benchmarks)
-
-  expect_that(sense, is_a("sensemakr"))
-
-
-  # if want to test low level helper calculations
-  # sourceable in sensemakr.R
-  # they are not exported formally
-
-  estimate <- coef(summary(model))[2,1]
-  se <- coef(summary(model))[2,2]
-  t <- coef(summary(model))[2,3]
-  df <- df.residual(model)
-  tf <- coef(summary(full.model))[4,3]
-  r2y <- tf^2/(tf^2 + df.residual(full.model))
-  treat.model <- lm(directlyharmed ~ age + female + farmer_dar + herder_dar +
-                      pastvoted + hhsize_darfur  + village, data = darfur)
-  tfd <- coef(summary(treat.model))[3,3]
-  r2d <- tfd^2/(tfd^2 + df.residual(treat.model))
-
-  ## low level helpers like get_bias() no longer exported
-  ## if want to re-confirm calculations are correct, re-export helpers
-
-  # bias <- get_bias(se, df, r2y, r2d)
-  real_bias <- abs(unname(coef(full.model)[2] - coef(model)[2]))
-  # expect_equal(bias, real_bias)
-
-  # adj_se <- get_se(se, df, r2y, r2d)
-  real_se <- coef(summary(full.model))[2,2]
-  # expect_equal(real_se, adj_se)
-
-  # adj_estimate <- estimate - get_bias(se, df, r2y, r2d)
-  real_estimate <- unname(coef(full.model)[2])
-  # expect_equal(adj_estimate, real_estimate)
-
-  # adj_t  <- (estimate - get_bias(se, df, r2y, r2d))/get_se(se, df, r2y, r2d)
-  # adj_t2 <- get_t(t, df, r2y, r2d)
-  real_t <- coef(summary(full.model))[2,3]
-  # expect_equal(adj_t, adj_t2)
-  # expect_equal(adj_t2, real_t)
-
+  expect_equal(colnames(darfur),
+               c("wouldvote", "peacefactor",
+                 "FormerEnemiesPeace",
+                 "PeaceWithJJIndiv",
+                 "PeaceWithJJTribes",
+                 "GoSsoldier_execute",
+                 "directlyharmed",
+                 "age",
+                 "farmer_dar",
+                 "herder_dar",
+                 "pastvoted",
+                 "hhsize_darfur",
+                 "village",
+                 "female"))
 })
 
+test_that("check paper calculations", {
+  data(darfur)
+
+  test_obj = sensemakr(formula = peacefactor ~ directlyharmed + age +
+                         farmer_dar + herder_dar + pastvoted + hhsize_darfur +
+                         female + village,
+                       treatment = "directlyharmed",
+                       data = darfur,
+                       benchmark = "female",
+                       verbose = TRUE)
+
+  expect_equal(test_obj$dof, 783)
+  expect_equal(unname(test_obj$r2_yd), 0.02187, tolerance = 1e-3)
+  expect_equal(unname(test_obj$rv), 0.13878, tolerance = 1e-3)
+  expect_equal(unname(test_obj$rv_t), 0.07626, tolerance = 1e-3)
+
+  mock_bench = structure(
+    list(variable = "female", bound = 0.0220955480705063,
+         r2y = 0.109033915427841, r2d = 0.00908106519032963),
+    row.names = 1L, class = "data.frame")
+
+  expect_equal(test_obj$benchmark, mock_bench, tolerance = 1e-3)
+})
+
+test_that("do plots", {
+  data(darfur)
+
+  test_obj = sensemakr(formula = peacefactor ~ directlyharmed + age +
+                         farmer_dar + herder_dar + pastvoted + hhsize_darfur +
+                         female + village,
+                       treatment = "directlyharmed",
+                       data = darfur,
+                       benchmark = "female")
+  # Plot
+  plot(test_obj)
+  contour_plot(test_obj)
+  plot(test_obj, plot_t = TRUE)
+
+  # OVB plot test
+  ovb_plot(model = test_obj$model_outcome,
+           covariate = test_obj$treatment_variable)
+})
+
+test_that("no benchmark variable", {
+  data(darfur)
+  no_bench = sensemakr(formula = peacefactor ~ directlyharmed + age +
+                         farmer_dar + herder_dar + pastvoted + hhsize_darfur +
+                         female + village,
+                       treatment = "directlyharmed",
+                       data = darfur)
+  expect_null(no_bench$benchmark)
+
+  plot(no_bench)
+})
+
+test_that("invalid arguments to sensemakr", {
+  data(darfur)
+  expect_error(sensemakr(formula = DV ~ IV1 + IV2,
+                         data = darfur,
+                         treatment = "IV1"))
+  expect_error(sensemakr(formula = peacefactor ~ directlyharmed,
+                         data = darfur,
+                         treatment = "directlyharmed"))
+
+  junk_subset = darfur[darfur$peacefactor == 2, ]
+  expect_error(sensemakr(formula = peacefactor ~ directlyharmed + age +
+                           farmer_dar + herder_dar + pastvoted + hhsize_darfur +
+                           female + village,
+                         treatment = "directlyharmed",
+                         data = junk_subset,
+                         verbose = TRUE))
+
+  expect_error(sensemakr(formula = peacefactor ~ directlyharmed + age + female,
+                         data = darfur,
+                         treatment = "directlyharmed",
+                         benchmark = "invalid"))
+})
+
+test_that("printing", {
+  data(darfur)
+
+  test_obj = sensemakr(formula = peacefactor ~ directlyharmed + age +
+                         farmer_dar + herder_dar + pastvoted + hhsize_darfur +
+                         female + village,
+                       treatment = "directlyharmed",
+                       data = darfur,
+                       benchmark = "female")
+
+  # These are not great tests
+  print(test_obj, print_covariates = TRUE)
+  print(test_obj, print_covariates = TRUE, sort_by = "alpha")
+  print(test_obj, print_covariates = TRUE, sort_by = "R2Y")
+  print(test_obj, print_covariates = TRUE, sort_by = "R2D")
+})
+
+test_that("data not in a df", {
+  skip("test_that global assignment not working")
+  # Hack to test data in the global environment; testthat doesn't like doing
+  # this, but going to force global assignment to try to make it work.
+
+  X = rnorm(100)
+  e = rnorm(100)
+  D = c(rep(1, 50), rep(0, 50))
+  Y = 3*D + 0.3 * X + e
+
+  test_create_object = sensemakr(
+    formula = Y ~ D + X,
+    treatment = "D",
+    benchmark = "X"
+  )
+
+  expect_error(sensemakr(
+    formula = Y ~ D + X,
+    treatment = "Z"
+  ))
+
+  expect_error(sensemakr(
+    formula = Y ~ D + X,
+    treatment = "D",
+    benchmark = "Z"
+  ))
+
+})
