@@ -10,8 +10,17 @@
 #' information while compiling the sensemakr object
 #' @param keep_model A logical value, if TRUE will include `model_outcome` and
 #' `model_treatment` models used to create `sensemakr` object.
-#' @return A `sensemakr` object.
 #'
+#' @examples
+#' # Creating a sensemakr object using the built-in `darfur` data
+#' data(darfur)
+#' sense.out = sensemakr(formula = peacefactor ~ directlyharmed + female +
+#'                         village + age,
+#'                       data = darfur,
+#'                       treatment = "directlyharmed",
+#'                       benchmark = "female")
+#'
+#' @return A `sensemakr` object.
 #' @importFrom stats lm update
 #' @export
 sensemakr = function(formula,

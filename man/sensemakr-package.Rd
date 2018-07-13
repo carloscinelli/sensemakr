@@ -6,5 +6,5 @@
 \title{sensemakr: A package for sensitivity analysis, implementing "Making Sense of
 Sensitivity: Extending Omitted Variable Bias"}
 \description{
-More documentation goes here
+TODO: More documentation goes here
 }

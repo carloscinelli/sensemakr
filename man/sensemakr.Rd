@@ -30,3 +30,13 @@ A `sensemakr` object.
 \description{
 Create a sensemakr object
 }
+\examples{
+# Creating a sensemakr object using the built-in `darfur` data
+data(darfur)
+sense.out = sensemakr(formula = peacefactor ~ directlyharmed + female +
+                        village + age,
+                      data = darfur,
+                      treatment = "directlyharmed",
+                      benchmark = "female")
+
+}

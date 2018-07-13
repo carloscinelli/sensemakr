@@ -15,6 +15,18 @@ remove_benchmarks.default = function(x) {
 #' This function removes any benchmark variables attached to a `sensemakr`
 #' object.
 #'
+#' @examples
+#' # Creating a sensemakr object using the built-in `darfur` data
+#' data(darfur)
+#' sense.out = sensemakr(formula = peacefactor ~ directlyharmed + female +
+#'                         village + age,
+#'                       data = darfur,
+#'                       treatment = "directlyharmed",
+#'                       benchmark = "female")
+#'
+#' # Removing benchmarks
+#' sense.out = remove_benchmarks(sense.out)
+#'
 #' @param x A `sensemakr` object to remove benchmarks from.
 #' @return The `sensemakr` object `x` with benchmarks removed
 #' @export
