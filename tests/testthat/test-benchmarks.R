@@ -3,17 +3,22 @@ context("test-benchmarks.R")
 test_that("add and remove benchmarks", {
   data(darfur)
 
-  test_obj = sensemakr(formula = peacefactor ~ directlyharmed + age +
+  no_bench = sensemakr(formula = peacefactor ~ directlyharmed + age +
                          farmer_dar + herder_dar + pastvoted + hhsize_darfur +
                          female + village,
                        treatment = "directlyharmed",
                        data = darfur)
 
-  test_obj = add_benchmark(test_obj, "female")
-  expect_equal(nrow(test_obj$benchmark), 1)
-  test_obj = add_benchmark(test_obj, "pastvoted")
-  expect_equal(nrow(test_obj$benchmark), 2)
+  # Add a few benchmarks
+  no_bench = add_benchmark(no_bench, "female")
+  expect_equal(nrow(no_bench$benchmark), 1)
+  no_bench = add_benchmark(no_bench, "pastvoted")
+  expect_equal(nrow(no_bench$benchmark), 2)
 
+  # Take advance of this test to test plotting with benchmark override
+  plot(no_bench, benchmark_covariate = "female", main = "Test Main Title")
+
+  # Verify the benches added properly.
   mock_bench = structure(list(variable = c("female", "pastvoted"),
                               bound = c(0.0220955480705063,
                                         0.00179811118358916),
@@ -22,20 +27,19 @@ test_that("add and remove benchmarks", {
                               r2d = c(0.00908106519032963,
                                       0.00148974060290356)),
                          row.names = c(NA, -2L), class = "data.frame")
+  expect_equal(mock_bench, no_bench$benchmark, tolerance = 1e-3)
 
-  expect_equal(mock_bench, test_obj$benchmark, tolerance = 1e-3)
-  expect_error(add_benchmark(test_obj, "invalid"))
-  expect_error(add_benchmark(test_obj, "directlyharmed"))
-  expect_error(add_benchmark(test_obj, NULL))
+  # Add invalid benches
+  expect_error(add_benchmark(no_bench, "invalid"))
+  expect_error(add_benchmark(no_bench, "directlyharmed"))
+  expect_error(add_benchmark(no_bench, NULL))
 
-  test_obj = remove_benchmarks(test_obj)
-  expect_null(test_obj$benchmark)
+  # Verify we can remove benches
+  no_bench = remove_benchmarks(no_bench)
+  expect_null(no_bench$benchmark)
 
   # Table with no benchmarks
-  make_table(test_obj)
-
-  # To make this work again.
-  add_benchmark(test_obj, "female")
+  make_table(no_bench)
 })
 
 test_that("misc tests for non-sensemakr objects with sensemakr methods", {

@@ -41,3 +41,44 @@ Produces a sensitivity analysis contour plot. The produced plot maps how
 observed effects could attenuate in the presence of an unobserved confounder
 that is correlated with treatment and outcome.
 }
+\details{
+By default, this plot will compare the unadjusted effect size estimate to
+attenuated versions of the estimate under the presence of unobserved
+confounding, using the benchmark variables specified in the `sensemakr`
+object. The default comparison plots the effect under the presence of an
+unobserved confounder at 1x, 2x, and 3x the "strength" of the benchmark
+confounder. Users can override the benchmark confounders by specifying a
+`benchmark_covariate` argument (a vector of character strings naming the
+benchmarks to plot), and the multipliers by specifying `multipliers_y` and,
+optionally, `mulitpliers_d`.
+}
+\examples{
+# Creating a sensemakr object using the built-in `darfur` data
+data(darfur)
+sense.out = sensemakr(formula = peacefactor ~ directlyharmed + female +
+                        village + age,
+                      data = darfur,
+                      treatment = "directlyharmed",
+                      benchmark = "female")
+
+# Basic contour plot
+contour_plot(sense.out)
+
+# Contour plot of t-values and critical threshold
+contour_plot(sense.out, plot_t = TRUE)
+
+# Overriding multipliers
+contour_plot(sense.out, multipliers_y = c(1, 1.5))
+
+# Overriding colors
+contour_plot(sense.out, col.contour = "black", col.line = "blue")
+
+# Adding graphical parameters
+contour_plot(sense.out, main = "Custom Title Plot")
+
+# Plotting only some of the benchmarks
+sense.out = add_benchmark(sense.out, "age")
+contour_plot(sense.out, benchmark_covariate = "female")
+
+
+}
