@@ -2,7 +2,7 @@
 % Please edit documentation in R/contour_plot.sensemakr.R
 \name{contour_plot.sensemakr}
 \alias{contour_plot.sensemakr}
-\title{Contour plot.}
+\title{Contour plot for `sensemakr` objects}
 \usage{
 \method{contour_plot}{sensemakr}(x, ..., lim = c(0, 0.4, 0.001),
   nlevels = 20, plot_t = FALSE, col.contour = "grey40",

@@ -64,5 +64,49 @@ and optionally `r2d` and `r2y`) or by providing references to models
 (`effect_model`, `treatment_covariate`, and optionally `treatment_model`
 and `benchmark_covariate`). The produced plot maps how observed effects
 could attenuate in the presence of an unobserved confounder that is
-correlated with treatment and outcome.
+correlated with treatment and outcome. See also \link{contour_plot.sensemakr}
+to easily produce a contour plot from a `sensemakr` object.
+}
+\details{
+By default, the `r2d` and `r2y` (or the same quantities derived from
+`benchmark_covariate`) will be used to construct hypothetical unobserved
+confounders. The original effect size will be attenuated by the unobserved
+confounder: the magnitude of the attenuation will depend on the degree of
+confounding. The parameters `multipliers_y` and `multipliers_d` specify how
+many times as "strong" the unobserved confounder should be compared to the
+reference point. The default is c(1, 2, 3), implying that unobserved
+confounders 1, 2, and 3 times as strong as the reference confounder will be
+plotted.
+}
+\examples{
+# Simply plotting a contour plot with no confounders
+contour_plot(estimate = 1.8, se = 0.4, dof = 200)
+
+# Adding a confounder that has a partial R^2 of 0.1 with both treatment and
+# outcome
+contour_plot(estimate = 1.8, se = 0.4, dof = 200, r2d = 0.1, r2y = 0.1)
+
+# Plotting the t-statistic instead of the effect point estimate
+contour_plot(estimate = 1.8, se = 0.4, dof = 200,
+             r2d = 0.1, r2y = 0.1, plot_t = TRUE)
+
+# Changing graphical parameters
+contour_plot(estimate = 1.8, se = 0.4, dof = 200,
+             r2d = 0.1, r2y = 0.1, col.line = "blue",
+             col.contour = "black", nlevels = 10,
+             main = "Contour Plot Example")
+
+# Producing a contour plot using `lm` objects: note that users may find it
+# easier to create a `sensemakr` object and use the `contour_plot` method on
+# that object
+data(darfur)
+model.outcome = lm(peacefactor ~ directlyharmed + female + age + village,
+                   data = darfur)
+model.treat = lm(directlyharmed ~ female + age + village,
+                 data = darfur)
+contour_plot(effect_model = model.outcome,
+             treatment_covariate = "directlyharmed",
+             treatment_model = model.treat,
+             benchmark_covariate = "female")
+
 }
