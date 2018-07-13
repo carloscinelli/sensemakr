@@ -19,10 +19,10 @@
 #' \describe{
 #'   \item{wouldvote}{...}
 #'   \item{peacefactor}{...}
-#'   \item{FormerEnemiesPeace}{...}
-#'   \item{PeaceWithJJTribes}{...}
-#'   \item{PeaceWithJJIndiv}{...}
-#'   \item{GoSsoldier_execute}{...}
+#'   \item{peace_formerenemies}{...}
+#'   \item{peace_jjindiv}{...}
+#'   \item{peace_jjtribes}{...}
+#'   \item{gos_soldier_execute}{...}
 #'   \item{directlyharmed}{...}
 #'   \item{age}{...}
 #'   \item{farmer_dar}{...}

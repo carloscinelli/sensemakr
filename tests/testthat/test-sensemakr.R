@@ -6,11 +6,12 @@ test_that("load darfur data", {
   expect_equal(dim(darfur), c(1276, 14))
 
   expect_equal(colnames(darfur),
-               c("wouldvote", "peacefactor",
-                 "FormerEnemiesPeace",
-                 "PeaceWithJJIndiv",
-                 "PeaceWithJJTribes",
-                 "GoSsoldier_execute",
+               c("wouldvote",
+                 "peacefactor",
+                 "peace_formerenemies",
+                 "peace_jjindiv",
+                 "peace_jjtribes",
+                 "gos_soldier_execute",
                  "directlyharmed",
                  "age",
                  "farmer_dar",
