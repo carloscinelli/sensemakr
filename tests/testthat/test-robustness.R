@@ -44,13 +44,7 @@ test_that("robustness value", {
   expect_error(robustness_value(t_statistic = c(2.5, 3.5),
                                 dof = 200))
 
-  test_obj = sensemakr(formula = peacefactor ~ directlyharmed + age +
-                         farmer_dar + herder_dar + pastvoted + hhsize_darfur +
-                         female + village,
-                       treatment = "directlyharmed",
-                       data = darfur,
-                       benchmark = "female")
-
+  # With a model
   expect_error(robustness_value(model = test_obj$model_outcome))
 
   expect_error(robustness_value(model = "hello world",

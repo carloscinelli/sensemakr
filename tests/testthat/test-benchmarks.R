@@ -30,6 +30,12 @@ test_that("add and remove benchmarks", {
 
   test_obj = remove_benchmarks(test_obj)
   expect_null(test_obj$benchmark)
+
+  # Table with no benchmarks
+  make_table(test_obj)
+
+  # To make this work again.
+  add_benchmark(test_obj, "female")
 })
 
 test_that("misc tests for non-sensemakr objects with sensemakr methods", {

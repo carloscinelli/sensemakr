@@ -105,13 +105,6 @@ test_that("bound_calculator misc test.", {
 })
 
 test_that("invalid confounder", {
-  test_obj = sensemakr(formula = peacefactor ~ directlyharmed + age +
-                         farmer_dar + herder_dar + pastvoted + hhsize_darfur +
-                         female + village,
-                       treatment = "directlyharmed",
-                       data = darfur,
-                       benchmark = "female")
-
   expect_error(contour_plot(effect_model = test_obj$model_outcome,
              treatment_model = test_obj$model_treatment,
              treatment_covariate = "directlyharmed",

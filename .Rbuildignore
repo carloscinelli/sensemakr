@@ -4,4 +4,5 @@
 ^README.Rmd$
 ^NEWS.md$
 ^cran-comments.md$
-^.yml$
+^\.travis\.yml$
+^\.yml$

@@ -22,16 +22,6 @@ test_that("load darfur data", {
 })
 
 test_that("check paper calculations", {
-  data(darfur)
-
-  test_obj = sensemakr(formula = peacefactor ~ directlyharmed + age +
-                         farmer_dar + herder_dar + pastvoted + hhsize_darfur +
-                         female + village,
-                       treatment = "directlyharmed",
-                       data = darfur,
-                       benchmark = "female",
-                       verbose = TRUE)
-
   expect_equal(test_obj$dof, 783)
   expect_equal(unname(test_obj$r2_yd), 0.02187, tolerance = 1e-3)
   expect_equal(unname(test_obj$rv), 0.13878, tolerance = 1e-3)
@@ -45,15 +35,18 @@ test_that("check paper calculations", {
   expect_equal(test_obj$benchmark, mock_bench, tolerance = 1e-3)
 })
 
-test_that("do plots", {
-  data(darfur)
+test_that("verbosity", {
+  # To test verbosity
+  sensemakr(formula = peacefactor ~ directlyharmed + age +
+              farmer_dar + herder_dar + pastvoted + hhsize_darfur +
+              female + village,
+            treatment = "directlyharmed",
+            data = darfur,
+            benchmark = "female",
+            verbose = TRUE)
+})
 
-  test_obj = sensemakr(formula = peacefactor ~ directlyharmed + age +
-                         farmer_dar + herder_dar + pastvoted + hhsize_darfur +
-                         female + village,
-                       treatment = "directlyharmed",
-                       data = darfur,
-                       benchmark = "female")
+test_that("do plots", {
   # Plot
   plot(test_obj)
   contour_plot(test_obj)
@@ -100,20 +93,26 @@ test_that("invalid arguments to sensemakr", {
 })
 
 test_that("printing", {
-  data(darfur)
-
-  test_obj = sensemakr(formula = peacefactor ~ directlyharmed + age +
-                         farmer_dar + herder_dar + pastvoted + hhsize_darfur +
-                         female + village,
-                       treatment = "directlyharmed",
-                       data = darfur,
-                       benchmark = "female")
-
   # These are not great tests
-  print(test_obj, print_covariates = TRUE)
-  print(test_obj, print_covariates = TRUE, sort_by = "alpha")
-  print(test_obj, print_covariates = TRUE, sort_by = "R2Y")
-  print(test_obj, print_covariates = TRUE, sort_by = "R2D")
+  no_fe = sensemakr(formula = peacefactor ~ directlyharmed + age +
+                      farmer_dar + herder_dar + pastvoted + hhsize_darfur +
+                      female ,
+                    treatment = "directlyharmed",
+                    benchmark = "female",
+                    data = darfur)
+  print(no_fe, print_covariates = TRUE)
+  print(no_fe, print_covariates = TRUE, sort_by = "alpha")
+  print(no_fe, print_covariates = TRUE, sort_by = "R2Y")
+  print(no_fe, print_covariates = TRUE, sort_by = "R2D")
+
+  # LaTeX output
+  make_table(test_obj,
+             outcome_label = "override1",
+             treatment_label = "override2",
+             benchmark_label = "override3",
+             caption = "caption goes here",
+             label = "fig:rv")
+
 })
 
 test_that("data not in a df", {

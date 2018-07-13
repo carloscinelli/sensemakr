@@ -4,13 +4,6 @@ test_that("r^2 helper", {
   expect_error(r_squared_helper())
   expect_error(r_squared_helper("hello world"))
 
-  test_obj = sensemakr(formula = peacefactor ~ directlyharmed + age +
-                         farmer_dar + herder_dar + pastvoted + hhsize_darfur +
-                         female + village,
-                       treatment = "directlyharmed",
-                       data = darfur,
-                       benchmark = "female")
-
   result = r_squared_helper(test_obj$model_outcome)
 
   expect_equal(length(result), 493)
