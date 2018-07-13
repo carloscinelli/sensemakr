@@ -50,9 +50,18 @@ test_that("robustness value", {
   expect_error(robustness_value(model = "hello world",
                                 covariate = "test"))
 
+  # Works with a model
   expect_equal(
-    unname(robustness_value(model = test_obj$model_outcome,
-                     covariate = "directlyharmed")),
+    unname(robustness_value(
+      model = test_obj$model_outcome,
+      covariate = "directlyharmed")),
     0.13877, tolerance = 1e-3)
 
+  # Works with direct t from sensemakr object (duh)
+  expect_equal(
+    unname(robustness_value(
+      t_statistic = test_obj$t["directlyharmed"],
+      dof = test_obj$dof
+    )),
+    0.13877, tolerance = 1e-3)
 })

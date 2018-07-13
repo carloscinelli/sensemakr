@@ -8,7 +8,8 @@
 #' benchmark variable to compare potential unobserved confounders to.
 #' @param verbose A logical value, if TRUE will print additional debugging
 #' information while compiling the sensemakr object
-#'
+#' @param keep_model A logical value, if TRUE will include `model_outcome` and
+#' `model_treatment` models used to create `sensemakr` object.
 #' @return A `sensemakr` object.
 #'
 #' @importFrom stats lm update
@@ -17,7 +18,8 @@ sensemakr = function(formula,
                      treatment,
                      data = NULL,
                      benchmark = NULL,
-                     verbose = FALSE) {
+                     verbose = FALSE,
+                     keep_model = FALSE) {
 
   if(length(all.vars(formula)) < 3) {
     stop("The `formula` argument must contain a dependent variable and at ",
@@ -61,17 +63,21 @@ sensemakr = function(formula,
   sensemakr = list(
     formula_outcome = formula_all,
     formula_treatment = formula_treatment,
-    model_outcome = model_outcome,
-    model_treatment = model_treatment,
     treatment_variable = treatment,
     r2y = r_squared_helper(model_outcome),
     r2d = r_squared_helper(model_treatment),
+    t = coef_outcome[, "t value"],
     rv = robustness_value(model_outcome, covariate = treatment),
     rv_t = robustness_value(model_outcome, covariate = treatment, alpha = 0.05),
     r2_yd = r_squared_helper(model_outcome)[treatment],
     treatment_effect = c(coef_outcome[treatment, "Estimate"],
                          coef_outcome[treatment, "Std. Error"]),
     dof = model_outcome$df.residual)
+
+  if(keep_model) {
+    sensemakr[["model_outcome"]] = model_outcome
+    sensemakr[["model_treatment"]] = model_treatment
+  }
 
   sensemakr = structure(sensemakr, class = "sensemakr")
 

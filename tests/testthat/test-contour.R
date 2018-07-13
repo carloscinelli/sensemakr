@@ -110,3 +110,10 @@ test_that("invalid confounder", {
              treatment_covariate = "directlyharmed",
              benchmark_covariate = "test1"))
 })
+
+test_that("models supplied directly", {
+  contour_plot(effect_model = test_obj$model_outcome,
+               treatment_model = test_obj$model_treatment,
+               treatment_covariate = "directlyharmed",
+               benchmark_covariate = "female")
+})

@@ -35,18 +35,24 @@ contour_plot.sensemakr = function(x, ...,
 
   # Whether or not to thread through a benchmark
   if(!is.null(x$benchmark)) {
-    treatment_model = x$model_treatment
     benchmark_covariate = x$benchmark[, "variable"]
+    benchmark_r2d = x$benchmark[, "r2d"]
+    benchmark_r2y = x$benchmark[, "r2y"]
   } else {
-    treatment_model = NULL
     benchmark_covariate = NULL
+    benchmark_r2d = NULL
+    benchmark_r2y = NULL
   }
 
   # Call plot.
+  # TODO: Remove requirement for models directly here by
+  # passing in values we care about.
   contour_plot(
-    effect_model = x$model_outcome,
-    treatment_model = treatment_model,
-    treatment_covariate = x$treatment_variable,
+    estimate = x$treatment_effect[1],
+    se = x$treatment_effect[2],
+    dof = x$dof,
+    r2d = benchmark_r2d,
+    r2y = benchmark_r2y,
     benchmark_covariate = benchmark_covariate,
     lim = lim,
     nlevels = nlevels,

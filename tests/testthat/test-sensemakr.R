@@ -55,6 +55,10 @@ test_that("do plots", {
   # OVB plot test
   ovb_plot(model = test_obj$model_outcome,
            covariate = test_obj$treatment_variable)
+
+  # And again, with the treatment effect directly.
+  ovb_plot(estimate = test_obj$treatment_effect)
+
 })
 
 test_that("no benchmark variable", {

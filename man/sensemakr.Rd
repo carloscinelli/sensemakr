@@ -5,7 +5,7 @@
 \title{Create a sensemakr object}
 \usage{
 sensemakr(formula, treatment, data = NULL, benchmark = NULL,
-  verbose = FALSE)
+  verbose = FALSE, keep_model = FALSE)
 }
 \arguments{
 \item{formula}{A formula describing the relationship Y ~ D + X}
@@ -20,6 +20,9 @@ benchmark variable to compare potential unobserved confounders to.}
 
 \item{verbose}{A logical value, if TRUE will print additional debugging
 information while compiling the sensemakr object}
+
+\item{keep_model}{A logical value, if TRUE will include `model_outcome` and
+`model_treatment` models used to create `sensemakr` object.}
 }
 \value{
 A `sensemakr` object.
