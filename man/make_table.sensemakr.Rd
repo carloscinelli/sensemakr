@@ -25,8 +25,11 @@ outputs are rounded before multiplying by 100)}
 This function produces a LaTeX summary of `sensemakr` object output: it
 briefly summarizes the observed effect, standard error, partial R^2,
 and robustness values as well as partial R^2 for variables used as
-benchmarks. To output this table directly via RMarkdown / knitr, please be
-sure to use the 'results = "asis"' chunk option.
+benchmarks. This function directly outputs LaTeX table code which the user
+can either copy into an external LaTeX file or directly output the table
+via RMarkdown / knitr. To output the table via RMarkdown / knitr, please
+place the `make_table` call in an RMarkdown chunk by itself and use the
+'results = "asis"' chunk option.
 }
 \details{
 Additional display parameters include `outcome_label`, which overrides the

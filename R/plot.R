@@ -11,6 +11,25 @@
 #' \link{contour_plot.sensemakr}, \link{extreme_plot.sensemakr}, or
 #' \link{ovb_plot.sensemakr}.
 #'
+#' @examples
+#' # Creating a sensemakr object using the built-in `darfur` data
+#' data(darfur)
+#' sense.out = sensemakr(formula = peacefactor ~ directlyharmed + female +
+#'                         village + age,
+#'                       data = darfur,
+#'                       treatment = "directlyharmed",
+#'                       benchmark = "female")
+#'
+#' # Contour plot
+#' plot(sense.out)
+#' plot(sense.out, type="contour")
+#'
+#' # Extreme Scenario plot
+#' plot(sense.out, type="extreme")
+#'
+#' # Traditional, unscaled OVB plot
+#' plot(sense.out, type="ovb")
+#'
 #' @export
 plot.sensemakr = function(x, type = "contour", ...) {
   if(is.null(type) || !type %in% c("contour", "extreme", "ovb")) {
