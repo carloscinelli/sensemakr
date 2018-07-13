@@ -32,7 +32,7 @@ data(darfur)
 sense.out = sensemakr(peacefactor ~ directlyharmed + age + female + village,
                       data = darfur,
                       treatment = "directlyharmed",
-                      benchmark = c("age", "female"))
+                      benchmark = "female")
 
 plot(sense.out, multipliers_y = 1)
 ```
