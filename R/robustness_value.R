@@ -5,6 +5,10 @@
 #' residual variation in the treatment and outcome an unobserved confounder
 #' would need to attenuate an observed effect size past a critical value
 #'
+#' Although exported, we recommend that users primarily access this
+#' functionality through creating `sensemakr` objects. See \link{sensemakr} for
+#' information on creating `sensemakr` objects.
+#'
 #' @param model An `lm` object which will be used to produce a robustness value
 #' @param covariate A quoted character string describing the name of the
 #' treatment covariate in the model object.
@@ -21,6 +25,33 @@
 #' @param dof In lieu of supplying `model` and `covariate`, supply the residual
 #' degrees of freedom of a model and `t_statistic`.
 #' @param ... Additional parameters, not currently used.
+#'
+#' @examples
+#' @examples
+#' # Creating a sensemakr object using the built-in `darfur` data: this is the
+#' # fastest way to calculate the robustness value.
+#' data(darfur)
+#' sense.out = sensemakr(formula = peacefactor ~ directlyharmed + female +
+#'                         village + age,
+#'                       data = darfur,
+#'                       treatment = "directlyharmed",
+#'                       benchmark = "female")
+#'
+#' # Manually calculating a robustness value using t-statistic and degrees of
+#' # freedom
+#' robustness_value(t_statistic = 4.18445, dof = 783)
+#'
+#' # Passing the function a model and covariate
+#' model.out = lm(peacefactor ~ directlyharmed + female + village + age,
+#'               data = darfur)
+#' robustness_value(model = model.out, covariate = "directlyharmed")
+#'
+#' # Using an alternate q: How robust is our model to 50% attenuation?
+#' robustness_value(t_statistic = 4.18445, dof = 783, q = 0.5)
+#'
+#' # Using an alternate alpha: How robust is our confidence interval to
+#' # crossing 0?
+#' robustness_value(t_statistic = 4.18445, dof = 783, alpha = 0.05)
 #'
 #' @return A q-robustness value, which is a number from 0 to 1.
 #' @importFrom stats qt

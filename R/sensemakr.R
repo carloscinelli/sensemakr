@@ -1,7 +1,7 @@
 #' sensemakr: A package for sensitivity analysis, implementing "Making Sense of
 #' Sensitivity: Extending Omitted Variable Bias"
 #'
-#' More documentation goes here
+#' TODO: More documentation goes here
 #'
 #' @docType package
 #' @name sensemakr-package

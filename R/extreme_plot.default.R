@@ -1,19 +1,35 @@
 #' Extreme scenario plot
 #'
 #' Produces an extreme scenario plot: a plot where unobserved confounders
-#' explain all the left-out residual variance of the outcome.
+#' explain all the left-out residual variance of the outcome. The x-axis
+#' represents increasing partial R^2 of the unobserved covariate with the
+#' treatment. Users can use this plot to make claims that unobserved
+#' confounders that explain the entire residual variance are unlikely, so
+#' persistence of effect magnitudes or signs even in the presence of them
+#' suggests an overall robust effect.
+#'
+#' The easiest way to use `extreme_plot` is by creating a `sensemakr` object
+#' and using the \link{extreme_plot.sensemakr} function on it. This mode of the
+#' function is for users who want to directly pass estimates.
 #'
 #' @param estimate An estimated effect magnitude
 #' @param se The standard error of the estimated effect magnitude
 #' @param dof The residual degrees of freedom of the regression producing the
 #' effect estimate
-#' @param r2d Partial R^2 with respect to the treatment
+#' @param r2d Partial R^2 with respect to the treatment of a known, observed
+#' confounder. This is used to produce a rug inscription on the x-axis in order
+#' to benchmark the unobserved confounder versus known confounders.
 #' @param lim A numeric vector of length 3 containing the beginning, end, and
 #' increment of a sequence, forms the axes of the bound plot
 #' @param scenarios A vector of proportions of the residual variance explained
 #' by the unobserved confounder. Defaults to `c(1, 0.8, 0.5)`
 #' @param cex.legend A scaling factor for the legend text.
 #' @param ... Additional graphical parameters
+#'
+#' @examples
+#' # Basic extreme scenario plot
+#' extreme_plot(estimate = 0.09589905, se = 0.02318221, dof = 783,
+#'              r2d = 0.008106797)
 #'
 #' @importFrom graphics abline lines legend rug plot
 #' @export

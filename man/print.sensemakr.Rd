@@ -20,7 +20,8 @@ variables were specified in the formula generating the sensemakr object),
 treatment, descending), and "R2Y" (sorts by R^2 with respect to outcome,
 descending)}
 
-\item{digits}{How many digits to round output to.}
+\item{digits}{How many digits to round output to. Default is the greater of
+3 digits or getOption("digits") - 2.}
 
 \item{...}{Further arguments passed to print, not currently used.}
 }

@@ -6,11 +6,12 @@ test_that("load darfur data", {
   expect_equal(dim(darfur), c(1276, 14))
 
   expect_equal(colnames(darfur),
-               c("wouldvote", "peacefactor",
-                 "FormerEnemiesPeace",
-                 "PeaceWithJJIndiv",
-                 "PeaceWithJJTribes",
-                 "GoSsoldier_execute",
+               c("wouldvote",
+                 "peacefactor",
+                 "peace_formerenemies",
+                 "peace_jjindiv",
+                 "peace_jjtribes",
+                 "gos_soldier_execute",
                  "directlyharmed",
                  "age",
                  "farmer_dar",
@@ -55,6 +56,10 @@ test_that("do plots", {
   # OVB plot test
   ovb_plot(model = test_obj$model_outcome,
            covariate = test_obj$treatment_variable)
+
+  # And again, with the treatment effect directly.
+  ovb_plot(estimate = test_obj$treatment_effect)
+
 })
 
 test_that("no benchmark variable", {

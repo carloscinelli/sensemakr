@@ -19,6 +19,19 @@ add_benchmark.default = function(obj, variables) {
 #' guides the process of selecting a benchmark variable based on a belief that
 #' it is the largest observed confounder.
 #'
+#' @examples
+#' # Creating a sensemakr object using the built-in `darfur` data
+#' data(darfur)
+#' sense.out = sensemakr(formula = peacefactor ~ directlyharmed + female +
+#'                         village + age,
+#'                       data = darfur,
+#'                       treatment = "directlyharmed",
+#'                       benchmark = "female")
+#'
+#' # Adding a benchmark
+#' sense.out = add_benchmark(sense.out, "age")
+#'
+#'
 #' @param obj A `sensemakr` object to add benchmarks to.
 #' @param variables A vector of character strings describing the variable or
 #' variables to add as benchmarks

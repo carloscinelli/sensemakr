@@ -22,6 +22,28 @@ by the unobserved confounder. Defaults to `c(1, 0.8, 0.5)`}
 }
 \description{
 Produces an extreme scenario plot: a plot where unobserved confounders
-explain all the left-out residual variance of the outcome. Uses a `sensemakr`
-object.
+explain all the left-out residual variance of the outcome. The x-axis
+represents increasing partial R^2 of the unobserved covariate with the
+treatment. Users can use this plot to make claims that unobserved
+confounders that explain the entire residual variance are unlikely, so
+persistence of effect magnitudes or signs even in the presence of them
+suggests an overall robust effect.
+}
+\details{
+This mode of the function uses  `sensemakr` objects to produce the plot.
+Users who wish to directly supply effect estimates manually should view
+documentation on \link{extreme_plot.default}
+}
+\examples{
+# Creating a sensemakr object using the built-in `darfur` data
+data(darfur)
+sense.out = sensemakr(formula = peacefactor ~ directlyharmed + female +
+                        village + age,
+                      data = darfur,
+                      treatment = "directlyharmed",
+                      benchmark = "female")
+
+# Basic extreme scenario plot
+extreme_plot(sense.out)
+
 }

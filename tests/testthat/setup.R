@@ -4,4 +4,5 @@ test_obj = sensemakr(formula = peacefactor ~ directlyharmed + age +
                        female + village,
                      treatment = "directlyharmed",
                      data = darfur,
-                     benchmark = "female")
+                     benchmark = "female",
+                     keep_model = TRUE)

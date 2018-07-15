@@ -21,3 +21,23 @@ This is a generic method which dispatches to various plotting functions for
 \link{contour_plot.sensemakr}. Using the `type` argument, users can also
 select \link{extreme_plot.sensemakr} and \link{ovb_plot.sensemakr} plots.
 }
+\examples{
+# Creating a sensemakr object using the built-in `darfur` data
+data(darfur)
+sense.out = sensemakr(formula = peacefactor ~ directlyharmed + female +
+                        village + age,
+                      data = darfur,
+                      treatment = "directlyharmed",
+                      benchmark = "female")
+
+# Contour plot
+plot(sense.out)
+plot(sense.out, type="contour")
+
+# Extreme Scenario plot
+plot(sense.out, type="extreme")
+
+# Traditional, unscaled OVB plot
+plot(sense.out, type="ovb")
+
+}

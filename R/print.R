@@ -12,7 +12,8 @@
 #' @param x A `sensemakr` object
 #' @param print_covariates Logical, describing whether to print the covariates
 #' used to produce the sensemakr object. Defaults to FALSE.
-#' @param digits How many digits to round output to.
+#' @param digits How many digits to round output to. Default is the greater of
+#' 3 digits or getOption("digits") - 2.
 #' @param sort_by A character string specifying how to sort the covariates, if
 #' printed. Valid options are "default" ("model", which sorts by the order the
 #' variables were specified in the formula generating the sensemakr object),

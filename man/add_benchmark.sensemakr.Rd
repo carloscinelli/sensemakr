@@ -29,3 +29,17 @@ for variables of interest. Our suggestion is that subject-matter knowledge
 guides the process of selecting a benchmark variable based on a belief that
 it is the largest observed confounder.
 }
+\examples{
+# Creating a sensemakr object using the built-in `darfur` data
+data(darfur)
+sense.out = sensemakr(formula = peacefactor ~ directlyharmed + female +
+                        village + age,
+                      data = darfur,
+                      treatment = "directlyharmed",
+                      benchmark = "female")
+
+# Adding a benchmark
+sense.out = add_benchmark(sense.out, "age")
+
+
+}
