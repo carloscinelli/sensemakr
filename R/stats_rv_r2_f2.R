@@ -1,34 +1,34 @@
 
-# Basic stats -------------------------------------------------------------
+# General Statistics ------------------------------------------------------
 
 
-# extract statistics from models ------------------------------------------
+# model helpers -----------------------------------------------------------
 
 # helpers for all others
-model_helper = function(model, covariate = NULL) {
+model_helper = function(model, covariates = NULL) {
   UseMethod("model_helper", model)
 }
 
-model_helper.default = function(model, covariate = NULL) {
+model_helper.default = function(model, covariates = NULL) {
   stop("The `partial_r2` function must be passed an `lm` model object. ",
        "Other object types are not supported. The object passed was of class ",
        class(model)[1])
 }
 
-model_helper.lm = function(model, covariate = NULL) {
+model_helper.lm = function(model, covariates = NULL) {
   # Quickly extract things from an lm object
 
   # If we have a dropped coefficient (multicolinearity), we're not going to
   # get an R^2 for this coefficient.
-  warn_na_coefficients(model, covariate = covariate)
+  warn_na_coefficients(model, covariates = covariates)
 
   # Let's avoid the NaN problem from dividing by zero
   error_if_no_dof(model)
 
   coefs <- coef(summary(model))
-  covariate <- check_covariates(rownames(coefs), covariate)
+  covariates <- check_covariates(rownames(coefs), covariates)
 
-  if (!is.null(covariate)) coefs <- coefs[covariate, ,drop = FALSE]
+  if (!is.null(covariates)) coefs <- coefs[covariates, ,drop = FALSE]
 
   list(
     estimates = coefs[, "Estimate"],
@@ -39,64 +39,68 @@ model_helper.lm = function(model, covariate = NULL) {
 }
 
 
-warn_na_coefficients = function(model, covariate = NULL) {
+warn_na_coefficients = function(model, covariates = NULL) {
 
   coefs <- coef(model)
-  covariate <- check_covariates(names(coefs), covariate)
+  covariates <- check_covariates(names(coefs), covariates)
 
-  if (!is.null(covariate))  coefs <- coefs[covariate]
+  if (!is.null(covariates))  coefs <- coefs[covariates]
 
   if (any(is.na(coefs))) {
     na_coefficients = names(coefs)[which(is.na(coefs))]
-    coefficient_string = paste(na_coefficients, ", ")
+    coefficient_string = paste(na_coefficients, collapse = ", ")
     coefficient_string_plural = ifelse(length(na_coefficients) > 1,
                                        "coefficients",
                                        "coefficient")
-    warning("Model contains 'NA' ", coefficient_string_plural, ". No R^2 can ",
-            "be calculated for ", coefficient_string)
+    warning("Model contains 'NA' ", coefficient_string_plural, ". No partial R^2 can ",
+            "be calculated for: ", coefficient_string)
   }
 }
 
 error_if_no_dof = function(model) {
   if (model$df.residual == 0) {
-    stop("The partial R^2 cannot be computed because there are 0 residual ",
+    stop("There are 0 residual ",
          "degrees of freedom in the regression model provided.")
   }
 }
 
-check_covariates <- function(all_names, covariate){
-  if (!is.null(covariate)) {
-    if (!is.character(covariate)) stop("Covariate name must be a string.")
-    if (!all(covariate %in% all_names)) stop("Covariates must match names in model.")
+check_covariates <- function(all_names, covariates){
+  if (!is.null(covariates)) {
+    if (!is.character(covariates)) stop("Treatment and covariates names must be a string.")
+    if (!all(covariates %in% all_names)) {
+      idx <- which(!covariates %in% all_names)
+      not_found <- paste(covariates[idx], collapse = ", ")
+      stop("Variables not found in model: ", not_found)
+    }
   }
-  covariate
+  covariates
 }
 
 # partial r2 --------------------------------------------------------------
 
 
-#' The RV (robusntess value), partial R^2, and partial f^2
+#' The RV (robustness value), partial R^2, and partial f^2
 #'
 #' Statistics for OVB.
 #'
-#' @rdname stats
+#' @rdname partial_r2
 #' @export
 partial_r2 = function(...) {
   UseMethod("partial_r2")
 }
 
-#' @rdname stats
+#' @rdname partial_r2
 #' @export
 partial_r2.numeric <- function(t_statistic, dof){
   t_statistic^2 / (t_statistic^2 + dof)
 }
 
-#' @rdname stats
+#' @rdname partial_r2
 #' @export
-partial_r2.lm = function(model, covariate = NULL) {
+partial_r2.lm = function(model, covariates = NULL) {
 
   # extract model data
-  model_data <- model_helper(model, covariate = covariate)
+  model_data <- model_helper(model, covariates = covariates)
   t_statistic = model_data$t_statistics
   dof         = model_data$dof
 
@@ -118,23 +122,23 @@ partial_r2.default = function(model) {
 
 #'
 #'
-#' @rdname stats
+#' @rdname partial_f2
 #' @export
 partial_f2 = function(...) {
   UseMethod("partial_f2")
 }
 
-#' @rdname stats
+#' @rdname partial_f2
 #' @export
 partial_f2.numeric <- function(t_statistic, dof){
   t_statistic^2 / dof
 }
 
-#' @rdname stats
+#' @rdname partial_f2
 #' @export
-partial_f2.lm = function(model, covariate = NULL) {
+partial_f2.lm = function(model, covariates = NULL) {
   # extract model data
-  model_data <- model_helper(model, covariate = covariate)
+  model_data <- model_helper(model, covariates = covariates)
   t_statistic = model_data$t_statistics
   dof         = model_data$dof
 
@@ -158,7 +162,7 @@ partial_f = function(...) sqrt(partial_f2(...))
 # robustness value --------------------------------------------------------
 
 
-#' @rdname stats
+#' @rdname robustness_value
 #' @export
 robustness_value = function(..., q = 1, alpha = NULL) {
 
@@ -169,7 +173,7 @@ robustness_value = function(..., q = 1, alpha = NULL) {
   UseMethod("robustness_value")
 }
 
-#' @rdname stats
+#' @rdname robustness_value
 #' @export
 robustness_value.numeric <- function(t_statistic, dof, q =1, alpha = NULL){
 
@@ -198,12 +202,12 @@ robustness_value.numeric <- function(t_statistic, dof, q =1, alpha = NULL){
 #'
 #'
 #' @param model An `lm` object which will be used to produce a robustness value
-#' @param t_statistic In lieu of supplying `model` and `covariate`, supply the
+#' @param t_statistic In lieu of supplying `model` and `covariates`, supply the
 #' t-statistic of the treatment effect and `dof`
-#' @param dof In lieu of supplying `model` and `covariate`, supply the residual
+#' @param dof In lieu of supplying `model` and `covariates`, supply the residual
 #' degrees of freedom of a model and `t_statistic`.
-#' @param covariate A quoted character string describing the name of the
-#' treatment covariate in the model object.
+#' @param covariates A quoted character string describing the name of the
+#' treatment covariates in the model object.
 #' @param q A numeric fraction between 0 and 1 describing q% attenuation of the
 #' observed treatment effect, defaults to 1 (complete attenuation)
 #' @param alpha If specified, denotes a (1 - alpha) confidence interval used to
@@ -217,13 +221,13 @@ robustness_value.numeric <- function(t_statistic, dof, q =1, alpha = NULL){
 #' @examples
 #' @return A q-robustness value, which is a number from 0 to 1.
 #' @importFrom stats qt
-#' @rdname stats
+#' @rdname robustness_value
 #' @export
-robustness_value.lm = function(model, covariate = NULL,
+robustness_value.lm = function(model, covariates = NULL,
   q = 1, alpha = NULL) {
 
   # extract model data
-  model_data <- model_helper(model, covariate = covariate)
+  model_data <- model_helper(model, covariates = covariates)
   t_statistic = model_data$t_statistics
   dof         = model_data$dof
 
@@ -241,7 +245,7 @@ robustness_value.default = function(model) {
 }
 
 
-#' @rdname stats
+#' @rdname robustness_value
 #' @export
 rv <- robustness_value
 
@@ -266,52 +270,21 @@ check_alpha <- function(alpha) {
 }
 
 
-
-
-
-
-
-bias_in_r2 = function(r2y, r2d, se, dof) {
-  # Error handling
-  check_r2_parameters(r2y, r2d, se, dof)
-
-  # Run formula for bias in R^2 [14 in "Making Sense of Sensitivity"]
-  sqrt(r2y * r2d / (1 - r2d)) * se * sqrt(dof)
-}
-
-se_r2 = function(r2y, r2d, se, dof) {
-  # Error handling
-  check_r2_parameters(r2y, r2d, se, dof)
-
-  # Run formual for SE of R^2
-  sqrt((1 - r2y) / (1 - r2d)) * se * sqrt(dof / (dof - 1))
-}
-
-t_r2 = function(estimate, r2y, r2d, se, dof) {
-  # Error handling (most handled through dispatch to bias/se, but need
-  # to make sure estimate is also valid)
-  if(!is.numeric(estimate) || length(estimate) > 1) {
-    stop("Estimate provided must be a single number.")
-  }
-
-  (estimate - bias_in_r2(r2y, r2d, se, dof)) / se_r2(r2y, r2d, se, dof)
-}
-
-check_r2_parameters = function(r2y, r2d, se, dof) {
+check_r2_parameters = function(r2yz.dx, r2dz.x, se, dof) {
   # Invalid SE
-  if(se < 0) {
+  if (se < 0) {
     stop("Standard error provided must be a single non-negative number")
   }
 
   # Invalid DOF
-  if(!is.numeric(dof) || length(dof) > 1 || dof <= 0) {
+  if (!is.numeric(dof) || length(dof) > 1 || dof <= 0) {
     stop("Degrees of freedom provided must be a single non-negative number.")
   }
 
   # Invalid R^2 Y / R^2 D.
-  if(!is.numeric(r2y) || !is.numeric(r2d) ||
-     any(r2y < 0) || any(r2y > 1) ||
-     any(r2d < 0) || any(r2d > 1)) {
-    stop("Provided R^2 of Y and D must both be numbers between 0 and 1.")
+  if (!is.numeric(r2yz.dx) || !is.numeric(r2dz.x) ||
+     any(r2yz.dx < 0) || any(r2yz.dx > 1) ||
+     any(r2dz.x < 0) || any(r2dz.x > 1)) {
+    stop("Provided partial R^2 of Y and D must both be numbers between 0 and 1.")
   }
 }
