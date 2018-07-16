@@ -9,6 +9,19 @@ NULL
 
 
 
+sensemakr.lm <- function(model,
+                         treatment,
+                         benchmark_covariates = NULL,
+                         kd = 1,
+                         ky = kd,
+                         q = 1,
+                         alpha = 0.05
+                         ){
+
+
+
+}
+
 #' Create a sensemakr object
 #'
 #' @param formula A formula describing the relationship Y ~ D + X
@@ -40,11 +53,7 @@ sensemakr = function(formula,
                      benchmark = NULL,
                      verbose = FALSE,
                      keep_model = FALSE) {
-  # no reason to restrict to 2 predictors
-  if (length(all.vars(formula)) < 3) {
-    stop("The `formula` argument must contain a dependent variable and at ",
-         "least two predictors")
-  }
+
   if (is.null(treatment) || !treatment %in% all.vars(formula) ||
      (!is.null(data) && !treatment %in% colnames(data)) ||
      (is.null(data) && !exists(as.character(treatment)))

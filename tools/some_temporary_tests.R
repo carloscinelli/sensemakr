@@ -80,3 +80,8 @@ plot_benchmark(r2yx = 0.1, r2dx = 0.01,
 min(c(NULL, 0.1))
 
 bound_calculator(0.1, 0.01)
+table <- ovb_table(lm.out,treatment = "directlyharmed")
+str(table$rv_q)
+table$rv_qa
+table$rv_qa
+table$rv_q

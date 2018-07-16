@@ -193,10 +193,18 @@ robustness_value.numeric <- function(t_statistic, dof, q =1, alpha = NULL){
 
   # Eqn. 19 from "Making Sense of Sensitivity"
   rv <- 0.5 * (sqrt(qf^4 + (4 * qf^2)) - qf^2)
-  # attributes(rv) <- list(q = q, alpha = alpha)
+  attributes(rv) <- list(q = q, alpha = alpha, class = c("numeric","rv"))
   rv
 }
 
+print.rv <- function(x, ...){
+  value <- as.numeric(x)
+  print(value)
+  q <- attr(x, "q")
+  alpha <- attr(x, "alpha")
+  cat("Parameters: q =", q)
+  if (!is.null(alpha)) cat(", alpha =", alpha,"\n")
+}
 
 #' Calculates the RV (robustness value)
 #'
@@ -223,8 +231,10 @@ robustness_value.numeric <- function(t_statistic, dof, q =1, alpha = NULL){
 #' @importFrom stats qt
 #' @rdname robustness_value
 #' @export
-robustness_value.lm = function(model, covariates = NULL,
-  q = 1, alpha = NULL) {
+robustness_value.lm = function(model,
+                               covariates = NULL,
+                               q = 1,
+                               alpha = NULL) {
 
   # extract model data
   model_data <- model_helper(model, covariates = covariates)
@@ -287,4 +297,28 @@ check_r2_parameters = function(r2yz.dx, r2dz.x, se, dof) {
      any(r2dz.x < 0) || any(r2dz.x > 1)) {
     stop("Provided partial R^2 of Y and D must both be numbers between 0 and 1.")
   }
+}
+
+
+
+#' @export
+ovb_table <- function(model,
+                      treatment,
+                      benchmark_covariates = NULL,
+                      kd = 1,
+                      ky = kd,
+                      q = 1,
+                      alpha = 0.05){
+
+  model_data <- model_helper(model, covariates = treatment)
+  ovb_table <- data.frame(treatment = treatment)
+  ovb_table[["estimate"]] <- model_data$estimate
+  ovb_table[["se"]] <- model_data$se
+  ovb_table[["t_statistic"]] <- model_data$t_statistic
+  ovb_table[["r2yd.x"]] <- partial_r2(t_statistic = model_data$t_statistic, dof = model_data$dof)
+  ovb_table[["rv_q"]] <- robustness_value(t_statistic = model_data$t_statistic, dof = model_data$dof, q = q)
+  ovb_table[["rv_qa"]] <- robustness_value(t_statistic = model_data$t_statistic, dof = model_data$dof, q = q, alpha = alpha)
+  ovb_table[["f2yd.x"]] <- partial_f2(t_statistic = model_data$t_statistic, dof = model_data$dof)
+  ovb_table[["dof"]] <- model_data$dof
+  ovb_table
 }

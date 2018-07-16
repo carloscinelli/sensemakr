@@ -54,3 +54,6 @@ adjusted_t = function(estimate, r2yz.dx, r2dz.x, se, dof, reduce = TRUE) {
   new_estimate <- adjusted_estimate(estimate, r2yz.dx, r2dz.x, se, dof, reduce)
   new_estimate / adjusted_se(r2yz.dx, r2dz.x, se, dof)
 }
+
+
+
