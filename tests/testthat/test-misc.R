@@ -39,10 +39,10 @@ test_that("weird regression model with r^2", {
   factor = as.factor(1:10)
 
   multicol_model = lm(y ~ group + constant)
-  expect_warning(r_squared_helper(multicol_model))
+  expect_warning(partial_r2(multicol_model))
 
   saturated_model = lm(y ~ factor)
-  expect_error(r_squared_helper(saturated_model))
+  expect_error(partial_r2(saturated_model))
 })
 
 test_that("broken bound calculator?", {

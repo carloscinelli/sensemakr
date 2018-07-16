@@ -115,8 +115,8 @@ contour_plot.default = function(estimate = NULL,
   if(!is.null(effect_model) && !is.null(treatment_model) &&
      !is.null(benchmark_covariate) && "lm" %in% class(effect_model) &&
      "lm" %in% class(treatment_model)) {
-    r2_effect = r_squared_helper(effect_model)
-    r2_treatment = r_squared_helper(treatment_model)
+    r2_effect = partial_r2(effect_model)
+    r2_treatment = partial_r2(treatment_model)
 
     if(!all(benchmark_covariate %in% names(r2_effect)) ||
        !all(benchmark_covariate %in% names(r2_treatment))) {

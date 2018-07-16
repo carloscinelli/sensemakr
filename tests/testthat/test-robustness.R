@@ -40,12 +40,12 @@ test_that("robustness value", {
                                 dof = 200,
                                 q = 1,
                                 alpha = c(0.3, 0.3)))
+  # now we accept more than one t
+  # expect_error(robustness_value(t_statistic = c(2.5, 3.5),
+                                # dof = 200))
 
-  expect_error(robustness_value(t_statistic = c(2.5, 3.5),
-                                dof = 200))
-
-  # With a model
-  expect_error(robustness_value(model = test_obj$model_outcome))
+  # With a model now we accept the full model
+  # expect_error(robustness_value(model = test_obj$model_outcome))
 
   expect_error(robustness_value(model = "hello world",
                                 covariate = "test"))
