@@ -7,7 +7,7 @@ Maintainer: Carlos Cinelli <carloscinelli@hotmail.com>
 Description: TO BE WRITTEN.
 URL: https://github.com/chadhazlett/sensemakr
 BugReports: https://github.com/chadhazlett/sensemakr/issues
-License: MIT + file LICENSE
+License: GPL-3
 Depends: R (>= 3.1.0)
 Encoding: UTF-8
 RoxygenNote: 6.0.1
