@@ -50,6 +50,14 @@ test <- ovb_contour_plot(lm.out, treatment = "directlyharmed")
 str(test)
 test2 <- ovb_contour_plot(lm.out, treatment = "directlyharmed", benchmark_covariates = "female", kd = 1:3)
 str(test2)
+
+test3 <- ovb_extreme_plot(lm.out, treatment = "directlyharmed")
+str(test3)
+
+test4 <- ovb_extreme_plot(lm.out, treatment = "directlyharmed", benchmark_covariates = "female", kd = 1:3)
+str(test4)
+
+
 ovb_contour_plot(lm.out, treatment = "directlyharmed",
                  r2dz.x = 0.2, r2yz.dx = 0.2, bound_label = "my bound",
                  benchmark_covariates = "female", kd = 1:3)
@@ -75,7 +83,7 @@ ovb_add_bound_plot(lm.out, treatment = "directlyharmed", benchmark_covariate = "
 ovb_contour_plot(lm.out2, treatment = "I(-directlyharmed)")
 
 ovb_partial_r2_bound(lm.out,treatment = "directlyharmed", benchmark_covariate = c("female", "age"),
-                     kd= 1:3)
+                     kd = 1:3)
 
 plot_benchmark(r2yx = 0.1, r2dx = 0.01,
                covariate_name = "female",
@@ -105,3 +113,9 @@ str(test$grid)
 debug(group_partial_r2)
 group_partial_r2(lm.out, covariates = c("female", "village"))
 partial_r2(lm.out, covariates = "female")
+ovb_bounds(lm.out, treatment = "directlyharmed",
+           benchmark_covariates = "female", kd = 1)
+
+
+ovb_bounds(lm.out, treatment = "directlyharmed",
+           benchmark_covariates = "female", kd = 1)

@@ -12,7 +12,7 @@ plot.sensemakr = function(x, type = "contour", ...) {
          "or 'ovb'.")
   }
 
-  # Call the dispath function of interest
+  # Call the dispatch function of interest
   switch(type,
          "contour" = dispatch_contour,
          "extreme" = dispatch_extreme,
@@ -193,11 +193,11 @@ ovb_contour_plot.lm = function(model,
   if (!is.null(benchmark_covariates)) {
 
     # we will need to add an option for the bound type
-    bench_bounds <- ovb_partial_r2_bound(model = model,
-                                         treatment = treatment,
-                                         benchmark_covariates = benchmark_covariates,
-                                         kd = kd,
-                                         ky = ky)
+    bench_bounds <- ovb_bounds(model = model,
+                               treatment = treatment,
+                               benchmark_covariates = benchmark_covariates,
+                               kd = kd,
+                               ky = ky)
     bounds <- rbind(bounds, bench_bounds)
   }
 
@@ -419,13 +419,13 @@ ovb_extreme_plot.numeric = function(estimate,
 
   # x-axis values: R^2 of confounder(s) with treatment
   r2d_values = seq(0, lim, by = 0.001)
-
+  out = list()
   # Iterate through scenarios:
   for (i in seq.int(length(r2yz.dx))) {
     y = adjusted_estimate(estimate, r2yz.dx = r2yz.dx[i],
-                     r2dz.x = r2d_values,
-                     se = se,
-                     dof = dof, reduce = reduce)
+                          r2dz.x = r2d_values,
+                          se = se,
+                          dof = dof, reduce = reduce)
     # Initial plot
     if (i == 1) {
       if (estimate < 0) {
@@ -445,6 +445,9 @@ ovb_extreme_plot.numeric = function(estimate,
       # Add plot lines
       lines(r2d_values, y, lty = i + 1)
     }
+    out[[paste0("scenario_r2yz.dx_",r2yz.dx[i])]] <- data.frame(r2dz.x = r2d_values,
+                                                                r2yz.dx = r2yz.dx[i],
+                                                                adjusted_estimate = y)
 
   }
 
@@ -462,8 +465,11 @@ ovb_extreme_plot.numeric = function(estimate,
     cex = cex.legend
   )
 
-  if (!is.null(r2dz.x))
+  if (!is.null(r2dz.x)) {
     rug(x = r2dz.x, col = "red", lwd = 2)
+    out[["bounds"]] <- r2dz.x
+  }
+  return(invisible(out))
 }
 
 #' @rdname ovb_extreme_plot
@@ -487,6 +493,20 @@ ovb_extreme_plot.lm <- function(model,
   se <- model_data$se
   dof <- model_data$dof
 
+  if (!is.null(benchmark_covariates)) {
+      # TODO: We will need to make bound_type an option later
+      bounds <- ovb_bounds(model = model,
+                           treatment = treatment,
+                           benchmark_covariates = benchmark_covariates,
+                           kd = kd,
+                           ky = 1 ,
+                           bound_type = "partial r2")
+
+      r2dz.x <- c(r2dz.x, bounds$r2dz.x)
+
+  }
+
+
   ovb_extreme_plot(estimate = estimate,
                    se = se,
                    dof = dof,
@@ -498,20 +518,7 @@ ovb_extreme_plot.lm <- function(model,
                    cex.legend = cex.legend,
                    ...)
 
-  if (!is.null(benchmark_covariates)) {
-    for (covariate in benchmark_covariates) {
 
-      # TODO: We will need to make bound_type an option later
-      bounds <- ovb_bounds(model = model,
-                           treatment = treatment,
-                           benchmark_covariates = covariate,
-                           kd = kd,
-                           ky = 1 ,
-                           bound_type = "partial r2")
-
-      rug(x = bounds$r2dz.x, col = "red", lwd = 2)
-    }
-  }
 
 }
 

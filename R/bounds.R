@@ -125,19 +125,21 @@ ovb_partial_r2_bound.lm <- function(model,
 # general bounder ---------------------------------------------------------
 
 #  workhorse for any bounding type
+
+#' @export
 ovb_bounds <- function(model,
                        treatment,
                        benchmark_covariates,
-                       kd,
-                       ky,
+                       kd = 1,
+                       ky = kd,
                        bound_type = c("partial r2", "partial r2 no D", "total r2")) {
 
   bound_type = match.arg(bound_type)
 
   bounder = switch(bound_type,
                    "partial r2" = ovb_partial_r2_bound,
-                   "partial r2 no D" = 1,
-                   "total r2" = 2)
+                   "partial r2 no D" = stop("Only partial r2 implemented now."),
+                   "total r2" = stop("Only partial r2 implemented now."))
 
   bounder(model = model,
           treatment = treatment,
