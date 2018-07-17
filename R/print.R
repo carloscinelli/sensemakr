@@ -1,85 +1,139 @@
-#' Print a sensemakr object
-#'
-#' This function prints a sensemakr object, including all partial R^2 values for
-#' covariates used to generate the sensemakr object, by default sorting by
-#' variables in the order they were specified by the supplying formula.
-#'
-#' Additional printing parameters include `digits` (specifying how many digits
-#' of precision to include in numeric tables), and `sort_by` (a character
-#' string specifying how to sort covariates printed; valid values include
-#' "default", "alpha", "R2D", and "R2Y").
-#'
-#' @param x A `sensemakr` object
-#' @param print_covariates Logical, describing whether to print the covariates
-#' used to produce the sensemakr object. Defaults to FALSE.
-#' @param digits How many digits to round output to. Default is the greater of
-#' 3 digits or getOption("digits") - 2.
-#' @param sort_by A character string specifying how to sort the covariates, if
-#' printed. Valid options are "default" ("model", which sorts by the order the
-#' variables were specified in the formula generating the sensemakr object),
-#' "model", "alpha" (alphabetical sort), "R2D" (sorts by R^2 with respect to
-#' treatment, descending), and "R2Y" (sorts by R^2 with respect to outcome,
-#' descending)
-#' @param ... Further arguments passed to print, not currently used.
-#'
+
+#' test
+#' @param ... test
+#' @param x test
+#' @param digits test
 #' @export
 print.sensemakr = function(x,
-                           print_covariates = FALSE,
-                           sort_by = "default",
                            digits = max(3L, getOption("digits") - 2L),
                            ...
                            ) {
-  cat("Generating Formula:\n", paste(deparse(x$formula_outcome),
-                                       sep = "\n", collapse="\n"),
+  cat("Sensitivity Analysis to Unobserved Confounding\n\n")
+
+  cat("Model Formula: ", paste(deparse(x$info$formula),
+                                       sep = "\n", collapse = "\n"),
       "\n\n", sep = "")
 
-  cat("Original Effect (", x$treatment_variable, "):\n ", sep ="")
-  print(
-    data.frame(
-      Estimate = round(x$treatment_effect[1], digits),
-      SE = round(x$treatment_effect[2], digits),
-      DoF = x$dof
-    ),
-    row.names = FALSE)
+  cat("Unadjusted Estimates of '", treatment <- x$sensitivity_stats$treatment, "':\n ")
+  cat(" Coef. estimate:", estimate <- round(x$sensitivity_stats$estimate, digits), "\n ")
+  cat(" Standard Error:", se <- round(x$sensitivity_stats$se, digits), "\n ")
+  cat(" t-value:", t_statistic <- round(x$sensitivity_stats$t_statistic, digits), "\n")
   cat("\n")
 
-  cat("Robustness Values:\n")
-  print(
-    c(R2_YD = round(unname(x$r2_yd), digits),
-      RV = round(unname(x$rv), digits),
-      `RV(t)` = round(unname(x$rv_t), digits))
+  cat("Sensitivity Statistics:\n ")
+  cat(" Partial R2 of treatment with outcome:", r2yd.x <- round(x$sensitivity_stats$r2yd.x,digits), "\n ")
+  cat(" Robustness Value,", "q =", q <- x$info$q, ":", rv_q <- round(x$sensitivity_stats$rv_q,digits), "\n ")
+  cat(" Robustness Value,", "q =", q, "alpha =", alpha <- x$info$alpha, ":", rv_qa <- round(x$sensitivity_stats$rv_qa,digits), "\n")
+  cat("\n")
+  reduce <- ifelse(x$info$reduce, "reduce", "increase")
+
+  cat("Verbal interpretation of sensitivity statistics:\n\n")
+  cat("Unobserved confounders that explain more than", 100*rv_q,"%", "of the residual variance",
+      "of both the treatment and the outcome are enough to", reduce, "the absolute value of the effect size by", q, "%.",
+      "Coversely, unobserved confounders that do not explain more than", 100*rv_q,"%", "of the residual variance",
+      "of both the treatment and the otucome are not strong enough to", reduce,"by",  q, "%.\n\n")
+
+  cat("Unobserved confounders that explain more than", 100*rv_qa,"%", "of the residual variance",
+      "of both the treatment and the outcome are enough to", reduce, "the absolute value of the effect size by", q, "% at the significance level of alpha =", alpha, ".",
+      "Coversely, unobserved confounders that do not explain more than", 100*rv_qa,"%", "of the residual variance",
+      "of both the treatment and the otucome are not strong enough to", reduce,"by",  q, "% at the significance level of alpha =", alpha, ".\n\n")
+
+  cat("An extreme confounder that explains 100% of the residual variance of the outcome, would need to explain at least",
+      100*r2yd.x, "% of the residual variance of the treatment to fully account for the observed estimated effect.")
+}
+
+
+#' test
+#' @param ... test
+#' @param x test
+#' @param digits test
+#' @export
+ovb_minimal_reporting <- function(x, digits = 3, ...){
+
+  # Let's begin
+  table_settings = list(...)
+  # Override variable labels
+  outcome_label = ifelse(is.null(table_settings[["outcome_label"]]),
+                         all.vars(x$info$formula)[1],
+                         table_settings[["outcome_label"]])
+
+  treatment_label = ifelse(is.null(table_settings[["treatment_label"]]),
+                           x$sensitivity_stats$treatment,
+                           table_settings["treatment_label"])
+
+
+
+  # Okay, static beginning
+  table_begin = paste0("\\begin{table}[!h]\n",
+                       "\\centering\n",
+                       "\\begin{tabular}{lrrrrrr}\n")
+
+  # Outcome variable header
+  outcome_header = sprintf("\\multicolumn{7}{c}{Outcome: \\textit{%s}} \\\\\n",
+                           outcome_label)
+
+  # Coeff header row
+  coeff_header = paste0(
+    "\\hline \\hline \n",
+    "Treatment: & Est. & S.E. & t-value & $R^2_{Y \\sim D |{\\bf X}}$ ",
+    paste0("& $RV_{q = ", x$info$q, "}$ "),
+    paste0("& $RV_{q = ", x$info$q, ", \\alpha = ", x$info$alpha, "}$ "),
+    " \\\\ \n",
+    "\\hline \n"
   )
-  cat("\n")
 
-  if(!is.null(x$benchmark)) {
-    cat("Benchmark Variable",
-        ifelse(nrow(x$benchmark) > 1, "s", ""),
-        ":\n", sep="")
 
-    print(x$benchmark[, c("variable", "bound")],
-          digits = digits)
-    cat("\n")
+  # Treatment result
+  # Why paste and not sprintf? Easier to handle precision on the digits.
+  coeff_results = paste0(
+    "\\textit{", treatment_label, "} & ",
+    round(x$sensitivity_stats$estimate, digits), " & ",
+    round(x$sensitivity_stats$se, digits), " & ",
+    round(x$sensitivity_stats$t_statistic, digits)," & ",
+    100 * round(x$sensitivity_stats$r2yd.x, digits), "\\% & ",
+    100 * round(x$sensitivity_stats$rv_q, digits), "\\% & ",
+    100 * round(x$sensitivity_stats$rv_qa, digits), "\\% \\\\ \n")
+
+  # Foonote row: Display benchmarks
+
+  if (!is.null(x$bounds)) {
+    footnote_begin = paste0("\\hline \n",
+                            "df = ", x$sensitivity_stats$dof, " & & ",
+                            "\\multicolumn{5}{r}{ ",
+                            "")
+    row = x$bounds[1, , drop = FALSE]
+
+    footnotes = paste0("\\small ",
+                       "\\textit{Bound (", row$bound_label, ")}: ",
+                       "$R^2_{Y\\sim Z| {\\bf X}, D}$ = ",
+                       100 * round(row$r2yz.dx, digits),
+                       "\\%, $R^2_{D\\sim Z| {\\bf X} }$ = ",
+                       100 * round(row$r2dz.x, digits),
+                       "\\%")
+    footnote_body = paste0(footnotes, collapse = " \\\\ ")
+    footnote_end = "} \\\\\n"
+
+    footnote = paste0(footnote_begin, footnote_body, footnote_end)
+  } else {
+    footnote = ""
   }
 
-  if(print_covariates) {
-    cat("Partial R^2 for all covariates:\n")
-    # Get covariate R2D / R2Y
-    cov_r2y = t(t(x$r2y))
-    cov_r2d = t(t(x$r2d))
-    # Remove treatment from R2Y so we can column merge
-    cov_r2y = cov_r2y[-which(rownames(cov_r2y) == x$treatment_variable), ]
-    cov_matrix = cbind(cov_r2y, cov_r2d)
-    colnames(cov_matrix) = c("R2Y", "R2D")
+  # Below footnote end table, caption, label
+  tabular_end = "\\end{tabular}\n"
+  caption = ifelse(!is.null(table_settings[["caption"]]),
+                   paste0("\\caption{", table_settings[["caption"]], "} \n"),
+                   "")
+  label = ifelse(!is.null(table_settings[["label"]]),
+                 paste0("\\label{", table_settings[["label"]], "} \n"),
+                 "")
 
-    if(sort_by == "alpha") {
-      cov_matrix = cov_matrix[order(rownames(cov_matrix)), ]
-    } else if(sort_by == "R2Y") {
-      cov_matrix = cov_matrix[order(cov_matrix[, "R2Y"], decreasing=TRUE), ]
-    } else if(sort_by == "R2D") {
-      cov_matrix = cov_matrix[order(cov_matrix[, "R2D"], decreasing=TRUE), ]
-    }
+  table_end = "\\end{table}"
 
-    print(round(cov_matrix, digits=digits))
-  }
-  invisible(x)
+  # Stick it all together
+  table = paste0(table_begin, outcome_header, coeff_header,
+                 coeff_results, footnote, tabular_end,
+                 caption, label, table_end)
+
+  # Cat to output valid LaTeX for rmarkdown
+  cat(table)
 }
