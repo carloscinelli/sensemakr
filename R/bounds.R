@@ -79,7 +79,8 @@ ovb_partial_r2_bound.numeric <- function(r2dxj.x,
 
   out = data.frame(r2dz.x = r2dz.x,
                    r2yz.dx = r2yz.dx,
-                   bound_label = bound_label)
+                   bound_label = bound_label,
+                   stringsAsFactors = FALSE)
   return(out)
 }
 

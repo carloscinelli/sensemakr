@@ -118,6 +118,52 @@ partial_r2.default = function(model) {
 }
 
 
+# group_partial_r2 --------------------------------------------------------
+
+
+#' @rdname partial_r2
+#' @export
+group_partial_r2 <- function(...){
+  UseMethod("group_partial_r2")
+}
+
+#' @rdname partial_r2
+#' @export
+group_partial_r2.numeric <- function(f_statistic, p, dof){
+  r2 <- f_statistic*p / (f_statistic*p + dof)
+  r2 <- as.numeric(r2)
+  r2
+}
+
+#' @rdname partial_r2
+#' @export
+group_partial_r2.lm <- function(model, covariates){
+  if (missing(covariates)) stop("Argument covariates missing.")
+
+  coefs <- coef(model)
+
+  check_covariates(all_names = names(coefs), covariates = covariates)
+
+  # coefficiens
+  coefs <- coefs[covariates]
+
+  # vcov matrix
+  V <- vcov(model)[covariates, covariates, drop = FALSE]
+
+  # degrees of freedom
+  dof <- df.residual(model)
+
+
+  # compute F and R2
+  p <- length(coefs)
+  f <- (t(coefs) %*% solve(V) %*% coefs)/p
+
+  group_partial_r2(f_statistic = f, p = p, dof = dof)
+
+}
+
+
+
 # partial f2 --------------------------------------------------------------
 
 #'
@@ -197,14 +243,7 @@ robustness_value.numeric <- function(t_statistic, dof, q =1, alpha = NULL){
   rv
 }
 
-print.rv <- function(x, ...){
-  value <- as.numeric(x)
-  print(value)
-  q <- attr(x, "q")
-  alpha <- attr(x, "alpha")
-  cat("Parameters: q =", q)
-  if (!is.null(alpha)) cat(", alpha =", alpha,"\n")
-}
+
 
 #' Calculates the RV (robustness value)
 #'
@@ -259,6 +298,41 @@ robustness_value.default = function(model) {
 #' @export
 rv <- robustness_value
 
+#' @export
+print.rv <- function(x, ...){
+  value <- as.numeric(x)
+  print(value)
+  q <- attr(x, "q")
+  alpha <- attr(x, "alpha")
+  cat("Parameters: q =", q)
+  if (!is.null(alpha)) cat(", alpha =", alpha,"\n")
+}
+
+# ovb_table ---------------------------------------------------------------
+
+#' @export
+ovb_table <- function(model,
+                      treatment,
+                      benchmark_covariates = NULL,
+                      kd = 1,
+                      ky = kd,
+                      q = 1,
+                      alpha = 0.05){
+
+  model_data <- model_helper(model, covariates = treatment)
+  ovb_table <- data.frame(treatment = treatment)
+  ovb_table[["estimate"]] <- model_data$estimate
+  ovb_table[["se"]] <- model_data$se
+  ovb_table[["t_statistic"]] <- model_data$t_statistic
+  ovb_table[["r2yd.x"]] <- partial_r2(t_statistic = model_data$t_statistic, dof = model_data$dof)
+  ovb_table[["rv_q"]] <- robustness_value(t_statistic = model_data$t_statistic, dof = model_data$dof, q = q)
+  ovb_table[["rv_qa"]] <- robustness_value(t_statistic = model_data$t_statistic, dof = model_data$dof, q = q, alpha = alpha)
+  ovb_table[["f2yd.x"]] <- partial_f2(t_statistic = model_data$t_statistic, dof = model_data$dof)
+  ovb_table[["dof"]] <- model_data$dof
+  ovb_table
+}
+
+
 # sanity checkers ---------------------------------------------------------
 
 
@@ -301,24 +375,4 @@ check_r2_parameters = function(r2yz.dx, r2dz.x, se, dof) {
 
 
 
-#' @export
-ovb_table <- function(model,
-                      treatment,
-                      benchmark_covariates = NULL,
-                      kd = 1,
-                      ky = kd,
-                      q = 1,
-                      alpha = 0.05){
 
-  model_data <- model_helper(model, covariates = treatment)
-  ovb_table <- data.frame(treatment = treatment)
-  ovb_table[["estimate"]] <- model_data$estimate
-  ovb_table[["se"]] <- model_data$se
-  ovb_table[["t_statistic"]] <- model_data$t_statistic
-  ovb_table[["r2yd.x"]] <- partial_r2(t_statistic = model_data$t_statistic, dof = model_data$dof)
-  ovb_table[["rv_q"]] <- robustness_value(t_statistic = model_data$t_statistic, dof = model_data$dof, q = q)
-  ovb_table[["rv_qa"]] <- robustness_value(t_statistic = model_data$t_statistic, dof = model_data$dof, q = q, alpha = alpha)
-  ovb_table[["f2yd.x"]] <- partial_f2(t_statistic = model_data$t_statistic, dof = model_data$dof)
-  ovb_table[["dof"]] <- model_data$dof
-  ovb_table
-}

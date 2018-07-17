@@ -4,6 +4,9 @@ lm.out  <- lm(f, data = darfur)
 lm.out2  <- lm(peacefactor ~ I(-directlyharmed) + age + farmer_dar + herder_dar +
                 pastvoted + hhsize_darfur + female + village, data = darfur)
 
+
+
+
 partial_r2(lm.out)[1:2]
 partial_r2(lm.out, covariate = "directlyharmed")
 partial_r2(4, 762)
@@ -43,8 +46,10 @@ ovb_extreme_plot(estimate = 0.09731582,se = 0.02325654, dof = 783, r2dz = 0.1, r
              threshold = 0.3)
 
 names(darfur)
-ovb_contour_plot(lm.out, treatment = "directlyharmed")
-ovb_contour_plot(lm.out, treatment = "directlyharmed", benchmark_covariates = "female", kd = 1:3)
+test <- ovb_contour_plot(lm.out, treatment = "directlyharmed")
+str(test)
+test2 <- ovb_contour_plot(lm.out, treatment = "directlyharmed", benchmark_covariates = "female", kd = 1:3)
+str(test2)
 ovb_contour_plot(lm.out, treatment = "directlyharmed",
                  r2dz.x = 0.2, r2yz.dx = 0.2, bound_label = "my bound",
                  benchmark_covariates = "female", kd = 1:3)
@@ -85,3 +90,18 @@ str(table$rv_q)
 table$rv_qa
 table$rv_qa
 table$rv_q
+
+
+summary(Indometh)
+wide <- reshape(Indometh, v.names = "conc", idvar = "Subject",
+                timevar = "time", direction = "wide")
+wide
+str(wide)
+reshape(wide, direction = "long")
+reshape(test$grid, varying = rownames(test$grid),
+        direction = "long")
+str(test$grid)
+
+debug(group_partial_r2)
+group_partial_r2(lm.out, covariates = c("female", "village"))
+partial_r2(lm.out, covariates = "female")

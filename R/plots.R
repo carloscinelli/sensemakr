@@ -210,6 +210,10 @@ ovb_contour_plot.numeric = function(estimate,
                      se = se, dof = dof, estimate = estimate))
   }
 
+  out = list(r2dz.x = grid_values,
+             r2yz.dx = grid_values,
+             value = z_axis)
+
   # Aesthetic: Override the 0 line; basically, check which contour curve is
   # the zero curve, and override that contour curve with alternate aesthetic
   # characteristics
@@ -259,7 +263,11 @@ ovb_contour_plot.numeric = function(estimate,
                          plot_t = plot_t,
                          label.text = label.text,
                          label.bump = label.bump)
+    out$bounds = data.frame(r2dz.x = r2dz.x,
+                            r2yz.dx = r2yz.dx,
+                            bound_label = bound_label)
   }
+  invisible(out)
 }
 
 

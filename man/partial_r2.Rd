@@ -4,6 +4,9 @@
 \alias{partial_r2}
 \alias{partial_r2.numeric}
 \alias{partial_r2.lm}
+\alias{group_partial_r2}
+\alias{group_partial_r2.numeric}
+\alias{group_partial_r2.lm}
 \title{The RV (robustness value), partial R^2, and partial f^2}
 \usage{
 partial_r2(...)
@@ -11,6 +14,12 @@ partial_r2(...)
 \method{partial_r2}{numeric}(t_statistic, dof)
 
 \method{partial_r2}{lm}(model, covariates = NULL)
+
+group_partial_r2(...)
+
+\method{group_partial_r2}{numeric}(f_statistic, p, dof)
+
+\method{group_partial_r2}{lm}(model, covariates)
 }
 \description{
 Statistics for OVB.
