@@ -29,6 +29,7 @@ model_helper.lm = function(model, covariates = NULL) {
   if (!is.null(covariates)) coefs <- coefs[covariates, ,drop = FALSE]
 
   list(
+    covariates = rownames(coefs),
     estimate = coefs[, "Estimate"],
     se = coefs[, "Std. Error"],
     t_statistics = coefs[, "t value"],
@@ -93,7 +94,7 @@ partial_r2.lm = function(model, covariates = NULL, ...) {
 
   # extract model data
   model_data <- model_helper(model, covariates = covariates)
-  t_statistic = model_data$t_statistics
+  t_statistic = setNames(model_data$t_statistics, model_data$covariates)
   dof         = model_data$dof
 
   # Return R^2 -- this is one R^2 for each coefficient, we will subset for
@@ -177,7 +178,7 @@ partial_f2.numeric <- function(t_statistic, dof, ...){
 partial_f2.lm = function(model, covariates = NULL, ...) {
   # extract model data
   model_data <- model_helper(model, covariates = covariates)
-  t_statistic = model_data$t_statistics
+  t_statistic = setNames(model_data$t_statistics, model_data$covariates)
   dof         = model_data$dof
 
   # Return R^2 -- this is one R^2 for each coefficient, we will subset for
@@ -236,7 +237,7 @@ robustness_value.numeric <- function(t_statistic, dof, q =1, alpha = NULL, ...){
 
   # Eqn. 19 from "Making Sense of Sensitivity"
   rv <- 0.5 * (sqrt(qf^4 + (4 * qf^2)) - qf^2)
-  attributes(rv) <- list(q = q, alpha = alpha, class = c("numeric","rv"))
+  attributes(rv) <- list(names = names(rv), q = q, alpha = alpha, class = c("numeric","rv"))
   rv
 }
 
@@ -251,7 +252,7 @@ robustness_value.lm = function(model,
 
   # extract model data
   model_data <- model_helper(model, covariates = covariates)
-  t_statistic = model_data$t_statistics
+  t_statistic = setNames(model_data$t_statistics, model_data$covariates)
   dof         = model_data$dof
 
   # compute rv
@@ -271,7 +272,9 @@ robustness_value.default = function(model, ...) {
 
 #' @export
 print.rv <- function(x, ...){
-  value <- as.numeric(x)
+  value <- x
+  attributes(value) <- list(names = names(value))
+  class(value) <- "numeric"
   print(value)
   q <- attr(x, "q")
   alpha <- attr(x, "alpha")
@@ -302,10 +305,10 @@ sensitivity_stats.numeric <- function(estimate,
   sensitivity_stats[["estimate"]] <- estimate
   sensitivity_stats[["se"]] <- se
   sensitivity_stats[["t_statistic"]] <- t_statistic
-  sensitivity_stats[["r2yd.x"]] <- partial_r2(t_statistic = t_statistic, dof = dof)
-  sensitivity_stats[["rv_q"]] <- robustness_value(t_statistic = t_statistic, dof = dof, q = q)
-  sensitivity_stats[["rv_qa"]] <- robustness_value(t_statistic = t_statistic, dof = dof, q = q, alpha = alpha)
-  sensitivity_stats[["f2yd.x"]] <- partial_f2(t_statistic = t_statistic, dof = dof)
+  sensitivity_stats[["r2yd.x"]] <- as.numeric(partial_r2(t_statistic = t_statistic, dof = dof))
+  sensitivity_stats[["rv_q"]] <- as.numeric(robustness_value(t_statistic = t_statistic, dof = dof, q = q))
+  sensitivity_stats[["rv_qa"]] <- as.numeric(robustness_value(t_statistic = t_statistic, dof = dof, q = q, alpha = alpha))
+  sensitivity_stats[["f2yd.x"]] <- as.numeric(partial_f2(t_statistic = t_statistic, dof = dof))
   sensitivity_stats[["dof"]] <- dof
   sensitivity_stats
 }

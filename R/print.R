@@ -28,17 +28,17 @@ print.sensemakr = function(x,
   reduce <- ifelse(x$info$reduce, "reduce", "increase")
 
   cat("Verbal interpretation of sensitivity statistics:\n\n")
-  cat("Unobserved confounders that explain more than", 100*rv_q,"%", "of the residual variance",
-      "of both the treatment and the outcome are enough to", reduce, "the absolute value of the effect size by", q, "%.",
-      "Coversely, unobserved confounders that do not explain more than", 100*rv_q,"%", "of the residual variance",
-      "of both the treatment and the otucome are not strong enough to", reduce,"by",  q, "%.\n\n")
+  cat("Unobserved confounders (orthogonal to the covariates) that explain more than", 100*rv_q,"%", "of the residual variance",
+      "of both the treatment and the outcome are enough to", reduce, "the absolute value of the effect size by", 100*q, "%.",
+      "Conversely, unobserved confounders that do not explain more than", 100*rv_q,"%", "of the residual variance",
+      "of both the treatment and the otucome are not strong enough to", reduce,"by",  100*q, "%.\n\n")
 
-  cat("Unobserved confounders that explain more than", 100*rv_qa,"%", "of the residual variance",
-      "of both the treatment and the outcome are enough to", reduce, "the absolute value of the effect size by", q, "% at the significance level of alpha =", alpha, ".",
+  cat("Unobserved confounders (orthogonal to the covariates)  that explain more than", 100*rv_qa,"%", "of the residual variance",
+      "of both the treatment and the outcome are enough to", reduce, "the absolute value of the effect size by", 100*q, "% at the significance level of alpha =", alpha, ".",
       "Coversely, unobserved confounders that do not explain more than", 100*rv_qa,"%", "of the residual variance",
-      "of both the treatment and the otucome are not strong enough to", reduce,"by",  q, "% at the significance level of alpha =", alpha, ".\n\n")
+      "of both the treatment and the otucome are not strong enough to", reduce,"by",  100*q, "% at the significance level of alpha =", alpha, ".\n\n")
 
-  cat("An extreme confounder that explains 100% of the residual variance of the outcome, would need to explain at least",
+  cat("An extreme confounder (orthogonal to the covariates) that explains 100% of the residual variance of the outcome, would need to explain at least",
       100*r2yd.x, "% of the residual variance of the treatment to fully account for the observed estimated effect.")
 }
 
