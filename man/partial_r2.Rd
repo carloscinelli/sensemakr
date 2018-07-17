@@ -11,15 +11,15 @@
 \usage{
 partial_r2(...)
 
-\method{partial_r2}{numeric}(t_statistic, dof)
+\method{partial_r2}{numeric}(t_statistic, dof, ...)
 
-\method{partial_r2}{lm}(model, covariates = NULL)
+\method{partial_r2}{lm}(model, covariates = NULL, ...)
 
 group_partial_r2(...)
 
-\method{group_partial_r2}{numeric}(f_statistic, p, dof)
+\method{group_partial_r2}{numeric}(f_statistic, p, dof, ...)
 
-\method{group_partial_r2}{lm}(model, covariates)
+\method{group_partial_r2}{lm}(model, covariates, ...)
 }
 \description{
 Statistics for OVB.

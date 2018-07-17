@@ -51,14 +51,14 @@ test_that("robustness value", {
 
   # Works with a model
   expect_equal(
-    unname(robustness_value(
+    as.numeric(robustness_value(
       model = lm.out,
       covariate = "directlyharmed")),
     0.13877, tolerance = 1e-3)
 
   # Works with direct t from sensemakr object (duh)
   expect_equal(
-    unname(robustness_value(
+    as.numeric(robustness_value(
       t_statistic = t,
       dof = lm.out$df.residual
     )),

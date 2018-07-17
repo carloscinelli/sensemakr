@@ -9,10 +9,11 @@
 \usage{
 robustness_value(..., q = 1, alpha = NULL)
 
-\method{robustness_value}{numeric}(t_statistic, dof, q = 1, alpha = NULL)
+\method{robustness_value}{numeric}(t_statistic, dof, q = 1, alpha = NULL,
+  ...)
 
 \method{robustness_value}{lm}(model, covariates = NULL, q = 1,
-  alpha = NULL)
+  alpha = NULL, ...)
 
 rv(..., q = 1, alpha = NULL)
 }

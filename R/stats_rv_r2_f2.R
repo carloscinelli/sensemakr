@@ -91,13 +91,13 @@ partial_r2 = function(...) {
 
 #' @rdname partial_r2
 #' @export
-partial_r2.numeric <- function(t_statistic, dof){
+partial_r2.numeric <- function(t_statistic, dof, ...){
   t_statistic^2 / (t_statistic^2 + dof)
 }
 
 #' @rdname partial_r2
 #' @export
-partial_r2.lm = function(model, covariates = NULL) {
+partial_r2.lm = function(model, covariates = NULL, ...) {
 
   # extract model data
   model_data <- model_helper(model, covariates = covariates)
@@ -129,7 +129,7 @@ group_partial_r2 <- function(...){
 
 #' @rdname partial_r2
 #' @export
-group_partial_r2.numeric <- function(f_statistic, p, dof){
+group_partial_r2.numeric <- function(f_statistic, p, dof, ...){
   r2 <- f_statistic*p / (f_statistic*p + dof)
   r2 <- as.numeric(r2)
   r2
@@ -137,7 +137,7 @@ group_partial_r2.numeric <- function(f_statistic, p, dof){
 
 #' @rdname partial_r2
 #' @export
-group_partial_r2.lm <- function(model, covariates){
+group_partial_r2.lm <- function(model, covariates, ...){
   if (missing(covariates)) stop("Argument covariates missing.")
 
   coefs <- coef(model)
@@ -176,13 +176,13 @@ partial_f2 = function(...) {
 
 #' @rdname partial_f2
 #' @export
-partial_f2.numeric <- function(t_statistic, dof){
+partial_f2.numeric <- function(t_statistic, dof, ...){
   t_statistic^2 / dof
 }
 
 #' @rdname partial_f2
 #' @export
-partial_f2.lm = function(model, covariates = NULL) {
+partial_f2.lm = function(model, covariates = NULL, ...) {
   # extract model data
   model_data <- model_helper(model, covariates = covariates)
   t_statistic = model_data$t_statistics
@@ -193,7 +193,7 @@ partial_f2.lm = function(model, covariates = NULL) {
   partial_f2(t_statistic = t_statistic, dof = dof)
 }
 
-partial_r2.default = function(model) {
+partial_r2.default = function(model, ...) {
   stop("The `partial_f2` function must be passed either an `lm` model object, ",
        "or the t-statistics and degrees of freedom directly. ",
        "Other object types are not supported. The object passed was of class ",
@@ -221,7 +221,7 @@ robustness_value = function(..., q = 1, alpha = NULL) {
 
 #' @rdname robustness_value
 #' @export
-robustness_value.numeric <- function(t_statistic, dof, q =1, alpha = NULL){
+robustness_value.numeric <- function(t_statistic, dof, q =1, alpha = NULL, ...){
 
   # Calculate RV
   # QF is q * absolute value(partial f). We can get partial f from t for cov.
@@ -273,7 +273,7 @@ robustness_value.numeric <- function(t_statistic, dof, q =1, alpha = NULL){
 robustness_value.lm = function(model,
                                covariates = NULL,
                                q = 1,
-                               alpha = NULL) {
+                               alpha = NULL, ...) {
 
   # extract model data
   model_data <- model_helper(model, covariates = covariates)
@@ -286,7 +286,7 @@ robustness_value.lm = function(model,
 }
 
 
-robustness_value.default = function(model) {
+robustness_value.default = function(model, ...) {
   stop("The `robustness_value` function must be passed either an `lm` model object, ",
        "or the t-statistics and degrees of freedom directly. ",
        "Other object types are not supported. The object passed was of class ",

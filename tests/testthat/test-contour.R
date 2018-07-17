@@ -100,7 +100,8 @@ test_that("contour plot tests", {
                    se = 0.5,
                    dof = 200,
                    r2yz.dx = 0.1,
-                   r2dz.x = 0.1)
+                   r2dz.x = 0.1,
+                   bound_label = "")
 
   ovb_contour_plot(estimate = 2,
                    se = 0.5,

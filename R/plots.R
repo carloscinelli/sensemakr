@@ -4,38 +4,7 @@
 
 # generic plot function ---------------------------------------------------
 
-#' Plots for sensitivity analysis to unobserved confounders
-#'
-#' This is a generic method which dispatches to various plotting functions for
-#' `sensemakr` objects. By default, the plotting function chosen is
-#' \link{contour_plot.sensemakr}. Using the `type` argument, users can also
-#' select \link{extreme_plot.sensemakr} and \link{ovb_plot.sensemakr} plots.
-#'
-#' @param x A sensemakr object
-#' @param type A character string reading "contour", "extreme", or "ovb".
-#' @param ... Further plotting arguments described in documentation for
-#' \link{contour_plot.sensemakr}, \link{extreme_plot.sensemakr}, or
-#' \link{ovb_plot.sensemakr}.
-#'
-#' @examples
-#' # Creating a sensemakr object using the built-in `darfur` data
-#' data(darfur)
-#' sense.out = sensemakr(formula = peacefactor ~ directlyharmed + female +
-#'                         village + age,
-#'                       data = darfur,
-#'                       treatment = "directlyharmed",
-#'                       benchmark = "female")
-#'
-#' # Contour plot
-#' plot(sense.out)
-#' plot(sense.out, type="contour")
-#'
-#' # Extreme Scenario plot
-#' plot(sense.out, type="extreme")
-#'
-#' # Traditional, unscaled OVB plot
-#' plot(sense.out, type="ovb")
-#'
+
 #' @export
 plot.sensemakr = function(x, type = "contour", ...) {
   if (is.null(type) || !type %in% c("contour", "extreme", "ovb")) {
@@ -68,16 +37,7 @@ dispatch_extreme = function(x, ...) {
 # contour plot ------------------------------------------------------------
 
 
-#' Contour plot
-#'
-#' `contour_plot` is a generic function to produce sensitivity analysis
-#' contour plots. The function invokes particular methods which depend on
-#' the class of the first argument. For documentation on using  `contour_plot`
-#' with `sensemakr` objects, check \link{contour_plot.sensemakr}. For
-#' documentation on using `contour_plot` with direct numeric arguments, check
-#' \link{contour_plot.default}
-#'
-#' @param ... Arguments which will pass through to the methods invoked.
+
 #' @rdname ovb_contour_plot
 #' @export
 ovb_contour_plot = function(...) {
@@ -87,87 +47,7 @@ ovb_contour_plot = function(...) {
 
 
 
-#' Contour plot
-#'
-#' Produces a sensitivity analysis contour plot. `contour_plot` can be called by
-#' providing either a series of numerical parameters (`estimate`, `se`, `dof`,
-#' and optionally `r2dz.x` and `r2yz.dx`) or by providing references to models
-#' (`effect_model`, `treatment_covariate`, and optionally `treatment_model`
-#' and `benchmark_covariate`). The produced plot maps how observed effects
-#' could attenuate in the presence of an unobserved confounder that is
-#' correlated with treatment and outcome. See also \link{contour_plot.sensemakr}
-#' to easily produce a contour plot from a `sensemakr` object.
-#'
-#' By default, the `r2dz.x` and `r2yz.dx` (or the same quantities derived from
-#' `benchmark_covariate`) will be used to construct hypothetical unobserved
-#' confounders. The original effect size will be attenuated by the unobserved
-#' confounder: the magnitude of the attenuation will depend on the degree of
-#' confounding. The parameters `multipliers_y` and `multipliers_d` specify how
-#' many times as "strong" the unobserved confounder should be compared to the
-#' reference point. The default is c(1, 2, 3), implying that unobserved
-#' confounders 1, 2, and 3 times as strong as the reference confounder will be
-#' plotted.
-#'
-#' @examples
-#' # Simply plotting a contour plot with no confounders
-#' contour_plot(estimate = 1.8, se = 0.4, dof = 200)
-#'
-#' # Adding a confounder that has a partial R^2 of 0.1 with both treatment and
-#' # outcome
-#' contour_plot(estimate = 1.8, se = 0.4, dof = 200, r2dz.x = 0.1, r2yz.dx = 0.1)
-#'
-#' # Plotting the t-statistic instead of the effect point estimate
-#' contour_plot(estimate = 1.8, se = 0.4, dof = 200,
-#'              r2dz.x = 0.1, r2yz.dx = 0.1, plot_t = TRUE)
-#'
-#' # Changing graphical parameters
-#' contour_plot(estimate = 1.8, se = 0.4, dof = 200,
-#'              r2dz.x = 0.1, r2yz.dx = 0.1, col.line = "blue",
-#'              col.contour = "black", nlevels = 10,
-#'              main = "Contour Plot Example")
-#'
-#' # Producing a contour plot using `lm` objects: note that users may find it
-#' # easier to create a `sensemakr` object and use the `contour_plot` method on
-#' # that object
-#' data(darfur)
-#' model.outcome = lm(peacefactor ~ directlyharmed + female + age + village,
-#'                    data = darfur)
-#' model.treat = lm(directlyharmed ~ female + age + village,
-#'                  data = darfur)
-#' contour_plot(effect_model = model.outcome,
-#'              treatment_covariate = "directlyharmed",
-#'              treatment_model = model.treat,
-#'              benchmark_covariate = "female")
-#'
-#' @param estimate An estimated effect magnitude
-#' @param se The standard error of the estimated effect magnitude
-#' @param dof The residual degrees of freedom of the regression producing the
-#' effect estimate
-#' @param r2dz.x Partial R^2 with respect to the treatment
-#' @param r2yz.dx Partial R^2 with respect to the outcome variable
-#' @param lim A numeric vector of length 3 containing the beginning, end, and
-#' increment of a sequence, forms the axes of the bound plot
-#' @param nlevels How many contour lines to produce
-#' @param plot_t Logical, default FALSE describing whether to plot the
-#' t-statistic (TRUE) or effect estimate (FALSE).
-#' @param col.contour A color parameter for contour plot lines
-#' @param col.line A color parameter for the threshold / critical value line
-#' @param multipliers_y A vector of multipliers, k, describing how many times
-#' as strong the hypothetical confounders are than the benchmark confounder
-#' with respect to the outcome
-#' @param multipliers_d A vector of multipliers, k, describing how many times
-#' as strong the hypothetical confounders are than the benchmark confounder
-#' with respect to the treatment
-#' @param ... Additional plotting graphical parameters
-#' @param effect_model An lm object describing the relationship Y ~ D + X.
-#' If provided, `estimate`, `se`, and `dof` will be extracted from this.
-#' @param treatment_model An lm object describing the relationship D ~ X.
-#' If provided, the benchmark confounder will be extracted from this.
-#' @param treatment_covariate The quoted character name of a variable in the `lm`
-#' object `effect_model`, describing the treatment variable
-#' @param benchmark_covariate The quoted character name of a variable in the
-#' `lm` objects, describing the benchmark confounder
-#'
+
 #' @importFrom graphics contour points text
 #' @importFrom stats coef
 #' @rdname ovb_contour_plot
@@ -179,7 +59,7 @@ ovb_contour_plot.numeric = function(estimate,
                                     estimate.threshold = 0,
                                     r2dz.x = NULL,
                                     r2yz.dx = NULL,
-                                    bound_label = NULL,
+                                    bound_label = "",
                                     plot_t = FALSE,
                                     t.threshold = 2,
                                     lim = c(0, 0.4, 0.001),
@@ -395,68 +275,7 @@ ovb_contour_plot.formula = function(formula,
 }
 
 
-#' Contour plot for `sensemakr` objects
-#'
-#' Produces a sensitivity analysis contour plot. The produced plot maps how
-#' observed effects could attenuate in the presence of an unobserved confounder
-#' that is correlated with treatment and outcome.
-#'
-#' By default, this plot will compare the unadjusted effect size estimate to
-#' attenuated versions of the estimate under the presence of unobserved
-#' confounding, using the benchmark variables specified in the `sensemakr`
-#' object. The default comparison plots the effect under the presence of an
-#' unobserved confounder at 1x, 2x, and 3x the "strength" of the benchmark
-#' confounder. Users can override the benchmark confounders by specifying a
-#' `benchmark_covariate` argument (a vector of character strings naming the
-#' benchmarks to plot), and the multipliers by specifying `multipliers_y` and,
-#' optionally, `mulitpliers_d`.
-#'
-#' @examples
-#' # Creating a sensemakr object using the built-in `darfur` data
-#' data(darfur)
-#' sense.out = sensemakr(formula = peacefactor ~ directlyharmed + female +
-#'                         village + age,
-#'                       data = darfur,
-#'                       treatment = "directlyharmed",
-#'                       benchmark = "female")
-#'
-#' # Basic contour plot
-#' contour_plot(sense.out)
-#'
-#' # Contour plot of t-values and critical threshold
-#' contour_plot(sense.out, plot_t = TRUE)
-#'
-#' # Overriding multipliers
-#' contour_plot(sense.out, multipliers_y = c(1, 1.5))
-#'
-#' # Overriding colors
-#' contour_plot(sense.out, col.contour = "black", col.line = "blue")
-#'
-#' # Adding graphical parameters
-#' contour_plot(sense.out, main = "Custom Title Plot")
-#'
-#' # Plotting only some of the benchmarks
-#' sense.out = add_benchmark(sense.out, "age")
-#' contour_plot(sense.out, benchmark_covariate = "female")
-#'
-#'
-#' @param x A `sensemakr`  object to produce a contour plot from.
-#' @param ... Additional plotting graphical parameters
-#' @param lim A numeric vector of length 3 containing the beginning, end, and
-#' increment of a sequence, forms the axes of the bound plot
-#' @param nlevels How many contour lines to produce
-#' @param plot_t Logical, default FALSE describing whether to plot the
-#' t-statistic (TRUE) or effect estimate (FALSE).
-#' @param col.contour A color parameter for contour plot lines
-#' @param col.line A color parameter for the threshold / critical value line
-#' @param multipliers_y A vector of multipliers, k, describing how many times
-#' as strong the hypothetical confounders are than the benchmark confounder
-#' with respect to the outcome. Only usable with `sensemakr` objects that
-#' contain benchmark variables.
-#' @param multipliers_d A vector of multipliers, k, describing how many times
-#' as strong the hypothetical confounders are than the benchmark confounder
-#' with respect to the treatment. Only usable with `sensemakr` objects that
-#' contain benchmark variables.
+
 #' @rdname ovb_contour_plot
 #' @export
 ovb_contour_plot.sensemakr = function(x, ...,
@@ -570,56 +389,13 @@ add_bound_to_contour <- function(estimate,
 
 # extreme plot ------------------------------------------------------------
 
-#' Extreme scenario plots
-#'
-#' `extreme_plot` is a generic function to produce extreme scenario plots. The
-#' function invokes particular methods which depend on the class of the first
-#' argument. For documentation on using  `extreme_plot` with `sensemakr`
-#' objects, check \link{extreme_plot.sensemakr}. For documentation on using
-#' `extreme_plot` with direct numeric arguments, check
-#' \link{extreme_plot.default}
-#'
-#' @param ... Arguments which will pass through to the methods invoked.
 #' @rdname ovb_extreme_plot
 #' @export
-ovb_extreme_plot = function(...) {
+ovb_extreme_plot <- function(...){
   UseMethod("ovb_extreme_plot")
+
 }
 
-
-#' Extreme scenario plot
-#'
-#' Produces an extreme scenario plot: a plot where unobserved confounders
-#' explain all the left-out residual variance of the outcome. The x-axis
-#' represents increasing partial R^2 of the unobserved covariate with the
-#' treatment. Users can use this plot to make claims that unobserved
-#' confounders that explain the entire residual variance are unlikely, so
-#' persistence of effect magnitudes or signs even in the presence of them
-#' suggests an overall robust effect.
-#'
-#' The easiest way to use `extreme_plot` is by creating a `sensemakr` object
-#' and using the \link{extreme_plot.sensemakr} function on it. This mode of the
-#' function is for users who want to directly pass estimates.
-#'
-#' @param estimate An estimated effect magnitude
-#' @param se The standard error of the estimated effect magnitude
-#' @param dof The residual degrees of freedom of the regression producing the
-#' effect estimate
-#' @param r2d Partial R^2 with respect to the treatment of a known, observed
-#' confounder. This is used to produce a rug inscription on the x-axis in order
-#' to benchmark the unobserved confounder versus known confounders.
-#' @param lim A numeric vector of length 3 containing the beginning, end, and
-#' increment of a sequence, forms the axes of the bound plot
-#' @param scenarios A vector of proportions of the residual variance explained
-#' by the unobserved confounder. Defaults to `c(1, 0.8, 0.5)`
-#' @param cex.legend A scaling factor for the legend text.
-#' @param ... Additional graphical parameters
-#'
-#' @examples
-#' # Basic extreme scenario plot
-#' extreme_plot(estimate = 0.09589905, se = 0.02318221, dof = 783,
-#'              r2d = 0.008106797)
-#'
 #' @importFrom graphics abline lines legend rug plot
 #' @rdname ovb_extreme_plot
 #' @export
@@ -780,40 +556,7 @@ ovb_extreme_plot.formula = function(formula,
                    cex.legend = cex.legend, ...)
 }
 
-#' Extreme scenario plot
-#'
-#' Produces an extreme scenario plot: a plot where unobserved confounders
-#' explain all the left-out residual variance of the outcome. The x-axis
-#' represents increasing partial R^2 of the unobserved covariate with the
-#' treatment. Users can use this plot to make claims that unobserved
-#' confounders that explain the entire residual variance are unlikely, so
-#' persistence of effect magnitudes or signs even in the presence of them
-#' suggests an overall robust effect.
-#'
-#' This mode of the function uses  `sensemakr` objects to produce the plot.
-#' Users who wish to directly supply effect estimates manually should view
-#' documentation on \link{extreme_plot.default}
-#'
-#' @param x A `sensemakr` object containing a benchmark covariate
-#' @param lim A numeric vector of length 3 containing the beginning, end, and
-#' increment of a sequence, forms the axes of the bound plot
-#' @param scenarios A vector of proportions of the residual variance explained
-#' by the unobserved confounder. Defaults to `c(1, 0.8, 0.5)`
-#' @param cex.legend A scaling factor for the legend text.
-#' @param ... Additional graphical parameters
-#'
-#' @examples
-#' # Creating a sensemakr object using the built-in `darfur` data
-#' data(darfur)
-#' sense.out = sensemakr(formula = peacefactor ~ directlyharmed + female +
-#'                         village + age,
-#'                       data = darfur,
-#'                       treatment = "directlyharmed",
-#'                       benchmark = "female")
-#'
-#' # Basic extreme scenario plot
-#' extreme_plot(sense.out)
-#'
+
 #' @rdname ovb_extreme_plot
 #' @export
 ovb_extreme_plot.sensemakr = function(x,
