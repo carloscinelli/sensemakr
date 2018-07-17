@@ -1,4 +1,7 @@
 
+# prints, summaries and reports -------------------------------------------
+
+
 #' test
 #' @param ... test
 #' @param x test
