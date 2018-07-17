@@ -5,13 +5,14 @@
 # bias --------------------------------------------------------------------
 
 
-#' @rdname bias
+#' test
+#' @param ... test
 #' @export
 bias <- function(...){
   UseMethod("bias")
 }
 
-#' @rdname bias
+
 #' @export
 bias.numeric = function(se, dof, r2dz.x, r2yz.dx,  ...) {
   # Error handling
@@ -22,7 +23,7 @@ bias.numeric = function(se, dof, r2dz.x, r2yz.dx,  ...) {
 }
 
 
-#' @rdname bias
+
 #' @export
 bias.lm <- function(model, treatment,  r2dz.x, r2yz.dx, ...){
   # extract model data
@@ -33,13 +34,14 @@ bias.lm <- function(model, treatment,  r2dz.x, r2yz.dx, ...){
 
 # adjusted SE -------------------------------------------------------------
 
-#' @rdname bias
+#' test
+#' @param ... test
 #' @export
 adjusted_se <- function(...){
   UseMethod("adjusted_se")
 }
 
-#' @rdname bias
+
 #' @export
 adjusted_se.numeric = function(se, dof, r2dz.x, r2yz.dx, ...) {
   # Error handling
@@ -49,7 +51,7 @@ adjusted_se.numeric = function(se, dof, r2dz.x, r2yz.dx, ...) {
   sqrt((1 - r2yz.dx) / (1 - r2dz.x)) * se * sqrt(dof / (dof - 1))
 }
 
-#' @rdname bias
+
 #' @export
 adjusted_se.lm <- function(model, treatment,  r2dz.x, r2yz.dx, ...){
   # extract model data
@@ -59,13 +61,14 @@ adjusted_se.lm <- function(model, treatment,  r2dz.x, r2yz.dx, ...){
 
 # adjusted estimate -------------------------------------------------------
 
-#' @rdname bias
+#' test
+#' @param ... test
 #' @export
 adjusted_estimate <- function(...){
   UseMethod("adjusted_estimate")
 }
 
-#' @rdname bias
+
 #' @export
 adjusted_estimate.numeric <- function(estimate, se, dof, r2dz.x, r2yz.dx,  reduce = TRUE, ...){
   if (!is.numeric(estimate) || length(estimate) > 1) {
@@ -87,7 +90,7 @@ adjusted_estimate.numeric <- function(estimate, se, dof, r2dz.x, r2yz.dx,  reduc
   new_estimate
 }
 
-#' @rdname bias
+
 #' @export
 adjusted_estimate.lm <- function(model, treatment,  r2dz.x, r2yz.dx, reduce = TRUE, ...){
   # extract model data
@@ -97,13 +100,14 @@ adjusted_estimate.lm <- function(model, treatment,  r2dz.x, r2yz.dx, reduce = TR
 
 # adjusted t --------------------------------------------------------------
 
-#' @rdname bias
+#' test
+#' @param ... test
 #' @export
 adjusted_t <- function(...){
   UseMethod("adjusted_t")
 }
 
-#' @rdname bias
+
 #' @export
 adjusted_t.numeric = function(estimate, se, dof, r2dz.x, r2yz.dx, reduce = TRUE, ...) {
   # Error handling (most handled through dispatch to bias/se, but need
@@ -115,7 +119,7 @@ adjusted_t.numeric = function(estimate, se, dof, r2dz.x, r2yz.dx, reduce = TRUE,
   new_estimate / adjusted_se(r2yz.dx = r2yz.dx, r2dz.x = r2dz.x, se = se, dof = dof)
 }
 
-#' @rdname bias
+
 #' @export
 adjusted_t.lm <- function(model, treatment,  r2dz.x, r2yz.dx, reduce = TRUE, ...){
   # extract model data

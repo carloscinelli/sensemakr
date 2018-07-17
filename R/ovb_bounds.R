@@ -7,6 +7,7 @@
 
 # future bounds to work on ------------------------------------------------
 
+#' @importFrom stats df.residual qt update vcov
 total_r2_bound <- function(r2dxj, r2yxj, r2dx, r2yx, r2yd.x, kd = 1, ky = 1){
 
   check_k(ky)
@@ -18,7 +19,7 @@ total_r2_bound <- function(r2dxj, r2yxj, r2dx, r2yx, r2yd.x, kd = 1, ky = 1){
 
   r2dz.x = kd*(r2dxj/(1 - r2dx))
   r2yz.x = ky*(r2yxj/(1 - r2yx))
-  r2yz.dx = ((sqrt(r2yz.x) - ssqrt(r2yd.x)*sqrt(r2dz.x))/(sqrt(1 - r2yd.x)*sqrt(1 - r2dz.x)))^2
+  r2yz.dx = ((sqrt(r2yz.x) - sqrt(r2yd.x)*sqrt(r2dz.x))/(sqrt(1 - r2yd.x)*sqrt(1 - r2dz.x)))^2
   out = list(r2dz.x = r2dz.x, r2yz.dx = r2yz.dx)
   return(out)
 }
@@ -32,7 +33,7 @@ partial_r2_bound_no_d <- function(r2dxj.x, r2yxj.x, r2yd.x, kd = 1, ky = 1){
 
   r2dz.x = kd*(r2dxj.x/(1 - r2dxj.x))
   r2yz.x = ky*(r2yxj.x/(1 - r2yxj.x))
-  r2yz.dx = ((sqrt(r2yz.x) - ssqrt(r2yd.x)*sqrt(r2dz.x))/(sqrt(1 - r2yd.x)*sqrt(1 - r2dz.x)))^2
+  r2yz.dx = ((sqrt(r2yz.x) - sqrt(r2yd.x)*sqrt(r2dz.x))/(sqrt(1 - r2yd.x)*sqrt(1 - r2dz.x)))^2
   out = list(r2dz.x = r2dz.x, r2yz.dx = r2yz.dx)
   return(out)
 }
@@ -40,6 +41,7 @@ partial_r2_bound_no_d <- function(r2dxj.x, r2yxj.x, r2yd.x, kd = 1, ky = 1){
 
 
 # bounding methods --------------------------------------------------------
+
 
 ovb_partial_r2_bound <- function(...){
   UseMethod("ovb_partial_r2_bound")
@@ -126,14 +128,21 @@ ovb_partial_r2_bound.lm <- function(model,
 
 #  workhorse for any bounding type
 
+#' test
+#' @param ... test
 #' @export
-ovb_bounds <- function(model,
-                       treatment,
-                       benchmark_covariates,
-                       kd = 1,
-                       ky = kd,
-                       reduce = TRUE,
-                       bound = c("partial r2", "partial r2 no D", "total r2")) {
+ovb_bounds <- function(...){
+  UseMethod("ovb_bounds")
+}
+
+#' @export
+ovb_bounds.lm <- function(model,
+                          treatment,
+                          benchmark_covariates,
+                          kd = 1,
+                          ky = kd,
+                          reduce = TRUE,
+                          bound = c("partial r2", "partial r2 no D", "total r2"),...) {
 
   bound = match.arg(bound)
 

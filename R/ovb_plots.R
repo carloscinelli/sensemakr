@@ -15,8 +15,7 @@ plot.sensemakr = function(x, type = "contour", ...) {
   # Call the dispatch function of interest
   switch(type,
          "contour" = dispatch_contour,
-         "extreme" = dispatch_extreme,
-         "ovb" = dispatch_ovb)(x, ...)
+         "extreme" = dispatch_extreme)(x, ...)
 }
 
 dispatch_contour = function(x, ...) {
@@ -38,7 +37,8 @@ dispatch_extreme = function(x, ...) {
 
 
 
-#' @rdname ovb_contour_plot
+#' test
+#' @param ... test
 #' @export
 ovb_contour_plot = function(...) {
   UseMethod("ovb_contour_plot")
@@ -50,7 +50,6 @@ ovb_contour_plot = function(...) {
 
 #' @importFrom graphics contour points text
 #' @importFrom stats coef
-#' @rdname ovb_contour_plot
 #' @export
 ovb_contour_plot.numeric = function(estimate,
                                     se,
@@ -59,7 +58,6 @@ ovb_contour_plot.numeric = function(estimate,
                                     estimate.threshold = 0,
                                     r2dz.x = NULL,
                                     r2yz.dx = NULL,
-                                    bound_value = NULL,
                                     bound_label = "",
                                     type = c("estimate", "t-value"),
                                     t.threshold = 2,
@@ -89,6 +87,14 @@ ovb_contour_plot.numeric = function(estimate,
     threshold = estimate.threshold
     plot_estimate = estimate
 
+    if (!is.null(r2dz.x))
+      bound_value <- adjusted_estimate(estimate = estimate,
+                                       se = se,
+                                       dof = dof,
+                                       r2dz.x = r2dz.x,
+                                       r2yz.dx = r2yz.dx,
+                                       reduce = reduce)
+
   }
 
   if (type == "t-value") {
@@ -97,6 +103,15 @@ ovb_contour_plot.numeric = function(estimate,
                      se = se, dof = dof, estimate = estimate))
     threshold = t.threshold
     plot_estimate = estimate / se
+
+    if (!is.null(r2dz.x))
+      bound_value <- adjusted_t(estimate = estimate,
+                                se = se,
+                                dof = dof,
+                                r2dz.x = r2dz.x,
+                                r2yz.dx = r2yz.dx,
+                                reduce = reduce)
+
   }
 
   out = list(r2dz.x = grid_values,
@@ -140,6 +155,7 @@ ovb_contour_plot.numeric = function(estimate,
 
     error_r2(r2dz.x = r2dz.x, r2yz.dx = r2yz.dx)
 
+
     add_bound_to_contour(r2dz.x = r2dz.x,
                          r2yz.dx = r2yz.dx,
                          bound_value = bound_value,
@@ -155,7 +171,7 @@ ovb_contour_plot.numeric = function(estimate,
 }
 
 
-#' @rdname ovb_contour_plot
+
 #' @export
 ovb_contour_plot.lm = function(model,
                                treatment,
@@ -184,7 +200,7 @@ ovb_contour_plot.lm = function(model,
   if (!is.character(treatment)) stop("Argument treatment must be a string.")
   if (length(treatment) > 1) stop("You must pass only one treatment")
 
-  model_data <- model_helper(model, covariate = treatment)
+  model_data <- model_helper(model, covariates = treatment)
   estimate <- model_data$estimate
   se <- model_data$se
   dof <- model_data$dof
@@ -203,14 +219,6 @@ ovb_contour_plot.lm = function(model,
                                kd = kd,
                                ky = ky)
     bounds <- rbind(bounds, bench_bounds)
-    if (type == "estimate") {
-      bound_value = bounds$adjusted_estimate
-    }
-
-    if (type == "t-value") {
-      bound_value = bounds$adjusted_t
-    }
-
   }
 
   ovb_contour_plot(estimate = estimate,
@@ -220,7 +228,6 @@ ovb_contour_plot.lm = function(model,
                estimate.threshold = estimate.threshold,
                r2dz.x = bounds$r2dz.x,
                r2yz.dx = bounds$r2yz.dx,
-               bound_value = bound_value,
                bound_label = bounds$bound_label,
                type = type,
                t.threshold = t.threshold,
@@ -235,7 +242,7 @@ ovb_contour_plot.lm = function(model,
 
 }
 
-#' @rdname ovb_contour_plot
+
 #' @export
 ovb_contour_plot.formula = function(formula,
                                     data,
@@ -289,70 +296,7 @@ ovb_contour_plot.formula = function(formula,
 
 
 
-#' @rdname ovb_contour_plot
-#' @export
-ovb_contour_plot.sensemakr = function(x, ...,
-                                  lim = c(0, 0.4, 0.001),
-                                  nlevels = 20,
-                                  type = c("estimate", "t-value"),
-                                  col.contour = "grey40",
-                                  col.line = "red",
-                                  multipliers_y = c(1, 2, 3),
-                                  multipliers_d = multipliers_y
-) {
-  args = list(...)
-  type <- match.arg(type)
-  # Whether or not to thread through a benchmark
-  if (!is.null(x$benchmark)) {
-    # Either we grab all the benchmarks, or if user has asked for
-    # some in specific, we grab those. We don't want the same benchmark
-    # twice, so we do a 1:1 match
-    indices = ifelse(!"benchmark_covariate" %in% names(args),
-                     seq.int(nrow(x$benchmark)),
-                     which(x$benchmark[, "variable"] %in%
-                             args[["benchmark_covariate"]]))
 
-    benchmark_covariate = x$benchmark[indices, "variable"]
-    benchmark_r2dz.x = x$benchmark[indices, "r2dz.x"]
-    benchmark_r2yz.dx = x$benchmark[indices, "r2yz.dx"]
-
-    # Zap the old one so the ellipsis argument below doesn't pass this
-    args[["benchmark_covariate"]] = NULL
-  } else {
-    benchmark_covariate = NULL
-    benchmark_r2dz.x = NULL
-    benchmark_r2yz.dx = NULL
-  }
-
-  # Why the unusual call style? We modify the ellipsis arg, `...`. If the
-  # resulting call uses ..., it won't use the modified version, so
-  # benchmark_covariate will exist both as a named argument and as part of the
-  # ellipsis. If we pass args as the final argument, it won't work as an
-  # ellipsis. So, we're going to use do.call to pass the list of arguments in
-  # order and named the way we expect. We do this by creating a merged list of
-  # the arguments we would pass and the revised ellipsis from the parent call.
-  new_args = c(
-    list(
-      estimate = x$treatment_effect[1],
-      se = x$treatment_effect[2],
-      dof = x$dof,
-      r2dz.x = benchmark_r2dz.x,
-      r2yz.dx = benchmark_r2yz.dx,
-      benchmark_covariate = benchmark_covariate,
-      lim = lim,
-      nlevels = nlevels,
-      type = type,
-      col.contour = col.contour,
-      col.line = col.line,
-      multipliers_y = multipliers_y,
-      multipliers_d = multipliers_d
-    ),
-    args
-  )
-
-  # Call plot.
-  do.call(contour_plot, new_args)
-}
 
 
 add_bound_to_contour <- function(r2dz.x,
@@ -385,7 +329,9 @@ add_bound_to_contour <- function(r2dz.x,
 
 # extreme plot ------------------------------------------------------------
 
-#' @rdname ovb_extreme_plot
+
+#' test
+#' @param ... test
 #' @export
 ovb_extreme_plot <- function(...){
   UseMethod("ovb_extreme_plot")
@@ -393,7 +339,6 @@ ovb_extreme_plot <- function(...){
 }
 
 #' @importFrom graphics abline lines legend rug plot
-#' @rdname ovb_extreme_plot
 #' @export
 ovb_extreme_plot.numeric = function(estimate,
                                     se,
@@ -468,7 +413,7 @@ ovb_extreme_plot.numeric = function(estimate,
   return(invisible(out))
 }
 
-#' @rdname ovb_extreme_plot
+
 #' @export
 ovb_extreme_plot.lm <- function(model,
                                 treatment,
@@ -484,7 +429,7 @@ ovb_extreme_plot.lm <- function(model,
   if (!is.character(treatment)) stop("Argument treatment must be a string.")
   if (length(treatment) > 1) stop("You must pass only one treatment")
 
-  model_data <- model_helper(model, covariate = treatment)
+  model_data <- model_helper(model, covariates = treatment)
   estimate <- model_data$estimate
   se <- model_data$se
   dof <- model_data$dof
@@ -495,8 +440,7 @@ ovb_extreme_plot.lm <- function(model,
                            treatment = treatment,
                            benchmark_covariates = benchmark_covariates,
                            kd = kd,
-                           ky = 1 ,
-                           bound_type = "partial r2")
+                           ky = 1)
 
       r2dz.x <- c(r2dz.x, bounds$r2dz.x)
 
@@ -519,7 +463,7 @@ ovb_extreme_plot.lm <- function(model,
 }
 
 
-#' @rdname ovb_extreme_plot
+
 #' @export
 ovb_extreme_plot.formula = function(formula,
                                     data,
@@ -560,48 +504,6 @@ ovb_extreme_plot.formula = function(formula,
 }
 
 
-#' @rdname ovb_extreme_plot
-#' @export
-ovb_extreme_plot.sensemakr = function(x,
-                                  lim = NULL,
-                                  scenarios = c(1, 0.75, 0.5),
-                                  cex.legend = 0.5,
-                                  ...) {
-  calls = list(...)
-
-  if (is.null(x$benchmark) && !"r2d" %in% names(calls)) {
-    stop("`sensemakr` objects used to create extreme value plots must have a ",
-         "benchmark covariate specified.")
-  }
-
-  if ("r2d" %in% names(calls)) {
-    if (!is.null(x$benchmark)) {
-      message("User specified `r2d` parameter, overriding `sensemakr` ",
-              "benchmarks and using specified `r2d` parameter")
-    }
-
-    ovb_extreme_plot(
-      estimate = x$treatment_effect[1],
-      se = x$treatment_effect[2],
-      dof = x$dof,
-      lim = lim,
-      scenarios = scenarios,
-      cex.legend = cex.legend,
-      ...
-    )
-  } else {
-    ovb_extreme_plot(
-      estimate = x$treatment_effect[1],
-      se = x$treatment_effect[2],
-      dof = x$dof,
-      r2dz.x = x$benchmark[, "r2dz.x"],
-      lim = lim,
-      scenarios = scenarios,
-      cex.legend = cex.legend,
-      ...
-    )
-  }
-}
 
 
 # sanity checkers ---------------------------------------------------------

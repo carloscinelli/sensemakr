@@ -76,24 +76,18 @@ check_covariates <- function(all_names, covariates){
 
 # partial r2 --------------------------------------------------------------
 
-
-#' The RV (robustness value), partial R^2, and partial f^2
-#'
-#' Statistics for OVB.
-#'
-#' @rdname partial_r2
+#' test
+#' @param ... test
 #' @export
 partial_r2 = function(...) {
   UseMethod("partial_r2")
 }
 
-#' @rdname partial_r2
 #' @export
 partial_r2.numeric <- function(t_statistic, dof, ...){
   t_statistic^2 / (t_statistic^2 + dof)
 }
 
-#' @rdname partial_r2
 #' @export
 partial_r2.lm = function(model, covariates = NULL, ...) {
 
@@ -119,13 +113,14 @@ partial_r2.default = function(model) {
 # group_partial_r2 --------------------------------------------------------
 
 
-#' @rdname partial_r2
+#' test
+#' @param ... test
 #' @export
 group_partial_r2 <- function(...){
   UseMethod("group_partial_r2")
 }
 
-#' @rdname partial_r2
+
 #' @export
 group_partial_r2.numeric <- function(f_statistic, p, dof, ...){
   r2 <- f_statistic*p / (f_statistic*p + dof)
@@ -133,7 +128,7 @@ group_partial_r2.numeric <- function(f_statistic, p, dof, ...){
   r2
 }
 
-#' @rdname partial_r2
+
 #' @export
 group_partial_r2.lm <- function(model, covariates, ...){
   if (missing(covariates)) stop("Argument covariates missing.")
@@ -164,21 +159,20 @@ group_partial_r2.lm <- function(model, covariates, ...){
 
 # partial f2 --------------------------------------------------------------
 
-#'
-#'
-#' @rdname partial_f2
+#' test
+#' @param ... test
 #' @export
 partial_f2 = function(...) {
   UseMethod("partial_f2")
 }
 
-#' @rdname partial_f2
+
 #' @export
 partial_f2.numeric <- function(t_statistic, dof, ...){
   t_statistic^2 / dof
 }
 
-#' @rdname partial_f2
+
 #' @export
 partial_f2.lm = function(model, covariates = NULL, ...) {
   # extract model data
@@ -199,6 +193,8 @@ partial_r2.default = function(model, ...) {
 }
 
 
+#' test
+#' @param ... test
 #' @export
 partial_f = function(...) sqrt(partial_f2(...))
 
@@ -206,7 +202,10 @@ partial_f = function(...) sqrt(partial_f2(...))
 # robustness value --------------------------------------------------------
 
 
-#' @rdname robustness_value
+#' test
+#' @param ... test
+#' @param q test
+#' @param alpha test
 #' @export
 robustness_value = function(..., q = 1, alpha = NULL) {
 
@@ -217,7 +216,7 @@ robustness_value = function(..., q = 1, alpha = NULL) {
   UseMethod("robustness_value")
 }
 
-#' @rdname robustness_value
+
 #' @export
 robustness_value.numeric <- function(t_statistic, dof, q =1, alpha = NULL, ...){
 
@@ -243,30 +242,7 @@ robustness_value.numeric <- function(t_statistic, dof, q =1, alpha = NULL, ...){
 
 
 
-#' Calculates the RV (robustness value)
-#'
-#'
-#' @param model An `lm` object which will be used to produce a robustness value
-#' @param t_statistic In lieu of supplying `model` and `covariates`, supply the
-#' t-statistic of the treatment effect and `dof`
-#' @param dof In lieu of supplying `model` and `covariates`, supply the residual
-#' degrees of freedom of a model and `t_statistic`.
-#' @param covariates A quoted character string describing the name of the
-#' treatment covariates in the model object.
-#' @param q A numeric fraction between 0 and 1 describing q% attenuation of the
-#' observed treatment effect, defaults to 1 (complete attenuation)
-#' @param alpha If specified, denotes a (1 - alpha) confidence interval used to
-#' calculate the RV. If specified, the RV will reflect the percentage of
-#' residual variation in the treatment/outcome that must be explained in order
-#' for a (1 - alpha) confidence interval about the effect to cross the critical
-#' threshold implied by `q`. If left empty or NULL, the point estimate must
-#' cross the critical threshold.
-#' @param ... Additional parameters, not currently used.
-#'
-#' @examples
-#' @return A q-robustness value, which is a number from 0 to 1.
-#' @importFrom stats qt
-#' @rdname robustness_value
+
 #' @export
 robustness_value.lm = function(model,
                                covariates = NULL,
@@ -292,9 +268,6 @@ robustness_value.default = function(model, ...) {
 }
 
 
-#' @rdname robustness_value
-#' @export
-rv <- robustness_value
 
 #' @export
 print.rv <- function(x, ...){
@@ -309,6 +282,11 @@ print.rv <- function(x, ...){
 
 # sensitivity stats -------------------------------------------------------
 
+#' test
+#' @param model test
+#' @param treatment test
+#' @param q test
+#' @param alpha test
 #' @export
 sensitivity_stats <- function(model,
                               treatment,
