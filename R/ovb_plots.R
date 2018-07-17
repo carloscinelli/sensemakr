@@ -57,7 +57,7 @@ ovb_contour_plot.numeric = function(estimate,
                                     reduce = TRUE,
                                     estimate.threshold = 0,
                                     r2dz.x = NULL,
-                                    r2yz.dx = NULL,
+                                    r2yz.dx = r2dz.x,
                                     bound_label = "",
                                     type = c("estimate", "t-value"),
                                     t.threshold = 2,
@@ -181,7 +181,7 @@ ovb_contour_plot.lm = function(model,
                                reduce = TRUE,
                                estimate.threshold = 0,
                                r2dz.x = NULL,
-                               r2yz.dx = NULL,
+                               r2yz.dx = r2dz.x,
                                bound_label = NULL,
                                type = c("estimate", "t-value"),
                                t.threshold = 2,
@@ -205,10 +205,15 @@ ovb_contour_plot.lm = function(model,
   se <- model_data$se
   dof <- model_data$dof
 
-
-  bounds <-  data.frame(r2dz.x = r2dz.x,
-                        r2yz.dx = r2yz.dx,
-                        bound_label = bound_label)
+  if (!is.null(r2dz.x)) {
+    error_r2(r2dz.x = r2dz.x, r2yz.dx = r2yz.dx)
+    bounds <-  data.frame(r2dz.x = r2dz.x,
+                          r2yz.dx = r2yz.dx,
+                          bound_label = bound_label,
+                          stringsAsFactors = FALSE)
+  } else{
+    bounds <-  NULL
+  }
 
   if (!is.null(benchmark_covariates)) {
 
@@ -217,27 +222,28 @@ ovb_contour_plot.lm = function(model,
                                treatment = treatment,
                                benchmark_covariates = benchmark_covariates,
                                kd = kd,
-                               ky = ky)
+                               ky = ky,
+                               adjusted_estimates = FALSE)
     bounds <- rbind(bounds, bench_bounds)
   }
 
   ovb_contour_plot(estimate = estimate,
-               se = se,
-               dof = dof,
-               reduce = reduce,
-               estimate.threshold = estimate.threshold,
-               r2dz.x = bounds$r2dz.x,
-               r2yz.dx = bounds$r2yz.dx,
-               bound_label = bounds$bound_label,
-               type = type,
-               t.threshold = t.threshold,
-               lim = lim,
-               nlevels = nlevels,
-               col.contour = col.contour,
-               col.thr.line = col.thr.line,
-               label.text = label.text,
-               label.bump = label.bump,
-               ...)
+                   se = se,
+                   dof = dof,
+                   reduce = reduce,
+                   estimate.threshold = estimate.threshold,
+                   r2dz.x = bounds$r2dz.x,
+                   r2yz.dx = bounds$r2yz.dx,
+                   bound_label = bounds$bound_label,
+                   type = type,
+                   t.threshold = t.threshold,
+                   lim = lim,
+                   nlevels = nlevels,
+                   col.contour = col.contour,
+                   col.thr.line = col.thr.line,
+                   label.text = label.text,
+                   label.bump = label.bump,
+                   ...)
 
 
 }
@@ -252,6 +258,9 @@ ovb_contour_plot.formula = function(formula,
                                     ky = kd,
                                     reduce = TRUE,
                                     estimate.threshold = 0,
+                                    r2dz.x = NULL,
+                                    r2yz.dx = r2dz.x,
+                                    bound_label = NULL,
                                     type = c("estimate", "t-value"),
                                     t.threshold = 2,
                                     lim = c(0, 0.4, 0.001),
@@ -260,19 +269,16 @@ ovb_contour_plot.formula = function(formula,
                                     col.thr.line = "red",
                                     label.text = TRUE,
                                     ...) {
-  if (is.null(treatment) || !treatment %in% all.vars(formula) ||
-      (!is.null(data) && !treatment %in% colnames(data)) ||
-      (is.null(data) && !exists(as.character(treatment)))
-  ) {
-    stop("You must provide a `treatment` variable present in the model ",
-         "`formula` and `data` data frame.")
-  }
-  if (!is.null(data) && (!is.data.frame(data) || nrow(data) < 1)) {
-    stop("The provided `data` argument must be a data frame with at least ",
-         "one row.")
-  }
+
+  check_formula(treatment = treatment,
+                formula = formula,
+                data = data)
+
+  error_multipliers(ky = ky,
+                    kd = kd)
+
   type <- match.arg(type)
-  error_multipliers(ky = ky, kd = kd)
+
 
   lm.call <- call("lm", formula = substitute(formula), data = substitute(data))
   outcome_model = eval(lm.call)
@@ -284,6 +290,9 @@ ovb_contour_plot.formula = function(formula,
                    ky = ky,
                    reduce = reduce,
                    estimate.threshold = estimate.threshold,
+                   r2dz.x = r2dz.x,
+                   r2yz.dx = r2dz.x,
+                   bound_label = bound_label,
                    type = type,
                    t.threshold = t.threshold,
                    lim = lim,
@@ -295,17 +304,22 @@ ovb_contour_plot.formula = function(formula,
 }
 
 
+#' test
+#' @param ... test
+#' @export
+add_bound_to_contour <- function(...){
+  UseMethod("add_bound_to_contour")
+}
 
 
-
-
-add_bound_to_contour <- function(r2dz.x,
-                                 r2yz.dx,
-                                 bound_value,
-                                 bound_label = NULL,
-                                 label.text = TRUE,
-                                 label.bump = 0.02,
-                                 ...){
+#' @export
+add_bound_to_contour.numeric <- function(r2dz.x,
+                                         r2yz.dx,
+                                         bound_value,
+                                         bound_label = NULL,
+                                         label.text = TRUE,
+                                         label.bump = 0.02,
+                                         ...){
 
   for (i in seq.int(length(r2dz.x))) {
 
@@ -324,6 +338,67 @@ add_bound_to_contour <- function(r2dz.x,
            cex = 1.1, font = 1)
   }
 
+}
+
+#' @export
+add_bound_to_contour.lm <- function(model,
+                                    treatment,
+                                    benchmark_covariates,
+                                    kd = 1,
+                                    ky = kd,
+                                    reduce = TRUE,
+                                    type = c("estimate", "t-value"),
+                                    label.text = TRUE,
+                                    label.bump = 0.02,
+                                    ...)
+{
+  type <- match.arg(type)
+  # we will need to add an option for the bound type
+  bounds <- ovb_bounds(model = model,
+                       treatment = treatment,
+                       benchmark_covariates = benchmark_covariates,
+                       kd = kd,
+                       ky = ky,
+                       adjusted_estimates = TRUE,
+                       reduce = reduce)
+
+  if (type == "estimate") {
+    bound_value <- bounds$adjusted_estimate
+  }
+
+  if (type == "t-value") {
+    bound_value <- bounds$adjusted_t
+  }
+  add_bound_to_contour(r2dz.x = bounds$r2dz.x,
+                       r2yz.dx = bounds$r2yz.dx,
+                       bound_value = bound_value,
+                       bound_label = bounds$bound_label,
+                       label.text = label.text,
+                       label.bump = label.bump, ...)
+}
+
+#' @export
+ovb_contour_plot.sensemakr <- function(x, ...){
+
+  if (is.null(x$bounds)) {
+    r2dz.x <- NULL
+    r2yz.dx <- NULL
+    bound_label = ""
+  } else {
+    r2dz.x <- x$bounds$r2dz.x
+    r2yz.dx <- x$bounds$r2yz.dx
+    bound_label = x$bounds$bound_label
+  }
+
+  with(x,
+       ovb_contour_plot(estimate = sensitivity_stats$estimate,
+                        se = sensitivity_stats$se,
+                        dof = sensitivity_stats$dof,
+                        r2dz.x = r2dz.x,
+                        r2yz.dx = r2yz.dx,
+                        bound_label = bound_label, ...)
+
+       )
 }
 
 
@@ -476,17 +551,9 @@ ovb_extreme_plot.formula = function(formula,
                                     threshold = 0,
                                     lim = min(c(r2dz.x + 0.1, 0.5)),
                                     cex.legend = 0.5, ...) {
-  if (is.null(treatment) || !treatment %in% all.vars(formula) ||
-      (!is.null(data) && !treatment %in% colnames(data)) ||
-      (is.null(data) && !exists(as.character(treatment)))
-  ) {
-    stop("You must provide a `treatment` variable present in the model ",
-         "`formula` and `data` data frame.")
-  }
-  if (!is.null(data) && (!is.data.frame(data) || nrow(data) < 1)) {
-    stop("The provided `data` argument must be a data frame with at least ",
-         "one row.")
-  }
+  check_formula(treatment = treatment,
+                formula = formula,
+                data = data)
 
   lm.call <- call("lm", formula = substitute(formula), data = substitute(data))
   outcome_model = eval(lm.call)
@@ -503,10 +570,47 @@ ovb_extreme_plot.formula = function(formula,
                    cex.legend = cex.legend, ...)
 }
 
+#' @export
+ovb_extreme_plot.sensemakr <- function(x, r2yz.dx = c(1, 0.75, 0.5), ...){
 
+  if (is.null(x$bounds)) {
+    r2dz.x <- NULL
+    bound_label = ""
+  } else {
+    r2dz.x <- x$bounds$r2dz.x
+    bound_label = x$bounds$bound_label
+  }
+
+  with(x,
+       ovb_extreme_plot(estimate = sensitivity_stats$estimate,
+                        se = sensitivity_stats$se,
+                        dof = sensitivity_stats$dof,
+                        r2dz.x = r2dz.x,
+                        r2yz.dx = r2yz.dx,
+                        ...)
+
+  )
+}
 
 
 # sanity checkers ---------------------------------------------------------
+
+
+check_formula <- function(treatment, formula, data) {
+
+  if (is.null(treatment) || !treatment %in% all.vars(formula) ||
+      (!is.null(data) && !treatment %in% colnames(data)) ||
+      (is.null(data) && !exists(as.character(treatment)))
+  ) {
+    stop("You must provide a `treatment` variable present in the model ",
+         "`formula` and `data` data frame.")
+  }
+  if (!is.null(data) && (!is.data.frame(data) || nrow(data) < 1)) {
+    stop("The provided `data` argument must be a data frame with at least ",
+         "one row.")
+  }
+
+}
 
 
 

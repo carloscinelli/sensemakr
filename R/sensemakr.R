@@ -7,18 +7,99 @@
 #' @name sensemakr-package
 NULL
 
+#' test
+#' @param ... test
+#' @export
+sensemakr <- function(...){
+  UseMethod("sensemakr")
+}
 
-
+#' @export
+#' @importFrom stats formula
 sensemakr.lm <- function(model,
                          treatment,
                          benchmark_covariates = NULL,
                          kd = 1,
                          ky = kd,
                          q = 1,
-                         alpha = 0.05
-                         ){
+                         alpha = 0.05,
+                         r2dz.x = NULL,
+                         r2yz.dx = NULL,
+                         bound_label = "",
+                         reduce = TRUE,
+                         ...){
+  out <- list()
+  out$info <- list(formula = formula(model),
+                   treatment = treatment,
+                   q = q,
+                   alpha = alpha,
+                   reduce = reduce)
 
+  # senstivity statistics
+  out$sensitivity_stats <- sensitivity_stats(model = model,
+                                             treatment = treatment,
+                                             q = q,
+                                             alpha = alpha)
+  # bounds on ovb
+  if (!is.null(r2dz.x)) {
+    error_r2(r2dz.x = r2dz.x, r2yz.dx = r2yz.dx)
+    out$bounds <-  data.frame(r2dz.x = r2dz.x,
+                              r2yz.dx = r2yz.dx,
+                              bound_label = bound_label,
+                              stringsAsFactors = FALSE)
+  } else{
+    bounds <-  NULL
+  }
+
+  if (!is.null(benchmark_covariates)) {
+    bench_bounds <- ovb_bounds(model = model,
+                               treatment = treatment,
+                               benchmark_covariates = benchmark_covariates,
+                               kd = kd,
+                               ky = ky,
+                               q = q,
+                               alpha = alpha,
+                               reduce = reduce)
+    out$bounds <- rbind(bounds, bench_bounds)
+  }
+
+  class(out) <- "sensemakr"
+
+  return(out)
 }
+
+#' @export
+sensemakr.formula <- function(formula,
+                              data,
+                              treatment,
+                              benchmark_covariates = NULL,
+                              kd = 1,
+                              ky = kd,
+                              q = 1,
+                              alpha = 0.05,
+                              reduce = TRUE,
+                              ...){
+  check_formula(treatment = treatment,
+                formula = formula,
+                data = data)
+
+  error_multipliers(ky = ky,
+                    kd = kd)
+
+
+  lm.call <- call("lm", formula = substitute(formula), data = substitute(data))
+  outcome_model = eval(lm.call)
+
+  sensemakr(model = outcome_model,
+            treatment = treatment,
+            benchmark_covariates = benchmark_covariates,
+            kd = kd,
+            ky = ky,
+            q = q,
+            alpha = alpha,
+            reduce = reduce, ...)
+}
+
 
 #' #' Create a sensemakr object
 #' #'

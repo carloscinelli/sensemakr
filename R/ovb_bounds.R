@@ -142,7 +142,9 @@ ovb_bounds.lm <- function(model,
                           kd = 1,
                           ky = kd,
                           reduce = TRUE,
-                          bound = c("partial r2", "partial r2 no D", "total r2"),...) {
+                          bound = c("partial r2", "partial r2 no D", "total r2"),
+                          adjusted_estimates = TRUE,
+                          ...) {
 
   bound = match.arg(bound)
 
@@ -157,23 +159,25 @@ ovb_bounds.lm <- function(model,
                     kd = kd,
                     ky = ky)
 
-  # compute adjusted effects
-  bounds$adjusted_estimate = adjusted_estimate(model = model,
-                                               treatment = treatment,
-                                               r2yz.dx = bounds$r2yz.dx,
-                                               r2dz.x = bounds$r2dz.x,
-                                               reduce = reduce)
+  if (adjusted_estimates) {
+    # compute adjusted effects
+    bounds$adjusted_estimate = adjusted_estimate(model = model,
+                                                 treatment = treatment,
+                                                 r2yz.dx = bounds$r2yz.dx,
+                                                 r2dz.x = bounds$r2dz.x,
+                                                 reduce = reduce)
 
-  bounds$adjusted_se = adjusted_se(model = model,
+    bounds$adjusted_se = adjusted_se(model = model,
+                                     treatment = treatment,
+                                     r2yz.dx = bounds$r2yz.dx,
+                                     r2dz.x = bounds$r2dz.x)
+
+    bounds$adjusted_t = adjusted_t(model = model,
                                    treatment = treatment,
                                    r2yz.dx = bounds$r2yz.dx,
-                                   r2dz.x = bounds$r2dz.x)
-
-  bounds$adjusted_t = adjusted_t(model = model,
-                                 treatment = treatment,
-                                 r2yz.dx = bounds$r2yz.dx,
-                                 r2dz.x = bounds$r2dz.x,
-                                 reduce = reduce)
+                                   r2dz.x = bounds$r2dz.x,
+                                   reduce = reduce)
+  }
   bounds
 }
 

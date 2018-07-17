@@ -84,7 +84,7 @@ adjusted_estimate.numeric <- function(estimate, se, dof, r2dz.x, r2yz.dx,  reduc
   }
 
   if (!reduce) {
-    new_estimate <- sign(estimate)*(abs(estimate) + bias(r2yz.dx, r2dz.x, se, dof))
+    new_estimate <- sign(estimate)*(abs(estimate) + bias(r2yz.dx = r2yz.dx, r2dz.x = r2dz.x, se = se, dof = dof))
   }
 
   new_estimate

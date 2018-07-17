@@ -80,11 +80,6 @@ test_that("contour plot tests", {
                           r2dz.x = 0.3,
                           r2yz.dx = "hello"))
 
-  # Specified one and not the other
-  expect_error(ovb_contour_plot(estimate = 2,
-                            se = 0.5,
-                            dof = 200,
-                            r2dz.x = 0.3))
 
   # invalid confounder
   expect_error(ovb_contour_plot(model = lm.out,

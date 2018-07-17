@@ -4,16 +4,10 @@
 \alias{sensitivity_stats}
 \title{test}
 \usage{
-sensitivity_stats(model, treatment, q = 1, alpha = 0.05)
+sensitivity_stats(...)
 }
 \arguments{
-\item{model}{test}
-
-\item{treatment}{test}
-
-\item{q}{test}
-
-\item{alpha}{test}
+\item{...}{test}
 }
 \description{
 test
