@@ -132,20 +132,40 @@ ovb_bounds <- function(model,
                        benchmark_covariates,
                        kd = 1,
                        ky = kd,
-                       bound_type = c("partial r2", "partial r2 no D", "total r2")) {
+                       reduce = TRUE,
+                       bound = c("partial r2", "partial r2 no D", "total r2")) {
 
-  bound_type = match.arg(bound_type)
+  bound = match.arg(bound)
 
-  bounder = switch(bound_type,
+  bounder = switch(bound,
                    "partial r2" = ovb_partial_r2_bound,
                    "partial r2 no D" = stop("Only partial r2 implemented now."),
                    "total r2" = stop("Only partial r2 implemented now."))
 
-  bounder(model = model,
-          treatment = treatment,
-          benchmark_covariates = benchmark_covariates,
-          kd = kd,
-          ky = ky)
+  bounds <- bounder(model = model,
+                    treatment = treatment,
+                    benchmark_covariates = benchmark_covariates,
+                    kd = kd,
+                    ky = ky)
+
+  # compute adjusted effects
+  bounds$adjusted_estimate = adjusted_estimate(model = model,
+                                               treatment = treatment,
+                                               r2yz.dx = bounds$r2yz.dx,
+                                               r2dz.x = bounds$r2dz.x,
+                                               reduce = reduce)
+
+  bounds$adjusted_se = adjusted_se(model = model,
+                                   treatment = treatment,
+                                   r2yz.dx = bounds$r2yz.dx,
+                                   r2dz.x = bounds$r2dz.x)
+
+  bounds$adjusted_t = adjusted_t(model = model,
+                                 treatment = treatment,
+                                 r2yz.dx = bounds$r2yz.dx,
+                                 r2dz.x = bounds$r2dz.x,
+                                 reduce = reduce)
+  bounds
 }
 
 label_maker <- function(benchmark_covariate, kd, ky) {

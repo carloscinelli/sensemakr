@@ -31,7 +31,7 @@ model_helper.lm = function(model, covariates = NULL) {
   if (!is.null(covariates)) coefs <- coefs[covariates, ,drop = FALSE]
 
   list(
-    estimates = coefs[, "Estimate"],
+    estimate = coefs[, "Estimate"],
     se = coefs[, "Std. Error"],
     t_statistics = coefs[, "t value"],
     dof = model$df.residual
@@ -311,25 +311,23 @@ print.rv <- function(x, ...){
 # ovb_table ---------------------------------------------------------------
 
 #' @export
-ovb_table <- function(model,
-                      treatment,
-                      benchmark_covariates = NULL,
-                      kd = 1,
-                      ky = kd,
-                      q = 1,
-                      alpha = 0.05){
+sensitivity_stats <- function(model,
+                              treatment,
+                              q = 1,
+                              alpha = 0.05)
+{
 
   model_data <- model_helper(model, covariates = treatment)
-  ovb_table <- data.frame(treatment = treatment)
-  ovb_table[["estimate"]] <- model_data$estimate
-  ovb_table[["se"]] <- model_data$se
-  ovb_table[["t_statistic"]] <- model_data$t_statistic
-  ovb_table[["r2yd.x"]] <- partial_r2(t_statistic = model_data$t_statistic, dof = model_data$dof)
-  ovb_table[["rv_q"]] <- robustness_value(t_statistic = model_data$t_statistic, dof = model_data$dof, q = q)
-  ovb_table[["rv_qa"]] <- robustness_value(t_statistic = model_data$t_statistic, dof = model_data$dof, q = q, alpha = alpha)
-  ovb_table[["f2yd.x"]] <- partial_f2(t_statistic = model_data$t_statistic, dof = model_data$dof)
-  ovb_table[["dof"]] <- model_data$dof
-  ovb_table
+  sensitivity_stats <- data.frame(treatment = treatment)
+  sensitivity_stats[["estimate"]] <- model_data$estimate
+  sensitivity_stats[["se"]] <- model_data$se
+  sensitivity_stats[["t_statistic"]] <- model_data$t_statistic
+  sensitivity_stats[["r2yd.x"]] <- partial_r2(t_statistic = model_data$t_statistic, dof = model_data$dof)
+  sensitivity_stats[["rv_q"]] <- robustness_value(t_statistic = model_data$t_statistic, dof = model_data$dof, q = q)
+  sensitivity_stats[["rv_qa"]] <- robustness_value(t_statistic = model_data$t_statistic, dof = model_data$dof, q = q, alpha = alpha)
+  sensitivity_stats[["f2yd.x"]] <- partial_f2(t_statistic = model_data$t_statistic, dof = model_data$dof)
+  sensitivity_stats[["dof"]] <- model_data$dof
+  sensitivity_stats
 }
 
 

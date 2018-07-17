@@ -24,7 +24,7 @@ bias.numeric = function(se, dof, r2dz.x, r2yz.dx,  ...) {
 
 #' @rdname bias
 #' @export
-bias.lm <- function(model, treatment,  r2dz.x, r2yz.dx){
+bias.lm <- function(model, treatment,  r2dz.x, r2yz.dx, ...){
   # extract model data
   model_data <- model_helper(model, covariates = treatment)
   with(model_data, bias(se = se, dof = dof, r2dz.x = r2dz.x, r2yz.dx = r2yz.dx))
@@ -51,7 +51,7 @@ adjusted_se.numeric = function(se, dof, r2dz.x, r2yz.dx, ...) {
 
 #' @rdname bias
 #' @export
-adjusted_se.lm <- function(model, treatment,  r2dz.x, r2yz.dx){
+adjusted_se.lm <- function(model, treatment,  r2dz.x, r2yz.dx, ...){
   # extract model data
   model_data <- model_helper(model, covariates = treatment)
   with(model_data, adjusted_se(se = se, dof = dof, r2dz.x = r2dz.x, r2yz.dx = r2yz.dx))
@@ -67,7 +67,7 @@ adjusted_estimate <- function(...){
 
 #' @rdname bias
 #' @export
-adjusted_estimate <- function(estimate, se, dof, r2dz.x, r2yz.dx,  reduce = TRUE, ...){
+adjusted_estimate.numeric <- function(estimate, se, dof, r2dz.x, r2yz.dx,  reduce = TRUE, ...){
   if (!is.numeric(estimate) || length(estimate) > 1) {
     stop("Estimate provided must be a single number.")
   }
@@ -89,7 +89,7 @@ adjusted_estimate <- function(estimate, se, dof, r2dz.x, r2yz.dx,  reduce = TRUE
 
 #' @rdname bias
 #' @export
-adjusted_estimate.lm <- function(model, treatment,  r2dz.x, r2yz.dx){
+adjusted_estimate.lm <- function(model, treatment,  r2dz.x, r2yz.dx, reduce = TRUE, ...){
   # extract model data
   model_data <- model_helper(model, covariates = treatment)
   with(model_data, adjusted_estimate(estimate = estimate, se = se, dof = dof, r2dz.x = r2dz.x, r2yz.dx = r2yz.dx, reduce = reduce))
@@ -117,7 +117,7 @@ adjusted_t.numeric = function(estimate, se, dof, r2dz.x, r2yz.dx, reduce = TRUE,
 
 #' @rdname bias
 #' @export
-adjusted_t.lm <- function(model, treatment,  r2dz.x, r2yz.dx){
+adjusted_t.lm <- function(model, treatment,  r2dz.x, r2yz.dx, reduce = TRUE, ...){
   # extract model data
   model_data <- model_helper(model, covariates = treatment)
   with(model_data, adjusted_t(estimate = estimate, se = se, dof = dof, r2dz.x = r2dz.x, r2yz.dx = r2yz.dx, reduce = reduce))

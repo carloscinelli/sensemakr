@@ -59,8 +59,9 @@ ovb_contour_plot.numeric = function(estimate,
                                     estimate.threshold = 0,
                                     r2dz.x = NULL,
                                     r2yz.dx = NULL,
+                                    bound_value = NULL,
                                     bound_label = "",
-                                    plot_t = FALSE,
+                                    type = c("estimate", "t-value"),
                                     t.threshold = 2,
                                     lim = c(0, 0.4, 0.001),
                                     nlevels = 20,
@@ -72,22 +73,30 @@ ovb_contour_plot.numeric = function(estimate,
 
   error_estimate(estimate)
   error_limit(lim)
+  type <- match.arg(type)
 
   # Set up the grid for the contour plot
   grid_values = seq(lim[1], lim[2], by = lim[3])
 
   # Are we plotting t or bias in r2?
-  if (!plot_t) {
+  if (type == "estimate") {
     z_axis = t(outer(grid_values, grid_values,
                      FUN = "adjusted_estimate",
                      estimate = estimate,
                      se = se,
                      dof = dof,
                      reduce = reduce))
-  } else {
+    threshold = estimate.threshold
+    plot_estimate = estimate
+
+  }
+
+  if (type == "t-value") {
     z_axis = t(outer(grid_values, grid_values,
                      FUN = "adjusted_t",
                      se = se, dof = dof, estimate = estimate))
+    threshold = t.threshold
+    plot_estimate = estimate / se
   }
 
   out = list(r2dz.x = grid_values,
@@ -98,7 +107,6 @@ ovb_contour_plot.numeric = function(estimate,
   # the zero curve, and override that contour curve with alternate aesthetic
   # characteristics
   default_levels = pretty(range(z_axis), nlevels)
-  threshold = ifelse(plot_t, t.threshold, estimate.threshold)
   line_color = ifelse(default_levels == threshold,
                       col.thr.line,
                       col.contour)
@@ -120,7 +128,7 @@ ovb_contour_plot.numeric = function(estimate,
 
   # Add the point of the initial estimate.
   points(0, 0, pch = 17, col = "black", cex = 1)
-  plot_estimate = ifelse(plot_t, estimate / se, estimate)
+
   text(0.0, 0.02,
        paste0("Unadjusted\n(",
               signif(plot_estimate, 2),
@@ -132,15 +140,11 @@ ovb_contour_plot.numeric = function(estimate,
 
     error_r2(r2dz.x = r2dz.x, r2yz.dx = r2yz.dx)
 
-    add_bound_to_contour(estimate = estimate,
-                         se = se,
-                         dof = dof,
-                         treatment = treatment,
-                         benchmark_covariate = covariate,
-                         r2dz.x = r2dz.x,
+    add_bound_to_contour(r2dz.x = r2dz.x,
                          r2yz.dx = r2yz.dx,
+                         bound_value = bound_value,
                          bound_label = bound_label,
-                         plot_t = plot_t,
+                         type = type,
                          label.text = label.text,
                          label.bump = label.bump)
     out$bounds = data.frame(r2dz.x = r2dz.x,
@@ -163,7 +167,7 @@ ovb_contour_plot.lm = function(model,
                                r2dz.x = NULL,
                                r2yz.dx = NULL,
                                bound_label = NULL,
-                               plot_t = FALSE,
+                               type = c("estimate", "t-value"),
                                t.threshold = 2,
                                lim = c(0, 0.4, 0.001),
                                nlevels = 20,
@@ -175,7 +179,7 @@ ovb_contour_plot.lm = function(model,
 
 
   error_multipliers(ky = ky, kd = kd)
-
+  type <- match.arg(type)
   # extract model data
   if (!is.character(treatment)) stop("Argument treatment must be a string.")
   if (length(treatment) > 1) stop("You must pass only one treatment")
@@ -199,6 +203,14 @@ ovb_contour_plot.lm = function(model,
                                kd = kd,
                                ky = ky)
     bounds <- rbind(bounds, bench_bounds)
+    if (type == "estimate") {
+      bound_value = bounds$adjusted_estimate
+    }
+
+    if (type == "t-value") {
+      bound_value = bounds$adjusted_t
+    }
+
   }
 
   ovb_contour_plot(estimate = estimate,
@@ -208,8 +220,9 @@ ovb_contour_plot.lm = function(model,
                estimate.threshold = estimate.threshold,
                r2dz.x = bounds$r2dz.x,
                r2yz.dx = bounds$r2yz.dx,
+               bound_value = bound_value,
                bound_label = bounds$bound_label,
-               plot_t = plot_t,
+               type = type,
                t.threshold = t.threshold,
                lim = lim,
                nlevels = nlevels,
@@ -232,7 +245,7 @@ ovb_contour_plot.formula = function(formula,
                                     ky = kd,
                                     reduce = TRUE,
                                     estimate.threshold = 0,
-                                    plot_t = FALSE,
+                                    type = c("estimate", "t-value"),
                                     t.threshold = 2,
                                     lim = c(0, 0.4, 0.001),
                                     nlevels = 20,
@@ -251,7 +264,7 @@ ovb_contour_plot.formula = function(formula,
     stop("The provided `data` argument must be a data frame with at least ",
          "one row.")
   }
-
+  type <- match.arg(type)
   error_multipliers(ky = ky, kd = kd)
 
   lm.call <- call("lm", formula = substitute(formula), data = substitute(data))
@@ -264,7 +277,7 @@ ovb_contour_plot.formula = function(formula,
                    ky = ky,
                    reduce = reduce,
                    estimate.threshold = estimate.threshold,
-                   plot_t = plot_t,
+                   type = type,
                    t.threshold = t.threshold,
                    lim = lim,
                    nlevels = nlevels,
@@ -281,14 +294,14 @@ ovb_contour_plot.formula = function(formula,
 ovb_contour_plot.sensemakr = function(x, ...,
                                   lim = c(0, 0.4, 0.001),
                                   nlevels = 20,
-                                  plot_t = FALSE,
+                                  type = c("estimate", "t-value"),
                                   col.contour = "grey40",
                                   col.line = "red",
                                   multipliers_y = c(1, 2, 3),
                                   multipliers_d = multipliers_y
 ) {
   args = list(...)
-
+  type <- match.arg(type)
   # Whether or not to thread through a benchmark
   if (!is.null(x$benchmark)) {
     # Either we grab all the benchmarks, or if user has asked for
@@ -328,7 +341,7 @@ ovb_contour_plot.sensemakr = function(x, ...,
       benchmark_covariate = benchmark_covariate,
       lim = lim,
       nlevels = nlevels,
-      plot_t = plot_t,
+      type = type,
       col.contour = col.contour,
       col.line = col.line,
       multipliers_y = multipliers_y,
@@ -342,14 +355,10 @@ ovb_contour_plot.sensemakr = function(x, ...,
 }
 
 
-add_bound_to_contour <- function(estimate,
-                                 se,
-                                 dof,
-                                 treatment,
-                                 benchmark_covariate,
-                                 r2dz.x, r2yz.dx,
+add_bound_to_contour <- function(r2dz.x,
+                                 r2yz.dx,
+                                 bound_value,
                                  bound_label = NULL,
-                                 plot_t = FALSE,
                                  label.text = TRUE,
                                  label.bump = 0.02,
                                  ...){
@@ -362,20 +371,7 @@ add_bound_to_contour <- function(estimate,
            pch = 23, col = "black", bg = "red",
            cex = 1, font = 1)
 
-    # Get the attenuation of the effect
-    if (!plot_t) {
-      adjusted_estimate = adjusted_estimate(estimate,
-                                            r2yz.dx = r2yz.dx[i],
-                                            r2dz.x = r2dz.x[i],
-                                            se = se, dof = dof)
-    } else {
-      adjusted_estimate = adjusted_t(r2yz.dx = r2yz.dx[i],
-                                     r2dz.x = r2dz.x[i],
-                                     estimate = estimate,
-                                     se = se, dof = dof)
-    }
-
-    label = paste0(bound_label[i], "\n(", signif(adjusted_estimate, 2), ")")
+    label = paste0(bound_label[i], "\n(", signif(bound_value[i], 2), ")")
 
     # Add the label text
     if (label.text)

@@ -48,8 +48,17 @@ ovb_extreme_plot(estimate = 0.09731582,se = 0.02325654, dof = 783, r2dz = 0.1, r
 names(darfur)
 test <- ovb_contour_plot(lm.out, treatment = "directlyharmed")
 str(test)
+
+test <- ovb_contour_plot(lm.out, treatment = "directlyharmed", type = "t-value")
+str(test)
+
 test2 <- ovb_contour_plot(lm.out, treatment = "directlyharmed", benchmark_covariates = "female", kd = 1:3)
 str(test2)
+
+test2 <- ovb_contour_plot(lm.out, treatment = "directlyharmed", benchmark_covariates = "female", kd = 1:3,
+                          type = "t-value")
+str(test2)
+
 
 test3 <- ovb_extreme_plot(lm.out, treatment = "directlyharmed")
 str(test3)
@@ -118,4 +127,4 @@ ovb_bounds(lm.out, treatment = "directlyharmed",
 
 
 ovb_bounds(lm.out, treatment = "directlyharmed",
-           benchmark_covariates = "female", kd = 1)
+           benchmark_covariates = c("female","age"), kd = 1:3)
