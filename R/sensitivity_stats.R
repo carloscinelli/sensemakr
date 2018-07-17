@@ -1,6 +1,4 @@
-
-# General Statistics ------------------------------------------------------
-
+# General Sensitivity Statistics ------------------------------------------
 
 # model helpers -----------------------------------------------------------
 
@@ -308,7 +306,8 @@ print.rv <- function(x, ...){
   if (!is.null(alpha)) cat(", alpha =", alpha,"\n")
 }
 
-# ovb_table ---------------------------------------------------------------
+
+# sensitivity stats -------------------------------------------------------
 
 #' @export
 sensitivity_stats <- function(model,

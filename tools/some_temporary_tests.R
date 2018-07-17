@@ -125,6 +125,7 @@ partial_r2(lm.out, covariates = "female")
 ovb_bounds(lm.out, treatment = "directlyharmed",
            benchmark_covariates = "female", kd = 1)
 
+sensitivity_stats(lm.out, treatment = "directlyharmed")
 
 ovb_bounds(lm.out, treatment = "directlyharmed",
            benchmark_covariates = c("female","age"), kd = 1:3)
