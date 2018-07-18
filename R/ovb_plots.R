@@ -59,7 +59,7 @@ ovb_contour_plot.numeric = function(estimate,
                                     r2dz.x = NULL,
                                     r2yz.dx = r2dz.x,
                                     bound_label = "",
-                                    type = c("estimate", "t-value"),
+                                    sensitivity.of = c("estimate", "t-value"),
                                     t.threshold = 2,
                                     lim = c(0, 0.4, 0.001),
                                     nlevels = 20,
@@ -71,19 +71,19 @@ ovb_contour_plot.numeric = function(estimate,
 
   error_estimate(estimate)
   error_limit(lim)
-  type <- match.arg(type)
+  sensitivity.of <- match.arg(sensitivity.of)
 
   # Set up the grid for the contour plot
   grid_values = seq(lim[1], lim[2], by = lim[3])
 
   # Are we plotting t or bias in r2?
-  if (type == "estimate") {
-    z_axis = t(outer(grid_values, grid_values,
+  if (sensitivity.of == "estimate") {
+    z_axis = outer(grid_values, grid_values,
                      FUN = "adjusted_estimate",
                      estimate = estimate,
                      se = se,
                      dof = dof,
-                     reduce = reduce))
+                     reduce = reduce)
     threshold = estimate.threshold
     plot_estimate = estimate
 
@@ -97,10 +97,10 @@ ovb_contour_plot.numeric = function(estimate,
 
   }
 
-  if (type == "t-value") {
-    z_axis = t(outer(grid_values, grid_values,
+  if (sensitivity.of == "t-value") {
+    z_axis = outer(grid_values, grid_values,
                      FUN = "adjusted_t",
-                     se = se, dof = dof, estimate = estimate))
+                     se = se, dof = dof, estimate = estimate)
     threshold = t.threshold
     plot_estimate = estimate / se
 
@@ -160,7 +160,7 @@ ovb_contour_plot.numeric = function(estimate,
                          r2yz.dx = r2yz.dx,
                          bound_value = bound_value,
                          bound_label = bound_label,
-                         type = type,
+                         sensitivity.of = sensitivity.of,
                          label.text = label.text,
                          label.bump = label.bump)
     out$bounds = data.frame(r2dz.x = r2dz.x,
@@ -183,7 +183,7 @@ ovb_contour_plot.lm = function(model,
                                r2dz.x = NULL,
                                r2yz.dx = r2dz.x,
                                bound_label = NULL,
-                               type = c("estimate", "t-value"),
+                               sensitivity.of = c("estimate", "t-value"),
                                t.threshold = 2,
                                lim = c(0, 0.4, 0.001),
                                nlevels = 20,
@@ -195,7 +195,7 @@ ovb_contour_plot.lm = function(model,
 
 
   error_multipliers(ky = ky, kd = kd)
-  type <- match.arg(type)
+  sensitivity.of <- match.arg(sensitivity.of)
   # extract model data
   if (!is.character(treatment)) stop("Argument treatment must be a string.")
   if (length(treatment) > 1) stop("You must pass only one treatment")
@@ -235,7 +235,7 @@ ovb_contour_plot.lm = function(model,
                    r2dz.x = bounds$r2dz.x,
                    r2yz.dx = bounds$r2yz.dx,
                    bound_label = bounds$bound_label,
-                   type = type,
+                   sensitivity.of = sensitivity.of,
                    t.threshold = t.threshold,
                    lim = lim,
                    nlevels = nlevels,
@@ -261,7 +261,7 @@ ovb_contour_plot.formula = function(formula,
                                     r2dz.x = NULL,
                                     r2yz.dx = r2dz.x,
                                     bound_label = NULL,
-                                    type = c("estimate", "t-value"),
+                                    sensitivity.of = c("estimate", "t-value"),
                                     t.threshold = 2,
                                     lim = c(0, 0.4, 0.001),
                                     nlevels = 20,
@@ -277,7 +277,7 @@ ovb_contour_plot.formula = function(formula,
   error_multipliers(ky = ky,
                     kd = kd)
 
-  type <- match.arg(type)
+  sensitivity.of <- match.arg(sensitivity.of)
 
 
   lm.call <- call("lm", formula = substitute(formula), data = substitute(data))
@@ -293,7 +293,7 @@ ovb_contour_plot.formula = function(formula,
                    r2dz.x = r2dz.x,
                    r2yz.dx = r2dz.x,
                    bound_label = bound_label,
-                   type = type,
+                   sensitivity.of = sensitivity.of,
                    t.threshold = t.threshold,
                    lim = lim,
                    nlevels = nlevels,
@@ -347,12 +347,12 @@ add_bound_to_contour.lm <- function(model,
                                     kd = 1,
                                     ky = kd,
                                     reduce = TRUE,
-                                    type = c("estimate", "t-value"),
+                                    sensitivity.of = c("estimate", "t-value"),
                                     label.text = TRUE,
                                     label.bump = 0.02,
                                     ...)
 {
-  type <- match.arg(type)
+  sensitivity.of <- match.arg(sensitivity.of)
   # we will need to add an option for the bound type
   bounds <- ovb_bounds(model = model,
                        treatment = treatment,
@@ -362,11 +362,11 @@ add_bound_to_contour.lm <- function(model,
                        adjusted_estimates = TRUE,
                        reduce = reduce)
 
-  if (type == "estimate") {
+  if (sensitivity.of == "estimate") {
     bound_value <- bounds$adjusted_estimate
   }
 
-  if (type == "t-value") {
+  if (sensitivity.of == "t-value") {
     bound_value <- bounds$adjusted_t
   }
   add_bound_to_contour(r2dz.x = bounds$r2dz.x,
@@ -378,7 +378,9 @@ add_bound_to_contour.lm <- function(model,
 }
 
 #' @export
-ovb_contour_plot.sensemakr <- function(x, ...){
+ovb_contour_plot.sensemakr <- function(x, sensitivity.of = c("estimate", "t-value"), ...){
+
+  sensitivity.of <- match.arg(sensitivity.of)
 
   if (is.null(x$bounds)) {
     r2dz.x <- NULL
@@ -396,7 +398,9 @@ ovb_contour_plot.sensemakr <- function(x, ...){
                         dof = sensitivity_stats$dof,
                         r2dz.x = r2dz.x,
                         r2yz.dx = r2yz.dx,
-                        bound_label = bound_label, ...)
+                        bound_label = bound_label,
+                        sensitivity.of = sensitivity.of,
+                        ...)
 
        )
 }
