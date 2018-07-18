@@ -457,11 +457,11 @@ ovb_extreme_plot.numeric = function(estimate,
   # }
   if (lim > 1) {
     lim <- 1
-    warning("Contour limit larger than 1 was set to 1.")
+    warning("Plot limit larger than 1 was set to 1.")
   }
   if (lim < 0) {
     lim <- 0.4
-    warning("Contour limit less than 0 was set to 0.4.")
+    warning("Plot limit less than 0 was set to 0.4.")
   }
 
   # x-axis values: R^2 of confounder(s) with treatment
@@ -538,11 +538,11 @@ ovb_extreme_plot.lm <- function(model,
 
   if (lim > 1) {
     lim <- 1
-    warning("Contour limit larger than 1 was set to 1.")
+    warning("Plot limit larger than 1 was set to 1.")
   }
   if (lim < 0) {
     lim <- 0.4
-    warning("Contour limit less than 0 was set to 0.4.")
+    warning("Plot limit less than 0 was set to 0.4.")
   }
 
 
