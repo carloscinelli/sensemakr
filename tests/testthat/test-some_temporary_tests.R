@@ -50,14 +50,14 @@ ovb_extreme_plot(estimate = 0.09731582,se = 0.02325654, dof = 783, r2dz = 0.1, r
 test <- ovb_contour_plot(lm.out, treatment = "directlyharmed")
 str(test)
 
-test <- ovb_contour_plot(lm.out, treatment = "directlyharmed", type = "t-value")
+test <- ovb_contour_plot(lm.out, treatment = "directlyharmed", sensitivity.of = "t-value")
 str(test)
 
 test2 <- ovb_contour_plot(lm.out, treatment = "directlyharmed", benchmark_covariates = "female", kd = 1:3)
 str(test2)
 
 test2 <- ovb_contour_plot(lm.out, treatment = "directlyharmed", benchmark_covariates = "female", kd = 1:3,
-                          type = "t-value")
+                          sensitivity.of = "t-value")
 str(test2)
 
 

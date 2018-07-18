@@ -19,19 +19,6 @@ test_that("contour plot tests", {
   # Missing DOF
   expect_error(ovb_contour_plot(estimate = 2, se = 0.5))
 
-  # Misspecified lim
-  expect_error(ovb_contour_plot(estimate = 2, se = 0.5,
-                          dof = 200,
-                          lim = c(1, 1, 1, 1)))
-
-  expect_error(ovb_contour_plot(estimate = 2, se = 0.5,
-                          dof = 200,
-                          lim = c(1, 0, 0.2)))
-
-  expect_error(ovb_contour_plot(estimate = 2, se = 0.5,
-                          dof = 200,
-                          lim = c(-1, 2, 0.3)))
-
   # Misspecified multipliers
   expect_error(ovb_contour_plot(lm.out,
                                 treatment = "directlyharmed",

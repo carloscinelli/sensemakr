@@ -70,7 +70,15 @@ ovb_contour_plot.numeric = function(estimate,
                                     ...) {
 
   error_estimate(estimate)
-  if (lim > 1) lim <- 1
+  if (lim > 1) {
+    lim <- 1
+    warning("Contour limit larger than 1 was set to 1.")
+  }
+  if (lim < 0) {
+    lim <- 0.4
+    warning("Contour limit less than 0 was set to 0.4.")
+  }
+
   sensitivity.of <- match.arg(sensitivity.of)
 
   # Set up the grid for the contour plot
@@ -195,7 +203,15 @@ ovb_contour_plot.lm = function(model,
 
 
   error_multipliers(ky = ky, kd = kd)
-  if (lim > 1) lim <- 1
+  if (lim > 1) {
+    lim <- 1
+    warning("Contour limit larger than 1 was set to 1.")
+  }
+  if (lim < 0) {
+    lim <- 0.4
+    warning("Contour limit less than 0 was set to 0.4.")
+  }
+
   sensitivity.of <- match.arg(sensitivity.of)
   # extract model data
   if (!is.character(treatment)) stop("Argument treatment must be a string.")
@@ -439,6 +455,14 @@ ovb_extreme_plot.numeric = function(estimate,
   #   }
   #   lim = max(r2dz.x, na.rm = TRUE) + 0.1
   # }
+  if (lim > 1) {
+    lim <- 1
+    warning("Contour limit larger than 1 was set to 1.")
+  }
+  if (lim < 0) {
+    lim <- 0.4
+    warning("Contour limit less than 0 was set to 0.4.")
+  }
 
   # x-axis values: R^2 of confounder(s) with treatment
   r2d_values = seq(0, lim, by = 0.001)
@@ -507,9 +531,20 @@ ovb_extreme_plot.lm <- function(model,
                                 threshold = 0,
                                 lim = min(c(r2dz.x + 0.1, 0.5)),
                                 cex.legend = 0.5, ...){
+
   # extract model data
   if (!is.character(treatment)) stop("Argument treatment must be a string.")
   if (length(treatment) > 1) stop("You must pass only one treatment")
+
+  if (lim > 1) {
+    lim <- 1
+    warning("Contour limit larger than 1 was set to 1.")
+  }
+  if (lim < 0) {
+    lim <- 0.4
+    warning("Contour limit less than 0 was set to 0.4.")
+  }
+
 
   model_data <- model_helper(model, covariates = treatment)
   estimate <- model_data$estimate
