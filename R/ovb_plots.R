@@ -61,7 +61,7 @@ ovb_contour_plot.numeric = function(estimate,
                                     bound_label = "",
                                     sensitivity.of = c("estimate", "t-value"),
                                     t.threshold = 2,
-                                    lim = c(0, 0.4, 0.001),
+                                    lim = max(c(0.4,r2dz.x,r2yz.dx)),
                                     nlevels = 20,
                                     col.contour = "grey40",
                                     col.thr.line = "red",
@@ -70,11 +70,11 @@ ovb_contour_plot.numeric = function(estimate,
                                     ...) {
 
   error_estimate(estimate)
-  error_limit(lim)
+  if (lim > 1) lim <- 1
   sensitivity.of <- match.arg(sensitivity.of)
 
   # Set up the grid for the contour plot
-  grid_values = seq(lim[1], lim[2], by = lim[3])
+  grid_values = seq(0, lim, by = lim/400)
 
   # Are we plotting t or bias in r2?
   if (sensitivity.of == "estimate") {
@@ -185,7 +185,7 @@ ovb_contour_plot.lm = function(model,
                                bound_label = NULL,
                                sensitivity.of = c("estimate", "t-value"),
                                t.threshold = 2,
-                               lim = c(0, 0.4, 0.001),
+                               lim = 0.4,
                                nlevels = 20,
                                col.contour = "grey40",
                                col.thr.line = "red",
@@ -195,6 +195,7 @@ ovb_contour_plot.lm = function(model,
 
 
   error_multipliers(ky = ky, kd = kd)
+  if (lim > 1) lim <- 1
   sensitivity.of <- match.arg(sensitivity.of)
   # extract model data
   if (!is.character(treatment)) stop("Argument treatment must be a string.")
@@ -211,6 +212,7 @@ ovb_contour_plot.lm = function(model,
                           r2yz.dx = r2yz.dx,
                           bound_label = bound_label,
                           stringsAsFactors = FALSE)
+    lim <- max(c(lim, r2dz.x, r2yz.dx))
   } else{
     bounds <-  NULL
   }
@@ -225,6 +227,7 @@ ovb_contour_plot.lm = function(model,
                                ky = ky,
                                adjusted_estimates = FALSE)
     bounds <- rbind(bounds, bench_bounds)
+    lim <- max(c(lim, bounds$r2dz.x, bounds$r2yz.dx))
   }
 
   ovb_contour_plot(estimate = estimate,
@@ -263,7 +266,7 @@ ovb_contour_plot.formula = function(formula,
                                     bound_label = NULL,
                                     sensitivity.of = c("estimate", "t-value"),
                                     t.threshold = 2,
-                                    lim = c(0, 0.4, 0.001),
+                                    lim = 0.4,
                                     nlevels = 20,
                                     col.contour = "grey40",
                                     col.thr.line = "red",
@@ -648,15 +651,6 @@ error_r2 = function(r2dz.x, r2yz.dx) {
   if (!is.null(r2yz.dx) &&
      any(!is.numeric(r2yz.dx) | r2yz.dx < 0 | r2yz.dx > 1)) {
     stop("`r2yz.dx` must be a number between zero and one, if provided")
-  }
-}
-
-error_limit = function(lim) {
-  # Error if our grid limit is wrong.
-  if (any(!is.numeric(lim) | lim < 0 | lim > 1) ||
-     lim[2] <= lim[1] ||
-     length(lim) != 3) {
-    stop("Plot grid must consist of three numbers: lim = c(start, end, by)")
   }
 }
 
