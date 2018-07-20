@@ -67,6 +67,7 @@ ovb_contour_plot.numeric = function(estimate,
                                     col.thr.line = "red",
                                     label.text = TRUE,
                                     label.bump = 0.02,
+                                    label.bump2 = 0.00,
                                     ...) {
 
   error_estimate(estimate)
@@ -152,7 +153,7 @@ ovb_contour_plot.numeric = function(estimate,
   # Add the point of the initial estimate.
   points(0, 0, pch = 17, col = "black", cex = 1)
 
-  text(0.0, 0.02,
+  text(0.0 + label.bump2, 0.02 + label.bump,
        paste0("Unadjusted\n(",
               signif(plot_estimate, 2),
               ")"),
