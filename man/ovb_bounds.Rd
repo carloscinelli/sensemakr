@@ -2,13 +2,40 @@
 % Please edit documentation in R/ovb_bounds.R
 \name{ovb_bounds}
 \alias{ovb_bounds}
-\title{test}
+\alias{ovb_bounds.lm}
+\title{Bounds on the strength of unobserved confounders using observed covariates}
 \usage{
 ovb_bounds(...)
+
+\method{ovb_bounds}{lm}(model, treatment, benchmark_covariates, kd = 1,
+  ky = kd, reduce = TRUE, bound = c("partial r2", "partial r2 no D",
+  "total r2"), adjusted_estimates = TRUE, ...)
 }
 \arguments{
-\item{...}{test}
+\item{...}{arguments passed to other methods. First argument should either be an \code{\link{lm}} model with the
+outcome regression, or a \code{\link{formula}} describing the model along
+with the \code{\link{data.frame}} containing the variables of the model.}
+
+\item{model}{an \code{lm} object with the outcome regression.}
+
+\item{treatment}{a character vector with the name of the treatment variable of the model.}
+
+\item{benchmark_covariates}{a character vector of the names of covariates that will be used to bound the plausible strength
+of the unobserved confounders.}
+
+\item{kd}{numeric vector. Parameterizes how many times stronger the confounder is related to the treatment in comparison to the observed benchmark covariates.
+Default value is \code{1}.}
+
+\item{ky}{numeric vector. Parameterizes how many times stronger the confounder is related to the outcome in comparison to the observed benchmark covariates.
+Default value is the same as \code{kd}.}
+
+\item{reduce}{should the bias adjustment reduce or increase the absolute value of the estimated coefficient? Default is \code{TRUE}.}
+
+\item{bound}{type of bounding procedure. Currently only \code{"partial r2"} is implemented.}
+
+\item{adjusted_estimates}{should the bounder also compute the adjusted estimates?
+Default is \code{TRUE}.}
 }
 \description{
-test
+Bounds on the strength of unobserved confounders using observed covariates
 }

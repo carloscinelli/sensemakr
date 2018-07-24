@@ -250,35 +250,23 @@ partial_f = function(...) sqrt(partial_f2(...))
 
 # sensitivity stats -------------------------------------------------------
 
-#' test
-#' @param ... test
+#' Sensitivity statistics for regression coefficients
+#'
+#'
+#' @description
+#' Convenience function that computes the \code{\link{robustness_value}},
+#' \code{\link{partial_r2}} and \code{\link{partial_f2}} of the coefficient of interest. It
+#' returns a \code{data.frame} with all quantities of interest.
+#'
+#' @inheritParams adjusted_estimate
 #' @export
 sensitivity_stats <- function(...){
   UseMethod("sensitivity_stats")
 }
 
-#' @export
-sensitivity_stats.numeric <- function(estimate,
-                                      se,
-                                      dof,
-                                      treatment = "treatment",
-                                      q = 1,
-                                      alpha = 0.05,
-                                      t_statistic = estimate/se, ...)
-{
-  sensitivity_stats <- data.frame(treatment = treatment, stringsAsFactors = FALSE)
-  sensitivity_stats[["estimate"]] <- estimate
-  sensitivity_stats[["se"]] <- se
-  sensitivity_stats[["t_statistic"]] <- t_statistic
-  sensitivity_stats[["r2yd.x"]] <- as.numeric(partial_r2(t_statistic = t_statistic, dof = dof))
-  sensitivity_stats[["rv_q"]] <- as.numeric(robustness_value(t_statistic = t_statistic, dof = dof, q = q))
-  sensitivity_stats[["rv_qa"]] <- as.numeric(robustness_value(t_statistic = t_statistic, dof = dof, q = q, alpha = alpha))
-  sensitivity_stats[["f2yd.x"]] <- as.numeric(partial_f2(t_statistic = t_statistic, dof = dof))
-  sensitivity_stats[["dof"]] <- dof
-  sensitivity_stats
-}
-
-
+#' @inheritParams adjusted_estimate
+#' @inheritParams robustness_value
+#' @rdname sensitivity_stats
 #' @export
 sensitivity_stats.lm <- function(model,
                                  treatment,
@@ -296,6 +284,32 @@ sensitivity_stats.lm <- function(model,
                                                           t_statistics = t_statistic))
   sensitivity_stats
 }
+
+#' @inheritParams adjusted_estimate
+#' @rdname sensitivity_stats
+#' @export
+sensitivity_stats.numeric <- function(estimate,
+                                      se,
+                                      dof,
+                                      treatment = "treatment",
+                                      q = 1,
+                                      alpha = 0.05,
+                                      ...)
+{
+  t_statistic <- estimate/se
+  sensitivity_stats <- data.frame(treatment = treatment, stringsAsFactors = FALSE)
+  sensitivity_stats[["estimate"]] <- estimate
+  sensitivity_stats[["se"]] <- se
+  sensitivity_stats[["t_statistic"]] <- t_statistic
+  sensitivity_stats[["r2yd.x"]] <- as.numeric(partial_r2(t_statistic = t_statistic, dof = dof))
+  sensitivity_stats[["rv_q"]] <- as.numeric(robustness_value(t_statistic = t_statistic, dof = dof, q = q))
+  sensitivity_stats[["rv_qa"]] <- as.numeric(robustness_value(t_statistic = t_statistic, dof = dof, q = q, alpha = alpha))
+  sensitivity_stats[["f2yd.x"]] <- as.numeric(partial_f2(t_statistic = t_statistic, dof = dof))
+  sensitivity_stats[["dof"]] <- dof
+  sensitivity_stats
+}
+
+
 
 
 # sanity checkers ---------------------------------------------------------

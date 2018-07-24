@@ -2,13 +2,38 @@
 % Please edit documentation in R/sensitivity_stats.R
 \name{sensitivity_stats}
 \alias{sensitivity_stats}
-\title{test}
+\alias{sensitivity_stats.lm}
+\alias{sensitivity_stats.numeric}
+\title{Sensitivity statistics for regression coefficients}
 \usage{
 sensitivity_stats(...)
+
+\method{sensitivity_stats}{lm}(model, treatment, q = 1, alpha = 0.05, ...)
+
+\method{sensitivity_stats}{numeric}(estimate, se, dof,
+  treatment = "treatment", q = 1, alpha = 0.05, ...)
 }
 \arguments{
-\item{...}{test}
+\item{...}{arguments passed to other methods. First argument should either be an \code{lm} model with the
+outcome regression or a numeric vector with the coefficient estimate.}
+
+\item{model}{an \code{lm} object with the outcome regression.}
+
+\item{treatment}{a character vector with the name of the treatment variable of the model.}
+
+\item{q}{hypothesized proportion of bias relative to original estimate due to unobserved confounders,
+used for computation of the robustness value. It has to be greater than zero. Default is \code{1}.}
+
+\item{alpha}{significance level used for computation of the robustness value. Default is \code{0.05}.}
+
+\item{estimate}{coefficient estimate.}
+
+\item{se}{standard error of the coefficient estimate.}
+
+\item{dof}{residual degrees of freedom of the regression.}
 }
 \description{
-test
+Convenience function that computes the \code{\link{robustness_value}},
+\code{\link{partial_r2}} and \code{\link{partial_f2}} of the coefficient of interest. It
+returns a \code{data.frame} with all quantities of interest.
 }

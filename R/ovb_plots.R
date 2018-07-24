@@ -29,16 +29,18 @@ plot.sensemakr = function(x,
                                        ...)
 }
 
-dispatch_contour = function(x, ...) {
+dispatch_contour = function(x, sensitivity.of = c("estimate", "t-value"), ...) {
   # Use dispatcher rather than direct call so we can allow modifying call if
   # necessary
-  ovb_contour_plot(x, ...)
+  sensitivity.of <- match.arg(sensitivity.of)
+  ovb_contour_plot(x, sensitivity.of = sensitivity.of, ...)
 }
 
-dispatch_extreme = function(x, ...) {
+dispatch_extreme = function(x, sensitivity.of = c("estimate", "t-value"), ...) {
   # Use dispatcher rather than direct call so we can allow modifying call if
   # necessary
-  ovb_extreme_plot(x, ...)
+  sensitivity.of <- match.arg(sensitivity.of)
+  ovb_extreme_plot(x, sensitivity.of = sensitivity.of, ...)
 }
 
 
@@ -289,7 +291,7 @@ ovb_contour_plot.numeric = function(estimate,
                                     reduce = TRUE,
                                     estimate.threshold = 0,
                                     t.threshold = 2,
-                                    lim = max(c(0.4,r2dz.x+0.1,r2yz.dx+0.1)),
+                                    lim = max(c(0.4, r2dz.x+0.1,r2yz.dx+0.1)),
                                     nlevels = 20,
                                     col.contour = "grey40",
                                     col.thr.line = "red",

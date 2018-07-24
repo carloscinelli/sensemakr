@@ -130,13 +130,19 @@ ovb_partial_r2_bound.lm <- function(model,
 
 #  workhorse for any bounding type
 
-#' test
-#' @param ... test
+#' Bounds on the strength of unobserved confounders using observed covariates
+#'
+#' @inheritParams sensemakr
 #' @export
 ovb_bounds <- function(...){
   UseMethod("ovb_bounds")
 }
 
+#' @inheritParams ovb_contour_plot
+#' @rdname ovb_bounds
+#' @param bound type of bounding procedure. Currently only \code{"partial r2"} is implemented.
+#' @param adjusted_estimates should the bounder also compute the adjusted estimates?
+#' Default is \code{TRUE}.
 #' @export
 ovb_bounds.lm <- function(model,
                           treatment,
