@@ -17,13 +17,11 @@
   largely between 2003-2004. 529 respondents report being personally injured,
   while 747 do not report being injured.}
   \item{age}{Age of respondent in whole integer years. Ages in the data
-  range from 18 to 100. This variable is pre-treatment.}
+  range from 18 to 100.}
   \item{farmer_dar}{Binary variable indicating the respondent was a farmer in
-  Darfur. 1,051 respondents were farmers, 225 were not. This variable is
-  pre-treatment.}
+  Darfur. 1,051 respondents were farmers, 225 were not.}
   \item{herder_dar}{Binary variable indicating the respondent was a herder in
-  Darfur. 190 respondents were farmers, 1,086 were not. This variable is
-  pre-treatment.}
+  Darfur. 190 respondents were farmers, 1,086 were not.}
   \item{pastvoted}{Binary variable indicating the respondent reported having
   voted in a previous election before the conflict. 821 respondents reported
   having voted in a previous election, 455 reported not having voted in a
@@ -32,27 +30,25 @@
   \item{village}{Factor variable indicating village of respondent. 486
   unique villages are accounted for in the data.}
   \item{female}{Binary variable indicating the respondent is
-  female-identified. 582 respondents are female-identified, 694 are not.
-  This variable is pre-treatment.}
+  female-identified. 582 respondents are female-identified, 694 are not.}
 }}
 \usage{
 darfur
 }
 \description{
 Data on attitudes of Darfurian refugees in eastern Chad. The key "treatment"
-variable is `directharm`, which indicates that individual was physically
+variable is \code{directharm}, which indicates that individual was physically
 injured during attacks on villages in Darfur, largely between 2003 and 2004.
-Hazlett (2017) argues that conditional on gender and village who is injured
-is effectively random.  This is because injury was caused by either
-indiscriminate bombing, or by militia. The latter are thought to have used
-violence indiscriminately as well, with the purpose of driving the
-population out, not targeting individuals of a particular type.
+
+Key  covariates include \code{herder_dar}
+(whether they were a herder in Darfur), \code{farmer_dar} (whether they were a
+farmer in Darfur), \code{age}, \code{female} (indicator for female), and
+\code{past_voted} (whether they report having voted in an earlier election,
+prior to the conflict).
 }
-\details{
-Key covariates that are sure to be pre-treatment include `herder_dar`
-(whether they were a herder in Darfur), `farmer_dar` (whether they were a
-farmer in Darfur), `age`, `female` (indicator for female), and
-`past_voted` (whether they report having voted in an earlier election,
-prior to the conflict.)
+\references{
+Cinelli, C. and Hazlett, C. "Making Sense of Sensitivity: Extending Omitted Variable Bias." (2018)
+
+Hazlett, C. (2013). Angry or weary? The effect of personal violence on attitudes towards peace in darfur. Working Paper.
 }
 \keyword{datasets}
