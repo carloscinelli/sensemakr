@@ -5,7 +5,7 @@
 \alias{ovb_contour_plot.lm}
 \alias{ovb_contour_plot.formula}
 \alias{ovb_contour_plot.numeric}
-\title{test}
+\title{Contour plots of omitted variable bias}
 \usage{
 ovb_contour_plot(...)
 
@@ -65,7 +65,7 @@ or adjusted t-values (\code{"t-value"})?}
 
 \item{t.threshold}{threshold for plot of adjusted t-value.}
 
-\item{lim}{limits of the contour plot.}
+\item{lim}{sets limit of the plot.}
 
 \item{nlevels}{number of levels to contour plot.}
 
@@ -90,5 +90,5 @@ or adjusted t-values (\code{"t-value"})?}
 \item{dof}{residual degrees of freedom of the regression.}
 }
 \description{
-test
+Contour plots of omitted variable bias
 }

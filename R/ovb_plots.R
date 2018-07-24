@@ -31,13 +31,61 @@ dispatch_extreme = function(x, ...) {
 }
 
 
+#' @export
+ovb_contour_plot.sensemakr <- function(x, sensitivity.of = c("estimate", "t-value"), ...){
 
+  sensitivity.of <- match.arg(sensitivity.of)
+
+  if (is.null(x$bounds)) {
+    r2dz.x <- NULL
+    r2yz.dx <- NULL
+    bound_label = ""
+  } else {
+    r2dz.x <- x$bounds$r2dz.x
+    r2yz.dx <- x$bounds$r2yz.dx
+    bound_label = x$bounds$bound_label
+  }
+
+  with(x,
+       ovb_contour_plot(estimate = sensitivity_stats$estimate,
+                        se = sensitivity_stats$se,
+                        dof = sensitivity_stats$dof,
+                        r2dz.x = r2dz.x,
+                        r2yz.dx = r2yz.dx,
+                        bound_label = bound_label,
+                        sensitivity.of = sensitivity.of,
+                        ...)
+
+  )
+}
+
+#' @export
+ovb_extreme_plot.sensemakr <- function(x, r2yz.dx = c(1, 0.75, 0.5), ...){
+
+  if (is.null(x$bounds)) {
+    r2dz.x <- NULL
+    bound_label = ""
+  } else {
+    r2dz.x <- x$bounds$r2dz.x
+    bound_label = x$bounds$bound_label
+  }
+
+  with(x,
+       ovb_extreme_plot(estimate = sensitivity_stats$estimate,
+                        se = sensitivity_stats$se,
+                        dof = sensitivity_stats$dof,
+                        r2dz.x = r2dz.x,
+                        r2yz.dx = r2yz.dx,
+                        ...)
+
+  )
+}
 
 # contour plot ------------------------------------------------------------
 
 
 
-#' test
+#' Contour plots of omitted variable bias
 #'
 #'
 #' @param ... arguments passed to other methods. First argument should either be an \code{\link{lm}} model with the
@@ -61,7 +109,7 @@ ovb_contour_plot = function(...) {
 #' or adjusted t-values (\code{"t-value"})?
 #' @param estimate.threshold threshold for plot of adjusted estimate.
 #' @param t.threshold threshold for plot of adjusted t-value.
-#' @param lim limits of the contour plot.
+#' @param lim sets limit of the plot.
 #' @param nlevels number of levels to contour plot.
 #' @param col.contour color of contour lines.
 #' @param col.thr.line color of threshold contour line.
@@ -344,7 +392,11 @@ ovb_contour_plot.numeric = function(estimate,
 }
 
 
-#' test
+
+# add bound to contour ----------------------------------------------------
+
+
+#' Add bounds to contour plot of omitted variable bias
 #' @param ... test
 #' @export
 add_bound_to_contour <- function(...){
@@ -352,36 +404,9 @@ add_bound_to_contour <- function(...){
 }
 
 
-#' @export
-add_bound_to_contour.numeric <- function(r2dz.x,
-                                         r2yz.dx,
-                                         bound_value,
-                                         bound_label = NULL,
-                                         label.text = TRUE,
-                                         label.bump.x = 0.02,
-                                         label.bump.y = 0.02,
-                                         ...){
 
-  for (i in seq.int(length(r2dz.x))) {
-
-
-    # Add the point on the contour:
-    points(r2dz.x[i], r2yz.dx[i],
-           pch = 23, col = "black", bg = "red",
-           cex = 1, font = 1)
-
-    label = paste0(bound_label[i], "\n(", signif(bound_value[i], 2), ")")
-
-    # Add the label text
-    if (label.text)
-      text(r2dz.x[i] + label.bump.x,
-           r2yz.dx[i] + label.bump.y,
-           labels = label,
-           cex = 1.1, font = 1)
-  }
-
-}
-
+#' @inheritParams ovb_contour_plot
+#' @rdname add_bound_to_contour
 #' @export
 add_bound_to_contour.lm <- function(model,
                                     treatment,
@@ -422,130 +447,64 @@ add_bound_to_contour.lm <- function(model,
                        ...)
 }
 
+#' @inheritParams ovb_contour_plot
+#' @rdname add_bound_to_contour
+#' @param bound_value value to be printed in label bound.
 #' @export
-ovb_contour_plot.sensemakr <- function(x, sensitivity.of = c("estimate", "t-value"), ...){
+add_bound_to_contour.numeric <- function(r2dz.x,
+                                         r2yz.dx,
+                                         bound_value = NULL,
+                                         bound_label = NULL,
+                                         label.text = TRUE,
+                                         label.bump.x = 0.02,
+                                         label.bump.y = 0.02,
+                                         ...){
 
-  sensitivity.of <- match.arg(sensitivity.of)
+  for (i in seq.int(length(r2dz.x))) {
 
-  if (is.null(x$bounds)) {
-    r2dz.x <- NULL
-    r2yz.dx <- NULL
-    bound_label = ""
-  } else {
-    r2dz.x <- x$bounds$r2dz.x
-    r2yz.dx <- x$bounds$r2yz.dx
-    bound_label = x$bounds$bound_label
+
+    # Add the point on the contour:
+    points(r2dz.x[i], r2yz.dx[i],
+           pch = 23, col = "black", bg = "red",
+           cex = 1, font = 1)
+    if (!is.null(bound_value[i])) {
+      if (is.numeric(bound_value[i]))
+        bound_value[i] <- round(bound_value[i], 3)
+
+      label = paste0(bound_label[i], "\n(", bound_value[i], ")")
+    } else {
+     label = bound_label[i]
+    }
+
+    # Add the label text
+    if (label.text)
+      text(r2dz.x[i] + label.bump.x,
+           r2yz.dx[i] + label.bump.y,
+           labels = label,
+           cex = 1.1, font = 1)
   }
 
-  with(x,
-       ovb_contour_plot(estimate = sensitivity_stats$estimate,
-                        se = sensitivity_stats$se,
-                        dof = sensitivity_stats$dof,
-                        r2dz.x = r2dz.x,
-                        r2yz.dx = r2yz.dx,
-                        bound_label = bound_label,
-                        sensitivity.of = sensitivity.of,
-                        ...)
-
-       )
 }
-
 
 # extreme plot ------------------------------------------------------------
 
 
-#' test
-#' @param ... test
+#' Extreme scenarios plots of omitted variable bias
+#'
+#'
+#' @inheritParams ovb_contour_plot
 #' @export
 ovb_extreme_plot <- function(...){
   UseMethod("ovb_extreme_plot")
 
 }
 
-#' @importFrom graphics abline lines legend rug plot
-#' @export
-ovb_extreme_plot.numeric = function(estimate,
-                                    se,
-                                    dof,
-                                    r2dz.x = NULL,
-                                    r2yz.dx = c(1, 0.75, 0.5),
-                                    reduce = TRUE,
-                                    threshold = 0,
-                                    lim = min(c(r2dz.x + 0.1, 0.5)),
-                                    cex.legend = 0.5, ...) {
 
-  # if (is.null(lim)) {
-  #   if (is.null(r2dz.x)) {
-  #     stop("If `lim` is not provided, `r2dz.x` must be to automatically pick a ",
-  #          "plot limit.")
-  #   }
-  #   lim = max(r2dz.x, na.rm = TRUE) + 0.1
-  # }
-  if (lim > 1) {
-    lim <- 1
-    warning("Plot limit larger than 1 was set to 1.")
-  }
-  if (lim < 0) {
-    lim <- 0.4
-    warning("Plot limit less than 0 was set to 0.4.")
-  }
-
-  # x-axis values: R^2 of confounder(s) with treatment
-  r2d_values = seq(0, lim, by = 0.001)
-  out = list()
-  # Iterate through scenarios:
-  for (i in seq.int(length(r2yz.dx))) {
-    y = adjusted_estimate(estimate, r2yz.dx = r2yz.dx[i],
-                          r2dz.x = r2d_values,
-                          se = se,
-                          dof = dof, reduce = reduce)
-    # Initial plot
-    if (i == 1) {
-      if (estimate < 0) {
-        ylim = rev(range(y))
-        } else {
-          ylim = range(y)
-        }
-      plot(
-        r2d_values, y, type = "l", bty = "L",
-        ylim = ylim,
-        xlab = expression(paste("Hypothetical partial ", R^2, " of unobserved",
-                                 " confounder(s) with the treatment")),
-        ylab = "Adjusted effect estimate",
-        ...)
-      abline(h = threshold, col = "red", lty = 5)
-    } else {
-      # Add plot lines
-      lines(r2d_values, y, lty = i + 1)
-    }
-    out[[paste0("scenario_r2yz.dx_",r2yz.dx[i])]] <- data.frame(r2dz.x = r2d_values,
-                                                                r2yz.dx = r2yz.dx[i],
-                                                                adjusted_estimate = y)
-
-  }
-
-  legend(
-    x = "topright",
-    inset = 0.05,
-    lty = c(seq_len(length(r2yz.dx)), 5),
-    col = c(rep("black", length(r2yz.dx)),
-            "red"),
-    # bty = "n",
-    legend = paste0(r2yz.dx * 100, "%"),
-    ncol = length(r2yz.dx) + 1,
-    title = expression(paste("Hypothetical partial ", R^2, " of unobserved",
-                             " confounder(s) with the outcome")),
-    cex = cex.legend
-  )
-
-  if (!is.null(r2dz.x)) {
-    rug(x = r2dz.x, col = "red", lwd = 2)
-    out[["bounds"]] <- r2dz.x
-  }
-  return(invisible(out))
-}
-
-
+#' @inheritParams adjusted_estimate
+#' @rdname ovb_extreme_plot
+#' @param threshold estimate threshold.
+#' @param legend should legend be plotted? Default is \code{TRUE}.
+#' @param cex.legend size of the text for the legend.
 #' @export
 ovb_extreme_plot.lm <- function(model,
                                 treatment,
@@ -556,6 +515,7 @@ ovb_extreme_plot.lm <- function(model,
                                 reduce = TRUE,
                                 threshold = 0,
                                 lim = min(c(r2dz.x + 0.1, 0.5)),
+                                legend = TRUE,
                                 cex.legend = 0.5, ...){
 
   # extract model data
@@ -598,6 +558,7 @@ ovb_extreme_plot.lm <- function(model,
                    reduce = reduce,
                    threshold = threshold,
                    lim = lim,
+                   legend = legend,
                    cex.legend = cex.legend,
                    ...)
 
@@ -606,7 +567,8 @@ ovb_extreme_plot.lm <- function(model,
 }
 
 
-
+#' @inheritParams sensemakr
+#' @rdname ovb_extreme_plot
 #' @export
 ovb_extreme_plot.formula = function(formula,
                                     data,
@@ -618,6 +580,7 @@ ovb_extreme_plot.formula = function(formula,
                                     reduce = TRUE,
                                     threshold = 0,
                                     lim = min(c(r2dz.x + 0.1, 0.5)),
+                                    legend = TRUE,
                                     cex.legend = 0.5, ...) {
   check_formula(treatment = treatment,
                 formula = formula,
@@ -635,29 +598,98 @@ ovb_extreme_plot.formula = function(formula,
                    reduce = reduce,
                    threshold = threshold,
                    lim = lim,
+                   legend = legend,
                    cex.legend = cex.legend, ...)
 }
 
-#' @export
-ovb_extreme_plot.sensemakr <- function(x, r2yz.dx = c(1, 0.75, 0.5), ...){
 
-  if (is.null(x$bounds)) {
-    r2dz.x <- NULL
-    bound_label = ""
-  } else {
-    r2dz.x <- x$bounds$r2dz.x
-    bound_label = x$bounds$bound_label
+
+#' @inheritParams adjusted_estimate
+#' @importFrom graphics abline lines legend rug plot
+#' @rdname ovb_extreme_plot
+#' @export
+ovb_extreme_plot.numeric = function(estimate,
+                                    se,
+                                    dof,
+                                    r2dz.x = NULL,
+                                    r2yz.dx = c(1, 0.75, 0.5),
+                                    reduce = TRUE,
+                                    threshold = 0,
+                                    lim = min(c(r2dz.x + 0.1, 0.5)),
+                                    legend = TRUE,
+                                    cex.legend = 0.5, ...) {
+
+  # if (is.null(lim)) {
+  #   if (is.null(r2dz.x)) {
+  #     stop("If `lim` is not provided, `r2dz.x` must be to automatically pick a ",
+  #          "plot limit.")
+  #   }
+  #   lim = max(r2dz.x, na.rm = TRUE) + 0.1
+  # }
+  if (lim > 1) {
+    lim <- 1
+    warning("Plot limit larger than 1 was set to 1.")
+  }
+  if (lim < 0) {
+    lim <- 0.4
+    warning("Plot limit less than 0 was set to 0.4.")
   }
 
-  with(x,
-       ovb_extreme_plot(estimate = sensitivity_stats$estimate,
-                        se = sensitivity_stats$se,
-                        dof = sensitivity_stats$dof,
-                        r2dz.x = r2dz.x,
-                        r2yz.dx = r2yz.dx,
-                        ...)
+  # x-axis values: R^2 of confounder(s) with treatment
+  r2d_values = seq(0, lim, by = 0.001)
+  out = list()
+  # Iterate through scenarios:
+  for (i in seq.int(length(r2yz.dx))) {
+    y = adjusted_estimate(estimate, r2yz.dx = r2yz.dx[i],
+                          r2dz.x = r2d_values,
+                          se = se,
+                          dof = dof, reduce = reduce)
+    # Initial plot
+    if (i == 1) {
+      if (estimate < 0) {
+        ylim = rev(range(y))
+      } else {
+        ylim = range(y)
+      }
+      plot(
+        r2d_values, y, type = "l", bty = "L",
+        ylim = ylim,
+        xlab = expression(paste("Hypothetical partial ", R^2, " of unobserved",
+                                " confounder(s) with the treatment")),
+        ylab = "Adjusted effect estimate",
+        ...)
+      abline(h = threshold, col = "red", lty = 5)
+    } else {
+      # Add plot lines
+      lines(r2d_values, y, lty = i + 1)
+    }
+    out[[paste0("scenario_r2yz.dx_",r2yz.dx[i])]] <- data.frame(r2dz.x = r2d_values,
+                                                                r2yz.dx = r2yz.dx[i],
+                                                                adjusted_estimate = y)
 
-  )
+  }
+
+  if (legend) {
+    legend(
+      x = "topright",
+      inset = 0.05,
+      lty = c(seq_len(length(r2yz.dx)), 5),
+      col = c(rep("black", length(r2yz.dx)),
+              "red"),
+      # bty = "n",
+      legend = paste0(r2yz.dx * 100, "%"),
+      ncol = length(r2yz.dx) + 1,
+      title = expression(paste("Hypothetical partial ", R^2, " of unobserved",
+                               " confounder(s) with the outcome")),
+      cex = cex.legend
+    )
+  }
+
+  if (!is.null(r2dz.x)) {
+    rug(x = r2dz.x, col = "red", lwd = 2)
+    out[["bounds"]] <- r2dz.x
+  }
+  return(invisible(out))
 }
 
 

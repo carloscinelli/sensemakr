@@ -2,13 +2,56 @@
 % Please edit documentation in R/ovb_plots.R
 \name{add_bound_to_contour}
 \alias{add_bound_to_contour}
-\title{test}
+\alias{add_bound_to_contour.lm}
+\alias{add_bound_to_contour.numeric}
+\title{Add bounds to contour plot of omitted variable bias}
 \usage{
 add_bound_to_contour(...)
+
+\method{add_bound_to_contour}{lm}(model, treatment, benchmark_covariates,
+  kd = 1, ky = kd, reduce = TRUE, sensitivity.of = c("estimate",
+  "t-value"), label.text = TRUE, label.bump.x = 0.02, label.bump.y = 0.02,
+  ...)
+
+\method{add_bound_to_contour}{numeric}(r2dz.x, r2yz.dx, bound_value = NULL,
+  bound_label = NULL, label.text = TRUE, label.bump.x = 0.02,
+  label.bump.y = 0.02, ...)
 }
 \arguments{
 \item{...}{test}
+
+\item{model}{an \code{lm} object with the outcome regression.}
+
+\item{treatment}{a character vector with the name of the treatment variable of the model.}
+
+\item{benchmark_covariates}{a character vector of the names of covariates that will be used to bound the plausible strength
+of the unobserved confounders.}
+
+\item{kd}{numeric vector. Parameterizes how many times stronger the confounder is related to the treatment in comparison to the observed benchmark covariates.
+Default value is \code{1}.}
+
+\item{ky}{numeric vector. Parameterizes how many times stronger the confounder is related to the outcome in comparison to the observed benchmark covariates.
+Default value is the same as \code{kd}.}
+
+\item{reduce}{should the bias adjustment reduce or increase the absolute value of the estimated coefficient? Default is \code{TRUE}.}
+
+\item{sensitivity.of}{should the plot show adjusted estimates (\code{"estimate"})
+or adjusted t-values (\code{"t-value"})?}
+
+\item{label.text}{should label texts be plotted?}
+
+\item{label.bump.x}{bump on the x coordinate of label text.}
+
+\item{label.bump.y}{bump on the y coordinate of label text.}
+
+\item{r2dz.x}{hypothetical partial R2 of unobserved confounder Z with treatment D, given covariates X.}
+
+\item{r2yz.dx}{hypothetical partial R2 of unobserved confounder Z with outcome Y, given covariates X and treatment D.}
+
+\item{bound_value}{value to be printed in label bound.}
+
+\item{bound_label}{label to bounds provided manually in \code{r2dz.x} and \code{r2yz.dx}.}
 }
 \description{
-test
+Add bounds to contour plot of omitted variable bias
 }
