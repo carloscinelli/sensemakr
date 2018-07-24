@@ -35,7 +35,7 @@ Default value is the same as \code{kd}.}
 
 \item{reduce}{should the bias adjustment reduce or increase the absolute value of the estimated coefficient? Default is \code{TRUE}.}
 
-\item{sensitivity.of}{should the plot show adjusted estimates (\code{"estimate"})
+\item{sensitivity.of}{should the contour plot show adjusted estimates (\code{"estimate"})
 or adjusted t-values (\code{"t-value"})?}
 
 \item{label.text}{should label texts be plotted?}

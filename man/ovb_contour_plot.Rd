@@ -56,7 +56,7 @@ Default value is the same as \code{kd}.}
 
 \item{bound_label}{label to bounds provided manually in \code{r2dz.x} and \code{r2yz.dx}.}
 
-\item{sensitivity.of}{should the plot show adjusted estimates (\code{"estimate"})
+\item{sensitivity.of}{should the contour plot show adjusted estimates (\code{"estimate"})
 or adjusted t-values (\code{"t-value"})?}
 
 \item{reduce}{should the bias adjustment reduce or increase the absolute value of the estimated coefficient? Default is \code{TRUE}.}

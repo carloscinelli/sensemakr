@@ -5,17 +5,28 @@
 # generic plot function ---------------------------------------------------
 
 
+#' Sensitivity analysis plots for sensemakr
+#' @param x an object of class \code{\link{sensemakr}}.
+#' @param type type of sensitivity plot. It can be \code{"contour"}, for contour plots of omitted
+#' variable bias as in \code{\link{ovb_contour_plot}}; or, \code{"extreme"} for
+#' extreme scenarios plots of omitted variable bias as in \code{\link{ovb_extreme_plot}}.
+#' @param ... arguments passed to the plot functions. Check arguments in  \code{\link{ovb_contour_plot}}
+#' and \code{\link{ovb_extreme_plot}}.
+#' @inheritParams ovb_contour_plot
 #' @export
-plot.sensemakr = function(x, type = "contour", ...) {
-  if (is.null(type) || !type %in% c("contour", "extreme", "ovb")) {
-    stop("`type` argument to `plot.sensemakr` must be 'contour', 'extreme', ",
-         "or 'ovb'.")
-  }
+plot.sensemakr = function(x,
+                          type = c("contour", "extreme"),
+                          sensitivity.of = c("estimate", "t-value"),
+                          ...) {
+
+  type <- match.arg(type)
+  sensitivity.of <- match.arg(sensitivity.of)
 
   # Call the dispatch function of interest
   switch(type,
          "contour" = dispatch_contour,
-         "extreme" = dispatch_extreme)(x, ...)
+         "extreme" = dispatch_extreme)(x, sensitivity.of = sensitivity.of,
+                                       ...)
 }
 
 dispatch_contour = function(x, ...) {
@@ -105,7 +116,7 @@ ovb_contour_plot = function(...) {
 #' @inheritParams sensemakr
 #' @inheritParams adjusted_estimate
 #' @rdname ovb_contour_plot
-#' @param sensitivity.of should the plot show adjusted estimates (\code{"estimate"})
+#' @param sensitivity.of should the contour plot show adjusted estimates (\code{"estimate"})
 #' or adjusted t-values (\code{"t-value"})?
 #' @param estimate.threshold threshold for plot of adjusted estimate.
 #' @param t.threshold threshold for plot of adjusted t-value.
