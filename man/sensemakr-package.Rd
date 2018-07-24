@@ -3,7 +3,7 @@
 \docType{package}
 \name{sensemakr-package}
 \alias{sensemakr-package}
-\title{sensemakr: A package for sensitivity analysis, implementing "Making Sense of
+\title{sensemakr: sensitivity analysis, implementing "Making Sense of
 Sensitivity: Extending Omitted Variable Bias"}
 \description{
 TODO: More documentation goes here

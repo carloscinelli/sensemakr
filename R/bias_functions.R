@@ -3,7 +3,7 @@
 
 # adjusted estimate -------------------------------------------------------
 
-#' Bias-adjusted estimates, standard-errors and t-values of regression coefficients
+#' Bias-adjusted estimates, standard-errors and t-values
 #'
 #' This function...
 #'

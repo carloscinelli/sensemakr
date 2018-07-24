@@ -102,7 +102,7 @@ print.rv <- function(x, ...){
 
 # partial r2 --------------------------------------------------------------
 
-#' Computes partial R2 and partial (Cohen's) f2 of covariates in a linear regression model
+#' Partial R2 and partial (Cohen's) f2 of covariates in a linear regression model
 #' @description
 #' The \code{partial_r2} function computes partial R2.
 #'
@@ -155,7 +155,7 @@ partial_r2.default = function(model) {
 # group_partial_r2 --------------------------------------------------------
 
 
-#' Computes partial R2 of groups of covariates in a linear regression model
+#' Partial R2 of groups of covariates in a linear regression model
 #'
 #'
 #' @param ... test

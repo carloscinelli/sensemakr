@@ -2,17 +2,26 @@
 % Please edit documentation in R/print.R
 \name{print.sensemakr}
 \alias{print.sensemakr}
-\title{test}
+\alias{summary.sensemakr}
+\alias{ovb_minimal_reporting}
+\title{Sensitivity analysis print and summary methods for sensemakr}
 \usage{
 \method{print}{sensemakr}(x, digits = max(3L, getOption("digits") - 2L), ...)
+
+\method{summary}{sensemakr}(object, digits = max(3L, getOption("digits") -
+  3L), ...)
+
+ovb_minimal_reporting(x, digits = 3, ...)
 }
 \arguments{
-\item{x}{test}
+\item{x}{an object of class \code{\link{sensemakr}}.}
 
-\item{digits}{test}
+\item{digits}{minimal number of \emph{significant} digits.}
 
 \item{...}{test}
+
+\item{object}{an object of class \code{\link{sensemakr}}.}
 }
 \description{
-test
+Sensitivity analysis print and summary methods for sensemakr
 }

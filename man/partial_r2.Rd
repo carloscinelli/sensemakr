@@ -8,7 +8,7 @@
 \alias{partial_f2.numeric}
 \alias{partial_f2.lm}
 \alias{partial_f}
-\title{Computes partial R2 and partial (Cohen's) f2 of covariates in a linear regression model}
+\title{Partial R2 and partial (Cohen's) f2 of covariates in a linear regression model}
 \usage{
 partial_r2(...)
 

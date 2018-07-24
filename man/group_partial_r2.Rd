@@ -4,7 +4,7 @@
 \alias{group_partial_r2}
 \alias{group_partial_r2.lm}
 \alias{group_partial_r2.numeric}
-\title{Computes partial R2 of groups of covariates in a linear regression model}
+\title{Partial R2 of groups of covariates in a linear regression model}
 \usage{
 group_partial_r2(...)
 
@@ -27,5 +27,5 @@ the partial R2 of all covariates}
 \item{dof}{residual degrees of freedom of the model}
 }
 \description{
-Computes partial R2 of groups of covariates in a linear regression model
+Partial R2 of groups of covariates in a linear regression model
 }

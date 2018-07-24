@@ -2,10 +2,12 @@
 # prints, summaries and reports -------------------------------------------
 
 
-#' test
+#' Sensitivity analysis print and summary methods for sensemakr
+#'
+#'
 #' @param ... test
-#' @param x test
-#' @param digits test
+#' @param x an object of class \code{\link{sensemakr}}.
+#' @param digits minimal number of \emph{significant} digits.
 #' @export
 print.sensemakr = function(x,
                            digits = max(3L, getOption("digits") - 2L),
@@ -28,8 +30,41 @@ print.sensemakr = function(x,
   cat(" Robustness Value,", "q =", q <- x$info$q, ":", rv_q <- round(x$sensitivity_stats$rv_q,digits), "\n ")
   cat(" Robustness Value,", "q =", q, "alpha =", alpha <- x$info$alpha, ":", rv_qa <- round(x$sensitivity_stats$rv_qa,digits), "\n")
   cat("\n")
-  reduce <- ifelse(x$info$reduce, "reduce", "increase")
+  cat("For more information, check summary.")
 
+
+}
+
+.simpleCap <- function(x) {
+  s <- strsplit(x, " ")[[1]]
+  paste(toupper(substring(s, 1, 1)), substring(s, 2),
+        sep = "", collapse = " ")
+}
+
+
+#' @rdname print.sensemakr
+#' @param object an object of class \code{\link{sensemakr}}.
+#' @export
+summary.sensemakr <- function(object, digits = max(3L, getOption("digits") - 3L), ...){
+  x <- object
+  cat("Sensitivity Analysis to Unobserved Confounding\n\n")
+
+  cat("Model Formula: ", paste(deparse(x$info$formula),
+                               sep = "\n", collapse = "\n"),
+      "\n\n", sep = "")
+
+  cat("Unadjusted Estimates of '", treatment <- x$sensitivity_stats$treatment, "':\n ")
+  cat(" Coef. estimate:", estimate <- round(x$sensitivity_stats$estimate, digits), "\n ")
+  cat(" Standard Error:", se <- round(x$sensitivity_stats$se, digits), "\n ")
+  cat(" t-value:", t_statistic <- round(x$sensitivity_stats$t_statistic, digits), "\n")
+  cat("\n")
+
+  cat("Sensitivity Statistics:\n ")
+  cat(" Partial R2 of treatment with outcome:", r2yd.x <- round(x$sensitivity_stats$r2yd.x,digits), "\n ")
+  cat(" Robustness Value,", "q =", q <- x$info$q, ":", rv_q <- round(x$sensitivity_stats$rv_q,digits), "\n ")
+  cat(" Robustness Value,", "q =", q, "alpha =", alpha <- x$info$alpha, ":", rv_qa <- round(x$sensitivity_stats$rv_qa,digits), "\n")
+  cat("\n")
+  reduce <- ifelse(x$info$reduce, "reduce", "increase")
   cat("Verbal interpretation of sensitivity statistics:\n\n")
   cat("Unobserved confounders (orthogonal to the covariates) that explain more than", 100*rv_q,"%", "of the residual variance",
       "of both the treatment and the outcome are enough to", reduce, "the absolute value of the effect size by", 100*q, "%.",
@@ -43,13 +78,19 @@ print.sensemakr = function(x,
 
   cat("An extreme confounder (orthogonal to the covariates) that explains 100% of the residual variance of the outcome, would need to explain at least",
       100*r2yd.x, "% of the residual variance of the treatment to fully account for the observed estimated effect.")
+  cat("\n\n")
+
+  bounds <- x$bounds
+  numeric <- sapply(bounds, is.numeric)
+  bounds[numeric] <- lapply(bounds[numeric], round, digits = digits)
+  names(bounds) <-  sapply(gsub("\\_", " ",  names(bounds)), .simpleCap)
+
+  cat("OVB bounds:\n")
+  print(bounds, row.names = FALSE)
 }
 
 
-#' test
-#' @param ... test
-#' @param x test
-#' @param digits test
+#' @rdname print.sensemakr
 #' @export
 ovb_minimal_reporting <- function(x, digits = 3, ...){
 

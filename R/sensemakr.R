@@ -1,7 +1,10 @@
-#' sensemakr: A package for sensitivity analysis, implementing "Making Sense of
+#' sensemakr: sensitivity analysis, implementing "Making Sense of
 #' Sensitivity: Extending Omitted Variable Bias"
 #'
 #' TODO: More documentation goes here
+#'
+#'
+#'
 #' @references Cinelli, C. and Hazlett, C. "Making Sense of Sensitivity: Extending Omitted Variable Bias." (2018).
 #' @docType package
 #' @name sensemakr-package

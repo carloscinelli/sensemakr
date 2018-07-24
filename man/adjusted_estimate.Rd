@@ -13,7 +13,7 @@
 \alias{bias}
 \alias{bias.numeric}
 \alias{bias.lm}
-\title{Bias-adjusted estimates, standard-errors and t-values of regression coefficients}
+\title{Bias-adjusted estimates, standard-errors and t-values}
 \usage{
 adjusted_estimate(...)
 
