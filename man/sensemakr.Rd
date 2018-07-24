@@ -14,7 +14,7 @@ sensemakr(...)
 
 \method{sensemakr}{formula}(formula, data, treatment,
   benchmark_covariates = NULL, kd = 1, ky = kd, q = 1, alpha = 0.05,
-  reduce = TRUE, ...)
+  r2dz.x = NULL, r2yz.dx = r2dz.x, bound_label = "", reduce = TRUE, ...)
 }
 \arguments{
 \item{...}{arguments passed to other methods. First argument should either be an \code{\link{lm}} model with the

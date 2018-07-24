@@ -98,6 +98,9 @@ sensemakr.formula <- function(formula,
                               ky = kd,
                               q = 1,
                               alpha = 0.05,
+                              r2dz.x = NULL,
+                              r2yz.dx = r2dz.x,
+                              bound_label = "",
                               reduce = TRUE,
                               ...){
   check_formula(treatment = treatment,
@@ -118,7 +121,11 @@ sensemakr.formula <- function(formula,
             ky = ky,
             q = q,
             alpha = alpha,
-            reduce = reduce, ...)
+            r2dz.x = r2dz.x,
+            r2yz.dx = r2yz.dx,
+            bound_label = bound_label,
+            reduce = reduce,
+            ...)
 }
 
 

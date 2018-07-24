@@ -2,12 +2,92 @@
 % Please edit documentation in R/ovb_plots.R
 \name{ovb_contour_plot}
 \alias{ovb_contour_plot}
+\alias{ovb_contour_plot.lm}
+\alias{ovb_contour_plot.formula}
+\alias{ovb_contour_plot.numeric}
 \title{test}
 \usage{
 ovb_contour_plot(...)
+
+\method{ovb_contour_plot}{lm}(model, treatment, benchmark_covariates = NULL,
+  kd = 1, ky = kd, r2dz.x = NULL, r2yz.dx = r2dz.x,
+  bound_label = NULL, sensitivity.of = c("estimate", "t-value"),
+  reduce = TRUE, estimate.threshold = 0, t.threshold = 2,
+  lim = max(c(0.4, r2dz.x, r2yz.dx)), nlevels = 20,
+  col.contour = "grey40", col.thr.line = "red", label.text = TRUE,
+  label.bump.x = 0.02, label.bump.y = 0.02, ...)
+
+\method{ovb_contour_plot}{formula}(formula, data, treatment,
+  benchmark_covariates = NULL, kd = 1, ky = kd, r2dz.x = NULL,
+  r2yz.dx = r2dz.x, bound_label = NULL, sensitivity.of = c("estimate",
+  "t-value"), reduce = TRUE, estimate.threshold = 0, t.threshold = 2,
+  lim = max(c(0.4, r2dz.x, r2yz.dx)), nlevels = 20,
+  col.contour = "grey40", col.thr.line = "red", label.text = TRUE, ...)
+
+\method{ovb_contour_plot}{numeric}(estimate, se, dof, r2dz.x = NULL,
+  r2yz.dx = r2dz.x, bound_label = "", sensitivity.of = c("estimate",
+  "t-value"), reduce = TRUE, estimate.threshold = 0, t.threshold = 2,
+  lim = max(c(0.4, r2dz.x, r2yz.dx)), nlevels = 20,
+  col.contour = "grey40", col.thr.line = "red", label.text = TRUE,
+  label.bump.x = 0.02, label.bump.y = 0.02, ...)
 }
 \arguments{
-\item{...}{test}
+\item{...}{arguments passed to other methods. First argument should either be an \code{\link{lm}} model with the
+outcome regression, a \code{\link{formula}} describing the model along
+with the \code{\link{data.frame}} containing the variables of the model,
+or a numeric vector with the coefficient estimate.}
+
+\item{model}{an \code{lm} object with the outcome regression.}
+
+\item{treatment}{a character vector with the name of the treatment variable of the model.}
+
+\item{benchmark_covariates}{a character vector of the names of covariates that will be used to bound the plausible strength
+of the unobserved confounders.}
+
+\item{kd}{numeric vector. Parameterizes how many times stronger the confounder is related to the treatment in comparison to the observed benchmark covariates.
+Default value is \code{1}.}
+
+\item{ky}{numeric vector. Parameterizes how many times stronger the confounder is related to the outcome in comparison to the observed benchmark covariates.
+Default value is the same as \code{kd}.}
+
+\item{r2dz.x}{hypothetical partial R2 of unobserved confounder Z with treatment D, given covariates X.}
+
+\item{r2yz.dx}{hypothetical partial R2 of unobserved confounder Z with outcome Y, given covariates X and treatment D.}
+
+\item{bound_label}{label to bounds provided manually in \code{r2dz.x} and \code{r2yz.dx}.}
+
+\item{sensitivity.of}{should the plot show adjusted estimates (\code{"estimate"})
+or adjusted t-values (\code{"t-value"})?}
+
+\item{reduce}{should the bias adjustment reduce or increase the absolute value of the estimated coefficient? Default is \code{TRUE}.}
+
+\item{estimate.threshold}{threshold for plot of adjusted estimate.}
+
+\item{t.threshold}{threshold for plot of adjusted t-value.}
+
+\item{lim}{limits of the contour plot.}
+
+\item{nlevels}{number of levels to contour plot.}
+
+\item{col.contour}{color of contour lines.}
+
+\item{col.thr.line}{color of threshold contour line.}
+
+\item{label.text}{should label texts be plotted?}
+
+\item{label.bump.x}{bump on the x coordinate of label text.}
+
+\item{label.bump.y}{bump on the y coordinate of label text.}
+
+\item{formula}{an object of the class \code{\link{formula}}: a symbolic description of the model to be fitted.}
+
+\item{data}{data needed only when you pass a formula as first parameter. An object of the class \code{\link{data.frame}} containing the variables used in the analysis.}
+
+\item{estimate}{coefficient estimate.}
+
+\item{se}{standard error of the coefficient estimate.}
+
+\item{dof}{residual degrees of freedom of the regression.}
 }
 \description{
 test

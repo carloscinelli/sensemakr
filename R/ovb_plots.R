@@ -38,7 +38,13 @@ dispatch_extreme = function(x, ...) {
 
 
 #' test
-#' @param ... test
+#'
+#'
+#' @param ... arguments passed to other methods. First argument should either be an \code{\link{lm}} model with the
+#' outcome regression, a \code{\link{formula}} describing the model along
+#' with the \code{\link{data.frame}} containing the variables of the model,
+#' or a numeric vector with the coefficient estimate.
+#'
 #' @export
 ovb_contour_plot = function(...) {
   UseMethod("ovb_contour_plot")
@@ -48,148 +54,34 @@ ovb_contour_plot = function(...) {
 
 
 
-#' @importFrom graphics contour points text
-#' @importFrom stats coef
-#' @export
-ovb_contour_plot.numeric = function(estimate,
-                                    se,
-                                    dof,
-                                    reduce = TRUE,
-                                    estimate.threshold = 0,
-                                    r2dz.x = NULL,
-                                    r2yz.dx = r2dz.x,
-                                    bound_label = "",
-                                    sensitivity.of = c("estimate", "t-value"),
-                                    t.threshold = 2,
-                                    lim = max(c(0.4,r2dz.x,r2yz.dx)),
-                                    nlevels = 20,
-                                    col.contour = "grey40",
-                                    col.thr.line = "red",
-                                    label.text = TRUE,
-                                    label.bump.x = 0.02,
-                                    label.bump.y = 0.02,
-                                    ...) {
-
-  check_estimate(estimate)
-  check_r2(r2dz.x = r2dz.x, r2yz.dx = r2yz.dx)
-  lim <- check_contour_lim(lim)
-
-  sensitivity.of <- match.arg(sensitivity.of)
-
-  # Set up the grid for the contour plot
-  grid_values = seq(0, lim, by = lim/400)
-
-  # Are we plotting t or bias in r2?
-  if (sensitivity.of == "estimate") {
-    z_axis = outer(grid_values, grid_values,
-                     FUN = "adjusted_estimate",
-                     estimate = estimate,
-                     se = se,
-                     dof = dof,
-                     reduce = reduce)
-    threshold = estimate.threshold
-    plot_estimate = estimate
-
-    if (!is.null(r2dz.x))
-      bound_value <- adjusted_estimate(estimate = estimate,
-                                       se = se,
-                                       dof = dof,
-                                       r2dz.x = r2dz.x,
-                                       r2yz.dx = r2yz.dx,
-                                       reduce = reduce)
-
-  }
-
-  if (sensitivity.of == "t-value") {
-    z_axis = outer(grid_values, grid_values,
-                     FUN = "adjusted_t",
-                     se = se, dof = dof, estimate = estimate)
-    threshold = t.threshold
-    plot_estimate = estimate / se
-
-    if (!is.null(r2dz.x))
-      bound_value <- adjusted_t(estimate = estimate,
-                                se = se,
-                                dof = dof,
-                                r2dz.x = r2dz.x,
-                                r2yz.dx = r2yz.dx,
-                                reduce = reduce)
-
-  }
-
-  out = list(r2dz.x = grid_values,
-             r2yz.dx = grid_values,
-             value = z_axis)
-
-  # Aesthetic: Override the 0 line; basically, check which contour curve is
-  # the zero curve, and override that contour curve with alternate aesthetic
-  # characteristics
-  default_levels = pretty(range(z_axis), nlevels)
-  line_color = ifelse(default_levels == threshold,
-                      col.thr.line,
-                      col.contour)
-  line_type = ifelse(default_levels == threshold,
-                     2, 1)
-  line_width = ifelse(default_levels == threshold,
-                      2, 1)
-
-  # Plot contour plot:
-  contour(
-    grid_values, grid_values, z_axis, nlevels = nlevels,
-    xlab = expression(paste("Hypothetical partial ", R^2, " of unobserved",
-                            " confounder(s) with the treatment")),
-    ylab = expression(paste("Hypothetical partial ", R^2, " of unobserved",
-                            " confounder(s) with the outcome")),
-    cex.main = 1, cex.lab = 1, cex.axis = 1,
-    col = line_color, lty = line_type, lwd = line_width,
-    ...)
-
-  # Add the point of the initial estimate.
-  points(0, 0, pch = 17, col = "black", cex = 1)
-
-  text(0.0 + label.bump.x, 0.00 + label.bump.y,
-       paste0("Unadjusted\n(",
-              signif(plot_estimate, 2),
-              ")"),
-       cex = 1)
-
-  # add bounds
-  if (!is.null(r2dz.x)) {
-
-    check_r2(r2dz.x = r2dz.x, r2yz.dx = r2yz.dx)
-
-
-    add_bound_to_contour(r2dz.x = r2dz.x,
-                         r2yz.dx = r2yz.dx,
-                         bound_value = bound_value,
-                         bound_label = bound_label,
-                         sensitivity.of = sensitivity.of,
-                         label.text = label.text,
-                         label.bump.x = label.bump.x,
-                         label.bump.y = label.bump.y)
-    out$bounds = data.frame(r2dz.x = r2dz.x,
-                            r2yz.dx = r2yz.dx,
-                            bound_label = bound_label)
-  }
-  invisible(out)
-}
-
-
-
+#' @inheritParams sensemakr
+#' @inheritParams adjusted_estimate
+#' @rdname ovb_contour_plot
+#' @param sensitivity.of should the plot show adjusted estimates (\code{"estimate"})
+#' or adjusted t-values (\code{"t-value"})?
+#' @param estimate.threshold threshold for plot of adjusted estimate.
+#' @param t.threshold threshold for plot of adjusted t-value.
+#' @param lim limits of the contour plot.
+#' @param nlevels number of levels to contour plot.
+#' @param col.contour color of contour lines.
+#' @param col.thr.line color of threshold contour line.
+#' @param label.text should label texts be plotted?
+#' @param label.bump.x bump on the x coordinate of label text.
+#' @param label.bump.y bump on the y coordinate of label text.
 #' @export
 ovb_contour_plot.lm = function(model,
                                treatment,
                                benchmark_covariates = NULL,
                                kd = 1,
                                ky = kd,
-                               reduce = TRUE,
-                               estimate.threshold = 0,
                                r2dz.x = NULL,
                                r2yz.dx = r2dz.x,
                                bound_label = NULL,
                                sensitivity.of = c("estimate", "t-value"),
+                               reduce = TRUE,
+                               estimate.threshold = 0,
                                t.threshold = 2,
-                               lim = 0.4,
+                               lim = max(c(0.4,r2dz.x,r2yz.dx)),
                                nlevels = 20,
                                col.contour = "grey40",
                                col.thr.line = "red",
@@ -265,7 +157,9 @@ ovb_contour_plot.lm = function(model,
 
 }
 
-
+#' @inheritParams sensemakr
+#' @inheritParams adjusted_estimate
+#' @rdname ovb_contour_plot
 #' @export
 ovb_contour_plot.formula = function(formula,
                                     data,
@@ -273,14 +167,14 @@ ovb_contour_plot.formula = function(formula,
                                     benchmark_covariates = NULL,
                                     kd = 1,
                                     ky = kd,
-                                    reduce = TRUE,
-                                    estimate.threshold = 0,
                                     r2dz.x = NULL,
                                     r2yz.dx = r2dz.x,
                                     bound_label = NULL,
                                     sensitivity.of = c("estimate", "t-value"),
+                                    reduce = TRUE,
+                                    estimate.threshold = 0,
                                     t.threshold = 2,
-                                    lim = 0.4,
+                                    lim = max(c(0.4,r2dz.x,r2yz.dx)),
                                     nlevels = 20,
                                     col.contour = "grey40",
                                     col.thr.line = "red",
@@ -318,6 +212,135 @@ ovb_contour_plot.formula = function(formula,
                    col.thr.line = col.thr.line,
                    label.text = label.text,
                    ...)
+}
+
+
+#' @inheritParams adjusted_estimate
+#' @rdname ovb_contour_plot
+#' @importFrom graphics contour points text
+#' @importFrom stats coef
+#' @export
+ovb_contour_plot.numeric = function(estimate,
+                                    se,
+                                    dof,
+                                    r2dz.x = NULL,
+                                    r2yz.dx = r2dz.x,
+                                    bound_label = "",
+                                    sensitivity.of = c("estimate", "t-value"),
+                                    reduce = TRUE,
+                                    estimate.threshold = 0,
+                                    t.threshold = 2,
+                                    lim = max(c(0.4,r2dz.x,r2yz.dx)),
+                                    nlevels = 20,
+                                    col.contour = "grey40",
+                                    col.thr.line = "red",
+                                    label.text = TRUE,
+                                    label.bump.x = 0.02,
+                                    label.bump.y = 0.02,
+                                    ...) {
+
+  check_estimate(estimate)
+  check_r2(r2dz.x = r2dz.x, r2yz.dx = r2yz.dx)
+  lim <- check_contour_lim(lim)
+
+  sensitivity.of <- match.arg(sensitivity.of)
+
+  # Set up the grid for the contour plot
+  grid_values = seq(0, lim, by = lim/400)
+
+  # Are we plotting t or bias in r2?
+  if (sensitivity.of == "estimate") {
+    z_axis = outer(grid_values, grid_values,
+                   FUN = "adjusted_estimate",
+                   estimate = estimate,
+                   se = se,
+                   dof = dof,
+                   reduce = reduce)
+    threshold = estimate.threshold
+    plot_estimate = estimate
+
+    if (!is.null(r2dz.x))
+      bound_value <- adjusted_estimate(estimate = estimate,
+                                       se = se,
+                                       dof = dof,
+                                       r2dz.x = r2dz.x,
+                                       r2yz.dx = r2yz.dx,
+                                       reduce = reduce)
+
+  }
+
+  if (sensitivity.of == "t-value") {
+    z_axis = outer(grid_values, grid_values,
+                   FUN = "adjusted_t",
+                   se = se, dof = dof, estimate = estimate)
+    threshold = t.threshold
+    plot_estimate = estimate / se
+
+    if (!is.null(r2dz.x))
+      bound_value <- adjusted_t(estimate = estimate,
+                                se = se,
+                                dof = dof,
+                                r2dz.x = r2dz.x,
+                                r2yz.dx = r2yz.dx,
+                                reduce = reduce)
+
+  }
+
+  out = list(r2dz.x = grid_values,
+             r2yz.dx = grid_values,
+             value = z_axis)
+
+  # Aesthetic: Override the 0 line; basically, check which contour curve is
+  # the zero curve, and override that contour curve with alternate aesthetic
+  # characteristics
+  default_levels = pretty(range(z_axis), nlevels)
+  line_color = ifelse(default_levels == threshold,
+                      col.thr.line,
+                      col.contour)
+  line_type = ifelse(default_levels == threshold,
+                     2, 1)
+  line_width = ifelse(default_levels == threshold,
+                      2, 1)
+
+  # Plot contour plot:
+  contour(
+    grid_values, grid_values, z_axis, nlevels = nlevels,
+    xlab = expression(paste("Hypothetical partial ", R^2, " of unobserved",
+                            " confounder(s) with the treatment")),
+    ylab = expression(paste("Hypothetical partial ", R^2, " of unobserved",
+                            " confounder(s) with the outcome")),
+    cex.main = 1, cex.lab = 1, cex.axis = 1,
+    col = line_color, lty = line_type, lwd = line_width,
+    ...)
+
+  # Add the point of the initial estimate.
+  points(0, 0, pch = 17, col = "black", cex = 1)
+
+  text(0.0 + label.bump.x, 0.00 + label.bump.y,
+       paste0("Unadjusted\n(",
+              signif(plot_estimate, 2),
+              ")"),
+       cex = 1)
+
+  # add bounds
+  if (!is.null(r2dz.x)) {
+
+    check_r2(r2dz.x = r2dz.x, r2yz.dx = r2yz.dx)
+
+
+    add_bound_to_contour(r2dz.x = r2dz.x,
+                         r2yz.dx = r2yz.dx,
+                         bound_value = bound_value,
+                         bound_label = bound_label,
+                         sensitivity.of = sensitivity.of,
+                         label.text = label.text,
+                         label.bump.x = label.bump.x,
+                         label.bump.y = label.bump.y)
+    out$bounds = data.frame(r2dz.x = r2dz.x,
+                            r2yz.dx = r2yz.dx,
+                            bound_label = bound_label)
+  }
+  invisible(out)
 }
 
 
