@@ -13,13 +13,15 @@ robustness_value = function(...) {
   UseMethod("robustness_value")
 }
 
-#' @param model an \code{lm} object with the regression model
+#' @param model an \code{lm} object with the regression model.
 #' @param covariates model covariates for which the robustness value will be computed. Default is to compute
-#' the robustness value of all covariates
-#' @param q proportion of reduction. Default is 1
-#' @param alpha significance level. Default is 0.05
+#' the robustness value of all covariates.
+#' @param q  hypothesized proportion of bias relative to original estimate due to unobserved confounders,
+#' used for computation of the robustness value. It has to be greater than zero. Default is \code{1}.
+#' @param alpha significance level used for computation of the robustness value. Default is \code{0.05}.
 #' @rdname robustness_value
 #' @export
+#' @importFrom stats setNames
 robustness_value.lm = function(model,
                                covariates = NULL,
                                q = 1,

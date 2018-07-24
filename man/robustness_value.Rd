@@ -18,14 +18,15 @@ robustness_value(...)
 \item{...}{arguments passed to other methods. First argument should either be an \code{lm} model with the
 regression model or a numeric vector with the t-value of the coefficient estimate}
 
-\item{model}{an \code{lm} object with the regression model}
+\item{model}{an \code{lm} object with the regression model.}
 
 \item{covariates}{model covariates for which the robustness value will be computed. Default is to compute
-the robustness value of all covariates}
+the robustness value of all covariates.}
 
-\item{q}{proportion of reduction. Default is 1}
+\item{q}{hypothesized proportion of bias relative to original estimate due to unobserved confounders,
+used for computation of the robustness value. It has to be greater than zero. Default is \code{1}.}
 
-\item{alpha}{significance level. Default is 0.05}
+\item{alpha}{significance level used for computation of the robustness value. Default is \code{0.05}.}
 
 \item{t_statistic}{\code{numeric} vector with the t-value of the coefficient estimates}
 

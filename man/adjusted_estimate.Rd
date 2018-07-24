@@ -44,23 +44,23 @@ bias(...)
 }
 \arguments{
 \item{...}{arguments passed to other methods. First argument should either be an \code{lm} model with the
-outcome regression or a numeric vector with the coefficient estimate}
+outcome regression or a numeric vector with the coefficient estimate.}
 
-\item{model}{an \code{lm} object with the outcome regression}
+\item{model}{an \code{lm} object with the outcome regression.}
 
-\item{treatment}{a character vector with the name of the treatment variable of the model}
+\item{treatment}{a character vector with the name of the treatment variable of the model.}
 
-\item{r2dz.x}{hypothetical partial R2 of unobserved confounder Z with treatment D, given covariates X}
+\item{r2dz.x}{hypothetical partial R2 of unobserved confounder Z with treatment D, given covariates X.}
 
-\item{r2yz.dx}{hypothetical partial R2 of unobserved confounder Z with outcome Y, given covariates X and treatment D}
+\item{r2yz.dx}{hypothetical partial R2 of unobserved confounder Z with outcome Y, given covariates X and treatment D.}
 
-\item{reduce}{should the bias adjustment reduce or increase the absolute value of the estimated coefficient? Default is \code{TRUE}}
+\item{reduce}{should the bias adjustment reduce or increase the absolute value of the estimated coefficient? Default is \code{TRUE}.}
 
-\item{estimate}{coefficient estimate}
+\item{estimate}{coefficient estimate.}
 
-\item{se}{standard error of the coefficient estimate}
+\item{se}{standard error of the coefficient estimate.}
 
-\item{dof}{residual degrees of freedom of the regression}
+\item{dof}{residual degrees of freedom of the regression.}
 }
 \description{
 This function...

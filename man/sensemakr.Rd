@@ -2,13 +2,58 @@
 % Please edit documentation in R/sensemakr.R
 \name{sensemakr}
 \alias{sensemakr}
-\title{test}
+\alias{sensemakr.lm}
+\alias{sensemakr.formula}
+\title{Sensitivity analysis to unobserved confounders}
 \usage{
 sensemakr(...)
+
+\method{sensemakr}{lm}(model, treatment, benchmark_covariates = NULL,
+  kd = 1, ky = kd, q = 1, alpha = 0.05, r2dz.x = NULL,
+  r2yz.dx = r2dz.x, bound_label = "", reduce = TRUE, ...)
+
+\method{sensemakr}{formula}(formula, data, treatment,
+  benchmark_covariates = NULL, kd = 1, ky = kd, q = 1, alpha = 0.05,
+  reduce = TRUE, ...)
 }
 \arguments{
-\item{...}{test}
+\item{...}{arguments passed to other methods. First argument should either be an \code{\link{lm}} model with the
+outcome regression, or a \code{\link{formula}} describing the model along
+with the \code{\link{data.frame}} containing the variables of the model.}
+
+\item{model}{an \code{lm} object with the outcome regression.}
+
+\item{treatment}{a character vector with the name of the treatment variable of the model.}
+
+\item{benchmark_covariates}{a character vector of the names of covariates that will be used to bound the plausible strength
+of the unobserved confounders.}
+
+\item{kd}{numeric vector. Parameterizes how many times stronger the confounder is related to the treatment in comparison to the observed benchmark covariates.
+Default value is \code{1}.}
+
+\item{ky}{numeric vector. Parameterizes how many times stronger the confounder is related to the outcome in comparison to the observed benchmark covariates.
+Default value is the same as \code{kd}.}
+
+\item{q}{hypothesized proportion of bias relative to original estimate due to unobserved confounders,
+used for computation of the robustness value. It has to be greater than zero. Default is \code{1}.}
+
+\item{alpha}{significance level used for computation of the robustness value. Default is \code{0.05}.}
+
+\item{r2dz.x}{hypothetical partial R2 of unobserved confounder Z with treatment D, given covariates X.}
+
+\item{r2yz.dx}{hypothetical partial R2 of unobserved confounder Z with outcome Y, given covariates X and treatment D.}
+
+\item{bound_label}{label to bounds provided manually in \code{r2dz.x} and \code{r2yz.dx}.}
+
+\item{reduce}{should the bias adjustment reduce or increase the absolute value of the estimated coefficient? Default is \code{TRUE}.}
+
+\item{formula}{an object of the class \code{\link{formula}}: a symbolic description of the model to be fitted.}
+
+\item{data}{data needed only when you pass a formula as first parameter. An object of the class \code{\link{data.frame}} containing the variables used in the analysis.}
 }
 \description{
-test
+Sensitivity analysis to unobserved confounders
+}
+\references{
+Cinelli, C. and Hazlett, C. "Making Sense of Sensitivity: Extending Omitted Variable Bias." (2018).
 }

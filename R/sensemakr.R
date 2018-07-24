@@ -2,19 +2,37 @@
 #' Sensitivity: Extending Omitted Variable Bias"
 #'
 #' TODO: More documentation goes here
-#'
+#' @references Cinelli, C. and Hazlett, C. "Making Sense of Sensitivity: Extending Omitted Variable Bias." (2018).
 #' @docType package
 #' @name sensemakr-package
 NULL
 
-#' test
-#' @param ... test
+#' Sensitivity analysis to unobserved confounders
+#'
+#'
+#' @param ... arguments passed to other methods. First argument should either be an \code{\link{lm}} model with the
+#' outcome regression, or a \code{\link{formula}} describing the model along
+#' with the \code{\link{data.frame}} containing the variables of the model.
+#'
+#'
+#'
+#' @references Cinelli, C. and Hazlett, C. "Making Sense of Sensitivity: Extending Omitted Variable Bias." (2018).
 #' @export
 sensemakr <- function(...){
   UseMethod("sensemakr")
 }
 
 #' @export
+#' @inheritParams adjusted_estimate
+#' @param benchmark_covariates a character vector of the names of covariates that will be used to bound the plausible strength
+#' of the unobserved confounders.
+#' @param kd numeric vector. Parameterizes how many times stronger the confounder is related to the treatment in comparison to the observed benchmark covariates.
+#' Default value is \code{1}.
+#' @param ky numeric vector. Parameterizes how many times stronger the confounder is related to the outcome in comparison to the observed benchmark covariates.
+#' Default value is the same as \code{kd}.
+#' @param bound_label label to bounds provided manually in \code{r2dz.x} and \code{r2yz.dx}.
+#' @inheritParams robustness_value
+#' @rdname sensemakr
 #' @importFrom stats formula
 sensemakr.lm <- function(model,
                          treatment,
@@ -24,7 +42,7 @@ sensemakr.lm <- function(model,
                          q = 1,
                          alpha = 0.05,
                          r2dz.x = NULL,
-                         r2yz.dx = NULL,
+                         r2yz.dx = r2dz.x,
                          bound_label = "",
                          reduce = TRUE,
                          ...){
@@ -68,6 +86,9 @@ sensemakr.lm <- function(model,
   return(out)
 }
 
+#' @param formula an object of the class \code{\link{formula}}: a symbolic description of the model to be fitted.
+#' @param data data needed only when you pass a formula as first parameter. An object of the class \code{\link{data.frame}} containing the variables used in the analysis.
+#' @rdname sensemakr
 #' @export
 sensemakr.formula <- function(formula,
                               data,

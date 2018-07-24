@@ -8,3 +8,6 @@ Sensitivity: Extending Omitted Variable Bias"}
 \description{
 TODO: More documentation goes here
 }
+\references{
+Cinelli, C. and Hazlett, C. "Making Sense of Sensitivity: Extending Omitted Variable Bias." (2018).
+}
