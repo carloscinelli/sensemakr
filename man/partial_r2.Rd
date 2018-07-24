@@ -2,13 +2,45 @@
 % Please edit documentation in R/sensitivity_stats.R
 \name{partial_r2}
 \alias{partial_r2}
-\title{test}
+\alias{partial_r2.lm}
+\alias{partial_r2.numeric}
+\alias{partial_f2}
+\alias{partial_f2.numeric}
+\alias{partial_f2.lm}
+\alias{partial_f}
+\title{Computes partial R2 and partial (Cohen's) f2 of covariates in a linear regression model}
 \usage{
 partial_r2(...)
+
+\method{partial_r2}{lm}(model, covariates = NULL, ...)
+
+\method{partial_r2}{numeric}(t_statistic, dof, ...)
+
+partial_f2(...)
+
+\method{partial_f2}{numeric}(t_statistic, dof, ...)
+
+\method{partial_f2}{lm}(model, covariates = NULL, ...)
+
+partial_f(...)
 }
 \arguments{
-\item{...}{test}
+\item{...}{arguments passed to other methods. First argument should either be an \code{lm} object
+with the regression model or a numeric vector with the t-value of the coefficient estimate}
+
+\item{model}{an \code{lm} object with the regression model}
+
+\item{covariates}{model covariates for which the partial R2 will be computed. Default is to compute
+the partial R2 of all covariates}
+
+\item{t_statistic}{\code{numeric} vector with the t-value of the coefficient estimates}
+
+\item{dof}{residual degrees of freedom of the regression}
 }
 \description{
-test
+The \code{partial_r2} function computes partial R2.
+
+The \code{partial_f2} function computes partial f2 and \code{partial_f} the partial f.
+
+For partial R2 of groups of covariates, check \code{\link{group_partial_r2}}.
 }

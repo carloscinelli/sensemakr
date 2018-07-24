@@ -18,9 +18,10 @@ test_that("robustness value", {
                                 dof = 200,
                                 q = c(0.5, 1)))
 
-  expect_error(robustness_value(t_statistic = 2.5,
+  # q can be greater than 1
+  robustness_value(t_statistic = 2.5,
                                 dof = 200,
-                                q = 2))
+                                q = 2)
 
   expect_error(robustness_value(t_statistic = 2.5,
                                 dof = 200,
@@ -53,7 +54,7 @@ test_that("robustness value", {
   expect_equal(
     as.numeric(robustness_value(
       model = lm.out,
-      covariate = "directlyharmed")),
+      covariates = "directlyharmed")),
     0.13877, tolerance = 1e-3)
 
   # Works with direct t from sensemakr object (duh)

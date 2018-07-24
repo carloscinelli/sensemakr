@@ -42,7 +42,7 @@ sensemakr.lm <- function(model,
                                              alpha = alpha)
   # bounds on ovb
   if (!is.null(r2dz.x)) {
-    error_r2(r2dz.x = r2dz.x, r2yz.dx = r2yz.dx)
+    check_r2(r2dz.x = r2dz.x, r2yz.dx = r2yz.dx)
     out$bounds <-  data.frame(r2dz.x = r2dz.x,
                               r2yz.dx = r2yz.dx,
                               bound_label = bound_label,
@@ -83,7 +83,7 @@ sensemakr.formula <- function(formula,
                 formula = formula,
                 data = data)
 
-  error_multipliers(ky = ky,
+  check_multipliers(ky = ky,
                     kd = kd)
 
 

@@ -2,13 +2,30 @@
 % Please edit documentation in R/sensitivity_stats.R
 \name{group_partial_r2}
 \alias{group_partial_r2}
-\title{test}
+\alias{group_partial_r2.lm}
+\alias{group_partial_r2.numeric}
+\title{Computes partial R2 of groups of covariates in a linear regression model}
 \usage{
 group_partial_r2(...)
+
+\method{group_partial_r2}{lm}(model, covariates, ...)
+
+\method{group_partial_r2}{numeric}(F.stats, p, dof, ...)
 }
 \arguments{
 \item{...}{test}
+
+\item{model}{an \code{lm} object with the regression model}
+
+\item{covariates}{model covariates for which the partial R2 will be computed. Default is to compute
+the partial R2 of all covariates}
+
+\item{F.stats}{F statistics}
+
+\item{p}{number of parameters in the model}
+
+\item{dof}{residual degrees of freedom of the model}
 }
 \description{
-test
+Computes partial R2 of groups of covariates in a linear regression model
 }

@@ -2,13 +2,66 @@
 % Please edit documentation in R/bias_functions.R
 \name{adjusted_estimate}
 \alias{adjusted_estimate}
-\title{test}
+\alias{adjusted_estimate.lm}
+\alias{adjusted_estimate.numeric}
+\alias{adjusted_se}
+\alias{adjusted_se.numeric}
+\alias{adjusted_se.lm}
+\alias{adjusted_t}
+\alias{adjusted_t.numeric}
+\alias{adjusted_t.lm}
+\alias{bias}
+\alias{bias.numeric}
+\alias{bias.lm}
+\title{Bias-adjusted estimates, standard-errors and t-values of regression coefficients}
 \usage{
 adjusted_estimate(...)
+
+\method{adjusted_estimate}{lm}(model, treatment, r2dz.x, r2yz.dx,
+  reduce = TRUE, ...)
+
+\method{adjusted_estimate}{numeric}(estimate, se, dof, r2dz.x, r2yz.dx,
+  reduce = TRUE, ...)
+
+adjusted_se(...)
+
+\method{adjusted_se}{numeric}(se, dof, r2dz.x, r2yz.dx, ...)
+
+\method{adjusted_se}{lm}(model, treatment, r2dz.x, r2yz.dx, ...)
+
+adjusted_t(...)
+
+\method{adjusted_t}{numeric}(estimate, se, dof, r2dz.x, r2yz.dx,
+  reduce = TRUE, ...)
+
+\method{adjusted_t}{lm}(model, treatment, r2dz.x, r2yz.dx, reduce = TRUE, ...)
+
+bias(...)
+
+\method{bias}{numeric}(se, dof, r2dz.x, r2yz.dx, ...)
+
+\method{bias}{lm}(model, treatment, r2dz.x, r2yz.dx, ...)
 }
 \arguments{
-\item{...}{test}
+\item{...}{arguments passed to other methods. First argument should either be an \code{lm} model with the
+outcome regression or a numeric vector with the coefficient estimate}
+
+\item{model}{an \code{lm} object with the outcome regression}
+
+\item{treatment}{a character vector with the name of the treatment variable of the model}
+
+\item{r2dz.x}{hypothetical partial R2 of unobserved confounder Z with treatment D, given covariates X}
+
+\item{r2yz.dx}{hypothetical partial R2 of unobserved confounder Z with outcome Y, given covariates X and treatment D}
+
+\item{reduce}{should the bias adjustment reduce or increase the absolute value of the estimated coefficient? Default is \code{TRUE}}
+
+\item{estimate}{coefficient estimate}
+
+\item{se}{standard error of the coefficient estimate}
+
+\item{dof}{residual degrees of freedom of the regression}
 }
 \description{
-test
+This function...
 }

@@ -66,19 +66,13 @@ ovb_contour_plot.numeric = function(estimate,
                                     col.contour = "grey40",
                                     col.thr.line = "red",
                                     label.text = TRUE,
-                                    label.bump = 0.02,
-                                    label.bump2 = 0.00,
+                                    label.bump.x = 0.02,
+                                    label.bump.y = 0.02,
                                     ...) {
 
-  error_estimate(estimate)
-  if (lim > 1) {
-    lim <- 1
-    warning("Contour limit larger than 1 was set to 1.")
-  }
-  if (lim < 0) {
-    lim <- 0.4
-    warning("Contour limit less than 0 was set to 0.4.")
-  }
+  check_estimate(estimate)
+  check_r2(r2dz.x = r2dz.x, r2yz.dx = r2yz.dx)
+  lim <- check_contour_lim(lim)
 
   sensitivity.of <- match.arg(sensitivity.of)
 
@@ -153,7 +147,7 @@ ovb_contour_plot.numeric = function(estimate,
   # Add the point of the initial estimate.
   points(0, 0, pch = 17, col = "black", cex = 1)
 
-  text(0.0 + label.bump2, 0.00 + label.bump,
+  text(0.0 + label.bump.x, 0.00 + label.bump.y,
        paste0("Unadjusted\n(",
               signif(plot_estimate, 2),
               ")"),
@@ -162,7 +156,7 @@ ovb_contour_plot.numeric = function(estimate,
   # add bounds
   if (!is.null(r2dz.x)) {
 
-    error_r2(r2dz.x = r2dz.x, r2yz.dx = r2yz.dx)
+    check_r2(r2dz.x = r2dz.x, r2yz.dx = r2yz.dx)
 
 
     add_bound_to_contour(r2dz.x = r2dz.x,
@@ -171,7 +165,8 @@ ovb_contour_plot.numeric = function(estimate,
                          bound_label = bound_label,
                          sensitivity.of = sensitivity.of,
                          label.text = label.text,
-                         label.bump = label.bump)
+                         label.bump.x = label.bump.x,
+                         label.bump.y = label.bump.y)
     out$bounds = data.frame(r2dz.x = r2dz.x,
                             r2yz.dx = r2yz.dx,
                             bound_label = bound_label)
@@ -199,11 +194,12 @@ ovb_contour_plot.lm = function(model,
                                col.contour = "grey40",
                                col.thr.line = "red",
                                label.text = TRUE,
-                               label.bump = 0.02,
+                               label.bump.x = 0.02,
+                               label.bump.y = 0.02,
                                ...) {
 
 
-  error_multipliers(ky = ky, kd = kd)
+  check_multipliers(ky = ky, kd = kd)
   if (lim > 1) {
     lim <- 1
     warning("Contour limit larger than 1 was set to 1.")
@@ -224,7 +220,7 @@ ovb_contour_plot.lm = function(model,
   dof <- model_data$dof
 
   if (!is.null(r2dz.x)) {
-    error_r2(r2dz.x = r2dz.x, r2yz.dx = r2yz.dx)
+    check_r2(r2dz.x = r2dz.x, r2yz.dx = r2yz.dx)
     bounds <-  data.frame(r2dz.x = r2dz.x,
                           r2yz.dx = r2yz.dx,
                           bound_label = bound_label,
@@ -262,7 +258,8 @@ ovb_contour_plot.lm = function(model,
                    col.contour = col.contour,
                    col.thr.line = col.thr.line,
                    label.text = label.text,
-                   label.bump = label.bump,
+                   label.bump.x = label.bump.x,
+                   label.bump.y = label.bump.y,
                    ...)
 
 
@@ -294,7 +291,7 @@ ovb_contour_plot.formula = function(formula,
                 formula = formula,
                 data = data)
 
-  error_multipliers(ky = ky,
+  check_multipliers(ky = ky,
                     kd = kd)
 
   sensitivity.of <- match.arg(sensitivity.of)
@@ -338,7 +335,8 @@ add_bound_to_contour.numeric <- function(r2dz.x,
                                          bound_value,
                                          bound_label = NULL,
                                          label.text = TRUE,
-                                         label.bump = 0.02,
+                                         label.bump.x = 0.02,
+                                         label.bump.y = 0.02,
                                          ...){
 
   for (i in seq.int(length(r2dz.x))) {
@@ -353,7 +351,8 @@ add_bound_to_contour.numeric <- function(r2dz.x,
 
     # Add the label text
     if (label.text)
-      text(r2dz.x[i], r2yz.dx[i] + label.bump,
+      text(r2dz.x[i] + label.bump.x,
+           r2yz.dx[i] + label.bump.y,
            labels = label,
            cex = 1.1, font = 1)
   }
@@ -369,7 +368,8 @@ add_bound_to_contour.lm <- function(model,
                                     reduce = TRUE,
                                     sensitivity.of = c("estimate", "t-value"),
                                     label.text = TRUE,
-                                    label.bump = 0.02,
+                                    label.bump.x = 0.02,
+                                    label.bump.y = 0.02,
                                     ...)
 {
   sensitivity.of <- match.arg(sensitivity.of)
@@ -394,7 +394,9 @@ add_bound_to_contour.lm <- function(model,
                        bound_value = bound_value,
                        bound_label = bounds$bound_label,
                        label.text = label.text,
-                       label.bump = label.bump, ...)
+                       label.bump.x = label.bump.x,
+                       label.bump.y = label.bump.y,
+                       ...)
 }
 
 #' @export
@@ -657,7 +659,7 @@ check_formula <- function(treatment, formula, data) {
 
 
 
-error_estimate = function(estimate) {
+check_estimate = function(estimate) {
   # Error if we don't have an estimate or if it's non-numeric
   if (is.null(estimate)) {
     stop("You must supply either a `model` and `treatment_covariate` to ",
@@ -668,7 +670,7 @@ error_estimate = function(estimate) {
   }
 }
 
-error_r2 = function(r2dz.x, r2yz.dx) {
+check_r2 = function(r2dz.x, r2yz.dx) {
   # Check r2dz.x / r2yz.dx
   if (is.null(r2dz.x) != is.null(r2yz.dx)) {
     stop("Either both `r2dz.x` and `r2yz.dx` must be provided or neither.")
@@ -690,7 +692,7 @@ error_r2 = function(r2dz.x, r2yz.dx) {
   }
 }
 
-error_multipliers = function(ky, kd) {
+check_multipliers = function(ky, kd) {
   # Error if multipliers are wrong.
   if ( any(!is.numeric(ky)) || any(!is.numeric(kd)) ||
      any(ky < 0) || any(kd < 0)) {
@@ -702,3 +704,20 @@ error_multipliers = function(ky, kd) {
   }
 }
 
+
+check_contour_lim <- function(lim) {
+
+  if (lim > 1) {
+    lim <- 1
+    warning("Contour limit larger than 1 was set to 1.")
+    return(lim)
+  }
+
+  if (lim < 0) {
+    lim <- 0.4
+    warning("Contour limit less than 0 was set to 0.4.")
+    return(lim)
+  }
+
+  return(lim)
+}

@@ -2,17 +2,35 @@
 % Please edit documentation in R/sensitivity_stats.R
 \name{robustness_value}
 \alias{robustness_value}
-\title{test}
+\alias{robustness_value.lm}
+\alias{robustness_value.numeric}
+\title{Robustness value of a regression coefficient}
 \usage{
-robustness_value(..., q = 1, alpha = NULL)
+robustness_value(...)
+
+\method{robustness_value}{lm}(model, covariates = NULL, q = 1,
+  alpha = NULL, ...)
+
+\method{robustness_value}{numeric}(t_statistic, dof, q = 1, alpha = NULL,
+  ...)
 }
 \arguments{
-\item{...}{test}
+\item{...}{arguments passed to other methods. First argument should either be an \code{lm} model with the
+regression model or a numeric vector with the t-value of the coefficient estimate}
 
-\item{q}{test}
+\item{model}{an \code{lm} object with the regression model}
 
-\item{alpha}{test}
+\item{covariates}{model covariates for which the robustness value will be computed. Default is to compute
+the robustness value of all covariates}
+
+\item{q}{proportion of reduction. Default is 1}
+
+\item{alpha}{significance level. Default is 0.05}
+
+\item{t_statistic}{\code{numeric} vector with the t-value of the coefficient estimates}
+
+\item{dof}{residual degrees of freedom of the regression}
 }
 \description{
-test
+Robustness value of a regression coefficient
 }
