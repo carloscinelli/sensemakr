@@ -27,7 +27,7 @@ ovb_contour_plot(...)
 \method{ovb_contour_plot}{numeric}(estimate, se, dof, r2dz.x = NULL,
   r2yz.dx = r2dz.x, bound_label = "", sensitivity.of = c("estimate",
   "t-value"), reduce = TRUE, estimate.threshold = 0, t.threshold = 2,
-  lim = max(c(0.4, r2dz.x, r2yz.dx)), nlevels = 20,
+  lim = max(c(0.4, r2dz.x + 0.1, r2yz.dx + 0.1)), nlevels = 20,
   col.contour = "grey40", col.thr.line = "red", label.text = TRUE,
   label.bump.x = 0.02, label.bump.y = 0.02, ...)
 }
