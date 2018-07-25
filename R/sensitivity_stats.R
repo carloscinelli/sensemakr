@@ -68,9 +68,13 @@ robustness_value.numeric <- function(t_statistic, dof, q =1, alpha = NULL, ...){
   # significant, rather than whether it will be >0) we need to adjust the qf
   # accordingly. [eqn. 18 from "Making Sense of Sensitivity"]
   if (!is.null(alpha)) {
-    critical_t = abs(qt(alpha / 2,
-                        df = dof - 1))
-    qf = qf - (critical_t / sqrt(dof - 1))
+    critical_f = abs(qt(alpha / 2,
+                        df = dof - 1)) / sqrt(dof - 1)
+    if (critical_f > qf) {
+      qf = 0
+    } else {
+      qf = qf - (critical_f)
+    }
   }
 
   # Eqn. 19 from "Making Sense of Sensitivity"
