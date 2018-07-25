@@ -123,6 +123,7 @@ plot(sense)
 sense <- sensemakr(lm.out, treatment = "directlyharmed", benchmark_covariates = "female",
                    kd = 1:3)
 plot(sense)
+plot(sense, sensitivity.of = "t-value")
 plot(sense, type = "extreme")
 sense$info
 

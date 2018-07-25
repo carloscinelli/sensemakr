@@ -4,8 +4,7 @@
 \alias{plot.sensemakr}
 \title{Sensitivity analysis plots for sensemakr}
 \usage{
-\method{plot}{sensemakr}(x, type = c("contour", "extreme"),
-  sensitivity.of = c("estimate", "t-value"), ...)
+\method{plot}{sensemakr}(x, type = c("contour", "extreme"), ...)
 }
 \arguments{
 \item{x}{an object of class \code{\link{sensemakr}}.}
@@ -13,9 +12,6 @@
 \item{type}{type of sensitivity plot. It can be \code{"contour"}, for contour plots of omitted
 variable bias as in \code{\link{ovb_contour_plot}}; or, \code{"extreme"} for
 extreme scenarios plots of omitted variable bias as in \code{\link{ovb_extreme_plot}}.}
-
-\item{sensitivity.of}{should the contour plot show adjusted estimates (\code{"estimate"})
-or adjusted t-values (\code{"t-value"})?}
 
 \item{...}{arguments passed to the plot functions. Check arguments in  \code{\link{ovb_contour_plot}}
 and \code{\link{ovb_extreme_plot}}.}

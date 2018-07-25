@@ -16,16 +16,14 @@
 #' @export
 plot.sensemakr = function(x,
                           type = c("contour", "extreme"),
-                          sensitivity.of = c("estimate", "t-value"),
                           ...) {
 
   type <- match.arg(type)
-  sensitivity.of <- match.arg(sensitivity.of)
 
   # Call the dispatch function of interest
   switch(type,
          "contour" = dispatch_contour,
-         "extreme" = dispatch_extreme)(x, sensitivity.of = sensitivity.of,
+         "extreme" = dispatch_extreme)(x,
                                        ...)
 }
 
@@ -36,11 +34,10 @@ dispatch_contour = function(x, sensitivity.of = c("estimate", "t-value"), ...) {
   ovb_contour_plot(x, sensitivity.of = sensitivity.of, ...)
 }
 
-dispatch_extreme = function(x, sensitivity.of = c("estimate", "t-value"), ...) {
+dispatch_extreme = function(x, ...) {
   # Use dispatcher rather than direct call so we can allow modifying call if
   # necessary
-  sensitivity.of <- match.arg(sensitivity.of)
-  ovb_extreme_plot(x, sensitivity.of = sensitivity.of, ...)
+  ovb_extreme_plot(x, ...)
 }
 
 
