@@ -70,15 +70,11 @@ robustness_value.numeric <- function(t_statistic, dof, q =1, alpha = NULL, ...){
   if (!is.null(alpha)) {
     critical_f = abs(qt(alpha / 2,
                         df = dof - 1)) / sqrt(dof - 1)
-    if (critical_f > qf) {
-      qf = 0
-    } else {
       qf = qf - (critical_f)
-    }
   }
 
   # Eqn. 19 from "Making Sense of Sensitivity"
-  rv <- 0.5 * (sqrt(qf^4 + (4 * qf^2)) - qf^2)
+  rv <- ifelse(qf < 0, 0,  0.5 * (sqrt(qf^4 + (4 * qf^2)) - qf^2))
   attributes(rv) <- list(names = names(rv), q = q, alpha = alpha, class = c("numeric","rv"))
   rv
 }
