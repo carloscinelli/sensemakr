@@ -413,7 +413,24 @@ add_bound_to_contour <- function(...){
   UseMethod("add_bound_to_contour")
 }
 
-
+#' @export
+add_bound_to_contour.ovb_bounds <- function(bounds,
+                                            bound_value = NULL,
+                                            label.text = TRUE,
+                                            label.bump.x = 0.02,
+                                            label.bump.y = 0.02,
+                                            round = 2,
+                                            ...){
+  add_bound_to_contour(r2dz.x = bounds$r2dz.x,
+                       r2yz.dx = bounds$r2yz.dx,
+                       bound_value = bound_value,
+                       bound_label = bounds$bound_label,
+                       label.text = label.text,
+                       label.bump.x = label.bump.x,
+                       label.bump.y = label.bump.y,
+                       round = round,
+                       ...)
+}
 
 #' @inheritParams ovb_contour_plot
 #' @rdname add_bound_to_contour
@@ -428,6 +445,7 @@ add_bound_to_contour.lm <- function(model,
                                     label.text = TRUE,
                                     label.bump.x = 0.02,
                                     label.bump.y = 0.02,
+                                    round = 2,
                                     ...)
 {
   sensitivity.of <- match.arg(sensitivity.of)
@@ -454,12 +472,14 @@ add_bound_to_contour.lm <- function(model,
                        label.text = label.text,
                        label.bump.x = label.bump.x,
                        label.bump.y = label.bump.y,
+                       round = round,
                        ...)
 }
 
 #' @inheritParams ovb_contour_plot
 #' @rdname add_bound_to_contour
 #' @param bound_value value to be printed in label bound.
+#' @param round rounding
 #' @export
 add_bound_to_contour.numeric <- function(r2dz.x,
                                          r2yz.dx,
@@ -468,6 +488,7 @@ add_bound_to_contour.numeric <- function(r2dz.x,
                                          label.text = TRUE,
                                          label.bump.x = 0.02,
                                          label.bump.y = 0.02,
+                                         round = 2,
                                          ...){
 
   for (i in seq.int(length(r2dz.x))) {
@@ -479,7 +500,7 @@ add_bound_to_contour.numeric <- function(r2dz.x,
            cex = 1, font = 1)
     if (!is.null(bound_value[i])) {
       if (is.numeric(bound_value[i]))
-        bound_value[i] <- round(bound_value[i], 3)
+        bound_value[i] <- round(bound_value[i], round)
 
       label = paste0(bound_label[i], "\n(", bound_value[i], ")")
     } else {

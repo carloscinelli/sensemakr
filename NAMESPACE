@@ -2,6 +2,7 @@
 
 S3method(add_bound_to_contour,lm)
 S3method(add_bound_to_contour,numeric)
+S3method(add_bound_to_contour,ovb_bounds)
 S3method(adjusted_estimate,lm)
 S3method(adjusted_estimate,numeric)
 S3method(adjusted_se,lm)

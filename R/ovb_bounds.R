@@ -186,6 +186,7 @@ ovb_bounds.lm <- function(model,
                                    r2dz.x = bounds$r2dz.x,
                                    reduce = reduce)
   }
+  class(bounds) <- c("ovb_bounds", "data.frame")
   bounds
 }
 

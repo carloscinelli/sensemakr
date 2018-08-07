@@ -11,11 +11,11 @@ add_bound_to_contour(...)
 \method{add_bound_to_contour}{lm}(model, treatment, benchmark_covariates,
   kd = 1, ky = kd, reduce = TRUE, sensitivity.of = c("estimate",
   "t-value"), label.text = TRUE, label.bump.x = 0.02, label.bump.y = 0.02,
-  ...)
+  round = 2, ...)
 
 \method{add_bound_to_contour}{numeric}(r2dz.x, r2yz.dx, bound_value = NULL,
   bound_label = NULL, label.text = TRUE, label.bump.x = 0.02,
-  label.bump.y = 0.02, ...)
+  label.bump.y = 0.02, round = 2, ...)
 }
 \arguments{
 \item{...}{test}
@@ -43,6 +43,8 @@ or adjusted t-values (\code{"t-value"})?}
 \item{label.bump.x}{bump on the x coordinate of label text.}
 
 \item{label.bump.y}{bump on the y coordinate of label text.}
+
+\item{round}{rounding}
 
 \item{r2dz.x}{hypothetical partial R2 of unobserved confounder Z with treatment D, given covariates X.}
 
