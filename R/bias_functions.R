@@ -5,10 +5,34 @@
 
 #' Bias-adjusted estimates, standard-errors and t-values
 #'
-#' This function...
+#' @description
+#'  These functions compute bias adjusted estimates (\code{adjusted_estimate}), standard-errors (\code{adjusted_se})
+#'  and t-values (\code{adjusted_t}), given a hypothetical strength of the confounder with the partial r2 parameterization.
+#'
+#' The functions work either with an \code{\link{lm}} object, or directly passing the numerical inputs, such as the
+#' current coefficient estimate, standard error and degrees of freedom.
 #'
 #' @param ... arguments passed to other methods. First argument should either be an \code{lm} model with the
 #' outcome regression or a numeric vector with the coefficient estimate.
+#'
+#' @examples
+#' # loads data
+#' data("darfur")
+#'
+#' # fits model
+#' model <- lm(peacefactor ~ directlyharmed + age +
+#'                           farmer_dar + herder_dar +
+#'                            pastvoted + hhsize_darfur +
+#'                            female + village, data = darfur)
+#'
+#' # computes adjusted estimate for confounder with  r2dz.x = 0.05, r2yz.dx = 0.05
+#' adjusted_estimate(model, treatment = "directlyharmed", r2dz.x = 0.05, r2yz.dx = 0.05)
+#'
+#' # computes adjusted SE for confounder with  r2dz.x = 0.05, r2yz.dx = 0.05
+#' adjusted_se(model, treatment = "directlyharmed", r2dz.x = 0.05, r2yz.dx = 0.05)
+#'
+#' # computes adjusted t-value for confounder with  r2dz.x = 0.05, r2yz.dx = 0.05
+#' adjusted_t(model, treatment = "directlyharmed", r2dz.x = 0.05, r2yz.dx = 0.05)
 #' @export
 adjusted_estimate <- function(...){
   UseMethod("adjusted_estimate")
@@ -98,23 +122,25 @@ adjusted_t <- function(...){
 
 #' @rdname adjusted_estimate
 #' @export
-adjusted_t.numeric = function(estimate, se, dof, r2dz.x, r2yz.dx, reduce = TRUE, ...) {
+adjusted_t.numeric = function(estimate, se, dof, r2dz.x, r2yz.dx, reduce = TRUE, h0 = 0, ...) {
   # Error handling (most handled through dispatch to bias/se, but need
   # to make sure estimate is also valid)
   if (!is.numeric(estimate) || length(estimate) > 1) {
     stop("Estimate provided must be a single number.")
   }
   new_estimate <- adjusted_estimate(estimate = estimate, r2yz.dx = r2yz.dx, r2dz.x = r2dz.x, se = se, dof = dof,reduce =  reduce)
-  new_estimate / adjusted_se(r2yz.dx = r2yz.dx, r2dz.x = r2dz.x, se = se, dof = dof)
+  (new_estimate - h0) / adjusted_se(r2yz.dx = r2yz.dx, r2dz.x = r2dz.x, se = se, dof = dof)
 }
 
 
 #' @rdname adjusted_estimate
+#' @param h0 null hypothesis. Default is zero.
 #' @export
-adjusted_t.lm <- function(model, treatment,  r2dz.x, r2yz.dx, reduce = TRUE, ...){
+adjusted_t.lm <- function(model, treatment,  r2dz.x, r2yz.dx, reduce = TRUE, h0 = 0, ...){
   # extract model data
   model_data <- model_helper(model, covariates = treatment)
-  with(model_data, adjusted_t(estimate = estimate, se = se, dof = dof, r2dz.x = r2dz.x, r2yz.dx = r2yz.dx, reduce = reduce))
+  with(model_data, adjusted_t(estimate = estimate, se = se, dof = dof, r2dz.x = r2dz.x,
+                              r2yz.dx = r2yz.dx, reduce = reduce, h0 = h0))
 }
 
 

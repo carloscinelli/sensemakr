@@ -79,6 +79,11 @@ robustness_value.numeric <- function(t_statistic, dof, q =1, alpha = NULL, ...){
   rv
 }
 
+#' @rdname robustness_value
+#' @export
+robustness_value.sensemakr <- function(model, ...){
+
+}
 
 
 
@@ -302,8 +307,8 @@ sensitivity_stats.numeric <- function(estimate,
   sensitivity_stats[["se"]] <- se
   sensitivity_stats[["t_statistic"]] <- t_statistic
   sensitivity_stats[["r2yd.x"]] <- as.numeric(partial_r2(t_statistic = t_statistic, dof = dof))
-  sensitivity_stats[["rv_q"]] <- as.numeric(robustness_value(t_statistic = t_statistic, dof = dof, q = q))
-  sensitivity_stats[["rv_qa"]] <- as.numeric(robustness_value(t_statistic = t_statistic, dof = dof, q = q, alpha = alpha))
+  sensitivity_stats[["rv_q"]] <- (robustness_value(t_statistic = t_statistic, dof = dof, q = q))
+  sensitivity_stats[["rv_qa"]] <- (robustness_value(t_statistic = t_statistic, dof = dof, q = q, alpha = alpha))
   sensitivity_stats[["f2yd.x"]] <- as.numeric(partial_f2(t_statistic = t_statistic, dof = dof))
   sensitivity_stats[["dof"]] <- dof
   sensitivity_stats
@@ -318,7 +323,7 @@ sensitivity_stats.numeric <- function(estimate,
 check_q <- function(q) {
   # Error: q non-numeric or out of bounds
   if (!is.numeric(q) || length(q) > 1 || q < 0) {
-    stop("The `q` parameter must be a numeric quantity greater than 0.")
+    stop("The `q` parameter must be a single number greater than 0.")
   }
 }
 
@@ -327,7 +332,7 @@ check_alpha <- function(alpha) {
   # Error: alpha, if provided, was non-numeric or out of bounds
   if (!is.null(alpha) && (!is.numeric(alpha) || length(alpha) > 1 ||
                           alpha < 0 || alpha > 1)) {
-    stop("The `alpha` parameter, if provided, must be a numeric quantity ",
+    stop("The `alpha` parameter, if provided, must be a single number ",
          "between 0 and 1.")
   }
 }

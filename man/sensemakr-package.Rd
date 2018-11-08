@@ -3,10 +3,22 @@
 \docType{package}
 \name{sensemakr-package}
 \alias{sensemakr-package}
-\title{sensemakr: sensitivity analysis, implementing "Making Sense of
-Sensitivity: Extending Omitted Variable Bias"}
+\title{Sensitivity analysis: extending omitted variable bias"}
 \description{
-TODO: More documentation goes here
+The sensemakr package implements a suite of sensitivity analysis tools that make it easier to
+understand the impact of omitted variable bias in linear regression models.
+It implements the methods discussed in Cinelli and Hazlett (2018).
+}
+\details{
+More information can be found on the help documentation, vignettes and related papers.
+
+The main function of the package is  \code{\link{sensemakr}}, which computes the most common sensitivity analysis results.
+After running \code{sensemakr} you may directly use the plot and print methods in the returned object.
+
+You may also find usefull to use some of the sensitivity functions directly, such as the sensitivity plots
+(\code{\link{ovb_contour_plot}}, \code{\link{ovb_extreme_plot}}) the bias-adjusted estimates (\code{\link{adjusted_estimate}}),
+the robustness value (\code{\link{robustness_value}}), covariates partial r2s (\code{\link{partial_r2}}), the bounds
+on the strength of the confounders (\code{\link{ovb_bounds}}), among other convenience functions.
 }
 \references{
 Cinelli, C. and Hazlett, C. "Making Sense of Sensitivity: Extending Omitted Variable Bias." (2018).

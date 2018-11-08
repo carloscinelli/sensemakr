@@ -32,9 +32,10 @@ adjusted_se(...)
 adjusted_t(...)
 
 \method{adjusted_t}{numeric}(estimate, se, dof, r2dz.x, r2yz.dx,
-  reduce = TRUE, ...)
+  reduce = TRUE, h0 = 0, ...)
 
-\method{adjusted_t}{lm}(model, treatment, r2dz.x, r2yz.dx, reduce = TRUE, ...)
+\method{adjusted_t}{lm}(model, treatment, r2dz.x, r2yz.dx, reduce = TRUE,
+  h0 = 0, ...)
 
 bias(...)
 
@@ -61,7 +62,32 @@ outcome regression or a numeric vector with the coefficient estimate.}
 \item{se}{standard error of the coefficient estimate.}
 
 \item{dof}{residual degrees of freedom of the regression.}
+
+\item{h0}{null hypothesis. Default is zero.}
 }
 \description{
-This function...
+These functions compute bias adjusted estimates (\code{adjusted_estimate}), standard-errors (\code{adjusted_se})
+ and t-values (\code{adjusted_t}), given a hypothetical strength of the confounder with the partial r2 parameterization.
+
+The functions work either with an \code{\link{lm}} object, or directly passing the numerical inputs, such as the
+current coefficient estimate, standard error and degrees of freedom.
+}
+\examples{
+# loads data
+data("darfur")
+
+# fits model
+model <- lm(peacefactor ~ directlyharmed + age +
+                          farmer_dar + herder_dar +
+                           pastvoted + hhsize_darfur +
+                           female + village, data = darfur)
+
+# computes adjusted estimate for confounder with  r2dz.x = 0.05, r2yz.dx = 0.05
+adjusted_estimate(model, treatment = "directlyharmed", r2dz.x = 0.05, r2yz.dx = 0.05)
+
+# computes adjusted SE for confounder with  r2dz.x = 0.05, r2yz.dx = 0.05
+adjusted_se(model, treatment = "directlyharmed", r2dz.x = 0.05, r2yz.dx = 0.05)
+
+# computes adjusted t-value for confounder with  r2dz.x = 0.05, r2yz.dx = 0.05
+adjusted_t(model, treatment = "directlyharmed", r2dz.x = 0.05, r2yz.dx = 0.05)
 }

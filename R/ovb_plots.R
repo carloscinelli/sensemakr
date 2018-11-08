@@ -31,7 +31,15 @@ dispatch_contour = function(x, sensitivity.of = c("estimate", "t-value"), ...) {
   # Use dispatcher rather than direct call so we can allow modifying call if
   # necessary
   sensitivity.of <- match.arg(sensitivity.of)
-  ovb_contour_plot(x, sensitivity.of = sensitivity.of, ...)
+  estimate <- x$sensitivity_stats$estimate
+  q <- x$info$q
+  reduce <- x$info$reduce
+  alpha <- x$info$alpha
+  dof <- x$sensitivity_stats$dof
+  thr <- round(ifelse(reduce, estimate*(1 - q), estimate*(1 + q) ), 3)
+  t.thr <- qt(alpha/2, df = dof)
+  ovb_contour_plot(x, sensitivity.of = sensitivity.of, estimate.threshold = thr, t.threshold = t.thr,
+                   ...)
 }
 
 dispatch_extreme = function(x, ...) {
@@ -330,7 +338,7 @@ ovb_contour_plot.numeric = function(estimate,
   if (sensitivity.of == "t-value") {
     z_axis = outer(grid_values, grid_values,
                    FUN = "adjusted_t",
-                   se = se, dof = dof, estimate = estimate)
+                   se = se, dof = dof, estimate = estimate, h0 = estimate.threshold) # we are computing the t-value of H0: tau = estimate.threshold
     threshold = t.threshold
     plot_estimate = estimate / se
 
@@ -340,7 +348,7 @@ ovb_contour_plot.numeric = function(estimate,
                                 dof = dof,
                                 r2dz.x = r2dz.x,
                                 r2yz.dx = r2yz.dx,
-                                reduce = reduce)
+                                reduce = reduce, h0 = estimate.threshold)
 
   }
 
@@ -353,12 +361,12 @@ ovb_contour_plot.numeric = function(estimate,
   # characteristics
   default_levels = pretty(range(z_axis), nlevels)
   line_color = ifelse(default_levels == threshold,
-                      col.thr.line,
+                      "transparent",
                       col.contour)
   line_type = ifelse(default_levels == threshold,
-                     2, 1)
+                     1, 1)
   line_width = ifelse(default_levels == threshold,
-                      2, 1)
+                      1, 1)
 
   # Plot contour plot:
   contour(
@@ -370,6 +378,11 @@ ovb_contour_plot.numeric = function(estimate,
     cex.main = 1, cex.lab = 1, cex.axis = 1,
     col = line_color, lty = line_type, lwd = line_width,
     ...)
+  contour(grid_values, grid_values,
+          z_axis, level = threshold,
+          add = TRUE,
+          col = col.thr.line,
+          lwd = 2, lty = 2)
 
   # Add the point of the initial estimate.
   points(0, 0, pch = 17, col = "black", cex = 1)

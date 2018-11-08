@@ -1,7 +1,18 @@
-#' sensemakr: sensitivity analysis, implementing "Making Sense of
-#' Sensitivity: Extending Omitted Variable Bias"
+#' Sensitivity analysis: extending omitted variable bias"
 #'
-#' TODO: More documentation goes here
+#' The sensemakr package implements a suite of sensitivity analysis tools that make it easier to
+#' understand the impact of omitted variable bias in linear regression models.
+#' It implements the methods discussed in Cinelli and Hazlett (2018).
+#'
+#' More information can be found on the help documentation, vignettes and related papers.
+#'
+#' The main function of the package is  \code{\link{sensemakr}}, which computes the most common sensitivity analysis results.
+#' After running \code{sensemakr} you may directly use the plot and print methods in the returned object.
+#'
+#' You may also find usefull to use some of the sensitivity functions directly, such as the sensitivity plots
+#' (\code{\link{ovb_contour_plot}}, \code{\link{ovb_extreme_plot}}) the bias-adjusted estimates (\code{\link{adjusted_estimate}}),
+#' the robustness value (\code{\link{robustness_value}}), covariates partial r2s (\code{\link{partial_r2}}), the bounds
+#' on the strength of the confounders (\code{\link{ovb_bounds}}), among other convenience functions.
 #'
 #'
 #'
@@ -20,6 +31,32 @@ NULL
 #'
 #'
 #' @references Cinelli, C. and Hazlett, C. "Making Sense of Sensitivity: Extending Omitted Variable Bias." (2018).
+#' @examples
+#' # loads dataset
+#' data("darfur")
+#'
+#' # runs regression model
+#' model <- lm(peacefactor ~ directlyharmed + age + farmer_dar + herder_dar +
+#'                          pastvoted + hhsize_darfur + female + village, data = darfur)
+#'
+#' # runs sensemakr for sensitivity analysis
+#'sensitivity <- sensemakr(model, treatment = "directlyharmed",
+#'                                benchmark_covariates = "female",
+#'                                kd = 1:3)
+#'
+#'robustness_value(sensitivity)
+#'
+#'# plot bias contour of point estimate
+#'plot(sensitivity)
+#'
+#'# plot bias contour of t-value
+#'plot(sensitivity, sensitivity.of = "t-value")
+#'
+#'# plot extreme scenario
+#'plot(sensitivity, type = "extreme")
+#'
+#'# v
+#'
 #' @export
 sensemakr <- function(...){
   UseMethod("sensemakr")

@@ -47,13 +47,15 @@ print.sensemakr = function(x,
 #' @export
 summary.sensemakr <- function(object, digits = max(3L, getOption("digits") - 3L), ...){
   x <- object
+  q <- x$info$q
+  alpha <- x$info$alpha
   cat("Sensitivity Analysis to Unobserved Confounding\n\n")
 
   cat("Model Formula: ", paste(deparse(x$info$formula),
                                sep = "\n", collapse = "\n"),
       "\n\n", sep = "")
 
-  cat("Unadjusted Estimates of '", treatment <- x$sensitivity_stats$treatment, "':\n ")
+  cat("Unadjusted Estimates of", paste0("'",treatment <- x$sensitivity_stats$treatment,"':"), "\n ")
   cat(" Coef. estimate:", estimate <- round(x$sensitivity_stats$estimate, digits), "\n ")
   cat(" Standard Error:", se <- round(x$sensitivity_stats$se, digits), "\n ")
   cat(" t-value:", t_statistic <- round(x$sensitivity_stats$t_statistic, digits), "\n")
@@ -61,8 +63,8 @@ summary.sensemakr <- function(object, digits = max(3L, getOption("digits") - 3L)
 
   cat("Sensitivity Statistics:\n ")
   cat(" Partial R2 of treatment with outcome:", r2yd.x <- round(x$sensitivity_stats$r2yd.x,digits), "\n ")
-  cat(" Robustness Value,", "q =", q <- x$info$q, ":", rv_q <- round(x$sensitivity_stats$rv_q,digits), "\n ")
-  cat(" Robustness Value,", "q =", q, "alpha =", alpha <- x$info$alpha, ":", rv_qa <- round(x$sensitivity_stats$rv_qa,digits), "\n")
+  cat(" Robustness Value,", "q =", paste0(q, ":"), rv_q <- round(x$sensitivity_stats$rv_q,digits), "\n ")
+  cat(" Robustness Value,", "q =", paste0(q, ","), "alpha =", paste0(alpha, ":"), rv_qa <- round(x$sensitivity_stats$rv_qa,digits), "\n")
   cat("\n")
   reduce <- ifelse(x$info$reduce, "reduce", "increase")
   cat("Verbal interpretation of sensitivity statistics:\n\n")
