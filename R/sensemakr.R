@@ -1,21 +1,129 @@
-#' Sensitivity analysis: extending omitted variable bias"
+#' Sensemakr: extending omitted variable bias
 #'
-#' The sensemakr package implements a suite of sensitivity analysis tools that make it easier to
-#' understand the impact of omitted variables in linear regression models.
-#' It implements the methods discussed in Cinelli and Hazlett (2018).
+#' The sensemakr package implements a suite of sensitivity analysis tools that makes it easier to
+#' understand the impact of omitted variables in linear regression models, as discussed in Cinelli and Hazlett (2018).
 #'
 #' The main function of the package is  \code{\link{sensemakr}}, which computes the most common sensitivity analysis results.
 #' After running \code{sensemakr} you may directly use the plot and print methods in the returned object.
 #'
-#' You may also find usefull to use some of the sensitivity functions directly, such as the sensitivity plots
-#' (\code{\link{ovb_contour_plot}}, \code{\link{ovb_extreme_plot}}) the bias-adjusted estimates (\code{\link{adjusted_estimate}}),
-#' the robustness value (\code{\link{robustness_value}}), covariates partial R2s (\code{\link{partial_r2}}), the bounds
-#' on the strength of the confounders (\code{\link{ovb_bounds}}), among other convenience functions.
+#'  You may also use the other sensitivity functions of the package directly, such as the functions for sensitivity plots
+#' (\code{\link{ovb_contour_plot}}, \code{\link{ovb_extreme_plot}}) the functions for computing bias-adjusted estimates and t-values (\code{\link{adjusted_estimate}}, \code{\link{adjusted_t}}),
+#' the functions for computing the robustness value and partial R2 (\code{\link{robustness_value}}, \code{\link{partial_r2}}),  or the functions for bounding the strength
+#' of unobserved confounders (\code{\link{ovb_bounds}}), among others.
 #'
 #' More information can be found on the help documentation, vignettes and related papers.
 #'
 #' @references Cinelli, C. and Hazlett, C. "Making Sense of Sensitivity: Extending Omitted Variable Bias." (2018).
 #' @docType package
+#' @examples
+#' # loads dataset
+#' data("darfur")
+#'
+#' # runs regression model
+#' model <- lm(peacefactor ~ directlyharmed + age + farmer_dar + herder_dar +
+#'               pastvoted + hhsize_darfur + female + village, data = darfur)
+#'
+#' # runs sensemakr for sensitivity analysis
+#' sensitivity <- sensemakr(model, treatment = "directlyharmed",
+#'                          benchmark_covariates = "female",
+#'                          kd = 1:3, q = 1, alpha = 0.10)
+#'
+#' # short description of sensitivity results
+#' sensitivity
+#'
+#' ovb_minimal_reporting(sensitivity)
+#'
+#' # long description of sensitivity results
+#' summary(sensitivity)
+#'
+#' # plot bias contour of point estimate
+#' plot(sensitivity)
+#'
+#' # plot bias contour of t-value
+#' plot(sensitivity, sensitivity.of = "t-value")
+#'
+#' # plot extreme scenario
+#' plot(sensitivity, type = "extreme")
+#'
+#'
+#' # loads dataset
+#' data("darfur")
+#'
+#' # runs regression model
+#' model <- lm(peacefactor ~ directlyharmed + age + farmer_dar + herder_dar +
+#'               pastvoted + hhsize_darfur + female + village, data = darfur)
+#'
+#' # runs sensemakr for sensitivity analysis
+#' sensitivity <- sensemakr(model, treatment = "directlyharmed",
+#'                          benchmark_covariates = "female",
+#'                          kd = 1:3)
+#' # short description of results
+#' sensitivity
+#'
+#' # long description of results
+#' summary(sensitivity)
+#'
+#' # plot bias contour of point estimate
+#' plot(sensitivity)
+#'
+#' # plot bias contour of t-value
+#' plot(sensitivity, sensitivity.of = "t-value")
+#'
+#' # plot extreme scenario
+#' plot(sensitivity, type = "extreme")
+#'
+#' # latex code for sensitivity table
+#' ovb_minimal_reporting(sensitivity)
+#'
+#' # data.frame with sensitivity statistics
+#' sensitivity$sensitivity_stats
+#'
+#' #  data.frame with bounds on the strengh of confounders
+#' sensitivity$bounds
+#'
+#' ### Using sensitivity functions directly ###
+#'
+#' # robustness value of directly harmed q = 1 (reduce estimate to zero)
+#' robustness_value(model, covariates = "directlyharmed")
+#'
+#' # robustness value of directly harmed q = 1/2 (reduce estimate in half)
+#' robustness_value(model, covariates = "directlyharmed", q = 1/2)
+#'
+#' # robustness value of directly harmed q = 1/2, alpha = 0.05
+#' robustness_value(model, covariates = "directlyharmed", q = 1/2, alpha = 0.05)
+#'
+#' # partial R2 of directly harmed with peacefactor
+#' partial_r2(model, covariates = "directlyharmed")
+#'
+#' # partial R2 of female with peacefactor
+#' partial_r2(model, covariates = "female")
+#'
+#' # data.frame with sensitivity statistics
+#' sensitivity_stats(model, treatment = "directlyharmed")
+#'
+#' # bounds on the strength of confounders using female and age
+#' ovb_bounds(model,
+#'            treatment = "directlyharmed",
+#'            benchmark_covariates = c("female", "age"),
+#'            kd = 1:3)
+#'
+#' # adjusted estimate given hypothetical strength of confounder
+#' adjusted_estimate(model, treatment = "directlyharmed", r2dz.x = 0.1, r2yz.dx = 0.1)
+#'
+#' # adjusted t-value given hypothetical strength of confounder
+#' adjusted_t(model, treatment = "directlyharmed", r2dz.x = 0.1, r2yz.dx = 0.1)
+#'
+#' # bias contour plot directly from lm model
+#' ovb_contour_plot(model,
+#'                  treatment = "directlyharmed",
+#'                  benchmark_covariates = "female",
+#'                  kd = 1:3)
+#'
+#' # extreme scenario plot directly from lm model
+#' ovb_extreme_plot(model,
+#'                  treatment = "directlyharmed",
+#'                  benchmark_covariates = "female",
+#'                  kd = 1:3, lim = 0.05)
 #' @name sensemakr-package
 NULL
 
@@ -23,16 +131,15 @@ NULL
 #'
 #' @description
 #' This function performs sensitivity analysis to omitted variables as discussed in Cinelli and Hazlett (2018). It returns an object of
-#' class \code{sensemakr} with several pre-computed several sensitivity statistics for reporting.
-#'
-#' @details
-#' The function \code{\link{sensemakr}} is a convenience function that computes the most common sensitivity analysis results.
+#' class \code{sensemakr} with several pre-computed sensitivity statistics for reporting.
 #' After running \code{sensemakr} you may directly use the \code{plot}, \code{print} and \code{summary} methods in the returned object.
 #'
-#' For more fleixible analysis, you may use the other sensitivity functions of the package directly, such as the sensitivity plots
-#' (\code{\link{ovb_contour_plot}}, \code{\link{ovb_extreme_plot}}) the functions for bias-adjusted estimates (\code{\link{adjusted_estimate}}),
-#' the functions for computing robustness value (\code{\link{robustness_value}}),  partial R2s (\code{\link{partial_r2}}), and bounds
-#' on the strength of the confounders (\code{\link{ovb_bounds}}). Check the package documentation for more details.
+#' @seealso
+#'
+#' The function \code{sensemakr} is a convenience function. You may use the other sensitivity functions of the package directly, such as the functions for sensitivity plots
+#' (\code{\link{ovb_contour_plot}}, \code{\link{ovb_extreme_plot}}) the functions for computing bias-adjusted estimates and t-values (\code{\link{adjusted_estimate}}, \code{\link{adjusted_t}}),
+#' the functions for computing the robustness value and partial R2 (\code{\link{robustness_value}}, \code{\link{partial_r2}}),  or the functions for bounding the strength
+#' of unobserved confounders (\code{\link{ovb_bounds}}), among others.
 #'
 #' @param ... arguments passed to other methods. First argument should either be an \code{\link{lm}} model with the
 #' outcome regression, or a \code{\link{formula}} describing the model along
@@ -67,6 +174,9 @@ NULL
 #'
 #'# plot extreme scenario
 #'plot(sensitivity, type = "extreme")
+#'
+#' # latex code for sensitivity table
+#' ovb_minimal_reporting(sensitivity)
 #'
 #' @return
 #' An object of class \code{sensemakr}, containing:
@@ -188,234 +298,3 @@ sensemakr.formula <- function(formula,
 }
 
 
-#' #' Create a sensemakr object
-#' #'
-#' #' @param formula A formula describing the relationship Y ~ D + X
-#' #' @param treatment A quoted character string naming the treatment variable in
-#' #' `formula`.
-#' #' @param data A data.frame object to fit models to.
-#' #' @param benchmark A quoted character string. If provided, selects a
-#' #' benchmark variable to compare potential unobserved confounders to.
-#' #' @param verbose A logical value, if TRUE will print additional debugging
-#' #' information while compiling the sensemakr object
-#' #' @param keep_model A logical value, if TRUE will include `model_outcome` and
-#' #' `model_treatment` models used to create `sensemakr` object.
-#' #'
-#' #' @examples
-#' #' # Creating a sensemakr object using the built-in `darfur` data
-#' #' data(darfur)
-#' #' sense.out = sensemakr(formula = peacefactor ~ directlyharmed + female +
-#' #'                         village + age,
-#' #'                       data = darfur,
-#' #'                       treatment = "directlyharmed",
-#' #'                       benchmark = "female")
-#' #'
-#' #' @return A `sensemakr` object.
-#' #' @importFrom stats lm update
-#' #' @export
-#' sensemakr = function(formula,
-#'                      treatment,
-#'                      data = NULL,
-#'                      benchmark = NULL,
-#'                      verbose = FALSE,
-#'                      keep_model = FALSE) {
-#'
-#'   if (is.null(treatment) || !treatment %in% all.vars(formula) ||
-#'      (!is.null(data) && !treatment %in% colnames(data)) ||
-#'      (is.null(data) && !exists(as.character(treatment)))
-#'   ) {
-#'     stop("You must provide a `treatment` variable present in the model ",
-#'          "`formula` and `data` data frame.")
-#'   }
-#'   if (!is.null(data) && (!is.data.frame(data) || nrow(data) < 1)) {
-#'     stop("The provided `data` argument must be a data frame with at least ",
-#'          "one row.")
-#'   }
-#'
-#'   if (verbose) {
-#'     print("Generating new formulae...")
-#'   }
-#'
-#'   treatment = as.character(treatment)
-#'   formula_all = formula
-#'   formula_treatment = update(formula,
-#'                              paste(treatment, "~ . - ", treatment))
-#'   if (verbose) {
-#'     print("Outcome ~ Treatment formula:")
-#'     print(formula_all)
-#'     print("Treatment ~ Covariates formula:")
-#'     print(formula_treatment)
-#'     print("Fitting models...")
-#'   }
-#'
-#'   model_outcome = lm(formula_all, data = data)
-#'   coef_outcome = coef(summary(model_outcome))
-#'   model_treatment = lm(formula_treatment, data = data)
-#'
-#'   if (verbose) {
-#'     print("Compiling results...")
-#'   }
-#'
-#'   sensemakr = list(
-#'     formula_outcome = formula_all,
-#'     formula_treatment = formula_treatment,
-#'     treatment_variable = treatment,
-#'     r2y = partial_r2(model_outcome),
-#'     r2d = partial_r2(model_treatment),
-#'     t = coef_outcome[, "t value"],
-#'     rv = robustness_value(model_outcome, covariate = treatment),
-#'     rv_t = robustness_value(model_outcome, covariate = treatment, alpha = 0.05),
-#'     r2_yd = partial_r2(model_outcome)[treatment],
-#'     treatment_effect = c(coef_outcome[treatment, "Estimate"],
-#'                          coef_outcome[treatment, "Std. Error"]),
-#'     dof = model_outcome$df.residual)
-#'
-#'   if (keep_model) {
-#'     sensemakr[["model_outcome"]] = model_outcome
-#'     sensemakr[["model_treatment"]] = model_treatment
-#'   }
-#'
-#'   sensemakr = structure(sensemakr, class = "sensemakr")
-#'
-#'   if (!is.null(benchmark)) {
-#'     if (verbose) {
-#'       print("Adding benchmarks...")
-#'     }
-#'
-#'     sensemakr = add_benchmark(sensemakr, benchmark)
-#'   }
-#'
-#'   sensemakr
-#' }
-#'
-#'
-#'
-#' #' @rdname add_benchmark.sensemakr
-#' #' @export
-#' add_benchmark = function(obj, variables) {
-#'   UseMethod("add_benchmark")
-#' }
-#'
-#' #' @rdname add_benchmark.sensemakr
-#' #' @export
-#' add_benchmark.default = function(obj, variables) {
-#'   stop("`add_benchmark` is only defined for `sensemakr` objects.")
-#' }
-#'
-#' #' Add benchmarks to sensemakr object
-#' #'
-#' #' This function adds a benchmark variable to a `sensemakr` object. Benchmark
-#' #' variables are variables which exist in the real models fit, but which stand
-#' #' in for hypothetical unobserved variables and can attenuate observed effects
-#' #' for variables of interest. Our suggestion is that subject-matter knowledge
-#' #' guides the process of selecting a benchmark variable based on a belief that
-#' #' it is the largest observed confounder.
-#' #'
-#' #' @examples
-#' #' # Creating a sensemakr object using the built-in `darfur` data
-#' #' data(darfur)
-#' #' sense.out = sensemakr(formula = peacefactor ~ directlyharmed + female +
-#' #'                         village + age,
-#' #'                       data = darfur,
-#' #'                       treatment = "directlyharmed",
-#' #'                       benchmark = "female")
-#' #'
-#' #' # Adding a benchmark
-#' #' sense.out = add_benchmark(sense.out, "age")
-#' #'
-#' #'
-#' #' @param obj A `sensemakr` object to add benchmarks to.
-#' #' @param variables A vector of character strings describing the variable or
-#' #' variables to add as benchmarks
-#' #' @return The `sensemakr` object `x` with benchmarks added.
-#' #' @export
-#' add_benchmark.sensemakr = function(obj, variables) {
-#'   if (is.null(variables)) {
-#'     stop("You must supply at least one additional benchmark variable to add ",
-#'          "in an `add_benchmark` call.")
-#'   }
-#'   if (any(variables == obj[["treatment_variable"]])) {
-#'     stop("A benchmark variable must not be the treatment variable, ",
-#'          obj[["treatment_variable"]])
-#'   }
-#'   variables_in_model = variables %in% names(obj[["r2d"]]) &
-#'     variables %in% names(obj[["r2y"]])
-#'
-#'   if (!all(variables_in_model)) {
-#'     missing_bench = variables[which(!variables_in_model)]
-#'     stop("Benchmark variables specified must be present within the models fit ",
-#'          "in the `sensemakr` object. The following benchmark variables are ",
-#'          "invalid: ", paste(missing_bench, collapse = ", "))
-#'   }
-#'
-#'   benchmark_vars = lapply(variables, function(x) {
-#'     bound = bound_calculator(
-#'       obj[["r2y"]][x],
-#'       obj[["r2d"]][x]
-#'     )
-#'
-#'     data.frame(variable = as.character(x),
-#'                bound = unname(bias(
-#'                  r2y = bound$r2_yz,
-#'                  r2d = bound$r2_dz,
-#'                  se = obj$treatment_effect[2],
-#'                  dof = obj$dof
-#'                )),
-#'                r2y = unname(obj[["r2y"]][x]),
-#'                r2d = unname(obj[["r2d"]][x]),
-#'                stringsAsFactors = FALSE
-#'     )
-#'   })
-#'
-#'   if (is.null(obj[["benchmark"]])) {
-#'     obj[["benchmark"]] = do.call(rbind, benchmark_vars)
-#'   } else {
-#'     obj[["benchmark"]] = do.call(rbind,
-#'                                  c(list(obj[["benchmark"]]), benchmark_vars))
-#'   }
-#'
-#'   structure(obj, class = "sensemakr")
-#' }
-#'
-#'
-#'
-#' #' @rdname remove_benchmarks.sensemakr
-#' #' @export
-#' remove_benchmarks = function(x) {
-#'   UseMethod("remove_benchmarks")
-#' }
-#'
-#' #' @rdname remove_benchmarks.sensemakr
-#' #' @export
-#' remove_benchmarks.default = function(x) {
-#'   stop("`remove_benchmarks` is only defined for `sensemakr` objects.")
-#' }
-#'
-#' #' Remove benchmarks from sensemakr object
-#' #'
-#' #' This function removes any benchmark variables attached to a `sensemakr`
-#' #' object.
-#' #'
-#' #' @examples
-#' #' # Creating a sensemakr object using the built-in `darfur` data
-#' #' data(darfur)
-#' #' sense.out = sensemakr(formula = peacefactor ~ directlyharmed + female +
-#' #'                         village + age,
-#' #'                       data = darfur,
-#' #'                       treatment = "directlyharmed",
-#' #'                       benchmark = "female")
-#' #'
-#' #' # Removing benchmarks
-#' #' sense.out = remove_benchmarks(sense.out)
-#' #'
-#' #' @param x A `sensemakr` object to remove benchmarks from.
-#' #' @return The `sensemakr` object `x` with benchmarks removed
-#' #' @export
-#' remove_benchmarks.sensemakr = function(x) {
-#'   # Zap benchmarks
-#'   ret = x[-which(names(x) %in%
-#'                    c("benchmark", "benchmark_r2d", "benchmark_r2y"))]
-#'
-#'   # Return as sensemakr object again
-#'   structure(ret, class = "sensemakr")
-#' }

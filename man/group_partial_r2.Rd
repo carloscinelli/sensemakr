@@ -28,7 +28,7 @@ the partial R2 of all covariates.}
 \item{dof}{residual degrees of freedom of the model.}
 }
 \value{
-A numeric vector.
+A numeric vector with the computed partial R2.
 }
 \description{
 This function computes the partial R2 of a group of covariates in a linear regression model.

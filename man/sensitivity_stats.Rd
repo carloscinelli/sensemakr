@@ -8,7 +8,8 @@
 \usage{
 sensitivity_stats(...)
 
-\method{sensitivity_stats}{lm}(model, treatment, q = 1, alpha = 0.05, ...)
+\method{sensitivity_stats}{lm}(model, treatment, q = 1, alpha = 0.05,
+  ...)
 
 \method{sensitivity_stats}{numeric}(estimate, se, dof,
   treatment = "treatment", q = 1, alpha = 0.05, ...)
@@ -33,7 +34,7 @@ which means a reduction of 100\% of the current effect estimate (bring estimate 
 \item{dof}{residual degrees of freedom of the regression.}
 }
 \value{
-A \code{data.frame}.
+A \code{data.frame} with the sensitivity statistics.
 }
 \description{
 Convenience function that computes the \code{\link{robustness_value}},

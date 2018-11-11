@@ -13,8 +13,9 @@ sensemakr(...)
   r2yz.dx = r2dz.x, bound_label = "", reduce = TRUE, ...)
 
 \method{sensemakr}{formula}(formula, data, treatment,
-  benchmark_covariates = NULL, kd = 1, ky = kd, q = 1, alpha = 0.05,
-  r2dz.x = NULL, r2yz.dx = r2dz.x, bound_label = "", reduce = TRUE, ...)
+  benchmark_covariates = NULL, kd = 1, ky = kd, q = 1,
+  alpha = 0.05, r2dz.x = NULL, r2yz.dx = r2dz.x, bound_label = "",
+  reduce = TRUE, ...)
 }
 \arguments{
 \item{...}{arguments passed to other methods. First argument should either be an \code{\link{lm}} model with the
@@ -61,16 +62,8 @@ An object of class \code{sensemakr}, containing:
 }
 \description{
 This function performs sensitivity analysis to omitted variables as discussed in Cinelli and Hazlett (2018). It returns an object of
-class \code{sensemakr} with several pre-computed several sensitivity statistics for reporting.
-}
-\details{
-The function \code{\link{sensemakr}} is a convenience function that computes the most common sensitivity analysis results.
+class \code{sensemakr} with several pre-computed sensitivity statistics for reporting.
 After running \code{sensemakr} you may directly use the \code{plot}, \code{print} and \code{summary} methods in the returned object.
-
-For more fleixible analysis, you may use the other sensitivity functions of the package directly, such as the sensitivity plots
-(\code{\link{ovb_contour_plot}}, \code{\link{ovb_extreme_plot}}) the functions for bias-adjusted estimates (\code{\link{adjusted_estimate}}),
-the functions for computing robustness value (\code{\link{robustness_value}}),  partial R2s (\code{\link{partial_r2}}), and bounds
-on the strength of the confounders (\code{\link{ovb_bounds}}). Check the package documentation for more details.
 }
 \examples{
 # loads dataset
@@ -99,7 +92,16 @@ plot(sensitivity, sensitivity.of = "t-value")
 # plot extreme scenario
 plot(sensitivity, type = "extreme")
 
+# latex code for sensitivity table
+ovb_minimal_reporting(sensitivity)
+
 }
 \references{
 Cinelli, C. and Hazlett, C. "Making Sense of Sensitivity: Extending Omitted Variable Bias." (2018).
+}
+\seealso{
+The function \code{sensemakr} is a convenience function. You may use the other sensitivity functions of the package directly, such as the functions for sensitivity plots
+(\code{\link{ovb_contour_plot}}, \code{\link{ovb_extreme_plot}}) the functions for computing bias-adjusted estimates and t-values (\code{\link{adjusted_estimate}}, \code{\link{adjusted_t}}),
+the functions for computing the robustness value and partial R2 (\code{\link{robustness_value}}, \code{\link{partial_r2}}),  or the functions for bounding the strength
+of unobserved confounders (\code{\link{ovb_bounds}}), among others.
 }

@@ -192,7 +192,7 @@ print.rv <- function(x, ...){
 #' partial_r2(t_statistic = 4.18445, dof = 783)
 #'
 #' @return
-#' A numeric vector.
+#' A numeric vector with the computed partial R2, f2, or f.
 #'
 #' @references Cinelli, C. and Hazlett, C. "Making Sense of Sensitivity: Extending Omitted Variable Bias." (2018).
 #' @export
@@ -293,7 +293,7 @@ partial_f = function(...) sqrt(partial_f2(...))
 #' group_partial_r2(model, covariates = c("female", "pastvoted"))
 #'
 #' @return
-#' A numeric vector.
+#' A numeric vector with the computed partial R2.
 #'
 #' @export
 group_partial_r2 <- function(...){
@@ -374,7 +374,7 @@ group_partial_r2.numeric <- function(F.stats, p, dof, ...){
 #' sensitivity_stats(estimate = 0.09731582, se = 0.02325654, dof = 783)
 #'
 #' @return
-#' A \code{data.frame}.
+#' A \code{data.frame} with the sensitivity statistics.
 #' @export
 sensitivity_stats <- function(...){
   UseMethod("sensitivity_stats")

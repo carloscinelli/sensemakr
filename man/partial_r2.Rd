@@ -38,7 +38,7 @@ the partial R2 of all covariates.}
 \item{dof}{residual degrees of freedom of the regression}
 }
 \value{
-A numeric vector.
+A numeric vector with the computed partial R2, f2, or f.
 }
 \description{
 These functions computes the partial R2 and the partial (Cohen's) f2 for a linear regression model. The partial R2

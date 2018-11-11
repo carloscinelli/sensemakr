@@ -9,20 +9,22 @@
 \usage{
 ovb_contour_plot(...)
 
-\method{ovb_contour_plot}{lm}(model, treatment, benchmark_covariates = NULL,
-  kd = 1, ky = kd, r2dz.x = NULL, r2yz.dx = r2dz.x,
-  bound_label = NULL, sensitivity.of = c("estimate", "t-value"),
-  reduce = TRUE, estimate.threshold = 0, t.threshold = 2,
-  lim = max(c(0.4, r2dz.x, r2yz.dx)), nlevels = 20,
-  col.contour = "grey40", col.thr.line = "red", label.text = TRUE,
-  label.bump.x = 0.02, label.bump.y = 0.02, ...)
+\method{ovb_contour_plot}{lm}(model, treatment,
+  benchmark_covariates = NULL, kd = 1, ky = kd, r2dz.x = NULL,
+  r2yz.dx = r2dz.x, bound_label = NULL,
+  sensitivity.of = c("estimate", "t-value"), reduce = TRUE,
+  estimate.threshold = 0, t.threshold = 2, lim = max(c(0.4, r2dz.x,
+  r2yz.dx)), nlevels = 20, col.contour = "grey40",
+  col.thr.line = "red", label.text = TRUE, label.bump.x = 0.02,
+  label.bump.y = 0.02, ...)
 
 \method{ovb_contour_plot}{formula}(formula, data, treatment,
   benchmark_covariates = NULL, kd = 1, ky = kd, r2dz.x = NULL,
-  r2yz.dx = r2dz.x, bound_label = NULL, sensitivity.of = c("estimate",
-  "t-value"), reduce = TRUE, estimate.threshold = 0, t.threshold = 2,
-  lim = max(c(0.4, r2dz.x, r2yz.dx)), nlevels = 20,
-  col.contour = "grey40", col.thr.line = "red", label.text = TRUE, ...)
+  r2yz.dx = r2dz.x, bound_label = NULL,
+  sensitivity.of = c("estimate", "t-value"), reduce = TRUE,
+  estimate.threshold = 0, t.threshold = 2, lim = max(c(0.4, r2dz.x,
+  r2yz.dx)), nlevels = 20, col.contour = "grey40",
+  col.thr.line = "red", label.text = TRUE, ...)
 
 \method{ovb_contour_plot}{numeric}(estimate, se, dof, r2dz.x = NULL,
   r2yz.dx = r2dz.x, bound_label = "", sensitivity.of = c("estimate",
@@ -73,7 +75,7 @@ or adjusted t-values (\code{"t-value"})?}
 
 \item{col.thr.line}{color of threshold contour line.}
 
-\item{label.text}{should label texts be plotted?}
+\item{label.text}{should label texts be plotted? Default is \code{TRUE}.}
 
 \item{label.bump.x}{bump on the x coordinate of label text.}
 

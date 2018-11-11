@@ -7,13 +7,16 @@
 #'
 #' @description
 #'  These functions compute bias adjusted estimates (\code{adjusted_estimate}), standard-errors (\code{adjusted_se})
-#'  and t-values (\code{adjusted_t}), given a hypothetical strength of the confounder with the partial r2 parameterization.
+#'  and t-values (\code{adjusted_t}), given a hypothetical strength of the confounder with the partial R2 parameterization.
 #'
 #' The functions work either with an \code{\link{lm}} object, or directly passing the numerical inputs, such as the
 #' current coefficient estimate, standard error and degrees of freedom.
 #'
 #' @param ... arguments passed to other methods. First argument should either be an \code{lm} model with the
 #' outcome regression or a numeric vector with the coefficient estimate.
+#'
+#' @return
+#' Numeric vector with bias, adjusted estimate, standard error, or t-value.
 #'
 #' @examples
 #' # loads data
@@ -33,6 +36,17 @@
 #'
 #' # computes adjusted t-value for confounder with  r2dz.x = 0.05, r2yz.dx = 0.05
 #' adjusted_t(model, treatment = "directlyharmed", r2dz.x = 0.05, r2yz.dx = 0.05)
+#'
+#' # you can also pass numerical values directly
+#' adjusted_estimate(estimate = 0.09731582, se = 0.02325654,
+#'                   dof = 783, r2dz.x = 0.05, r2yz.dx = 0.05)
+#'
+#' adjusted_se(estimate = 0.09731582, se = 0.02325654,
+#'             dof = 783, r2dz.x = 0.05, r2yz.dx = 0.05)
+#'
+#' adjusted_t(estimate = 0.09731582, se = 0.02325654,
+#'            dof = 783, r2dz.x = 0.05, r2yz.dx = 0.05)
+#'
 #' @export
 adjusted_estimate <- function(...){
   UseMethod("adjusted_estimate")
@@ -134,7 +148,7 @@ adjusted_t.numeric = function(estimate, se, dof, r2dz.x, r2yz.dx, reduce = TRUE,
 
 
 #' @rdname adjusted_estimate
-#' @param h0 null hypothesis. Default is zero.
+#' @param h0 null hypothesis for computation of the t-value. Default is zero.
 #' @export
 adjusted_t.lm <- function(model, treatment,  r2dz.x, r2yz.dx, reduce = TRUE, h0 = 0, ...){
   # extract model data

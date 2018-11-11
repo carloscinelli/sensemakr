@@ -2,8 +2,8 @@
 #'
 #'
 #' @description
-#' Data on attitudes of Darfurian refugees in eastern Chad. The key "treatment"
-#' variable is \code{directharm}, which indicates that individual was physically
+#' Data on attitudes of Darfurian refugees in eastern Chad. The main "treatment"
+#' variable is \code{directharm}, which indicates that the individual was physically
 #' injured during attacks on villages in Darfur, largely between 2003 and 2004.
 #'
 #' Key  covariates include \code{herder_dar}

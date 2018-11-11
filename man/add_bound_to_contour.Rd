@@ -10,12 +10,12 @@ add_bound_to_contour(...)
 
 \method{add_bound_to_contour}{lm}(model, treatment, benchmark_covariates,
   kd = 1, ky = kd, reduce = TRUE, sensitivity.of = c("estimate",
-  "t-value"), label.text = TRUE, label.bump.x = 0.02, label.bump.y = 0.02,
-  round = 2, ...)
-
-\method{add_bound_to_contour}{numeric}(r2dz.x, r2yz.dx, bound_value = NULL,
-  bound_label = NULL, label.text = TRUE, label.bump.x = 0.02,
+  "t-value"), label.text = TRUE, label.bump.x = 0.02,
   label.bump.y = 0.02, round = 2, ...)
+
+\method{add_bound_to_contour}{numeric}(r2dz.x, r2yz.dx,
+  bound_value = NULL, bound_label = NULL, label.text = TRUE,
+  label.bump.x = 0.02, label.bump.y = 0.02, round = 2, ...)
 }
 \arguments{
 \item{...}{arguments passed to other methods.}
@@ -38,13 +38,13 @@ Default value is the same as \code{kd}.}
 \item{sensitivity.of}{should the contour plot show adjusted estimates (\code{"estimate"})
 or adjusted t-values (\code{"t-value"})?}
 
-\item{label.text}{should label texts be plotted?}
+\item{label.text}{should label texts be plotted? Default is \code{TRUE}.}
 
 \item{label.bump.x}{bump on the x coordinate of label text.}
 
 \item{label.bump.y}{bump on the y coordinate of label text.}
 
-\item{round}{rounding}
+\item{round}{integer indicating the number of decimal places to be used for rounding.}
 
 \item{r2dz.x}{hypothetical partial R2 of unobserved confounder Z with treatment D, given covariates X.}
 
@@ -55,7 +55,7 @@ or adjusted t-values (\code{"t-value"})?}
 \item{bound_label}{label to bounds provided manually in \code{r2dz.x} and \code{r2yz.dx}.}
 }
 \description{
-Convenience function to add bounds on sensitivity contour plot created with \code{\link{ovb_contour_plot}}.
+Convenience function to add bounds on a sensitivity contour plot created with \code{\link{ovb_contour_plot}}.
 }
 \examples{
 

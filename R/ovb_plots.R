@@ -165,7 +165,7 @@ ovb_contour_plot = function(...) {
 #' @param nlevels number of levels to contour plot.
 #' @param col.contour color of contour lines.
 #' @param col.thr.line color of threshold contour line.
-#' @param label.text should label texts be plotted?
+#' @param label.text should label texts be plotted? Default is \code{TRUE}.
 #' @param label.bump.x bump on the x coordinate of label text.
 #' @param label.bump.y bump on the y coordinate of label text.
 #' @export
@@ -456,7 +456,7 @@ ovb_contour_plot.numeric = function(estimate,
 #' Add bounds to contour plot of omitted variable bias
 #'
 #' @description
-#' Convenience function to add bounds on sensitivity contour plot created with \code{\link{ovb_contour_plot}}.
+#' Convenience function to add bounds on a sensitivity contour plot created with \code{\link{ovb_contour_plot}}.
 #'
 #' @examples
 #'
@@ -551,7 +551,7 @@ add_bound_to_contour.lm <- function(model,
 #' @inheritParams ovb_contour_plot
 #' @rdname add_bound_to_contour
 #' @param bound_value value to be printed in label bound.
-#' @param round rounding
+#' @param round integer indicating the number of decimal places to be used for rounding.
 #' @export
 add_bound_to_contour.numeric <- function(r2dz.x,
                                          r2yz.dx,

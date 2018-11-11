@@ -36,6 +36,29 @@ Default value is the same as \code{kd}.}
 \item{adjusted_estimates}{should the bounder also compute the adjusted estimates?
 Default is \code{TRUE}.}
 }
+\value{
+The function returns a \code{\link{data.frame}} with the bounds on the strength of the unobserved confounder
+as well with the adjusted point estimates, standard errors and t-values (optional, controlled by argument \code{adjusted_estimates}).
+}
 \description{
-Bounds on the strength of unobserved confounders using observed covariates
+Bounds on the strength of unobserved confounders using observed covariates, as in Cinelli and Hazlett (2018).
+}
+\details{
+Currently it implements only the bounds based on partial R2). Other bounds will be implemented soon.
+}
+\examples{
+
+# runs regression model
+model <- lm(peacefactor ~ directlyharmed + age + farmer_dar + herder_dar +
+             pastvoted + hhsize_darfur + female + village, data = darfur)
+
+# bounds on the strength of confounders 1, 2, or 3 times as strong as female
+# and 1,2, or 3 times as strong as pastvoted
+ovb_bounds(model, treatment = "directlyharmed",
+          benchmark_covariates = c("female", "pastvoted"),
+          kd = 1:3)
+
+}
+\references{
+Cinelli, C. and Hazlett, C. "Making Sense of Sensitivity: Extending Omitted Variable Bias." (2018).
 }

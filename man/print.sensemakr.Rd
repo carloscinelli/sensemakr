@@ -6,10 +6,11 @@
 \alias{ovb_minimal_reporting}
 \title{Sensitivity analysis print and summary methods for \code{sensemakr}}
 \usage{
-\method{print}{sensemakr}(x, digits = max(3L, getOption("digits") - 2L), ...)
+\method{print}{sensemakr}(x, digits = max(3L, getOption("digits") - 2L),
+  ...)
 
-\method{summary}{sensemakr}(object, digits = max(3L, getOption("digits") -
-  3L), ...)
+\method{summary}{sensemakr}(object, digits = max(3L, getOption("digits")
+  - 3L), ...)
 
 ovb_minimal_reporting(x, digits = 3, ...)
 }
@@ -23,11 +24,9 @@ ovb_minimal_reporting(x, digits = 3, ...)
 \item{object}{an object of class \code{\link{sensemakr}}.}
 }
 \description{
-These functions provide verbal descriptions of the sensitivity analysis results
-obtained with the function \code{\link{sensemakr}}.
-
-The function \code{\link{ovb_minimal_reporting}} provides the latex code for a minimal
-sensitivity analysis reporting.
+The \code{print} and \code{summary} methods provide verbal descriptions of the sensitivity analysis results
+obtained with the function \code{\link{sensemakr}}. The function \code{\link{ovb_minimal_reporting}} provides the latex code for a minimal
+sensitivity analysis reporting, as suggested in Cinelli and Hazlett (2018).
 }
 \examples{
 # runs regression model
@@ -48,4 +47,7 @@ summary(sensitivity)
 # prints latex code for minimal sensitivity analysis reporting
 ovb_minimal_reporting(sensitivity)
 
+}
+\references{
+Cinelli, C. and Hazlett, C. "Making Sense of Sensitivity: Extending Omitted Variable Bias." (2018).
 }
