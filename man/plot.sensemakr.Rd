@@ -2,7 +2,7 @@
 % Please edit documentation in R/ovb_plots.R
 \name{plot.sensemakr}
 \alias{plot.sensemakr}
-\title{Sensitivity analysis plots for sensemakr}
+\title{Sensitivity analysis plots for \code{sensemakr}}
 \usage{
 \method{plot}{sensemakr}(x, type = c("contour", "extreme"), ...)
 }
@@ -17,5 +17,7 @@ extreme scenarios plots of omitted variable bias as in \code{\link{ovb_extreme_p
 and \code{\link{ovb_extreme_plot}}.}
 }
 \description{
-Sensitivity analysis plots for sensemakr
+This function provides the contour and extreme scenario sensitivity plots of the sensitivity analysis results
+obtained with the function \code{\link{sensemakr}}. They are basically dispatchers to the core plot functions \code{\link{ovb_contour_plot}} and
+\code{\link{ovb_extreme_plot}}.
 }

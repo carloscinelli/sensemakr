@@ -5,7 +5,15 @@
 # generic plot function ---------------------------------------------------
 
 
-#' Sensitivity analysis plots for sensemakr
+#' Sensitivity analysis plots for \code{sensemakr}
+#'
+#' @description
+#'
+#' This function provides the contour and extreme scenario sensitivity plots of the sensitivity analysis results
+#' obtained with the function \code{\link{sensemakr}}. They are basically dispatchers to the core plot functions \code{\link{ovb_contour_plot}} and
+#' \code{\link{ovb_extreme_plot}}.
+#'
+#'
 #' @param x an object of class \code{\link{sensemakr}}.
 #' @param type type of sensitivity plot. It can be \code{"contour"}, for contour plots of omitted
 #' variable bias as in \code{\link{ovb_contour_plot}}; or, \code{"extreme"} for
@@ -105,11 +113,37 @@ ovb_extreme_plot.sensemakr <- function(x, r2yz.dx = c(1, 0.75, 0.5), ...){
 
 #' Contour plots of omitted variable bias
 #'
+#' @description
+#' Contour plots of omitted variable bias for sensitivity analysis. The main inputs are an \code{\link{lm}} model, the treatment variable
+#' and the covariates used for benchmarking the strength of unobserved confounding.
+#'
+#' The horizontal axis of the plot shows hypothetical values of the partial R2 of the unobserved confounder(s) with the treatment.
+#'  The vertical axis shows hypothetical values of the partial R2 of the unobserved confounder(s) with the outcome.
+#'  The contour levels represent the adjusted estimates (or t-values) of the treatment effect.
+#'  The reference points are the bounds on the partial R2 of the unobserved confounder if it were \code{k} times ``as strong'' as the observed covariate used for benchmarking (see arguments \code{kd} and \code{ky}).
+#'
+#'  See Cinelli and Hazlett (2018) for details.
 #'
 #' @param ... arguments passed to other methods. First argument should either be an \code{\link{lm}} model with the
 #' outcome regression, a \code{\link{formula}} describing the model along
 #' with the \code{\link{data.frame}} containing the variables of the model,
 #' or a numeric vector with the coefficient estimate.
+#'
+#' @references Cinelli, C. and Hazlett, C. "Making Sense of Sensitivity: Extending Omitted Variable Bias." (2018).
+#'
+#' @return
+#' The function returns invisibly the data used for the contour plot (contour grid and bounds).
+#'
+#' @examples
+#'
+#' # runs regression model
+#' model <- lm(peacefactor ~ directlyharmed + age + farmer_dar + herder_dar +
+#'                          pastvoted + hhsize_darfur + female + village,
+#'                          data = darfur)
+#' # contour plot
+#' ovb_contour_plot(model, treatment = "directlyharmed",
+#'                         benchmark_covariates = "female",
+#'                         kd = 1:2)
 #'
 #' @export
 ovb_contour_plot = function(...) {
@@ -420,7 +454,32 @@ ovb_contour_plot.numeric = function(estimate,
 
 
 #' Add bounds to contour plot of omitted variable bias
-#' @param ... test
+#'
+#' @description
+#' Convenience function to add bounds on sensitivity contour plot created with \code{\link{ovb_contour_plot}}.
+#'
+#' @examples
+#'
+#' # runs regression model
+#' model <- lm(peacefactor ~ directlyharmed + age + farmer_dar + herder_dar +
+#'                          pastvoted + hhsize_darfur + female + village,
+#'                          data = darfur)
+#' # contour plot
+#' ovb_contour_plot(model, treatment = "directlyharmed")
+#'
+#' # add bound 3/1 times stronger than female
+#' add_bound_to_contour(model,
+#'                      treatment = "directlyharmed",
+#'                      benchmark_covariates = "female",
+#'                      kd = 3, ky = 1)
+#'
+#' # add bound 50/2 times stronger than age
+#' add_bound_to_contour(model,
+#'                      treatment = "directlyharmed",
+#'                      benchmark_covariates = "age",
+#'                      kd = 50, ky = 2)
+#'
+#' @param ... arguments passed to other methods.
 #' @export
 add_bound_to_contour <- function(...){
   UseMethod("add_bound_to_contour")
@@ -535,6 +594,32 @@ add_bound_to_contour.numeric <- function(r2dz.x,
 
 #' Extreme scenarios plots of omitted variable bias
 #'
+#' @description
+#' Extreme scenario plots of omitted variable bias for sensitivity analysis. The main inputs are an \code{\link{lm}} model, the treatment variable
+#' and the covariates used for benchmarking the strength of unobserved confounding.
+#'
+#' The horizontal axis shows the partial R2 of the unobserved confounder(s) with the treatment. The vertical axis shows the adjusted treatment effect estimate.
+#' The partial R2 of the confounder with the outcome is represented by \emph{different curves} for each scenario, as given by the parameter \code{r2yz.dx}.
+#' The red marks on horizontal axis are bounds on the partial R2 of the unobserved confounder \code{kd} times as strong as the covariates used for benchmarking.
+#'
+#' See Cinelli and Hazlett (2018) for details.
+#'
+#' @examples
+#'
+#' # runs regression model
+#' model <- lm(peacefactor ~ directlyharmed + age + farmer_dar + herder_dar +
+#'                          pastvoted + hhsize_darfur + female + village,
+#'                          data = darfur)
+#' # extreme scenarios plot
+#' ovb_extreme_plot(model, treatment = "directlyharmed",
+#'                         benchmark_covariates = "female",
+#'                         kd = 1:2,
+#'                         lim = 0.05)
+#'
+#' @references Cinelli, C. and Hazlett, C. "Making Sense of Sensitivity: Extending Omitted Variable Bias." (2018).
+#'
+#' @return
+#' The function returns invisibly the data used for the extreme plot.
 #'
 #' @inheritParams ovb_contour_plot
 #' @export

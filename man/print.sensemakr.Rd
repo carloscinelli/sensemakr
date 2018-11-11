@@ -4,7 +4,7 @@
 \alias{print.sensemakr}
 \alias{summary.sensemakr}
 \alias{ovb_minimal_reporting}
-\title{Sensitivity analysis print and summary methods for sensemakr}
+\title{Sensitivity analysis print and summary methods for \code{sensemakr}}
 \usage{
 \method{print}{sensemakr}(x, digits = max(3L, getOption("digits") - 2L), ...)
 
@@ -18,10 +18,34 @@ ovb_minimal_reporting(x, digits = 3, ...)
 
 \item{digits}{minimal number of \emph{significant} digits.}
 
-\item{...}{test}
+\item{...}{arguments passed to other methods.}
 
 \item{object}{an object of class \code{\link{sensemakr}}.}
 }
 \description{
-Sensitivity analysis print and summary methods for sensemakr
+These functions provide verbal descriptions of the sensitivity analysis results
+obtained with the function \code{\link{sensemakr}}.
+
+The function \code{\link{ovb_minimal_reporting}} provides the latex code for a minimal
+sensitivity analysis reporting.
+}
+\examples{
+# runs regression model
+model <- lm(peacefactor ~ directlyharmed + age + farmer_dar + herder_dar +
+                         pastvoted + hhsize_darfur + female + village,
+                         data = darfur)
+
+# runs sensemakr for sensitivity analysis
+sensitivity <- sensemakr(model, treatment = "directlyharmed",
+                               benchmark_covariates = "female",
+                               kd = 1:3)
+# print
+sensitivity
+
+# summary
+summary(sensitivity)
+
+# prints latex code for minimal sensitivity analysis reporting
+ovb_minimal_reporting(sensitivity)
+
 }

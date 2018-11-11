@@ -44,10 +44,10 @@ or a numeric vector with the coefficient estimate.}
 \item{benchmark_covariates}{a character vector of the names of covariates that will be used to bound the plausible strength
 of the unobserved confounders.}
 
-\item{kd}{numeric vector. Parameterizes how many times stronger the confounder is related to the treatment in comparison to the observed benchmark covariates.
-Default value is \code{1}.}
+\item{kd}{numeric vector. Parameterizes how many times stronger the confounder is related to the treatment in comparison to the observed benchmark covariate.
+Default value is \code{1} (confounder is as strong as benchmark covariate).}
 
-\item{ky}{numeric vector. Parameterizes how many times stronger the confounder is related to the outcome in comparison to the observed benchmark covariates.
+\item{ky}{numeric vector. Parameterizes how many times stronger the confounder is related to the outcome in comparison to the observed benchmark covariate.
 Default value is the same as \code{kd}.}
 
 \item{r2dz.x}{hypothetical partial R2 of unobserved confounder Z with treatment D, given covariates X.}
@@ -89,6 +89,32 @@ or adjusted t-values (\code{"t-value"})?}
 
 \item{dof}{residual degrees of freedom of the regression.}
 }
+\value{
+The function returns invisibly the data used for the contour plot (contour grid and bounds).
+}
 \description{
-Contour plots of omitted variable bias
+Contour plots of omitted variable bias for sensitivity analysis. The main inputs are an \code{\link{lm}} model, the treatment variable
+and the covariates used for benchmarking the strength of unobserved confounding.
+
+The horizontal axis of the plot shows hypothetical values of the partial R2 of the unobserved confounder(s) with the treatment.
+ The vertical axis shows hypothetical values of the partial R2 of the unobserved confounder(s) with the outcome.
+ The contour levels represent the adjusted estimates (or t-values) of the treatment effect.
+ The reference points are the bounds on the partial R2 of the unobserved confounder if it were \code{k} times ``as strong'' as the observed covariate used for benchmarking (see arguments \code{kd} and \code{ky}).
+
+ See Cinelli and Hazlett (2018) for details.
+}
+\examples{
+
+# runs regression model
+model <- lm(peacefactor ~ directlyharmed + age + farmer_dar + herder_dar +
+                         pastvoted + hhsize_darfur + female + village,
+                         data = darfur)
+# contour plot
+ovb_contour_plot(model, treatment = "directlyharmed",
+                        benchmark_covariates = "female",
+                        kd = 1:2)
+
+}
+\references{
+Cinelli, C. and Hazlett, C. "Making Sense of Sensitivity: Extending Omitted Variable Bias." (2018).
 }

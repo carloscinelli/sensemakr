@@ -9,7 +9,7 @@
 #'
 #' You may also find usefull to use some of the sensitivity functions directly, such as the sensitivity plots
 #' (\code{\link{ovb_contour_plot}}, \code{\link{ovb_extreme_plot}}) the bias-adjusted estimates (\code{\link{adjusted_estimate}}),
-#' the robustness value (\code{\link{robustness_value}}), covariates partial r2s (\code{\link{partial_r2}}), the bounds
+#' the robustness value (\code{\link{robustness_value}}), covariates partial R2s (\code{\link{partial_r2}}), the bounds
 #' on the strength of the confounders (\code{\link{ovb_bounds}}), among other convenience functions.
 #'
 #' More information can be found on the help documentation, vignettes and related papers.
@@ -21,6 +21,18 @@ NULL
 
 #' Sensitivity analysis to unobserved confounders
 #'
+#' @description
+#' This function performs sensitivity analysis to omitted variables as discussed in Cinelli and Hazlett (2018). It returns an object of
+#' class \code{sensemakr} with several pre-computed several sensitivity statistics for reporting.
+#'
+#' @details
+#' The function \code{\link{sensemakr}} is a convenience function that computes the most common sensitivity analysis results.
+#' After running \code{sensemakr} you may directly use the \code{plot}, \code{print} and \code{summary} methods in the returned object.
+#'
+#' For more fleixible analysis, you may use the other sensitivity functions of the package directly, such as the sensitivity plots
+#' (\code{\link{ovb_contour_plot}}, \code{\link{ovb_extreme_plot}}) the functions for bias-adjusted estimates (\code{\link{adjusted_estimate}}),
+#' the functions for computing robustness value (\code{\link{robustness_value}}),  partial R2s (\code{\link{partial_r2}}), and bounds
+#' on the strength of the confounders (\code{\link{ovb_bounds}}). Check the package documentation for more details.
 #'
 #' @param ... arguments passed to other methods. First argument should either be an \code{\link{lm}} model with the
 #' outcome regression, or a \code{\link{formula}} describing the model along
@@ -41,8 +53,11 @@ NULL
 #'sensitivity <- sensemakr(model, treatment = "directlyharmed",
 #'                                benchmark_covariates = "female",
 #'                                kd = 1:3)
+#'# short description of results
+#'sensitivity
 #'
-#'robustness_value(sensitivity)
+#'# long description of results
+#'summary(sensitivity)
 #'
 #'# plot bias contour of point estimate
 #'plot(sensitivity)
@@ -53,7 +68,13 @@ NULL
 #'# plot extreme scenario
 #'plot(sensitivity, type = "extreme")
 #'
-#'# v
+#' @return
+#' An object of class \code{sensemakr}, containing:
+#' \describe{
+#'  \item{ \code{info} }{A \code{data.frame} with the general information of the analysis, including the formula used, the name of the treatment variable, parameter values such as \code{q}, \code{alpha}, and whether the bias is assumed to reduce the current estimate. }
+#'  \item{ \code{sensitivity_stats} }{A \code{data.frame} with the sensitivity statistics for the treatment variable, as computed by the function \code{\link{sensitivity_stats}}.}
+#'  \item{ \code{bounds} }{A \code{data.frame} with bounds on the strength of confounding according to some benchmark covariates, as computed by the function \code{\link{ovb_bounds}}.}
+#'  }
 #'
 #' @export
 sensemakr <- function(...){
@@ -64,9 +85,9 @@ sensemakr <- function(...){
 #' @inheritParams adjusted_estimate
 #' @param benchmark_covariates a character vector of the names of covariates that will be used to bound the plausible strength
 #' of the unobserved confounders.
-#' @param kd numeric vector. Parameterizes how many times stronger the confounder is related to the treatment in comparison to the observed benchmark covariates.
-#' Default value is \code{1}.
-#' @param ky numeric vector. Parameterizes how many times stronger the confounder is related to the outcome in comparison to the observed benchmark covariates.
+#' @param kd numeric vector. Parameterizes how many times stronger the confounder is related to the treatment in comparison to the observed benchmark covariate.
+#' Default value is \code{1} (confounder is as strong as benchmark covariate).
+#' @param ky numeric vector. Parameterizes how many times stronger the confounder is related to the outcome in comparison to the observed benchmark covariate.
 #' Default value is the same as \code{kd}.
 #' @param bound_label label to bounds provided manually in \code{r2dz.x} and \code{r2yz.dx}.
 #' @inheritParams robustness_value

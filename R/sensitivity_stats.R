@@ -123,12 +123,11 @@ robustness_value.numeric <- function(t_statistic, dof, q =1, alpha = NULL, ...){
   rv
 }
 
-#' @rdname robustness_value
-#' @export
-robustness_value.sensemakr <- function(model, ...){
-
-}
-
+#
+# #' @export
+# robustness_value.sensemakr <- function(x, ...){
+#   x$sensitivity_stats[,c("rv_q","rv_qa")]
+# }
 
 
 
@@ -426,8 +425,10 @@ sensitivity_stats.numeric <- function(estimate,
   sensitivity_stats
 }
 
-
-
+#
+# sensitivity_stats.sensemakr <- function(x, ...){
+#   x$sensitivity_stats
+# }
 
 # sanity checkers ---------------------------------------------------------
 

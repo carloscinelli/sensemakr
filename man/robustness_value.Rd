@@ -4,7 +4,6 @@
 \alias{robustness_value}
 \alias{robustness_value.lm}
 \alias{robustness_value.numeric}
-\alias{robustness_value.sensemakr}
 \title{Computes the robustness value}
 \usage{
 robustness_value(...)
@@ -14,8 +13,6 @@ robustness_value(...)
 
 \method{robustness_value}{numeric}(t_statistic, dof, q = 1, alpha = NULL,
   ...)
-
-\method{robustness_value}{sensemakr}(model, ...)
 }
 \arguments{
 \item{...}{arguments passed to other methods. First argument should either be an \code{lm} model with the

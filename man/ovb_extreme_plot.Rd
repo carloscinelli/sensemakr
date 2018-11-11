@@ -36,8 +36,8 @@ or a numeric vector with the coefficient estimate.}
 \item{benchmark_covariates}{a character vector of the names of covariates that will be used to bound the plausible strength
 of the unobserved confounders.}
 
-\item{kd}{numeric vector. Parameterizes how many times stronger the confounder is related to the treatment in comparison to the observed benchmark covariates.
-Default value is \code{1}.}
+\item{kd}{numeric vector. Parameterizes how many times stronger the confounder is related to the treatment in comparison to the observed benchmark covariate.
+Default value is \code{1} (confounder is as strong as benchmark covariate).}
 
 \item{r2yz.dx}{hypothetical partial R2 of unobserved confounder Z with outcome Y, given covariates X and treatment D.}
 
@@ -63,6 +63,32 @@ Default value is \code{1}.}
 
 \item{dof}{residual degrees of freedom of the regression.}
 }
+\value{
+The function returns invisibly the data used for the extreme plot.
+}
 \description{
-Extreme scenarios plots of omitted variable bias
+Extreme scenario plots of omitted variable bias for sensitivity analysis. The main inputs are an \code{\link{lm}} model, the treatment variable
+and the covariates used for benchmarking the strength of unobserved confounding.
+
+The horizontal axis shows the partial R2 of the unobserved confounder(s) with the treatment. The vertical axis shows the adjusted treatment effect estimate.
+The partial R2 of the confounder with the outcome is represented by \emph{different curves} for each scenario, as given by the parameter \code{r2yz.dx}.
+The red marks on horizontal axis are bounds on the partial R2 of the unobserved confounder \code{kd} times as strong as the covariates used for benchmarking.
+
+See Cinelli and Hazlett (2018) for details.
+}
+\examples{
+
+# runs regression model
+model <- lm(peacefactor ~ directlyharmed + age + farmer_dar + herder_dar +
+                         pastvoted + hhsize_darfur + female + village,
+                         data = darfur)
+# extreme scenarios plot
+ovb_extreme_plot(model, treatment = "directlyharmed",
+                        benchmark_covariates = "female",
+                        kd = 1:2,
+                        lim = 0.05)
+
+}
+\references{
+Cinelli, C. and Hazlett, C. "Making Sense of Sensitivity: Extending Omitted Variable Bias." (2018).
 }

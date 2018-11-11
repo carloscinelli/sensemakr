@@ -20,7 +20,7 @@
 #' Hazlett, C. (2013). Angry or weary? The effect of personal violence on attitudes towards peace in darfur. Working Paper.
 "darfur"
 
-# Later include full description of the data
+# TODO: include full description of the data
 # \describe{
 #   \item{wouldvote}{...}
 #   \item{peacefactor}{...}

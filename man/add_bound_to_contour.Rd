@@ -18,7 +18,7 @@ add_bound_to_contour(...)
   label.bump.y = 0.02, round = 2, ...)
 }
 \arguments{
-\item{...}{test}
+\item{...}{arguments passed to other methods.}
 
 \item{model}{an \code{lm} object with the outcome regression.}
 
@@ -27,10 +27,10 @@ add_bound_to_contour(...)
 \item{benchmark_covariates}{a character vector of the names of covariates that will be used to bound the plausible strength
 of the unobserved confounders.}
 
-\item{kd}{numeric vector. Parameterizes how many times stronger the confounder is related to the treatment in comparison to the observed benchmark covariates.
-Default value is \code{1}.}
+\item{kd}{numeric vector. Parameterizes how many times stronger the confounder is related to the treatment in comparison to the observed benchmark covariate.
+Default value is \code{1} (confounder is as strong as benchmark covariate).}
 
-\item{ky}{numeric vector. Parameterizes how many times stronger the confounder is related to the outcome in comparison to the observed benchmark covariates.
+\item{ky}{numeric vector. Parameterizes how many times stronger the confounder is related to the outcome in comparison to the observed benchmark covariate.
 Default value is the same as \code{kd}.}
 
 \item{reduce}{should the bias adjustment reduce or increase the absolute value of the estimated coefficient? Default is \code{TRUE}.}
@@ -55,5 +55,27 @@ or adjusted t-values (\code{"t-value"})?}
 \item{bound_label}{label to bounds provided manually in \code{r2dz.x} and \code{r2yz.dx}.}
 }
 \description{
-Add bounds to contour plot of omitted variable bias
+Convenience function to add bounds on sensitivity contour plot created with \code{\link{ovb_contour_plot}}.
+}
+\examples{
+
+# runs regression model
+model <- lm(peacefactor ~ directlyharmed + age + farmer_dar + herder_dar +
+                         pastvoted + hhsize_darfur + female + village,
+                         data = darfur)
+# contour plot
+ovb_contour_plot(model, treatment = "directlyharmed")
+
+# add bound 3/1 times stronger than female
+add_bound_to_contour(model,
+                     treatment = "directlyharmed",
+                     benchmark_covariates = "female",
+                     kd = 3, ky = 1)
+
+# add bound 50/2 times stronger than age
+add_bound_to_contour(model,
+                     treatment = "directlyharmed",
+                     benchmark_covariates = "age",
+                     kd = 50, ky = 2)
+
 }

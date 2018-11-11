@@ -52,4 +52,7 @@ model <- lm(peacefactor ~ directlyharmed + age + farmer_dar + herder_dar +
 ## sensitivity stats for directly harmed
 sensitivity_stats(model, treatment = "directlyharmed")
 
+## you can  also pass the numeric values directly
+sensitivity_stats(estimate = 0.09731582, se = 0.02325654, dof = 783)
+
 }

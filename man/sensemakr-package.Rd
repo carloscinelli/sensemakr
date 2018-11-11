@@ -15,7 +15,7 @@ After running \code{sensemakr} you may directly use the plot and print methods i
 
 You may also find usefull to use some of the sensitivity functions directly, such as the sensitivity plots
 (\code{\link{ovb_contour_plot}}, \code{\link{ovb_extreme_plot}}) the bias-adjusted estimates (\code{\link{adjusted_estimate}}),
-the robustness value (\code{\link{robustness_value}}), covariates partial r2s (\code{\link{partial_r2}}), the bounds
+the robustness value (\code{\link{robustness_value}}), covariates partial R2s (\code{\link{partial_r2}}), the bounds
 on the strength of the confounders (\code{\link{ovb_bounds}}), among other convenience functions.
 
 More information can be found on the help documentation, vignettes and related papers.
