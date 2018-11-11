@@ -12,37 +12,39 @@
 #' \code{past_voted} (whether they report having voted in an earlier election,
 #' prior to the conflict).
 #'
-#' @format A data frame with 1276 rows and 14 columns:
-#' \describe{
-#'   \item{wouldvote}{...}
-#'   \item{peacefactor}{...}
-#'   \item{peace_formerenemies}{...}
-#'   \item{peace_jjindiv}{...}
-#'   \item{peace_jjtribes}{...}
-#'   \item{gos_soldier_execute}{...}
-#'   \item{directlyharmed}{A binary variable indicating whether the respondent
-#'   was personally physically injured during attacks on villages in Darfur
-#'   largely between 2003-2004. 529 respondents report being personally injured,
-#'   while 747 do not report being injured.}
-#'   \item{age}{Age of respondent in whole integer years. Ages in the data
-#'   range from 18 to 100.}
-#'   \item{farmer_dar}{Binary variable indicating the respondent was a farmer in
-#'   Darfur. 1,051 respondents were farmers, 225 were not.}
-#'   \item{herder_dar}{Binary variable indicating the respondent was a herder in
-#'   Darfur. 190 respondents were farmers, 1,086 were not.}
-#'   \item{pastvoted}{Binary variable indicating the respondent reported having
-#'   voted in a previous election before the conflict. 821 respondents reported
-#'   having voted in a previous election, 455 reported not having voted in a
-#'   previous election.}
-#'   \item{hhsize_darfur}{...}
-#'   \item{village}{Factor variable indicating village of respondent. 486
-#'   unique villages are accounted for in the data.}
-#'   \item{female}{Binary variable indicating the respondent is
-#'   female-identified. 582 respondents are female-identified, 694 are not.}
-#' }
+#' @format A data frame with 1276 rows and 14 columns.
 #'
 #' @references
 #' Cinelli, C. and Hazlett, C. "Making Sense of Sensitivity: Extending Omitted Variable Bias." (2018)
 #'
 #' Hazlett, C. (2013). Angry or weary? The effect of personal violence on attitudes towards peace in darfur. Working Paper.
 "darfur"
+
+# Later include full description of the data
+# \describe{
+#   \item{wouldvote}{...}
+#   \item{peacefactor}{...}
+#   \item{peace_formerenemies}{...}
+#   \item{peace_jjindiv}{...}
+#   \item{peace_jjtribes}{...}
+#   \item{gos_soldier_execute}{...}
+#   \item{directlyharmed}{A binary variable indicating whether the respondent
+#   was personally physically injured during attacks on villages in Darfur
+#   largely between 2003-2004. 529 respondents report being personally injured,
+#   while 747 do not report being injured.}
+#   \item{age}{Age of respondent in whole integer years. Ages in the data
+#   range from 18 to 100.}
+#   \item{farmer_dar}{Binary variable indicating the respondent was a farmer in
+#   Darfur. 1,051 respondents were farmers, 225 were not.}
+#   \item{herder_dar}{Binary variable indicating the respondent was a herder in
+#   Darfur. 190 respondents were farmers, 1,086 were not.}
+#   \item{pastvoted}{Binary variable indicating the respondent reported having
+#   voted in a previous election before the conflict. 821 respondents reported
+#   having voted in a previous election, 455 reported not having voted in a
+#   previous election.}
+#   \item{hhsize_darfur}{...}
+#   \item{village}{Factor variable indicating village of respondent. 486
+#   unique villages are accounted for in the data.}
+#   \item{female}{Binary variable indicating the respondent is
+#   female-identified. 582 respondents are female-identified, 694 are not.}
+# }

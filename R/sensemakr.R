@@ -1,10 +1,8 @@
 #' Sensitivity analysis: extending omitted variable bias"
 #'
 #' The sensemakr package implements a suite of sensitivity analysis tools that make it easier to
-#' understand the impact of omitted variable bias in linear regression models.
+#' understand the impact of omitted variables in linear regression models.
 #' It implements the methods discussed in Cinelli and Hazlett (2018).
-#'
-#' More information can be found on the help documentation, vignettes and related papers.
 #'
 #' The main function of the package is  \code{\link{sensemakr}}, which computes the most common sensitivity analysis results.
 #' After running \code{sensemakr} you may directly use the plot and print methods in the returned object.
@@ -14,7 +12,7 @@
 #' the robustness value (\code{\link{robustness_value}}), covariates partial r2s (\code{\link{partial_r2}}), the bounds
 #' on the strength of the confounders (\code{\link{ovb_bounds}}), among other convenience functions.
 #'
-#'
+#' More information can be found on the help documentation, vignettes and related papers.
 #'
 #' @references Cinelli, C. and Hazlett, C. "Making Sense of Sensitivity: Extending Omitted Variable Bias." (2018).
 #' @docType package

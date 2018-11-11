@@ -8,7 +8,7 @@
 \alias{partial_f2.numeric}
 \alias{partial_f2.lm}
 \alias{partial_f}
-\title{Partial R2 and partial (Cohen's) f2 of covariates in a linear regression model}
+\title{Computes the partial R2 and partial (Cohen's) f2}
 \usage{
 partial_r2(...)
 
@@ -31,16 +31,52 @@ with the regression model or a numeric vector with the t-value of the coefficien
 \item{model}{an \code{lm} object with the regression model}
 
 \item{covariates}{model covariates for which the partial R2 will be computed. Default is to compute
-the partial R2 of all covariates}
+the partial R2 of all covariates.}
 
 \item{t_statistic}{\code{numeric} vector with the t-value of the coefficient estimates}
 
 \item{dof}{residual degrees of freedom of the regression}
 }
+\value{
+A numeric vector.
+}
 \description{
-The \code{partial_r2} function computes partial R2.
+These functions computes the partial R2 and the partial (Cohen's) f2 for a linear regression model. The partial R2
+describes how much of the residual variance of the outcome (after partialing out the other covariates) a covariate explains.
 
-The \code{partial_f2} function computes partial f2 and \code{partial_f} the partial f.
+The partial R2 can be used as an extreme-scenario sensitivity analysis to omitted variables.
+Considering an unobserved confounder that explains 100\% of the residual variance of the outcome,
+the partial R2 describes how strongly associated with the treatment this unobserved confounder would need to be in order to explain away the estimated effect.
+For details see Cinelli and Hazlett (2018).
+
+The partial (Cohen's) f2 is a common measure of effect size (a transformation of the partial R2) that can also be used directly
+for sensitivity analysis using a bias factor table.
+
+The function \code{partial_r2} computes partial R2. The function \code{partial_f2} computes partial f2 and the function \code{partial_f} the partial f.
+They can take as input an \code{\link{lm}} object or you may pass directly t-value and degrees of freedom.
 
 For partial R2 of groups of covariates, check \code{\link{group_partial_r2}}.
+}
+\examples{
+
+# using an lm object
+## loads data
+data("darfur")
+
+## fits model
+model <- lm(peacefactor ~ directlyharmed + age + farmer_dar + herder_dar +
+             pastvoted + hhsize_darfur + female + village, data = darfur)
+
+## partial R2 of the treatment (directly harmed) with the outcome (peacefactor)
+partial_r2(model, covariates = "directlyharmed")
+
+## partial R2 of female with the outcome
+partial_r2(model, covariates = "female")
+
+# you can also provide the statistics directly
+partial_r2(t_statistic = 4.18445, dof = 783)
+
+}
+\references{
+Cinelli, C. and Hazlett, C. "Making Sense of Sensitivity: Extending Omitted Variable Bias." (2018).
 }

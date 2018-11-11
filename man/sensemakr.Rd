@@ -34,10 +34,10 @@ Default value is \code{1}.}
 \item{ky}{numeric vector. Parameterizes how many times stronger the confounder is related to the outcome in comparison to the observed benchmark covariates.
 Default value is the same as \code{kd}.}
 
-\item{q}{hypothesized proportion of bias relative to original estimate due to unobserved confounders,
-used for computation of the robustness value. It has to be greater than zero. Default is \code{1}.}
+\item{q}{percent change of the effect estimate that would be deemed problematic.  Default is \code{1},
+which means a reduction of 100\% of the current effect estimate (bring estimate to zero). It has to be greater than zero.}
 
-\item{alpha}{significance level used for computation of the robustness value. Default is \code{0.05}.}
+\item{alpha}{significance level used for computation of the robustness value. If \code{NULL} (the default), the robustness value refers only to the point estimate, no sampling uncertainty is taken into account.}
 
 \item{r2dz.x}{hypothetical partial R2 of unobserved confounder Z with treatment D, given covariates X.}
 

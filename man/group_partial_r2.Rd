@@ -13,19 +13,33 @@ group_partial_r2(...)
 \method{group_partial_r2}{numeric}(F.stats, p, dof, ...)
 }
 \arguments{
-\item{...}{test}
+\item{...}{arguments passed to other methods. First argument should either be an \code{lm} object
+with the regression model or a numeric vector with the F-statistics for the group of covariates.}
 
 \item{model}{an \code{lm} object with the regression model}
 
 \item{covariates}{model covariates for which the partial R2 will be computed. Default is to compute
-the partial R2 of all covariates}
+the partial R2 of all covariates.}
 
-\item{F.stats}{F statistics}
+\item{F.stats}{F-statistics for the group of covariates.}
 
-\item{p}{number of parameters in the model}
+\item{p}{number of parameters in the model.}
 
-\item{dof}{residual degrees of freedom of the model}
+\item{dof}{residual degrees of freedom of the model.}
+}
+\value{
+A numeric vector.
 }
 \description{
-Partial R2 of groups of covariates in a linear regression model
+This function computes the partial R2 of a group of covariates in a linear regression model.
+}
+\examples{
+
+data("darfur")
+
+model <- lm(peacefactor ~ directlyharmed + age + farmer_dar + herder_dar +
+             pastvoted + hhsize_darfur + female + village, data = darfur)
+
+group_partial_r2(model, covariates = c("female", "pastvoted"))
+
 }

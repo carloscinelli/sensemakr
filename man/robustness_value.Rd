@@ -5,7 +5,7 @@
 \alias{robustness_value.lm}
 \alias{robustness_value.numeric}
 \alias{robustness_value.sensemakr}
-\title{Robustness value of a regression coefficient}
+\title{Computes the robustness value}
 \usage{
 robustness_value(...)
 
@@ -26,15 +26,55 @@ regression model or a numeric vector with the t-value of the coefficient estimat
 \item{covariates}{model covariates for which the robustness value will be computed. Default is to compute
 the robustness value of all covariates.}
 
-\item{q}{hypothesized proportion of bias relative to original estimate due to unobserved confounders,
-used for computation of the robustness value. It has to be greater than zero. Default is \code{1}.}
+\item{q}{percent change of the effect estimate that would be deemed problematic.  Default is \code{1},
+which means a reduction of 100\% of the current effect estimate (bring estimate to zero). It has to be greater than zero.}
 
-\item{alpha}{significance level used for computation of the robustness value. Default is \code{0.05}.}
+\item{alpha}{significance level used for computation of the robustness value. If \code{NULL} (the default), the robustness value refers only to the point estimate, no sampling uncertainty is taken into account.}
 
 \item{t_statistic}{\code{numeric} vector with the t-value of the coefficient estimates}
 
 \item{dof}{residual degrees of freedom of the regression}
 }
+\value{
+The function returns a numerical vector with the robustness value. The arguments q and alpha are saved as attributes of the vector for reference.
+}
 \description{
-Robustness value of a regression coefficient
+This function computes the robustness value of a regression coefficient.
+
+The robustness value describes the minimum strength of association (parameterized in terms of partial R2) that
+omitted variables would need to have both with the treatment and with the outcome to change the estimated coefficient by
+a certain amount (for instance, to bring it down to zero).
+
+For instance, a robustness value of 1\% means that an unobserved confounder that explain 1\% of the residual variance of the outcome
+and 1\% of the residual variance of the treatment is strong enough to explain away the estimated effect. Whereas a robustness value of 90\%
+means that any unobserved confounder that explain less than 90\% of the residual variance of both the outcome and the treatment assignment cannot
+fully account for the observed effect. You may also compute robustness value taking into account sampling uncertainty. See details in Cinelli and Hazlett (2018).
+
+The function \link{robustness_value} can take as input an \code{\link{lm}} object or you may directly pass the t-value and degrees of freedom.
+}
+\examples{
+
+# using an lm object
+## loads data
+data("darfur")
+
+## fits model
+model <- lm(peacefactor ~ directlyharmed + age + farmer_dar + herder_dar +
+             pastvoted + hhsize_darfur + female + village, data = darfur)
+
+## robustness value of directly harmed q =1 (reduce estimate to zero)
+robustness_value(model, covariates = "directlyharmed")
+
+## robustness value of directly harmed q = 1/2 (reduce estimate in half)
+robustness_value(model, covariates = "directlyharmed", q = 1/2)
+
+## robustness value of directly harmed q = 1/2, alpha = 0.05
+## (reduce estimate in half, with 95\% confidence)
+robustness_value(model, covariates = "directlyharmed", q = 1/2, alpha = 0.05)
+
+# you can also provide the statistics directly
+robustness_value(t_statistic = 4.18445, dof = 783)
+}
+\references{
+Cinelli, C. and Hazlett, C. "Making Sense of Sensitivity: Extending Omitted Variable Bias." (2018).
 }

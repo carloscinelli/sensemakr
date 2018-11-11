@@ -21,10 +21,10 @@ outcome regression or a numeric vector with the coefficient estimate.}
 
 \item{treatment}{a character vector with the name of the treatment variable of the model.}
 
-\item{q}{hypothesized proportion of bias relative to original estimate due to unobserved confounders,
-used for computation of the robustness value. It has to be greater than zero. Default is \code{1}.}
+\item{q}{percent change of the effect estimate that would be deemed problematic.  Default is \code{1},
+which means a reduction of 100\% of the current effect estimate (bring estimate to zero). It has to be greater than zero.}
 
-\item{alpha}{significance level used for computation of the robustness value. Default is \code{0.05}.}
+\item{alpha}{significance level used for computation of the robustness value. If \code{NULL} (the default), the robustness value refers only to the point estimate, no sampling uncertainty is taken into account.}
 
 \item{estimate}{coefficient estimate.}
 
@@ -32,8 +32,24 @@ used for computation of the robustness value. It has to be greater than zero. De
 
 \item{dof}{residual degrees of freedom of the regression.}
 }
+\value{
+A \code{data.frame}.
+}
 \description{
 Convenience function that computes the \code{\link{robustness_value}},
 \code{\link{partial_r2}} and \code{\link{partial_f2}} of the coefficient of interest. It
 returns a \code{data.frame} with all quantities of interest.
+}
+\examples{
+
+## loads data
+data("darfur")
+
+## fits model
+model <- lm(peacefactor ~ directlyharmed + age + farmer_dar + herder_dar +
+             pastvoted + hhsize_darfur + female + village, data = darfur)
+
+## sensitivity stats for directly harmed
+sensitivity_stats(model, treatment = "directlyharmed")
+
 }
