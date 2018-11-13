@@ -50,6 +50,6 @@ prior to the conflict).
 \references{
 Cinelli, C. and Hazlett, C. "Making Sense of Sensitivity: Extending Omitted Variable Bias." (2018)
 
-Hazlett, C. (2013). Angry or weary? The effect of personal violence on attitudes towards peace in darfur. Working Paper.
+Hazlett, C. (2018). Angry or weary? The effect of personal violence on attitudes towards peace in darfur. Working Paper.
 }
 \keyword{datasets}
