@@ -20,35 +20,6 @@ of unobserved confounders (\code{\link{ovb_bounds}}), among others.
 More information can be found on the help documentation, vignettes and related papers.
 }
 \examples{
-# loads dataset
-data("darfur")
-
-# runs regression model
-model <- lm(peacefactor ~ directlyharmed + age + farmer_dar + herder_dar +
-              pastvoted + hhsize_darfur + female + village, data = darfur)
-
-# runs sensemakr for sensitivity analysis
-sensitivity <- sensemakr(model, treatment = "directlyharmed",
-                         benchmark_covariates = "female",
-                         kd = 1:3, q = 1, alpha = 0.10)
-
-# short description of sensitivity results
-sensitivity
-
-ovb_minimal_reporting(sensitivity)
-
-# long description of sensitivity results
-summary(sensitivity)
-
-# plot bias contour of point estimate
-plot(sensitivity)
-
-# plot bias contour of t-value
-plot(sensitivity, sensitivity.of = "t-value")
-
-# plot extreme scenario
-plot(sensitivity, type = "extreme")
-
 
 # loads dataset
 data("darfur")

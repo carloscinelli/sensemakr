@@ -16,35 +16,6 @@
 #' @references Cinelli, C. and Hazlett, C. "Making Sense of Sensitivity: Extending Omitted Variable Bias." (2018).
 #' @docType package
 #' @examples
-#' # loads dataset
-#' data("darfur")
-#'
-#' # runs regression model
-#' model <- lm(peacefactor ~ directlyharmed + age + farmer_dar + herder_dar +
-#'               pastvoted + hhsize_darfur + female + village, data = darfur)
-#'
-#' # runs sensemakr for sensitivity analysis
-#' sensitivity <- sensemakr(model, treatment = "directlyharmed",
-#'                          benchmark_covariates = "female",
-#'                          kd = 1:3, q = 1, alpha = 0.10)
-#'
-#' # short description of sensitivity results
-#' sensitivity
-#'
-#' ovb_minimal_reporting(sensitivity)
-#'
-#' # long description of sensitivity results
-#' summary(sensitivity)
-#'
-#' # plot bias contour of point estimate
-#' plot(sensitivity)
-#'
-#' # plot bias contour of t-value
-#' plot(sensitivity, sensitivity.of = "t-value")
-#'
-#' # plot extreme scenario
-#' plot(sensitivity, type = "extreme")
-#'
 #'
 #' # loads dataset
 #' data("darfur")
