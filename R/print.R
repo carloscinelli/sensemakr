@@ -99,9 +99,9 @@ summary.sensemakr <- function(object, digits = max(3L, getOption("digits") - 3L)
       "Conversely, unobserved confounders that do not explain more than", 100*rv_q,"%", "of the residual variance",
       "of both the treatment and the outcome are not strong enough to", reduce,"the absolute value of the effect size by",  100*q, "%.\n\n")
 
-  cat("Unobserved confounders (orthogonal to the covariates)  that explain more than", 100*rv_qa,"%", "of the residual variance",
+  cat("Unobserved confounders (orthogonal to the covariates) that explain more than", 100*rv_qa,"%", "of the residual variance",
       "of both the treatment and the outcome are enough to", reduce, "the absolute value of the effect size by", 100*q, "% at the significance level of alpha =", alpha, ".",
-      "Coversely, unobserved confounders that do not explain more than", 100*rv_qa,"%", "of the residual variance",
+      "Conversely, unobserved confounders that do not explain more than", 100*rv_qa,"%", "of the residual variance",
       "of both the treatment and the outcome are not strong enough to", reduce,"the absolute value of the effect size by",  100*q, "% at the significance level of alpha =", alpha, ".\n\n")
 
   cat("An extreme confounder (orthogonal to the covariates) that explains 100% of the residual variance of the outcome, would need to explain at least",
@@ -109,12 +109,14 @@ summary.sensemakr <- function(object, digits = max(3L, getOption("digits") - 3L)
   cat("\n\n")
 
   bounds <- x$bounds
-  numeric <- sapply(bounds, is.numeric)
-  bounds[numeric] <- lapply(bounds[numeric], round, digits = digits)
-  names(bounds) <-  sapply(gsub("\\_", " ",  names(bounds)), .simpleCap)
+  if (!is.null(bounds)) {
+    numeric <- sapply(bounds, is.numeric)
+    bounds[numeric] <- lapply(bounds[numeric], round, digits = digits)
+    names(bounds) <-  sapply(gsub("\\_", " ",  names(bounds)), .simpleCap)
 
-  cat("OVB bounds:\n")
-  print(bounds, row.names = FALSE)
+    cat("OVB bounds:\n")
+    print(bounds, row.names = FALSE)
+  }
 }
 
 
