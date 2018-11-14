@@ -16,9 +16,10 @@ ovb_bounds(...)
 outcome regression, or a \code{\link{formula}} describing the model along
 with the \code{\link{data.frame}} containing the variables of the model.}
 
-\item{model}{an \code{lm} object with the outcome regression.}
+\item{model}{An \code{lm} object with the outcome regression.}
 
-\item{treatment}{a character vector with the name of the treatment variable of the model.}
+\item{treatment}{A character vector with the name of the treatment variable
+of the model.}
 
 \item{benchmark_covariates}{a character vector of the names of covariates that will be used to bound the plausible strength
 of the unobserved confounders.}
@@ -29,7 +30,8 @@ Default value is \code{1} (confounder is as strong as benchmark covariate).}
 \item{ky}{numeric vector. Parameterizes how many times stronger the confounder is related to the outcome in comparison to the observed benchmark covariate.
 Default value is the same as \code{kd}.}
 
-\item{reduce}{should the bias adjustment reduce or increase the absolute value of the estimated coefficient? Default is \code{TRUE}.}
+\item{reduce}{Should the bias adjustment reduce or increase the
+absolute value of the estimated coefficient? Default is \code{TRUE}.}
 
 \item{bound}{type of bounding procedure. Currently only \code{"partial r2"} is implemented.}
 

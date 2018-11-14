@@ -48,23 +48,27 @@ bias(...)
 \code{lm} model with the outcome regression or a numeric vector with the
 coefficient estimate.}
 
-\item{model}{an \code{lm} object with the outcome regression.}
+\item{model}{An \code{lm} object with the outcome regression.}
 
-\item{treatment}{a character vector with the name of the treatment variable of the model.}
+\item{treatment}{A character vector with the name of the treatment variable
+of the model.}
 
-\item{r2dz.x}{hypothetical partial R2 of unobserved confounder Z with treatment D, given covariates X.}
+\item{r2dz.x}{Hypothetical partial R2 of unobserved confounder
+Z with treatment D, given covariates X.}
 
-\item{r2yz.dx}{hypothetical partial R2 of unobserved confounder Z with outcome Y, given covariates X and treatment D.}
+\item{r2yz.dx}{Hypothetical partial R2 of unobserved confounder Z
+with outcome Y, given covariates X and treatment D.}
 
-\item{reduce}{should the bias adjustment reduce or increase the absolute value of the estimated coefficient? Default is \code{TRUE}.}
+\item{reduce}{Should the bias adjustment reduce or increase the
+absolute value of the estimated coefficient? Default is \code{TRUE}.}
 
-\item{estimate}{coefficient estimate.}
+\item{estimate}{Coefficient estimate.}
 
-\item{se}{standard error of the coefficient estimate.}
+\item{se}{Standard error of the coefficient estimate.}
 
-\item{dof}{residual degrees of freedom of the regression.}
+\item{dof}{Residual degrees of freedom of the regression.}
 
-\item{h0}{null hypothesis for computation of the t-value. Default is zero.}
+\item{h0}{Null hypothesis for computation of the t-value. Default is zero.}
 }
 \value{
 Numeric vector with bias, adjusted estimate, standard error, or t-value.
