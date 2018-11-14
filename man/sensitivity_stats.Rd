@@ -15,8 +15,9 @@ sensitivity_stats(...)
   treatment = "treatment", q = 1, alpha = 0.05, ...)
 }
 \arguments{
-\item{...}{arguments passed to other methods. First argument should either be an \code{lm} model with the
-outcome regression or a numeric vector with the coefficient estimate.}
+\item{...}{Arguments passed to other methods. First argument should either be an
+\code{lm} model with the outcome regression or a numeric vector with the
+coefficient estimate.}
 
 \item{model}{an \code{lm} object with the outcome regression.}
 
