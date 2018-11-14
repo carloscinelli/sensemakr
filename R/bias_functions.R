@@ -1,19 +1,21 @@
 # Bias functions ----------------------------------------------------------
 
-
 # adjusted estimate -------------------------------------------------------
 
 #' Bias-adjusted estimates, standard-errors and t-values
 #'
 #' @description
-#'  These functions compute bias adjusted estimates (\code{adjusted_estimate}), standard-errors (\code{adjusted_se})
-#'  and t-values (\code{adjusted_t}), given a hypothetical strength of the confounder with the partial R2 parameterization.
+#'  These functions compute bias adjusted estimates (\code{adjusted_estimate}),
+#'  standard-errors (\code{adjusted_se}) and t-values (\code{adjusted_t}),
+#'  given a hypothetical strength of the confounder in the partial R2 parameterization.
 #'
-#' The functions work either with an \code{\link{lm}} object, or directly passing the numerical inputs, such as the
+#' The functions work either with an \code{\link{lm}} object, or directly
+#' passing in sufficient numerical inputs, such as the
 #' current coefficient estimate, standard error and degrees of freedom.
 #'
-#' @param ... arguments passed to other methods. First argument should either be an \code{lm} model with the
-#' outcome regression or a numeric vector with the coefficient estimate.
+#' @param ... Arguments passed to other methods. First argument should either be an
+#' \code{lm} model with the outcome regression or a numeric vector with the
+#' coefficient estimate.
 #'
 #' @return
 #' Numeric vector with bias, adjusted estimate, standard error, or t-value.
@@ -37,7 +39,7 @@
 #' # computes adjusted t-value for confounder with  r2dz.x = 0.05, r2yz.dx = 0.05
 #' adjusted_t(model, treatment = "directlyharmed", r2dz.x = 0.05, r2yz.dx = 0.05)
 #'
-#' # you can also pass numerical values directly
+#' # Alternatively, pass in sufficient numerical values directly.
 #' adjusted_estimate(estimate = 0.09731582, se = 0.02325654,
 #'                   dof = 783, r2dz.x = 0.05, r2yz.dx = 0.05)
 #'
