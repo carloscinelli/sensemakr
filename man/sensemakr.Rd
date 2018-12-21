@@ -22,9 +22,10 @@ sensemakr(...)
 outcome regression, or a \code{\link{formula}} describing the model along
 with the \code{\link{data.frame}} containing the variables of the model.}
 
-\item{model}{an \code{lm} object with the outcome regression.}
+\item{model}{An \code{lm} object with the outcome regression.}
 
-\item{treatment}{a character vector with the name of the treatment variable of the model.}
+\item{treatment}{A character vector with the name of the treatment variable
+of the model.}
 
 \item{benchmark_covariates}{a character vector of the names of covariates that will be used to bound the plausible strength
 of the unobserved confounders.}
@@ -40,13 +41,16 @@ which means a reduction of 100\% of the current effect estimate (bring estimate 
 
 \item{alpha}{significance level used for computation of the robustness value. If \code{NULL} (the default), the robustness value refers only to the point estimate, no sampling uncertainty is taken into account.}
 
-\item{r2dz.x}{hypothetical partial R2 of unobserved confounder Z with treatment D, given covariates X.}
+\item{r2dz.x}{Hypothetical partial R2 of unobserved confounder
+Z with treatment D, given covariates X.}
 
-\item{r2yz.dx}{hypothetical partial R2 of unobserved confounder Z with outcome Y, given covariates X and treatment D.}
+\item{r2yz.dx}{Hypothetical partial R2 of unobserved confounder Z
+with outcome Y, given covariates X and treatment D.}
 
 \item{bound_label}{label to bounds provided manually in \code{r2dz.x} and \code{r2yz.dx}.}
 
-\item{reduce}{should the bias adjustment reduce or increase the absolute value of the estimated coefficient? Default is \code{TRUE}.}
+\item{reduce}{Should the bias adjustment reduce or increase the
+absolute value of the estimated coefficient? Default is \code{TRUE}.}
 
 \item{formula}{an object of the class \code{\link{formula}}: a symbolic description of the model to be fitted.}
 

@@ -1,19 +1,21 @@
 # Bias functions ----------------------------------------------------------
 
-
 # adjusted estimate -------------------------------------------------------
 
 #' Bias-adjusted estimates, standard-errors and t-values
 #'
 #' @description
-#'  These functions compute bias adjusted estimates (\code{adjusted_estimate}), standard-errors (\code{adjusted_se})
-#'  and t-values (\code{adjusted_t}), given a hypothetical strength of the confounder with the partial R2 parameterization.
+#'  These functions compute bias adjusted estimates (\code{adjusted_estimate}),
+#'  standard-errors (\code{adjusted_se}) and t-values (\code{adjusted_t}),
+#'  given a hypothetical strength of the confounder in the partial R2 parameterization.
 #'
-#' The functions work either with an \code{\link{lm}} object, or directly passing the numerical inputs, such as the
+#' The functions work either with an \code{\link{lm}} object, or directly
+#' passing in sufficient numerical inputs, such as the
 #' current coefficient estimate, standard error and degrees of freedom.
 #'
-#' @param ... arguments passed to other methods. First argument should either be an \code{lm} model with the
-#' outcome regression or a numeric vector with the coefficient estimate.
+#' @param ... Arguments passed to other methods. First argument should either be an
+#' \code{lm} model with the outcome regression or a numeric vector with the
+#' coefficient estimate.
 #'
 #' @return
 #' Numeric vector with bias, adjusted estimate, standard error, or t-value.
@@ -37,7 +39,7 @@
 #' # computes adjusted t-value for confounder with  r2dz.x = 0.05, r2yz.dx = 0.05
 #' adjusted_t(model, treatment = "directlyharmed", r2dz.x = 0.05, r2yz.dx = 0.05)
 #'
-#' # you can also pass numerical values directly
+#' # Alternatively, pass in sufficient numerical values directly.
 #' adjusted_estimate(estimate = 0.09731582, se = 0.02325654,
 #'                   dof = 783, r2dz.x = 0.05, r2yz.dx = 0.05)
 #'
@@ -52,8 +54,9 @@ adjusted_estimate <- function(...){
   UseMethod("adjusted_estimate")
 }
 
-#' @param model an \code{lm} object with the outcome regression.
-#' @param treatment a character vector with the name of the treatment variable of the model.
+#' @param model An \code{lm} object with the outcome regression.
+#' @param treatment A character vector with the name of the treatment variable
+#' of the model.
 #' @rdname adjusted_estimate
 #' @export
 adjusted_estimate.lm <- function(model, treatment,  r2dz.x, r2yz.dx, reduce = TRUE, ...){
@@ -62,12 +65,15 @@ adjusted_estimate.lm <- function(model, treatment,  r2dz.x, r2yz.dx, reduce = TR
   with(model_data, adjusted_estimate(estimate = estimate, se = se, dof = dof, r2dz.x = r2dz.x, r2yz.dx = r2yz.dx, reduce = reduce))
 }
 
-#' @param estimate coefficient estimate.
-#' @param se standard error of the coefficient estimate.
-#' @param dof residual degrees of freedom of the regression.
-#' @param r2dz.x hypothetical partial R2 of unobserved confounder Z with treatment D, given covariates X.
-#' @param r2yz.dx hypothetical partial R2 of unobserved confounder Z with outcome Y, given covariates X and treatment D.
-#' @param reduce should the bias adjustment reduce or increase the absolute value of the estimated coefficient? Default is \code{TRUE}.
+#' @param estimate Coefficient estimate.
+#' @param se Standard error of the coefficient estimate.
+#' @param dof Residual degrees of freedom of the regression.
+#' @param r2dz.x Hypothetical partial R2 of unobserved confounder
+#' Z with treatment D, given covariates X.
+#' @param r2yz.dx Hypothetical partial R2 of unobserved confounder Z
+#' with outcome Y, given covariates X and treatment D.
+#' @param reduce Should the bias adjustment reduce or increase the
+#' absolute value of the estimated coefficient? Default is \code{TRUE}.
 #' @rdname adjusted_estimate
 #' @export
 adjusted_estimate.numeric <- function(estimate,
@@ -148,7 +154,7 @@ adjusted_t.numeric = function(estimate, se, dof, r2dz.x, r2yz.dx, reduce = TRUE,
 
 
 #' @rdname adjusted_estimate
-#' @param h0 null hypothesis for computation of the t-value. Default is zero.
+#' @param h0 Null hypothesis for computation of the t-value. Default is zero.
 #' @export
 adjusted_t.lm <- function(model, treatment,  r2dz.x, r2yz.dx, reduce = TRUE, h0 = 0, ...){
   # extract model data

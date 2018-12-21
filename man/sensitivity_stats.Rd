@@ -15,23 +15,25 @@ sensitivity_stats(...)
   treatment = "treatment", q = 1, alpha = 0.05, ...)
 }
 \arguments{
-\item{...}{arguments passed to other methods. First argument should either be an \code{lm} model with the
-outcome regression or a numeric vector with the coefficient estimate.}
+\item{...}{Arguments passed to other methods. First argument should either be an
+\code{lm} model with the outcome regression or a numeric vector with the
+coefficient estimate.}
 
-\item{model}{an \code{lm} object with the outcome regression.}
+\item{model}{An \code{lm} object with the outcome regression.}
 
-\item{treatment}{a character vector with the name of the treatment variable of the model.}
+\item{treatment}{A character vector with the name of the treatment variable
+of the model.}
 
 \item{q}{percent change of the effect estimate that would be deemed problematic.  Default is \code{1},
 which means a reduction of 100\% of the current effect estimate (bring estimate to zero). It has to be greater than zero.}
 
 \item{alpha}{significance level used for computation of the robustness value. If \code{NULL} (the default), the robustness value refers only to the point estimate, no sampling uncertainty is taken into account.}
 
-\item{estimate}{coefficient estimate.}
+\item{estimate}{Coefficient estimate.}
 
-\item{se}{standard error of the coefficient estimate.}
+\item{se}{Standard error of the coefficient estimate.}
 
-\item{dof}{residual degrees of freedom of the regression.}
+\item{dof}{Residual degrees of freedom of the regression.}
 }
 \value{
 A \code{data.frame} with the sensitivity statistics.
