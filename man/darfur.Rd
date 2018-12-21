@@ -7,7 +7,7 @@
 \format{A data frame with 1276 rows and 14 columns.
 \describe{
   \item{wouldvote}{If elections were held in Darfur in the future, would you vote? (0/1)}
-  \item{peacefactor}{A measure of pro-peace attitudes, from a factor analysis of several questions. Rescaled such that 0 is minimially pro-peace and 1 is maximally pro-peace.}
+  \item{peacefactor}{A measure of pro-peace attitudes, from a factor analysis of several questions. Rescaled such that 0 is minimally pro-peace and 1 is maximally pro-peace.}
   \item{peace_formerenemies}{Would you be willing to make peace with your former enemies? (0/1)}
   \item{peace_jjindiv}{Would you be willing to make peace with Janjweed individuals who carried out violence? (0/1)}
   \item{peace_jjtribes}{Would you be willing to make peace with the tribes that were part of the Janjaweed? (0/1)}
