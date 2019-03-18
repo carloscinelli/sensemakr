@@ -215,7 +215,7 @@ ovb_bounds.lm <- function(model,
   bounds
 }
 
-label_maker <- function(benchmark_covariate, kd, ky) {
+label_maker <- function(benchmark_covariate, kd, ky, digits = 2) {
   # Generate the label text
   variable_text = ifelse(
     is.null(benchmark_covariate),
@@ -225,8 +225,8 @@ label_maker <- function(benchmark_covariate, kd, ky) {
 
   multiplier_text = ifelse(
     ky == kd,
-    paste0(ky, "x"),
-    paste0(kd, "/", ky,"x")
+    paste0(round(ky, digits = digits)),
+    paste0(round(kd, digits = digits), "/", round(ky, digits = digits))
   )
 
   bound_label = paste0( multiplier_text, variable_text)
