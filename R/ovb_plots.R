@@ -35,7 +35,7 @@ plot.sensemakr = function(x,
                                        ...)
 }
 
-dispatch_contour = function(x, sensitivity.of = c("estimate", "t-value"), ...) {
+dispatch_contour = function(x, sensitivity.of = c("estimate", "t-value"), digits = 2, ...) {
   # Use dispatcher rather than direct call so we can allow modifying call if
   # necessary
   sensitivity.of <- match.arg(sensitivity.of)
@@ -44,8 +44,8 @@ dispatch_contour = function(x, sensitivity.of = c("estimate", "t-value"), ...) {
   reduce <- x$info$reduce
   alpha <- x$info$alpha
   dof <- x$sensitivity_stats$dof
-  thr <- round(ifelse(reduce, estimate*(1 - q), estimate*(1 + q) ), 3)
-  t.thr <- qt(alpha/2, df = dof)
+  thr <- round(ifelse(reduce, estimate*(1 - q), estimate*(1 + q) ), digits = digits)
+  t.thr <- round(abs(qt(alpha/2, df = dof))*sign(x$sensitivity_stats$t_statistic), digits = digits)
   ovb_contour_plot(x, sensitivity.of = sensitivity.of, estimate.threshold = thr, t.threshold = t.thr,
                    ...)
 }
