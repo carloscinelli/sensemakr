@@ -12,17 +12,17 @@ ovb_extreme_plot(...)
 \method{ovb_extreme_plot}{lm}(model, treatment,
   benchmark_covariates = NULL, kd = 1, r2yz.dx = c(1, 0.75, 0.5),
   r2dz.x = NULL, reduce = TRUE, threshold = 0, lim = min(c(r2dz.x +
-  0.1, 0.5)), legend = TRUE, cex.legend = 0.5, ...)
+  0.1, 0.5)), legend = TRUE, cex.legend = 0.5, legend.bty = "o", ...)
 
 \method{ovb_extreme_plot}{formula}(formula, data, treatment,
   benchmark_covariates = NULL, kd = 1, r2yz.dx = c(1, 0.75, 0.5),
   r2dz.x = NULL, reduce = TRUE, threshold = 0, lim = min(c(r2dz.x +
-  0.1, 0.5)), legend = TRUE, cex.legend = 0.5, ...)
+  0.1, 0.5)), legend = TRUE, cex.legend = 0.5, legend.bty = "o", ...)
 
 \method{ovb_extreme_plot}{numeric}(estimate, se, dof, r2dz.x = NULL,
   r2yz.dx = c(1, 0.75, 0.5), reduce = TRUE, threshold = 0,
   lim = min(c(r2dz.x + 0.1, 0.5)), legend = TRUE, cex.legend = 0.5,
-  ...)
+  legend.bty = "o", ...)
 }
 \arguments{
 \item{...}{arguments passed to other methods. First argument should either be an \code{\link{lm}} model with the
