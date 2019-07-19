@@ -791,7 +791,7 @@ ovb_extreme_plot.numeric = function(estimate,
       abline(h = threshold, col = "red", lty = 5)
     } else {
       # Add plot lines
-      lines(r2d_values, y, lty = i + 1)
+      lines(r2d_values, y, lty = i)
     }
     out[[paste0("scenario_r2yz.dx_",r2yz.dx[i])]] <- data.frame(r2dz.x = r2d_values,
                                                                 r2yz.dx = r2yz.dx[i],
