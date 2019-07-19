@@ -268,4 +268,61 @@ sensemakr.formula <- function(formula,
             ...)
 }
 
+#' @inheritParams adjusted_estimate
+#' @export
+sensemakr.numeric <- function(estimate,
+                              se,
+                              dof,
+                              treatment = "treament",
+                              q = 1,
+                              alpha = 0.05,
+                              r2dz.x = NULL,
+                              r2yz.dx = r2dz.x,
+                              benchmark_covariates = NULL,
+                              r2dxj.x = NULL,
+                              r2yxj.x = NULL,
+                              kd = 1,
+                              ky = kd,
+                              bound_label = "",
+                              reduce = TRUE,
+                              ...){
+  out <- list()
+  out$info <- list(formula = "Data provided manually",
+                   treatment = treatment,
+                   q = q,
+                   alpha = alpha,
+                   reduce = reduce)
 
+  # senstivity statistics
+  out$sensitivity_stats <- sensitivity_stats(estimate = estimate,
+                                             se = se,
+                                             dof = dof,
+                                             treatment = treatment,
+                                             q = q,
+                                             alpha = alpha)
+  # bounds on ovb
+  if (!is.null(r2dz.x)) {
+    check_r2(r2dz.x = r2dz.x, r2yz.dx = r2yz.dx)
+    out$bounds <-  data.frame(r2dz.x = r2dz.x,
+                              r2yz.dx = r2yz.dx,
+                              bound_label = bound_label,
+                              stringsAsFactors = FALSE)
+  } else{
+    bounds <-  NULL
+  }
+
+  if (!is.null(benchmark_covariates)) {
+
+    bench_bounds <- ovb_partial_r2_bound(r2dxj.x = r2dxj.x,
+                                         r2yxj.x = r2yxj.x,
+                                         kd = kd,
+                                         ky = ky,
+                                         bound_label = bound_label)
+
+    out$bounds <- rbind(bounds, bench_bounds)
+  }
+
+  class(out) <- "sensemakr"
+
+  return(out)
+}

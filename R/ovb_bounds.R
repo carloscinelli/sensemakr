@@ -53,6 +53,7 @@ ovb_partial_r2_bound.numeric <- function(r2dxj.x,
                                          ky = 1,
                                          bound_label = ""){
 
+  if(!is.numeric(r2dxj.x)||!is.numeric(r2yxj.x)) stop("r2dxj.x and r2yxj.x must be numeric")
   if (length(r2dxj.x) != length(r2yxj.x)) stop("r2dxj.x and r2yxj.x must have the same length")
 
 

@@ -372,9 +372,10 @@ ovb_contour_plot.numeric = function(estimate,
   if (sensitivity.of == "t-value") {
     z_axis = outer(grid_values, grid_values,
                    FUN = "adjusted_t",
-                   se = se, dof = dof, estimate = estimate, h0 = estimate.threshold) # we are computing the t-value of H0: tau = estimate.threshold
+                   se = se, dof = dof, estimate = estimate,
+                   h0 = estimate.threshold) # we are computing the t-value of H0: tau = estimate.threshold
     threshold = t.threshold
-    plot_estimate = estimate / se
+    plot_estimate = (estimate - estimate.threshold) / se
 
     if (!is.null(r2dz.x))
       bound_value <- adjusted_t(estimate = estimate,
