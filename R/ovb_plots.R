@@ -646,7 +646,9 @@ ovb_extreme_plot.lm <- function(model,
                                 threshold = 0,
                                 lim = min(c(r2dz.x + 0.1, 0.5)),
                                 legend = TRUE,
-                                cex.legend = 0.5, ...){
+                                cex.legend = 0.5,
+                                legend.bty = "o",
+                                ...){
 
   # extract model data
   if (!is.character(treatment)) stop("Argument treatment must be a string.")
@@ -690,6 +692,7 @@ ovb_extreme_plot.lm <- function(model,
                    lim = lim,
                    legend = legend,
                    cex.legend = cex.legend,
+                   legend.bty = legend.bty,
                    ...)
 
 
@@ -711,7 +714,9 @@ ovb_extreme_plot.formula = function(formula,
                                     threshold = 0,
                                     lim = min(c(r2dz.x + 0.1, 0.5)),
                                     legend = TRUE,
-                                    cex.legend = 0.5, ...) {
+                                    cex.legend = 0.5,
+                                    legend.bty = "o",
+                                    ...) {
   check_formula(treatment = treatment,
                 formula = formula,
                 data = data)
@@ -729,7 +734,9 @@ ovb_extreme_plot.formula = function(formula,
                    threshold = threshold,
                    lim = lim,
                    legend = legend,
-                   cex.legend = cex.legend, ...)
+                   cex.legend = cex.legend,
+                   legend.bty = legend.bty,
+                   ...)
 }
 
 
@@ -747,7 +754,9 @@ ovb_extreme_plot.numeric = function(estimate,
                                     threshold = 0,
                                     lim = min(c(r2dz.x + 0.1, 0.5)),
                                     legend = TRUE,
-                                    cex.legend = 0.5, ...) {
+                                    cex.legend = 0.5,
+                                    legend.bty = "o",
+                                    ...) {
 
   # if (is.null(lim)) {
   #   if (is.null(r2dz.x)) {
@@ -803,6 +812,7 @@ ovb_extreme_plot.numeric = function(estimate,
     legend(
       x = "topright",
       inset = 0.05,
+      bty = legend.bty,
       lty = c(seq_len(length(r2yz.dx)), 5),
       col = c(rep("black", length(r2yz.dx)),
               "red"),

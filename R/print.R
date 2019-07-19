@@ -94,18 +94,19 @@ summary.sensemakr <- function(object, digits = max(3L, getOption("digits") - 3L)
   cat("\n")
   reduce <- ifelse(x$info$reduce, "reduce", "increase")
   cat("Verbal interpretation of sensitivity statistics:\n\n")
-  cat("Unobserved confounders (orthogonal to the covariates) that explain more than", 100*rv_q,"%", "of the residual variance",
-      "of both the treatment and the outcome are enough to", reduce, "the absolute value of the effect size by", 100*q, "%.",
-      "Conversely, unobserved confounders that do not explain more than", 100*rv_q,"%", "of the residual variance",
-      "of both the treatment and the outcome are not strong enough to", reduce,"the absolute value of the effect size by",  100*q, "%.\n\n")
+  cat("Unobserved confounders (orthogonal to the covariates) that explain more than", paste0(100*rv_q,"%"), "of the residual variance",
+      "of both the treatment and the outcome are enough to", reduce, "the absolute value of the effect size by", paste0(100*q, "%."),
+      "Conversely, unobserved confounders that do not explain more than", paste0(100*rv_q,"%"), "of the residual variance",
+      "of both the treatment and the outcome are not strong enough to", reduce,"the absolute value of the effect size by",  paste0(100*q, "%"),".\n\n")
 
-  cat("Unobserved confounders (orthogonal to the covariates) that explain more than", 100*rv_qa,"%", "of the residual variance",
-      "of both the treatment and the outcome are enough to", reduce, "the absolute value of the effect size by", 100*q, "% at the significance level of alpha =", alpha, ".",
-      "Conversely, unobserved confounders that do not explain more than", 100*rv_qa,"%", "of the residual variance",
-      "of both the treatment and the outcome are not strong enough to", reduce,"the absolute value of the effect size by",  100*q, "% at the significance level of alpha =", alpha, ".\n\n")
+  cat("Unobserved confounders (orthogonal to the covariates) that explain more than", paste0(100*rv_qa,"%"), "of the residual variance",
+      "of both the treatment and the outcome are enough to", reduce, "the absolute value of the effect size by", paste0(100*q), "% at the significance level of alpha =", alpha, ".",
+      "Conversely, unobserved confounders that do not explain more than", paste0(100*rv_qa,"%"), "of the residual variance",
+      "of both the treatment and the outcome are not strong enough to", reduce,"the absolute value of the effect size by",  paste0(100*q, "%"),
+      "at the significance level of alpha =", alpha, ".\n\n")
 
   cat("An extreme confounder (orthogonal to the covariates) that explains 100% of the residual variance of the outcome, would need to explain at least",
-      100*r2yd.x, "% of the residual variance of the treatment to fully account for the observed estimated effect.")
+      paste0(100*r2yd.x, "%"),"of the residual variance of the treatment to fully account for the observed estimated effect.")
   cat("\n\n")
 
   bounds <- x$bounds
