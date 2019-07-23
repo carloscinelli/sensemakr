@@ -30,8 +30,8 @@ ovb_contour_plot(...)
   r2yz.dx = r2dz.x, bound_label = "", sensitivity.of = c("estimate",
   "t-value"), reduce = TRUE, estimate.threshold = 0, t.threshold = 2,
   lim = max(c(0.4, r2dz.x + 0.1, r2yz.dx + 0.1)), nlevels = 20,
-  col.contour = "grey40", col.thr.line = "red", label.text = TRUE,
-  label.bump.x = 0.02, label.bump.y = 0.02, ...)
+  col.contour = "black", col.thr.line = "red", label.text = TRUE,
+  cex.label.text = 1, label.bump.x = 0.02, label.bump.y = 0.02, ...)
 }
 \arguments{
 \item{...}{arguments passed to other methods. First argument should either be an \code{\link{lm}} model with the

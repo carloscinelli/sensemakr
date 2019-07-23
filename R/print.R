@@ -211,4 +211,5 @@ ovb_minimal_reporting <- function(x, digits = 3, ...){
 
   # Cat to output valid LaTeX for rmarkdown
   cat(table)
+  return(invisible(table))
 }
