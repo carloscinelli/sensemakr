@@ -58,6 +58,8 @@ absolute value of the estimated coefficient? Default is \code{TRUE}.}
 
 \item{cex.legend}{size of the text for the legend.}
 
+\item{legend.bty}{legend box. See \code{bty} argument of \link{par}.}
+
 \item{formula}{an object of the class \code{\link{formula}}: a symbolic description of the model to be fitted.}
 
 \item{data}{data needed only when you pass a formula as first parameter. An object of the class \code{\link{data.frame}} containing the variables used in the analysis.}

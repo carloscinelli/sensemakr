@@ -94,6 +94,8 @@ absolute value of the estimated coefficient? Default is \code{TRUE}.}
 \item{se}{Standard error of the coefficient estimate.}
 
 \item{dof}{Residual degrees of freedom of the regression.}
+
+\item{cex.label.text}{size of the label text.}
 }
 \value{
 The function returns invisibly the data used for the contour plot (contour grid and bounds).

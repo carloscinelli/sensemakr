@@ -43,6 +43,8 @@ or adjusted t-values (\code{"t-value"})?}
 
 \item{label.text}{should label texts be plotted? Default is \code{TRUE}.}
 
+\item{cex.label.text}{size of the label text.}
+
 \item{label.bump.x}{bump on the x coordinate of label text.}
 
 \item{label.bump.y}{bump on the y coordinate of label text.}

@@ -319,6 +319,7 @@ ovb_contour_plot.formula = function(formula,
 #' @rdname ovb_contour_plot
 #' @importFrom graphics contour points text
 #' @importFrom stats coef
+#' @param cex.label.text size of the label text.
 #' @export
 ovb_contour_plot.numeric = function(estimate,
                                     se,
@@ -749,8 +750,9 @@ ovb_extreme_plot.formula = function(formula,
 
 
 #' @inheritParams adjusted_estimate
-#' @importFrom graphics abline lines legend rug plot
+#' @importFrom graphics abline lines legend rug plot par
 #' @rdname ovb_extreme_plot
+#' @param legend.bty legend box. See \code{bty} argument of \link{par}.
 #' @export
 ovb_extreme_plot.numeric = function(estimate,
                                     se,
