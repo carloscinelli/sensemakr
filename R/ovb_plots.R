@@ -330,11 +330,12 @@ ovb_contour_plot.numeric = function(estimate,
                                     reduce = TRUE,
                                     estimate.threshold = 0,
                                     t.threshold = 2,
-                                    lim = max(c(0.4, r2dz.x+0.1,r2yz.dx+0.1)),
+                                    lim = max(c(0.4, r2dz.x + 0.1,r2yz.dx + 0.1)),
                                     nlevels = 20,
-                                    col.contour = "grey40",
+                                    col.contour = "black",
                                     col.thr.line = "red",
                                     label.text = TRUE,
+                                    cex.label.text = 1,
                                     label.bump.x = 0.02,
                                     label.bump.y = 0.02,
                                     ...) {
@@ -404,6 +405,7 @@ ovb_contour_plot.numeric = function(estimate,
                       1, 1)
 
   # Plot contour plot:
+  oldpar <- par(mar = c(5, 5, 4, 1) + .1)
   contour(
     grid_values, grid_values, z_axis, nlevels = nlevels,
     xlab = expression(paste("Hypothetical partial ", R^2, " of unobserved",
@@ -417,7 +419,7 @@ ovb_contour_plot.numeric = function(estimate,
           z_axis, level = threshold,
           add = TRUE,
           col = col.thr.line,
-          lwd = 2, lty = 2)
+          lwd = 2, lty = 2, ...)
 
   # Add the point of the initial estimate.
   points(0, 0, pch = 17, col = "black", cex = 1)
@@ -426,7 +428,7 @@ ovb_contour_plot.numeric = function(estimate,
        paste0("Unadjusted\n(",
               signif(plot_estimate, 2),
               ")"),
-       cex = 1)
+       cex = cex.label.text)
 
   # add bounds
   if (!is.null(r2dz.x)) {
@@ -446,6 +448,7 @@ ovb_contour_plot.numeric = function(estimate,
                             r2yz.dx = r2yz.dx,
                             bound_label = bound_label)
   }
+  par(oldpar)
   invisible(out)
 }
 
@@ -490,6 +493,7 @@ add_bound_to_contour <- function(...){
 add_bound_to_contour.ovb_bounds <- function(bounds,
                                             bound_value = NULL,
                                             label.text = TRUE,
+                                            cex.label.text = 1,
                                             label.bump.x = 0.02,
                                             label.bump.y = 0.02,
                                             round = 2,
@@ -516,6 +520,7 @@ add_bound_to_contour.lm <- function(model,
                                     reduce = TRUE,
                                     sensitivity.of = c("estimate", "t-value"),
                                     label.text = TRUE,
+                                    cex.label.text = 1,
                                     label.bump.x = 0.02,
                                     label.bump.y = 0.02,
                                     round = 2,
@@ -559,6 +564,7 @@ add_bound_to_contour.numeric <- function(r2dz.x,
                                          bound_value = NULL,
                                          bound_label = NULL,
                                          label.text = TRUE,
+                                         cex.label.text = 1,
                                          label.bump.x = 0.02,
                                          label.bump.y = 0.02,
                                          round = 2,
@@ -585,7 +591,8 @@ add_bound_to_contour.numeric <- function(r2dz.x,
       text(r2dz.x[i] + label.bump.x,
            r2yz.dx[i] + label.bump.y,
            labels = label,
-           cex = 1.1, font = 1)
+           cex = cex.label.text,
+           font = 1)
   }
 
 }

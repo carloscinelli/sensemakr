@@ -412,6 +412,10 @@ sensitivity_stats.numeric <- function(estimate,
                                       alpha = 0.05,
                                       ...)
 {
+  if (se < 0 ) stop("Standard Error must be positive")
+  if (!is.numeric(estimate)) stop("Estimate must be a numeric value")
+  if (!is.numeric(se)) stop("Standard Error must be a numeric value")
+  if (dof < 0) stop("Degrees of Freedom must be poisitive")
   t_statistic <- estimate/se
   sensitivity_stats <- data.frame(treatment = treatment, stringsAsFactors = FALSE)
   sensitivity_stats[["estimate"]] <- estimate
