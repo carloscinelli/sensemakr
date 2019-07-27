@@ -5,6 +5,14 @@
 * win-builder (devel and release)
 * rhub (all)
 
+## Wordlist
+
+The following words are not mispellings:
+
+- Cinelli
+- Hazlett
+- sensemakr
+
 ## R CMD check results
 
 0 errors | 0 warnings | 0 notes
