@@ -36,12 +36,22 @@ which means a reduction of 100\% of the current effect estimate (bring estimate 
 \item{dof}{Residual degrees of freedom of the regression.}
 }
 \value{
-A \code{data.frame} with the sensitivity statistics.
+A \code{data.frame} containing the following quantities:
+\describe{
+\item{treatment}{a character with the name of the treatment variable}
+\item{estimate}{a numeric vector with the estimated effect of the treatment}
+\item{se}{a numeric vector with  the estimated standard error of the treatment effect}
+\item{t_statistics}{a numeric vector with  the t-value of the treatment}
+\item{r2yd.x}{a numeric vector with  the parital R2 of the treatment and the outcome, see details in \code{\link{partial_r2}}}
+\item{rv_q}{a numeric vector with  the robustness value of the treatment, see details  in \code{\link{robustness_value}}}
+\item{rv_qa}{a numeric vector with the robustness value of the treatment considering statistical significance, see details  in \code{\link{robustness_value}}}
+\item{f2yd.x }{a numeric vector with the partial (Cohen's) f2 of the treatment with the outcome, see details in \code{\link{partial_f2}}}
+\item{dof}{a numeric vector with the degrees of freedom of the model}
+}
 }
 \description{
 Convenience function that computes the \code{\link{robustness_value}},
-\code{\link{partial_r2}} and \code{\link{partial_f2}} of the coefficient of interest. It
-returns a \code{data.frame} with all quantities of interest.
+\code{\link{partial_r2}} and \code{\link{partial_f2}} of the coefficient of interest.
 }
 \examples{
 
@@ -58,4 +68,7 @@ sensitivity_stats(model, treatment = "directlyharmed")
 ## you can  also pass the numeric values directly
 sensitivity_stats(estimate = 0.09731582, se = 0.02325654, dof = 783)
 
+}
+\references{
+Cinelli, C. and Hazlett, C. "Making Sense of Sensitivity: Extending Omitted Variable Bias." (2018).
 }

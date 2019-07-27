@@ -121,6 +121,8 @@ ovb_extreme_plot.sensemakr <- function(x, r2yz.dx = c(1, 0.75, 0.5), ...){
 #'  The vertical axis shows hypothetical values of the partial R2 of the unobserved confounder(s) with the outcome.
 #'  The contour levels represent the adjusted estimates (or t-values) of the treatment effect.
 #'  The reference points are the bounds on the partial R2 of the unobserved confounder if it were \code{k} times ``as strong'' as the observed covariate used for benchmarking (see arguments \code{kd} and \code{ky}).
+#'  The dotted red line show the chosen critical threshold (for instance, zero): confounders with such strength (or stronger) are sufficient to invalidate the research conclusions.
+#'  All results are exact for single confounders and conservative for multiple/nonlinear confounders.
 #'
 #'  See Cinelli and Hazlett (2018) for details.
 #'
@@ -159,10 +161,10 @@ ovb_contour_plot = function(...) {
 #' @rdname ovb_contour_plot
 #' @param sensitivity.of should the contour plot show adjusted estimates (\code{"estimate"})
 #' or adjusted t-values (\code{"t-value"})?
-#' @param estimate.threshold threshold for plot of adjusted estimate.
-#' @param t.threshold threshold for plot of adjusted t-value.
+#' @param estimate.threshold critical threshold for the point estimate.
+#' @param t.threshold critical threshold for the t-value.
 #' @param lim sets limit of the plot.
-#' @param nlevels number of levels to contour plot.
+#' @param nlevels number of levels for the contour plot.
 #' @param col.contour color of contour lines.
 #' @param col.thr.line color of threshold contour line.
 #' @param label.text should label texts be plotted? Default is \code{TRUE}.
@@ -610,6 +612,7 @@ add_bound_to_contour.numeric <- function(r2dz.x,
 #' The horizontal axis shows the partial R2 of the unobserved confounder(s) with the treatment. The vertical axis shows the adjusted treatment effect estimate.
 #' The partial R2 of the confounder with the outcome is represented by \emph{different curves} for each scenario, as given by the parameter \code{r2yz.dx}.
 #' The red marks on horizontal axis are bounds on the partial R2 of the unobserved confounder \code{kd} times as strong as the covariates used for benchmarking.
+#' The dotted red line represent the threshold for the effect estimate deemed to be problematic (for instance, zero).
 #'
 #' See Cinelli and Hazlett (2018) for details.
 #'

@@ -165,7 +165,7 @@ print.rv <- function(x, ...){
 #' The partial (Cohen's) f2 is a common measure of effect size (a transformation of the partial R2) that can also be used directly
 #' for sensitivity analysis using a bias factor table.
 #'
-#' The function \code{partial_r2} computes partial R2. The function \code{partial_f2} computes partial f2 and the function \code{partial_f} the partial f.
+#' The function \code{partial_r2} computes the partial R2. The function \code{partial_f2} computes the partial f2 and the function \code{partial_f} the partial f.
 #' They can take as input an \code{\link{lm}} object or you may pass directly t-value and degrees of freedom.
 #'
 #' For partial R2 of groups of covariates, check \code{\link{group_partial_r2}}.
@@ -354,8 +354,7 @@ group_partial_r2.numeric <- function(F.stats, p, dof, ...){
 #'
 #' @description
 #' Convenience function that computes the \code{\link{robustness_value}},
-#' \code{\link{partial_r2}} and \code{\link{partial_f2}} of the coefficient of interest. It
-#' returns a \code{data.frame} with all quantities of interest.
+#' \code{\link{partial_r2}} and \code{\link{partial_f2}} of the coefficient of interest.
 #'
 #' @inheritParams adjusted_estimate
 #'
@@ -375,7 +374,19 @@ group_partial_r2.numeric <- function(F.stats, p, dof, ...){
 #' sensitivity_stats(estimate = 0.09731582, se = 0.02325654, dof = 783)
 #'
 #' @return
-#' A \code{data.frame} with the sensitivity statistics.
+#' A \code{data.frame} containing the following quantities:
+#' \describe{
+#' \item{treatment}{a character with the name of the treatment variable}
+#' \item{estimate}{a numeric vector with the estimated effect of the treatment}
+#' \item{se}{a numeric vector with  the estimated standard error of the treatment effect}
+#' \item{t_statistics}{a numeric vector with  the t-value of the treatment}
+#' \item{r2yd.x}{a numeric vector with  the parital R2 of the treatment and the outcome, see details in \code{\link{partial_r2}}}
+#' \item{rv_q}{a numeric vector with  the robustness value of the treatment, see details  in \code{\link{robustness_value}}}
+#' \item{rv_qa}{a numeric vector with the robustness value of the treatment considering statistical significance, see details  in \code{\link{robustness_value}}}
+#' \item{f2yd.x }{a numeric vector with the partial (Cohen's) f2 of the treatment with the outcome, see details in \code{\link{partial_f2}}}
+#' \item{dof}{a numeric vector with the degrees of freedom of the model}
+#' }
+#' @references Cinelli, C. and Hazlett, C. "Making Sense of Sensitivity: Extending Omitted Variable Bias." (2018).
 #' @export
 sensitivity_stats <- function(...){
   UseMethod("sensitivity_stats")

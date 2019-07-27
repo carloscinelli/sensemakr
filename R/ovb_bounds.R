@@ -137,7 +137,7 @@ ovb_partial_r2_bound.lm <- function(model,
 #' Bounds on the strength of unobserved confounders using observed covariates, as in Cinelli and Hazlett (2018).
 #'
 #' @details
-#' Currently it implements only the bounds based on partial R2). Other bounds will be implemented soon.
+#' Currently it implements only the bounds based on partial R2. Other bounds will be implemented soon.
 #'
 #'
 #' @return
