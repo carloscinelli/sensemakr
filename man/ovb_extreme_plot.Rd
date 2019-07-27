@@ -80,6 +80,7 @@ and the covariates used for benchmarking the strength of unobserved confounding.
 The horizontal axis shows the partial R2 of the unobserved confounder(s) with the treatment. The vertical axis shows the adjusted treatment effect estimate.
 The partial R2 of the confounder with the outcome is represented by \emph{different curves} for each scenario, as given by the parameter \code{r2yz.dx}.
 The red marks on horizontal axis are bounds on the partial R2 of the unobserved confounder \code{kd} times as strong as the covariates used for benchmarking.
+The dotted red line represent the threshold for the effect estimate deemed to be problematic (for instance, zero).
 
 See Cinelli and Hazlett (2018) for details.
 }

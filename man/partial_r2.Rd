@@ -52,7 +52,7 @@ For details see Cinelli and Hazlett (2018).
 The partial (Cohen's) f2 is a common measure of effect size (a transformation of the partial R2) that can also be used directly
 for sensitivity analysis using a bias factor table.
 
-The function \code{partial_r2} computes partial R2. The function \code{partial_f2} computes partial f2 and the function \code{partial_f} the partial f.
+The function \code{partial_r2} computes the partial R2. The function \code{partial_f2} computes the partial f2 and the function \code{partial_f} the partial f.
 They can take as input an \code{\link{lm}} object or you may pass directly t-value and degrees of freedom.
 
 For partial R2 of groups of covariates, check \code{\link{group_partial_r2}}.

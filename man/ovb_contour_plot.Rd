@@ -67,13 +67,13 @@ or adjusted t-values (\code{"t-value"})?}
 \item{reduce}{Should the bias adjustment reduce or increase the
 absolute value of the estimated coefficient? Default is \code{TRUE}.}
 
-\item{estimate.threshold}{threshold for plot of adjusted estimate.}
+\item{estimate.threshold}{critical threshold for the point estimate.}
 
-\item{t.threshold}{threshold for plot of adjusted t-value.}
+\item{t.threshold}{critical threshold for the t-value.}
 
 \item{lim}{sets limit of the plot.}
 
-\item{nlevels}{number of levels to contour plot.}
+\item{nlevels}{number of levels for the contour plot.}
 
 \item{col.contour}{color of contour lines.}
 
@@ -108,6 +108,8 @@ The horizontal axis of the plot shows hypothetical values of the partial R2 of t
  The vertical axis shows hypothetical values of the partial R2 of the unobserved confounder(s) with the outcome.
  The contour levels represent the adjusted estimates (or t-values) of the treatment effect.
  The reference points are the bounds on the partial R2 of the unobserved confounder if it were \code{k} times ``as strong'' as the observed covariate used for benchmarking (see arguments \code{kd} and \code{ky}).
+ The dotted red line show the chosen critical threshold (for instance, zero): confounders with such strength (or stronger) are sufficient to invalidate the research conclusions.
+ All results are exact for single confounders and conservative for multiple/nonlinear confounders.
 
  See Cinelli and Hazlett (2018) for details.
 }

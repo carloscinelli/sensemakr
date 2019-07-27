@@ -79,7 +79,7 @@ These functions compute bias adjusted estimates (\code{adjusted_estimate}),
  given a hypothetical strength of the confounder in the partial R2 parameterization.
 
 The functions work either with an \code{\link{lm}} object, or directly
-passing in sufficient numerical inputs, such as the
+passing in numerical inputs, such as the
 current coefficient estimate, standard error and degrees of freedom.
 }
 \examples{
@@ -101,7 +101,7 @@ adjusted_se(model, treatment = "directlyharmed", r2dz.x = 0.05, r2yz.dx = 0.05)
 # computes adjusted t-value for confounder with  r2dz.x = 0.05, r2yz.dx = 0.05
 adjusted_t(model, treatment = "directlyharmed", r2dz.x = 0.05, r2yz.dx = 0.05)
 
-# Alternatively, pass in sufficient numerical values directly.
+# Alternatively, pass in numerical values directly.
 adjusted_estimate(estimate = 0.09731582, se = 0.02325654,
                   dof = 783, r2dz.x = 0.05, r2yz.dx = 0.05)
 
@@ -111,4 +111,7 @@ adjusted_se(estimate = 0.09731582, se = 0.02325654,
 adjusted_t(estimate = 0.09731582, se = 0.02325654,
            dof = 783, r2dz.x = 0.05, r2yz.dx = 0.05)
 
+}
+\references{
+Cinelli, C. and Hazlett, C. "Making Sense of Sensitivity: Extending Omitted Variable Bias." (2018).
 }

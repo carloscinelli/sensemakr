@@ -380,7 +380,7 @@ group_partial_r2.numeric <- function(F.stats, p, dof, ...){
 #' \item{estimate}{a numeric vector with the estimated effect of the treatment}
 #' \item{se}{a numeric vector with  the estimated standard error of the treatment effect}
 #' \item{t_statistics}{a numeric vector with  the t-value of the treatment}
-#' \item{r2yd.x}{a numeric vector with  the parital R2 of the treatment and the outcome, see details in \code{\link{partial_r2}}}
+#' \item{r2yd.x}{a numeric vector with  the partial R2 of the treatment and the outcome, see details in \code{\link{partial_r2}}}
 #' \item{rv_q}{a numeric vector with  the robustness value of the treatment, see details  in \code{\link{robustness_value}}}
 #' \item{rv_qa}{a numeric vector with the robustness value of the treatment considering statistical significance, see details  in \code{\link{robustness_value}}}
 #' \item{f2yd.x }{a numeric vector with the partial (Cohen's) f2 of the treatment with the outcome, see details in \code{\link{partial_f2}}}
