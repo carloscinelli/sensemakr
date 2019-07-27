@@ -1,3 +1,4 @@
+^CRAN-RELEASE$
 ^cran-comments\.md$
 ^codecov\.yml$
 ^appveyor\.yml$
@@ -5,6 +6,7 @@
 ^\.Rproj\.user$
 ^LICENSE\.md$
 ^README.Rmd$
+^README.md$
 ^NEWS.md$
 ^cran-comments.md$
 ^\.travis\.yml$
