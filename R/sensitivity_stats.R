@@ -52,6 +52,7 @@
 #' The function returns a numerical vector with the robustness value. The arguments q and alpha are saved as attributes of the vector for reference.
 #' @references Cinelli, C. and Hazlett, C. "Making Sense of Sensitivity: Extending Omitted Variable Bias." (2018).
 #' @export
+#' @importFrom stats df.residual qt update vcov
 robustness_value = function(...) {
 
   UseMethod("robustness_value")

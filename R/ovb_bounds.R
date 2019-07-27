@@ -7,36 +7,36 @@
 
 # future bounds to work on ------------------------------------------------
 
-#' #' @importFrom stats df.residual qt update vcov
-#' total_r2_bound <- function(r2dxj, r2yxj, r2dx, r2yx, r2yd.x, kd = 1, ky = 1){
-#'
-#'   check_k(ky)
-#'   check_k(kd)
-#'   if (length(r2dxj) != length(r2yxj)) stop("r2dxj and r2yxj must have the same length")
-#'   if (length(r2dx) > 1) stop("r2dx must be of length 1")
-#'   if (length(r2yx) > 1) stop("r2yx must be of length 1")
-#'   if (length(r2yd.x) > 1) stop("r2yd.x must be of length 1")
-#'
-#'   r2dz.x = kd*(r2dxj/(1 - r2dx))
-#'   r2yz.x = ky*(r2yxj/(1 - r2yx))
-#'   r2yz.dx = ((sqrt(r2yz.x) - sqrt(r2yd.x)*sqrt(r2dz.x))/(sqrt(1 - r2yd.x)*sqrt(1 - r2dz.x)))^2
-#'   out = list(r2dz.x = r2dz.x, r2yz.dx = r2yz.dx)
-#'   return(out)
-#' }
-#'
-#' partial_r2_bound_no_d <- function(r2dxj.x, r2yxj.x, r2yd.x, kd = 1, ky = 1){
-#'
-#'   check_k(ky)
-#'   check_k(kd)
-#'   if (length(r2dxj.x) != length(r2yxj.x)) stop("r2dxj.x and r2yxj.x must have the same length")
-#'   if (length(r2yd.x) > 1) stop("r2yd.x must be of length 1")
-#'
-#'   r2dz.x = kd*(r2dxj.x/(1 - r2dxj.x))
-#'   r2yz.x = ky*(r2yxj.x/(1 - r2yxj.x))
-#'   r2yz.dx = ((sqrt(r2yz.x) - sqrt(r2yd.x)*sqrt(r2dz.x))/(sqrt(1 - r2yd.x)*sqrt(1 - r2dz.x)))^2
-#'   out = list(r2dz.x = r2dz.x, r2yz.dx = r2yz.dx)
-#'   return(out)
-#' }
+
+# total_r2_bound <- function(r2dxj, r2yxj, r2dx, r2yx, r2yd.x, kd = 1, ky = 1){
+#
+#   check_k(ky)
+#   check_k(kd)
+#   if (length(r2dxj) != length(r2yxj)) stop("r2dxj and r2yxj must have the same length")
+#   if (length(r2dx) > 1) stop("r2dx must be of length 1")
+#   if (length(r2yx) > 1) stop("r2yx must be of length 1")
+#   if (length(r2yd.x) > 1) stop("r2yd.x must be of length 1")
+#
+#   r2dz.x = kd*(r2dxj/(1 - r2dx))
+#   r2yz.x = ky*(r2yxj/(1 - r2yx))
+#   r2yz.dx = ((sqrt(r2yz.x) - sqrt(r2yd.x)*sqrt(r2dz.x))/(sqrt(1 - r2yd.x)*sqrt(1 - r2dz.x)))^2
+#   out = list(r2dz.x = r2dz.x, r2yz.dx = r2yz.dx)
+#   return(out)
+# }
+#
+# partial_r2_bound_no_d <- function(r2dxj.x, r2yxj.x, r2yd.x, kd = 1, ky = 1){
+#
+#   check_k(ky)
+#   check_k(kd)
+#   if (length(r2dxj.x) != length(r2yxj.x)) stop("r2dxj.x and r2yxj.x must have the same length")
+#   if (length(r2yd.x) > 1) stop("r2yd.x must be of length 1")
+#
+#   r2dz.x = kd*(r2dxj.x/(1 - r2dxj.x))
+#   r2yz.x = ky*(r2yxj.x/(1 - r2yxj.x))
+#   r2yz.dx = ((sqrt(r2yz.x) - sqrt(r2yd.x)*sqrt(r2dz.x))/(sqrt(1 - r2yd.x)*sqrt(1 - r2dz.x)))^2
+#   out = list(r2dz.x = r2dz.x, r2yz.dx = r2yz.dx)
+#   return(out)
+# }
 
 
 

@@ -1,10 +1,13 @@
 Package: sensemakr
 Type: Package
-Title: sensemakr
+Title: Sensitivity Analysis Tools for OLS
+Date: 2019-07-26
 Version: 0.1.0
-Author: Carlos Cinelli <carloscinelli@hotmail.com>, Chad Hazlett <chazlett@ucla.edu>, Aaron Rudkin <rudkin@ucla.edu>
-Maintainer: Carlos Cinelli <carloscinelli@hotmail.com>
-Description: The sensemakr package implements a suite of sensitivity analysis tools that extends the traditional omitted variable bias framework and makes it easier to understand the impact of omitted variables in linear regression models, as discussed in Cinelli and Hazlett (2018).
+Authors@R: c(person("Carlos", "Cinelli", role = c("aut", "cre"),
+                     email = "Joe.carloscinelli@hotmail.com"),
+              person("Chad", "Hazlett", role = "aut"),
+              person("Aaron", "Rudkin", role = "ctb"))
+Description: The sensemakr package implements a suite of sensitivity analysis tools that extends the traditional omitted variable bias framework and makes it easier to understand the impact of omitted variables in OLS models, as discussed in Cinelli and Hazlett (2018).
 URL: https://github.com/chadhazlett/sensemakr
 BugReports: https://github.com/chadhazlett/sensemakr/issues
 License: GPL-3
