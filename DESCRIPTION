@@ -3,18 +3,23 @@ Type: Package
 Title: Sensitivity Analysis Tools for OLS
 Date: 2019-07-26
 Version: 0.1.0
-Authors@R: c(person("Carlos", "Cinelli", role = c("aut", "cre"),
-                     email = "carloscinelli@hotmail.com"),
-              person("Chad", "Hazlett", role = "aut"),
-              person("Aaron", "Rudkin", role = "ctb"))
-Description: The sensemakr package implements a suite of sensitivity analysis tools that extends the traditional omitted variable bias framework and makes it easier to understand the impact of omitted variables in OLS models, as discussed in Cinelli and Hazlett (2018).
+Authors@R: c(
+  person("Carlos", "Cinelli", role = c("aut", "cre"), email = "carloscinelli@hotmail.com"),
+  person("Chad", "Hazlett", role = "aut"),
+  person("Aaron", "Rudkin", role = "ctb")
+  )
+Author: Carlos Cinelli [aut, cre],
+  Chad Hazlett [aut],
+  Aaron Rudkin [ctb]
+Maintainer: Carlos Cinelli <carloscinelli@hotmail.com>
+Description: The sensemakr package implements a suite of sensitivity analysis tools 
+  that extends the traditional omitted variable bias framework and makes it easier 
+  to understand the impact of omitted variables in OLS models, as discussed in Cinelli and Hazlett (2018).
 URL: https://github.com/chadhazlett/sensemakr
 BugReports: https://github.com/chadhazlett/sensemakr/issues
 License: GPL-3
 Depends: R (>= 3.1.0)
 Encoding: UTF-8
 RoxygenNote: 6.1.1
-Suggests:
-    testthat,
-    covr
+Suggests: testthat, covr
 LazyData: true

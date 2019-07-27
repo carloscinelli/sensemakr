@@ -2,5 +2,6 @@
 .Rproj.user
 .Rhistory
 .RData
+.Rd2pdf54514/Rd2.tex
 .Ruserdata
 tests/testthat/Rplots.pdf
