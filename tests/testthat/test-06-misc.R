@@ -38,30 +38,9 @@ test_that("weird regression model with r^2", {
   group = as.factor(c(rep(1:5, 2)))
   factor = as.factor(1:10)
 
-  multicol_model = lm(y ~ group + constant)
-  expect_warning(partial_r2(multicol_model))
+  # multicol_model = lm(y ~ group + constant)
+  # expect_warning(partial_r2(multicol_model))
 
   saturated_model = lm(y ~ factor)
   expect_error(partial_r2(saturated_model))
 })
-
-# test_that("broken bound calculator?", {
-#   # TODO: This NaNs because r2_zx ends up > 1, forcing a negative
-#   # square root in r2_yz. Hmmm?
-#   expect_error(sensemakr:::bound_calculator(
-#     r2yz.dx = 0.09862925, r2dz.x = 0.3349933,
-#     multiplier_y = 2, multiplier_d = 2))
-# })
-
-# test_that("misc plot dispatcher", {
-#   expect_error(plot(test_obj, type="invalid"))
-# })
-
-# test_that("misc table tests", {
-#   expect_error(make_table(test_obj,
-#                           benchmark_label = c("hello", "world")))
-#
-#   expect_error(make_table("hello world"))
-#
-#   make_table(test_obj)
-# })

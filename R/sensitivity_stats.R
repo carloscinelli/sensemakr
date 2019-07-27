@@ -413,7 +413,6 @@ sensitivity_stats.numeric <- function(estimate,
                                       ...)
 {
   if (se < 0 ) stop("Standard Error must be positive")
-  if (!is.numeric(estimate)) stop("Estimate must be a numeric value")
   if (!is.numeric(se)) stop("Standard Error must be a numeric value")
   if (dof < 0) stop("Degrees of Freedom must be poisitive")
   t_statistic <- estimate/se
@@ -484,18 +483,18 @@ model_helper = function(model, covariates = NULL) {
   UseMethod("model_helper", model)
 }
 
-model_helper.default = function(model, covariates = NULL) {
-  stop("The `partial_r2` function must be passed an `lm` model object. ",
-       "Other object types are not supported. The object passed was of class ",
-       class(model)[1])
-}
+# model_helper.default = function(model, covariates = NULL) {
+#   stop("The `partial_r2` function must be passed an `lm` model object. ",
+#        "Other object types are not supported. The object passed was of class ",
+#        class(model)[1])
+# }
 
 model_helper.lm = function(model, covariates = NULL) {
   # Quickly extract things from an lm object
 
   # If we have a dropped coefficient (multicolinearity), we're not going to
   # get an R^2 for this coefficient.
-  warn_na_coefficients(model, covariates = covariates)
+  # warn_na_coefficients(model, covariates = covariates)
 
   # Let's avoid the NaN problem from dividing by zero
   error_if_no_dof(model)
@@ -515,23 +514,23 @@ model_helper.lm = function(model, covariates = NULL) {
 }
 
 
-warn_na_coefficients = function(model, covariates = NULL) {
-
-  coefs <- coef(model)
-  covariates <- check_covariates(names(coefs), covariates)
-
-  if (!is.null(covariates))  coefs <- coefs[covariates]
-
-  if (any(is.na(coefs))) {
-    na_coefficients = names(coefs)[which(is.na(coefs))]
-    coefficient_string = paste(na_coefficients, collapse = ", ")
-    coefficient_string_plural = ifelse(length(na_coefficients) > 1,
-                                       "coefficients",
-                                       "coefficient")
-    warning("Model contains 'NA' ", coefficient_string_plural, ". No partial R^2 can ",
-            "be calculated for: ", coefficient_string)
-  }
-}
+# warn_na_coefficients = function(model, covariates = NULL) {
+#
+#   coefs <- coef(model)
+#   covariates <- check_covariates(names(coefs), covariates)
+#
+#   if (!is.null(covariates))  coefs <- coefs[covariates]
+#
+#   if (any(is.na(coefs))) {
+#     na_coefficients = names(coefs)[which(is.na(coefs))]
+#     coefficient_string = paste(na_coefficients, collapse = ", ")
+#     coefficient_string_plural = ifelse(length(na_coefficients) > 1,
+#                                        "coefficients",
+#                                        "coefficient")
+#     warning("\n Model contains 'NA' ", coefficient_string_plural, ". Computations were not ",
+#             "performed for coefficient: ", coefficient_string)
+#   }
+# }
 
 error_if_no_dof = function(model) {
   if (model$df.residual == 0) {

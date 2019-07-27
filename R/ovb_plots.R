@@ -447,7 +447,7 @@ ovb_contour_plot.numeric = function(estimate,
                          label.bump.y = label.bump.y)
     out$bounds = data.frame(r2dz.x = r2dz.x,
                             r2yz.dx = r2yz.dx,
-                            bound_label = bound_label)
+                            bound_label = bound_label, stringsAsFactors = FALSE)
   }
   par(oldpar)
   invisible(out)

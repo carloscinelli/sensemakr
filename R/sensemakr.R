@@ -314,6 +314,7 @@ sensemakr.numeric <- function(estimate,
 
   if (!is.null(benchmark_covariates)) {
 
+    bound_label <- label_maker(benchmark_covariate = benchmark_covariates, kd = kd, ky = ky)
     bench_bounds <- ovb_partial_r2_bound(r2dxj.x = r2dxj.x,
                                          r2yxj.x = r2yxj.x,
                                          kd = kd,

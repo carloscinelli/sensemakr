@@ -104,15 +104,3 @@ test_that("contour plot tests", {
                    benchmark_covariates = "female",
                    kd = 1:3, ky = 1:3)
 })
-
-# test_that("bound_calculator misc test.", {
-#   expect_error(bound_calculator(0.1, 0.1, c(0.5, 0.8), 0.3))
-#   expect_error(bound_calculator(0.1, 0.1, 0.3, c(0.5, 0.8)))
-#   expect_error(bound_calculator(0.1, 0.1, -0.1, 0.3))
-#   expect_error(bound_calculator(0.1, 0.1, 0.3, -0.1))
-#
-#   result_bc = bound_calculator(0.1, 0.1, 0.3, 0.3)
-#   expect_equal(result_bc$r2_dz, 0.033, tolerance=1e-3)
-#   expect_equal(result_bc$r2_yz, 0.041, tolerance=1e-3)
-# })
-#
