@@ -10,4 +10,20 @@ status](https://ci.appveyor.com/api/projects/status/utoc0803j4fxoje3?svg=true)](
 [![Coverage
 status](https://codecov.io/gh/chadhazlett/sensemakr/branch/master/graph/badge.svg)](https://codecov.io/github/chadhazlett/sensemakr?branch=master)
 
-Under development, come back soon\!
+# News
+
+Check out the Robustness Value Shiny App at:
+<https://carloscinelli.shinyapps.io/robustness_value/>
+
+# CRAN
+
+The package was just submitted to CRAN, and it will available soon.
+
+# How to install the development version from GitHub
+
+To install the GitHub version you need to have the package `devtools`
+installed.
+
+``` r
+devtools::install_github("chadhazlett/sensemakr")
+```

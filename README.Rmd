@@ -17,5 +17,21 @@ knitr::opts_chunk$set(
 [![Build status](https://ci.appveyor.com/api/projects/status/utoc0803j4fxoje3?svg=true)](https://ci.appveyor.com/project/carloscinelli/sensemakr)
 [![Coverage status](https://codecov.io/gh/chadhazlett/sensemakr/branch/master/graph/badge.svg)](https://codecov.io/github/chadhazlett/sensemakr?branch=master)
 
+# News
 
-Under development, come back soon! 
+Check out the Robustness Value Shiny App at: https://carloscinelli.shinyapps.io/robustness_value/
+
+# CRAN
+
+The package was just submitted to CRAN, and it will available soon.
+
+# How to install the development version from GitHub
+
+To install the GitHub version you need to have the package `devtools` installed.
+
+```{r, eval=FALSE}
+devtools::install_github("chadhazlett/sensemakr")
+```
+
+
+
