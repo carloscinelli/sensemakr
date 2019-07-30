@@ -15,6 +15,12 @@ status](https://codecov.io/gh/chadhazlett/sensemakr/branch/master/graph/badge.sv
 Check out the Robustness Value Shiny App at:
 <https://carloscinelli.shinyapps.io/robustness_value/>
 
+# Details
+
+For theoretical details, [please see the full
+paper](https://www.researchgate.net/publication/322509816_Making_Sense_of_Sensitivity_Extending_Omitted_Variable_Bias).
+A step-by-step hands on vignette will be ready soon.
+
 # CRAN
 
 The package was just submitted to CRAN, and it will available soon.
