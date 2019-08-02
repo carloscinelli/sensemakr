@@ -13,7 +13,6 @@ The following words are not mispellings:
 
 - Cinelli
 - Hazlett
-- sensemakr
 
 ## R CMD check results
 
