@@ -2,7 +2,7 @@ Package: sensemakr
 Type: Package
 Title: Sensitivity Analysis Tools for OLS
 Date: 2019-07-26
-Version: 0.1.1
+Version: 0.1.2
 Authors@R: c(
   person("Carlos", "Cinelli", role = c("aut", "cre"), email = "carloscinelli@hotmail.com"),
   person("Chad", "Hazlett", role = "aut"),

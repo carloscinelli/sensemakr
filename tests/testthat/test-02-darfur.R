@@ -374,7 +374,8 @@ test_that("testing darfur print",
                         "\\multicolumn{7}{c}{Outcome: \\textit{peacefactor}} \\\\", "\\hline \\hline ",
                         "Treatment: & Est. & S.E. & t-value & $R^2_{Y \\sim D |{\\bf X}}$ & $RV_{q = 1}$ & $RV_{q = 1, \\alpha = 0.05}$  \\\\ ",
                         "\\hline ", "\\textit{directlyharmed} & 0.097 & 0.023 & 4.184 & 2.2\\% & 13.9\\% & 7.6\\% \\\\ ",
-                        "\\end{tabular}", "\\end{table}")
+                        "\\hline ", "df = 783 & & \\multicolumn{5}{r}{ }\\end{tabular}",
+                        "\\end{table}")
             expect_equal(capture.output(ovb_minimal_reporting(darfur_out2)), latex2)
 
           })

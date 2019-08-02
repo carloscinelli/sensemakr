@@ -27,7 +27,7 @@ ovb_minimal_reporting(x, digits = 3, verbose = TRUE, ...)
 }
 \value{
 The function \code{ovb_minimal_reporting} returns the LaTeX code invisibly in character form and also prints with
-\code{\link{cat}} the LaTeX code. To suppress automatic printing, suce \code{verbose = FALSE}.
+\code{\link{cat}} the LaTeX code. To suppress automatic printing, set \code{verbose = FALSE}.
 }
 \description{
 The \code{print} and \code{summary} methods provide verbal descriptions of the sensitivity analysis results
