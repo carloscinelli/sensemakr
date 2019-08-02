@@ -409,6 +409,8 @@ ovb_contour_plot.numeric = function(estimate,
 
   # Plot contour plot:
   oldpar <- par(mar = c(5, 5, 4, 1) + .1)
+  on.exit(par(oldpar))
+
   contour(
     grid_values, grid_values, z_axis, nlevels = nlevels,
     xlab = expression(paste("Hypothetical partial ", R^2, " of unobserved",
@@ -451,7 +453,7 @@ ovb_contour_plot.numeric = function(estimate,
                             r2yz.dx = r2yz.dx,
                             bound_label = bound_label, stringsAsFactors = FALSE)
   }
-  par(oldpar)
+
   invisible(out)
 }
 
@@ -487,6 +489,9 @@ ovb_contour_plot.numeric = function(estimate,
 #'                      kd = 50, ky = 2)
 #'
 #' @param ... arguments passed to other methods.
+#' @return
+#' The function adds bounds in an existing contour plot and returns `NULL`.
+#'
 #' @export
 add_bound_to_contour <- function(...){
   UseMethod("add_bound_to_contour")

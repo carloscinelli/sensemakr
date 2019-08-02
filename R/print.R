@@ -122,8 +122,13 @@ summary.sensemakr <- function(object, digits = max(3L, getOption("digits") - 3L)
 
 
 #' @rdname print.sensemakr
+#' @return
+#' The function \code{ovb_minimal_reporting} returns the LaTeX code invisibly in character form and also prints with
+#' \code{\link{cat}} the LaTeX code. To suppress automatic printing, set \code{verbose = FALSE}.
+#'
+#' @param verbose if `TRUE`, the function prints the LaTeX code with \code{\link{cat}}
 #' @export
-ovb_minimal_reporting <- function(x, digits = 3, ...){
+ovb_minimal_reporting <- function(x, digits = 3, verbose = TRUE, ...){
 
   # Let's begin
   table_settings = list(...)
@@ -190,7 +195,10 @@ ovb_minimal_reporting <- function(x, digits = 3, ...){
 
     footnote = paste0(footnote_begin, footnote_body, footnote_end)
   } else {
-    footnote = ""
+    footnote = paste0("\\hline \n",
+                            "df = ", x$sensitivity_stats$dof, " & & ",
+                            "\\multicolumn{5}{r}{ ",
+                            "}")
   }
 
   # Below footnote end table, caption, label
@@ -210,6 +218,8 @@ ovb_minimal_reporting <- function(x, digits = 3, ...){
                  caption, label, table_end)
 
   # Cat to output valid LaTeX for rmarkdown
-  cat(table)
+
+  if (verbose) cat(table)
+
   return(invisible(table))
 }

@@ -61,6 +61,9 @@ with outcome Y, given covariates X and treatment D.}
 
 \item{bound_label}{label to bounds provided manually in \code{r2dz.x} and \code{r2yz.dx}.}
 }
+\value{
+The function adds bounds in an existing contour plot and returns `NULL`.
+}
 \description{
 Convenience function to add bounds on a sensitivity contour plot created with \code{\link{ovb_contour_plot}}.
 }
