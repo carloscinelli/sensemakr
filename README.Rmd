@@ -28,7 +28,7 @@ For theoretical details, [please see the full paper](https://www.researchgate.ne
 
 # CRAN
 
-The package was just submitted to CRAN, and it will available soon.
+The package was just submitted to CRAN, and it shoud be available soon.
 
 # How to install the development version from GitHub
 
