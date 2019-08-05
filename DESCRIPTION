@@ -1,6 +1,6 @@
 Package: sensemakr
 Type: Package
-Title: Sensitivity Analysis Tools for OLS
+Title: Sensitivity Analysis Tools for Regression Models
 Date: 2019-07-26
 Version: 0.1.2
 Authors@R: c(
