@@ -2,7 +2,7 @@ Package: sensemakr
 Type: Package
 Title: Sensitivity Analysis Tools for Regression Models
 Date: 2019-07-26
-Version: 0.1.2.9000
+Version: 0.1.3.9000
 Authors@R: c(
   person("Carlos", "Cinelli", role = c("aut", "cre"), email = "carloscinelli@hotmail.com"),
   person("Chad", "Hazlett", role = "aut"),
