@@ -9,7 +9,7 @@ ovb_bounds(...)
 
 \method{ovb_bounds}{lm}(model, treatment, benchmark_covariates, kd = 1,
   ky = kd, reduce = TRUE, bound = c("partial r2", "partial r2 no D",
-  "total r2"), adjusted_estimates = TRUE, ...)
+  "total r2"), adjusted_estimates = TRUE, ci_alpha = 0.05, ...)
 }
 \arguments{
 \item{...}{arguments passed to other methods. First argument should either be an \code{\link{lm}} model with the
@@ -35,7 +35,9 @@ absolute value of the estimated coefficient? Default is \code{TRUE}.}
 
 \item{bound}{type of bounding procedure. Currently only \code{"partial r2"} is implemented.}
 
-\item{adjusted_estimates}{should the bounder also compute the adjusted estimates?
+\item{adjusted_estimates}{should the bounder also compute the adjusted estimates?}
+
+\item{ci_alpha}{significance level for computing the adjusted confidence intervals.
 Default is \code{TRUE}.}
 }
 \value{

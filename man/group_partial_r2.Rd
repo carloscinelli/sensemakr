@@ -18,8 +18,7 @@ with the regression model or a numeric vector with the F-statistics for the grou
 
 \item{model}{an \code{lm} object with the regression model}
 
-\item{covariates}{model covariates for which the partial R2 will be computed. Default is to compute
-the partial R2 of all covariates.}
+\item{covariates}{model covariates for which their grouped partial R2 will be computed.}
 
 \item{F.stats}{F-statistics for the group of covariates.}
 

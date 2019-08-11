@@ -154,6 +154,7 @@ ovb_bounds <- function(...){
 #' @rdname ovb_bounds
 #' @param bound type of bounding procedure. Currently only \code{"partial r2"} is implemented.
 #' @param adjusted_estimates should the bounder also compute the adjusted estimates?
+#' @param ci_alpha significance level for computing the adjusted confidence intervals.
 #' Default is \code{TRUE}.
 #'
 #' @examples
@@ -178,6 +179,7 @@ ovb_bounds.lm <- function(model,
                           reduce = TRUE,
                           bound = c("partial r2", "partial r2 no D", "total r2"),
                           adjusted_estimates = TRUE,
+                          ci_alpha = 0.05,
                           ...) {
 
   bound = match.arg(bound)
@@ -211,6 +213,11 @@ ovb_bounds.lm <- function(model,
                                    r2yz.dx = bounds$r2yz.dx,
                                    r2dz.x = bounds$r2dz.x,
                                    reduce = reduce)
+
+    se_multiple <- qt(ci_alpha/2, df = model$df.residual, lower.tail = F)
+    bounds$adjusted_lower_CI <- bounds$adjusted_estimate - se_multiple*bounds$adjusted_se
+    bounds$adjusted_upper_CI <- bounds$adjusted_estimate + se_multiple*bounds$adjusted_se
+
   }
   class(bounds) <- c("ovb_bounds", "data.frame")
   bounds

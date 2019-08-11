@@ -305,9 +305,11 @@ group_partial_r2 <- function(...){
 
 
 #' @inheritParams partial_r2
+#' @param covariates model covariates for which their grouped partial R2 will be computed.
 #' @rdname group_partial_r2
 #' @export
 group_partial_r2.lm <- function(model, covariates, ...){
+
   if (missing(covariates)) stop("Argument covariates missing.")
 
   coefs <- coef(model)
