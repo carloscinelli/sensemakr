@@ -41,7 +41,7 @@ install.packages("sensemakr")
 To install the development version on GitHub make sure you have the package `devtools` installed.
 
 ```{r, eval=FALSE}
-# install.packages(devtools) 
+# install.packages("devtools") 
 devtools::install_github("chadhazlett/sensemakr")
 ```
 
