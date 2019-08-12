@@ -10,6 +10,7 @@ status](https://ci.appveyor.com/api/projects/status/utoc0803j4fxoje3?svg=true)](
 [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/sensemakr)](https://cran.r-project.org/package=sensemakr)
 [![Coverage
 status](https://codecov.io/gh/chadhazlett/sensemakr/branch/master/graph/badge.svg)](https://codecov.io/github/chadhazlett/sensemakr?branch=master)
+![Donwloads](http://cranlogs.r-pkg.org/badges/sensemakr)
 
 # News
 
@@ -24,14 +25,20 @@ A step-by-step hands on vignette will be ready soon.
 
 # CRAN
 
-The package was just submitted to CRAN, and it will available soon.
+The package has just been released on CRAN\! To install the current CRAN
+version run:
+
+``` r
+install.packages("sensemakr")
+```
 
 # How to install the development version from GitHub
 
-To install the GitHub version you need to have the package `devtools`
-installed.
+To install the development version on GitHub make sure you have the
+package `devtools` installed.
 
 ``` r
+# install.packages(devtools) 
 devtools::install_github("chadhazlett/sensemakr")
 ```
 
@@ -103,12 +110,16 @@ summary(sensitivity)
 #>    1x female 0.0092  0.1246            0.0752      0.0219     3.4389
 #>    2x female 0.0183  0.2493            0.0529      0.0204     2.6002
 #>    3x female 0.0275  0.3741            0.0304      0.0187     1.6281
+#>  Adjusted Lower CI Adjusted Upper CI
+#>             0.0323            0.1182
+#>             0.0130            0.0929
+#>            -0.0063            0.0670
 
 # plot bias contour of point estimate
 plot(sensitivity)
 ```
 
-![](man/figures/figures-unnamed-chunk-3-1.png)<!-- -->
+![](man/figures/figures-unnamed-chunk-4-1.png)<!-- -->
 
 ``` r
 
@@ -116,7 +127,7 @@ plot(sensitivity)
 plot(sensitivity, sensitivity.of = "t-value")
 ```
 
-![](man/figures/figures-unnamed-chunk-3-2.png)<!-- -->
+![](man/figures/figures-unnamed-chunk-4-2.png)<!-- -->
 
 ``` r
 
@@ -124,7 +135,7 @@ plot(sensitivity, sensitivity.of = "t-value")
 plot(sensitivity, type = "extreme", cex.legend = 1)
 ```
 
-![](man/figures/figures-unnamed-chunk-3-3.png)<!-- -->
+![](man/figures/figures-unnamed-chunk-4-3.png)<!-- -->
 
 ``` r
 
