@@ -93,20 +93,26 @@ summary.sensemakr <- function(object, digits = max(3L, getOption("digits") - 3L)
   cat(" Robustness Value,", "q =", paste0(q, ","), "alpha =", paste0(alpha, ":"), rv_qa <- round(x$sensitivity_stats$rv_qa,digits), "\n")
   cat("\n")
   reduce <- ifelse(x$info$reduce, "reduce", "increase")
+
   cat("Verbal interpretation of sensitivity statistics:\n\n")
-  cat("Unobserved confounders (orthogonal to the covariates) that explain more than", paste0(100*rv_q,"%"), "of the residual variance",
-      "of both the treatment and the outcome are enough to", reduce, "the absolute value of the effect size by", paste0(100*q, "%."),
-      "Conversely, unobserved confounders that do not explain more than", paste0(100*rv_q,"%"), "of the residual variance",
-      "of both the treatment and the outcome are not strong enough to", reduce,"the absolute value of the effect size by",  paste0(100*q, "%"),".\n\n")
-
-  cat("Unobserved confounders (orthogonal to the covariates) that explain more than", paste0(100*rv_qa,"%"), "of the residual variance",
-      "of both the treatment and the outcome are enough to", reduce, "the absolute value of the effect size by", paste0(100*q), "% at the significance level of alpha =", alpha, ".",
-      "Conversely, unobserved confounders that do not explain more than", paste0(100*rv_qa,"%"), "of the residual variance",
-      "of both the treatment and the outcome are not strong enough to", reduce,"the absolute value of the effect size by",  paste0(100*q, "%"),
-      "at the significance level of alpha =", alpha, ".\n\n")
-
-  cat("An extreme confounder (orthogonal to the covariates) that explains 100% of the residual variance of the outcome, would need to explain at least",
+  cat("-- Partial R2 of the treatment with the outcome: an extreme confounder (orthogonal to the covariates) that explains 100% of the residual variance of the outcome, would need to explain at least",
       paste0(100*r2yd.x, "%"),"of the residual variance of the treatment to fully account for the observed estimated effect.")
+  cat("\n\n")
+  cat("-- Robustness Value,", "q =", paste0(q, ":"), "unobserved confounders (orthogonal to the covariates) that explain more than",
+      paste0(100*rv_q,"%"), "of the residual variance",
+      "of both the treatment and the outcome are strong enough to bring the point estimate to", paste0(round((1-q)*estimate,4)),
+      "(a bias of", paste0(100*q, "%"),"of the original estimate).",
+      "Conversely, unobserved confounders that do not explain more than", paste0(100*rv_q,"%"), "of the residual variance",
+      "of both the treatment and the outcome are not strong enough to bring the point estimate to", paste0(round((1-q)*estimate,4),"."))
+  cat("\n\n")
+  cat("-- Robustness Value,", "q =", paste0(q, ","), "alpha =", paste0(alpha, ":"), "unobserved confounders (orthogonal to the covariates) that explain more than", paste0(100*rv_qa,"%"), "of the residual variance",
+      "of both the treatment and the outcome are strong enough to bring the estimate to a range where it is no longer 'statistically different' from",
+      paste0(round((1-q)*estimate,4)), "(a bias of", paste0(100*q, "%"),"of the original estimate),",
+      "at the significance level of alpha =", paste0(alpha, "."),
+      "Conversely, unobserved confounders that do not explain more than", paste0(100*rv_qa,"%"), "of the residual variance",
+      "of both the treatment and the outcome are not strong enough to bring the estimate to a range where it is no longer 'statistically different' from",
+      paste0(round((1-q)*estimate,4),","),
+      "at the significance level of alpha =", paste0(alpha,"."))
   cat("\n\n")
 
   bounds <- x$bounds
@@ -115,7 +121,7 @@ summary.sensemakr <- function(object, digits = max(3L, getOption("digits") - 3L)
     bounds[numeric] <- lapply(bounds[numeric], round, digits = digits)
     names(bounds) <-  sapply(gsub("\\_", " ",  names(bounds)), .simpleCap)
 
-    cat("OVB bounds:\n")
+    cat("Bounds on omitted varible bias:\n")
     print(bounds, row.names = FALSE)
   }
 }
