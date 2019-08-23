@@ -38,7 +38,7 @@ To install the development version on GitHub make sure you have the
 package `devtools` installed.
 
 ``` r
-# install.packages(devtools) 
+# install.packages("devtools") 
 devtools::install_github("chadhazlett/sensemakr")
 ```
 
@@ -99,13 +99,13 @@ summary(sensitivity)
 #> 
 #> Verbal interpretation of sensitivity statistics:
 #> 
-#> Unobserved confounders (orthogonal to the covariates) that explain more than 13.88% of the residual variance of both the treatment and the outcome are enough to reduce the absolute value of the effect size by 100%. Conversely, unobserved confounders that do not explain more than 13.88% of the residual variance of both the treatment and the outcome are not strong enough to reduce the absolute value of the effect size by 100% .
+#> -- Partial R2 of the treatment with the outcome: an extreme confounder (orthogonal to the covariates) that explains 100% of the residual variance of the outcome, would need to explain at least 2.19% of the residual variance of the treatment to fully account for the observed estimated effect.
 #> 
-#> Unobserved confounders (orthogonal to the covariates) that explain more than 7.63% of the residual variance of both the treatment and the outcome are enough to reduce the absolute value of the effect size by 100 % at the significance level of alpha = 0.05 . Conversely, unobserved confounders that do not explain more than 7.63% of the residual variance of both the treatment and the outcome are not strong enough to reduce the absolute value of the effect size by 100% at the significance level of alpha = 0.05 .
+#> -- Robustness Value, q = 1: unobserved confounders (orthogonal to the covariates) that explain more than 13.88% of the residual variance of both the treatment and the outcome are strong enough to bring the point estimate to 0 (a bias of 100% of the original estimate). Conversely, unobserved confounders that do not explain more than 13.88% of the residual variance of both the treatment and the outcome are not strong enough to bring the point estimate to 0.
 #> 
-#> An extreme confounder (orthogonal to the covariates) that explains 100% of the residual variance of the outcome, would need to explain at least 2.19% of the residual variance of the treatment to fully account for the observed estimated effect.
+#> -- Robustness Value, q = 1, alpha = 0.05: unobserved confounders (orthogonal to the covariates) that explain more than 7.63% of the residual variance of both the treatment and the outcome are strong enough to bring the estimate to a range where it is no longer 'statistically different' from 0 (a bias of 100% of the original estimate), at the significance level of alpha = 0.05. Conversely, unobserved confounders that do not explain more than 7.63% of the residual variance of both the treatment and the outcome are not strong enough to bring the estimate to a range where it is no longer 'statistically different' from 0, at the significance level of alpha = 0.05.
 #> 
-#> OVB bounds:
+#> Bounds on omitted varible bias:
 #>  Bound Label R2dz.x R2yz.dx Adjusted Estimate Adjusted Se Adjusted T
 #>    1x female 0.0092  0.1246            0.0752      0.0219     3.4389
 #>    2x female 0.0183  0.2493            0.0529      0.0204     2.6002
