@@ -105,7 +105,7 @@ summary(sensitivity)
 #> 
 #> -- Robustness Value, q = 1, alpha = 0.05: unobserved confounders (orthogonal to the covariates) that explain more than 7.63% of the residual variance of both the treatment and the outcome are strong enough to bring the estimate to a range where it is no longer 'statistically different' from 0 (a bias of 100% of the original estimate), at the significance level of alpha = 0.05. Conversely, unobserved confounders that do not explain more than 7.63% of the residual variance of both the treatment and the outcome are not strong enough to bring the estimate to a range where it is no longer 'statistically different' from 0, at the significance level of alpha = 0.05.
 #> 
-#> Bounds on omitted varible bias:
+#> Bounds on omitted variable bias:
 #>  Bound Label R2dz.x R2yz.dx Adjusted Estimate Adjusted Se Adjusted T
 #>    1x female 0.0092  0.1246            0.0752      0.0219     3.4389
 #>    2x female 0.0183  0.2493            0.0529      0.0204     2.6002

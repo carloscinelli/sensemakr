@@ -121,7 +121,7 @@ summary.sensemakr <- function(object, digits = max(3L, getOption("digits") - 3L)
     bounds[numeric] <- lapply(bounds[numeric], round, digits = digits)
     names(bounds) <-  sapply(gsub("\\_", " ",  names(bounds)), .simpleCap)
 
-    cat("Bounds on omitted varible bias:\n")
+    cat("Bounds on omitted variable bias:\n")
     print(bounds, row.names = FALSE)
   }
 }
