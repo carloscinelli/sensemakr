@@ -119,7 +119,7 @@ summary(sensitivity)
 plot(sensitivity)
 ```
 
-![](man/figures/figures-unnamed-chunk-4-1.png)<!-- -->
+![](man/figures/figures-basic-usage-1.png)<!-- -->
 
 ``` r
 
@@ -127,7 +127,7 @@ plot(sensitivity)
 plot(sensitivity, sensitivity.of = "t-value")
 ```
 
-![](man/figures/figures-unnamed-chunk-4-2.png)<!-- -->
+![](man/figures/figures-basic-usage-2.png)<!-- -->
 
 ``` r
 
@@ -135,7 +135,7 @@ plot(sensitivity, sensitivity.of = "t-value")
 plot(sensitivity, type = "extreme", cex.legend = 1)
 ```
 
-![](man/figures/figures-unnamed-chunk-4-3.png)<!-- -->
+![](man/figures/figures-basic-usage-3.png)<!-- -->
 
 ``` r
 

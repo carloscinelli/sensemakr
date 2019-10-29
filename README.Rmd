@@ -49,7 +49,7 @@ devtools::install_github("chadhazlett/sensemakr")
 # Basic usage
 
 
-```{r, fig.width = 10, fig.height=8, collapse=T}
+```{r basic-usage, fig.width = 10, fig.height=8, collapse=T}
 # loads package
 library(sensemakr)
 
