@@ -84,8 +84,48 @@
 #'   \item{fat_2010to2013}{}
 #' }
 #' @examples
+#' # loads data
 #' data(colombia)
 #'
+#' # Violence Models ---------------------------------------------------------
+#'
+#' ### Naive model --- Model 1
+#' model1 <- lm(yes_vote ~ fat_2001to2005_gtd, data = colombia)
+#'
+#' ### Model 2
+#' model2 <- lm(yes_vote ~ fat_2001to2005_gtd + fat_2006to2010_gtd +
+#'                fat_2011to2015_gtd + total_eligible + santos10 + gdppc ,
+#'              data = colombia)
+#'
+#' ### Sensitivity analysis (model 2)
+#' sense.model2 <- sensemakr(model2,
+#'                           treatment = "fat_2011to2015_gtd",
+#'                           benchmark = "santos10",
+#'                           kd = 1)
+#'
+#' ### contour plot point estimate
+#' plot(sense.model2)
+#'
+#' ### contour plot t-value
+#' plot(sense.model2, sensitivity.of = "t-value")
+#'
+#'
+#' # Political Affiliation Model ---------------------------------------------
+#'
+#' ### Model 3
+#' model3  <- lm(yes_vote ~ santos14 + fat_2010to2013 + elev + gdppc + pop13,
+#'               data = colombia)
+#'
+#'
+#' sense.model3 <- sensemakr(model3, treatment = "santos14",
+#'                           benchmark = c("gdppc","elev"),
+#'                           kd = 3)
+#'
+#' ### contour plot point estimate
+#' plot(sense.model3, lim = .9)
+#'
+#' ### contour plot t-value
+#' plot(sense.model3, sensitivity.of = "t-value", lim = 0.9)
 #'
 #' @references
 #' Hazlett, Chad, and Francesca Parente. "Credible or Confounded? Applying sensitivity analyses to improve research and its evaluation under imperfect identification." (2018)
