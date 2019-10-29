@@ -22,7 +22,8 @@ ovb_extreme_plot(...)
 \method{ovb_extreme_plot}{numeric}(estimate, se, dof, r2dz.x = NULL,
   r2yz.dx = c(1, 0.75, 0.5), reduce = TRUE, threshold = 0,
   lim = min(c(r2dz.x + 0.1, 0.5)), legend = TRUE,
-  legend.title = NULL, cex.legend = 0.5, legend.bty = "o", ...)
+  legend.title = NULL, cex.legend = 0.5, legend.bty = "o",
+  xlab = NULL, ylab = NULL, ...)
 }
 \arguments{
 \item{...}{arguments passed to other methods. First argument should either be an \code{\link{lm}} model with the
@@ -71,6 +72,10 @@ absolute value of the estimated coefficient? Default is \code{TRUE}.}
 \item{dof}{Residual degrees of freedom of the regression.}
 
 \item{legend.title}{the legend title. If \code{NULL}, then default legend is used.}
+
+\item{xlab}{label of x axis. If `NULL`, default label is used.}
+
+\item{ylab}{label of y axis. If `NULL`, default label is used.}
 }
 \value{
 The function returns invisibly the data used for the extreme plot.

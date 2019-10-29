@@ -332,8 +332,8 @@ ovb_contour_plot.formula = function(formula,
 #' @importFrom graphics contour points text
 #' @importFrom stats coef
 #' @param cex.label.text size of the label text.
-#' @param xlab label of x axis. If `NULL`, default label is plotted.
-#' @param ylab label of y axis. If `NULL`, default label is plotted.
+#' @param xlab label of x axis. If `NULL`, default label is used.
+#' @param ylab label of y axis. If `NULL`, default label is used.
 #' @param list.par  arguments to be passed to \code{\link{par}}. It needs to be a named list.
 #' @export
 ovb_contour_plot.numeric = function(estimate,
@@ -435,13 +435,11 @@ ovb_contour_plot.numeric = function(estimate,
 
 
   if (is.null(xlab)) {
-    xlab <- expression(paste("Hypothetical partial ", R^2, " of unobserved",
-                             " confounder(s) with the treatment"))
+    xlab <- expression(paste("Partial ", R^2, " of confounder(s) with the treatment"))
   }
 
   if (is.null(ylab)) {
-    ylab <- expression(paste("Hypothetical partial ", R^2, " of unobserved",
-                     " confounder(s) with the outcome"))
+    ylab <- expression(paste("Partial ", R^2, " of confounder(s) with the outcome"))
   }
 
   contour(
@@ -797,6 +795,8 @@ ovb_extreme_plot.formula = function(formula,
 #' @rdname ovb_extreme_plot
 #' @param legend.bty legend box. See \code{bty} argument of \link{par}.
 #' @param legend.title the legend title. If \code{NULL}, then default legend is used.
+#' @param xlab label of x axis. If `NULL`, default label is used.
+#' @param ylab label of y axis. If `NULL`, default label is used.
 #' @export
 ovb_extreme_plot.numeric = function(estimate,
                                     se,
@@ -810,6 +810,8 @@ ovb_extreme_plot.numeric = function(estimate,
                                     legend.title  = NULL,
                                     cex.legend = 0.5,
                                     legend.bty = "o",
+                                    xlab = NULL,
+                                    ylab = NULL,
                                     ...) {
 
   # if (is.null(lim)) {
@@ -844,12 +846,21 @@ ovb_extreme_plot.numeric = function(estimate,
       } else {
         ylim = range(y)
       }
+
+      if (is.null(xlab)) {
+        xlab <- expression(paste("Partial ", R^2, " of confounder(s) with the treatment"))
+
+      }
+
+      if (is.null(ylab)) {
+        ylab <- "Adjusted effect estimate"
+      }
+
       plot(
         r2d_values, y, type = "l", bty = "L",
         ylim = ylim,
-        xlab = expression(paste("Partial ", R^2, " of unobserved",
-                                " confounder(s) with the treatment")),
-        ylab = "Adjusted effect estimate",
+        xlab = xlab,
+        ylab = ylab,
         ...)
       abline(h = threshold, col = "red", lty = 5)
     } else {
@@ -862,6 +873,11 @@ ovb_extreme_plot.numeric = function(estimate,
 
   }
 
+  if (is.null(legend.title)) {
+    legend.title <- expression(paste("Partial ", R^2, " of confounder(s) with the outcome"))
+  }
+
+
   if (legend) {
     legend(
       x = "topright",
@@ -873,8 +889,7 @@ ovb_extreme_plot.numeric = function(estimate,
       # bty = "n",
       legend = paste0(r2yz.dx * 100, "%"),
       ncol = length(r2yz.dx) + 1,
-      title = expression(paste("Partial ", R^2, " of unobserved",
-                               " confounder(s) with the outcome")),
+      title = legend.title,
       cex = cex.legend
     )
   }

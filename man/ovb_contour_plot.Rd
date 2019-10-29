@@ -98,9 +98,9 @@ absolute value of the estimated coefficient? Default is \code{TRUE}.}
 
 \item{dof}{Residual degrees of freedom of the regression.}
 
-\item{xlab}{label of x axis. If `NULL`, default label is plotted.}
+\item{xlab}{label of x axis. If `NULL`, default label is used.}
 
-\item{ylab}{label of y axis. If `NULL`, default label is plotted.}
+\item{ylab}{label of y axis. If `NULL`, default label is used.}
 
 \item{list.par}{arguments to be passed to \code{\link{par}}. It needs to be a named list.}
 }
