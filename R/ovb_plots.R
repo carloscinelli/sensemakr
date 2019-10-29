@@ -35,7 +35,10 @@ plot.sensemakr = function(x,
                                        ...)
 }
 
-dispatch_contour = function(x, sensitivity.of = c("estimate", "t-value"), digits = 2, ...) {
+dispatch_contour = function(x,
+                            sensitivity.of = c("estimate", "t-value"),
+                            digits = 2,
+                            ...) {
   # Use dispatcher rather than direct call so we can allow modifying call if
   # necessary
   sensitivity.of <- match.arg(sensitivity.of)
@@ -45,8 +48,11 @@ dispatch_contour = function(x, sensitivity.of = c("estimate", "t-value"), digits
   alpha <- x$info$alpha
   dof <- x$sensitivity_stats$dof
   thr <- round(ifelse(reduce, estimate*(1 - q), estimate*(1 + q) ), digits = digits)
-  t.thr <- round(abs(qt(alpha/2, df = dof))*sign(x$sensitivity_stats$t_statistic), digits = digits)
-  ovb_contour_plot(x, sensitivity.of = sensitivity.of, estimate.threshold = thr, t.threshold = t.thr,
+  t.thr <- round(abs(qt(alpha/2, df = dof - 1))*sign(x$sensitivity_stats$t_statistic), digits = digits)
+  ovb_contour_plot(x,
+                   sensitivity.of = sensitivity.of,
+                   estimate.threshold = thr,
+                   t.threshold = t.thr,
                    ...)
 }
 
@@ -188,6 +194,7 @@ ovb_contour_plot.lm = function(model,
                                col.contour = "grey40",
                                col.thr.line = "red",
                                label.text = TRUE,
+                               cex.label.text = 1,
                                label.bump.x = 0.02,
                                label.bump.y = 0.02,
                                ...) {
@@ -252,6 +259,7 @@ ovb_contour_plot.lm = function(model,
                    col.contour = col.contour,
                    col.thr.line = col.thr.line,
                    label.text = label.text,
+                   cex.label.text = cex.label.text,
                    label.bump.x = label.bump.x,
                    label.bump.y = label.bump.y,
                    ...)
@@ -281,6 +289,7 @@ ovb_contour_plot.formula = function(formula,
                                     col.contour = "grey40",
                                     col.thr.line = "red",
                                     label.text = TRUE,
+                                    cex.label.text = 1,
                                     ...) {
 
   check_formula(treatment = treatment,
@@ -313,6 +322,7 @@ ovb_contour_plot.formula = function(formula,
                    col.contour = col.contour,
                    col.thr.line = col.thr.line,
                    label.text = label.text,
+                   cex.label.text = cex.label.text,
                    ...)
 }
 
@@ -322,6 +332,9 @@ ovb_contour_plot.formula = function(formula,
 #' @importFrom graphics contour points text
 #' @importFrom stats coef
 #' @param cex.label.text size of the label text.
+#' @param xlab label of x axis. If `NULL`, default label is plotted.
+#' @param ylab label of y axis. If `NULL`, default label is plotted.
+#' @param list.par  arguments to be passed to \code{\link{par}}. It needs to be a named list.
 #' @export
 ovb_contour_plot.numeric = function(estimate,
                                     se,
@@ -341,6 +354,9 @@ ovb_contour_plot.numeric = function(estimate,
                                     cex.label.text = 1,
                                     label.bump.x = 0.02,
                                     label.bump.y = 0.02,
+                                    xlab = NULL,
+                                    ylab = NULL,
+                                    list.par = NULL,
                                     ...) {
 
   check_estimate(estimate)
@@ -408,16 +424,33 @@ ovb_contour_plot.numeric = function(estimate,
                       1, 1)
 
   # Plot contour plot:
-  oldpar <- par(mar = c(5, 5, 4, 1) + .1)
-  on.exit(par(oldpar))
+  if (is.null(list.par)) {
+    oldpar <- par(mar = c(5, 5, 4, 1) + .1)
+    on.exit(par(oldpar))
+  } else {
+    if (!is.list(list.par)) stop("list.par needs to be a named list")
+    oldpar <- do.call("par", list.par)
+    on.exit(par(oldpar))
+  }
+
+
+  if (is.null(xlab)) {
+    xlab <- expression(paste("Hypothetical partial ", R^2, " of unobserved",
+                             " confounder(s) with the treatment"))
+  }
+
+  if (is.null(ylab)) {
+    ylab <- expression(paste("Hypothetical partial ", R^2, " of unobserved",
+                     " confounder(s) with the outcome"))
+  }
 
   contour(
     grid_values, grid_values, z_axis, nlevels = nlevels,
-    xlab = expression(paste("Hypothetical partial ", R^2, " of unobserved",
-                            " confounder(s) with the treatment")),
-    ylab = expression(paste("Hypothetical partial ", R^2, " of unobserved",
-                            " confounder(s) with the outcome")),
-    cex.main = 1, cex.lab = 1, cex.axis = 1,
+    xlab = xlab,
+    ylab = ylab,
+    cex.main = 1,
+    cex.lab = 1,
+    cex.axis = 1,
     col = line_color, lty = line_type, lwd = line_width,
     ...)
   contour(grid_values, grid_values,
@@ -448,7 +481,8 @@ ovb_contour_plot.numeric = function(estimate,
                          sensitivity.of = sensitivity.of,
                          label.text = label.text,
                          label.bump.x = label.bump.x,
-                         label.bump.y = label.bump.y)
+                         label.bump.y = label.bump.y,
+                         cex.label.text = cex.label.text)
     out$bounds = data.frame(r2dz.x = r2dz.x,
                             r2yz.dx = r2yz.dx,
                             bound_label = bound_label, stringsAsFactors = FALSE)
@@ -511,6 +545,7 @@ add_bound_to_contour.ovb_bounds <- function(bounds,
                        bound_value = bound_value,
                        bound_label = bounds$bound_label,
                        label.text = label.text,
+                       cex.label.text = cex.label.text,
                        label.bump.x = label.bump.x,
                        label.bump.y = label.bump.y,
                        round = round,
@@ -761,6 +796,7 @@ ovb_extreme_plot.formula = function(formula,
 #' @importFrom graphics abline lines legend rug plot par
 #' @rdname ovb_extreme_plot
 #' @param legend.bty legend box. See \code{bty} argument of \link{par}.
+#' @param legend.title the legend title. If \code{NULL}, then default legend is used.
 #' @export
 ovb_extreme_plot.numeric = function(estimate,
                                     se,
@@ -771,6 +807,7 @@ ovb_extreme_plot.numeric = function(estimate,
                                     threshold = 0,
                                     lim = min(c(r2dz.x + 0.1, 0.5)),
                                     legend = TRUE,
+                                    legend.title  = NULL,
                                     cex.legend = 0.5,
                                     legend.bty = "o",
                                     ...) {
@@ -810,7 +847,7 @@ ovb_extreme_plot.numeric = function(estimate,
       plot(
         r2d_values, y, type = "l", bty = "L",
         ylim = ylim,
-        xlab = expression(paste("Hypothetical partial ", R^2, " of unobserved",
+        xlab = expression(paste("Partial ", R^2, " of unobserved",
                                 " confounder(s) with the treatment")),
         ylab = "Adjusted effect estimate",
         ...)
@@ -836,7 +873,7 @@ ovb_extreme_plot.numeric = function(estimate,
       # bty = "n",
       legend = paste0(r2yz.dx * 100, "%"),
       ncol = length(r2yz.dx) + 1,
-      title = expression(paste("Hypothetical partial ", R^2, " of unobserved",
+      title = expression(paste("Partial ", R^2, " of unobserved",
                                " confounder(s) with the outcome")),
       cex = cex.legend
     )

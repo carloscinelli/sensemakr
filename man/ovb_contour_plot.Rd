@@ -15,8 +15,8 @@ ovb_contour_plot(...)
   sensitivity.of = c("estimate", "t-value"), reduce = TRUE,
   estimate.threshold = 0, t.threshold = 2, lim = max(c(0.4, r2dz.x,
   r2yz.dx)), nlevels = 20, col.contour = "grey40",
-  col.thr.line = "red", label.text = TRUE, label.bump.x = 0.02,
-  label.bump.y = 0.02, ...)
+  col.thr.line = "red", label.text = TRUE, cex.label.text = 1,
+  label.bump.x = 0.02, label.bump.y = 0.02, ...)
 
 \method{ovb_contour_plot}{formula}(formula, data, treatment,
   benchmark_covariates = NULL, kd = 1, ky = kd, r2dz.x = NULL,
@@ -24,14 +24,15 @@ ovb_contour_plot(...)
   sensitivity.of = c("estimate", "t-value"), reduce = TRUE,
   estimate.threshold = 0, t.threshold = 2, lim = max(c(0.4, r2dz.x,
   r2yz.dx)), nlevels = 20, col.contour = "grey40",
-  col.thr.line = "red", label.text = TRUE, ...)
+  col.thr.line = "red", label.text = TRUE, cex.label.text = 1, ...)
 
 \method{ovb_contour_plot}{numeric}(estimate, se, dof, r2dz.x = NULL,
   r2yz.dx = r2dz.x, bound_label = "", sensitivity.of = c("estimate",
   "t-value"), reduce = TRUE, estimate.threshold = 0, t.threshold = 2,
   lim = max(c(0.4, r2dz.x + 0.1, r2yz.dx + 0.1)), nlevels = 20,
   col.contour = "black", col.thr.line = "red", label.text = TRUE,
-  cex.label.text = 1, label.bump.x = 0.02, label.bump.y = 0.02, ...)
+  cex.label.text = 1, label.bump.x = 0.02, label.bump.y = 0.02,
+  xlab = NULL, ylab = NULL, list.par = NULL, ...)
 }
 \arguments{
 \item{...}{arguments passed to other methods. First argument should either be an \code{\link{lm}} model with the
@@ -81,6 +82,8 @@ absolute value of the estimated coefficient? Default is \code{TRUE}.}
 
 \item{label.text}{should label texts be plotted? Default is \code{TRUE}.}
 
+\item{cex.label.text}{size of the label text.}
+
 \item{label.bump.x}{bump on the x coordinate of label text.}
 
 \item{label.bump.y}{bump on the y coordinate of label text.}
@@ -95,7 +98,11 @@ absolute value of the estimated coefficient? Default is \code{TRUE}.}
 
 \item{dof}{Residual degrees of freedom of the regression.}
 
-\item{cex.label.text}{size of the label text.}
+\item{xlab}{label of x axis. If `NULL`, default label is plotted.}
+
+\item{ylab}{label of y axis. If `NULL`, default label is plotted.}
+
+\item{list.par}{arguments to be passed to \code{\link{par}}. It needs to be a named list.}
 }
 \value{
 The function returns invisibly the data used for the contour plot (contour grid and bounds).

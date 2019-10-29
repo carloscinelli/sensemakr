@@ -44,3 +44,49 @@
 #'
 #' Hazlett, C. (2018). Angry or weary? The effect of personal violence on attitudes towards peace in darfur. Working Paper.
 "darfur"
+
+
+
+
+#' Data from Colombia
+#'
+#' @description
+#' Data on Colombia...
+#'
+#' The main "treatment"
+#' variables are \code{santos2014}, which indicates the share of ...
+#' and \code{fat_2011to2015_gtd}, which indicates...
+#'
+#' The main outcome of interest is \code{yes_vote}, a measure of...
+#'
+#' Key  covariates include
+#' \code{gdppc} (GDP per capita),
+#' \code{elev} (elevation),
+#'  \code{pop13} (population in ),
+#'
+#' @format A data frame with 1123 rows and 16 columns.
+#' \describe{
+#'   \item{dept_code}{}
+#'   \item{department}{}
+#'   \item{town_code}{}
+#'   \item{town}{}
+#'   \item{total_eligible}{}
+#'   \item{yes_vote}{}
+#'   \item{santos10}{}
+#'   \item{santos14}{}
+#'   \item{gdppc}{}
+#'   \item{pop13}{}
+#'   \item{elev}{}
+#'   \item{fat_all}{}
+#'   \item{fat_2001to2005_gtd}{}
+#'   \item{fat_2006to2010_gtd}{}
+#'   \item{fat_2011to2015_gtd}{}
+#'   \item{fat_2010to2013}{}
+#' }
+#' @examples
+#' data(colombia)
+#'
+#'
+#' @references
+#' Hazlett, Chad, and Francesca Parente. "Credible or Confounded? Applying sensitivity analyses to improve research and its evaluation under imperfect identification." (2018)
+"colombia"
