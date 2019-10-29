@@ -97,7 +97,7 @@
 #'                fat_2011to2015_gtd + total_eligible + santos10 + gdppc ,
 #'              data = colombia)
 #'
-#' ### Sensitivity analysis (model 2)
+#' ### Sensitivity analysis - Model 2
 #' sense.model2 <- sensemakr(model2,
 #'                           treatment = "fat_2011to2015_gtd",
 #'                           benchmark = "santos10",
@@ -116,7 +116,7 @@
 #' model3  <- lm(yes_vote ~ santos14 + fat_2010to2013 + elev + gdppc + pop13,
 #'               data = colombia)
 #'
-#'
+#' ### Sensitivity analysis - Model 3
 #' sense.model3 <- sensemakr(model3, treatment = "santos14",
 #'                           benchmark = c("gdppc","elev"),
 #'                           kd = 3)
