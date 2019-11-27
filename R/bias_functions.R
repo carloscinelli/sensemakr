@@ -275,6 +275,8 @@ bias_factor <- function(r2dz.x, r2yz.dx){
 }
 
 #' @rdname adjusted_estimate
+#' @param r.est restricted estimate. A numerical vector.
+#' @param est unrestricted estimate. A numerical vector.
 #'@export
 rel_bias <- function(r.est, est){
   (r.est - est)/r.est

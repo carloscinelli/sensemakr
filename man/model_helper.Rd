@@ -10,6 +10,8 @@ model_helper(model, covariates = NULL, ...)
 \item{model}{model to extract statistics from}
 
 \item{covariates}{model covariates from which statistics will be extracted.}
+
+\item{...}{arguments passed to other methods.}
 }
 \description{
 This is an internal function used for extracting the necessary statistics from the models.

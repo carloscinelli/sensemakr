@@ -497,10 +497,10 @@ check_r2_parameters = function(r2yz.dx, r2dz.x, se, dof) {
 #'
 #' This is an internal function used for extracting the necessary statistics from the models.
 #'
-#'@param model model to extract statistics from
-#'@param covariates model covariates from which statistics will be extracted.
-#'
-#'@export
+#' @param model model to extract statistics from
+#' @param covariates model covariates from which statistics will be extracted.
+#' @param ... arguments passed to other methods.
+#' @export
 model_helper = function(model, covariates = NULL, ...) {
   UseMethod("model_helper", model)
 }

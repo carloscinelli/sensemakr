@@ -95,6 +95,10 @@ absolute value of the estimated coefficient? Default is \code{TRUE}.}
 \item{dof}{Residual degrees of freedom of the regression.}
 
 \item{h0}{Null hypothesis for computation of the t-value. Default is zero.}
+
+\item{r.est}{restricted estimate. A numerical vector.}
+
+\item{est}{unrestricted estimate. A numerical vector.}
 }
 \value{
 Numeric vector with bias, adjusted estimate, standard error, or t-value.
