@@ -73,5 +73,5 @@ robustness_value(model, covariates = "directlyharmed", q = 1/2, alpha = 0.05)
 robustness_value(t_statistic = 4.18445, dof = 783)
 }
 \references{
-Cinelli, C. and Hazlett, C. "Making Sense of Sensitivity: Extending Omitted Variable Bias." (2018).
+Cinelli, C. and Hazlett, C. "Making Sense of Sensitivity: Extending Omitted Variable Bias." (2020). Journal of the Royal Statistical Society, Series B.
 }

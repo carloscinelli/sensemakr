@@ -101,7 +101,7 @@ ovb_minimal_reporting(sensitivity)
 
 }
 \references{
-Cinelli, C. and Hazlett, C. "Making Sense of Sensitivity: Extending Omitted Variable Bias." (2018).
+Cinelli, C. and Hazlett, C. "Making Sense of Sensitivity: Extending Omitted Variable Bias." (2020). Journal of the Royal Statistical Society, Series B.
 }
 \seealso{
 The function \code{sensemakr} is a convenience function. You may use the other sensitivity functions of the package directly, such as the functions for sensitivity plots

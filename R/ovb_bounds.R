@@ -169,7 +169,7 @@ ovb_bounds <- function(...){
 #'           benchmark_covariates = c("female", "pastvoted"),
 #'           kd = 1:3)
 #'
-#' @references Cinelli, C. and Hazlett, C. "Making Sense of Sensitivity: Extending Omitted Variable Bias." (2018).
+#' @references Cinelli, C. and Hazlett, C. "Making Sense of Sensitivity: Extending Omitted Variable Bias." (2020). Journal of the Royal Statistical Society, Series B.
 #' @export
 ovb_bounds.lm <- function(model,
                           treatment,

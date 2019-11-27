@@ -13,7 +13,7 @@
 #'
 #' More information can be found on the help documentation, vignettes and related papers.
 #'
-#' @references Cinelli, C. and Hazlett, C. "Making Sense of Sensitivity: Extending Omitted Variable Bias." (2018).
+#' @references Cinelli, C. and Hazlett, C. "Making Sense of Sensitivity: Extending Omitted Variable Bias." (2020). Journal of the Royal Statistical Society, Series B.
 #' @docType package
 #' @examples
 #'
@@ -118,7 +118,7 @@ NULL
 #'
 #'
 #'
-#' @references Cinelli, C. and Hazlett, C. "Making Sense of Sensitivity: Extending Omitted Variable Bias." (2018).
+#' @references Cinelli, C. and Hazlett, C. "Making Sense of Sensitivity: Extending Omitted Variable Bias." (2020). Journal of the Royal Statistical Society, Series B.
 #' @examples
 #' # loads dataset
 #' data("darfur")

@@ -105,5 +105,5 @@ ovb_extreme_plot(model, treatment = "directlyharmed",
 
 }
 \references{
-Cinelli, C. and Hazlett, C. "Making Sense of Sensitivity: Extending Omitted Variable Bias." (2018).
+Cinelli, C. and Hazlett, C. "Making Sense of Sensitivity: Extending Omitted Variable Bias." (2020). Journal of the Royal Statistical Society, Series B.
 }

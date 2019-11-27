@@ -137,7 +137,7 @@ ovb_extreme_plot.sensemakr <- function(x, r2yz.dx = c(1, 0.75, 0.5), ...){
 #' with the \code{\link{data.frame}} containing the variables of the model,
 #' or a numeric vector with the coefficient estimate.
 #'
-#' @references Cinelli, C. and Hazlett, C. "Making Sense of Sensitivity: Extending Omitted Variable Bias." (2018).
+#' @references Cinelli, C. and Hazlett, C. "Making Sense of Sensitivity: Extending Omitted Variable Bias." (2020). Journal of the Royal Statistical Society, Series B.
 #'
 #' @return
 #' The function returns invisibly the data used for the contour plot (contour grid and bounds).
@@ -666,7 +666,7 @@ add_bound_to_contour.numeric <- function(r2dz.x,
 #'                         kd = 1:2,
 #'                         lim = 0.05)
 #'
-#' @references Cinelli, C. and Hazlett, C. "Making Sense of Sensitivity: Extending Omitted Variable Bias." (2018).
+#' @references Cinelli, C. and Hazlett, C. "Making Sense of Sensitivity: Extending Omitted Variable Bias." (2020). Journal of the Royal Statistical Society, Series B.
 #'
 #' @return
 #' The function returns invisibly the data used for the extreme plot.

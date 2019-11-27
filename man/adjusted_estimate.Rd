@@ -10,9 +10,17 @@
 \alias{adjusted_t}
 \alias{adjusted_t.numeric}
 \alias{adjusted_t.lm}
+\alias{adjusted_partial_r2}
+\alias{adjusted_partial_r2.numeric}
+\alias{adjusted_partial_r2.lm}
 \alias{bias}
 \alias{bias.numeric}
 \alias{bias.lm}
+\alias{relative_bias}
+\alias{relative_bias.lm}
+\alias{relative_bias.numeric}
+\alias{bias_factor}
+\alias{rel_bias}
 \title{Bias-adjusted estimates, standard-errors and t-values}
 \usage{
 adjusted_estimate(...)
@@ -37,11 +45,29 @@ adjusted_t(...)
 \method{adjusted_t}{lm}(model, treatment, r2dz.x, r2yz.dx, reduce = TRUE,
   h0 = 0, ...)
 
+adjusted_partial_r2(...)
+
+\method{adjusted_partial_r2}{numeric}(estimate, se, dof, r2dz.x, r2yz.dx,
+  reduce = TRUE, h0 = 0, ...)
+
+\method{adjusted_partial_r2}{lm}(model, treatment, r2dz.x, r2yz.dx,
+  reduce = TRUE, h0 = 0, ...)
+
 bias(...)
 
 \method{bias}{numeric}(se, dof, r2dz.x, r2yz.dx, ...)
 
 \method{bias}{lm}(model, treatment, r2dz.x, r2yz.dx, ...)
+
+relative_bias(...)
+
+\method{relative_bias}{lm}(model, treatment, r2dz.x, r2yz.dx, ...)
+
+\method{relative_bias}{numeric}(estimate, se, dof, r2dz.x, r2yz.dx, ...)
+
+bias_factor(r2dz.x, r2yz.dx)
+
+rel_bias(r.est, est)
 }
 \arguments{
 \item{...}{Arguments passed to other methods. First argument should either be an
@@ -113,5 +139,5 @@ adjusted_t(estimate = 0.09731582, se = 0.02325654,
 
 }
 \references{
-Cinelli, C. and Hazlett, C. "Making Sense of Sensitivity: Extending Omitted Variable Bias." (2018).
+Cinelli, C. and Hazlett, C. "Making Sense of Sensitivity: Extending Omitted Variable Bias." Journal of the Royal Statistical Society, Series B. (2020).
 }

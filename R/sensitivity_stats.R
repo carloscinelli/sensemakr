@@ -50,7 +50,7 @@
 
 #' @return
 #' The function returns a numerical vector with the robustness value. The arguments q and alpha are saved as attributes of the vector for reference.
-#' @references Cinelli, C. and Hazlett, C. "Making Sense of Sensitivity: Extending Omitted Variable Bias." (2018).
+#' @references Cinelli, C. and Hazlett, C. "Making Sense of Sensitivity: Extending Omitted Variable Bias." (2020). Journal of the Royal Statistical Society, Series B.
 #' @export
 #' @importFrom stats df.residual qt update vcov
 robustness_value = function(...) {
@@ -195,7 +195,7 @@ print.rv <- function(x, ...){
 #' @return
 #' A numeric vector with the computed partial R2, f2, or f.
 #'
-#' @references Cinelli, C. and Hazlett, C. "Making Sense of Sensitivity: Extending Omitted Variable Bias." (2018).
+#' @references Cinelli, C. and Hazlett, C. "Making Sense of Sensitivity: Extending Omitted Variable Bias." (2020). Journal of the Royal Statistical Society, Series B.
 #' @export
 partial_r2 = function(...) {
   UseMethod("partial_r2")
@@ -388,7 +388,7 @@ group_partial_r2.numeric <- function(F.stats, p, dof, ...){
 #' \item{f2yd.x }{a numeric vector with the partial (Cohen's) f2 of the treatment with the outcome, see details in \code{\link{partial_f2}}}
 #' \item{dof}{a numeric vector with the degrees of freedom of the model}
 #' }
-#' @references Cinelli, C. and Hazlett, C. "Making Sense of Sensitivity: Extending Omitted Variable Bias." (2018).
+#' @references Cinelli, C. and Hazlett, C. "Making Sense of Sensitivity: Extending Omitted Variable Bias." (2020). Journal of the Royal Statistical Society, Series B.
 #' @export
 sensitivity_stats <- function(...){
   UseMethod("sensitivity_stats")
@@ -492,8 +492,16 @@ check_r2_parameters = function(r2yz.dx, r2dz.x, se, dof) {
 
 # model helpers -----------------------------------------------------------
 
-# helpers for all others
-model_helper = function(model, covariates = NULL) {
+
+#' Helper function for extracting model statistics
+#'
+#' This is an internal function used for extracting the necessary statistics from the models.
+#'
+#'@param model model to extract statistics from
+#'@param covariates model covariates from which statistics will be extracted.
+#'
+#'@export
+model_helper = function(model, covariates = NULL, ...) {
   UseMethod("model_helper", model)
 }
 
@@ -503,7 +511,8 @@ model_helper = function(model, covariates = NULL) {
 #        class(model)[1])
 # }
 
-model_helper.lm = function(model, covariates = NULL) {
+#' @export
+model_helper.lm = function(model, covariates = NULL, ...) {
   # Quickly extract things from an lm object
 
   # If we have a dropped coefficient (multicolinearity), we're not going to

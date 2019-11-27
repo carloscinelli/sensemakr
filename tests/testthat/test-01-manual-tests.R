@@ -1,6 +1,6 @@
 context("Manually testing basic functions")
 
-test_that("numericals tests",{
+test_that("Numerical Tests",{
   expect_equal(partial_r2(t = 2, dof = 10), 2^2/(2^2 + 10))
 
   expect_equal(partial_f(t = 2, dof = 10), 2/sqrt(10))
@@ -41,9 +41,50 @@ test_that("numericals tests",{
 
   expect_equivalent(partial_r2(t_statistic = 17, dof = 983), 0.23, tolerance = 1e-2)
   expect_equivalent(robustness_value(t_statistic = 17, dof = 983), 0.415, tolerance = 1e-2)
+
+  expect_equal(bias_factor(0.1, 0.3), sqrt(0.3 * 0.1/(1 - 0.1)))
 })
 
-test_that("print tests",
+
+test_that("Simulated tests",
+          {
+            # cleans workspace
+            rm(list = ls())
+            rcoef <- function() runif(1, min = -1, max = 1)
+
+            # simple IV simulation
+            # random coefficients
+            n <- 1e2
+            z <- rcoef()*rnorm(n)
+            d <- rcoef()*z + rcoef()*rnorm(n)
+            y <- rcoef()*d + rcoef()*z + rcoef()*rnorm(n)
+
+            # restricted and full models
+            r.model      <- lm(y ~ d)
+            model        <- lm(y ~ d + z)
+            treat.model  <- lm(d ~ z)
+            r.coef       <- coef(r.model)["d"]
+            coef         <- coef(model)["d"]
+            true.bias    <- r.coef - coef
+            true.rbias   <- rel_bias(r.coef, coef)
+
+            # compute partial r2
+            r2yz.dx <- partial_r2(model, covariates = "z")
+            r2dz.x  <- partial_r2(treat.model, covariates = "z")
+            trueBF  <- sqrt(r2yz.dx * r2dz.x/(1 - r2dz.x))
+
+            # compute implied biases
+            BF <- bias_factor(r2dz.x = r2dz.x, r2yz.dx = r2yz.dx)
+            expect_equal(BF, trueBF)
+            bias <- bias(model = r.model, treatment = "d", r2dz.x = r2dz.x, r2yz.dx = r2yz.dx)
+            expect_equal(bias, abs(true.bias))
+            q <- relative_bias(model = r.model, treatment = "d", r2dz.x = r2dz.x, r2yz.dx = r2yz.dx)
+            expect_equal(q, abs(true.rbias))
+
+          }
+          )
+
+test_that("Print tests",
           {
             print_rv <- c("[1] 0.463325", "Parameters: q = 1")
             expect_equal(capture.output(robustness_value(t = 2, dof = 10)), print_rv)
