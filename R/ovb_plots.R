@@ -130,14 +130,14 @@ ovb_extreme_plot.sensemakr <- function(x, r2yz.dx = c(1, 0.75, 0.5), ...){
 #'  The dotted red line show the chosen critical threshold (for instance, zero): confounders with such strength (or stronger) are sufficient to invalidate the research conclusions.
 #'  All results are exact for single confounders and conservative for multiple/nonlinear confounders.
 #'
-#'  See Cinelli and Hazlett (2018) for details.
+#'  See Cinelli and Hazlett (2020) for details.
 #'
 #' @param ... arguments passed to other methods. First argument should either be an \code{\link{lm}} model with the
 #' outcome regression, a \code{\link{formula}} describing the model along
 #' with the \code{\link{data.frame}} containing the variables of the model,
 #' or a numeric vector with the coefficient estimate.
 #'
-#' @references Cinelli, C. and Hazlett, C. "Making Sense of Sensitivity: Extending Omitted Variable Bias." (2020). Journal of the Royal Statistical Society, Series B.
+#' @references Cinelli, C. and Hazlett, C. (2020), "Making Sense of Sensitivity: Extending Omitted Variable Bias." Journal of the Royal Statistical Society, Series B.
 #'
 #' @return
 #' The function returns invisibly the data used for the contour plot (contour grid and bounds).
@@ -652,7 +652,7 @@ add_bound_to_contour.numeric <- function(r2dz.x,
 #' The red marks on horizontal axis are bounds on the partial R2 of the unobserved confounder \code{kd} times as strong as the covariates used for benchmarking.
 #' The dotted red line represent the threshold for the effect estimate deemed to be problematic (for instance, zero).
 #'
-#' See Cinelli and Hazlett (2018) for details.
+#' See Cinelli and Hazlett (2020) for details.
 #'
 #' @examples
 #'
@@ -666,7 +666,7 @@ add_bound_to_contour.numeric <- function(r2dz.x,
 #'                         kd = 1:2,
 #'                         lim = 0.05)
 #'
-#' @references Cinelli, C. and Hazlett, C. "Making Sense of Sensitivity: Extending Omitted Variable Bias." (2020). Journal of the Royal Statistical Society, Series B.
+#' @references Cinelli, C. and Hazlett, C. (2020), "Making Sense of Sensitivity: Extending Omitted Variable Bias." Journal of the Royal Statistical Society, Series B.
 #'
 #' @return
 #' The function returns invisibly the data used for the extreme plot.

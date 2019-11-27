@@ -1,7 +1,7 @@
 #' Sensemakr: extending omitted variable bias
 #'
 #' The sensemakr package implements a suite of sensitivity analysis tools that makes it easier to
-#' understand the impact of omitted variables in linear regression models, as discussed in Cinelli and Hazlett (2018).
+#' understand the impact of omitted variables in linear regression models, as discussed in Cinelli and Hazlett (2020).
 #'
 #' The main function of the package is  \code{\link{sensemakr}}, which computes the most common sensitivity analysis results.
 #' After running \code{sensemakr} you may directly use the plot and print methods in the returned object.
@@ -13,7 +13,7 @@
 #'
 #' More information can be found on the help documentation, vignettes and related papers.
 #'
-#' @references Cinelli, C. and Hazlett, C. "Making Sense of Sensitivity: Extending Omitted Variable Bias." (2020). Journal of the Royal Statistical Society, Series B.
+#' @references Cinelli, C. and Hazlett, C. (2020), "Making Sense of Sensitivity: Extending Omitted Variable Bias." Journal of the Royal Statistical Society, Series B.
 #' @docType package
 #' @examples
 #'
@@ -101,7 +101,7 @@ NULL
 #' Sensitivity analysis to unobserved confounders
 #'
 #' @description
-#' This function performs sensitivity analysis to omitted variables as discussed in Cinelli and Hazlett (2018). It returns an object of
+#' This function performs sensitivity analysis to omitted variables as discussed in Cinelli and Hazlett (2020). It returns an object of
 #' class \code{sensemakr} with several pre-computed sensitivity statistics for reporting.
 #' After running \code{sensemakr} you may directly use the \code{plot}, \code{print} and \code{summary} methods in the returned object.
 #'
@@ -118,7 +118,7 @@ NULL
 #'
 #'
 #'
-#' @references Cinelli, C. and Hazlett, C. "Making Sense of Sensitivity: Extending Omitted Variable Bias." (2020). Journal of the Royal Statistical Society, Series B.
+#' @references Cinelli, C. and Hazlett, C. (2020), "Making Sense of Sensitivity: Extending Omitted Variable Bias." Journal of the Royal Statistical Society, Series B.
 #' @examples
 #' # loads dataset
 #' data("darfur")

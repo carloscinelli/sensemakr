@@ -45,7 +45,7 @@ The function returns a \code{\link{data.frame}} with the bounds on the strength 
 as well with the adjusted point estimates, standard errors and t-values (optional, controlled by argument \code{adjusted_estimates}).
 }
 \description{
-Bounds on the strength of unobserved confounders using observed covariates, as in Cinelli and Hazlett (2018).
+Bounds on the strength of unobserved confounders using observed covariates, as in Cinelli and Hazlett (2020).
 }
 \details{
 Currently it implements only the bounds based on partial R2. Other bounds will be implemented soon.
@@ -64,5 +64,5 @@ ovb_bounds(model, treatment = "directlyharmed",
 
 }
 \references{
-Cinelli, C. and Hazlett, C. "Making Sense of Sensitivity: Extending Omitted Variable Bias." (2020). Journal of the Royal Statistical Society, Series B.
+Cinelli, C. and Hazlett, C. (2020), "Making Sense of Sensitivity: Extending Omitted Variable Bias." Journal of the Royal Statistical Society, Series B.
 }

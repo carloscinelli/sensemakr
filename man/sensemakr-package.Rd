@@ -6,7 +6,7 @@
 \title{Sensemakr: extending omitted variable bias}
 \description{
 The sensemakr package implements a suite of sensitivity analysis tools that makes it easier to
-understand the impact of omitted variables in linear regression models, as discussed in Cinelli and Hazlett (2018).
+understand the impact of omitted variables in linear regression models, as discussed in Cinelli and Hazlett (2020).
 }
 \details{
 The main function of the package is  \code{\link{sensemakr}}, which computes the most common sensitivity analysis results.
@@ -101,5 +101,5 @@ ovb_extreme_plot(model,
                  kd = 1:3, lim = 0.05)
 }
 \references{
-Cinelli, C. and Hazlett, C. "Making Sense of Sensitivity: Extending Omitted Variable Bias." (2020). Journal of the Royal Statistical Society, Series B.
+Cinelli, C. and Hazlett, C. (2020), "Making Sense of Sensitivity: Extending Omitted Variable Bias." Journal of the Royal Statistical Society, Series B.
 }

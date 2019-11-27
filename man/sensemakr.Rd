@@ -65,7 +65,7 @@ An object of class \code{sensemakr}, containing:
  }
 }
 \description{
-This function performs sensitivity analysis to omitted variables as discussed in Cinelli and Hazlett (2018). It returns an object of
+This function performs sensitivity analysis to omitted variables as discussed in Cinelli and Hazlett (2020). It returns an object of
 class \code{sensemakr} with several pre-computed sensitivity statistics for reporting.
 After running \code{sensemakr} you may directly use the \code{plot}, \code{print} and \code{summary} methods in the returned object.
 }
@@ -101,7 +101,7 @@ ovb_minimal_reporting(sensitivity)
 
 }
 \references{
-Cinelli, C. and Hazlett, C. "Making Sense of Sensitivity: Extending Omitted Variable Bias." (2020). Journal of the Royal Statistical Society, Series B.
+Cinelli, C. and Hazlett, C. (2020), "Making Sense of Sensitivity: Extending Omitted Variable Bias." Journal of the Royal Statistical Society, Series B.
 }
 \seealso{
 The function \code{sensemakr} is a convenience function. You may use the other sensitivity functions of the package directly, such as the functions for sensitivity plots

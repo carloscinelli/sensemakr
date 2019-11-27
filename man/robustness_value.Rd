@@ -45,7 +45,7 @@ a certain amount (for instance, to bring it down to zero).
 For instance, a robustness value of 1\% means that an unobserved confounder that explain 1\% of the residual variance of the outcome
 and 1\% of the residual variance of the treatment is strong enough to explain away the estimated effect. Whereas a robustness value of 90\%
 means that any unobserved confounder that explain less than 90\% of the residual variance of both the outcome and the treatment assignment cannot
-fully account for the observed effect. You may also compute robustness value taking into account sampling uncertainty. See details in Cinelli and Hazlett (2018).
+fully account for the observed effect. You may also compute robustness value taking into account sampling uncertainty. See details in Cinelli and Hazlett (2020).
 
 The function \link{robustness_value} can take as input an \code{\link{lm}} object or you may directly pass the t-value and degrees of freedom.
 }
@@ -73,5 +73,5 @@ robustness_value(model, covariates = "directlyharmed", q = 1/2, alpha = 0.05)
 robustness_value(t_statistic = 4.18445, dof = 783)
 }
 \references{
-Cinelli, C. and Hazlett, C. "Making Sense of Sensitivity: Extending Omitted Variable Bias." (2020). Journal of the Royal Statistical Society, Series B.
+Cinelli, C. and Hazlett, C. (2020), "Making Sense of Sensitivity: Extending Omitted Variable Bias." Journal of the Royal Statistical Society, Series B.
 }

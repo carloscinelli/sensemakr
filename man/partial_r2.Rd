@@ -47,7 +47,7 @@ describes how much of the residual variance of the outcome (after partialing out
 The partial R2 can be used as an extreme-scenario sensitivity analysis to omitted variables.
 Considering an unobserved confounder that explains 100\% of the residual variance of the outcome,
 the partial R2 describes how strongly associated with the treatment this unobserved confounder would need to be in order to explain away the estimated effect.
-For details see Cinelli and Hazlett (2018).
+For details see Cinelli and Hazlett (2020).
 
 The partial (Cohen's) f2 is a common measure of effect size (a transformation of the partial R2) that can also be used directly
 for sensitivity analysis using a bias factor table.
@@ -78,5 +78,5 @@ partial_r2(t_statistic = 4.18445, dof = 783)
 
 }
 \references{
-Cinelli, C. and Hazlett, C. "Making Sense of Sensitivity: Extending Omitted Variable Bias." (2020). Journal of the Royal Statistical Society, Series B.
+Cinelli, C. and Hazlett, C. (2020) "Making Sense of Sensitivity: Extending Omitted Variable Bias." Journal of the Royal Statistical Society, Series B.
 }

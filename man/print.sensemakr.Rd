@@ -32,7 +32,7 @@ The function \code{ovb_minimal_reporting} returns the LaTeX code invisibly in ch
 \description{
 The \code{print} and \code{summary} methods provide verbal descriptions of the sensitivity analysis results
 obtained with the function \code{\link{sensemakr}}. The function \code{\link{ovb_minimal_reporting}} provides the latex code for a minimal
-sensitivity analysis reporting, as suggested in Cinelli and Hazlett (2018).
+sensitivity analysis reporting, as suggested in Cinelli and Hazlett (2020).
 }
 \examples{
 # runs regression model
@@ -55,5 +55,5 @@ ovb_minimal_reporting(sensitivity)
 
 }
 \references{
-Cinelli, C. and Hazlett, C. "Making Sense of Sensitivity: Extending Omitted Variable Bias." (2020). Journal of the Royal Statistical Society, Series B.
+Cinelli, C. and Hazlett, C. (2020), "Making Sense of Sensitivity: Extending Omitted Variable Bias." Journal of the Royal Statistical Society, Series B.
 }

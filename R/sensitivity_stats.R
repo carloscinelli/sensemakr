@@ -15,7 +15,7 @@
 #' For instance, a robustness value of 1\% means that an unobserved confounder that explain 1\% of the residual variance of the outcome
 #' and 1\% of the residual variance of the treatment is strong enough to explain away the estimated effect. Whereas a robustness value of 90\%
 #' means that any unobserved confounder that explain less than 90\% of the residual variance of both the outcome and the treatment assignment cannot
-#' fully account for the observed effect. You may also compute robustness value taking into account sampling uncertainty. See details in Cinelli and Hazlett (2018).
+#' fully account for the observed effect. You may also compute robustness value taking into account sampling uncertainty. See details in Cinelli and Hazlett (2020).
 #'
 #' The function \link{robustness_value} can take as input an \code{\link{lm}} object or you may directly pass the t-value and degrees of freedom.
 #'
@@ -50,7 +50,7 @@
 
 #' @return
 #' The function returns a numerical vector with the robustness value. The arguments q and alpha are saved as attributes of the vector for reference.
-#' @references Cinelli, C. and Hazlett, C. "Making Sense of Sensitivity: Extending Omitted Variable Bias." (2020). Journal of the Royal Statistical Society, Series B.
+#' @references Cinelli, C. and Hazlett, C. (2020), "Making Sense of Sensitivity: Extending Omitted Variable Bias." Journal of the Royal Statistical Society, Series B.
 #' @export
 #' @importFrom stats df.residual qt update vcov
 robustness_value = function(...) {
@@ -160,7 +160,7 @@ print.rv <- function(x, ...){
 #' The partial R2 can be used as an extreme-scenario sensitivity analysis to omitted variables.
 #' Considering an unobserved confounder that explains 100\% of the residual variance of the outcome,
 #' the partial R2 describes how strongly associated with the treatment this unobserved confounder would need to be in order to explain away the estimated effect.
-#' For details see Cinelli and Hazlett (2018).
+#' For details see Cinelli and Hazlett (2020).
 #'
 #' The partial (Cohen's) f2 is a common measure of effect size (a transformation of the partial R2) that can also be used directly
 #' for sensitivity analysis using a bias factor table.
@@ -195,7 +195,7 @@ print.rv <- function(x, ...){
 #' @return
 #' A numeric vector with the computed partial R2, f2, or f.
 #'
-#' @references Cinelli, C. and Hazlett, C. "Making Sense of Sensitivity: Extending Omitted Variable Bias." (2020). Journal of the Royal Statistical Society, Series B.
+#' @references Cinelli, C. and Hazlett, C. (2020) "Making Sense of Sensitivity: Extending Omitted Variable Bias." Journal of the Royal Statistical Society, Series B.
 #' @export
 partial_r2 = function(...) {
   UseMethod("partial_r2")
@@ -388,7 +388,7 @@ group_partial_r2.numeric <- function(F.stats, p, dof, ...){
 #' \item{f2yd.x }{a numeric vector with the partial (Cohen's) f2 of the treatment with the outcome, see details in \code{\link{partial_f2}}}
 #' \item{dof}{a numeric vector with the degrees of freedom of the model}
 #' }
-#' @references Cinelli, C. and Hazlett, C. "Making Sense of Sensitivity: Extending Omitted Variable Bias." (2020). Journal of the Royal Statistical Society, Series B.
+#' @references Cinelli, C. and Hazlett, C. (2020), "Making Sense of Sensitivity: Extending Omitted Variable Bias." Journal of the Royal Statistical Society, Series B.
 #' @export
 sensitivity_stats <- function(...){
   UseMethod("sensitivity_stats")

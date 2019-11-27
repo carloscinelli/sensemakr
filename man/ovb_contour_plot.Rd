@@ -118,7 +118,7 @@ The horizontal axis of the plot shows hypothetical values of the partial R2 of t
  The dotted red line show the chosen critical threshold (for instance, zero): confounders with such strength (or stronger) are sufficient to invalidate the research conclusions.
  All results are exact for single confounders and conservative for multiple/nonlinear confounders.
 
- See Cinelli and Hazlett (2018) for details.
+ See Cinelli and Hazlett (2020) for details.
 }
 \examples{
 
@@ -133,5 +133,5 @@ ovb_contour_plot(model, treatment = "directlyharmed",
 
 }
 \references{
-Cinelli, C. and Hazlett, C. "Making Sense of Sensitivity: Extending Omitted Variable Bias." (2020). Journal of the Royal Statistical Society, Series B.
+Cinelli, C. and Hazlett, C. (2020), "Making Sense of Sensitivity: Extending Omitted Variable Bias." Journal of the Royal Statistical Society, Series B.
 }

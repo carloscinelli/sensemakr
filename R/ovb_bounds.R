@@ -134,7 +134,7 @@ ovb_partial_r2_bound.lm <- function(model,
 #' Bounds on the strength of unobserved confounders using observed covariates
 #'
 #' @description
-#' Bounds on the strength of unobserved confounders using observed covariates, as in Cinelli and Hazlett (2018).
+#' Bounds on the strength of unobserved confounders using observed covariates, as in Cinelli and Hazlett (2020).
 #'
 #' @details
 #' Currently it implements only the bounds based on partial R2. Other bounds will be implemented soon.
@@ -169,7 +169,7 @@ ovb_bounds <- function(...){
 #'           benchmark_covariates = c("female", "pastvoted"),
 #'           kd = 1:3)
 #'
-#' @references Cinelli, C. and Hazlett, C. "Making Sense of Sensitivity: Extending Omitted Variable Bias." (2020). Journal of the Royal Statistical Society, Series B.
+#' @references Cinelli, C. and Hazlett, C. (2020), "Making Sense of Sensitivity: Extending Omitted Variable Bias." Journal of the Royal Statistical Society, Series B.
 #' @export
 ovb_bounds.lm <- function(model,
                           treatment,

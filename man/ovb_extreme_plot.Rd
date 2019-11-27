@@ -89,7 +89,7 @@ The partial R2 of the confounder with the outcome is represented by \emph{differ
 The red marks on horizontal axis are bounds on the partial R2 of the unobserved confounder \code{kd} times as strong as the covariates used for benchmarking.
 The dotted red line represent the threshold for the effect estimate deemed to be problematic (for instance, zero).
 
-See Cinelli and Hazlett (2018) for details.
+See Cinelli and Hazlett (2020) for details.
 }
 \examples{
 
@@ -105,5 +105,5 @@ ovb_extreme_plot(model, treatment = "directlyharmed",
 
 }
 \references{
-Cinelli, C. and Hazlett, C. "Making Sense of Sensitivity: Extending Omitted Variable Bias." (2020). Journal of the Royal Statistical Society, Series B.
+Cinelli, C. and Hazlett, C. (2020), "Making Sense of Sensitivity: Extending Omitted Variable Bias." Journal of the Royal Statistical Society, Series B.
 }
