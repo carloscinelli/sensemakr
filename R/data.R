@@ -42,7 +42,8 @@
 #' @references
 #' Cinelli, C. and Hazlett, C. "Making Sense of Sensitivity: Extending Omitted Variable Bias." (2018)
 #'
-#' Hazlett, C. (2018). Angry or weary? The effect of personal violence on attitudes towards peace in darfur. Working Paper.
+#' Hazlett, Chad. "Angry or Weary? How Violence Impacts Attitudes toward Peace among Darfurian Refugees." Journal of Conflict Resolution (2019): 0022002719879217.
+#'
 "darfur"
 
 
@@ -51,53 +52,52 @@
 #' Data from Colombia
 #'
 #' @description
-#' Data on Colombia...
-#'
-#' The main "treatment"
-#' variables are \code{santos2014}, which indicates the share of ...
-#' and \code{fat_2011to2015_gtd}, which indicates...
-#'
-#' The main outcome of interest is \code{yes_vote}, a measure of...
-#'
-#' Key  covariates include
-#' \code{gdppc} (GDP per capita),
-#' \code{elev} (elevation),
-#'  \code{pop13} (population in ),
+#' Data on support for the 2016 referendum for peace with the FARC in Colombia. The main "treatment"
+#' variables are \code{santos2014}, which indicates the share of town population voting in support of
+#' Santos in the 2014 Presidential election, and \code{fat_2011to2015_gtd}, which indicates
+#' the number of fatalities due to FARC violence between 2011 and 2015, again at the town level.
+#' The main outcome of interest is \code{yes_vote}, the proportion (0-100) at the town-level
+#' voting in support of the peace referendum. The question of interest in Hazlett and Parente (2020) is
+#' what can be said about the causal effect of either violence (fatalities) or
+#' of political affiliation with Santos, recognizing that analyses of either cannot
+#' likely rule out all confounding.
 #'
 #' @format A data frame with 1123 rows and 16 columns.
 #' \describe{
-#'   \item{dept_code}{}
-#'   \item{department}{}
-#'   \item{town_code}{}
-#'   \item{town}{}
-#'   \item{total_eligible}{}
-#'   \item{yes_vote}{}
-#'   \item{santos10}{}
-#'   \item{santos14}{}
-#'   \item{gdppc}{}
-#'   \item{pop13}{}
-#'   \item{elev}{}
-#'   \item{fat_all}{}
-#'   \item{fat_2001to2005_gtd}{}
-#'   \item{fat_2006to2010_gtd}{}
-#'   \item{fat_2011to2015_gtd}{}
-#'   \item{fat_2010to2013}{}
+#'   \item{department}{Name for the provincial level unit, called departments or departmentos, of which there are 32 in the country.}
+#'   \item{dept_code}{Short code for the department}
+#'   \item{town}{Name for the town, which is the smallest electoral unit available and is the unit of analysis.}
+#'   \item{town_code}{Code for the town.}
+#'   \item{total_eligible}{Total eligible voters in the town}
+#'   \item{yes_vote}{Proportion (out of 100) voting in favor of the peace deal.}
+#'   \item{santos10}{Proportion (out of 100) voting for Santos in 2010 presidential election.}
+#'   \item{santos14}{Proportion (out of 100) voting for Santos in the 2014 presidential election.}
+#'   \item{gdppc}{The town-level GDP per capita.}
+#'   \item{pop13}{Town-level population in 2013.}
+#'   \item{elev}{Town's mean elevation.}
+#'   \item{fat_all}{Sum of all known fatalities due to FARC violence in the town (from Global Terrorism Database, GTD).}
+#'   \item{fat_2001to2005_gtd}{Sum of fatalities due to FARC in the town in 2001 to 2005 (from GTD).}
+#'   \item{fat_2006to2010_gtd}{Sum of fatalities due to FARC in the town in 2006 to 2010 (from GTD).}
+#'   \item{fat_2011to2015_gtd}{Sum of fatalities due to FARC in the town in 2011 to 2015 (from GTD).}
+#'   \item{fat_2010to2013}{Sum of fatalities due to FARC in the town in 2010 to 2013 (from GTD).}
 #' }
 #' @examples
 #' # loads data
 #' data(colombia)
 #'
-#' # Violence Models ---------------------------------------------------------
+#' #-----------------------------------------------------
+#' # Violence Models
+#' #-----------------------------------------------------
 #'
-#' ### Naive model --- Model 1
+#' ### Model 1 (bivariate)
 #' model1 <- lm(yes_vote ~ fat_2001to2005_gtd, data = colombia)
 #'
-#' ### Model 2
+#' ### Model 2 (more controls, and lagged violence.)
 #' model2 <- lm(yes_vote ~ fat_2001to2005_gtd + fat_2006to2010_gtd +
 #'                fat_2011to2015_gtd + total_eligible + santos10 + gdppc ,
 #'              data = colombia)
 #'
-#' ### Sensitivity analysis - Model 2
+#' ### Sensitivity analysis - Model 2, for effect of most recent violence.
 #' sense.model2 <- sensemakr(model2,
 #'                           treatment = "fat_2011to2015_gtd",
 #'                           benchmark = "santos10",
@@ -109,10 +109,11 @@
 #' ### contour plot t-value
 #' plot(sense.model2, sensitivity.of = "t-value")
 #'
+#' #---------------------------------------------
+#' # Political Affiliation Model
+#' #---------------------------------------------
 #'
-#' # Political Affiliation Model ---------------------------------------------
-#'
-#' ### Model 3
+#' ### Model 3: santos2014 as measure of political support for Santos, with control variables.
 #' model3  <- lm(yes_vote ~ santos14 + fat_2010to2013 + elev + gdppc + pop13,
 #'               data = colombia)
 #'
@@ -120,6 +121,7 @@
 #' sense.model3 <- sensemakr(model3, treatment = "santos14",
 #'                           benchmark = c("gdppc","elev"),
 #'                           kd = 3)
+#' summary(sense.model3)
 #'
 #' ### contour plot point estimate
 #' plot(sense.model3, lim = .9)
@@ -128,5 +130,5 @@
 #' plot(sense.model3, sensitivity.of = "t-value", lim = 0.9)
 #'
 #' @references
-#' Hazlett, Chad, and Francesca Parente. "Credible or Confounded? Applying sensitivity analyses to improve research and its evaluation under imperfect identification." (2018)
+#' Hazlett, Chad, and Francesca Parente. "Credible or Confounded? Applying sensitivity analyses to improve research and its evaluation under imperfect identification." (2020)
 "colombia"
