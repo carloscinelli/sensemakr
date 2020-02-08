@@ -16,7 +16,7 @@ ovb_bounds(...)
   reduce = TRUE,
   bound = c("partial r2", "partial r2 no D", "total r2"),
   adjusted_estimates = TRUE,
-  ci_alpha = 0.05,
+  alpha = 0.05,
   ...
 )
 }
@@ -46,7 +46,7 @@ absolute value of the estimated coefficient? Default is \code{TRUE}.}
 
 \item{adjusted_estimates}{should the bounder also compute the adjusted estimates?}
 
-\item{ci_alpha}{significance level for computing the adjusted confidence intervals.
+\item{alpha}{significance level for computing the adjusted confidence intervals.
 Default is \code{TRUE}.}
 }
 \value{
