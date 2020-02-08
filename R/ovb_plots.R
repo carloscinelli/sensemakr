@@ -37,7 +37,6 @@ plot.sensemakr = function(x,
 
 dispatch_contour = function(x,
                             sensitivity.of = c("estimate", "t-value"),
-                            digits = 2,
                             ...) {
   # Use dispatcher rather than direct call so we can allow modifying call if
   # necessary
@@ -47,8 +46,8 @@ dispatch_contour = function(x,
   reduce <- x$info$reduce
   alpha <- x$info$alpha
   dof <- x$sensitivity_stats$dof
-  thr <- round(ifelse(reduce, estimate*(1 - q), estimate*(1 + q) ), digits = digits)
-  t.thr <- round(abs(qt(alpha/2, df = dof - 1))*sign(x$sensitivity_stats$t_statistic), digits = digits)
+  thr <- ifelse(reduce, estimate*(1 - q), estimate*(1 + q) )
+  t.thr <- abs(qt(alpha/2, df = dof - 1))*sign(x$sensitivity_stats$t_statistic)
   ovb_contour_plot(x,
                    sensitivity.of = sensitivity.of,
                    estimate.threshold = thr,
@@ -137,7 +136,7 @@ ovb_extreme_plot.sensemakr <- function(x, r2yz.dx = c(1, 0.75, 0.5), ...){
 #' with the \code{\link{data.frame}} containing the variables of the model,
 #' or a numeric vector with the coefficient estimate.
 #'
-#' @references Cinelli, C. and Hazlett, C. (2020), "Making Sense of Sensitivity: Extending Omitted Variable Bias." Journal of the Royal Statistical Society, Series B.
+#' @references Cinelli, C. and Hazlett, C. (2020), "Making Sense of Sensitivity: Extending Omitted Variable Bias." Journal of the Royal Statistical Society, Series B (Statistical Methodology).
 #'
 #' @return
 #' The function returns invisibly the data used for the contour plot (contour grid and bounds).
@@ -169,13 +168,15 @@ ovb_contour_plot = function(...) {
 #' or adjusted t-values (\code{"t-value"})?
 #' @param estimate.threshold critical threshold for the point estimate.
 #' @param t.threshold critical threshold for the t-value.
-#' @param lim sets limit of the plot.
+#' @param lim sets limit for plot axis. If `lim.y` is also provided, sets limit for x-axis only.
+#' @param lim.y sets limit for y-axis. Default is the same as `lim`.
 #' @param nlevels number of levels for the contour plot.
 #' @param col.contour color of contour lines.
 #' @param col.thr.line color of threshold contour line.
 #' @param label.text should label texts be plotted? Default is \code{TRUE}.
 #' @param label.bump.x bump on the x coordinate of label text.
 #' @param label.bump.y bump on the y coordinate of label text.
+#' @param round number of digits to show in contours and bound values
 #' @export
 ovb_contour_plot.lm = function(model,
                                treatment,
@@ -190,6 +191,7 @@ ovb_contour_plot.lm = function(model,
                                estimate.threshold = 0,
                                t.threshold = 2,
                                lim = max(c(0.4,r2dz.x,r2yz.dx)),
+                               lim.y = lim,
                                nlevels = 20,
                                col.contour = "grey40",
                                col.thr.line = "red",
@@ -197,6 +199,7 @@ ovb_contour_plot.lm = function(model,
                                cex.label.text = 1,
                                label.bump.x = 0.02,
                                label.bump.y = 0.02,
+                               round = 3,
                                ...) {
 
 
@@ -226,7 +229,8 @@ ovb_contour_plot.lm = function(model,
                           r2yz.dx = r2yz.dx,
                           bound_label = bound_label,
                           stringsAsFactors = FALSE)
-    lim <- max(c(lim, r2dz.x, r2yz.dx))
+    lim <- max(c(lim, r2dz.x + 0.001))
+    lim.y <- max(c(lim.y, r2yz.dx + 0.001))
   } else{
     bounds <-  NULL
   }
@@ -241,7 +245,8 @@ ovb_contour_plot.lm = function(model,
                                ky = ky,
                                adjusted_estimates = FALSE)
     bounds <- rbind(bounds, bench_bounds)
-    lim <- max(c(lim, bounds$r2dz.x, bounds$r2yz.dx))
+    lim <- max(c(lim, bounds$r2dz.x + 0.001))
+    lim.y <- max(c(lim.y, bounds$r2yz.dx + 0.001))
   }
 
   ovb_contour_plot(estimate = estimate,
@@ -255,6 +260,7 @@ ovb_contour_plot.lm = function(model,
                    sensitivity.of = sensitivity.of,
                    t.threshold = t.threshold,
                    lim = lim,
+                   lim.y = lim.y,
                    nlevels = nlevels,
                    col.contour = col.contour,
                    col.thr.line = col.thr.line,
@@ -262,6 +268,7 @@ ovb_contour_plot.lm = function(model,
                    cex.label.text = cex.label.text,
                    label.bump.x = label.bump.x,
                    label.bump.y = label.bump.y,
+                   round = round,
                    ...)
 
 
@@ -284,12 +291,14 @@ ovb_contour_plot.formula = function(formula,
                                     reduce = TRUE,
                                     estimate.threshold = 0,
                                     t.threshold = 2,
-                                    lim = max(c(0.4,r2dz.x,r2yz.dx)),
+                                    lim = max(c(0.4, r2dz.x + 0.1, r2yz.dx + 0.1)),
+                                    lim.y = lim,
                                     nlevels = 20,
                                     col.contour = "grey40",
                                     col.thr.line = "red",
                                     label.text = TRUE,
                                     cex.label.text = 1,
+                                    round = 3,
                                     ...) {
 
   check_formula(treatment = treatment,
@@ -318,11 +327,13 @@ ovb_contour_plot.formula = function(formula,
                    sensitivity.of = sensitivity.of,
                    t.threshold = t.threshold,
                    lim = lim,
+                   lim.y = lim.y,
                    nlevels = nlevels,
                    col.contour = col.contour,
                    col.thr.line = col.thr.line,
                    label.text = label.text,
                    cex.label.text = cex.label.text,
+                   round = round,
                    ...)
 }
 
@@ -346,7 +357,8 @@ ovb_contour_plot.numeric = function(estimate,
                                     reduce = TRUE,
                                     estimate.threshold = 0,
                                     t.threshold = 2,
-                                    lim = max(c(0.4, r2dz.x + 0.1,r2yz.dx + 0.1)),
+                                    lim = max(c(0.4, r2dz.x + 0.1, r2yz.dx + 0.1)),
+                                    lim.y = lim,
                                     nlevels = 20,
                                     col.contour = "black",
                                     col.thr.line = "red",
@@ -357,6 +369,7 @@ ovb_contour_plot.numeric = function(estimate,
                                     xlab = NULL,
                                     ylab = NULL,
                                     list.par = NULL,
+                                    round = 3,
                                     ...) {
 
   check_estimate(estimate)
@@ -366,11 +379,12 @@ ovb_contour_plot.numeric = function(estimate,
   sensitivity.of <- match.arg(sensitivity.of)
 
   # Set up the grid for the contour plot
-  grid_values = seq(0, lim, by = lim/400)
+  grid_values.x = seq(0, lim, by = lim/400)
+  grid_values.y = seq(0, lim.y, by = lim.y/400)
 
   # Are we plotting t or bias in r2?
   if (sensitivity.of == "estimate") {
-    z_axis = outer(grid_values, grid_values,
+    z_axis = outer(grid_values.x, grid_values.y,
                    FUN = "adjusted_estimate",
                    estimate = estimate,
                    se = se,
@@ -390,9 +404,10 @@ ovb_contour_plot.numeric = function(estimate,
   }
 
   if (sensitivity.of == "t-value") {
-    z_axis = outer(grid_values, grid_values,
+    z_axis = outer(grid_values.x, grid_values.y,
                    FUN = "adjusted_t",
-                   se = se, dof = dof, estimate = estimate,
+                   se = se, dof = dof,
+                   estimate = estimate,
                    h0 = estimate.threshold) # we are computing the t-value of H0: tau = estimate.threshold
     threshold = t.threshold
     plot_estimate = (estimate - estimate.threshold) / se
@@ -407,8 +422,8 @@ ovb_contour_plot.numeric = function(estimate,
 
   }
 
-  out = list(r2dz.x = grid_values,
-             r2yz.dx = grid_values,
+  out = list(r2dz.x = grid_values.x,
+             r2yz.dx = grid_values.y,
              value = z_axis)
 
   # Aesthetic: Override the 0 line; basically, check which contour curve is
@@ -443,19 +458,26 @@ ovb_contour_plot.numeric = function(estimate,
   }
 
   contour(
-    grid_values, grid_values, z_axis, nlevels = nlevels,
+    grid_values.x, grid_values.y, z_axis,
+    nlevels = nlevels,
     xlab = xlab,
     ylab = ylab,
     cex.main = 1,
     cex.lab = 1,
     cex.axis = 1,
-    col = line_color, lty = line_type, lwd = line_width,
+    col = line_color,
+    lty = line_type,
+    lwd = line_width,
     ...)
-  contour(grid_values, grid_values,
-          z_axis, level = threshold,
+
+  contour(grid_values.x, grid_values.y,
+          z_axis,
+          level = threshold,
+          label = round(threshold, digits = round),
           add = TRUE,
           col = col.thr.line,
-          lwd = 2, lty = 2, ...)
+          lwd = 2,
+          lty = 2, ...)
 
   # Add the point of the initial estimate.
   points(0, 0, pch = 17, col = "black", cex = 1)
@@ -480,7 +502,8 @@ ovb_contour_plot.numeric = function(estimate,
                          label.text = label.text,
                          label.bump.x = label.bump.x,
                          label.bump.y = label.bump.y,
-                         cex.label.text = cex.label.text)
+                         cex.label.text = cex.label.text,
+                         round = round)
     out$bounds = data.frame(r2dz.x = r2dz.x,
                             r2yz.dx = r2yz.dx,
                             bound_label = bound_label, stringsAsFactors = FALSE)
@@ -667,7 +690,7 @@ add_bound_to_contour.numeric <- function(r2dz.x,
 #'                         kd = 1:2,
 #'                         lim = 0.05)
 #'
-#' @references Cinelli, C. and Hazlett, C. (2020), "Making Sense of Sensitivity: Extending Omitted Variable Bias." Journal of the Royal Statistical Society, Series B.
+#' @references Cinelli, C. and Hazlett, C. (2020), "Making Sense of Sensitivity: Extending Omitted Variable Bias." Journal of the Royal Statistical Society, Series B (Statistical Methodology).
 #'
 #' @return
 #' The function returns invisibly the data used for the extreme plot.

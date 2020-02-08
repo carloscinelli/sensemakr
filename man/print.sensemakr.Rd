@@ -6,11 +6,9 @@
 \alias{ovb_minimal_reporting}
 \title{Sensitivity analysis print and summary methods for \code{sensemakr}}
 \usage{
-\method{print}{sensemakr}(x, digits = max(3L, getOption("digits") - 2L),
-  ...)
+\method{print}{sensemakr}(x, digits = max(3L, getOption("digits") - 2L), ...)
 
-\method{summary}{sensemakr}(object, digits = max(3L, getOption("digits")
-  - 3L), ...)
+\method{summary}{sensemakr}(object, digits = max(3L, getOption("digits") - 3L), ...)
 
 ovb_minimal_reporting(x, digits = 3, verbose = TRUE, ...)
 }
@@ -55,5 +53,5 @@ ovb_minimal_reporting(sensitivity)
 
 }
 \references{
-Cinelli, C. and Hazlett, C. (2020), "Making Sense of Sensitivity: Extending Omitted Variable Bias." Journal of the Royal Statistical Society, Series B.
+Cinelli, C. and Hazlett, C. (2020), "Making Sense of Sensitivity: Extending Omitted Variable Bias." Journal of the Royal Statistical Society, Series B (Statistical Methodology).
 }

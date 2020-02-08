@@ -8,15 +8,34 @@
 \usage{
 add_bound_to_contour(...)
 
-\method{add_bound_to_contour}{lm}(model, treatment, benchmark_covariates,
-  kd = 1, ky = kd, reduce = TRUE, sensitivity.of = c("estimate",
-  "t-value"), label.text = TRUE, cex.label.text = 1,
-  label.bump.x = 0.02, label.bump.y = 0.02, round = 2, ...)
+\method{add_bound_to_contour}{lm}(
+  model,
+  treatment,
+  benchmark_covariates,
+  kd = 1,
+  ky = kd,
+  reduce = TRUE,
+  sensitivity.of = c("estimate", "t-value"),
+  label.text = TRUE,
+  cex.label.text = 1,
+  label.bump.x = 0.02,
+  label.bump.y = 0.02,
+  round = 2,
+  ...
+)
 
-\method{add_bound_to_contour}{numeric}(r2dz.x, r2yz.dx,
-  bound_value = NULL, bound_label = NULL, label.text = TRUE,
-  cex.label.text = 1, label.bump.x = 0.02, label.bump.y = 0.02,
-  round = 2, ...)
+\method{add_bound_to_contour}{numeric}(
+  r2dz.x,
+  r2yz.dx,
+  bound_value = NULL,
+  bound_label = NULL,
+  label.text = TRUE,
+  cex.label.text = 1,
+  label.bump.x = 0.02,
+  label.bump.y = 0.02,
+  round = 2,
+  ...
+)
 }
 \arguments{
 \item{...}{arguments passed to other methods.}

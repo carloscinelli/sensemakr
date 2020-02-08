@@ -8,11 +8,9 @@
 \usage{
 robustness_value(...)
 
-\method{robustness_value}{lm}(model, covariates = NULL, q = 1,
-  alpha = NULL, ...)
+\method{robustness_value}{lm}(model, covariates = NULL, q = 1, alpha = NULL, ...)
 
-\method{robustness_value}{numeric}(t_statistic, dof, q = 1,
-  alpha = NULL, ...)
+\method{robustness_value}{numeric}(t_statistic, dof, q = 1, alpha = NULL, ...)
 }
 \arguments{
 \item{...}{arguments passed to other methods. First argument should either be an \code{lm} model with the
@@ -73,5 +71,5 @@ robustness_value(model, covariates = "directlyharmed", q = 1/2, alpha = 0.05)
 robustness_value(t_statistic = 4.18445, dof = 783)
 }
 \references{
-Cinelli, C. and Hazlett, C. (2020), "Making Sense of Sensitivity: Extending Omitted Variable Bias." Journal of the Royal Statistical Society, Series B.
+Cinelli, C. and Hazlett, C. (2020), "Making Sense of Sensitivity: Extending Omitted Variable Bias." Journal of the Royal Statistical Society, Series B (Statistical Methodology).
 }

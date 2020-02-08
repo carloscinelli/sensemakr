@@ -8,14 +8,36 @@
 \usage{
 sensemakr(...)
 
-\method{sensemakr}{lm}(model, treatment, benchmark_covariates = NULL,
-  kd = 1, ky = kd, q = 1, alpha = 0.05, r2dz.x = NULL,
-  r2yz.dx = r2dz.x, bound_label = "", reduce = TRUE, ...)
+\method{sensemakr}{lm}(
+  model,
+  treatment,
+  benchmark_covariates = NULL,
+  kd = 1,
+  ky = kd,
+  q = 1,
+  alpha = 0.05,
+  r2dz.x = NULL,
+  r2yz.dx = r2dz.x,
+  bound_label = "",
+  reduce = TRUE,
+  ...
+)
 
-\method{sensemakr}{formula}(formula, data, treatment,
-  benchmark_covariates = NULL, kd = 1, ky = kd, q = 1,
-  alpha = 0.05, r2dz.x = NULL, r2yz.dx = r2dz.x, bound_label = "",
-  reduce = TRUE, ...)
+\method{sensemakr}{formula}(
+  formula,
+  data,
+  treatment,
+  benchmark_covariates = NULL,
+  kd = 1,
+  ky = kd,
+  q = 1,
+  alpha = 0.05,
+  r2dz.x = NULL,
+  r2yz.dx = r2dz.x,
+  bound_label = "",
+  reduce = TRUE,
+  ...
+)
 }
 \arguments{
 \item{...}{arguments passed to other methods. First argument should either be an \code{\link{lm}} model with the
@@ -101,7 +123,7 @@ ovb_minimal_reporting(sensitivity)
 
 }
 \references{
-Cinelli, C. and Hazlett, C. (2020), "Making Sense of Sensitivity: Extending Omitted Variable Bias." Journal of the Royal Statistical Society, Series B.
+Cinelli, C. and Hazlett, C. (2020), "Making Sense of Sensitivity: Extending Omitted Variable Bias." Journal of the Royal Statistical Society, Series B (Statistical Methodology).
 }
 \seealso{
 The function \code{sensemakr} is a convenience function. You may use the other sensitivity functions of the package directly, such as the functions for sensitivity plots

@@ -50,7 +50,7 @@
 
 #' @return
 #' The function returns a numerical vector with the robustness value. The arguments q and alpha are saved as attributes of the vector for reference.
-#' @references Cinelli, C. and Hazlett, C. (2020), "Making Sense of Sensitivity: Extending Omitted Variable Bias." Journal of the Royal Statistical Society, Series B.
+#' @references Cinelli, C. and Hazlett, C. (2020), "Making Sense of Sensitivity: Extending Omitted Variable Bias." Journal of the Royal Statistical Society, Series B (Statistical Methodology).
 #' @export
 #' @importFrom stats df.residual qt update vcov
 robustness_value = function(...) {
@@ -195,7 +195,7 @@ print.rv <- function(x, ...){
 #' @return
 #' A numeric vector with the computed partial R2, f2, or f.
 #'
-#' @references Cinelli, C. and Hazlett, C. (2020) "Making Sense of Sensitivity: Extending Omitted Variable Bias." Journal of the Royal Statistical Society, Series B.
+#' @references Cinelli, C. and Hazlett, C. (2020), "Making Sense of Sensitivity: Extending Omitted Variable Bias." Journal of the Royal Statistical Society, Series B (Statistical Methodology).
 #' @export
 partial_r2 = function(...) {
   UseMethod("partial_r2")
@@ -388,7 +388,7 @@ group_partial_r2.numeric <- function(F.stats, p, dof, ...){
 #' \item{f2yd.x }{a numeric vector with the partial (Cohen's) f2 of the treatment with the outcome, see details in \code{\link{partial_f2}}}
 #' \item{dof}{a numeric vector with the degrees of freedom of the model}
 #' }
-#' @references Cinelli, C. and Hazlett, C. (2020), "Making Sense of Sensitivity: Extending Omitted Variable Bias." Journal of the Royal Statistical Society, Series B.
+#' @references Cinelli, C. and Hazlett, C. (2020), "Making Sense of Sensitivity: Extending Omitted Variable Bias." Journal of the Royal Statistical Society, Series B (Statistical Methodology).
 #' @export
 sensitivity_stats <- function(...){
   UseMethod("sensitivity_stats")

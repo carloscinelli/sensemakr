@@ -19,17 +19,14 @@
 \alias{relative_bias}
 \alias{relative_bias.lm}
 \alias{relative_bias.numeric}
-\alias{bias_factor}
 \alias{rel_bias}
 \title{Bias-adjusted estimates, standard-errors and t-values}
 \usage{
 adjusted_estimate(...)
 
-\method{adjusted_estimate}{lm}(model, treatment, r2dz.x, r2yz.dx,
-  reduce = TRUE, ...)
+\method{adjusted_estimate}{lm}(model, treatment, r2dz.x, r2yz.dx, reduce = TRUE, ...)
 
-\method{adjusted_estimate}{numeric}(estimate, se, dof, r2dz.x, r2yz.dx,
-  reduce = TRUE, ...)
+\method{adjusted_estimate}{numeric}(estimate, se, dof, r2dz.x, r2yz.dx, reduce = TRUE, ...)
 
 adjusted_se(...)
 
@@ -39,19 +36,32 @@ adjusted_se(...)
 
 adjusted_t(...)
 
-\method{adjusted_t}{numeric}(estimate, se, dof, r2dz.x, r2yz.dx,
-  reduce = TRUE, h0 = 0, ...)
+\method{adjusted_t}{numeric}(estimate, se, dof, r2dz.x, r2yz.dx, reduce = TRUE, h0 = 0, ...)
 
-\method{adjusted_t}{lm}(model, treatment, r2dz.x, r2yz.dx, reduce = TRUE,
-  h0 = 0, ...)
+\method{adjusted_t}{lm}(model, treatment, r2dz.x, r2yz.dx, reduce = TRUE, h0 = 0, ...)
 
 adjusted_partial_r2(...)
 
-\method{adjusted_partial_r2}{numeric}(estimate, se, dof, r2dz.x, r2yz.dx,
-  reduce = TRUE, h0 = 0, ...)
+\method{adjusted_partial_r2}{numeric}(
+  estimate,
+  se,
+  dof,
+  r2dz.x,
+  r2yz.dx,
+  reduce = TRUE,
+  h0 = 0,
+  ...
+)
 
-\method{adjusted_partial_r2}{lm}(model, treatment, r2dz.x, r2yz.dx,
-  reduce = TRUE, h0 = 0, ...)
+\method{adjusted_partial_r2}{lm}(
+  model,
+  treatment,
+  r2dz.x,
+  r2yz.dx,
+  reduce = TRUE,
+  h0 = 0,
+  ...
+)
 
 bias(...)
 
@@ -64,8 +74,6 @@ relative_bias(...)
 \method{relative_bias}{lm}(model, treatment, r2dz.x, r2yz.dx, ...)
 
 \method{relative_bias}{numeric}(estimate, se, dof, r2dz.x, r2yz.dx, ...)
-
-bias_factor(r2dz.x, r2yz.dx)
 
 rel_bias(r.est, est)
 }
@@ -143,5 +151,5 @@ adjusted_t(estimate = 0.09731582, se = 0.02325654,
 
 }
 \references{
-Cinelli, C. and Hazlett, C. "Making Sense of Sensitivity: Extending Omitted Variable Bias." Journal of the Royal Statistical Society, Series B. (2020).
+Cinelli, C. and Hazlett, C. (2020), "Making Sense of Sensitivity: Extending Omitted Variable Bias." Journal of the Royal Statistical Society, Series B (Statistical Methodology).
 }

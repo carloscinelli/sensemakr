@@ -42,7 +42,7 @@ test_that("Numerical Tests",{
   expect_equivalent(partial_r2(t_statistic = 17, dof = 983), 0.23, tolerance = 1e-2)
   expect_equivalent(robustness_value(t_statistic = 17, dof = 983), 0.415, tolerance = 1e-2)
 
-  expect_equal(bias_factor(0.1, 0.3), sqrt(0.3 * 0.1/(1 - 0.1)))
+  expect_equal(bf(0.1, 0.3), sqrt(0.3 * 0.1/(1 - 0.1)))
 })
 
 
@@ -74,7 +74,7 @@ test_that("Simulated tests",
             trueBF  <- sqrt(r2yz.dx * r2dz.x/(1 - r2dz.x))
 
             # compute implied biases
-            BF <- bias_factor(r2dz.x = r2dz.x, r2yz.dx = r2yz.dx)
+            BF <- bf(r2dz.x = r2dz.x, r2yz.dx = r2yz.dx)
             expect_equal(BF, trueBF)
             bias <- bias(model = r.model, treatment = "d", r2dz.x = r2dz.x, r2yz.dx = r2yz.dx)
             expect_equal(bias, abs(true.bias))

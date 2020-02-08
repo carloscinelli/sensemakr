@@ -9,30 +9,83 @@
 \usage{
 ovb_contour_plot(...)
 
-\method{ovb_contour_plot}{lm}(model, treatment,
-  benchmark_covariates = NULL, kd = 1, ky = kd, r2dz.x = NULL,
-  r2yz.dx = r2dz.x, bound_label = NULL,
-  sensitivity.of = c("estimate", "t-value"), reduce = TRUE,
-  estimate.threshold = 0, t.threshold = 2, lim = max(c(0.4, r2dz.x,
-  r2yz.dx)), nlevels = 20, col.contour = "grey40",
-  col.thr.line = "red", label.text = TRUE, cex.label.text = 1,
-  label.bump.x = 0.02, label.bump.y = 0.02, ...)
+\method{ovb_contour_plot}{lm}(
+  model,
+  treatment,
+  benchmark_covariates = NULL,
+  kd = 1,
+  ky = kd,
+  r2dz.x = NULL,
+  r2yz.dx = r2dz.x,
+  bound_label = NULL,
+  sensitivity.of = c("estimate", "t-value"),
+  reduce = TRUE,
+  estimate.threshold = 0,
+  t.threshold = 2,
+  lim = max(c(0.4, r2dz.x, r2yz.dx)),
+  lim.y = lim,
+  nlevels = 20,
+  col.contour = "grey40",
+  col.thr.line = "red",
+  label.text = TRUE,
+  cex.label.text = 1,
+  label.bump.x = 0.02,
+  label.bump.y = 0.02,
+  round = 3,
+  ...
+)
 
-\method{ovb_contour_plot}{formula}(formula, data, treatment,
-  benchmark_covariates = NULL, kd = 1, ky = kd, r2dz.x = NULL,
-  r2yz.dx = r2dz.x, bound_label = NULL,
-  sensitivity.of = c("estimate", "t-value"), reduce = TRUE,
-  estimate.threshold = 0, t.threshold = 2, lim = max(c(0.4, r2dz.x,
-  r2yz.dx)), nlevels = 20, col.contour = "grey40",
-  col.thr.line = "red", label.text = TRUE, cex.label.text = 1, ...)
+\method{ovb_contour_plot}{formula}(
+  formula,
+  data,
+  treatment,
+  benchmark_covariates = NULL,
+  kd = 1,
+  ky = kd,
+  r2dz.x = NULL,
+  r2yz.dx = r2dz.x,
+  bound_label = NULL,
+  sensitivity.of = c("estimate", "t-value"),
+  reduce = TRUE,
+  estimate.threshold = 0,
+  t.threshold = 2,
+  lim = max(c(0.4, r2dz.x + 0.1, r2yz.dx + 0.1)),
+  lim.y = lim,
+  nlevels = 20,
+  col.contour = "grey40",
+  col.thr.line = "red",
+  label.text = TRUE,
+  cex.label.text = 1,
+  round = 3,
+  ...
+)
 
-\method{ovb_contour_plot}{numeric}(estimate, se, dof, r2dz.x = NULL,
-  r2yz.dx = r2dz.x, bound_label = "", sensitivity.of = c("estimate",
-  "t-value"), reduce = TRUE, estimate.threshold = 0, t.threshold = 2,
-  lim = max(c(0.4, r2dz.x + 0.1, r2yz.dx + 0.1)), nlevels = 20,
-  col.contour = "black", col.thr.line = "red", label.text = TRUE,
-  cex.label.text = 1, label.bump.x = 0.02, label.bump.y = 0.02,
-  xlab = NULL, ylab = NULL, list.par = NULL, ...)
+\method{ovb_contour_plot}{numeric}(
+  estimate,
+  se,
+  dof,
+  r2dz.x = NULL,
+  r2yz.dx = r2dz.x,
+  bound_label = "",
+  sensitivity.of = c("estimate", "t-value"),
+  reduce = TRUE,
+  estimate.threshold = 0,
+  t.threshold = 2,
+  lim = max(c(0.4, r2dz.x + 0.1, r2yz.dx + 0.1)),
+  lim.y = lim,
+  nlevels = 20,
+  col.contour = "black",
+  col.thr.line = "red",
+  label.text = TRUE,
+  cex.label.text = 1,
+  label.bump.x = 0.02,
+  label.bump.y = 0.02,
+  xlab = NULL,
+  ylab = NULL,
+  list.par = NULL,
+  round = 3,
+  ...
+)
 }
 \arguments{
 \item{...}{arguments passed to other methods. First argument should either be an \code{\link{lm}} model with the
@@ -72,7 +125,9 @@ absolute value of the estimated coefficient? Default is \code{TRUE}.}
 
 \item{t.threshold}{critical threshold for the t-value.}
 
-\item{lim}{sets limit of the plot.}
+\item{lim}{sets limit for plot axis. If `lim.y` is also provided, sets limit for x-axis only.}
+
+\item{lim.y}{sets limit for y-axis. Default is the same as `lim`.}
 
 \item{nlevels}{number of levels for the contour plot.}
 
@@ -87,6 +142,8 @@ absolute value of the estimated coefficient? Default is \code{TRUE}.}
 \item{label.bump.x}{bump on the x coordinate of label text.}
 
 \item{label.bump.y}{bump on the y coordinate of label text.}
+
+\item{round}{number of digits to show in contours and bound values}
 
 \item{formula}{an object of the class \code{\link{formula}}: a symbolic description of the model to be fitted.}
 
@@ -133,5 +190,5 @@ ovb_contour_plot(model, treatment = "directlyharmed",
 
 }
 \references{
-Cinelli, C. and Hazlett, C. (2020), "Making Sense of Sensitivity: Extending Omitted Variable Bias." Journal of the Royal Statistical Society, Series B.
+Cinelli, C. and Hazlett, C. (2020), "Making Sense of Sensitivity: Extending Omitted Variable Bias." Journal of the Royal Statistical Society, Series B (Statistical Methodology).
 }

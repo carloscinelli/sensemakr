@@ -9,21 +9,56 @@
 \usage{
 ovb_extreme_plot(...)
 
-\method{ovb_extreme_plot}{lm}(model, treatment,
-  benchmark_covariates = NULL, kd = 1, r2yz.dx = c(1, 0.75, 0.5),
-  r2dz.x = NULL, reduce = TRUE, threshold = 0, lim = min(c(r2dz.x +
-  0.1, 0.5)), legend = TRUE, cex.legend = 0.5, legend.bty = "o", ...)
+\method{ovb_extreme_plot}{lm}(
+  model,
+  treatment,
+  benchmark_covariates = NULL,
+  kd = 1,
+  r2yz.dx = c(1, 0.75, 0.5),
+  r2dz.x = NULL,
+  reduce = TRUE,
+  threshold = 0,
+  lim = min(c(r2dz.x + 0.1, 0.5)),
+  legend = TRUE,
+  cex.legend = 0.5,
+  legend.bty = "o",
+  ...
+)
 
-\method{ovb_extreme_plot}{formula}(formula, data, treatment,
-  benchmark_covariates = NULL, kd = 1, r2yz.dx = c(1, 0.75, 0.5),
-  r2dz.x = NULL, reduce = TRUE, threshold = 0, lim = min(c(r2dz.x +
-  0.1, 0.5)), legend = TRUE, cex.legend = 0.5, legend.bty = "o", ...)
+\method{ovb_extreme_plot}{formula}(
+  formula,
+  data,
+  treatment,
+  benchmark_covariates = NULL,
+  kd = 1,
+  r2yz.dx = c(1, 0.75, 0.5),
+  r2dz.x = NULL,
+  reduce = TRUE,
+  threshold = 0,
+  lim = min(c(r2dz.x + 0.1, 0.5)),
+  legend = TRUE,
+  cex.legend = 0.5,
+  legend.bty = "o",
+  ...
+)
 
-\method{ovb_extreme_plot}{numeric}(estimate, se, dof, r2dz.x = NULL,
-  r2yz.dx = c(1, 0.75, 0.5), reduce = TRUE, threshold = 0,
-  lim = min(c(r2dz.x + 0.1, 0.5)), legend = TRUE,
-  legend.title = NULL, cex.legend = 0.5, legend.bty = "o",
-  xlab = NULL, ylab = NULL, ...)
+\method{ovb_extreme_plot}{numeric}(
+  estimate,
+  se,
+  dof,
+  r2dz.x = NULL,
+  r2yz.dx = c(1, 0.75, 0.5),
+  reduce = TRUE,
+  threshold = 0,
+  lim = min(c(r2dz.x + 0.1, 0.5)),
+  legend = TRUE,
+  legend.title = NULL,
+  cex.legend = 0.5,
+  legend.bty = "o",
+  xlab = NULL,
+  ylab = NULL,
+  ...
+)
 }
 \arguments{
 \item{...}{arguments passed to other methods. First argument should either be an \code{\link{lm}} model with the
@@ -53,7 +88,7 @@ absolute value of the estimated coefficient? Default is \code{TRUE}.}
 
 \item{threshold}{estimate threshold.}
 
-\item{lim}{sets limit of the plot.}
+\item{lim}{sets limit for plot axis. If `lim.y` is also provided, sets limit for x-axis only.}
 
 \item{legend}{should legend be plotted? Default is \code{TRUE}.}
 
@@ -105,5 +140,5 @@ ovb_extreme_plot(model, treatment = "directlyharmed",
 
 }
 \references{
-Cinelli, C. and Hazlett, C. (2020), "Making Sense of Sensitivity: Extending Omitted Variable Bias." Journal of the Royal Statistical Society, Series B.
+Cinelli, C. and Hazlett, C. (2020), "Making Sense of Sensitivity: Extending Omitted Variable Bias." Journal of the Royal Statistical Society, Series B (Statistical Methodology).
 }

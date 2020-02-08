@@ -8,11 +8,17 @@
 \usage{
 sensitivity_stats(...)
 
-\method{sensitivity_stats}{lm}(model, treatment, q = 1, alpha = 0.05,
-  ...)
+\method{sensitivity_stats}{lm}(model, treatment, q = 1, alpha = 0.05, ...)
 
-\method{sensitivity_stats}{numeric}(estimate, se, dof,
-  treatment = "treatment", q = 1, alpha = 0.05, ...)
+\method{sensitivity_stats}{numeric}(
+  estimate,
+  se,
+  dof,
+  treatment = "treatment",
+  q = 1,
+  alpha = 0.05,
+  ...
+)
 }
 \arguments{
 \item{...}{Arguments passed to other methods. First argument should either be an
@@ -70,5 +76,5 @@ sensitivity_stats(estimate = 0.09731582, se = 0.02325654, dof = 783)
 
 }
 \references{
-Cinelli, C. and Hazlett, C. (2020), "Making Sense of Sensitivity: Extending Omitted Variable Bias." Journal of the Royal Statistical Society, Series B.
+Cinelli, C. and Hazlett, C. (2020), "Making Sense of Sensitivity: Extending Omitted Variable Bias." Journal of the Royal Statistical Society, Series B (Statistical Methodology).
 }

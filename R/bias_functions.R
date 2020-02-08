@@ -19,7 +19,7 @@
 #'
 #' @return
 #' Numeric vector with bias, adjusted estimate, standard error, or t-value.
-#' @references Cinelli, C. and Hazlett, C. "Making Sense of Sensitivity: Extending Omitted Variable Bias." Journal of the Royal Statistical Society, Series B. (2020).
+#' @references Cinelli, C. and Hazlett, C. (2020), "Making Sense of Sensitivity: Extending Omitted Variable Bias." Journal of the Royal Statistical Society, Series B (Statistical Methodology).
 #' @examples
 #' # loads data
 #' data("darfur")
@@ -217,7 +217,7 @@ bias.numeric <- function(se, dof, r2dz.x, r2yz.dx,  ...) {
   check_r2_parameters(r2yz.dx = r2yz.dx, r2dz.x =  r2dz.x,se =  se, dof =  dof)
 
   # Run formula for bias in R^2 [14 in "Making Sense of Sensitivity"]
-  bias <- bias_factor(r2dz.x = r2dz.x, r2yz.dx = r2yz.dx) * se * sqrt(dof)
+  bias <- bf(r2dz.x = r2dz.x, r2yz.dx = r2yz.dx) * se * sqrt(dof)
   bias <- unname(bias)
   return(bias)
 }
@@ -262,17 +262,11 @@ relative_bias.numeric <- function(estimate, se, dof, r2dz.x, r2yz.dx,  ...) {
   check_r2_parameters(r2yz.dx = r2yz.dx, r2dz.x =  r2dz.x, se =  se, dof =  dof)
   t_statistic <- abs(estimate/se)
   f <- partial_f(t_statistic = t_statistic, dof = dof)
-  BF <- bias_factor(r2dz.x = r2dz.x, r2yz.dx = r2yz.dx)
+  BF <- bf(r2dz.x = r2dz.x, r2yz.dx = r2yz.dx)
   q <- BF/f
   return(q)
 }
 
-#' @rdname adjusted_estimate
-#' @export
-bias_factor <- function(r2dz.x, r2yz.dx){
-  BF <- sqrt(r2yz.dx * r2dz.x / (1 - r2dz.x))
-  return(BF)
-}
 
 #' @rdname adjusted_estimate
 #' @param r.est restricted estimate. A numerical vector.
@@ -281,3 +275,19 @@ bias_factor <- function(r2dz.x, r2yz.dx){
 rel_bias <- function(r.est, est){
   (r.est - est)/r.est
 }
+
+
+
+# Confounder Strength -----------------------------------------------------
+
+bf <- function(r2dz.x, r2yz.dx){
+  BF <- sqrt(r2yz.dx * r2dz.x / (1 - r2dz.x))
+  return(BF)
+}
+
+
+
+
+
+
+

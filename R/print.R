@@ -32,7 +32,7 @@
 #' # prints latex code for minimal sensitivity analysis reporting
 #' ovb_minimal_reporting(sensitivity)
 #'
-#' @references Cinelli, C. and Hazlett, C. (2020), "Making Sense of Sensitivity: Extending Omitted Variable Bias." Journal of the Royal Statistical Society, Series B.
+#' @references Cinelli, C. and Hazlett, C. (2020), "Making Sense of Sensitivity: Extending Omitted Variable Bias." Journal of the Royal Statistical Society, Series B (Statistical Methodology).
 #'
 #' @export
 print.sensemakr = function(x,

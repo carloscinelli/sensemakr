@@ -7,9 +7,18 @@
 \usage{
 ovb_bounds(...)
 
-\method{ovb_bounds}{lm}(model, treatment, benchmark_covariates, kd = 1,
-  ky = kd, reduce = TRUE, bound = c("partial r2", "partial r2 no D",
-  "total r2"), adjusted_estimates = TRUE, ci_alpha = 0.05, ...)
+\method{ovb_bounds}{lm}(
+  model,
+  treatment,
+  benchmark_covariates,
+  kd = 1,
+  ky = kd,
+  reduce = TRUE,
+  bound = c("partial r2", "partial r2 no D", "total r2"),
+  adjusted_estimates = TRUE,
+  ci_alpha = 0.05,
+  ...
+)
 }
 \arguments{
 \item{...}{arguments passed to other methods. First argument should either be an \code{\link{lm}} model with the
@@ -64,5 +73,5 @@ ovb_bounds(model, treatment = "directlyharmed",
 
 }
 \references{
-Cinelli, C. and Hazlett, C. (2020), "Making Sense of Sensitivity: Extending Omitted Variable Bias." Journal of the Royal Statistical Society, Series B.
+Cinelli, C. and Hazlett, C. (2020), "Making Sense of Sensitivity: Extending Omitted Variable Bias." Journal of the Royal Statistical Society, Series B (Statistical Methodology).
 }
