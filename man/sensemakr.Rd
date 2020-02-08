@@ -18,7 +18,7 @@ sensemakr(...)
   alpha = 0.05,
   r2dz.x = NULL,
   r2yz.dx = r2dz.x,
-  bound_label = "",
+  bound_label = "manual",
   reduce = TRUE,
   ...
 )

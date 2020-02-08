@@ -114,4 +114,13 @@ test_that("input tests", {
 })
 
 
+test_that("Manual numeric sensemakr input",
+          {
+            out <- sensemakr(estimate = 2,
+                             se = 2,
+                             dof = 100,
+                             r2dz.x = 0.2,
+                             r2dxj.x= 0.2, r2yxj.dx = 0.2, kd = 2, ky = 2)
+            summary(out)
+          })
 

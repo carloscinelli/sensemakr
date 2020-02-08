@@ -1,4 +1,4 @@
-context("test-extreme.R")
+context("Tests for Extreme Plot")
 
 
 

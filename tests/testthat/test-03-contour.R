@@ -1,4 +1,4 @@
-context("test-contour.R")
+context("Tests for Contour Plots")
 
 
 test_that("contour plot tests", {

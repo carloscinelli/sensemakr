@@ -24,11 +24,11 @@ ovb_contour_plot(...)
   t.threshold = 2,
   lim = max(c(0.4, r2dz.x, r2yz.dx)),
   lim.y = lim,
-  nlevels = 20,
+  nlevels = 6,
   col.contour = "grey40",
   col.thr.line = "red",
   label.text = TRUE,
-  cex.label.text = 1,
+  cex.label.text = 0.7,
   label.bump.x = 0.02,
   label.bump.y = 0.02,
   round = 3,
@@ -51,11 +51,11 @@ ovb_contour_plot(...)
   t.threshold = 2,
   lim = max(c(0.4, r2dz.x + 0.1, r2yz.dx + 0.1)),
   lim.y = lim,
-  nlevels = 20,
+  nlevels = 6,
   col.contour = "grey40",
   col.thr.line = "red",
   label.text = TRUE,
-  cex.label.text = 1,
+  cex.label.text = 0.7,
   round = 3,
   ...
 )
@@ -73,16 +73,20 @@ ovb_contour_plot(...)
   t.threshold = 2,
   lim = max(c(0.4, r2dz.x + 0.1, r2yz.dx + 0.1)),
   lim.y = lim,
-  nlevels = 20,
+  nlevels = 6,
   col.contour = "black",
   col.thr.line = "red",
   label.text = TRUE,
-  cex.label.text = 1,
+  cex.label.text = 0.7,
   label.bump.x = 0.02,
   label.bump.y = 0.02,
   xlab = NULL,
   ylab = NULL,
-  list.par = NULL,
+  cex.lab = 0.8,
+  cex.axis = 0.8,
+  cex.main = 1,
+  asp = 1,
+  list.par = list(mar = c(4, 4, 1, 1), pty = "s"),
   round = 3,
   ...
 )
@@ -158,6 +162,14 @@ absolute value of the estimated coefficient? Default is \code{TRUE}.}
 \item{xlab}{label of x axis. If `NULL`, default label is used.}
 
 \item{ylab}{label of y axis. If `NULL`, default label is used.}
+
+\item{cex.lab}{The magnification to be used for x and y labels relative to the current setting of cex.}
+
+\item{cex.axis}{The magnification to be used for axis annotation relative to the current setting of cex.}
+
+\item{cex.main}{The magnification to be used for main titles relative to the current setting of cex.}
+
+\item{asp}{the y/x aspect ratio. Default is 1.}
 
 \item{list.par}{arguments to be passed to \code{\link{par}}. It needs to be a named list.}
 }

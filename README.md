@@ -48,7 +48,7 @@ devtools::install_github("chadhazlett/sensemakr")
 # loads package
 library(sensemakr)
 #> See details in:
-#> Carlos Cinelli and Chad Hazlett (2018). Making Sense of Sensitivity: Extending Omitted Variable Bias.
+#> Carlos Cinelli and Chad Hazlett (2020). Making Sense of Sensitivity: Extending Omitted Variable Bias. Journal of the Royal Statistical Society, Series B (Statistical Methodology).
 
 # loads dataset
 data("darfur")

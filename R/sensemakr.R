@@ -183,7 +183,7 @@ sensemakr.lm <- function(model,
                          alpha = 0.05,
                          r2dz.x = NULL,
                          r2yz.dx = r2dz.x,
-                         bound_label = "",
+                         bound_label = "manual",
                          reduce = TRUE,
                          ...){
   out <- list()
@@ -202,11 +202,33 @@ sensemakr.lm <- function(model,
   if (!is.null(r2dz.x)) {
     check_r2(r2dz.x = r2dz.x, r2yz.dx = r2yz.dx)
     out$bounds <-  data.frame(r2dz.x = r2dz.x,
-                              r2yz.dx = r2yz.dx,
-                              bound_label = bound_label,
-                              stringsAsFactors = FALSE)
+                          r2yz.dx = r2yz.dx,
+                          bound_label = bound_label,
+                          stringsAsFactors = FALSE)
+
+     # compute adjusted effects
+    out$bounds$adjusted_estimate = adjusted_estimate(model = model,
+                                                 treatment = treatment,
+                                                 r2yz.dx = r2yz.dx,
+                                                 r2dz.x = r2dz.x,
+                                                 reduce = reduce)
+
+    out$bounds$adjusted_se = adjusted_se(model = model,
+                                     treatment = treatment,
+                                     r2yz.dx = r2yz.dx,
+                                     r2dz.x = r2dz.x)
+
+    out$bounds$adjusted_t = adjusted_t(model = model,
+                                   treatment = treatment,
+                                   r2yz.dx = r2yz.dx,
+                                   r2dz.x = r2dz.x,
+                                   reduce = reduce)
+
+    se_multiple <- qt(alpha/2, df = model$df.residual, lower.tail = F)
+    out$bounds$adjusted_lower_CI <- out$bounds$adjusted_estimate - se_multiple*out$bounds$adjusted_se
+    out$bounds$adjusted_upper_CI <- out$bounds$adjusted_estimate + se_multiple*out$bounds$adjusted_se
   } else{
-    bounds <-  NULL
+    out$bounds <-  NULL
   }
 
   if (!is.null(benchmark_covariates)) {
@@ -218,7 +240,7 @@ sensemakr.lm <- function(model,
                                q = q,
                                alpha = alpha,
                                reduce = reduce)
-    out$bounds <- rbind(bounds, bench_bounds)
+    out$bounds <- rbind(out$bounds, bench_bounds)
   }
 
   class(out) <- "sensemakr"
@@ -279,12 +301,12 @@ sensemakr.numeric <- function(estimate,
                               alpha = 0.05,
                               r2dz.x = NULL,
                               r2yz.dx = r2dz.x,
+                              bound_label = "confounder",
                               benchmark_covariates = NULL,
                               r2dxj.x = NULL,
                               r2yxj.x = NULL,
                               kd = 1,
                               ky = kd,
-                              bound_label = "",
                               reduce = TRUE,
                               ...){
   out <- list()
@@ -308,20 +330,45 @@ sensemakr.numeric <- function(estimate,
                               r2yz.dx = r2yz.dx,
                               bound_label = bound_label,
                               stringsAsFactors = FALSE)
+    # compute adjusted effects
+    out$bounds$adjusted_estimate = adjusted_estimate(estimate = estimate,
+                                                     se = se,
+                                                     dof = dof,
+                                                     r2yz.dx = r2yz.dx,
+                                                     r2dz.x = r2dz.x,
+                                                     reduce = reduce)
+
+    out$bounds$adjusted_se = adjusted_se(estimate = estimate,
+                                         se = se,
+                                         dof = dof,
+                                         r2yz.dx = r2yz.dx,
+                                         r2dz.x = r2dz.x)
+
+    out$bounds$adjusted_t = adjusted_t(estimate = estimate,
+                                       se = se,
+                                       dof = dof,
+                                       r2yz.dx = r2yz.dx,
+                                       r2dz.x = r2dz.x,
+                                       reduce = reduce)
+
+    se_multiple <- qt(alpha/2, df = dof, lower.tail = F)
+    out$bounds$adjusted_lower_CI <- out$bounds$adjusted_estimate - se_multiple*out$bounds$adjusted_se
+    out$bounds$adjusted_upper_CI <- out$bounds$adjusted_estimate + se_multiple*out$bounds$adjusted_se
   } else{
-    bounds <-  NULL
+    out$bounds <-  NULL
   }
 
   if (!is.null(benchmark_covariates)) {
 
-    bound_label <- label_maker(benchmark_covariate = benchmark_covariates, kd = kd, ky = ky)
+    bound_label <- label_maker(benchmark_covariate = benchmark_covariates,
+                               kd = kd, ky = ky)
     bench_bounds <- ovb_partial_r2_bound(r2dxj.x = r2dxj.x,
                                          r2yxj.x = r2yxj.x,
                                          kd = kd,
                                          ky = ky,
                                          bound_label = bound_label)
 
-    out$bounds <- rbind(bounds, bench_bounds)
+    out$bounds <- rbind(out$bounds, bench_bounds)
   }
 
   class(out) <- "sensemakr"
