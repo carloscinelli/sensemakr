@@ -49,7 +49,7 @@ devtools::install_github("chadhazlett/sensemakr")
 # Basic usage
 
 
-```{r basic-usage, fig.width = 10, fig.height=8, collapse=T}
+```{r basic-usage, fig.width = 6, fig.height=6, fig.align='center', collapse=T}
 # loads package
 library(sensemakr)
 
@@ -77,7 +77,7 @@ plot(sensitivity)
 plot(sensitivity, sensitivity.of = "t-value")
 
 # plot extreme scenario
-plot(sensitivity, type = "extreme", cex.legend = 1)
+plot(sensitivity, type = "extreme")
 
 # latex code for sensitivity table
 ovb_minimal_reporting(sensitivity)

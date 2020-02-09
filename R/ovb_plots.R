@@ -733,8 +733,8 @@ ovb_extreme_plot.lm <- function(model,
                                 threshold = 0,
                                 lim = min(c(r2dz.x + 0.1, 0.5)),
                                 legend = TRUE,
-                                cex.legend = 0.5,
-                                legend.bty = "o",
+                                cex.legend = 0.65,
+                                legend.bty = "n",
                                 ...){
 
   # extract model data
@@ -801,8 +801,8 @@ ovb_extreme_plot.formula = function(formula,
                                     threshold = 0,
                                     lim = min(c(r2dz.x + 0.1, 0.5)),
                                     legend = TRUE,
-                                    cex.legend = 0.5,
-                                    legend.bty = "o",
+                                    cex.legend = 0.65,
+                                    legend.bty = "n",
                                     ...) {
   check_formula(treatment = treatment,
                 formula = formula,
@@ -846,10 +846,13 @@ ovb_extreme_plot.numeric = function(estimate,
                                     lim = min(c(r2dz.x + 0.1, 0.5)),
                                     legend = TRUE,
                                     legend.title  = NULL,
-                                    cex.legend = 0.5,
-                                    legend.bty = "o",
+                                    cex.legend = 0.65,
+                                    legend.bty = "n",
                                     xlab = NULL,
                                     ylab = NULL,
+                                    cex.lab = .7,
+                                    cex.axis = .7,
+                                    list.par = list(oma = c(0, 0, 0, 0)),
                                     ...) {
 
   # if (is.null(lim)) {
@@ -871,6 +874,13 @@ ovb_extreme_plot.numeric = function(estimate,
   # x-axis values: R^2 of confounder(s) with treatment
   r2d_values = seq(0, lim, by = 0.001)
   out = list()
+
+  if (!is.null(list.par)) {
+    if (!is.list(list.par)) stop("list.par needs to be a named list")
+    oldpar <- do.call("par", list.par)
+    on.exit(par(oldpar))
+  }
+
   # Iterate through scenarios:
   for (i in seq.int(length(r2yz.dx))) {
     y = adjusted_estimate(estimate, r2yz.dx = r2yz.dx[i],
@@ -899,6 +909,8 @@ ovb_extreme_plot.numeric = function(estimate,
         ylim = ylim,
         xlab = xlab,
         ylab = ylab,
+        cex.lab  = cex.lab,
+        cex.axis = cex.axis,
         ...)
       abline(h = threshold, col = "red", lty = 5)
     } else {
@@ -910,6 +922,10 @@ ovb_extreme_plot.numeric = function(estimate,
                                                                 adjusted_estimate = y)
 
   }
+  if (!is.null(r2dz.x)) {
+    rug(x = r2dz.x, col = "red", lwd = 2)
+    out[["bounds"]] <- r2dz.x
+  }
 
   if (is.null(legend.title)) {
     legend.title <- expression(paste("Partial ", R^2, " of confounder(s) with the outcome"))
@@ -917,10 +933,18 @@ ovb_extreme_plot.numeric = function(estimate,
 
 
   if (legend) {
+    old.par <- par(fig = c(0, 1, 0, 1),
+                   oma = c(0, 0, 2, 1.5),
+                   mar = c(0, 0, 0, 0),
+                   new = TRUE)
+    on.exit(par(old.par))
+    plot(0, 0, type = "n", bty = "n", xaxt = "n", yaxt = "n")
+
     legend(
       x = "topright",
-      inset = 0.05,
+      inset = c(0,0),
       bty = legend.bty,
+      xpd = TRUE,
       lty = c(seq_len(length(r2yz.dx)), 5),
       col = c(rep("black", length(r2yz.dx)),
               "red"),
@@ -932,10 +956,7 @@ ovb_extreme_plot.numeric = function(estimate,
     )
   }
 
-  if (!is.null(r2dz.x)) {
-    rug(x = r2dz.x, col = "red", lwd = 2)
-    out[["bounds"]] <- r2dz.x
-  }
+
   return(invisible(out))
 }
 

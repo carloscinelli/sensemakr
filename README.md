@@ -119,7 +119,7 @@ summary(sensitivity)
 plot(sensitivity)
 ```
 
-![](man/figures/figures-basic-usage-1.png)<!-- -->
+<img src="man/figures/figures-basic-usage-1.png" style="display: block; margin: auto;" />
 
 ``` r
 
@@ -127,15 +127,15 @@ plot(sensitivity)
 plot(sensitivity, sensitivity.of = "t-value")
 ```
 
-![](man/figures/figures-basic-usage-2.png)<!-- -->
+<img src="man/figures/figures-basic-usage-2.png" style="display: block; margin: auto;" />
 
 ``` r
 
 # plot extreme scenario
-plot(sensitivity, type = "extreme", cex.legend = 1)
+plot(sensitivity, type = "extreme")
 ```
 
-![](man/figures/figures-basic-usage-3.png)<!-- -->
+<img src="man/figures/figures-basic-usage-3.png" style="display: block; margin: auto;" />
 
 ``` r
 

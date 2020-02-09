@@ -20,8 +20,8 @@ ovb_extreme_plot(...)
   threshold = 0,
   lim = min(c(r2dz.x + 0.1, 0.5)),
   legend = TRUE,
-  cex.legend = 0.5,
-  legend.bty = "o",
+  cex.legend = 0.65,
+  legend.bty = "n",
   ...
 )
 
@@ -37,8 +37,8 @@ ovb_extreme_plot(...)
   threshold = 0,
   lim = min(c(r2dz.x + 0.1, 0.5)),
   legend = TRUE,
-  cex.legend = 0.5,
-  legend.bty = "o",
+  cex.legend = 0.65,
+  legend.bty = "n",
   ...
 )
 
@@ -53,10 +53,13 @@ ovb_extreme_plot(...)
   lim = min(c(r2dz.x + 0.1, 0.5)),
   legend = TRUE,
   legend.title = NULL,
-  cex.legend = 0.5,
-  legend.bty = "o",
+  cex.legend = 0.65,
+  legend.bty = "n",
   xlab = NULL,
   ylab = NULL,
+  cex.lab = 0.7,
+  cex.axis = 0.7,
+  list.par = list(oma = c(0, 0, 0, 0)),
   ...
 )
 }
@@ -111,6 +114,12 @@ absolute value of the estimated coefficient? Default is \code{TRUE}.}
 \item{xlab}{label of x axis. If `NULL`, default label is used.}
 
 \item{ylab}{label of y axis. If `NULL`, default label is used.}
+
+\item{cex.lab}{The magnification to be used for x and y labels relative to the current setting of cex.}
+
+\item{cex.axis}{The magnification to be used for axis annotation relative to the current setting of cex.}
+
+\item{list.par}{arguments to be passed to \code{\link{par}}. It needs to be a named list.}
 }
 \value{
 The function returns invisibly the data used for the extreme plot.
