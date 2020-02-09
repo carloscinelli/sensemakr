@@ -85,6 +85,7 @@ adjusted_estimate.numeric <- function(estimate,
                                       r2dz.x,
                                       r2yz.dx,
                                       reduce = TRUE, ...){
+
   if (!is.numeric(estimate) || length(estimate) > 1) {
     stop("Estimate provided must be a single number.")
   }
@@ -118,7 +119,9 @@ adjusted_se <- function(...){
 #' @export
 adjusted_se.numeric = function(se, dof, r2dz.x, r2yz.dx, ...) {
   # Error handling
-  check_r2_parameters(r2yz.dx = r2yz.dx, r2dz.x =  r2dz.x,se =  se, dof =  dof)
+  check_se(se = se)
+  check_dof(dof = dof)
+  check_r2(r2yz.dx = r2yz.dx, r2dz.x =  r2dz.x)
 
   # Run formula for SE of R^2
   new_se <- sqrt((1 - r2yz.dx) / (1 - r2dz.x)) * se * sqrt(dof / (dof - 1))
@@ -150,6 +153,10 @@ adjusted_t <- function(...){
 #' @rdname adjusted_estimate
 #' @export
 adjusted_t.numeric = function(estimate, se, dof, r2dz.x, r2yz.dx, reduce = TRUE, h0 = 0, ...) {
+  # Error handling
+  check_se(se = se)
+  check_dof(dof = dof)
+  check_r2(r2yz.dx = r2yz.dx, r2dz.x =  r2dz.x)
   # Error handling (most handled through dispatch to bias/se, but need
   # to make sure estimate is also valid)
   if (!is.numeric(estimate) || length(estimate) > 1) {
@@ -187,6 +194,10 @@ adjusted_partial_r2 <- function(...){
 #' @rdname adjusted_estimate
 #' @export
 adjusted_partial_r2.numeric <- function(estimate, se, dof, r2dz.x, r2yz.dx, reduce = TRUE, h0 = 0, ...){
+  # Error handling
+  check_se(se = se)
+  check_dof(dof = dof)
+  check_r2(r2yz.dx = r2yz.dx, r2dz.x =  r2dz.x)
   new_t <- adjusted_t(estimate = estimate, r2yz.dx = r2yz.dx, r2dz.x = r2dz.x, se = se, dof = dof, reduce =  reduce, h0 = h0)
   partial_r2(t_statistic = new_t, dof = dof - 1)
 }
@@ -214,7 +225,10 @@ bias <- function(...){
 #' @export
 bias.numeric <- function(se, dof, r2dz.x, r2yz.dx,  ...) {
   # Error handling
-  check_r2_parameters(r2yz.dx = r2yz.dx, r2dz.x =  r2dz.x,se =  se, dof =  dof)
+  # Error handling
+  check_se(se = se)
+  check_dof(dof = dof)
+  check_r2(r2yz.dx = r2yz.dx, r2dz.x =  r2dz.x)
 
   # Run formula for bias in R^2 [14 in "Making Sense of Sensitivity"]
   bias <- bf(r2dz.x = r2dz.x, r2yz.dx = r2yz.dx) * se * sqrt(dof)
@@ -259,7 +273,10 @@ relative_bias.lm <- function(model, treatment, r2dz.x, r2yz.dx, ...){
 relative_bias.numeric <- function(estimate, se, dof, r2dz.x, r2yz.dx,  ...) {
 
   # Error handling
-  check_r2_parameters(r2yz.dx = r2yz.dx, r2dz.x =  r2dz.x, se =  se, dof =  dof)
+  check_se(se = se)
+  check_dof(dof = dof)
+  check_r2(r2yz.dx = r2yz.dx, r2dz.x =  r2dz.x)
+
   t_statistic <- abs(estimate/se)
   f <- partial_f(t_statistic = t_statistic, dof = dof)
   BF <- bf(r2dz.x = r2dz.x, r2yz.dx = r2yz.dx)

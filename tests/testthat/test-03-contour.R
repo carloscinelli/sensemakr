@@ -51,8 +51,8 @@ test_that("contour plot tests", {
   expect_error(ovb_contour_plot(estimate = 2,
                                 se = 0.5,
                                 dof = 200,
-                                r2dz.x = c(0.5, 0.8),
-                                r2yz.dx = 0.3))
+                                r2dz.x = .2,
+                                r2yz.dx = c(.1,.2,.3)))
 
   # Misspecified r2yz.dx
   expect_error(ovb_contour_plot(estimate = 2,

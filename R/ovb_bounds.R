@@ -51,11 +51,13 @@ ovb_partial_r2_bound.numeric <- function(r2dxj.x,
                                          r2yxj.x,
                                          kd = 1,
                                          ky = 1,
-                                         bound_label = ""){
+                                         bound_label =
+                                           rep("manual",
+                                               max(length(r2dxj.x), length(r2yxj.x)))
+                                                           ){
+  # Error handling
 
-  if(!is.numeric(r2dxj.x)||!is.numeric(r2yxj.x)) stop("r2dxj.x and r2yxj.x must be numeric")
-  if (length(r2dxj.x) != length(r2yxj.x)) stop("r2dxj.x and r2yxj.x must have the same length")
-
+  check_r2(r2yz.dx = r2dxj.x, r2dz.x =  r2yxj.x)
 
   r2dz.x = kd*(r2dxj.x/(1 - r2dxj.x))
 

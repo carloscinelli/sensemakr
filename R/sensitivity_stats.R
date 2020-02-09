@@ -468,22 +468,15 @@ check_alpha <- function(alpha) {
 }
 
 
-check_r2_parameters = function(r2yz.dx, r2dz.x, se, dof) {
-  # Invalid SE
+check_se <- function(se){
   if (se < 0) {
     stop("Standard error provided must be a single non-negative number")
   }
+}
 
-  # Invalid DOF
+check_dof <- function(dof){
   if (!is.numeric(dof) || length(dof) > 1 || dof <= 0) {
     stop("Degrees of freedom provided must be a single non-negative number.")
-  }
-
-  # Invalid R^2 Y / R^2 D.
-  if (!is.numeric(r2yz.dx) || !is.numeric(r2dz.x) ||
-     any(r2yz.dx < 0) || any(r2yz.dx > 1) ||
-     any(r2dz.x < 0) || any(r2dz.x > 1)) {
-    stop("Provided partial R^2 of Y and D must both be numbers between 0 and 1.")
   }
 }
 

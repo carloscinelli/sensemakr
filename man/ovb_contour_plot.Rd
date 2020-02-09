@@ -66,7 +66,7 @@ ovb_contour_plot(...)
   dof,
   r2dz.x = NULL,
   r2yz.dx = r2dz.x,
-  bound_label = "",
+  bound_label = rep("manual", length(r2dz.x)),
   sensitivity.of = c("estimate", "t-value"),
   reduce = TRUE,
   estimate.threshold = 0,

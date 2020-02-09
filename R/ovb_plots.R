@@ -356,7 +356,7 @@ ovb_contour_plot.numeric = function(estimate,
                                     dof,
                                     r2dz.x = NULL,
                                     r2yz.dx = r2dz.x,
-                                    bound_label = "",
+                                    bound_label = rep("manual", length(r2dz.x)),
                                     sensitivity.of = c("estimate", "t-value"),
                                     reduce = TRUE,
                                     estimate.threshold = 0,
@@ -382,6 +382,11 @@ ovb_contour_plot.numeric = function(estimate,
 
   check_estimate(estimate)
   check_r2(r2dz.x = r2dz.x, r2yz.dx = r2yz.dx)
+
+  if (length(r2dz.x) != length(r2yz.dx)) {
+    stop("Length of r2dz.x and r2yz.dx partial R2 must match")
+  }
+
   lim <- check_contour_lim(lim)
 
   sensitivity.of <- match.arg(sensitivity.of)
@@ -520,7 +525,8 @@ ovb_contour_plot.numeric = function(estimate,
                          round = round)
     out$bounds = data.frame(r2dz.x = r2dz.x,
                             r2yz.dx = r2yz.dx,
-                            bound_label = bound_label, stringsAsFactors = FALSE)
+                            bound_label = bound_label,
+                            stringsAsFactors = FALSE)
   }
 
   invisible(out)
@@ -883,7 +889,8 @@ ovb_extreme_plot.numeric = function(estimate,
 
   # Iterate through scenarios:
   for (i in seq.int(length(r2yz.dx))) {
-    y = adjusted_estimate(estimate, r2yz.dx = r2yz.dx[i],
+    y = adjusted_estimate(estimate,
+                          r2yz.dx = r2yz.dx[i],
                           r2dz.x = r2d_values,
                           se = se,
                           dof = dof, reduce = reduce)
@@ -994,24 +1001,16 @@ check_estimate = function(estimate) {
 }
 
 check_r2 = function(r2dz.x, r2yz.dx) {
-  # Check r2dz.x / r2yz.dx
-  if (is.null(r2dz.x) != is.null(r2yz.dx)) {
-    stop("Either both `r2dz.x` and `r2yz.dx` must be provided or neither.")
-  }
 
   if (!is.null(r2dz.x)) {
     if (any(!is.numeric(r2dz.x) | r2dz.x < 0 | r2dz.x > 1)) {
-      stop("`r2dz.x` must be a number between zero and one, if provided")
-    }
-
-    if (length(r2dz.x) != length(r2yz.dx)) {
-      stop("Lengths of `r2dz.x` and `r2yz.dx` must match.")
+      stop("partial R2 must be a number between zero and one")
     }
   }
 
   if (!is.null(r2yz.dx) &&
      any(!is.numeric(r2yz.dx) | r2yz.dx < 0 | r2yz.dx > 1)) {
-    stop("`r2yz.dx` must be a number between zero and one, if provided")
+    stop("partial R2 must be a number between zero and one, if provided")
   }
 }
 

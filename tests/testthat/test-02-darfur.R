@@ -133,6 +133,17 @@ test_that(desc = "testing darfur sensemakr but negative",
 
           })
 
+test_that("testing darfur manual bounds",
+          {
+            sense.out <- sensemakr(model, treatment = "directlyharmed", benchmark_covariates = "female", r2dz.x = .1)
+            bounds.check <- sense.out$bounds
+            to_check     <- bounds.check$adjusted_se[1]
+            true_check   <- adjusted_se(model, treatment = "directlyharmed", r2dz.x = .1, r2yz.dx = .1)
+            expect_equal(to_check, unname(true_check))
+          }
+          )
+
+
 test_that(desc = "testing darfur sensemakr with formula",
           {
             darfur_out <- sensemakr(formula = peacefactor ~ directlyharmed + age + farmer_dar + herder_dar +
