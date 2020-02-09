@@ -1,31 +1,60 @@
 destination: docs
 template:
   params:
+    bootswatch: cosmo
     ganalytics: UA-158095434-1
 reference:
 - title: Main function and methods (sensemakr)
+  desc: >
+    Here you will find the main functions of the `sensemakr` package.
+    These functions will likely suffice for most users, for most of the time.
+    The main workflow consists of fitting a linear model with `lm()` and
+    running the sensitivity analysis with `sensemakr()`. This function returns
+    an object of class sensemakr with all main sensitivity results, which one can then explore
+    the results with the print, plot and summary methods.
   contents:
+    - sensemakr-package
     - sensemakr
     - plot.sensemakr
     - print.sensemakr
     - summary.sensemakr
 - title: Sensitivity statistics
+  desc: >
+    These functions compute sensitivity statistics suited for routine reporting in regression table.
+    For example, the `robustness_value()` computes the minimial strength of association that unobserved variables
+    would need to have, *both* with the treatment, and with the outcome, to explain away the observed effect.
+    The `partial_r2()` of the treatment with the outcome computes the minimal strength of association
+    unobserved variables would need to have with the treatment to explain away the effect, even if they explained
+    all residual variation of the outcome.
   contents:
     - robustness_value
     - partial_r2
+    - group_partial_r2
     - sensitivity_stats
 - title: Sensitivity plots
+  desc: >
+    These functions provide direct access to sensitivity contour plots and extreme sensitivity plots for customization.
   contents:
     - ovb_contour_plot
     - ovb_extreme_plot
     - add_bound_to_contour
 - title: Bias, adjusted estimates and standard errors
+  desc: >
+    Given a pair of partial R2 values that describes unobsverd confounders,
+    these functions compute the bias, adjusted estimate, adjusted standard errors,
+    and other statistics that one would have obtained in the regression that includes
+    a confounder with such stregth.
   contents:
     - bias
 - title: Bounds on confounding
+  desc: >
+    Functions for computing bounds on the maximum strength of unobserved
+    confounding by means of comparison with the explanatory power of observed covariates.
   contents:
     - ovb_bounds
 - title: Datasets
+  desc: >
+    Datasets with applied examples.
   contents:
     - colombia
     - darfur

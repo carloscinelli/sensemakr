@@ -27,3 +27,4 @@ Suggests:
     knitr,
     rmarkdown
 LazyData: true
+VignetteBuilder: knitr

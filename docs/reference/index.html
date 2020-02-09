@@ -12,8 +12,8 @@
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
@@ -90,6 +90,9 @@
   </a>
 </li>
 <li>
+  <a href="../articles/sensemakr.html">Get started</a>
+</li>
+<li>
   <a href="../reference/index.html">Reference</a>
 </li>
       </ul>
@@ -128,10 +131,16 @@
       <tr>
         <th colspan="2">
           <h2 id="section-main-function-and-methods-sensemakr-" class="hasAnchor"><a href="#section-main-function-and-methods-sensemakr-" class="anchor"></a>Main function and methods (sensemakr)</h2>
-          <p class="section-desc"></p>
+          <p class="section-desc"><p>Here you will find the main functions of the <code>sensemakr</code> package. These functions will likely suffice for most users, for most of the time. The main workflow consists of fitting a linear model with <code><a href="https://rdrr.io/r/stats/lm.html">lm()</a></code> and running the sensitivity analysis with <code><a href="../reference/sensemakr.html">sensemakr()</a></code>. This function returns an object of class sensemakr with all main sensitivity results, which one can then explore the results with the print, plot and summary methods.</p></p>
         </th>
       </tr>
       <tr>
+        
+        <td>
+          <p><code><a href="sensemakr-package.html">sensemakr-package</a></code> </p>
+        </td>
+        <td><p>Sensemakr: extending omitted variable bias</p></td>
+      </tr><tr>
         
         <td>
           <p><code><a href="sensemakr.html">sensemakr()</a></code> </p>
@@ -154,7 +163,7 @@
       <tr>
         <th colspan="2">
           <h2 id="section-sensitivity-statistics" class="hasAnchor"><a href="#section-sensitivity-statistics" class="anchor"></a>Sensitivity statistics</h2>
-          <p class="section-desc"></p>
+          <p class="section-desc"><p>These functions compute sensitivity statistics suited for routine reporting in regression table. For example, the <code><a href="../reference/robustness_value.html">robustness_value()</a></code> computes the minimial strength of association that unobserved variables would need to have, <em>both</em> with the treatment, and with the outcome, to explain away the observed effect. The <code><a href="../reference/partial_r2.html">partial_r2()</a></code> of the treatment with the outcome computes the minimal strength of association unobserved variables would need to have with the treatment to explain away the effect, even if they explained all residual variation of the outcome.</p></p>
         </th>
       </tr>
       <tr>
@@ -172,6 +181,12 @@
       </tr><tr>
         
         <td>
+          <p><code><a href="group_partial_r2.html">group_partial_r2()</a></code> </p>
+        </td>
+        <td><p>Partial R2 of groups of covariates in a linear regression model</p></td>
+      </tr><tr>
+        
+        <td>
           <p><code><a href="sensitivity_stats.html">sensitivity_stats()</a></code> </p>
         </td>
         <td><p>Sensitivity statistics for regression coefficients</p></td>
@@ -180,7 +195,7 @@
       <tr>
         <th colspan="2">
           <h2 id="section-sensitivity-plots" class="hasAnchor"><a href="#section-sensitivity-plots" class="anchor"></a>Sensitivity plots</h2>
-          <p class="section-desc"></p>
+          <p class="section-desc"><p>These functions provide direct access to sensitivity contour plots and extreme sensitivity plots for customization.</p></p>
         </th>
       </tr>
       <tr>
@@ -206,7 +221,7 @@
       <tr>
         <th colspan="2">
           <h2 id="section-bias-adjusted-estimates-and-standard-errors" class="hasAnchor"><a href="#section-bias-adjusted-estimates-and-standard-errors" class="anchor"></a>Bias, adjusted estimates and standard errors</h2>
-          <p class="section-desc"></p>
+          <p class="section-desc"><p>Given a pair of partial R2 values that describes unobsverd confounders, these functions compute the bias, adjusted estimate, adjusted standard errors, and other statistics that one would have obtained in the regression that includes a confounder with such stregth.</p></p>
         </th>
       </tr>
       <tr>
@@ -220,7 +235,7 @@
       <tr>
         <th colspan="2">
           <h2 id="section-bounds-on-confounding" class="hasAnchor"><a href="#section-bounds-on-confounding" class="anchor"></a>Bounds on confounding</h2>
-          <p class="section-desc"></p>
+          <p class="section-desc"><p>Functions for computing bounds on the maximum strength of unobserved confounding by means of comparison with the explanatory power of observed covariates.</p></p>
         </th>
       </tr>
       <tr>
@@ -234,7 +249,7 @@
       <tr>
         <th colspan="2">
           <h2 id="section-datasets" class="hasAnchor"><a href="#section-datasets" class="anchor"></a>Datasets</h2>
-          <p class="section-desc"></p>
+          <p class="section-desc"><p>Datasets with applied examples.</p></p>
         </th>
       </tr>
       <tr>
