@@ -1,4 +1,7 @@
 destination: docs
+template:
+  params:
+    ganalytics: UA-158095434-1
 reference:
 - title: Main function and methods (sensemakr)
   contents:
