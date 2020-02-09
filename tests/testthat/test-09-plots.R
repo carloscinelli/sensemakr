@@ -9,8 +9,10 @@ test_that("Plot warnings and errors",
                           pastvoted + hhsize_darfur + female + village, data = darfur)
 
             expect_warning(ovb_contour_plot(model, treatment = "directlyharmed", lim = 2))
-
             expect_warning(ovb_contour_plot(model, treatment = "directlyharmed", lim = -1))
+            expect_warning(ovb_extreme_plot(model, treatment = "directlyharmed", lim = 2))
+            expect_warning(ovb_extreme_plot(model, treatment = "directlyharmed", lim = -1))
+
 
 
             expect_warning(ovb_contour_plot(estimate = 2, se =2, dof = 100,  lim = 2))
@@ -38,7 +40,7 @@ test_that("Plot warnings and errors",
 
             expect_warning(ovb_extreme_plot.numeric(estimate = 1, se =2, dof = 100, lim = -1))
             expect_warning(ovb_extreme_plot.numeric(estimate = 1, se =2, dof = 100, lim = 1))
-
+            expect_error(ovb_extreme_plot.numeric(estimate = 1, se =2, dof = 100, lim = .2, list.par = "b"))
             expect_warning(ovb_contour_plot(model, treatment = "directlyharmed", lim = -1))
 
           })
