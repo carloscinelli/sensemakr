@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# sensemakr <img src="man/figures/sensemakr-logo-small.png" align="right" />
+# sensemakr: Sensitivity Analysis Tools for OLS <img src="man/figures/sensemakr-logo-small.png" align="right" />
 
 <!-- badges: start -->
 

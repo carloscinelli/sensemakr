@@ -12,7 +12,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# sensemakr <img src="man/figures/sensemakr-logo-small.png" align="right" />
+# sensemakr: Sensitivity Analysis Tools for OLS <img src="man/figures/sensemakr-logo-small.png" align="right" />
 
 <!-- badges: start -->
 [![Travis-CI build Status](https://travis-ci.org/carloscinelli/sensemakr.svg?branch=master)](https://travis-ci.org/carloscinelli/sensemakr) 

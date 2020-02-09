@@ -1,5 +1,5 @@
 ---
-title: "sensemakr"
+title: "sensemakr: Sensitivity Analysis Tools for OLS"
 output: rmarkdown::html_vignette
 author: Carlos Cinelli and Chad Hazlett
 vignette: >
