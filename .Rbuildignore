@@ -12,3 +12,6 @@
 ^\.travis\.yml$
 ^\.yml$
 .Rd2pdf54514/Rd2.tex
+^_pkgdown\.yml$
+^docs$
+^pkgdown$

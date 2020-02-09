@@ -17,7 +17,7 @@ ovb_contour_plot(...)
   ky = kd,
   r2dz.x = NULL,
   r2yz.dx = r2dz.x,
-  bound_label = NULL,
+  bound_label = "manual",
   sensitivity.of = c("estimate", "t-value"),
   reduce = TRUE,
   estimate.threshold = 0,

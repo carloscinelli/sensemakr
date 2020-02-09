@@ -34,7 +34,8 @@ test_that("Bounds error",
 
             expect_error(ovb_partial_r2_bound.numeric(r2dxj.x = "a", r2yxj.x = .2))
             expect_error(ovb_partial_r2_bound.numeric(r2dxj.x = .1, r2yxj.x = 2))
-            expect_error(ovb_partial_r2_bound.numeric(r2dxj.x = 1, r2yxj.x = .1))
+            expect_warning(ovb_partial_r2_bound.numeric(r2dxj.x = .1, r2yxj.x = 1))
+            expect_warning(expect_error(ovb_partial_r2_bound.numeric(r2dxj.x = 1, r2yxj.x = .1)))
             data("darfur")
             # runs regression model
             model <- lm(peacefactor ~ directlyharmed + age + farmer_dar + herder_dar +

@@ -185,7 +185,7 @@ ovb_contour_plot.lm = function(model,
                                ky = kd,
                                r2dz.x = NULL,
                                r2yz.dx = r2dz.x,
-                               bound_label = NULL,
+                               bound_label = "manual",
                                sensitivity.of = c("estimate", "t-value"),
                                reduce = TRUE,
                                estimate.threshold = 0,
@@ -868,9 +868,9 @@ ovb_extreme_plot.numeric = function(estimate,
   #   }
   #   lim = max(r2dz.x, na.rm = TRUE) + 0.1
   # }
-  if (lim > 1) {
-    lim <- 1
-    warning("Plot limit larger than 1 was set to 1.")
+  if (lim >= 1) {
+    lim <- 0.99
+    warning("Plot limit on the partial R2 of confounder with the treatment was larger than or equal to 1 and thus was set to 0.99.")
   }
   if (lim < 0) {
     lim <- 0.4
@@ -980,10 +980,7 @@ check_formula <- function(treatment, formula, data) {
     stop("You must provide a `treatment` variable present in the model ",
          "`formula` and `data` data frame.")
   }
-  if (!is.null(data) && (!is.data.frame(data) || nrow(data) < 1)) {
-    stop("The provided `data` argument must be a data frame with at least ",
-         "one row.")
-  }
+
 
 }
 

@@ -110,7 +110,7 @@ test_that("input tests", {
 
   expect_error(adjusted_estimate(estimate = 2, se = 3, dof = 100, reduce = "nope"))
   expect_error(adjusted_estimate(estimate = c(2,3), se = 3, dof = 100))
-  expect_error(adjusted_t(estimate = c(2,3), se = 3, dof = 100))
+  expect_error(adjusted_t(estimate = c(2,3), se = 3, dof = 100, r2dz.x = .1, r2yz.dx = .2))
 })
 
 
