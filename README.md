@@ -16,12 +16,12 @@ status](https://codecov.io/gh/carloscinelli/sensemakr/branch/master/graph/badge.
 [![Donwloads](https://cranlogs.r-pkg.org/badges/sensemakr)](https://cran.r-project.org/package=sensemakr)
 <!-- badges: end -->
 
-sensemakr implements a suite of sensitivity analysis tools that extends
-the traditional omitted variable bias framework and makes it easier to
-understand the impact of omitted variables in regression models, as
-discussed in [Cinelli, C. and Hazlett, C. (2020) “Making Sense of
-Sensitivity: Extending Omitted Variable Bias.” Journal of the Royal
-Statistical Society, Series B (Statistical
+`sensemakr` implements a suite of sensitivity analysis tools that
+extends the traditional omitted variable bias framework and makes it
+easier to understand the impact of omitted variables in regression
+models, as discussed in [Cinelli, C. and Hazlett, C. (2020) “Making
+Sense of Sensitivity: Extending Omitted Variable Bias.” Journal of the
+Royal Statistical Society, Series B (Statistical
 Methodology).](https://doi.org/10.1111/rssb.12348)
 
 # News
