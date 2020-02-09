@@ -59,7 +59,7 @@ ovb_extreme_plot(...)
   ylab = NULL,
   cex.lab = 0.7,
   cex.axis = 0.7,
-  list.par = list(oma = c(0, 0, 0, 0)),
+  list.par = list(oma = c(0.2, 0.2, 0.2, 0.2)),
   ...
 )
 }

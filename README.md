@@ -4,12 +4,12 @@
 ## sensemakr <img src="tools/sensemakr-logo-small.png" align="right" />
 
 [![Travis-CI Build
-Status](https://travis-ci.org/chadhazlett/sensemakr.svg?branch=master)](https://travis-ci.org/chadhazlett/sensemakr)
+Status](https://travis-ci.org/carloscinelli/sensemakr.svg?branch=master)](https://travis-ci.org/carloscinelli/sensemakr)
 [![Build
 status](https://ci.appveyor.com/api/projects/status/utoc0803j4fxoje3?svg=true)](https://ci.appveyor.com/project/carloscinelli/sensemakr)
 [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/sensemakr)](https://cran.r-project.org/package=sensemakr)
 [![Coverage
-status](https://codecov.io/gh/chadhazlett/sensemakr/branch/master/graph/badge.svg)](https://codecov.io/github/chadhazlett/sensemakr?branch=master)
+status](https://codecov.io/gh/carloscinelli/sensemakr/branch/master/graph/badge.svg)](https://codecov.io/github/carloscinelli/sensemakr?branch=master)
 ![Donwloads](http://cranlogs.r-pkg.org/badges/sensemakr)
 
 # News

@@ -858,7 +858,7 @@ ovb_extreme_plot.numeric = function(estimate,
                                     ylab = NULL,
                                     cex.lab = .7,
                                     cex.axis = .7,
-                                    list.par = list(oma = c(0, 0, 0, 0)),
+                                    list.par = list(oma = c(1, 1, 1, 1)),
                                     ...) {
 
   # if (is.null(lim)) {
@@ -941,11 +941,11 @@ ovb_extreme_plot.numeric = function(estimate,
 
   if (legend) {
     old.par <- par(fig = c(0, 1, 0, 1),
-                   oma = c(0, 0, 2, 1.5),
-                   mar = c(0, 0, 0, 0),
+                   oma = c(0, 0, 2, 2),
+                   mar = c(0, 0, 1.5, 0),
                    new = TRUE)
     on.exit(par(old.par))
-    plot(0, 0, type = "n", bty = "n", xaxt = "n", yaxt = "n")
+    plot(0, 0, type = "n", bty = "n", xaxt = "n", yaxt = "n", xlab = "", ylab = "")
 
     legend(
       x = "topright",
