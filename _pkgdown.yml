@@ -1,1 +1,28 @@
 destination: docs
+reference:
+- title: Main function and methods (sensemakr)
+  contents:
+    - sensemakr
+    - plot.sensemakr
+    - print.sensemakr
+    - summary.sensemakr
+- title: Sensitivity statistics
+  contents:
+    - robustness_value
+    - partial_r2
+    - sensitivity_stats
+- title: Sensitivity plots
+  contents:
+    - ovb_contour_plot
+    - ovb_extreme_plot
+    - add_bound_to_contour
+- title: Bias, adjusted estimates and standard errors
+  contents:
+    - bias
+- title: Bounds on confounding
+  contents:
+    - ovb_bounds
+- title: Datasets
+  contents:
+    - colombia
+    - darfur

@@ -1,16 +1,28 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-## sensemakr <img src="tools/sensemakr-logo-small.png" align="right" />
+# sensemakr <img src="man/figures/sensemakr-logo-small.png" align="right" />
 
-[![Travis-CI Build
+<!-- badges: start -->
+
+[![Travis-CI build
 Status](https://travis-ci.org/carloscinelli/sensemakr.svg?branch=master)](https://travis-ci.org/carloscinelli/sensemakr)
-[![Build
+[![Appveyor build
 status](https://ci.appveyor.com/api/projects/status/utoc0803j4fxoje3?svg=true)](https://ci.appveyor.com/project/carloscinelli/sensemakr)
-[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/sensemakr)](https://cran.r-project.org/package=sensemakr)
+[![CRAN
+status](https://www.r-pkg.org/badges/version/sensemakr)](https://CRAN.R-project.org/package=sensemakr)
 [![Coverage
 status](https://codecov.io/gh/carloscinelli/sensemakr/branch/master/graph/badge.svg)](https://codecov.io/github/carloscinelli/sensemakr?branch=master)
-![Donwloads](http://cranlogs.r-pkg.org/badges/sensemakr)
+[![Donwloads](https://cranlogs.r-pkg.org/badges/sensemakr)](https://cran.r-project.org/package=sensemakr)
+<!-- badges: end -->
+
+sensemakr implements a suite of sensitivity analysis tools that extends
+the traditional omitted variable bias framework and makes it easier to
+understand the impact of omitted variables in regression models, as
+discussed in Cinelli, C. and Hazlett, C. (2020), “Making Sense of
+Sensitivity: Extending Omitted Variable Bias.” Journal of the Royal
+Statistical Society, Series B (Statistical Methodology)
+<doi:10.1111/rssb.12348>.
 
 # News
 

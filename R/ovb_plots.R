@@ -576,7 +576,7 @@ add_bound_to_contour <- function(...){
 add_bound_to_contour.ovb_bounds <- function(bounds,
                                             bound_value = NULL,
                                             label.text = TRUE,
-                                            cex.label.text = 1,
+                                            cex.label.text = .7,
                                             label.bump.x = 0.02,
                                             label.bump.y = 0.02,
                                             round = 2,

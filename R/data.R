@@ -42,7 +42,7 @@
 #' @references
 #' @references Cinelli, C. and Hazlett, C. (2020), "Making Sense of Sensitivity: Extending Omitted Variable Bias." Journal of the Royal Statistical Society, Series B (Statistical Methodology).
 #'
-#' Hazlett, Chad. "Angry or Weary? How Violence Impacts Attitudes toward Peace among Darfurian Refugees." Journal of Conflict Resolution (2019): 0022002719879217.
+#' Hazlett, Chad. (2019) "Angry or Weary? How Violence Impacts Attitudes toward Peace among Darfurian Refugees." Journal of Conflict Resolution: 0022002719879217.
 #'
 "darfur"
 
@@ -52,7 +52,8 @@
 #' Data from Colombia
 #'
 #' @description
-#' Data on support for the 2016 referendum for peace with the FARC in Colombia. The main "treatment"
+#' Data on support for the 2016 referendum for peace with the FARC in Colombia, as discussed in Hazlett and Parente (2020).
+#' The main "treatment"
 #' variables are \code{santos2014}, which indicates the share of town population voting in support of
 #' Santos in the 2014 Presidential election, and \code{fat_2011to2015_gtd}, which indicates
 #' the number of fatalities due to FARC violence between 2011 and 2015, again at the town level.
@@ -130,5 +131,5 @@
 #' plot(sense.model3, sensitivity.of = "t-value", lim = 0.9)
 #'
 #' @references
-#' Hazlett, Chad, and Francesca Parente. "Credible or Confounded? Applying sensitivity analyses to improve research and its evaluation under imperfect identification." (2020)
+#' Hazlett, C., and Parente, F. (2020). "Who supports peace with the FARC? A sensitivity-based approach under imperfect identification"
 "colombia"
