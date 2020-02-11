@@ -44,10 +44,9 @@ absolute value of the estimated coefficient? Default is \code{TRUE}.}
 
 \item{bound}{type of bounding procedure. Currently only \code{"partial r2"} is implemented.}
 
-\item{adjusted_estimates}{should the bounder also compute the adjusted estimates?}
+\item{adjusted_estimates}{should the bounder also compute the adjusted estimates? Default is \code{TRUE}.}
 
-\item{alpha}{significance level for computing the adjusted confidence intervals.
-Default is \code{TRUE}.}
+\item{alpha}{significance level for computing the adjusted confidence intervals. Default is 0.05.}
 }
 \value{
 The function returns a \code{\link{data.frame}} with the bounds on the strength of the unobserved confounder

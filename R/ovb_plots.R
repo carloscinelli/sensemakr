@@ -29,36 +29,10 @@ plot.sensemakr = function(x,
   type <- match.arg(type)
 
   # Call the dispatch function of interest
-  switch(type,
-         "contour" = dispatch_contour,
-         "extreme" = dispatch_extreme)(x,
-                                       ...)
-}
-
-dispatch_contour = function(x,
-                            sensitivity.of = c("estimate", "t-value"),
-                            ...) {
-  # Use dispatcher rather than direct call so we can allow modifying call if
-  # necessary
-  sensitivity.of <- match.arg(sensitivity.of)
-  estimate <- x$sensitivity_stats$estimate
-  q <- x$info$q
-  reduce <- x$info$reduce
-  alpha <- x$info$alpha
-  dof <- x$sensitivity_stats$dof
-  thr <- ifelse(reduce, estimate*(1 - q), estimate*(1 + q) )
-  t.thr <- abs(qt(alpha/2, df = dof - 1))*sign(x$sensitivity_stats$t_statistic)
-  ovb_contour_plot(x,
-                   sensitivity.of = sensitivity.of,
-                   estimate.threshold = thr,
-                   t.threshold = t.thr,
-                   ...)
-}
-
-dispatch_extreme = function(x, ...) {
-  # Use dispatcher rather than direct call so we can allow modifying call if
-  # necessary
-  ovb_extreme_plot(x, ...)
+  plotter <- switch(type,
+                    "contour" = ovb_contour_plot,
+                    "extreme" = ovb_extreme_plot)
+  plotter(x, ...)
 }
 
 
@@ -77,6 +51,14 @@ ovb_contour_plot.sensemakr <- function(x, sensitivity.of = c("estimate", "t-valu
     bound_label = x$bounds$bound_label
   }
 
+  estimate <- x$sensitivity_stats$estimate
+  q <- x$info$q
+  reduce <- x$info$reduce
+  alpha <- x$info$alpha
+  dof <- x$sensitivity_stats$dof
+  thr <- ifelse(reduce, estimate*(1 - q), estimate*(1 + q) )
+  t.thr <- abs(qt(alpha/2, df = dof - 1))*sign(x$sensitivity_stats$t_statistic)
+
   with(x,
        ovb_contour_plot(estimate = sensitivity_stats$estimate,
                         se = sensitivity_stats$se,
@@ -85,10 +67,15 @@ ovb_contour_plot.sensemakr <- function(x, sensitivity.of = c("estimate", "t-valu
                         r2yz.dx = r2yz.dx,
                         bound_label = bound_label,
                         sensitivity.of = sensitivity.of,
+                        reduce = reduce,
+                        estimate.threshold = thr,
+                        t.threshold = t.thr,
                         ...)
 
   )
 }
+
+
 
 #' @export
 ovb_extreme_plot.sensemakr <- function(x, r2yz.dx = c(1, 0.75, 0.5), ...){
@@ -100,13 +87,18 @@ ovb_extreme_plot.sensemakr <- function(x, r2yz.dx = c(1, 0.75, 0.5), ...){
     r2dz.x <- x$bounds$r2dz.x
     bound_label = x$bounds$bound_label
   }
-
+  estimate <- x$sensitivity_stats$estimate
+  q <- x$info$q
+  reduce <- x$info$reduce
+  thr <- ifelse(reduce, estimate*(1 - q), estimate*(1 + q) )
   with(x,
        ovb_extreme_plot(estimate = sensitivity_stats$estimate,
                         se = sensitivity_stats$se,
                         dof = sensitivity_stats$dof,
                         r2dz.x = r2dz.x,
                         r2yz.dx = r2yz.dx,
+                        reduce = reduce,
+                        threshold = thr,
                         ...)
 
   )
@@ -893,7 +885,8 @@ ovb_extreme_plot.numeric = function(estimate,
                           r2yz.dx = r2yz.dx[i],
                           r2dz.x = r2d_values,
                           se = se,
-                          dof = dof, reduce = reduce)
+                          dof = dof,
+                          reduce = reduce)
     # Initial plot
     if (i == 1) {
       if (estimate < 0) {

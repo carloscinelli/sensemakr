@@ -155,10 +155,8 @@ ovb_bounds <- function(...){
 #' @inheritParams ovb_contour_plot
 #' @rdname ovb_bounds
 #' @param bound type of bounding procedure. Currently only \code{"partial r2"} is implemented.
-#' @param adjusted_estimates should the bounder also compute the adjusted estimates?
-#' @param alpha significance level for computing the adjusted confidence intervals.
-#' Default is \code{TRUE}.
-#'
+#' @param adjusted_estimates should the bounder also compute the adjusted estimates? Default is \code{TRUE}.
+#' @param alpha significance level for computing the adjusted confidence intervals. Default is 0.05.
 #' @examples
 #'
 #'# runs regression model
