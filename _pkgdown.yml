@@ -1,8 +1,36 @@
 destination: docs
+
 template:
   params:
     bootswatch: cosmo
     ganalytics: UA-158095434-1
+
+authors:
+  Carlos Cinelli:
+    href: https://carloscinelli.com
+  Chad Hazlett:
+    href: https://chadhazlett.com
+  Aaron Rudkin:
+    href: https://rudkin.ca
+
+navbar:
+  structure:
+    left: [home, intro, articles, reference]
+    right: [github]
+  components:
+    home: ~
+    articles:
+      href: articles/index.html
+      text: Articles
+
+articles:
+  - title: Getting Started
+    contents:
+      - sensemakr
+  - title: Examples
+    contents:
+      - informal_benchmarking
+
 reference:
 - title: Main function and methods (sensemakr)
   desc: >

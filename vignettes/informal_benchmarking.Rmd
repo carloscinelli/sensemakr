@@ -1,6 +1,6 @@
 ---
 title: "The Risks of Informal Benchmarking"
-author: Carlos Cinelli and Chad Hazlett
+author: "Carlos Cinelli and Chad Hazlett"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{informal_benchmarking}
@@ -11,18 +11,52 @@ vignette: >
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
+  comment = "#>",
+  fig.height = 5,
+  fig.width = 5
 )
 ```
 
-```{r setup}
-library(sensemakr)
+```{r, echo = FALSE}
+embed_png <- function(path, dpi = NULL) {
+  meta <- attr(png::readPNG(path, native = TRUE, info = TRUE), "info")
+  if (!is.null(dpi)) meta$dpi <- rep(dpi, 2)
+  knitr::asis_output(paste0(
+    "<img src='", path, "'",
+    " width=", round(meta$dim[1] / (meta$dpi[1] / 96)),
+    " height=", round(meta$dim[2] / (meta$dpi[2] / 96)),
+    " />"
+  ))
+}
 ```
 
 
+## Introduction
+
+In this section, we show how to replicate the example in Section 6.1 of [Cinelli and Hazlett (2020)](https://doi.org/10.1111/rssb.12348) using the R package `sensemakr`. This example is especially useful to illustrate how users can construct their own sensitivity contour plots with customized bounds, and it also shows the risks of informal benchmarking procedures that are still widespread in the sensitivity analysis literature (e.g., Imbens, 2003; Blackwell, 2013; Hosman et al. 2010, Dorie et al., 2016, Hong et al. 2018). 
+
+## Backgroung
+
+Section 4.4 of [Cinelli and Hazlett (2020)](https://doi.org/10.1111/rssb.12348)  shows how it is possible to bound the maximum strength of confounding given relative judgments on how the strength unobserved variables compares to the strength of observed variables. You can compute those bounds with the `sensemakr` package using the function `ovb_bounds()`
+
+Prior work in sensitivity analysis---dating back at least to Imbens (2003), and followed by others (e.g, Hosman et al. 2010, Dorie et al., 2016, Hong et al. 2018)---has also proposed comparing observables with unobservables, but has done so by informally using statistics of observed variables to "calibrate intuitions" about sensitivity parameters concerning the unobserved variable. This practice, however, can have undesirable consequences as we show next.
+
+## Simulating the data
+
+Let us begin by simulating the data generating process used in our example. Consider a treatment variable $D$, an outcome variable $Y$, one observed confounder $X$, and one *unobserved* confounder $Z$. Again, all disturbance variables $U$ are mutually independent and note that, in reality, the treatment $D$ has *no causal effect* on the outcome $Y$. 
+
+\begin{align}
+Z &= U_{z}\\
+X &= U_{x}\\
+D &= X + Z + U_d\\
+Y &= X + Z + U_y
+\end{align}
+
+Also note that, in this model: (i) the unobserved confounder $Z$ is independent of $X$; and, (ii) the unobserved confounder $Z$ is *exactly like* $X$ in terms of its strength of association with the treatment and the outcome. The code below creates a sample of size 10,000 of this data generating process.
+
+
 ```{r}
-## First we need to simulate the data
-# sets seed
+# sets seed for reproducibility
 set.seed(12345)
 
 # simulates data
@@ -32,46 +66,114 @@ X <- rnorm(n)
 Z <- resid(lm(Z ~ X)) # makes sure that Z is ortogonal to X
 D <- X + Z + rnorm(n)
 Y <- X + Z + rnorm(n)
+```
 
-# fits models
-model.y <- lm(Y ~ D + X) 
-model.d <- lm(D ~ X)
+## Fitting the model
 
-# partial R2 of X
-dof <- model.y$df.residual
-r2yx.d <- partial_r2(model.y, covariates = "X")
-r2dx   <- partial_r2(model.d, covariates = "X")
+In this example, the investigator does not observe the confounder $Z$. Therefore, she is forced to fit the restricted linear model $Y \sim D + X$, resulting in the following estimated values
 
-# proper bounds
-## compute real k
-model.yz <- lm(Y ~ D + Z)
-model.dz <- lm(D ~ Z)
+```{r}
+model.ydx <- lm(Y ~ D + X) 
+summary(model.ydx)
+```
+Note we obtain a large and statistically significant coefficient estimate of the effect of $X$ on $Y$ ($0.5$). However, we know that the variable $Z$ is not observed, and there is the fear that this estimated effect is in fact due to the bias caused by $Z$. On the other hand, let us suppose the investigator correctly know that: (i) $Z$ and $X$ have the same strength of association with $D$ and $Y$; and, (ii) $Z$ is independent of $X$. Can we leverage this information to undersand how much bias a confounder $Z$ "not unlike" $X$ could cause?
 
-## partial R2 of Z
-r2yz.d <- partial_r2(model.yz, covariates = "Z")
-r2dz   <- partial_r2(model.dz, covariates = "Z")
 
-## compute exact kd and ky (basically 1)
-ky <- r2yz.d/r2yx.d
-kd <- r2dz/r2dx
+## Informal benchmarks
 
-## compute formal bounds
-formal_bound <- ovb_bounds(model.y, treatment = "D", benchmark_covariates = "X", kd = kd, ky = ky)
-formal_bound$bound_label <- "Proper bound"
+Computing the bias due to the omission of $Z$ requires two sensitivity parameters: its partial $R^2$ with the treatment $D$ and its partial $R^2$ with the outcome $Y$. How could we go about computing the bias that a confounder $Z$ "not unlike $X$" would cause? 
 
-# contour plot
-ovb_contour_plot(model.y,  treatment = "D", lim = .6)
-add_bound_to_contour(bounds = formal_bound, 
-                     bound_value = 0, 
-                     label.bump.y = 0.04)
+Intuitively, it seems that we could take as reference the observed partial $R^2$ of $X$ with $D$ and $Y$, and use those as the plausible values for the sensitivity parameters. That's the essence of many informal benchmarking proposals. So llet us now compute those observed partial $R^2$ using the `partial_r2()` function of `sensemakr`. For the partial $R^2$ of $X$ with the treatment, we also need to fit a treatment regression $D \sim X$ first.
+
+```{r}
+# loads sensemakr package
+library(sensemakr)
+
+# fits treatment regression
+model.dx <- lm(D ~ X)
+
+# computes observed partial R2 of X
+r2yx.d <- partial_r2(model.ydx, covariates = "X")
+r2dx   <- partial_r2(model.dx, covariates = "X")
+```
+
+Once both partial $R^2$ are computed, we can determine the implied adjusted estimate due to an unobserved confounder $Z$ using the `adjusted_estimate()` function. 
+
+```{r}
+informal_adjusted_estimate <- adjusted_estimate(model.ydx, 
+                                                treatment = "D", 
+                                                r2dz.x = r2dx, 
+                                                r2yz.dx = r2yx.d)
+```
+
+We can now plot the sensitivity contours with `ovb_contour_plot()` and add our informal benchmark with the numeric method of `add_bound_to_contour()`. The arguments `label.bump.x` and `label.bump.y` of these functions allow adjusting the position of the bound label in the plot.
+
+```{r, fig.align='center'}
+# draws sensitivity contours
+ovb_contour_plot(model.ydx,  
+                 treatment = "D", 
+                 label.bump.x = 0.04,
+                 label.bump.y = 0.03,
+                 lim = .6)
+
+# adds informal benchmark 
 add_bound_to_contour(r2dz.x = r2dx, 
                      r2yz.dx = r2yx.d, 
                      label.bump.x = 0.04,
                      label.bump.y = 0.03,
-                     bound_value = adjusted_estimate(model.y, 
-                                                     treatment = "D",
-                                                     r2dz.x = r2dx,
-                                                     r2yz.dx = r2yx.d),
+                     bound_value = informal_adjusted_estimate,
                      bound_label = "Informal benchmark")
 ```
 
+As we can see, the results of the informal benchmark are different from what we expected. The informal benchmark point is still far away from zero, and this would lead an investigator to incorrectly conclude that an unobserved confounder $Z$ "not unlike $X$" is not sufficient to explain away the observed effect. Moreover, this incorrect conclusion occurs despite *correctly* assuming that: (i) $Z$ and $X$ have the same strength of association with $D$ and $Y$; and, (ii) $Z$ is independent of $X$. Why does this happen?
+
+As explained in Section 6.1 of [Cinelli and Hazlett (2020)](https://doi.org/10.1111/rssb.12348), there are two problems affecting informal benchmarks in this setting. First, we have to make an adjustment of baseline variance to be explained, since the sensitivity parameters consider the partial $R^2$ of $Z$ with the outcome, after taking into account what is already explained by $X$. Second, note that, although $Z$ is ideed independent of $X$, $Z$ is not independent of $X$ *given* $D$, because $D$ is a collider (Pearl, 2009). This distorts the observed quantities of $X$ that are being used for benchmarking.
+
+```{r, echo=FALSE}
+embed_png(path = "collider.png", dpi = 400)
+```
+
+
+## Formal bounds
+
+Given the above considerations, we do not recomment using informal benchmarks for sensitivity analysis. We now show how to compute formal bounds. In `sensemakr`, you can use the function `ovb_bounds()`.
+
+```{r, fig.align='center'}
+# compute formal bounds
+formal_bound <- ovb_bounds(model = model.ydx, 
+                           treatment = "D", 
+                           benchmark_covariates = "X", 
+                           kd = 1, ky = 1)
+```
+
+In this function you specify the linear model being used (`model.ydx`), the treatment of interst ($D$), the observed variable used for benchmarking ($X$), and how stronger $Z$ is in explaining treatment (`kd`) and outcome (`ky`) variation, as compared to the benchmark variable $X$. We can now plot the proper bound against the informal benchmark.
+
+```{r, fig.align='center'}
+# change bound label
+formal_bound$bound_label <- "Proper bound"
+
+# contour plot
+ovb_contour_plot(model.ydx,  
+                 treatment = "D",
+                 label.bump.x = 0.04,
+                 label.bump.y = 0.03,
+                 lim = .6)
+
+add_bound_to_contour(r2dz.x = r2dx, 
+                     r2yz.dx = r2yx.d, 
+                     label.bump.x = 0.04,
+                     label.bump.y = 0.03,
+                     bound_value = informal_adjusted_estimate,
+                     bound_label = "Informal benchmark")
+
+add_bound_to_contour(bounds = formal_bound, 
+                     bound_value = 0, 
+                     label.bump.y = 0.04)
+```
+
+Note that, using the formal bounds, the researcher now reaches the correct conclusion that, an unobserved confounder $Z$ similar to $X$ is strong enough to explain away all the observed association. For further details, please see Sections 4.4 and 6.1 of [Cinelli and Hazlett (2020)](https://doi.org/10.1111/rssb.12348).
+
+
+## References
+
+Cinelli, C. Hazlett, C. (2020) "Making Sense of Sensitivity: Extending Omitted Variable Bias". Journal of the Royal Statistical Society, Series B (Statistical Methodology). [link](https://doi.org/10.1111/rssb.12348).

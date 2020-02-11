@@ -25,6 +25,7 @@ Suggests:
     testthat,
     covr,
     knitr,
-    rmarkdown
+    rmarkdown,
+    png
 LazyData: true
 VignetteBuilder: knitr
