@@ -18,8 +18,8 @@ add_bound_to_contour(...)
   sensitivity.of = c("estimate", "t-value"),
   label.text = TRUE,
   cex.label.text = 0.7,
-  label.bump.x = 0.02,
-  label.bump.y = 0.02,
+  label.bump.x = par("usr")[2] * (1/15),
+  label.bump.y = par("usr")[4] * (1/15),
   round = 2,
   ...
 )
@@ -31,8 +31,8 @@ add_bound_to_contour(...)
   bound_label = NULL,
   label.text = TRUE,
   cex.label.text = 0.7,
-  label.bump.x = 0.02,
-  label.bump.y = 0.02,
+  label.bump.x = par("usr")[2] * (1/15),
+  label.bump.y = par("usr")[4] * (1/15),
   round = 2,
   ...
 )

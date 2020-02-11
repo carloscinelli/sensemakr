@@ -189,7 +189,7 @@ ovb_contour_plot.lm = function(model,
                                col.thr.line = "red",
                                label.text = TRUE,
                                cex.label.text = .7,
-                               label.bump.x = lim*(1/8),
+                               label.bump.x = lim*(1/15),
                                label.bump.y = lim.y*(1/15),
                                round = 3,
                                ...) {
@@ -198,10 +198,25 @@ ovb_contour_plot.lm = function(model,
   check_multipliers(ky = ky, kd = kd)
   if (lim > 1) {
     lim <- 1
+    label.bump.x = lim*(1/15)
     warning("Contour limit larger than 1 was set to 1.")
   }
+
+  if (lim.y > 1) {
+    lim.y <- 1
+    label.bump.y = lim.y*(1/15)
+    warning("Contour limit larger than 1 was set to 1.")
+  }
+
   if (lim < 0) {
     lim <- 0.4
+    label.bump.x = lim*(1/15)
+    warning("Contour limit less than 0 was set to 0.4.")
+  }
+
+  if (lim.y < 0) {
+    lim.y <- 0.4
+    label.bump.y = lim.y*(1/15)
     warning("Contour limit less than 0 was set to 0.4.")
   }
 
@@ -222,7 +237,9 @@ ovb_contour_plot.lm = function(model,
                           bound_label = bound_label,
                           stringsAsFactors = FALSE)
     lim <- max(c(lim, r2dz.x + 0.001))
+    label.bump.x = lim*(1/15)
     lim.y <- max(c(lim.y, r2yz.dx + 0.001))
+    label.bump.y = lim.y*(1/15)
   } else{
     bounds <-  NULL
   }
@@ -238,7 +255,9 @@ ovb_contour_plot.lm = function(model,
                                adjusted_estimates = FALSE)
     bounds <- rbind(bounds, bench_bounds)
     lim <- max(c(lim, bounds$r2dz.x + 0.001))
+    label.bump.x = lim*(1/15)
     lim.y <- max(c(lim.y, bounds$r2yz.dx + 0.001))
+    label.bump.y = lim.y*(1/15)
   }
 
   ovb_contour_plot(estimate = estimate,
@@ -360,7 +379,7 @@ ovb_contour_plot.numeric = function(estimate,
                                     col.thr.line = "red",
                                     label.text = TRUE,
                                     cex.label.text = .7,
-                                    label.bump.x = lim*(1/8),
+                                    label.bump.x = lim*(1/15),
                                     label.bump.y = lim.y*(1/15),
                                     xlab = NULL,
                                     ylab = NULL,
@@ -375,11 +394,33 @@ ovb_contour_plot.numeric = function(estimate,
   check_estimate(estimate)
   check_r2(r2dz.x = r2dz.x, r2yz.dx = r2yz.dx)
 
+  if (lim > 1) {
+    lim <- 1
+    label.bump.x = lim*(1/15)
+    warning("Contour limit larger than 1 was set to 1.")
+  }
+
+  if (lim.y > 1) {
+    lim.y <- 1
+    label.bump.y = lim.y*(1/15)
+    warning("Contour limit larger than 1 was set to 1.")
+  }
+
+  if (lim < 0) {
+    lim <- 0.4
+    label.bump.x = lim*(1/15)
+    warning("Contour limit less than 0 was set to 0.4.")
+  }
+
+  if (lim.y < 0) {
+    lim.y <- 0.4
+    label.bump.y = lim.y*(1/15)
+    warning("Contour limit less than 0 was set to 0.4.")
+  }
+
   if (length(r2dz.x) != length(r2yz.dx)) {
     stop("Length of r2dz.x and r2yz.dx partial R2 must match")
   }
-
-  lim <- check_contour_lim(lim)
 
   sensitivity.of <- match.arg(sensitivity.of)
 
@@ -569,8 +610,8 @@ add_bound_to_contour.ovb_bounds <- function(bounds,
                                             bound_value = NULL,
                                             label.text = TRUE,
                                             cex.label.text = .7,
-                                            label.bump.x = 0.02,
-                                            label.bump.y = 0.02,
+                                            label.bump.x = par("usr")[2]*(1/15),
+                                            label.bump.y = par("usr")[4]*(1/15),
                                             round = 2,
                                             ...){
   add_bound_to_contour(r2dz.x = bounds$r2dz.x,
@@ -597,8 +638,8 @@ add_bound_to_contour.lm <- function(model,
                                     sensitivity.of = c("estimate", "t-value"),
                                     label.text = TRUE,
                                     cex.label.text = .7,
-                                    label.bump.x = 0.02,
-                                    label.bump.y = 0.02,
+                                    label.bump.x = par("usr")[2]*(1/15),
+                                    label.bump.y = par("usr")[4]*(1/15),
                                     round = 2,
                                     ...)
 {
@@ -642,8 +683,8 @@ add_bound_to_contour.numeric <- function(r2dz.x,
                                          bound_label = NULL,
                                          label.text = TRUE,
                                          cex.label.text = .7,
-                                         label.bump.x = 0.02,
-                                         label.bump.y = 0.02,
+                                         label.bump.x = par("usr")[2]*(1/15),
+                                         label.bump.y = par("usr")[4]*(1/15),
                                          round = 2,
                                          ...){
 

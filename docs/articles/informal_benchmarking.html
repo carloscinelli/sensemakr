@@ -89,9 +89,9 @@
 <a href="#introduction" class="anchor"></a>Introduction</h2>
 <p>In this section, we show how to replicate the example in Section 6.1 of <a href="https://doi.org/10.1111/rssb.12348">Cinelli and Hazlett (2020)</a> using the R package <code>sensemakr</code>. This example is especially useful to illustrate how users can construct their own sensitivity contour plots with customized bounds, and it also shows the risks of informal benchmarking procedures that are still widespread in the sensitivity analysis literature (e.g., Imbens, 2003; Blackwell, 2013; Hosman et al. 2010, Dorie et al., 2016, Hong et al. 2018).</p>
 </div>
-<div id="backgroung" class="section level2">
+<div id="background" class="section level2">
 <h2 class="hasAnchor">
-<a href="#backgroung" class="anchor"></a>Backgroung</h2>
+<a href="#background" class="anchor"></a>Background</h2>
 <p>Section 4.4 of <a href="https://doi.org/10.1111/rssb.12348">Cinelli and Hazlett (2020)</a> shows how it is possible to bound the maximum strength of confounding given relative judgments on how the strength unobserved variables compares to the strength of observed variables. You can compute those bounds with the <code>sensemakr</code> package using the function <code><a href="../reference/ovb_bounds.html">ovb_bounds()</a></code></p>
 <p>Prior work in sensitivity analysis—dating back at least to Imbens (2003), and followed by others (e.g, Hosman et al. 2010, Dorie et al., 2016, Hong et al. 2018)—has also proposed comparing observables with unobservables, but has done so by informally using statistics of observed variables to “calibrate intuitions” about sensitivity parameters concerning the unobserved variable. This practice, however, can have undesirable consequences as we show next.</p>
 </div>
@@ -169,17 +169,13 @@ Y &amp;= X + Z + U_y
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="co"># draws sensitivity contours</span></a>
 <a class="sourceLine" id="cb5-2" data-line-number="2"><span class="kw"><a href="../reference/ovb_contour_plot.html">ovb_contour_plot</a></span>(model.ydx,  </a>
 <a class="sourceLine" id="cb5-3" data-line-number="3">                 <span class="dt">treatment =</span> <span class="st">"D"</span>, </a>
-<a class="sourceLine" id="cb5-4" data-line-number="4">                 <span class="dt">label.bump.x =</span> <span class="fl">0.04</span>,</a>
-<a class="sourceLine" id="cb5-5" data-line-number="5">                 <span class="dt">label.bump.y =</span> <span class="fl">0.03</span>,</a>
-<a class="sourceLine" id="cb5-6" data-line-number="6">                 <span class="dt">lim =</span> <span class="fl">.6</span>)</a>
-<a class="sourceLine" id="cb5-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb5-8" data-line-number="8"><span class="co"># adds informal benchmark </span></a>
-<a class="sourceLine" id="cb5-9" data-line-number="9"><span class="kw"><a href="../reference/add_bound_to_contour.html">add_bound_to_contour</a></span>(<span class="dt">r2dz.x =</span> r2dx, </a>
-<a class="sourceLine" id="cb5-10" data-line-number="10">                     <span class="dt">r2yz.dx =</span> r2yx.d, </a>
-<a class="sourceLine" id="cb5-11" data-line-number="11">                     <span class="dt">label.bump.x =</span> <span class="fl">0.04</span>,</a>
-<a class="sourceLine" id="cb5-12" data-line-number="12">                     <span class="dt">label.bump.y =</span> <span class="fl">0.03</span>,</a>
-<a class="sourceLine" id="cb5-13" data-line-number="13">                     <span class="dt">bound_value =</span> informal_adjusted_estimate,</a>
-<a class="sourceLine" id="cb5-14" data-line-number="14">                     <span class="dt">bound_label =</span> <span class="st">"Informal benchmark"</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb5-4" data-line-number="4">                 <span class="dt">lim =</span> <span class="fl">.6</span>)</a>
+<a class="sourceLine" id="cb5-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb5-6" data-line-number="6"><span class="co"># adds informal benchmark </span></a>
+<a class="sourceLine" id="cb5-7" data-line-number="7"><span class="kw"><a href="../reference/add_bound_to_contour.html">add_bound_to_contour</a></span>(<span class="dt">r2dz.x =</span> r2dx, </a>
+<a class="sourceLine" id="cb5-8" data-line-number="8">                     <span class="dt">r2yz.dx =</span> r2yx.d, </a>
+<a class="sourceLine" id="cb5-9" data-line-number="9">                     <span class="dt">bound_value =</span> informal_adjusted_estimate,</a>
+<a class="sourceLine" id="cb5-10" data-line-number="10">                     <span class="dt">bound_label =</span> <span class="st">"Informal benchmark"</span>)</a></code></pre></div>
 <p><img src="informal_benchmarking_files/figure-html/unnamed-chunk-7-1.png" width="480" style="display: block; margin: auto;"></p>
 <p>As we can see, the results of the informal benchmark are different from what we expected. The informal benchmark point is still far away from zero, and this would lead an investigator to incorrectly conclude that an unobserved confounder <span class="math inline">\(Z\)</span> “not unlike <span class="math inline">\(X\)</span>” is not sufficient to explain away the observed effect. Moreover, this incorrect conclusion occurs despite <em>correctly</em> assuming that: (i) <span class="math inline">\(Z\)</span> and <span class="math inline">\(X\)</span> have the same strength of association with <span class="math inline">\(D\)</span> and <span class="math inline">\(Y\)</span>; and, (ii) <span class="math inline">\(Z\)</span> is independent of <span class="math inline">\(X\)</span>. Why does this happen?</p>
 <p>As explained in Section 6.1 of <a href="https://doi.org/10.1111/rssb.12348">Cinelli and Hazlett (2020)</a>, there are two problems affecting informal benchmarks in this setting. First, we have to make an adjustment of baseline variance to be explained, since the sensitivity parameters consider the partial <span class="math inline">\(R^2\)</span> of <span class="math inline">\(Z\)</span> with the outcome, after taking into account what is already explained by <span class="math inline">\(X\)</span>. Second, consider the DAG of our structural model:</p>
@@ -202,20 +198,15 @@ Y &amp;= X + Z + U_y
 <a class="sourceLine" id="cb7-4" data-line-number="4"><span class="co"># contour plot</span></a>
 <a class="sourceLine" id="cb7-5" data-line-number="5"><span class="kw"><a href="../reference/ovb_contour_plot.html">ovb_contour_plot</a></span>(model.ydx,  </a>
 <a class="sourceLine" id="cb7-6" data-line-number="6">                 <span class="dt">treatment =</span> <span class="st">"D"</span>,</a>
-<a class="sourceLine" id="cb7-7" data-line-number="7">                 <span class="dt">label.bump.x =</span> <span class="fl">0.04</span>,</a>
-<a class="sourceLine" id="cb7-8" data-line-number="8">                 <span class="dt">label.bump.y =</span> <span class="fl">0.03</span>,</a>
-<a class="sourceLine" id="cb7-9" data-line-number="9">                 <span class="dt">lim =</span> <span class="fl">.6</span>)</a>
-<a class="sourceLine" id="cb7-10" data-line-number="10"></a>
-<a class="sourceLine" id="cb7-11" data-line-number="11"><span class="kw"><a href="../reference/add_bound_to_contour.html">add_bound_to_contour</a></span>(<span class="dt">r2dz.x =</span> r2dx, </a>
-<a class="sourceLine" id="cb7-12" data-line-number="12">                     <span class="dt">r2yz.dx =</span> r2yx.d, </a>
-<a class="sourceLine" id="cb7-13" data-line-number="13">                     <span class="dt">label.bump.x =</span> <span class="fl">0.04</span>,</a>
-<a class="sourceLine" id="cb7-14" data-line-number="14">                     <span class="dt">label.bump.y =</span> <span class="fl">0.03</span>,</a>
-<a class="sourceLine" id="cb7-15" data-line-number="15">                     <span class="dt">bound_value =</span> informal_adjusted_estimate,</a>
-<a class="sourceLine" id="cb7-16" data-line-number="16">                     <span class="dt">bound_label =</span> <span class="st">"Informal benchmark"</span>)</a>
-<a class="sourceLine" id="cb7-17" data-line-number="17"></a>
-<a class="sourceLine" id="cb7-18" data-line-number="18"><span class="kw"><a href="../reference/add_bound_to_contour.html">add_bound_to_contour</a></span>(<span class="dt">bounds =</span> formal_bound, </a>
-<a class="sourceLine" id="cb7-19" data-line-number="19">                     <span class="dt">bound_value =</span> <span class="dv">0</span>, </a>
-<a class="sourceLine" id="cb7-20" data-line-number="20">                     <span class="dt">label.bump.y =</span> <span class="fl">0.04</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb7-7" data-line-number="7">                 <span class="dt">lim =</span> <span class="fl">.6</span>)</a>
+<a class="sourceLine" id="cb7-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb7-9" data-line-number="9"><span class="kw"><a href="../reference/add_bound_to_contour.html">add_bound_to_contour</a></span>(<span class="dt">r2dz.x =</span> r2dx, </a>
+<a class="sourceLine" id="cb7-10" data-line-number="10">                     <span class="dt">r2yz.dx =</span> r2yx.d, </a>
+<a class="sourceLine" id="cb7-11" data-line-number="11">                     <span class="dt">bound_value =</span> informal_adjusted_estimate,</a>
+<a class="sourceLine" id="cb7-12" data-line-number="12">                     <span class="dt">bound_label =</span> <span class="st">"Informal benchmark"</span>)</a>
+<a class="sourceLine" id="cb7-13" data-line-number="13"></a>
+<a class="sourceLine" id="cb7-14" data-line-number="14"><span class="kw"><a href="../reference/add_bound_to_contour.html">add_bound_to_contour</a></span>(<span class="dt">bounds =</span> formal_bound, </a>
+<a class="sourceLine" id="cb7-15" data-line-number="15">                     <span class="dt">bound_value =</span> <span class="dv">0</span>)</a></code></pre></div>
 <p><img src="informal_benchmarking_files/figure-html/unnamed-chunk-10-1.png" width="480" style="display: block; margin: auto;"></p>
 <p>Note that, using the formal bounds, the researcher now reaches the correct conclusion that, an unobserved confounder <span class="math inline">\(Z\)</span> similar to <span class="math inline">\(X\)</span> is strong enough to explain away all the observed association. For further details, please see Sections 4.4 and 6.1 of <a href="https://doi.org/10.1111/rssb.12348">Cinelli and Hazlett (2020)</a>.</p>
 </div>
@@ -233,7 +224,7 @@ Y &amp;= X + Z + U_y
 <a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
 <li><a href="#introduction">Introduction</a></li>
-      <li><a href="#backgroung">Backgroung</a></li>
+      <li><a href="#background">Background</a></li>
       <li><a href="#simulating-the-data">Simulating the data</a></li>
       <li><a href="#fitting-the-model">Fitting the model</a></li>
       <li><a href="#informal-benchmarks">Informal benchmarks</a></li>

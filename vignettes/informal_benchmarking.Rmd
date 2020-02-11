@@ -35,7 +35,7 @@ embed_png <- function(path, dpi = NULL) {
 
 In this section, we show how to replicate the example in Section 6.1 of [Cinelli and Hazlett (2020)](https://doi.org/10.1111/rssb.12348) using the R package `sensemakr`. This example is especially useful to illustrate how users can construct their own sensitivity contour plots with customized bounds, and it also shows the risks of informal benchmarking procedures that are still widespread in the sensitivity analysis literature (e.g., Imbens, 2003; Blackwell, 2013; Hosman et al. 2010, Dorie et al., 2016, Hong et al. 2018). 
 
-## Backgroung
+## Background
 
 Section 4.4 of [Cinelli and Hazlett (2020)](https://doi.org/10.1111/rssb.12348)  shows how it is possible to bound the maximum strength of confounding given relative judgments on how the strength unobserved variables compares to the strength of observed variables. You can compute those bounds with the `sensemakr` package using the function `ovb_bounds()`
 
@@ -112,15 +112,11 @@ We can now plot the sensitivity contours with `ovb_contour_plot()` and add our i
 # draws sensitivity contours
 ovb_contour_plot(model.ydx,  
                  treatment = "D", 
-                 label.bump.x = 0.04,
-                 label.bump.y = 0.03,
                  lim = .6)
 
 # adds informal benchmark 
 add_bound_to_contour(r2dz.x = r2dx, 
                      r2yz.dx = r2yx.d, 
-                     label.bump.x = 0.04,
-                     label.bump.y = 0.03,
                      bound_value = informal_adjusted_estimate,
                      bound_label = "Informal benchmark")
 ```
@@ -156,20 +152,15 @@ formal_bound$bound_label <- "Proper bound"
 # contour plot
 ovb_contour_plot(model.ydx,  
                  treatment = "D",
-                 label.bump.x = 0.04,
-                 label.bump.y = 0.03,
                  lim = .6)
 
 add_bound_to_contour(r2dz.x = r2dx, 
                      r2yz.dx = r2yx.d, 
-                     label.bump.x = 0.04,
-                     label.bump.y = 0.03,
                      bound_value = informal_adjusted_estimate,
                      bound_label = "Informal benchmark")
 
 add_bound_to_contour(bounds = formal_bound, 
-                     bound_value = 0, 
-                     label.bump.y = 0.04)
+                     bound_value = 0)
 ```
 
 Note that, using the formal bounds, the researcher now reaches the correct conclusion that, an unobserved confounder $Z$ similar to $X$ is strong enough to explain away all the observed association. For further details, please see Sections 4.4 and 6.1 of [Cinelli and Hazlett (2020)](https://doi.org/10.1111/rssb.12348).
