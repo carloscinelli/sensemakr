@@ -189,7 +189,7 @@ ovb_contour_plot.lm = function(model,
                                col.thr.line = "red",
                                label.text = TRUE,
                                cex.label.text = .7,
-                               label.bump.x = lim*(1/15),
+                               label.bump.x = lim*(1/10),
                                label.bump.y = lim.y*(1/15),
                                round = 3,
                                ...) {
@@ -198,7 +198,7 @@ ovb_contour_plot.lm = function(model,
   check_multipliers(ky = ky, kd = kd)
   if (lim > 1) {
     lim <- 1
-    label.bump.x = lim*(1/15)
+    label.bump.x = lim*(1/10)
     warning("Contour limit larger than 1 was set to 1.")
   }
 
@@ -210,7 +210,7 @@ ovb_contour_plot.lm = function(model,
 
   if (lim < 0) {
     lim <- 0.4
-    label.bump.x = lim*(1/15)
+    label.bump.x = lim*(1/10)
     warning("Contour limit less than 0 was set to 0.4.")
   }
 
@@ -237,7 +237,7 @@ ovb_contour_plot.lm = function(model,
                           bound_label = bound_label,
                           stringsAsFactors = FALSE)
     lim <- max(c(lim, r2dz.x*1.2))
-    label.bump.x = lim*(1/15)
+    label.bump.x = lim*(1/10)
     lim.y <- max(c(lim.y, r2yz.dx*1.2))
     label.bump.y = lim.y*(1/15)
   } else{
@@ -255,7 +255,7 @@ ovb_contour_plot.lm = function(model,
                                adjusted_estimates = FALSE)
     bounds <- rbind(bounds, bench_bounds)
     lim <- max(c(lim, bounds$r2dz.x*1.2))
-    label.bump.x = lim*(1/15)
+    label.bump.x = lim*(1/10)
     lim.y <- max(c(lim.y, bounds$r2yz.dx*1.2))
     label.bump.y = lim.y*(1/15)
   }
@@ -379,7 +379,7 @@ ovb_contour_plot.numeric = function(estimate,
                                     col.thr.line = "red",
                                     label.text = TRUE,
                                     cex.label.text = .7,
-                                    label.bump.x = lim*(1/15),
+                                    label.bump.x = lim*(1/10),
                                     label.bump.y = lim.y*(1/15),
                                     xlab = NULL,
                                     ylab = NULL,
@@ -396,7 +396,7 @@ ovb_contour_plot.numeric = function(estimate,
 
   if (lim > 1) {
     lim <- 1
-    label.bump.x = lim*(1/15)
+    label.bump.x = lim*(1/10)
     warning("Contour limit larger than 1 was set to 1.")
   }
 
@@ -408,7 +408,7 @@ ovb_contour_plot.numeric = function(estimate,
 
   if (lim < 0) {
     lim <- 0.4
-    label.bump.x = lim*(1/15)
+    label.bump.x = lim*(1/10)
     warning("Contour limit less than 0 was set to 0.4.")
   }
 
