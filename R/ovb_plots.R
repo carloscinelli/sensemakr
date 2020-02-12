@@ -182,7 +182,7 @@ ovb_contour_plot.lm = function(model,
                                reduce = TRUE,
                                estimate.threshold = 0,
                                t.threshold = 2,
-                               lim = max(c(0.4,r2dz.x,r2yz.dx)),
+                               lim = max(c(0.4, r2dz.x*1.2, r2yz.dx*1.2)),
                                lim.y = lim,
                                nlevels = 10,
                                col.contour = "grey40",
@@ -236,9 +236,9 @@ ovb_contour_plot.lm = function(model,
                           r2yz.dx = r2yz.dx,
                           bound_label = bound_label,
                           stringsAsFactors = FALSE)
-    lim <- max(c(lim, r2dz.x + 0.001))
+    lim <- max(c(lim, r2dz.x*1.2))
     label.bump.x = lim*(1/15)
-    lim.y <- max(c(lim.y, r2yz.dx + 0.001))
+    lim.y <- max(c(lim.y, r2yz.dx*1.2))
     label.bump.y = lim.y*(1/15)
   } else{
     bounds <-  NULL
@@ -254,9 +254,9 @@ ovb_contour_plot.lm = function(model,
                                ky = ky,
                                adjusted_estimates = FALSE)
     bounds <- rbind(bounds, bench_bounds)
-    lim <- max(c(lim, bounds$r2dz.x + 0.001))
+    lim <- max(c(lim, bounds$r2dz.x*1.2))
     label.bump.x = lim*(1/15)
-    lim.y <- max(c(lim.y, bounds$r2yz.dx + 0.001))
+    lim.y <- max(c(lim.y, bounds$r2yz.dx*1.2))
     label.bump.y = lim.y*(1/15)
   }
 
@@ -302,7 +302,7 @@ ovb_contour_plot.formula = function(formula,
                                     reduce = TRUE,
                                     estimate.threshold = 0,
                                     t.threshold = 2,
-                                    lim = max(c(0.4, r2dz.x + 0.1, r2yz.dx + 0.1)),
+                                    lim = max(c(0.4, r2dz.x*1.2, r2yz.dx*1.2)),
                                     lim.y = lim,
                                     nlevels = 10,
                                     col.contour = "grey40",
@@ -372,7 +372,7 @@ ovb_contour_plot.numeric = function(estimate,
                                     reduce = TRUE,
                                     estimate.threshold = 0,
                                     t.threshold = 2,
-                                    lim = max(c(0.4, r2dz.x + 0.1, r2yz.dx + 0.1)),
+                                    lim = max(c(0.4, r2dz.x*1.2, r2yz.dx*1.2)),
                                     lim.y = lim,
                                     nlevels = 10,
                                     col.contour = "black",
@@ -477,7 +477,7 @@ ovb_contour_plot.numeric = function(estimate,
   # characteristics
   default_levels = pretty(range(z_axis), nlevels)
 
-  too_close <- abs(default_levels - threshold) < min(diff(default_levels))*0.9
+  too_close <- abs(default_levels - threshold) < min(diff(default_levels))*0.25
 
   line_color = ifelse(too_close,
                       "transparent",
