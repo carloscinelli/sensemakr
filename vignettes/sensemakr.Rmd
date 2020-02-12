@@ -4,8 +4,10 @@ output: rmarkdown::html_vignette
 author: Carlos Cinelli and Chad Hazlett
 vignette: >
   %\VignetteIndexEntry{sensemakr}
-  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r, include = FALSE}
@@ -63,8 +65,10 @@ To peform sensitivity analysis, our investigator starts by passing the estimated
 
 ```{r, message = FALSE}
 library(sensemakr)
-sense.model <- sensemakr(model = lm.model,  treatment = "D", 
-                         benchmark_covariates = "X", kd = 1)
+sense.model <- sensemakr(model = lm.model,  
+                         treatment = "D", 
+                         benchmark_covariates = "X", 
+                         kd = 1)
 sense.model
 ```
 
@@ -80,5 +84,7 @@ Sometimes, however, it may be hard to make absolute judgments on the strength of
 
 
 ```{r, fig.align='center', message = FALSE}
-plot(sense.model, sensitivity.of = "t-value", nlevels = 5, lim = .3)
+plot(sense.model, 
+     sensitivity.of = "t-value", 
+     lim = .3)
 ```

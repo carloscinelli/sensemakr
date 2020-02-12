@@ -141,24 +141,26 @@ Y &amp;= X + Z + U_y
 <a href="#sensitivity-analysis" class="anchor"></a>Sensitivity analysis</h1>
 <p>To peform sensitivity analysis, our investigator starts by passing the estimated model to the function <code><a href="../reference/sensemakr.html">sensemakr()</a></code>, along with the treatment of interest <span class="math inline">\(D\)</span></p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(sensemakr)</a>
-<a class="sourceLine" id="cb3-2" data-line-number="2">sense.model &lt;-<span class="st"> </span><span class="kw"><a href="../reference/sensemakr.html">sensemakr</a></span>(<span class="dt">model =</span> lm.model,  <span class="dt">treatment =</span> <span class="st">"D"</span>, </a>
-<a class="sourceLine" id="cb3-3" data-line-number="3">                         <span class="dt">benchmark_covariates =</span> <span class="st">"X"</span>, <span class="dt">kd =</span> <span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb3-4" data-line-number="4">sense.model</a>
-<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co">#&gt; Sensitivity Analysis to Unobserved Confounding</span></a>
-<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">#&gt; Model Formula: Y ~ D + X</span></a>
+<a class="sourceLine" id="cb3-2" data-line-number="2">sense.model &lt;-<span class="st"> </span><span class="kw"><a href="../reference/sensemakr.html">sensemakr</a></span>(<span class="dt">model =</span> lm.model,  </a>
+<a class="sourceLine" id="cb3-3" data-line-number="3">                         <span class="dt">treatment =</span> <span class="st">"D"</span>, </a>
+<a class="sourceLine" id="cb3-4" data-line-number="4">                         <span class="dt">benchmark_covariates =</span> <span class="st">"X"</span>, </a>
+<a class="sourceLine" id="cb3-5" data-line-number="5">                         <span class="dt">kd =</span> <span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb3-6" data-line-number="6">sense.model</a>
+<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">#&gt; Sensitivity Analysis to Unobserved Confounding</span></a>
 <a class="sourceLine" id="cb3-8" data-line-number="8"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb3-9" data-line-number="9"><span class="co">#&gt; Unadjusted Estimates of ' D ':</span></a>
-<a class="sourceLine" id="cb3-10" data-line-number="10"><span class="co">#&gt;   Coef. estimate: 0.13916 </span></a>
-<a class="sourceLine" id="cb3-11" data-line-number="11"><span class="co">#&gt;   Standard Error: 0.04177 </span></a>
-<a class="sourceLine" id="cb3-12" data-line-number="12"><span class="co">#&gt;   t-value: 3.3319 </span></a>
-<a class="sourceLine" id="cb3-13" data-line-number="13"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb3-14" data-line-number="14"><span class="co">#&gt; Sensitivity Statistics:</span></a>
-<a class="sourceLine" id="cb3-15" data-line-number="15"><span class="co">#&gt;   Partial R2 of treatment with outcome: 0.02185 </span></a>
-<a class="sourceLine" id="cb3-16" data-line-number="16"><span class="co">#&gt;   Robustness Value, q = 1 : 0.1387 </span></a>
-<a class="sourceLine" id="cb3-17" data-line-number="17"><span class="co">#&gt;   Robustness Value, q = 1 alpha = 0.05 : 0.05939 </span></a>
-<a class="sourceLine" id="cb3-18" data-line-number="18"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb3-19" data-line-number="19"><span class="co">#&gt; For more information, check summary.</span></a></code></pre></div>
+<a class="sourceLine" id="cb3-9" data-line-number="9"><span class="co">#&gt; Model Formula: Y ~ D + X</span></a>
+<a class="sourceLine" id="cb3-10" data-line-number="10"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb3-11" data-line-number="11"><span class="co">#&gt; Unadjusted Estimates of ' D ':</span></a>
+<a class="sourceLine" id="cb3-12" data-line-number="12"><span class="co">#&gt;   Coef. estimate: 0.13916 </span></a>
+<a class="sourceLine" id="cb3-13" data-line-number="13"><span class="co">#&gt;   Standard Error: 0.04177 </span></a>
+<a class="sourceLine" id="cb3-14" data-line-number="14"><span class="co">#&gt;   t-value: 3.3319 </span></a>
+<a class="sourceLine" id="cb3-15" data-line-number="15"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb3-16" data-line-number="16"><span class="co">#&gt; Sensitivity Statistics:</span></a>
+<a class="sourceLine" id="cb3-17" data-line-number="17"><span class="co">#&gt;   Partial R2 of treatment with outcome: 0.02185 </span></a>
+<a class="sourceLine" id="cb3-18" data-line-number="18"><span class="co">#&gt;   Robustness Value, q = 1 : 0.1387 </span></a>
+<a class="sourceLine" id="cb3-19" data-line-number="19"><span class="co">#&gt;   Robustness Value, q = 1 alpha = 0.05 : 0.05939 </span></a>
+<a class="sourceLine" id="cb3-20" data-line-number="20"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb3-21" data-line-number="21"><span class="co">#&gt; For more information, check summary.</span></a></code></pre></div>
 <p>What do these results mean?</p>
 <ul>
 <li>The partial R2 of the treatment with the outcome that,</li>
@@ -167,7 +169,9 @@ Y &amp;= X + Z + U_y
 </ul>
 <p>If the investigator know that… she can safely conclude that… on the other hand, if she suspects that… then…</p>
 <p>Sometimes, however, it may be hard to make absolute judgments on the strength of the confounder, but the researchar may have grounds to judge the <em>relative</em> strength of confounding. Thus, let us suppose our researcher further knows that the omitted variable <span class="math inline">\(Z\)</span> could potentially be as strong as the observed covariate <span class="math inline">\(X\)</span>. So she wonders: would a confounder with such strength be enough to be to explain away all the observed association.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(sense.model, <span class="dt">sensitivity.of =</span> <span class="st">"t-value"</span>, <span class="dt">nlevels =</span> <span class="dv">5</span>, <span class="dt">lim =</span> <span class="fl">.3</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(sense.model, </a>
+<a class="sourceLine" id="cb4-2" data-line-number="2">     <span class="dt">sensitivity.of =</span> <span class="st">"t-value"</span>, </a>
+<a class="sourceLine" id="cb4-3" data-line-number="3">     <span class="dt">lim =</span> <span class="fl">.3</span>)</a></code></pre></div>
 <p><img src="sensemakr_files/figure-html/unnamed-chunk-5-1.png" width="700" style="display: block; margin: auto;"></p>
 </div>
   </div>
