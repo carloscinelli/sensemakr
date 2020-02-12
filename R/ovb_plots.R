@@ -476,12 +476,16 @@ ovb_contour_plot.numeric = function(estimate,
   # the zero curve, and override that contour curve with alternate aesthetic
   # characteristics
   default_levels = pretty(range(z_axis), nlevels)
-  line_color = ifelse(default_levels == threshold,
+
+  too_close <- abs(default_levels - threshold) < min(diff(default_levels))*0.9
+
+  line_color = ifelse(too_close,
                       "transparent",
                       col.contour)
-  line_type = ifelse(default_levels == threshold,
+
+  line_type = ifelse(too_close,
                      1, 1)
-  line_width = ifelse(default_levels == threshold,
+  line_width = ifelse(too_close,
                       1, 1)
 
   # Plot contour plot:
