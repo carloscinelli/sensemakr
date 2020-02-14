@@ -134,11 +134,11 @@ summary.sensemakr <- function(object, digits = max(3L, getOption("digits") - 3L)
 #' \code{\link{cat}} the LaTeX code. To suppress automatic printing, set \code{verbose = FALSE}.
 #' @param format code format to print, either \code{latex} or \code{html}. The default html version
 #' has some mathematical content that requires mathjax or equivalent library to parse.
-#' If you need only html, use the option "pure html".
+#' If you need only html, use the option "pure_html".
 #'
 #' @param verbose if `TRUE`, the function prints the LaTeX code with \code{\link{cat}}
 #' @export
-ovb_minimal_reporting <- function(x, digits = 3, verbose = TRUE, format = c("latex", "html", "pure html"), ...){
+ovb_minimal_reporting <- function(x, digits = 3, verbose = TRUE, format = c("latex", "html", "pure_html"), ...){
   format <- match.arg(format)
   fun    <- switch(format,
                    latex = latex_table,

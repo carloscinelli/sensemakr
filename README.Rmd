@@ -95,6 +95,6 @@ ovb_minimal_reporting(sensitivity)
 
 ```{r, results='asis'}
 # html code for sensitivity table
-ovb_minimal_reporting(sensitivity, format = "html")
+ovb_minimal_reporting(sensitivity, format = "pure_html")
 ```
 
