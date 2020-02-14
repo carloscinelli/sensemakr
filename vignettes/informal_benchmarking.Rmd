@@ -146,9 +146,6 @@ formal_bound <- ovb_bounds(model = model.ydx,
 In this function you specify the linear model being used (`model.ydx`), the treatment of interst ($D$), the observed variable used for benchmarking ($X$), and how stronger $Z$ is in explaining treatment (`kd`) and outcome (`ky`) variation, as compared to the benchmark variable $X$. We can now plot the proper bound against the informal benchmark.
 
 ```{r, fig.align='center'}
-# change bound label
-formal_bound$bound_label <- "Proper bound"
-
 # contour plot
 ovb_contour_plot(model.ydx,  
                  treatment = "D",
@@ -159,8 +156,9 @@ add_bound_to_contour(r2dz.x = r2dx,
                      bound_value = informal_adjusted_estimate,
                      bound_label = "Informal benchmark")
 
-add_bound_to_contour(bounds = formal_bound, 
-                     bound_value = 0)
+add_bound_to_contour(bounds = formal_bound,
+                     bound_value = formal_bound$adjusted_estimate,
+                     bound_label = "Proper bound")
 ```
 
 Note that, using the formal bounds, the researcher now reaches the correct conclusion that, an unobserved confounder $Z$ similar to $X$ is strong enough to explain away all the observed association. For further details, please see Sections 4.4 and 6.1 of [Cinelli and Hazlett (2020)](https://doi.org/10.1111/rssb.12348).

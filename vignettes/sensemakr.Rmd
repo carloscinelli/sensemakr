@@ -1,5 +1,5 @@
 ---
-title: "sensemakr: Sensitivity Analysis Tools for OLS"
+title: "An introduction to sensemakr"
 output: rmarkdown::html_vignette
 author: Carlos Cinelli and Chad Hazlett
 vignette: >
@@ -16,75 +16,24 @@ knitr::opts_chunk$set(
   comment = "#>"
 )
 ```
---- under construction come back soon! ---
+
 
 # Introduction
 
-To provide a "quick-start" , here we show the basic functionality of the package in a simulated example. This functionality will suffice for most users most of the time.  The basic workflow is as follows: 
-
-1) Fit a linear outcome model using `lm.out <- lm()`. This should have your treatment and (pre-treatment) covariates on the right hand side.   
-
-2) Create a sensemakr object, `sense.out <- sensemakr(lm.out)`, which contains useful sensitivity quantitites.
-
-3) Explore the results by use of `plot(sense.out)` and `summary(sense.out)`, or through direct calls to the lower-level functions these methods use.
-
-# Fitting the model
-
-The first step is running the linear outcome model. Consider the following linear structural model with a treatment variable $D$, an outcome variable $Y$ and two "confounders" $X$ and $Z$. All disturbance variables $U$ are mutually independent. Note that, in reality, the treatment $D$ has no causal effect on the outcome $Y$. 
-
-\begin{align}
-Z &= U_{z}\\
-X &= U_{x}\\
-D &= X + Z + U_d\\
-Y &= X + Z + U_y
-\end{align}
-
-The code below creates a sample of size $n = 500$ for this data generating process.
-
-```{r}
-set.seed(10)
-n <- 500
-Z <- rnorm(n)
-X <- rnorm(n)
-D <- X + Z + rnorm(n, sd = 3)
-Y <- X + Z + rnorm(n, sd = 3)
-```
-
-Suppose that an investigator is interested in estimating the causal effect of $D$ on $Y$, but unfortunately the confounder $Z$ is not observed. Despite this, the investigator still chooses to proceed with estimation, running a linear regression model adjusting for $X$ only. This results in the following estimates in Table \ref{tab:example}.
-
-```{r}
-lm.model <- lm(Y ~ D + X)
-summary(lm.model)
-```
-
-The estimated coefficient for $D$ in the regression model adjusting for $X$ is statistically signficant and substantively large. The investigator, however, knows that she has not measured all relevant confounders, and that the observed association between $Y$ and $D$ could be due to the omission of some variable $Z$. How strong would $Z$ need to be to substantially alter the conclusions of the study? Is that strength plausible? Or, more precisely, how strong would $Z$ need to be relative to the observed covariate $X$? The \pkg{sensemakr} package provides tools to answer these types of questions.
-
-# Sensitivity analysis
-
-To peform sensitivity analysis, our investigator starts by passing the estimated model to the function `sensemakr()`, along with the treatment of interest $D$ 
-
-```{r, message = FALSE}
+```{r, results = 'asis'}
 library(sensemakr)
-sense.model <- sensemakr(model = lm.model,  
-                         treatment = "D", 
-                         benchmark_covariates = "X", 
-                         kd = 1)
-sense.model
+
+# loads dataset
+data("darfur")
+
+# runs regression model
+model <- lm(peacefactor ~ directlyharmed + age + farmer_dar + herder_dar +
+                         pastvoted + hhsize_darfur + female + village, data = darfur)
+
+# runs sensemakr for sensitivity analysis
+sensitivity <- sensemakr(model, treatment = "directlyharmed",
+                               benchmark_covariates = "female",
+                               kd = 1:3)
+ovb_minimal_reporting(sensitivity, format = "html")
 ```
 
-What do these results mean?
-
-- The partial R2 of the treatment with the outcome that,
-- The Robustness Value ($RV_{q}$) means that,
-- The Robusness Values accounting for statistical significance $RV_{q, \alpha}$ measn that,
-
-If the investigator know that... she can safely conclude that... on the other hand, if she suspects that... then...
-
-Sometimes, however, it may be hard to make absolute judgments on the strength of the confounder, but the researchar may have grounds to judge the *relative* strength of confounding. Thus, let us suppose our researcher further knows that the omitted variable $Z$ could potentially be as strong as the observed covariate $X$. So she wonders: would a confounder with such strength be enough to be to explain away all the observed association. 
-
-
-```{r, fig.align='center', message = FALSE}
-plot(sense.model, 
-     sensitivity.of = "t-value", 
-     lim = .3)
-```

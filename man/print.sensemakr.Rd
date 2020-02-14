@@ -10,7 +10,13 @@
 
 \method{summary}{sensemakr}(object, digits = max(3L, getOption("digits") - 3L), ...)
 
-ovb_minimal_reporting(x, digits = 3, verbose = TRUE, ...)
+ovb_minimal_reporting(
+  x,
+  digits = 3,
+  verbose = TRUE,
+  format = c("latex", "html"),
+  ...
+)
 }
 \arguments{
 \item{x}{an object of class \code{\link{sensemakr}}.}
@@ -22,14 +28,17 @@ ovb_minimal_reporting(x, digits = 3, verbose = TRUE, ...)
 \item{object}{an object of class \code{\link{sensemakr}}.}
 
 \item{verbose}{if `TRUE`, the function prints the LaTeX code with \code{\link{cat}}}
+
+\item{format}{code format to print, either \code{latex} or \code{html}.}
 }
 \value{
-The function \code{ovb_minimal_reporting} returns the LaTeX code invisibly in character form and also prints with
+The function \code{ovb_minimal_reporting} returns the LaTeX/HTML code invisibly in character form and also prints with
 \code{\link{cat}} the LaTeX code. To suppress automatic printing, set \code{verbose = FALSE}.
 }
 \description{
 The \code{print} and \code{summary} methods provide verbal descriptions of the sensitivity analysis results
-obtained with the function \code{\link{sensemakr}}. The function \code{\link{ovb_minimal_reporting}} provides the latex code for a minimal
+obtained with the function \code{\link{sensemakr}}. The function \code{\link{ovb_minimal_reporting}} provides
+latex or html code for a minimal
 sensitivity analysis reporting, as suggested in Cinelli and Hazlett (2020).
 }
 \examples{

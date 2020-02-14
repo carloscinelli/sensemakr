@@ -442,10 +442,10 @@ sensitivity_stats.numeric <- function(estimate,
   sensitivity_stats
 }
 
-#
-# sensitivity_stats.sensemakr <- function(x, ...){
-#   x$sensitivity_stats
-# }
+#' @export
+sensitivity_stats.sensemakr <- function(x){
+  x$sensitivity_stats
+}
 
 # sanity checkers ---------------------------------------------------------
 

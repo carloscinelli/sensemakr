@@ -6,7 +6,8 @@
 #'
 #' @description
 #' The \code{print} and \code{summary} methods provide verbal descriptions of the sensitivity analysis results
-#' obtained with the function \code{\link{sensemakr}}. The function \code{\link{ovb_minimal_reporting}} provides the latex code for a minimal
+#' obtained with the function \code{\link{sensemakr}}. The function \code{\link{ovb_minimal_reporting}} provides
+#' latex or html code for a minimal
 #' sensitivity analysis reporting, as suggested in Cinelli and Hazlett (2020).
 #'
 #' @param ... arguments passed to other methods.
@@ -129,13 +130,21 @@ summary.sensemakr <- function(object, digits = max(3L, getOption("digits") - 3L)
 
 #' @rdname print.sensemakr
 #' @return
-#' The function \code{ovb_minimal_reporting} returns the LaTeX code invisibly in character form and also prints with
+#' The function \code{ovb_minimal_reporting} returns the LaTeX/HTML code invisibly in character form and also prints with
 #' \code{\link{cat}} the LaTeX code. To suppress automatic printing, set \code{verbose = FALSE}.
-#'
+#' @param format code format to print, either \code{latex} or \code{html}.
 #' @param verbose if `TRUE`, the function prints the LaTeX code with \code{\link{cat}}
 #' @export
-ovb_minimal_reporting <- function(x, digits = 3, verbose = TRUE, ...){
+ovb_minimal_reporting <- function(x, digits = 3, verbose = TRUE, format = c("latex", "html"), ...){
+  format <- match.arg(format)
+  fun    <- switch(format,
+                   latex = latex_table,
+                   html  = html_table)
 
+  fun(x = x, digits = digits, verbose = verbose, ...)
+}
+
+latex_table <- function(x, digits = 3, verbose = TRUE, ...){
   # Let's begin
   table_settings = list(...)
   # Override variable labels
@@ -202,9 +211,9 @@ ovb_minimal_reporting <- function(x, digits = 3, verbose = TRUE, ...){
     footnote = paste0(footnote_begin, footnote_body, footnote_end)
   } else {
     footnote = paste0("\\hline \n",
-                            "df = ", x$sensitivity_stats$dof, " & & ",
-                            "\\multicolumn{5}{r}{ ",
-                            "}")
+                      "df = ", x$sensitivity_stats$dof, " & & ",
+                      "\\multicolumn{5}{r}{ ",
+                      "}")
   }
 
   # Below footnote end table, caption, label
@@ -222,6 +231,107 @@ ovb_minimal_reporting <- function(x, digits = 3, verbose = TRUE, ...){
   table = paste0(table_begin, outcome_header, coeff_header,
                  coeff_results, footnote, tabular_end,
                  caption, label, table_end)
+
+  # Cat to output valid LaTeX for rmarkdown
+
+  if (verbose) cat(table)
+
+  return(invisible(table))
+}
+
+html_table <- function(x, digits = 3, verbose = TRUE, ...){
+
+  # Let's begin
+  table_settings = list(...)
+
+  outcome_label = ifelse(is.null(table_settings[["outcome_label"]]),
+                         all.vars(x$info$formula)[1],
+                         table_settings[["outcome_label"]])
+
+  treatment_label = ifelse(is.null(table_settings[["treatment_label"]]),
+                           x$sensitivity_stats$treatment,
+                           table_settings["treatment_label"])
+
+
+
+  # Okay, static beginning
+  table_begin = paste0("<table>\n")
+
+  # Coeff header row
+  coeff_header = paste0(
+
+    "<thead>\n",
+    "<tr>\n",
+    '\t<th style="text-align:left;border-bottom: 1px solid transparent;border-top: 1px solid black"> </th>\n',
+    '\t<th colspan = 6 style="text-align:center;border-bottom: 1px solid black;border-top: 1px solid black"> Outcome: ',
+    outcome_label,'</th>\n',
+    "</tr>\n",
+    "<tr>\n",
+    '\t<th style="text-align:left;border-top: 1px solid black"> Treatment </th>\n',
+    '\t<th style="text-align:right;border-top: 1px solid black"> Est. </th>\n',
+    '\t<th style="text-align:right;border-top: 1px solid black"> S.E. </th>\n',
+    '\t<th style="text-align:right;border-top: 1px solid black"> t-value </th>\n',
+    '\t<th style="text-align:right;border-top: 1px solid black"> $R^2_{Y \\sim D |{\\bf X}}$ </th>\n',
+    paste0('\t<th style="text-align:right;border-top: 1px solid black">  $RV_{q = ',
+           x$info$q, '}$ </th>\n'),
+    paste0('\t<th style="text-align:right;border-top: 1px solid black"> $RV_{q = ',
+           x$info$q, ", \\alpha = ",
+           x$info$alpha, "}$ </th>\n"),
+    "</tr>\n",
+    "</thead>\n"
+  )
+
+
+  # Treatment result
+  # Why paste and not sprintf? Easier to handle precision on the digits.
+  coeff_results = paste0(
+    "<tbody>\n <tr>\n",
+    '\t<td style="text-align:left; border-bottom: 1px solid black">',
+    treatment_label, "</td>\n",
+    '\t<td style="text-align:right;border-bottom: 1px solid black">',
+    round(x$sensitivity_stats$estimate, digits), " </td>\n",
+    '\t<td style="text-align:right;border-bottom: 1px solid black">',
+    round(x$sensitivity_stats$se, digits), " </td>\n",
+    '\t<td style="text-align:right;border-bottom: 1px solid black">',
+    round(x$sensitivity_stats$t_statistic, digits)," </td>\n",
+    '\t<td style="text-align:right;border-bottom: 1px solid black">',
+    100 * round(x$sensitivity_stats$r2yd.x, digits), "\\% </td>\n",
+    '\t<td style="text-align:right;border-bottom: 1px solid black">',
+    100 * round(x$sensitivity_stats$rv_q, digits), "\\% </td>\n",
+    '\t<td style="text-align:right;border-bottom: 1px solid black">',
+    100 * round(x$sensitivity_stats$rv_qa, digits), "\\% </td>\n",
+    "</tr>\n</tbody>\n")
+
+  table_end <- "</table>"
+
+  # Foonote row: Display benchmarks
+  if (!is.null(x$bounds)) {
+    row = x$bounds[1, , drop = FALSE]
+    footnote = paste0('<tr>\n',
+                      "<td colspan = 7 style='text-align:right;border-bottom: 1px solid transparent;font-size:11px'>",
+                      "Note: df = ", x$sensitivity_stats$dof, "; ",
+                      "Bound ( ", row$bound_label, " ):  ",
+                      "$R^2_{Y\\sim Z| {\\bf X}, D}$ = ",
+                      100 * round(row$r2yz.dx, digits),
+                      "\\%, $R^2_{D\\sim Z| {\\bf X} }$ = ",
+                      100 * round(row$r2dz.x, digits),
+                      "\\%",
+                      "</td>\n",
+                      "</tr>\n")
+  } else {
+    footnote = paste0('<tr>\n',
+                      "<td colspan = 7 style='text-align:right;border-bottom: 1px solid transparent;font-size:11px'>",
+                      "Note: df = ", x$sensitivity_stats$dof, "; ",
+                      "</td>\n",
+                      "</tr>\n")
+  }
+
+  # Stick it all together
+  table = paste0(table_begin,
+                 coeff_header,
+                 coeff_results,
+                 footnote,
+                 table_end)
 
   # Cat to output valid LaTeX for rmarkdown
 
