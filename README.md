@@ -171,10 +171,10 @@ ovb_minimal_reporting(sensitivity)
 
 ``` r
 # html code for sensitivity table
-ovb_minimal_reporting(sensitivity, format = "html")
+ovb_minimal_reporting(sensitivity, format = "pure_html")
 ```
 
-<table class="center-table">
+<table style="align:center">
 
 <thead>
 
@@ -186,8 +186,7 @@ ovb_minimal_reporting(sensitivity, format = "html")
 
 <th colspan="6" style="text-align:center;border-bottom: 1px solid black;border-top: 1px solid black">
 
-Outcome:
-peacefactor
+Outcome: peacefactor
 
 </th>
 
@@ -221,19 +220,20 @@ t-value
 
 <th style="text-align:right;border-top: 1px solid black">
 
-\(R^2_{Y \sim D |{\bf X}}\)
+R<sup>2</sup><sub>Y~D|X</sub>
 
 </th>
 
 <th style="text-align:right;border-top: 1px solid black">
 
-\(RV_{q = 1}\)
+RV<sub>q = 1</sub>
 
 </th>
 
 <th style="text-align:right;border-top: 1px solid black">
 
-\(RV_{q = 1, \alpha = 0.05}\)
+RV<sub>q = 1, α =
+0.05</sub>
 
 </th>
 
@@ -247,7 +247,7 @@ t-value
 
 <td style="text-align:left; border-bottom: 1px solid black">
 
-directlyharmed
+<i>directlyharmed</i>
 
 </td>
 
@@ -295,8 +295,8 @@ directlyharmed
 
 <td colspan="7" style="text-align:right;border-bottom: 1px solid transparent;font-size:11px">
 
-Note: df = 783; Bound ( 1x female ): \(R^2_{Y\sim Z| {\bf X}, D}\) =
-12.5%, \(R^2_{D\sim Z| {\bf X} }\) = 0.9%
+Note: df = 783; Bound ( 1x female ): R<sup>2</sup><sub>Y~Z|X,D</sub> =
+12.5%, R<sup>2</sup><sub>D~Z|X</sub> = 0.9%
 
 </td>
 
