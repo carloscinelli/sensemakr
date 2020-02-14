@@ -57,13 +57,14 @@ test_that(desc = "testing darfur sensemakr",
             check_bounds <- structure(list(bound_label = c("1x female", "2x female", "3x female"),
                                            r2dz.x = c(0.00916428667504862, 0.0183285733500972, 0.0274928600251459),
                                            r2yz.dx = c(0.12464092303637, 0.249324064199975, 0.374050471038094),
+                                           treatment = rep("directlyharmed", 3),
                                            adjusted_estimate = c(0.0752202712144491, 0.0529151723844518, 0.0303960234641548),
                                            adjusted_se = c(0.0218733277437572, 0.0203500620779637, 0.0186700648170924),
                                            adjusted_t = c(3.43890386024675, 2.60024623913809, 1.62806202131271),
                                            adjusted_lower_CI = c(0.032282966, 0.012968035,-0.006253282),
                                            adjusted_upper_CI = c(0.11815758, 0.09286231, 0.06704533)
                                            ),
-                                      .Names = c("bound_label", "r2dz.x", "r2yz.dx",
+                                      .Names = c("bound_label", "r2dz.x", "r2yz.dx", "treatment",
                                                  "adjusted_estimate", "adjusted_se", "adjusted_t",
                                                  "adjusted_lower_CI", "adjusted_upper_CI"),
                                       row.names = c(NA, -3L), class = c("ovb_bounds", "data.frame"))
@@ -109,13 +110,14 @@ test_that(desc = "testing darfur sensemakr but negative",
             check_bounds <- structure(list(bound_label = c("1x female", "2x female", "3x female"),
                                            r2dz.x = c(0.00916428667504862, 0.0183285733500972, 0.0274928600251459),
                                            r2yz.dx = c(0.12464092303637, 0.249324064199975, 0.374050471038094),
+                                           treatment = rep("directlyharmed", 3),
                                            adjusted_estimate = c(-0.0752202712144491, -0.0529151723844518, -0.0303960234641548),
                                            adjusted_se = c(0.0218733277437572, 0.0203500620779637, 0.0186700648170924),
                                            adjusted_t = c(-3.43890386024675, -2.60024623913809, -1.62806202131271),
                                            adjusted_lower_CI = -1*c(0.11815758, 0.09286231, 0.06704533),
                                            adjusted_upper_CI = -1*c(0.032282966, 0.012968035,-0.006253282)
                                            ),
-                                      .Names = c("bound_label", "r2dz.x", "r2yz.dx",
+                                      .Names = c("bound_label", "r2dz.x", "r2yz.dx", "treatment",
                                                  "adjusted_estimate", "adjusted_se", "adjusted_t",
                                                  "adjusted_lower_CI", "adjusted_upper_CI"),
                                       row.names = c(NA, -3L), class = c("ovb_bounds", "data.frame"))
@@ -167,12 +169,13 @@ test_that(desc = "testing darfur sensemakr with formula",
             check_bounds <- structure(list(bound_label = c("1x female", "2x female", "3x female"),
                                            r2dz.x = c(0.00916428667504862, 0.0183285733500972, 0.0274928600251459),
                                            r2yz.dx = c(0.12464092303637, 0.249324064199975, 0.374050471038094),
+                                           treatment = rep("directlyharmed", 3),
                                            adjusted_estimate = c(0.0752202712144491, 0.0529151723844518, 0.0303960234641548),
                                            adjusted_se = c(0.0218733277437572, 0.0203500620779637, 0.0186700648170924),
                                            adjusted_t = c(3.43890386024675, 2.60024623913809, 1.62806202131271),
                                            adjusted_lower_CI = c(0.032282966, 0.012968035,-0.006253282),
                                            adjusted_upper_CI = c(0.11815758, 0.09286231, 0.06704533)),
-                                      .Names = c("bound_label", "r2dz.x", "r2yz.dx",
+                                      .Names = c("bound_label", "r2dz.x", "r2yz.dx", "treatment",
                                                  "adjusted_estimate", "adjusted_se", "adjusted_t",
                                                  "adjusted_lower_CI", "adjusted_upper_CI"),
                                       row.names = c(NA, -3L), class = c("ovb_bounds", "data.frame"))
@@ -362,7 +365,7 @@ test_that("testing darfur print",
             compare <- capture_output(print(darfur_out))
             expect_equal(compare, print.sense)
 
-            summary.sense <- "Sensitivity Analysis to Unobserved Confounding\n\nModel Formula: peacefactor ~ directlyharmed + age + farmer_dar + herder_dar + \n    pastvoted + hhsize_darfur + female + village\n\nUnadjusted Estimates of 'directlyharmed': \n  Coef. estimate: 0.0973 \n  Standard Error: 0.0233 \n  t-value: 4.1844 \n\nSensitivity Statistics:\n  Partial R2 of treatment with outcome: 0.0219 \n  Robustness Value, q = 1: 0.1388 \n  Robustness Value, q = 1, alpha = 0.05: 0.0763 \n\nVerbal interpretation of sensitivity statistics:\n\n-- Partial R2 of the treatment with the outcome: an extreme confounder (orthogonal to the covariates) that explains 100% of the residual variance of the outcome, would need to explain at least 2.19% of the residual variance of the treatment to fully account for the observed estimated effect.\n\n-- Robustness Value, q = 1: unobserved confounders (orthogonal to the covariates) that explain more than 13.88% of the residual variance of both the treatment and the outcome are strong enough to bring the point estimate to 0 (a bias of 100% of the original estimate). Conversely, unobserved confounders that do not explain more than 13.88% of the residual variance of both the treatment and the outcome are not strong enough to bring the point estimate to 0.\n\n-- Robustness Value, q = 1, alpha = 0.05: unobserved confounders (orthogonal to the covariates) that explain more than 7.63% of the residual variance of both the treatment and the outcome are strong enough to bring the estimate to a range where it is no longer 'statistically different' from 0 (a bias of 100% of the original estimate), at the significance level of alpha = 0.05. Conversely, unobserved confounders that do not explain more than 7.63% of the residual variance of both the treatment and the outcome are not strong enough to bring the estimate to a range where it is no longer 'statistically different' from 0, at the significance level of alpha = 0.05.\n\nBounds on omitted variable bias:\n Bound Label R2dz.x R2yz.dx Adjusted Estimate Adjusted Se Adjusted T\n   1x female 0.0092  0.1246            0.0752      0.0219     3.4389\n   2x female 0.0183  0.2493            0.0529      0.0204     2.6002\n   3x female 0.0275  0.3741            0.0304      0.0187     1.6281\n Adjusted Lower CI Adjusted Upper CI\n            0.0323            0.1182\n            0.0130            0.0929\n           -0.0063            0.0670"
+            summary.sense <- "Sensitivity Analysis to Unobserved Confounding\n\nModel Formula: peacefactor ~ directlyharmed + age + farmer_dar + herder_dar + \n    pastvoted + hhsize_darfur + female + village\n\nUnadjusted Estimates of 'directlyharmed': \n  Coef. estimate: 0.0973 \n  Standard Error: 0.0233 \n  t-value: 4.1844 \n\nSensitivity Statistics:\n  Partial R2 of treatment with outcome: 0.0219 \n  Robustness Value, q = 1: 0.1388 \n  Robustness Value, q = 1, alpha = 0.05: 0.0763 \n\nVerbal interpretation of sensitivity statistics:\n\n-- Partial R2 of the treatment with the outcome: an extreme confounder (orthogonal to the covariates) that explains 100% of the residual variance of the outcome, would need to explain at least 2.19% of the residual variance of the treatment to fully account for the observed estimated effect.\n\n-- Robustness Value, q = 1: unobserved confounders (orthogonal to the covariates) that explain more than 13.88% of the residual variance of both the treatment and the outcome are strong enough to bring the point estimate to 0 (a bias of 100% of the original estimate). Conversely, unobserved confounders that do not explain more than 13.88% of the residual variance of both the treatment and the outcome are not strong enough to bring the point estimate to 0.\n\n-- Robustness Value, q = 1, alpha = 0.05: unobserved confounders (orthogonal to the covariates) that explain more than 7.63% of the residual variance of both the treatment and the outcome are strong enough to bring the estimate to a range where it is no longer 'statistically different' from 0 (a bias of 100% of the original estimate), at the significance level of alpha = 0.05. Conversely, unobserved confounders that do not explain more than 7.63% of the residual variance of both the treatment and the outcome are not strong enough to bring the estimate to a range where it is no longer 'statistically different' from 0, at the significance level of alpha = 0.05.\n\nBounds on omitted variable bias:\n Bound Label R2dz.x R2yz.dx      Treatment Adjusted Estimate Adjusted Se\n   1x female 0.0092  0.1246 directlyharmed            0.0752      0.0219\n   2x female 0.0183  0.2493 directlyharmed            0.0529      0.0204\n   3x female 0.0275  0.3741 directlyharmed            0.0304      0.0187\n Adjusted T Adjusted Lower CI Adjusted Upper CI\n     3.4389            0.0323            0.1182\n     2.6002            0.0130            0.0929\n     1.6281           -0.0063            0.0670"
             compare <- capture_output(summary(darfur_out))
             expect_equal(compare, summary.sense)
 

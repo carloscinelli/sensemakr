@@ -639,6 +639,13 @@ add_bound_to_contour.ovb_bounds <- function(bounds,
                                             cex.label.text = .7,
                                             ...){
   # gets bound from environment
+  #
+  if (bounds$treatment != plot.env$treatment) {
+  warning("Treament variable of bounds (",  bounds$treatment, ") ",
+          "differs from the treatment variable of the last contour plot (",
+          plot.env$treatment, ").")
+}
+
   if (is.null(bound_value) & !is.null(plot.env$sensitivity.of)) {
     if (plot.env$sensitivity.of == "estimate") {
       bound_value <- bounds$adjusted_estimate
@@ -677,6 +684,17 @@ add_bound_to_contour.lm <- function(model,
                                     ...)
 {
   sensitivity.of <- match.arg(sensitivity.of)
+
+  if (is.null(plot.env$treatment)) {
+    stop("No treatment found. Please draw a contour plot first, or provide the treatment variable name manually.")
+  }
+
+  if (treatment != plot.env$treatment) {
+    warning("Treament variable provided (",  treatment, ") ",
+            "differs from the treatment variable of the last contour plot (",
+            plot.env$treatment, ").")
+  }
+
   # we will need to add an option for the bound type
   bounds <- ovb_bounds(model = model,
                        treatment = treatment,

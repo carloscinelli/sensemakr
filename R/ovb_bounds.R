@@ -197,6 +197,8 @@ ovb_bounds.lm <- function(model,
 
   if (adjusted_estimates) {
     # compute adjusted effects
+    bounds$treatment <- treatment
+
     bounds$adjusted_estimate = adjusted_estimate(model = model,
                                                  treatment = treatment,
                                                  r2yz.dx = bounds$r2yz.dx,

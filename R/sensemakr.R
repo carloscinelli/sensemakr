@@ -206,12 +206,14 @@ sensemakr.lm <- function(model,
                           bound_label = bound_label,
                           stringsAsFactors = FALSE)
 
+    out$bounds$treatment <- treatment
+
      # compute adjusted effects
     out$bounds$adjusted_estimate = adjusted_estimate(model = model,
-                                                 treatment = treatment,
-                                                 r2yz.dx = r2yz.dx,
-                                                 r2dz.x = r2dz.x,
-                                                 reduce = reduce)
+                                                     treatment = treatment,
+                                                     r2yz.dx = r2yz.dx,
+                                                     r2dz.x = r2dz.x,
+                                                     reduce = reduce)
 
     out$bounds$adjusted_se = adjusted_se(model = model,
                                      treatment = treatment,
