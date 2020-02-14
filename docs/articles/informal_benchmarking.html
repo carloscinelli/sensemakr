@@ -192,21 +192,18 @@ Y &amp;= X + Z + U_y
 <a class="sourceLine" id="cb6-4" data-line-number="4">                           <span class="dt">benchmark_covariates =</span> <span class="st">"X"</span>, </a>
 <a class="sourceLine" id="cb6-5" data-line-number="5">                           <span class="dt">kd =</span> <span class="dv">1</span>, <span class="dt">ky =</span> <span class="dv">1</span>)</a></code></pre></div>
 <p>In this function you specify the linear model being used (<code>model.ydx</code>), the treatment of interst (<span class="math inline">\(D\)</span>), the observed variable used for benchmarking (<span class="math inline">\(X\)</span>), and how stronger <span class="math inline">\(Z\)</span> is in explaining treatment (<code>kd</code>) and outcome (<code>ky</code>) variation, as compared to the benchmark variable <span class="math inline">\(X\)</span>. We can now plot the proper bound against the informal benchmark.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="co"># change bound label</span></a>
-<a class="sourceLine" id="cb7-2" data-line-number="2">formal_bound<span class="op">$</span>bound_label &lt;-<span class="st"> "Proper bound"</span></a>
-<a class="sourceLine" id="cb7-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="co"># contour plot</span></a>
-<a class="sourceLine" id="cb7-5" data-line-number="5"><span class="kw"><a href="../reference/ovb_contour_plot.html">ovb_contour_plot</a></span>(model.ydx,  </a>
-<a class="sourceLine" id="cb7-6" data-line-number="6">                 <span class="dt">treatment =</span> <span class="st">"D"</span>,</a>
-<a class="sourceLine" id="cb7-7" data-line-number="7">                 <span class="dt">lim =</span> <span class="fl">.6</span>)</a>
-<a class="sourceLine" id="cb7-8" data-line-number="8"></a>
-<a class="sourceLine" id="cb7-9" data-line-number="9"><span class="kw"><a href="../reference/add_bound_to_contour.html">add_bound_to_contour</a></span>(<span class="dt">r2dz.x =</span> r2dx, </a>
-<a class="sourceLine" id="cb7-10" data-line-number="10">                     <span class="dt">r2yz.dx =</span> r2yx.d, </a>
-<a class="sourceLine" id="cb7-11" data-line-number="11">                     <span class="dt">bound_value =</span> informal_adjusted_estimate,</a>
-<a class="sourceLine" id="cb7-12" data-line-number="12">                     <span class="dt">bound_label =</span> <span class="st">"Informal benchmark"</span>)</a>
-<a class="sourceLine" id="cb7-13" data-line-number="13"></a>
-<a class="sourceLine" id="cb7-14" data-line-number="14"><span class="kw"><a href="../reference/add_bound_to_contour.html">add_bound_to_contour</a></span>(<span class="dt">bounds =</span> formal_bound, </a>
-<a class="sourceLine" id="cb7-15" data-line-number="15">                     <span class="dt">bound_value =</span> <span class="dv">0</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="co"># contour plot</span></a>
+<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="kw"><a href="../reference/ovb_contour_plot.html">ovb_contour_plot</a></span>(model.ydx,  </a>
+<a class="sourceLine" id="cb7-3" data-line-number="3">                 <span class="dt">treatment =</span> <span class="st">"D"</span>,</a>
+<a class="sourceLine" id="cb7-4" data-line-number="4">                 <span class="dt">lim =</span> <span class="fl">.6</span>)</a>
+<a class="sourceLine" id="cb7-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb7-6" data-line-number="6"><span class="kw"><a href="../reference/add_bound_to_contour.html">add_bound_to_contour</a></span>(<span class="dt">r2dz.x =</span> r2dx, </a>
+<a class="sourceLine" id="cb7-7" data-line-number="7">                     <span class="dt">r2yz.dx =</span> r2yx.d, </a>
+<a class="sourceLine" id="cb7-8" data-line-number="8">                     <span class="dt">bound_value =</span> informal_adjusted_estimate,</a>
+<a class="sourceLine" id="cb7-9" data-line-number="9">                     <span class="dt">bound_label =</span> <span class="st">"Informal benchmark"</span>)</a>
+<a class="sourceLine" id="cb7-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb7-11" data-line-number="11"><span class="kw"><a href="../reference/add_bound_to_contour.html">add_bound_to_contour</a></span>(<span class="dt">bounds =</span> formal_bound,</a>
+<a class="sourceLine" id="cb7-12" data-line-number="12">                     <span class="dt">bound_label =</span> <span class="st">"Proper bound"</span>)</a></code></pre></div>
 <p><img src="informal_benchmarking_files/figure-html/unnamed-chunk-10-1.png" width="480" style="display: block; margin: auto;"></p>
 <p>Note that, using the formal bounds, the researcher now reaches the correct conclusion that, an unobserved confounder <span class="math inline">\(Z\)</span> similar to <span class="math inline">\(X\)</span> is strong enough to explain away all the observed association. For further details, please see Sections 4.4 and 6.1 of <a href="https://doi.org/10.1111/rssb.12348">Cinelli and Hazlett (2020)</a>.</p>
 </div>

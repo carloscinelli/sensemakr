@@ -14,7 +14,7 @@ ovb_minimal_reporting(
   x,
   digits = 3,
   verbose = TRUE,
-  format = c("latex", "html"),
+  format = c("latex", "html", "pure html"),
   ...
 )
 }
@@ -29,7 +29,9 @@ ovb_minimal_reporting(
 
 \item{verbose}{if `TRUE`, the function prints the LaTeX code with \code{\link{cat}}}
 
-\item{format}{code format to print, either \code{latex} or \code{html}.}
+\item{format}{code format to print, either \code{latex} or \code{html}. The default html version
+has some mathematical content that requires mathjax or equivalent library to parse.
+If you need only html, use the option "pure html".}
 }
 \value{
 The function \code{ovb_minimal_reporting} returns the LaTeX/HTML code invisibly in character form and also prints with

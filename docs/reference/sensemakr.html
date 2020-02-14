@@ -307,14 +307,14 @@ of unobserved confounders (<code><a href='ovb_bounds.html'>ovb_bounds</a></code>
 #&gt; -- Robustness Value, q = 1, alpha = 0.05: unobserved confounders (orthogonal to the covariates) that explain more than 7.63% of the residual variance of both the treatment and the outcome are strong enough to bring the estimate to a range where it is no longer 'statistically different' from 0 (a bias of 100% of the original estimate), at the significance level of alpha = 0.05. Conversely, unobserved confounders that do not explain more than 7.63% of the residual variance of both the treatment and the outcome are not strong enough to bring the estimate to a range where it is no longer 'statistically different' from 0, at the significance level of alpha = 0.05.
 #&gt; 
 #&gt; Bounds on omitted variable bias:
-#&gt;  Bound Label R2dz.x R2yz.dx Adjusted Estimate Adjusted Se Adjusted T
-#&gt;    1x female 0.0092  0.1246            0.0752      0.0219     3.4389
-#&gt;    2x female 0.0183  0.2493            0.0529      0.0204     2.6002
-#&gt;    3x female 0.0275  0.3741            0.0304      0.0187     1.6281
-#&gt;  Adjusted Lower CI Adjusted Upper CI
-#&gt;             0.0323            0.1182
-#&gt;             0.0130            0.0929
-#&gt;            -0.0063            0.0670</div><div class='input'>
+#&gt;  Bound Label R2dz.x R2yz.dx      Treatment Adjusted Estimate Adjusted Se
+#&gt;    1x female 0.0092  0.1246 directlyharmed            0.0752      0.0219
+#&gt;    2x female 0.0183  0.2493 directlyharmed            0.0529      0.0204
+#&gt;    3x female 0.0275  0.3741 directlyharmed            0.0304      0.0187
+#&gt;  Adjusted T Adjusted Lower CI Adjusted Upper CI
+#&gt;      3.4389            0.0323            0.1182
+#&gt;      2.6002            0.0130            0.0929
+#&gt;      1.6281           -0.0063            0.0670</div><div class='input'>
 <span class='co'># plot bias contour of point estimate</span>
 <span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>sensitivity</span>)</div><div class='img'><img src='sensemakr-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># plot bias contour of t-value</span>

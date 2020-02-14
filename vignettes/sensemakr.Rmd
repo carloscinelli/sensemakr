@@ -20,6 +20,9 @@ knitr::opts_chunk$set(
 
 # Introduction
 
+
+Under construction, come back soon!
+
 ```{r, results = 'asis'}
 library(sensemakr)
 
@@ -34,9 +37,8 @@ model <- lm(peacefactor ~ directlyharmed + age + farmer_dar + herder_dar +
 sensitivity <- sensemakr(model, treatment = "directlyharmed",
                                benchmark_covariates = "female",
                                kd = 1:3)
+
 plot(sensitivity)
-add_bound_to_contour(model, benchmark_covariates = "female", kd = 20, ky = 1)
-add_bound_to_contour(model, treatment = "directlyharmed", benchmark_covariates = "female", kd = 20, ky = 1)
 
 ovb_minimal_reporting(sensitivity, format = "html")
 ```

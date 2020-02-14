@@ -213,20 +213,20 @@ as well with the adjusted point estimates, standard errors and t-values (optiona
 <span class='co'># and 1,2, or 3 times as strong as pastvoted</span>
 <span class='fu'>ovb_bounds</span>(<span class='no'>model</span>, <span class='kw'>treatment</span> <span class='kw'>=</span> <span class='st'>"directlyharmed"</span>,
           <span class='kw'>benchmark_covariates</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"female"</span>, <span class='st'>"pastvoted"</span>),
-          <span class='kw'>kd</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>3</span>)</div><div class='output co'>#&gt;    bound_label      r2dz.x     r2yz.dx adjusted_estimate adjusted_se adjusted_t
-#&gt; 1    1x female 0.009164287 0.124640923        0.07522027  0.02187333   3.438904
-#&gt; 2    2x female 0.018328573 0.249324064        0.05291517  0.02035006   2.600246
-#&gt; 3    3x female 0.027492860 0.374050471        0.03039602  0.01867006   1.628062
-#&gt; 4 1x pastvoted 0.001491963 0.005109456        0.09551771  0.02322921   4.111965
-#&gt; 5 2x pastvoted 0.002983926 0.010218957        0.09371690  0.02318681   4.041819
-#&gt; 6 3x pastvoted 0.004475890 0.015328504        0.09191338  0.02314421   3.971334
-#&gt;   adjusted_lower_CI adjusted_upper_CI
-#&gt; 1       0.032282966        0.11815758
-#&gt; 2       0.012968035        0.09286231
-#&gt; 3      -0.006253282        0.06704533
-#&gt; 4       0.049918808        0.14111661
-#&gt; 5       0.048201225        0.13923257
-#&gt; 6       0.046481338        0.13734543</div><div class='input'>
+          <span class='kw'>kd</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>3</span>)</div><div class='output co'>#&gt;    bound_label      r2dz.x     r2yz.dx      treatment adjusted_estimate
+#&gt; 1    1x female 0.009164287 0.124640923 directlyharmed        0.07522027
+#&gt; 2    2x female 0.018328573 0.249324064 directlyharmed        0.05291517
+#&gt; 3    3x female 0.027492860 0.374050471 directlyharmed        0.03039602
+#&gt; 4 1x pastvoted 0.001491963 0.005109456 directlyharmed        0.09551771
+#&gt; 5 2x pastvoted 0.002983926 0.010218957 directlyharmed        0.09371690
+#&gt; 6 3x pastvoted 0.004475890 0.015328504 directlyharmed        0.09191338
+#&gt;   adjusted_se adjusted_t adjusted_lower_CI adjusted_upper_CI
+#&gt; 1  0.02187333   3.438904       0.032282966        0.11815758
+#&gt; 2  0.02035006   2.600246       0.012968035        0.09286231
+#&gt; 3  0.01867006   1.628062      -0.006253282        0.06704533
+#&gt; 4  0.02322921   4.111965       0.049918808        0.14111661
+#&gt; 5  0.02318681   4.041819       0.048201225        0.13923257
+#&gt; 6  0.02314421   3.971334       0.046481338        0.13734543</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

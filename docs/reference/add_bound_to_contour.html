@@ -129,16 +129,17 @@
 <span class='co'># S3 method for lm</span>
 <span class='fu'>add_bound_to_contour</span>(
   <span class='no'>model</span>,
-  <span class='no'>treatment</span>,
   <span class='no'>benchmark_covariates</span>,
   <span class='kw'>kd</span> <span class='kw'>=</span> <span class='fl'>1</span>,
   <span class='kw'>ky</span> <span class='kw'>=</span> <span class='no'>kd</span>,
-  <span class='kw'>reduce</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>sensitivity.of</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"estimate"</span>, <span class='st'>"t-value"</span>),
+  <span class='kw'>bound_label</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>treatment</span> <span class='kw'>=</span> <span class='no'>plot.env</span>$<span class='no'>treatment</span>,
+  <span class='kw'>reduce</span> <span class='kw'>=</span> <span class='no'>plot.env</span>$<span class='no'>reduce</span>,
+  <span class='kw'>sensitivity.of</span> <span class='kw'>=</span> <span class='no'>plot.env</span>$<span class='no'>sensitivity.of</span>,
   <span class='kw'>label.text</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>cex.label.text</span> <span class='kw'>=</span> <span class='fl'>0.7</span>,
-  <span class='kw'>label.bump.x</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span>(<span class='st'>"usr"</span>)[<span class='fl'>2</span>] * (<span class='fl'>1</span>/<span class='fl'>15</span>),
-  <span class='kw'>label.bump.y</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span>(<span class='st'>"usr"</span>)[<span class='fl'>4</span>] * (<span class='fl'>1</span>/<span class='fl'>15</span>),
+  <span class='kw'>label.bump.x</span> <span class='kw'>=</span> <span class='no'>plot.env</span>$<span class='no'>lim</span> * (<span class='fl'>1</span>/<span class='fl'>15</span>),
+  <span class='kw'>label.bump.y</span> <span class='kw'>=</span> <span class='no'>plot.env</span>$<span class='no'>lim.y</span> * (<span class='fl'>1</span>/<span class='fl'>15</span>),
   <span class='kw'>round</span> <span class='kw'>=</span> <span class='fl'>2</span>,
   <span class='no'>...</span>
 )
@@ -151,8 +152,8 @@
   <span class='kw'>bound_label</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>label.text</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>cex.label.text</span> <span class='kw'>=</span> <span class='fl'>0.7</span>,
-  <span class='kw'>label.bump.x</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span>(<span class='st'>"usr"</span>)[<span class='fl'>2</span>] * (<span class='fl'>1</span>/<span class='fl'>15</span>),
-  <span class='kw'>label.bump.y</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span>(<span class='st'>"usr"</span>)[<span class='fl'>4</span>] * (<span class='fl'>1</span>/<span class='fl'>15</span>),
+  <span class='kw'>label.bump.x</span> <span class='kw'>=</span> <span class='no'>plot.env</span>$<span class='no'>lim</span> * (<span class='fl'>1</span>/<span class='fl'>15</span>),
+  <span class='kw'>label.bump.y</span> <span class='kw'>=</span> <span class='no'>plot.env</span>$<span class='no'>lim.y</span> * (<span class='fl'>1</span>/<span class='fl'>15</span>),
   <span class='kw'>round</span> <span class='kw'>=</span> <span class='fl'>2</span>,
   <span class='no'>...</span>
 )</pre>
@@ -169,11 +170,6 @@
       <td><p>An <code>lm</code> object with the outcome regression.</p></td>
     </tr>
     <tr>
-      <th>treatment</th>
-      <td><p>A character vector with the name of the treatment variable
-of the model.</p></td>
-    </tr>
-    <tr>
       <th>benchmark_covariates</th>
       <td><p>a character vector of the names of covariates that will be used to bound the plausible strength
 of the unobserved confounders.</p></td>
@@ -187,6 +183,15 @@ Default value is <code>1</code> (confounder is as strong as benchmark covariate)
       <th>ky</th>
       <td><p>numeric vector. Parameterizes how many times stronger the confounder is related to the outcome in comparison to the observed benchmark covariate.
 Default value is the same as <code>kd</code>.</p></td>
+    </tr>
+    <tr>
+      <th>bound_label</th>
+      <td><p>label to bounds provided manually in <code>r2dz.x</code> and <code>r2yz.dx</code>.</p></td>
+    </tr>
+    <tr>
+      <th>treatment</th>
+      <td><p>A character vector with the name of the treatment variable
+of the model.</p></td>
     </tr>
     <tr>
       <th>reduce</th>
@@ -232,10 +237,6 @@ with outcome Y, given covariates X and treatment D.</p></td>
       <th>bound_value</th>
       <td><p>value to be printed in label bound.</p></td>
     </tr>
-    <tr>
-      <th>bound_label</th>
-      <td><p>label to bounds provided manually in <code>r2dz.x</code> and <code>r2yz.dx</code>.</p></td>
-    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -249,15 +250,13 @@ with outcome Y, given covariates X and treatment D.</p></td>
                          <span class='no'>pastvoted</span> + <span class='no'>hhsize_darfur</span> + <span class='no'>female</span> + <span class='no'>village</span>,
                          <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>darfur</span>)
 <span class='co'># contour plot</span>
-<span class='fu'><a href='ovb_contour_plot.html'>ovb_contour_plot</a></span>(<span class='no'>model</span>, <span class='kw'>treatment</span> <span class='kw'>=</span> <span class='st'>"directlyharmed"</span>)</div><div class='input'>
+<span class='fu'><a href='ovb_contour_plot.html'>ovb_contour_plot</a></span>(<span class='kw'>model</span> <span class='kw'>=</span> <span class='no'>model</span>, <span class='kw'>treatment</span> <span class='kw'>=</span> <span class='st'>"directlyharmed"</span>)</div><div class='input'>
 <span class='co'># add bound 3/1 times stronger than female</span>
-<span class='fu'>add_bound_to_contour</span>(<span class='no'>model</span>,
-                     <span class='kw'>treatment</span> <span class='kw'>=</span> <span class='st'>"directlyharmed"</span>,
+<span class='fu'>add_bound_to_contour</span>(<span class='kw'>model</span> <span class='kw'>=</span> <span class='no'>model</span>,
                      <span class='kw'>benchmark_covariates</span> <span class='kw'>=</span> <span class='st'>"female"</span>,
                      <span class='kw'>kd</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>ky</span> <span class='kw'>=</span> <span class='fl'>1</span>)</div><div class='input'>
 <span class='co'># add bound 50/2 times stronger than age</span>
-<span class='fu'>add_bound_to_contour</span>(<span class='no'>model</span>,
-                     <span class='kw'>treatment</span> <span class='kw'>=</span> <span class='st'>"directlyharmed"</span>,
+<span class='fu'>add_bound_to_contour</span>(<span class='kw'>model</span> <span class='kw'>=</span> <span class='no'>model</span>,
                      <span class='kw'>benchmark_covariates</span> <span class='kw'>=</span> <span class='st'>"age"</span>,
                      <span class='kw'>kd</span> <span class='kw'>=</span> <span class='fl'>50</span>, <span class='kw'>ky</span> <span class='kw'>=</span> <span class='fl'>2</span>)</div><div class='img'><img src='add_bound_to_contour-1.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></pre>

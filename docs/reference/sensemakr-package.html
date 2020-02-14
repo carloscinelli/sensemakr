@@ -196,14 +196,14 @@ of unobserved confounders (<code><a href='ovb_bounds.html'>ovb_bounds</a></code>
 #&gt; -- Robustness Value, q = 1, alpha = 0.05: unobserved confounders (orthogonal to the covariates) that explain more than 7.63% of the residual variance of both the treatment and the outcome are strong enough to bring the estimate to a range where it is no longer 'statistically different' from 0 (a bias of 100% of the original estimate), at the significance level of alpha = 0.05. Conversely, unobserved confounders that do not explain more than 7.63% of the residual variance of both the treatment and the outcome are not strong enough to bring the estimate to a range where it is no longer 'statistically different' from 0, at the significance level of alpha = 0.05.
 #&gt; 
 #&gt; Bounds on omitted variable bias:
-#&gt;  Bound Label R2dz.x R2yz.dx Adjusted Estimate Adjusted Se Adjusted T
-#&gt;    1x female 0.0092  0.1246            0.0752      0.0219     3.4389
-#&gt;    2x female 0.0183  0.2493            0.0529      0.0204     2.6002
-#&gt;    3x female 0.0275  0.3741            0.0304      0.0187     1.6281
-#&gt;  Adjusted Lower CI Adjusted Upper CI
-#&gt;             0.0323            0.1182
-#&gt;             0.0130            0.0929
-#&gt;            -0.0063            0.0670</div><div class='input'>
+#&gt;  Bound Label R2dz.x R2yz.dx      Treatment Adjusted Estimate Adjusted Se
+#&gt;    1x female 0.0092  0.1246 directlyharmed            0.0752      0.0219
+#&gt;    2x female 0.0183  0.2493 directlyharmed            0.0529      0.0204
+#&gt;    3x female 0.0275  0.3741 directlyharmed            0.0304      0.0187
+#&gt;  Adjusted T Adjusted Lower CI Adjusted Upper CI
+#&gt;      3.4389            0.0323            0.1182
+#&gt;      2.6002            0.0130            0.0929
+#&gt;      1.6281           -0.0063            0.0670</div><div class='input'>
 <span class='co'># plot bias contour of point estimate</span>
 <span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>sensitivity</span>)</div><div class='img'><img src='sensemakr-package-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># plot bias contour of t-value</span>
@@ -229,14 +229,14 @@ of unobserved confounders (<code><a href='ovb_bounds.html'>ovb_bounds</a></code>
 #&gt;        rv_qa     f2yd.x dof
 #&gt; 1 0.07625797 0.02236222 783</div><div class='input'>
 <span class='co'>#  data.frame with bounds on the strengh of confounders</span>
-<span class='no'>sensitivity</span>$<span class='no'>bounds</span></div><div class='output co'>#&gt;   bound_label      r2dz.x   r2yz.dx adjusted_estimate adjusted_se adjusted_t
-#&gt; 1   1x female 0.009164287 0.1246409        0.07522027  0.02187333   3.438904
-#&gt; 2   2x female 0.018328573 0.2493241        0.05291517  0.02035006   2.600246
-#&gt; 3   3x female 0.027492860 0.3740505        0.03039602  0.01867006   1.628062
-#&gt;   adjusted_lower_CI adjusted_upper_CI
-#&gt; 1       0.032282966        0.11815758
-#&gt; 2       0.012968035        0.09286231
-#&gt; 3      -0.006253282        0.06704533</div><div class='input'>
+<span class='no'>sensitivity</span>$<span class='no'>bounds</span></div><div class='output co'>#&gt;   bound_label      r2dz.x   r2yz.dx      treatment adjusted_estimate
+#&gt; 1   1x female 0.009164287 0.1246409 directlyharmed        0.07522027
+#&gt; 2   2x female 0.018328573 0.2493241 directlyharmed        0.05291517
+#&gt; 3   3x female 0.027492860 0.3740505 directlyharmed        0.03039602
+#&gt;   adjusted_se adjusted_t adjusted_lower_CI adjusted_upper_CI
+#&gt; 1  0.02187333   3.438904       0.032282966        0.11815758
+#&gt; 2  0.02035006   2.600246       0.012968035        0.09286231
+#&gt; 3  0.01867006   1.628062      -0.006253282        0.06704533</div><div class='input'>
 <span class='co'>### Using sensitivity functions directly ###</span>
 
 <span class='co'># robustness value of directly harmed q = 1 (reduce estimate to zero)</span>
@@ -266,20 +266,20 @@ of unobserved confounders (<code><a href='ovb_bounds.html'>ovb_bounds</a></code>
 <span class='fu'><a href='ovb_bounds.html'>ovb_bounds</a></span>(<span class='no'>model</span>,
            <span class='kw'>treatment</span> <span class='kw'>=</span> <span class='st'>"directlyharmed"</span>,
            <span class='kw'>benchmark_covariates</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"female"</span>, <span class='st'>"age"</span>),
-           <span class='kw'>kd</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>3</span>)</div><div class='output co'>#&gt;   bound_label      r2dz.x     r2yz.dx adjusted_estimate adjusted_se adjusted_t
-#&gt; 1   1x female 0.009164287 0.124640923        0.07522027  0.02187333   3.438904
-#&gt; 2   2x female 0.018328573 0.249324064        0.05291517  0.02035006   2.600246
-#&gt; 3   3x female 0.027492860 0.374050471        0.03039602  0.01867006   1.628062
-#&gt; 4      1x age 0.001117013 0.008107259        0.09535637  0.02318983   4.111990
-#&gt; 5      2x age 0.002234026 0.016214559        0.09339472  0.02310779   4.041698
-#&gt; 6      3x age 0.003351038 0.024321900        0.09143086  0.02302527   3.970892
-#&gt;   adjusted_lower_CI adjusted_upper_CI
-#&gt; 1       0.032282966        0.11815758
-#&gt; 2       0.012968035        0.09286231
-#&gt; 3      -0.006253282        0.06704533
-#&gt; 4       0.049834764        0.14087797
-#&gt; 5       0.048034163        0.13875527
-#&gt; 6       0.046232296        0.13662943</div><div class='input'>
+           <span class='kw'>kd</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>3</span>)</div><div class='output co'>#&gt;   bound_label      r2dz.x     r2yz.dx      treatment adjusted_estimate
+#&gt; 1   1x female 0.009164287 0.124640923 directlyharmed        0.07522027
+#&gt; 2   2x female 0.018328573 0.249324064 directlyharmed        0.05291517
+#&gt; 3   3x female 0.027492860 0.374050471 directlyharmed        0.03039602
+#&gt; 4      1x age 0.001117013 0.008107259 directlyharmed        0.09535637
+#&gt; 5      2x age 0.002234026 0.016214559 directlyharmed        0.09339472
+#&gt; 6      3x age 0.003351038 0.024321900 directlyharmed        0.09143086
+#&gt;   adjusted_se adjusted_t adjusted_lower_CI adjusted_upper_CI
+#&gt; 1  0.02187333   3.438904       0.032282966        0.11815758
+#&gt; 2  0.02035006   2.600246       0.012968035        0.09286231
+#&gt; 3  0.01867006   1.628062      -0.006253282        0.06704533
+#&gt; 4  0.02318983   4.111990       0.049834764        0.14087797
+#&gt; 5  0.02310779   4.041698       0.048034163        0.13875527
+#&gt; 6  0.02302527   3.970892       0.046232296        0.13662943</div><div class='input'>
 <span class='co'># adjusted estimate given hypothetical strength of confounder</span>
 <span class='fu'><a href='adjusted_estimate.html'>adjusted_estimate</a></span>(<span class='no'>model</span>, <span class='kw'>treatment</span> <span class='kw'>=</span> <span class='st'>"directlyharmed"</span>, <span class='kw'>r2dz.x</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>r2yz.dx</span> <span class='kw'>=</span> <span class='fl'>0.1</span>)</div><div class='output co'>#&gt; directlyharmed 
 #&gt;     0.02871889 </div><div class='input'>

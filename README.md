@@ -120,14 +120,14 @@ summary(sensitivity)
 #> -- Robustness Value, q = 1, alpha = 0.05: unobserved confounders (orthogonal to the covariates) that explain more than 7.63% of the residual variance of both the treatment and the outcome are strong enough to bring the estimate to a range where it is no longer 'statistically different' from 0 (a bias of 100% of the original estimate), at the significance level of alpha = 0.05. Conversely, unobserved confounders that do not explain more than 7.63% of the residual variance of both the treatment and the outcome are not strong enough to bring the estimate to a range where it is no longer 'statistically different' from 0, at the significance level of alpha = 0.05.
 #> 
 #> Bounds on omitted variable bias:
-#>  Bound Label R2dz.x R2yz.dx Adjusted Estimate Adjusted Se Adjusted T
-#>    1x female 0.0092  0.1246            0.0752      0.0219     3.4389
-#>    2x female 0.0183  0.2493            0.0529      0.0204     2.6002
-#>    3x female 0.0275  0.3741            0.0304      0.0187     1.6281
-#>  Adjusted Lower CI Adjusted Upper CI
-#>             0.0323            0.1182
-#>             0.0130            0.0929
-#>            -0.0063            0.0670
+#>  Bound Label R2dz.x R2yz.dx      Treatment Adjusted Estimate Adjusted Se
+#>    1x female 0.0092  0.1246 directlyharmed            0.0752      0.0219
+#>    2x female 0.0183  0.2493 directlyharmed            0.0529      0.0204
+#>    3x female 0.0275  0.3741 directlyharmed            0.0304      0.0187
+#>  Adjusted T Adjusted Lower CI Adjusted Upper CI
+#>      3.4389            0.0323            0.1182
+#>      2.6002            0.0130            0.0929
+#>      1.6281           -0.0063            0.0670
 
 # plot bias contour of point estimate
 plot(sensitivity)
@@ -168,3 +168,138 @@ ovb_minimal_reporting(sensitivity)
 #> \end{tabular}
 #> \end{table}
 ```
+
+``` r
+# html code for sensitivity table
+ovb_minimal_reporting(sensitivity, format = "html")
+```
+
+<table class="center-table">
+
+<thead>
+
+<tr>
+
+<th style="text-align:left;border-bottom: 1px solid transparent;border-top: 1px solid black">
+
+</th>
+
+<th colspan="6" style="text-align:center;border-bottom: 1px solid black;border-top: 1px solid black">
+
+Outcome:
+peacefactor
+
+</th>
+
+</tr>
+
+<tr>
+
+<th style="text-align:left;border-top: 1px solid black">
+
+Treatment
+
+</th>
+
+<th style="text-align:right;border-top: 1px solid black">
+
+Est.
+
+</th>
+
+<th style="text-align:right;border-top: 1px solid black">
+
+S.E.
+
+</th>
+
+<th style="text-align:right;border-top: 1px solid black">
+
+t-value
+
+</th>
+
+<th style="text-align:right;border-top: 1px solid black">
+
+\(R^2_{Y \sim D |{\bf X}}\)
+
+</th>
+
+<th style="text-align:right;border-top: 1px solid black">
+
+\(RV_{q = 1}\)
+
+</th>
+
+<th style="text-align:right;border-top: 1px solid black">
+
+\(RV_{q = 1, \alpha = 0.05}\)
+
+</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td style="text-align:left; border-bottom: 1px solid black">
+
+directlyharmed
+
+</td>
+
+<td style="text-align:right;border-bottom: 1px solid black">
+
+0.097
+
+</td>
+
+<td style="text-align:right;border-bottom: 1px solid black">
+
+0.023
+
+</td>
+
+<td style="text-align:right;border-bottom: 1px solid black">
+
+4.184
+
+</td>
+
+<td style="text-align:right;border-bottom: 1px solid black">
+
+2.2%
+
+</td>
+
+<td style="text-align:right;border-bottom: 1px solid black">
+
+13.9%
+
+</td>
+
+<td style="text-align:right;border-bottom: 1px solid black">
+
+7.6%
+
+</td>
+
+</tr>
+
+</tbody>
+
+<tr>
+
+<td colspan="7" style="text-align:right;border-bottom: 1px solid transparent;font-size:11px">
+
+Note: df = 783; Bound ( 1x female ): \(R^2_{Y\sim Z| {\bf X}, D}\) =
+12.5%, \(R^2_{D\sim Z| {\bf X} }\) = 0.9%
+
+</td>
+
+</tr>
+
+</table>

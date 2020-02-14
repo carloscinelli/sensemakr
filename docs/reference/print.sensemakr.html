@@ -37,7 +37,8 @@
 
 <meta property="og:title" content="Sensitivity analysis print and summary methods for <code>sensemakr</code> — print.sensemakr" />
 <meta property="og:description" content="The print and summary methods provide verbal descriptions of the sensitivity analysis results
-obtained with the function sensemakr. The function ovb_minimal_reporting provides the latex code for a minimal
+obtained with the function sensemakr. The function ovb_minimal_reporting provides
+latex or html code for a minimal
 sensitivity analysis reporting, as suggested in Cinelli and Hazlett (2020)." />
 <meta name="twitter:card" content="summary" />
 
@@ -124,7 +125,8 @@ sensitivity analysis reporting, as suggested in Cinelli and Hazlett (2020)." />
 
     <div class="ref-description">
     <p>The <code>print</code> and <code>summary</code> methods provide verbal descriptions of the sensitivity analysis results
-obtained with the function <code><a href='sensemakr.html'>sensemakr</a></code>. The function <code>ovb_minimal_reporting</code> provides the latex code for a minimal
+obtained with the function <code><a href='sensemakr.html'>sensemakr</a></code>. The function <code>ovb_minimal_reporting</code> provides
+latex or html code for a minimal
 sensitivity analysis reporting, as suggested in Cinelli and Hazlett (2020).</p>
     </div>
 
@@ -134,7 +136,13 @@ sensitivity analysis reporting, as suggested in Cinelli and Hazlett (2020).</p>
 <span class='co'># S3 method for sensemakr</span>
 <span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>object</span>, <span class='kw'>digits</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span>(<span class='fl'>3L</span>, <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span>(<span class='st'>"digits"</span>) - <span class='fl'>3L</span>), <span class='no'>...</span>)
 
-<span class='fu'>ovb_minimal_reporting</span>(<span class='no'>x</span>, <span class='kw'>digits</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
+<span class='fu'>ovb_minimal_reporting</span>(
+  <span class='no'>x</span>,
+  <span class='kw'>digits</span> <span class='kw'>=</span> <span class='fl'>3</span>,
+  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>format</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"latex"</span>, <span class='st'>"html"</span>, <span class='st'>"pure html"</span>),
+  <span class='no'>...</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -159,11 +167,17 @@ sensitivity analysis reporting, as suggested in Cinelli and Hazlett (2020).</p>
       <th>verbose</th>
       <td><p>if `TRUE`, the function prints the LaTeX code with <code><a href='https://rdrr.io/r/base/cat.html'>cat</a></code></p></td>
     </tr>
+    <tr>
+      <th>format</th>
+      <td><p>code format to print, either <code>latex</code> or <code>html</code>. The default html version
+has some mathematical content that requires mathjax or equivalent library to parse.
+If you need only html, use the option "pure html".</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>The function <code>ovb_minimal_reporting</code> returns the LaTeX code invisibly in character form and also prints with
+    <p>The function <code>ovb_minimal_reporting</code> returns the LaTeX/HTML code invisibly in character form and also prints with
 <code><a href='https://rdrr.io/r/base/cat.html'>cat</a></code> the LaTeX code. To suppress automatic printing, set <code>verbose = FALSE</code>.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
@@ -221,14 +235,14 @@ sensitivity analysis reporting, as suggested in Cinelli and Hazlett (2020).</p>
 #&gt; -- Robustness Value, q = 1, alpha = 0.05: unobserved confounders (orthogonal to the covariates) that explain more than 7.63% of the residual variance of both the treatment and the outcome are strong enough to bring the estimate to a range where it is no longer 'statistically different' from 0 (a bias of 100% of the original estimate), at the significance level of alpha = 0.05. Conversely, unobserved confounders that do not explain more than 7.63% of the residual variance of both the treatment and the outcome are not strong enough to bring the estimate to a range where it is no longer 'statistically different' from 0, at the significance level of alpha = 0.05.
 #&gt; 
 #&gt; Bounds on omitted variable bias:
-#&gt;  Bound Label R2dz.x R2yz.dx Adjusted Estimate Adjusted Se Adjusted T
-#&gt;    1x female 0.0092  0.1246            0.0752      0.0219     3.4389
-#&gt;    2x female 0.0183  0.2493            0.0529      0.0204     2.6002
-#&gt;    3x female 0.0275  0.3741            0.0304      0.0187     1.6281
-#&gt;  Adjusted Lower CI Adjusted Upper CI
-#&gt;             0.0323            0.1182
-#&gt;             0.0130            0.0929
-#&gt;            -0.0063            0.0670</div><div class='input'>
+#&gt;  Bound Label R2dz.x R2yz.dx      Treatment Adjusted Estimate Adjusted Se
+#&gt;    1x female 0.0092  0.1246 directlyharmed            0.0752      0.0219
+#&gt;    2x female 0.0183  0.2493 directlyharmed            0.0529      0.0204
+#&gt;    3x female 0.0275  0.3741 directlyharmed            0.0304      0.0187
+#&gt;  Adjusted T Adjusted Lower CI Adjusted Upper CI
+#&gt;      3.4389            0.0323            0.1182
+#&gt;      2.6002            0.0130            0.0929
+#&gt;      1.6281           -0.0063            0.0670</div><div class='input'>
 <span class='co'># prints latex code for minimal sensitivity analysis reporting</span>
 <span class='fu'>ovb_minimal_reporting</span>(<span class='no'>sensitivity</span>)</div><div class='output co'>#&gt; \begin{table}[!h]
 #&gt; \centering

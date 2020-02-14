@@ -173,14 +173,14 @@
 <a class="sourceLine" id="cb3-59" data-line-number="59"><span class="co">#&gt; -- Robustness Value, q = 1, alpha = 0.05: unobserved confounders (orthogonal to the covariates) that explain more than 7.63% of the residual variance of both the treatment and the outcome are strong enough to bring the estimate to a range where it is no longer 'statistically different' from 0 (a bias of 100% of the original estimate), at the significance level of alpha = 0.05. Conversely, unobserved confounders that do not explain more than 7.63% of the residual variance of both the treatment and the outcome are not strong enough to bring the estimate to a range where it is no longer 'statistically different' from 0, at the significance level of alpha = 0.05.</span></a>
 <a class="sourceLine" id="cb3-60" data-line-number="60"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb3-61" data-line-number="61"><span class="co">#&gt; Bounds on omitted variable bias:</span></a>
-<a class="sourceLine" id="cb3-62" data-line-number="62"><span class="co">#&gt;  Bound Label R2dz.x R2yz.dx Adjusted Estimate Adjusted Se Adjusted T</span></a>
-<a class="sourceLine" id="cb3-63" data-line-number="63"><span class="co">#&gt;    1x female 0.0092  0.1246            0.0752      0.0219     3.4389</span></a>
-<a class="sourceLine" id="cb3-64" data-line-number="64"><span class="co">#&gt;    2x female 0.0183  0.2493            0.0529      0.0204     2.6002</span></a>
-<a class="sourceLine" id="cb3-65" data-line-number="65"><span class="co">#&gt;    3x female 0.0275  0.3741            0.0304      0.0187     1.6281</span></a>
-<a class="sourceLine" id="cb3-66" data-line-number="66"><span class="co">#&gt;  Adjusted Lower CI Adjusted Upper CI</span></a>
-<a class="sourceLine" id="cb3-67" data-line-number="67"><span class="co">#&gt;             0.0323            0.1182</span></a>
-<a class="sourceLine" id="cb3-68" data-line-number="68"><span class="co">#&gt;             0.0130            0.0929</span></a>
-<a class="sourceLine" id="cb3-69" data-line-number="69"><span class="co">#&gt;            -0.0063            0.0670</span></a>
+<a class="sourceLine" id="cb3-62" data-line-number="62"><span class="co">#&gt;  Bound Label R2dz.x R2yz.dx      Treatment Adjusted Estimate Adjusted Se</span></a>
+<a class="sourceLine" id="cb3-63" data-line-number="63"><span class="co">#&gt;    1x female 0.0092  0.1246 directlyharmed            0.0752      0.0219</span></a>
+<a class="sourceLine" id="cb3-64" data-line-number="64"><span class="co">#&gt;    2x female 0.0183  0.2493 directlyharmed            0.0529      0.0204</span></a>
+<a class="sourceLine" id="cb3-65" data-line-number="65"><span class="co">#&gt;    3x female 0.0275  0.3741 directlyharmed            0.0304      0.0187</span></a>
+<a class="sourceLine" id="cb3-66" data-line-number="66"><span class="co">#&gt;  Adjusted T Adjusted Lower CI Adjusted Upper CI</span></a>
+<a class="sourceLine" id="cb3-67" data-line-number="67"><span class="co">#&gt;      3.4389            0.0323            0.1182</span></a>
+<a class="sourceLine" id="cb3-68" data-line-number="68"><span class="co">#&gt;      2.6002            0.0130            0.0929</span></a>
+<a class="sourceLine" id="cb3-69" data-line-number="69"><span class="co">#&gt;      1.6281           -0.0063            0.0670</span></a>
 <a class="sourceLine" id="cb3-70" data-line-number="70"></a>
 <a class="sourceLine" id="cb3-71" data-line-number="71"><span class="co"># plot bias contour of point estimate</span></a>
 <a class="sourceLine" id="cb3-72" data-line-number="72"><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(sensitivity)</a></code></pre></div>
@@ -208,6 +208,122 @@
 <a class="sourceLine" id="cb6-13" data-line-number="13"><span class="co">#&gt; df = 783 &amp; &amp; \multicolumn{5}{r}{ \small \textit{Bound (1x female)}: $R^2_{Y\sim Z| {\bf X}, D}$ = 12.5\%, $R^2_{D\sim Z| {\bf X} }$ = 0.9\%} \\</span></a>
 <a class="sourceLine" id="cb6-14" data-line-number="14"><span class="co">#&gt; \end{tabular}</span></a>
 <a class="sourceLine" id="cb6-15" data-line-number="15"><span class="co">#&gt; \end{table}</span></a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="co"># html code for sensitivity table</span></a>
+<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="kw"><a href="reference/print.sensemakr.html">ovb_minimal_reporting</a></span>(sensitivity, <span class="dt">format =</span> <span class="st">"html"</span>)</a></code></pre></div>
+<table class="table center-table">
+<thead>
+<tr>
+<th style="text-align:left;border-bottom: 1px solid transparent;border-top: 1px solid black">
+
+</th>
+
+<th colspan="6" style="text-align:center;border-bottom: 1px solid black;border-top: 1px solid black">
+
+Outcome:
+peacefactor
+
+</th>
+
+</tr>
+<tr>
+<th style="text-align:left;border-top: 1px solid black">
+
+Treatment
+
+</th>
+
+<th style="text-align:right;border-top: 1px solid black">
+
+Est.
+
+</th>
+
+<th style="text-align:right;border-top: 1px solid black">
+
+S.E.
+
+</th>
+
+<th style="text-align:right;border-top: 1px solid black">
+
+t-value
+
+</th>
+
+<th style="text-align:right;border-top: 1px solid black">
+
+\(R^2_{Y \sim D |{\bf X}}\)
+
+</th>
+
+<th style="text-align:right;border-top: 1px solid black">
+
+\(RV_{q = 1}\)
+
+</th>
+
+<th style="text-align:right;border-top: 1px solid black">
+
+\(RV_{q = 1, \alpha = 0.05}\)
+
+</th>
+
+</tr>
+</thead>
+<tbody><tr>
+<td style="text-align:left; border-bottom: 1px solid black">
+
+directlyharmed
+
+</td>
+
+<td style="text-align:right;border-bottom: 1px solid black">
+
+0.097
+
+</td>
+
+<td style="text-align:right;border-bottom: 1px solid black">
+
+0.023
+
+</td>
+
+<td style="text-align:right;border-bottom: 1px solid black">
+
+4.184
+
+</td>
+
+<td style="text-align:right;border-bottom: 1px solid black">
+
+2.2%
+
+</td>
+
+<td style="text-align:right;border-bottom: 1px solid black">
+
+13.9%
+
+</td>
+
+<td style="text-align:right;border-bottom: 1px solid black">
+
+7.6%
+
+</td>
+
+</tr></tbody>
+<tr>
+<td colspan="7" style="text-align:right;border-bottom: 1px solid transparent;font-size:11px">
+
+Note: df = 783; Bound ( 1x female ): \(R^2_{Y\sim Z| {\bf X}, D}\) =
+12.5%, \(R^2_{D\sim Z| {\bf X} }\) = 0.9%
+
+</td>
+
+</tr>
+</table>
 </div>
 
   </div>
