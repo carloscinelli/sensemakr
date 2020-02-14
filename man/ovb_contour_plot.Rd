@@ -29,7 +29,7 @@ ovb_contour_plot(...)
   col.thr.line = "red",
   label.text = TRUE,
   cex.label.text = 0.7,
-  label.bump.x = lim * (1/10),
+  label.bump.x = lim * (1/15),
   label.bump.y = lim.y * (1/15),
   round = 3,
   ...
@@ -78,7 +78,7 @@ ovb_contour_plot(...)
   col.thr.line = "red",
   label.text = TRUE,
   cex.label.text = 0.7,
-  label.bump.x = lim * (1/10),
+  label.bump.x = lim * (1/15),
   label.bump.y = lim.y * (1/15),
   xlab = NULL,
   ylab = NULL,

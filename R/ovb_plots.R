@@ -1,6 +1,16 @@
 
 # Plots -------------------------------------------------------------------
 
+# keep track of plot options
+# to add bound to contours automatically, we need to recover:
+#  1. the lims used
+#  2. what the sensitivity was
+plot.env <- new.env(parent = emptyenv())
+plot.env$lim <- NULL
+plot.env$lim.y <- NULL
+plot.env$reduce <- NULL
+plot.env$sensitivity.of <- NULL
+plot.env$treatment <- NULL
 
 # generic plot function ---------------------------------------------------
 
@@ -58,6 +68,7 @@ ovb_contour_plot.sensemakr <- function(x, sensitivity.of = c("estimate", "t-valu
   dof <- x$sensitivity_stats$dof
   thr <- ifelse(reduce, estimate*(1 - q), estimate*(1 + q) )
   t.thr <- abs(qt(alpha/2, df = dof - 1))*sign(x$sensitivity_stats$t_statistic)
+  plot.env$treatment <- x$info$treatment
 
   with(x,
        ovb_contour_plot(estimate = sensitivity_stats$estimate,
@@ -189,7 +200,7 @@ ovb_contour_plot.lm = function(model,
                                col.thr.line = "red",
                                label.text = TRUE,
                                cex.label.text = .7,
-                               label.bump.x = lim*(1/10),
+                               label.bump.x = lim*(1/15),
                                label.bump.y = lim.y*(1/15),
                                round = 3,
                                ...) {
@@ -198,7 +209,7 @@ ovb_contour_plot.lm = function(model,
   check_multipliers(ky = ky, kd = kd)
   if (lim > 1) {
     lim <- 1
-    label.bump.x = lim*(1/10)
+    label.bump.x = lim*(1/15)
     warning("Contour limit larger than 1 was set to 1.")
   }
 
@@ -210,7 +221,7 @@ ovb_contour_plot.lm = function(model,
 
   if (lim < 0) {
     lim <- 0.4
-    label.bump.x = lim*(1/10)
+    label.bump.x = lim*(1/15)
     warning("Contour limit less than 0 was set to 0.4.")
   }
 
@@ -237,7 +248,7 @@ ovb_contour_plot.lm = function(model,
                           bound_label = bound_label,
                           stringsAsFactors = FALSE)
     lim <- max(c(lim, r2dz.x*1.2))
-    label.bump.x = lim*(1/10)
+    label.bump.x = lim*(1/15)
     lim.y <- max(c(lim.y, r2yz.dx*1.2))
     label.bump.y = lim.y*(1/15)
   } else{
@@ -255,10 +266,13 @@ ovb_contour_plot.lm = function(model,
                                adjusted_estimates = FALSE)
     bounds <- rbind(bounds, bench_bounds)
     lim <- max(c(lim, bounds$r2dz.x*1.2))
-    label.bump.x = lim*(1/10)
+    label.bump.x = lim*(1/15)
     lim.y <- max(c(lim.y, bounds$r2yz.dx*1.2))
     label.bump.y = lim.y*(1/15)
   }
+
+  # update treatment env
+  plot.env$treatment <- treatment
 
   ovb_contour_plot(estimate = estimate,
                    se = se,
@@ -379,7 +393,7 @@ ovb_contour_plot.numeric = function(estimate,
                                     col.thr.line = "red",
                                     label.text = TRUE,
                                     cex.label.text = .7,
-                                    label.bump.x = lim*(1/10),
+                                    label.bump.x = lim*(1/15),
                                     label.bump.y = lim.y*(1/15),
                                     xlab = NULL,
                                     ylab = NULL,
@@ -396,7 +410,7 @@ ovb_contour_plot.numeric = function(estimate,
 
   if (lim > 1) {
     lim <- 1
-    label.bump.x = lim*(1/10)
+    label.bump.x = lim*(1/15)
     warning("Contour limit larger than 1 was set to 1.")
   }
 
@@ -408,7 +422,7 @@ ovb_contour_plot.numeric = function(estimate,
 
   if (lim < 0) {
     lim <- 0.4
-    label.bump.x = lim*(1/10)
+    label.bump.x = lim*(1/15)
     warning("Contour limit less than 0 was set to 0.4.")
   }
 
@@ -566,6 +580,13 @@ ovb_contour_plot.numeric = function(estimate,
                             stringsAsFactors = FALSE)
   }
 
+  # update plot environment variables
+  # for further use with add_bounds_to_contour if needed
+  plot.env$lim <- lim
+  plot.env$lim.y <- lim.y
+  plot.env$reduce <- reduce
+  plot.env$sensitivity.of <- sensitivity.of
+
   invisible(out)
 }
 
@@ -586,17 +607,15 @@ ovb_contour_plot.numeric = function(estimate,
 #'                          pastvoted + hhsize_darfur + female + village,
 #'                          data = darfur)
 #' # contour plot
-#' ovb_contour_plot(model, treatment = "directlyharmed")
+#' ovb_contour_plot(model = model, treatment = "directlyharmed")
 #'
 #' # add bound 3/1 times stronger than female
-#' add_bound_to_contour(model,
-#'                      treatment = "directlyharmed",
+#' add_bound_to_contour(model = model,
 #'                      benchmark_covariates = "female",
 #'                      kd = 3, ky = 1)
 #'
 #' # add bound 50/2 times stronger than age
-#' add_bound_to_contour(model,
-#'                      treatment = "directlyharmed",
+#' add_bound_to_contour(model = model,
 #'                      benchmark_covariates = "age",
 #'                      kd = 50, ky = 2)
 #'
@@ -611,14 +630,22 @@ add_bound_to_contour <- function(...){
 
 #' @export
 add_bound_to_contour.ovb_bounds <- function(bounds,
-                                            bound_value = NULL,
                                             label.text = TRUE,
-                                            cex.label.text = .7,
-                                            label.bump.x = par("usr")[2]*(1/15),
-                                            label.bump.y = par("usr")[4]*(1/15),
                                             bound_label = bounds$bound_label,
+                                            bound_value = NULL,
+                                            label.bump.x = plot.env$lim*(1/15),
+                                            label.bump.y = plot.env$lim.y*(1/15),
                                             round = 2,
+                                            cex.label.text = .7,
                                             ...){
+  # gets bound from environment
+  if (is.null(bound_value) & !is.null(plot.env$sensitivity.of)) {
+    if (plot.env$sensitivity.of == "estimate") {
+      bound_value <- bounds$adjusted_estimate
+    } else {
+      bound_value <- bounds$adjusted_t
+    }
+  }
   add_bound_to_contour(r2dz.x = bounds$r2dz.x,
                        r2yz.dx = bounds$r2yz.dx,
                        bound_value = bound_value,
@@ -635,16 +662,17 @@ add_bound_to_contour.ovb_bounds <- function(bounds,
 #' @rdname add_bound_to_contour
 #' @export
 add_bound_to_contour.lm <- function(model,
-                                    treatment,
                                     benchmark_covariates,
                                     kd = 1,
                                     ky = kd,
-                                    reduce = TRUE,
-                                    sensitivity.of = c("estimate", "t-value"),
+                                    bound_label = NULL,
+                                    treatment = plot.env$treatment,
+                                    reduce = plot.env$reduce,
+                                    sensitivity.of = plot.env$sensitivity.of,
                                     label.text = TRUE,
                                     cex.label.text = .7,
-                                    label.bump.x = par("usr")[2]*(1/15),
-                                    label.bump.y = par("usr")[4]*(1/15),
+                                    label.bump.x = plot.env$lim*(1/15),
+                                    label.bump.y = plot.env$lim.y*(1/15),
                                     round = 2,
                                     ...)
 {
@@ -665,10 +693,15 @@ add_bound_to_contour.lm <- function(model,
   if (sensitivity.of == "t-value") {
     bound_value <- bounds$adjusted_t
   }
+
+  if (is.null(bound_label)) {
+   bound_label <-  bounds$bound_label
+  }
+
   add_bound_to_contour(r2dz.x = bounds$r2dz.x,
                        r2yz.dx = bounds$r2yz.dx,
                        bound_value = bound_value,
-                       bound_label = bounds$bound_label,
+                       bound_label = bound_label,
                        label.text = label.text,
                        cex.label.text = cex.label.text,
                        label.bump.x = label.bump.x,
@@ -688,8 +721,8 @@ add_bound_to_contour.numeric <- function(r2dz.x,
                                          bound_label = NULL,
                                          label.text = TRUE,
                                          cex.label.text = .7,
-                                         label.bump.x = par("usr")[2]*(1/15),
-                                         label.bump.y = par("usr")[4]*(1/15),
+                                         label.bump.x = plot.env$lim*(1/15),
+                                         label.bump.y = plot.env$lim.y*(1/15),
                                          round = 2,
                                          ...){
 

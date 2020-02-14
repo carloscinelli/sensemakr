@@ -157,7 +157,6 @@ add_bound_to_contour(r2dz.x = r2dx,
                      bound_label = "Informal benchmark")
 
 add_bound_to_contour(bounds = formal_bound,
-                     bound_value = formal_bound$adjusted_estimate,
                      bound_label = "Proper bound")
 ```
 

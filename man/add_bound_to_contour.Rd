@@ -10,16 +10,17 @@ add_bound_to_contour(...)
 
 \method{add_bound_to_contour}{lm}(
   model,
-  treatment,
   benchmark_covariates,
   kd = 1,
   ky = kd,
-  reduce = TRUE,
-  sensitivity.of = c("estimate", "t-value"),
+  bound_label = NULL,
+  treatment = plot.env$treatment,
+  reduce = plot.env$reduce,
+  sensitivity.of = plot.env$sensitivity.of,
   label.text = TRUE,
   cex.label.text = 0.7,
-  label.bump.x = par("usr")[2] * (1/15),
-  label.bump.y = par("usr")[4] * (1/15),
+  label.bump.x = plot.env$lim * (1/15),
+  label.bump.y = plot.env$lim.y * (1/15),
   round = 2,
   ...
 )
@@ -31,8 +32,8 @@ add_bound_to_contour(...)
   bound_label = NULL,
   label.text = TRUE,
   cex.label.text = 0.7,
-  label.bump.x = par("usr")[2] * (1/15),
-  label.bump.y = par("usr")[4] * (1/15),
+  label.bump.x = plot.env$lim * (1/15),
+  label.bump.y = plot.env$lim.y * (1/15),
   round = 2,
   ...
 )
@@ -42,9 +43,6 @@ add_bound_to_contour(...)
 
 \item{model}{An \code{lm} object with the outcome regression.}
 
-\item{treatment}{A character vector with the name of the treatment variable
-of the model.}
-
 \item{benchmark_covariates}{a character vector of the names of covariates that will be used to bound the plausible strength
 of the unobserved confounders.}
 
@@ -53,6 +51,11 @@ Default value is \code{1} (confounder is as strong as benchmark covariate).}
 
 \item{ky}{numeric vector. Parameterizes how many times stronger the confounder is related to the outcome in comparison to the observed benchmark covariate.
 Default value is the same as \code{kd}.}
+
+\item{bound_label}{label to bounds provided manually in \code{r2dz.x} and \code{r2yz.dx}.}
+
+\item{treatment}{A character vector with the name of the treatment variable
+of the model.}
 
 \item{reduce}{Should the bias adjustment reduce or increase the
 absolute value of the estimated coefficient? Default is \code{TRUE}.}
@@ -77,8 +80,6 @@ Z with treatment D, given covariates X.}
 with outcome Y, given covariates X and treatment D.}
 
 \item{bound_value}{value to be printed in label bound.}
-
-\item{bound_label}{label to bounds provided manually in \code{r2dz.x} and \code{r2yz.dx}.}
 }
 \value{
 The function adds bounds in an existing contour plot and returns `NULL`.
@@ -93,17 +94,15 @@ model <- lm(peacefactor ~ directlyharmed + age + farmer_dar + herder_dar +
                          pastvoted + hhsize_darfur + female + village,
                          data = darfur)
 # contour plot
-ovb_contour_plot(model, treatment = "directlyharmed")
+ovb_contour_plot(model = model, treatment = "directlyharmed")
 
 # add bound 3/1 times stronger than female
-add_bound_to_contour(model,
-                     treatment = "directlyharmed",
+add_bound_to_contour(model = model,
                      benchmark_covariates = "female",
                      kd = 3, ky = 1)
 
 # add bound 50/2 times stronger than age
-add_bound_to_contour(model,
-                     treatment = "directlyharmed",
+add_bound_to_contour(model = model,
                      benchmark_covariates = "age",
                      kd = 50, ky = 2)
 
