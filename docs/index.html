@@ -107,7 +107,7 @@
 <a href="#how-to-install-the-development-version-from-github" class="anchor"></a>How to install the development version from GitHub</h1>
 <p>To install the development version on GitHub make sure you have the package <code>devtools</code> installed.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="co"># install.packages("devtools") </span></a>
-<a class="sourceLine" id="cb2-2" data-line-number="2">devtools<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/devtools/man/remote-reexports.html">install_github</a></span>(<span class="st">"chadhazlett/sensemakr"</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb2-2" data-line-number="2">devtools<span class="op">::</span><span class="kw"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span>(<span class="st">"chadhazlett/sensemakr"</span>)</a></code></pre></div>
 </div>
 <div id="basic-usage" class="section level1">
 <h1 class="hasAnchor">
@@ -208,122 +208,6 @@
 <a class="sourceLine" id="cb6-13" data-line-number="13"><span class="co">#&gt; df = 783 &amp; &amp; \multicolumn{5}{r}{ \small \textit{Bound (1x female)}: $R^2_{Y\sim Z| {\bf X}, D}$ = 12.5\%, $R^2_{D\sim Z| {\bf X} }$ = 0.9\%} \\</span></a>
 <a class="sourceLine" id="cb6-14" data-line-number="14"><span class="co">#&gt; \end{tabular}</span></a>
 <a class="sourceLine" id="cb6-15" data-line-number="15"><span class="co">#&gt; \end{table}</span></a></code></pre></div>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="co"># html code for sensitivity table</span></a>
-<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="kw"><a href="reference/print.sensemakr.html">ovb_minimal_reporting</a></span>(sensitivity, <span class="dt">format =</span> <span class="st">"html"</span>)</a></code></pre></div>
-<table class="table center-table">
-<thead>
-<tr>
-<th style="text-align:left;border-bottom: 1px solid transparent;border-top: 1px solid black">
-
-</th>
-
-<th colspan="6" style="text-align:center;border-bottom: 1px solid black;border-top: 1px solid black">
-
-Outcome:
-peacefactor
-
-</th>
-
-</tr>
-<tr>
-<th style="text-align:left;border-top: 1px solid black">
-
-Treatment
-
-</th>
-
-<th style="text-align:right;border-top: 1px solid black">
-
-Est.
-
-</th>
-
-<th style="text-align:right;border-top: 1px solid black">
-
-S.E.
-
-</th>
-
-<th style="text-align:right;border-top: 1px solid black">
-
-t-value
-
-</th>
-
-<th style="text-align:right;border-top: 1px solid black">
-
-\(R^2_{Y \sim D |{\bf X}}\)
-
-</th>
-
-<th style="text-align:right;border-top: 1px solid black">
-
-\(RV_{q = 1}\)
-
-</th>
-
-<th style="text-align:right;border-top: 1px solid black">
-
-\(RV_{q = 1, \alpha = 0.05}\)
-
-</th>
-
-</tr>
-</thead>
-<tbody><tr>
-<td style="text-align:left; border-bottom: 1px solid black">
-
-directlyharmed
-
-</td>
-
-<td style="text-align:right;border-bottom: 1px solid black">
-
-0.097
-
-</td>
-
-<td style="text-align:right;border-bottom: 1px solid black">
-
-0.023
-
-</td>
-
-<td style="text-align:right;border-bottom: 1px solid black">
-
-4.184
-
-</td>
-
-<td style="text-align:right;border-bottom: 1px solid black">
-
-2.2%
-
-</td>
-
-<td style="text-align:right;border-bottom: 1px solid black">
-
-13.9%
-
-</td>
-
-<td style="text-align:right;border-bottom: 1px solid black">
-
-7.6%
-
-</td>
-
-</tr></tbody>
-<tr>
-<td colspan="7" style="text-align:right;border-bottom: 1px solid transparent;font-size:11px">
-
-Note: df = 783; Bound ( 1x female ): \(R^2_{Y\sim Z| {\bf X}, D}\) =
-12.5%, \(R^2_{D\sim Z| {\bf X} }\) = 0.9%
-
-</td>
-
-</tr>
-</table>
 </div>
 
   </div>

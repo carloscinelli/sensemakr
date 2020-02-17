@@ -3,7 +3,7 @@
 \docType{data}
 \name{colombia}
 \alias{colombia}
-\title{Data from Colombia}
+\title{Data from the 2016 referendum for peace with the FARC in Colombia.}
 \format{A data frame with 1123 rows and 16 columns.
 \describe{
   \item{department}{Name for the provincial level unit, called departments or departmentos, of which there are 32 in the country.}

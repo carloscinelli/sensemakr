@@ -26,6 +26,7 @@ Suggests:
     covr,
     knitr,
     rmarkdown,
-    png
+    png,
+    stargazer
 LazyData: true
 VignetteBuilder: knitr

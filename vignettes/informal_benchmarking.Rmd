@@ -165,4 +165,4 @@ Note that, using the formal bounds, the researcher now reaches the correct concl
 
 ## References
 
-Cinelli, C. Hazlett, C. (2020) "Making Sense of Sensitivity: Extending Omitted Variable Bias". Journal of the Royal Statistical Society, Series B (Statistical Methodology). [link](https://doi.org/10.1111/rssb.12348).
+Cinelli, C. Hazlett, C. (2020) "Making Sense of Sensitivity: Extending Omitted Variable Bias". Journal of the Royal Statistical Society, Series B (Statistical Methodology). ( [link](https://doi.org/10.1111/rssb.12348) )

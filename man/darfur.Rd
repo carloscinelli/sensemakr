@@ -36,9 +36,9 @@ darfur
 }
 \description{
 Data on attitudes of Darfurian refugees in eastern Chad. The main "treatment"
-variable is \code{directharm}, which indicates that the individual was physically
+variable is \code{directlyharmed}, which indicates that the individual was physically
 injured during attacks on villages in Darfur, largely between 2003 and 2004.
-The main outcome of interest is \code{peaceindex}, a measure of pro-peace
+The main outcome of interest is \code{peacefactor}, a measure of pro-peace
 attitudes.
 
 Key  covariates include \code{herder_dar}

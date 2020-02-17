@@ -5,12 +5,12 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>An introduction to sensemakr • sensemakr</title>
+<title>An introduction to sensitivity analysis using `sensemakr` • sensemakr</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../pkgdown.js"></script><meta property="og:title" content="An introduction to sensemakr">
+<script src="../pkgdown.js"></script><meta property="og:title" content="An introduction to sensitivity analysis using `sensemakr`">
 <meta property="og:description" content="">
 <meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
@@ -73,7 +73,8 @@
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1>An introduction to sensemakr</h1>
+      <h1>An introduction to sensitivity analysis using <code>sensemakr</code>
+</h1>
                         <h4 class="author">Carlos Cinelli and Chad Hazlett</h4>
             
       
@@ -87,27 +88,124 @@
 <div id="introduction" class="section level1">
 <h1 class="hasAnchor">
 <a href="#introduction" class="anchor"></a>Introduction</h1>
-<p>Under construction, come back soon!</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(sensemakr)</a>
-<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="co">#&gt; See details in:</span></a>
-<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="co">#&gt; Carlos Cinelli and Chad Hazlett (2020). Making Sense of Sensitivity: Extending Omitted Variable Bias. Journal of the Royal Statistical Society, Series B (Statistical Methodology).</span></a>
-<a class="sourceLine" id="cb1-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="co"># loads dataset</span></a>
-<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="kw"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="st">"darfur"</span>)</a>
-<a class="sourceLine" id="cb1-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb1-8" data-line-number="8"><span class="co"># runs regression model</span></a>
-<a class="sourceLine" id="cb1-9" data-line-number="9">model &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span>(peacefactor <span class="op">~</span><span class="st"> </span>directlyharmed <span class="op">+</span><span class="st"> </span>age <span class="op">+</span><span class="st"> </span>farmer_dar <span class="op">+</span><span class="st"> </span>herder_dar <span class="op">+</span></a>
-<a class="sourceLine" id="cb1-10" data-line-number="10"><span class="st">                         </span>pastvoted <span class="op">+</span><span class="st"> </span>hhsize_darfur <span class="op">+</span><span class="st"> </span>female <span class="op">+</span><span class="st"> </span>village, <span class="dt">data =</span> darfur)</a>
-<a class="sourceLine" id="cb1-11" data-line-number="11"></a>
-<a class="sourceLine" id="cb1-12" data-line-number="12"><span class="co"># runs sensemakr for sensitivity analysis</span></a>
-<a class="sourceLine" id="cb1-13" data-line-number="13">sensitivity &lt;-<span class="st"> </span><span class="kw"><a href="../reference/sensemakr.html">sensemakr</a></span>(model, <span class="dt">treatment =</span> <span class="st">"directlyharmed"</span>,</a>
-<a class="sourceLine" id="cb1-14" data-line-number="14">                               <span class="dt">benchmark_covariates =</span> <span class="st">"female"</span>,</a>
-<a class="sourceLine" id="cb1-15" data-line-number="15">                               <span class="dt">kd =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">3</span>)</a>
-<a class="sourceLine" id="cb1-16" data-line-number="16"></a>
-<a class="sourceLine" id="cb1-17" data-line-number="17"><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(sensitivity)</a></code></pre></div>
-<p><img src="sensemakr_files/figure-html/unnamed-chunk-2-1.png" width="700"></p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"></a>
-<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="kw"><a href="../reference/print.sensemakr.html">ovb_minimal_reporting</a></span>(sensitivity, <span class="dt">format =</span> <span class="st">"html"</span>)</a></code></pre></div>
+<!-- Causal inference with observational data requires *untestable assumptions* about the data generating process, such as the absence of unobserved confounders. It is not uncommon, however, for these assumptions to be called into question.  -->
+<p>Traditional causal inference with observational data makes <em>untestable assumptions</em> about the absence of unobserved confounders. Hardly anyone, however, believe those assumptions hold exactly, and discussing “identification assumptions” in a <em>qualitative</em> manner only gets us so far. Credible causal inference, thus, demands tools to <em>quantitatively</em> discuss the sensitivity of putative causal estimates when identification assumptions are called into question.</p>
+<p>The <code>R</code> package <code>sensemakr</code> aims to help with this task, and implements a suite of sensitivity analysis tools that extends the traditional omitted variable bias framework, as developed in <a href="https://rss.onlinelibrary.wiley.com/doi/full/10.1111/rssb.12348">Cinelli and Hazlett (2020)</a>. The goal of <code>sensemakr</code> is to make it easier to understand the impact of omitted variables in regression models. It allows analysts to investigate the robustness of their estimates to unobserved confounding, by answering questions such as:</p>
+<ul>
+<li>How strong would an unobserved confounder (or a group of confounders) have to be to change our research conclusions?</li>
+<li>In a <em>worst-case</em> scenario, how robust are our results to <em>all</em> unobserved confounders acting together, possibly non-linearly?</li>
+<li>How strong would these confounders need to be <em>relative</em> to the strength of observed covariates?</li>
+</ul>
+<p>In this section, we showcase the basic functionality of the package for answering those questions.</p>
+</div>
+<div id="violence-in-darfur" class="section level1">
+<h1 class="hasAnchor">
+<a href="#violence-in-darfur" class="anchor"></a>Violence in Darfur</h1>
+<p>Given that sensitivity analysis requires contextual knowledge to be properly interpreted, we illustrate the basic functionality of the package with a real example. Here we reproduce the results found in Section 5 of <a href="https://rss.onlinelibrary.wiley.com/doi/full/10.1111/rssb.12348">Cinelli and Hazlett (2020)</a>, which estimates the effects of exposure to violence on attitudes towards peace, in Darfur. Further details about this application and the data can be found in <a href="">Hazlett (2019)</a> and <a href="https://rss.onlinelibrary.wiley.com/doi/full/10.1111/rssb.12348">Cinelli and Hazlett (2020)</a>.</p>
+<div id="the-data-and-research-question" class="section level2">
+<h2 class="hasAnchor">
+<a href="#the-data-and-research-question" class="anchor"></a>The data and research question</h2>
+<p>During 2003 and 2004, the Darfurian government promoted a horrific violence campaign against civilians, killing an estimated two hundred thousand people. In this application, we are interested in learning how being directly harmed changed individual attitudes towards peace. On average, did direct exposure to this violence make individuals more likely to ask for revenge, or, due to wearieness, ask for peace?</p>
+<p>The <code>sensemakr</code> package comes with an example dataset drawn from a survey on attitudes of Darfurian refugees in eastern Chad, regarding this unfortunate episode (Hazlett, 2019). The data can be loaded with the command <code><a href="https://rdrr.io/r/utils/data.html">data("darfur")</a></code>.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="co"># loads package</span></a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(sensemakr)</a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="co"># loads data</span></a>
+<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="kw"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="st">"darfur"</span>)</a></code></pre></div>
+<p>The “treatment” variable of interest is <code>directlyharmed</code>, which indicates whether the individual was physically injured during attacks on villages in Darfur, between 2003 and 2004. The main outcome of interest is <code>peacefactor</code>, an index measure of pro-peace attitudes. Other covariates in the data include: <code>vilage</code> (a factor variable indicating the original village of the respondent), <code>female</code> (a binary indicator of gender), <code>age</code>, <code>herder_dar</code> (whether they were a herder in Darfur), <code>farmer_dar</code> (whether they were a farmer in Darfur), and <code>past_voted</code> (whether they report having voted in an earlier election, prior to the conflict). For further details, see <code><a href="../reference/darfur.html">?darfur</a></code>.</p>
+<p>Violence against civilians included aerial bombardments by the government as well as assaults by the <em>Janjaweed</em>, a pro-government militia. While some villages were selected for more exposure to violence, within village violence was largely indiscriminate. The bombing could not be finely targetted, and the <em>Janjaweed</em> had little information about civilians which to attack, with one major exception: women were targeted for sexual assault.</p>
+<p>Given these considerations, a researcher may argue that adjusting for <code>village</code> and <code>female</code> is sufficient for control of confounding, and run the following linear regression model (in which other pre-treatment covariates, although not necessary for identification, are also included):</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="co"># runs regression model</span></a>
+<a class="sourceLine" id="cb2-2" data-line-number="2">darfur.model &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span>(peacefactor <span class="op">~</span><span class="st"> </span>directlyharmed  <span class="op">+</span><span class="st"> </span>village <span class="op">+</span><span class="st">  </span>female <span class="op">+</span></a>
+<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="st">                     </span>age <span class="op">+</span><span class="st"> </span>farmer_dar <span class="op">+</span><span class="st"> </span>herder_dar <span class="op">+</span><span class="st"> </span>pastvoted <span class="op">+</span><span class="st"> </span>hhsize_darfur, </a>
+<a class="sourceLine" id="cb2-4" data-line-number="4">                   <span class="dt">data =</span> darfur)</a></code></pre></div>
+<p>This regression model results in the following estimates:</p>
+<pre><code>
+===============================================
+                        Dependent variable:    
+                    ---------------------------
+                            peacefactor        
+-----------------------------------------------
+directlyharmed               0.097***          
+                              (0.023)          
+                                               
+-----------------------------------------------
+Observations                   1,276           
+R2                             0.512           
+Adjusted R2                    0.205           
+Residual Std. Error      0.310 (df = 783)      
+F Statistic          1.667*** (df = 492; 783)  
+===============================================
+Note:               *p&lt;0.1; **p&lt;0.05; ***p&lt;0.01</code></pre>
+<p>That is, we find that, those exposed to violence were on average, more pro-peace.</p>
+</div>
+<div id="the-threat-of-unobserved-confounders" class="section level2">
+<h2 class="hasAnchor">
+<a href="#the-threat-of-unobserved-confounders" class="anchor"></a>The threat of unobserved confounders</h2>
+<p>The previous estimate hinges on the assumption of <em>no unobserved confounders</em>. Not all investigators, however, may agree with this story.</p>
+<p>For example, one may argue that, athough the bombing was crude, bombs were still more likely to hit the center of the village, and those in the center have already different attitudes towards peace. One may also argue that the <em>Janjaweed</em> could have some idea of the wealth of individuals and target those, or that individuals with certain previous political attitudes might have exposed themselves to danger more often. To complicate things, all these factors could be operating non-linearly, such as for instance, with interactions.</p>
+<p>This suggest that, instead of the previous linear model ( <code>darfur.model</code> ), we should have run the model below,</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">darfur.complete.model &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span>(peacefactor <span class="op">~</span><span class="st"> </span>directlyharmed  <span class="op">+</span><span class="st"> </span>village <span class="op">+</span><span class="st">  </span>female <span class="op">+</span></a>
+<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="st">                              </span>age <span class="op">+</span><span class="st"> </span>farmer_dar <span class="op">+</span><span class="st"> </span>herder_dar <span class="op">+</span><span class="st"> </span>pastvoted <span class="op">+</span><span class="st"> </span>hhsize_darfur <span class="op">+</span></a>
+<a class="sourceLine" id="cb4-3" data-line-number="3"><span class="st">                              </span>center<span class="op">*</span>wealth<span class="op">*</span>political_attitudes, </a>
+<a class="sourceLine" id="cb4-4" data-line-number="4">                            <span class="dt">data =</span> darfur)</a></code></pre></div>
+<p>Where here <code>center*wealth*political_attitudes</code> is the <code>R</code> formula for including <em>fully interacted</em> terms for these three variables. But trying to fit the model <code>darfur.complete.model</code> will result in error: none of the variables <code>center</code>, <code>wealth</code> or <code>political_attitudes</code> were measured. Thus, this begs the question: how strong would these unobserved confounders (or <em>every</em> reamaining unobserved confounders) need to be to change our previous conclusions? Or, more precisely, how do the inferences regarding the coefficient of <code>directlyharmed</code> differ between the model we can actually fit <code>darfur.model</code> and the model we <em>wished</em> we could have fit <code>darfur.complete.model</code>?</p>
+<p>Additionally, we have domain knowledge regarding the main determinants of exposure to violence, such as the special role of gender in targetting. This knowledge may be used to limit the strength of unobserved confounding. For instance, even if variables such as <code>wealth</code> remained as confounders, one could argue that it is unreasonable to expect that they explain more of the variation of exposure to violence than gender. How can we leverage claims regarding the relative importance of the variable <code>female</code> to bound the plausible strength of unobserved variables? We show next how to answer those questions using <code>sensemakr</code>.</p>
+</div>
+</div>
+<div id="sensitivity-analysis" class="section level1">
+<h1 class="hasAnchor">
+<a href="#sensitivity-analysis" class="anchor"></a>Sensitivity Analysis</h1>
+<p>The main function of the package is <code><a href="../reference/sensemakr.html">sensemakr()</a></code>. This function performs the most common sensitivity analyses, which can be then be explored with the print, summary and plot methods (see details in <code><a href="../reference/print.sensemakr.html">?print.sensemakr</a></code> and <code><a href="../reference/plot.sensemakr.html">?plot.sensemakr</a></code>). We begin the analysis by applying sensemakr to the original regression model, <code>darfur.model</code>:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="co"># runs sensemakr for sensitivity analysis</span></a>
+<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="co"># in the darfur example</span></a>
+<a class="sourceLine" id="cb5-3" data-line-number="3">darfur.sensitivity &lt;-<span class="st"> </span><span class="kw"><a href="../reference/sensemakr.html">sensemakr</a></span>(<span class="dt">model =</span> darfur.model, </a>
+<a class="sourceLine" id="cb5-4" data-line-number="4">                                <span class="dt">treatment =</span> <span class="st">"directlyharmed"</span>,</a>
+<a class="sourceLine" id="cb5-5" data-line-number="5">                                <span class="dt">benchmark_covariates =</span> <span class="st">"female"</span>,</a>
+<a class="sourceLine" id="cb5-6" data-line-number="6">                                <span class="dt">kd =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">3</span>,</a>
+<a class="sourceLine" id="cb5-7" data-line-number="7">                                <span class="dt">ky =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">3</span>, </a>
+<a class="sourceLine" id="cb5-8" data-line-number="8">                                <span class="dt">q =</span> <span class="dv">1</span>,</a>
+<a class="sourceLine" id="cb5-9" data-line-number="9">                                <span class="dt">alpha =</span> <span class="fl">0.05</span>, </a>
+<a class="sourceLine" id="cb5-10" data-line-number="10">                                <span class="dt">reduce =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<p>The arguments here are:</p>
+<ul>
+<li><p><strong>model</strong>: the <code>lm</code> object with the outcome regression. In our case, <code>darfur.model</code>.</p></li>
+<li><p><strong>treatment</strong>: the name of the treatment variable. In our case, <code>"directlyharmed"</code>.</p></li>
+<li><p><strong>benchmark_covariates</strong>: the names of covariates that will be used to bound the plausible strength of the unobserved confounders. Here, we put <code>"female"</code>, given that we know it was one the main determinants of exposure to violence, and it is also a strong determinant of attitudes towards peace.</p></li>
+<li><p><strong>kd</strong> and <strong>ky</strong>: these arguments parameterize how many times stronger the confounder is related to the treatment ( <code>kd</code> ) and to the outcome ( <code>ky</code> ) in comparison to the observed benchmark covariate ( <code>female</code> ). In our example, this means we want to investigate the maximum strength of a confounder once, twice, or three times as strong as female (in explaining treatment and outcome variation). Default for <code>ky</code> is to be the same as <code>kd</code>.</p></li>
+<li><p><strong>q</strong>: what percent change the original effect estimate would be deemed problematic? Here 1 means a reduction of 100% of the current effect estimate, that is, a true effect of zero would be deemed problematic. Default is 1.</p></li>
+<li><p><strong>alpha</strong>: significance level of interest for making statistical inferences. Default is 0.05.</p></li>
+<li><p><strong>reduce</strong>: should we consider confounders acting towards <em>increasing</em> or <em>reducing</em> the absolute value of the estimate? The default is <code>reduce = TRUE</code>, which means we are considering confounders pull the estimate towards (or through) zero.</p></li>
+</ul>
+<p>Using the default arguments, one can simplify the previous call to:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">darfur.sensitivity &lt;-<span class="st"> </span><span class="kw"><a href="../reference/sensemakr.html">sensemakr</a></span>(<span class="dt">model =</span> darfur.model, </a>
+<a class="sourceLine" id="cb6-2" data-line-number="2">                                <span class="dt">treatment =</span> <span class="st">"directlyharmed"</span>,</a>
+<a class="sourceLine" id="cb6-3" data-line-number="3">                                <span class="dt">benchmark_covariates =</span> <span class="st">"female"</span>,</a>
+<a class="sourceLine" id="cb6-4" data-line-number="4">                                <span class="dt">kd =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">3</span>)</a></code></pre></div>
+<p>We can now explore the sensitivity analysis results.</p>
+<div id="minimal-sensitivity-reporting" class="section level2">
+<h2 class="hasAnchor">
+<a href="#minimal-sensitivity-reporting" class="anchor"></a>Minimal sensitivity reporting</h2>
+<p>The print method of <code>sensemakr</code> provides a quick review of the original (unadjusted) estimate along with three summary sensitivity statistics suited for <em>routine reporting</em>: the partial R2 of the treatment with the outcome, the robustnuess value (RV) required to reduce the estimate entirely to zero (i.e. <span class="math inline">\(q=1\)</span>), and the RV beyond which the estimate would no longer be statistically distinguishable from zero at the 0.05 level (<span class="math inline">\(q=1\)</span>, <span class="math inline">\(\alpha=0.05\)</span>).</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">darfur.sensitivity</a>
+<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="co">#&gt; Sensitivity Analysis to Unobserved Confounding</span></a>
+<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="co">#&gt; Model Formula: peacefactor ~ directlyharmed + village + female + age + farmer_dar + </span></a>
+<a class="sourceLine" id="cb7-5" data-line-number="5"><span class="co">#&gt;     herder_dar + pastvoted + hhsize_darfur</span></a>
+<a class="sourceLine" id="cb7-6" data-line-number="6"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb7-7" data-line-number="7"><span class="co">#&gt; Unadjusted Estimates of ' directlyharmed ':</span></a>
+<a class="sourceLine" id="cb7-8" data-line-number="8"><span class="co">#&gt;   Coef. estimate: 0.09732 </span></a>
+<a class="sourceLine" id="cb7-9" data-line-number="9"><span class="co">#&gt;   Standard Error: 0.02326 </span></a>
+<a class="sourceLine" id="cb7-10" data-line-number="10"><span class="co">#&gt;   t-value: 4.18445 </span></a>
+<a class="sourceLine" id="cb7-11" data-line-number="11"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb7-12" data-line-number="12"><span class="co">#&gt; Sensitivity Statistics:</span></a>
+<a class="sourceLine" id="cb7-13" data-line-number="13"><span class="co">#&gt;   Partial R2 of treatment with outcome: 0.02187 </span></a>
+<a class="sourceLine" id="cb7-14" data-line-number="14"><span class="co">#&gt;   Robustness Value, q = 1 : 0.13878 </span></a>
+<a class="sourceLine" id="cb7-15" data-line-number="15"><span class="co">#&gt;   Robustness Value, q = 1 alpha = 0.05 : 0.07626 </span></a>
+<a class="sourceLine" id="cb7-16" data-line-number="16"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb7-17" data-line-number="17"><span class="co">#&gt; For more information, check summary.</span></a></code></pre></div>
+<p>The package also provides a function that creates a latex or html table with these results, as shown below (for the latex table, simply change the argument to <code>format = "latex"</code>).</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw"><a href="../reference/print.sensemakr.html">ovb_minimal_reporting</a></span>(darfur.sensitivity, <span class="dt">format =</span> <span class="st">"html"</span>)</a></code></pre></div>
 <table class="table">
 <thead>
 <tr>
@@ -170,6 +268,61 @@ Note: df = 783; Bound ( 1x female ): <span class="math inline">\(R^2_{Y\sim Z| {
 </td>
 </tr>
 </table>
+<p>These three sensitivity statistics provide a <em>minimal reporting</em> for sensitivity analysis. More precisely:</p>
+<ul>
+<li>The robustness value for bringing the point estimate of <code>directlyharmed</code> exactly to zero (<span class="math inline">\(RV_{q=1}\)</span>) is 13.9% . This means that unobserved confounders that explain 13.9% of the residual variance <em>both</em> of the treatment and of the outcome are sufficient to explain away all the observed effect. On the other hand, unobserved confounders that <em>do not</em> explain 13.9% of the residual variance <em>both</em> of the treatment and of the outcome are not sufficiently strong to do so.</li>
+<li>The robustness value for testing the null hypothesis that the coefficient of <code>directlyharmed</code> is zero <span class="math inline">\((RV_{q =1, \alpha = 0.05})\)</span> falls to 7.6%. This means that unobserved confounders that explain 7.6% of the residual variance <em>both</em> of the treatment and of the outcome are sufficient to bring the lower bound of the confidence interval to zero (at the chosen significance level of 5%). On the other hand, unobserved confounders that <em>do not</em> explain 7.6% of the residual variance <em>both</em> of the treatment and of the outcome are not sufficiently strong to do so.</li>
+<li>Finally, the partial <span class="math inline">\(R^2\)</span> of <code>directlyharmed</code> with <code>peacefactor</code> means that, in an <em>extreme scenario</em>, in which we assume that unobserved confounders explain <em>all</em> of the left out variance of the outcome, these unobserved confounders would need to explain at least 2.2% of the residual variance of the treatment to fully explain away the observed effect.</li>
+</ul>
+<p>These are useful quantities that summarize <em>what you need to know</em> in order to safely rule out confounders that are deemed to be problematic. Interpreting these values requires domain knowledge about the data generating process. Therefore, we encourage researchers to argue about what are plausible bounds on the maximum explanatory power that unobserved confounders could have in a given application.</p>
+<p>Sometimes researchers may have a hard time making judgments regarding the <em>absolute strength</em> of a confounder, but may have grounds to make <em>relative claims</em>, for instance, by arguing that unobserved confounders are likely not multiple times stronger than a certain observed covariate. In our application, this is indeed the case. One could argue that, given the nature of the attacks, it is hard to imagine that unobserved confounding could explain much more of targetting than what was explained by the observed variable <code>female</code>. The lower corner of the table, thus, provides bounds on confounding as strong as female, <span class="math inline">\(R^2_{Y\sim Z| {\bf X}, D}\)</span> = 12.5%, and <span class="math inline">\(R^2_{D\sim Z| {\bf X} }\)</span> = 0.9%. Since both of those are below the RV, the table reveals that confounders as strong as <code>female</code> are not sufficient to explain away the observed estimate. Moreover, since the bound on <span class="math inline">\(R^2_{D\sim Z| {\bf X} }\)</span> is below the partial <span class="math inline">\(R^2\)</span> of the treatment with the outcome, <span class="math inline">\(R^2_{Y \sim D |{\bf X}}\)</span>, the table also reveals an extreme confounder explaining all residual variation of the outcome, and as strongly associated with the treatment as <code>female</code> also cannot do so.</p>
+<p>All these results are exact for a single unobserved confounder, and conservative for multiple confounders, possibly acting non-linearly. Finally, the summary method for <code>sensemakr</code> provides an extensive report with verbal descriptions of the results, similar to the explanation we have given above. For further details, please refer to <a href="https://rss.onlinelibrary.wiley.com/doi/full/10.1111/rssb.12348">Cinelli and Hazlett (2020)</a>.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(darfur.sensitivity)</a></code></pre></div>
+</div>
+<div id="sensitivity-contour-plots-of-point-estimates-and-t-values" class="section level2">
+<h2 class="hasAnchor">
+<a href="#sensitivity-contour-plots-of-point-estimates-and-t-values" class="anchor"></a>Sensitivity contour plots of point estimates and t-values</h2>
+<p>The previous sensitivity table provides a good summary of how robust the current estimate is to unobserved confounding. However, researchers may be willing to refine their analysis by visually exploring the whole range of possible estimates that confounders with different strengths could cause, while placing different bounds on the plausible strength of confounding based on different assumptions on how they compare to observed covariates. For these, one can use the plot method for <code>sensemakr</code>.</p>
+<p>As contour plots for the point estimate are the default, we start by examining those.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(darfur.sensitivity)</a></code></pre></div>
+<p><img src="sensemakr_files/figure-html/unnamed-chunk-11-1.png" width="432" style="display: block; margin: auto;"></p>
+<p>The horizontal axis shows the hypothetical residual share of variation of the treatment that unobserved confouding explains, <span class="math inline">\(R^2_{D\sim Z| {\bf X} }\)</span>. The vertical axis shows the hypothetical partial <span class="math inline">\(R^2\)</span> of unobserved confouding with the outcome, <span class="math inline">\(R^2_{Y\sim Z| {\bf X}, D}\)</span>. The contours show what would be the estimate for <code>directlyharmed</code> that one would have obtained in the full regression model including unobserved confounders with such hypothetical strengths. Note the plot is parameterized in way that hurts our preferred hypothesis, by pulling the estimate towards zero—the direction of the bias was set in the argument <code>reduce = TRUE</code> of <code><a href="../reference/sensemakr.html">sensemakr()</a></code>.</p>
+<p>The bounds on the strength of confouding, determined by the parameter <code>kd = 1:3</code> in the call for <code><a href="../reference/sensemakr.html">sensemakr()</a></code>, are also shown in the plot. Note that the plot reveals that the direction of the effect (positive) is robust to confounding once, twice or even three times as strong as the observed covariate <code>female</code>, although in this last case the magnitude of the effect is reduced to a third of the original estimate.</p>
+<p>We now examine the sensitivity of the <em>t-value</em> for testing the null hypothesis of zero effect. For this, it suffices to change the option <code>sensitivity.of = "t-value"</code>.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(darfur.sensitivity, <span class="dt">sensitivity.of =</span> <span class="st">"t-value"</span>)</a></code></pre></div>
+<p><img src="sensemakr_files/figure-html/unnamed-chunk-12-1.png" width="432" style="display: block; margin: auto;"></p>
+<p>The plot revelas that, at the 5% significance level, the null hypothesis of zero effect would still be rejected given confounders once or twice as strong as <code>female</code>. However, differently from the exact point-estimate, accounting for sampling uncertainty now means that the null hypothesis of zero effect <em>would not</em> be rejected with the inclusion of a confounder three times as strong as <code>female</code>.</p>
+</div>
+<div id="sensitivity-plots-of-extreme-scenarios" class="section level2">
+<h2 class="hasAnchor">
+<a href="#sensitivity-plots-of-extreme-scenarios" class="anchor"></a>Sensitivity plots of extreme scenarios</h2>
+<p>Sometimes researches may be better equipped to make plausibility judgments about the strength of determinants of the treatment assignment mechanism, and have less knowledge about the determinantes of the outcome. In those cases, <em>extreme scenarios</em> sensitivity plots may be an option. For this plot, user should choose the option <code>type = extreme</code>. Here one assumes confounding explains <strong>all</strong> or a large fraction of the residual variance of the outcome, and examine how the point estimate is affected under different hypothetical strenghts of the association of the confounder with the treatment.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(darfur.sensitivity, <span class="dt">type =</span> <span class="st">"extreme"</span>)</a></code></pre></div>
+<p><img src="sensemakr_files/figure-html/unnamed-chunk-13-1.png" width="576" style="display: block; margin: auto;"></p>
+<p>The default option for the extreme scenarios is <code>r2yz.dx = c(1, .75, .5)</code>, which sets the association of confounders with outcome to <span class="math inline">\(R^2_{Y\sim Z| {\bf X}, D}\)</span>=100%, <span class="math inline">\(R^2_{Y\sim Z| {\bf X}, D}\)</span>=75% and <span class="math inline">\(R^2_{Y\sim Z| {\bf X}, D}\)</span>=50%. The bounds on the strength of association of a confounder once, twice or three times as strongly associated with the treatment as <code>female</code> are shown as red ticks in the horizonal axis. As the plot shows, even in the most extreme case of <span class="math inline">\(R^2_{Y\sim Z| {\bf X}, D}\)</span>=100%, confounders would need to be more than twice as strongly associated with the treatment to fully explain away the point estimate. Moving to the scenarios <span class="math inline">\(R^2_{Y\sim Z| {\bf X}, D}\)</span>=75% and <span class="math inline">\(R^2_{Y\sim Z| {\bf X}, D}\)</span>=50%, confounders would need to be more than three times as strongly associated with the treatment to fully explain away the point estimate.</p>
+</div>
+</div>
+<div id="a-disciplined-discussion-about-confounding" class="section level1">
+<h1 class="hasAnchor">
+<a href="#a-disciplined-discussion-about-confounding" class="anchor"></a>A disciplined discussion about confounding</h1>
+<p>Having gone through the basic functionality of the package, here we recall some caveats on intepretation that applies to any sensitivity analyses.</p>
+<p>The results computed by <code><a href="../reference/sensemakr.html">sensemakr()</a></code> tell us what we need to be prepared to believe, in order to maintain the claim originally made: that exposure to violence, on average, had a large positive effect in attitudes towards peace, in Darfur 2003-2004. In particular, the results of the sensitivity analysis performed here show that, to explain all the observed estimated effect, even in a worst case scenario where the unobserved confounder explains all residual variation of the outcome, this unobserved confounder would need to be at least more than twice as strongly associated with the treatment as the covariate Female. This is a <em>true quantitative statement</em> that describes the strength of confounding needed to overturn the research conclusions.</p>
+<p>The analysis, however, says nothing about whether such a confounder does or does not exist. What it does is to <em>discipline the discussion</em> regarding the causal interpretation of the effect estimate:</p>
+<ol style="list-style-type: decimal">
+<li><p>A causal interpretation of the estimate may be defended by articulating that a confounder with such strength is unlikely. For instance, one could argue that, given the way injuries (the “treatment”) occurred, the scope for targeting particular types of individuals was quite limited; aircraft dropped makeshift and unguided bombs and other objects over villages, and militia raided without concern for who they are targeting—the only known major exception to this was targeting gender, which is one of the most visually apparent characteristics of an individual, and was one of the main factors of targetting due to sexual assaults.</p></li>
+<li><p>Likewise, similar grounds are required to persuasively dismiss a causal interpretation of the estimate. There are standards of (relative) strength that hypothesized unobserved confounders need to meet in order to be problematic. For instance, a skeptic has to articulate (using domain knowledge) why a confounder that explains at least more than twice of the variation of the treatment assignment than the covariate Female is plausible. Otherwise, that confounder cannot logically account for all the observed association, even in an extreme scenario.</p></li>
+</ol>
+<p>That is, robustness to confouding is claimed to the extent one agrees with the arguments in 1 (which rely on domain knowledge about attacks in Darfur); and it can be deemed fragile insofar as alternative stories meeting the requirements in 2 can be made. Therefore, sensitivity analysis are not here to obviate discussions about confouding by following automatic procedures, but to estimulate a more displined, quantitative argument about confounding.</p>
+</div>
+<div id="going-further" class="section level1">
+<h1 class="hasAnchor">
+<a href="#going-further" class="anchor"></a>Going further</h1>
+<p>The basic functionality demonstrated here will likely suffice for most users, most of the time. Sometimes, however, more flexibility will be needed in a given project. When this happens, researchers may resort directly to other sensitivity functions of the package to customize their sensitivity analysis. Those functions can be found in the <code>reference</code> documentation, and we also provide some examples of those types of analyses next.</p>
+</div>
+<div id="references" class="section level1">
+<h1 class="hasAnchor">
+<a href="#references" class="anchor"></a>References</h1>
+<p>Cinelli, C. Hazlett, C. (2020) “Making Sense of Sensitivity: Extending Omitted Variable Bias”. Journal of the Royal Statistical Society, Series B (Statistical Methodology). ( <a href="https://doi.org/10.1111/rssb.12348">link</a>)</p>
 </div>
   </div>
 
@@ -180,6 +333,22 @@ Note: df = 783; Bound ( 1x female ): <span class="math inline">\(R^2_{Y\sim Z| {
 <a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
 <li><a href="#introduction">Introduction</a></li>
+      <li>
+<a href="#violence-in-darfur">Violence in Darfur</a><ul class="nav nav-pills nav-stacked">
+<li><a href="#the-data-and-research-question">The data and research question</a></li>
+      <li><a href="#the-threat-of-unobserved-confounders">The threat of unobserved confounders</a></li>
+      </ul>
+</li>
+      <li>
+<a href="#sensitivity-analysis">Sensitivity Analysis</a><ul class="nav nav-pills nav-stacked">
+<li><a href="#minimal-sensitivity-reporting">Minimal sensitivity reporting</a></li>
+      <li><a href="#sensitivity-contour-plots-of-point-estimates-and-t-values">Sensitivity contour plots of point estimates and t-values</a></li>
+      <li><a href="#sensitivity-plots-of-extreme-scenarios">Sensitivity plots of extreme scenarios</a></li>
+      </ul>
+</li>
+      <li><a href="#a-disciplined-discussion-about-confounding">A disciplined discussion about confounding</a></li>
+      <li><a href="#going-further">Going further</a></li>
+      <li><a href="#references">References</a></li>
       </ul>
 </div>
       </div>
