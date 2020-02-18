@@ -3,5 +3,6 @@ pkgdown: 1.4.1
 pkgdown_sha: ~
 articles:
   informal_benchmarking: informal_benchmarking.html
+  jss_sensemakr: jss_sensemakr.html
   sensemakr: sensemakr.html
 
