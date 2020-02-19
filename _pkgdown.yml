@@ -15,13 +15,16 @@ authors:
 
 navbar:
   structure:
-    left: [home, intro, articles, reference]
+    left: [home, intro, articles, reference, shiny]
     right: [github]
   components:
     home: ~
     articles:
       href: articles/index.html
       text: Articles
+    shiny:
+      href: https://carloscinelli.shinyapps.io/robustness_value/
+      text: Shiny App
 
 articles:
   - title: Getting Started
