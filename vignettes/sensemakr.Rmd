@@ -209,11 +209,11 @@ The analysis, however, says nothing about whether such a confounder does or does
 
 2. Likewise, similar grounds are required to persuasively dismiss a causal interpretation of the estimate. There are standards of (relative) strength that hypothesized unobserved confounders need to meet in order to be problematic. For instance, a skeptic has to articulate (using domain knowledge) why a confounder that explains at least more than twice of the variation of the treatment assignment than the covariate `female` is plausible. Otherwise, that confounder cannot logically account for all the observed association, even in an extreme scenario.
 
-Robustness in the fact of confouding is thus claimed to the extent one agrees with the arguments in 1 (which rely on domain knowledge about attacks in Darfur), while a result can be deemed fragile insofar as alternative stories meeting the requirements in 2 can be offered. Sensitivity analyses do not obviate discussions about confouding by engaging an automatic procedure, but rather stimulates a more displined, quantitative argument about confounding.
+Robustness in the face of confouding is thus claimed to the extent one agrees with the arguments in 1 (which rely on domain knowledge about attacks in Darfur), while a result can be deemed fragile insofar as alternative stories meeting the requirements in 2 can be offered. Sensitivity analyses do not obviate discussions about confouding by engaging an automatic procedure, but rather stimulates a more displined, quantitative argument about confounding.
 
 # Going further
 
-The basic functionality demonstrated here will likely suffice for most users, most of the time. Sometimes, however, more flexibility will be needed in a given project. When this happens, researchers may resort directly to other sensitivity functions of the package to customize their sensitivity analysis. Those functions can be found in the `reference` documentation, and we also provide some examples of those types of analyses next. CARLOS, I DON'T KNOW WHAT THE `reference` documentation is supposed to be.
+The basic functionality demonstrated here will likely suffice for most users, most of the time. Sometimes, however, more flexibility will be needed in a given project. When this happens, researchers may resort directly to other sensitivity functions of the package to customize their sensitivity analysis. Those functions can be found in the documentation, and we also provide some examples of those types of analyses next. 
 
 # References
 
