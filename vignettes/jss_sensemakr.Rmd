@@ -90,12 +90,29 @@ knit_hooks$set(output = function(x, options) {
 
 # Introduction
 
-Making causal claims about the effect of some variable (the ``treatment'') on an outcome using observational data poses a perenial problem for researchers across disciplines. In the common setting where researchers "adjust for observables" using tools such as regression,  claiming that the resulting estimate is unbiased for a causal quantity rely on untestable assumptions about the absence of unobserved confounders. Weaker claims, e.g. that the causal quantity has a particular sign, similarly require that unobserved confounding does not exceed a certain level. Sensitivity analyses aid in evaluating such claims, by equiping investigators with information about how sensitive a given result is to varying degrees of unobserved confounding, improving upon our ability to understand and transparently communicate results under confounding. 
+<!-- Investigating the causal effect of some variable (the "treatment") on another (the "outcome") using observational data poses a perenial problem for researchers across disciplines.  -->
+The most common strategy for making causal inferences with observational data is to adjust for observed covariates, and the most common method for doing such adjustment is  (linear) regression. Claiming that the resulting regression coefficient is an unbiased estimate of the causal effect of interest, however, relies on the untestable assumption of no unobserved confounders. Rarely can this assumption be expected to hold exactly, and \emph{qualitative} debates of whether or not \emph{any} unobserved confounding exists are generally not productive---it always does. Therefore, a more useful discussion is \emph{quantitative}: how strong would unobserved confounding need to be to change the research conclusions? Are confounders with such strength plausible? Sensitivity analysis allows us to quantitatively discuss the fragility of putative causal estimates when the underlying assumption of no unobserved confounding is challenged.
+
+The goal of this paper is to introduce the R package \pkg{sensemakr}, whcih implements a suite of tools proposed in @cinelli:jrssb2019 for assessing the sensitivity of a regression coefficient to the inclusion of omitted variables. The goal of \pkg{sensemakr} is to make it easy to understand the impact that omitted variables would have on a regression result. This allows analysts to investigate the robustness of their estimates to violations of the assumption of no unobserved confounding, answering questions such as:
+
+- How strong would an unobserved confounder (or a group of confounders) have to be to change our research conclusions?
+
+- In a worst-case scenario, how robust are our results to all unobserved confounders acting together, possibly non-linearly?
+
+- How strong would confounging need to be relative to the strength of observed covariates, to change our answer a certain amount?
 
 
-A variety of such approaches have been proposed, dating back to @cornfield1959smoking, with more recent contributions including [@rosenbaum1983assessing; @robins1999association; @frank:smr2000; @rosenbaum2002gamma; @imbens2003sensitivity; @brumback2004sensitivity; @frank:eepa2008; @hosman2010sensitivity; @imai2010identification; @arah2011; @blackwell2013selection; @frank2013would; @carnegie:jree2016; @dorie2016flexible; @middleton2016bias; @oster:jbes2017; @cinelli:icml2019; @franks:jasa2019] Yet, such sensitivity analyses remain underutilized. We argue that a number of factors contribute to this reluctant uptake. One is the complicated nature and strong assumptions many of these methods impose, sometimes involving restrictions on or even a complete description of the nature of the confounder. A second reason is that though users routinely report "regression tables" (or perhaps coefficient plots) to convey the results of a regression, until recently we have lacked "standard" quantities that can simply and correctly summarize sensitivity in the face of unobserved confounding. Third, and most fundamentally, connecting the results of a formal sensitivity analysis to a cogent argument about what types of confounders may exist in one's research project is often difficult, particularly when there are no compelling arguments as to why the treatment assignment should be approximately "ignorable", "exogeneous", or "as-if random".  Further, some of the solutions offered by the literature can lead users to erroneous conclusions.  
 
-The \pkg{sensemakr} package implements a suite of tools proposed in @cinelli:jrssb2019 for assessing the sensitivity of a regression coefficient to the inclusion of omitted variables. This approach shows how the familiar “omitted variable bias” (OVB) framework can be extended to address these challenges in the linear regression setting. Notably, these tools do not require assumptions on the functional form of the treatment assignment mechanism nor on the distribution of the unobserved confounder, and can be used to assess the sensitivity to multiple confounders, whether they influence the treatment and outcome linearly or not.
+<!-- Weaker claims, e.g. that the causal effect has a particular sign, similarly require the untestable assumption that unobserved confounding does not exceed a certain level. Sensitivity analyses aid in evaluating such claims, by equiping investigators with information about how sensitive a given result is to varying degrees of unobserved confounding, thereby allowing a quantitative discussion regarding the fragility of putative causal estimates when the underlying assumption of no unobserved confounding is challenged. -->
+
+<!-- improving upon our ability to understand and transparently communicate results under confounding. -->
+
+
+<!-- In the common setting where researchers "adjust for observables" using tools such as regression,  claiming that the resulting estimate is unbiased for a causal quantity rely on untestable assumptions about the absence of unobserved confounders. Weaker claims, e.g. that the causal quantity has a particular sign, similarly require that unobserved confounding does not exceed a certain level. Sensitivity analyses aid in evaluating such claims, by equiping investigators with information about how sensitive a given result is to varying degrees of unobserved confounding, improving upon our ability to understand and transparently communicate results under confounding.  -->
+
+
+Although several sensitivity analyses have been proposed, dating back to @cornfield1959smoking, with more recent contributions including [@rosenbaum1983assessing; @robins1999association; @frank:smr2000; @rosenbaum2002gamma; @imbens2003sensitivity; @brumback2004sensitivity; @frank:eepa2008; @hosman2010sensitivity; @imai2010identification; @arah2011; @blackwell2013selection; @frank2013would; @carnegie:jree2016; @dorie2016flexible; @middleton2016bias; @oster:jbes2017; @cinelli:icml2019; @franks:jasa2019] Yet, such sensitivity analyses remain underutilized. We argue that a number of factors contribute to this reluctant uptake. One is the complicated nature and strong assumptions many of these methods impose, sometimes involving restrictions on or even a complete description of the nature of the confounder. A second reason is that though users routinely report "regression tables" (or perhaps coefficient plots) to convey the results of a regression, until recently we have lacked "standard" quantities that can simply and correctly summarize sensitivity in the face of unobserved confounding. Third, and most fundamentally, connecting the results of a formal sensitivity analysis to a cogent argument about what types of confounders may exist in one's research project is often difficult, particularly when there are no compelling arguments as to why the treatment assignment should be approximately "ignorable", "exogeneous", or "as-if random".  Further, some of the solutions offered by the literature can lead users to erroneous conclusions.  
+
 
 
 <!-- Carlos: I think the quick start ends up not being very useful, because we need to explain everything anyway... -->
@@ -183,110 +200,192 @@ The \pkg{sensemakr} package implements a suite of tools proposed in @cinelli:jrs
 
 # Sensitivity analysis in an omitted variable bias framework
 
-In this section, we briefly review the extension of the omitted variable bias (OVB) framework presented in @cinelli:jrssb2019. This extension builds on the reparameterization of the OVB formula in terms of partial $R^2$ values, which allows 
+In this section, we briefly review the omitted variable bias (OVB) framework for sensitivity analysis presented in @cinelli:jrssb2019. This method builds upon a scale-free reparameterization of the OVB formula in terms of partial $R^2$ values. This reparameterization  enables a number of useful analyses, such as: 
 
-Readers that want to see these tools applied in practice, may skip this section.
+- assessing the sensitivity of multiple confounders acting together, possibly non-linearly;
+- assessing the sensitivity to extreme scenarios in which all (or a big portion) of the residual variation of the oucome is assumed to be explained by unobserved confounding;
+- exploiting knowledge of relative strength of variables to bound the bias due to unobserved confounding;
+- presenting all sensitivity results concisely, for easy routine reporting.
+
+Readers familiar with the method may skip to the next sections, in which we show its implementation with \pkg{sensemakr}.
+
+<!-- This approach shows how the familiar “omitted variable bias” (OVB) framework can be extended to address these challenges in the linear regression setting.  -->
+<!-- Notably, all these results do not require assumptions on the functional form of the treatment assignment mechanism nor on the distribution of the unobserved confounder, and can be used to assess the sensitivity to multiple confounders, whether they influence the treatment and outcome linearly or not.  -->
+
+
+<!-- Readers that want to see these tools applied in practice, may skip this section. -->
+
 
 <!-- \textcolor{blue}{CJH: I wouldn't mention these yet -- would define bias and give two formulas then describe RV and partial R2yd.} The “robustness value” describes the minimum strength of association unobserved confounding would need to have, both with the treatment and with the outcome, to change the research conclusions. The partial $R^2$ of the treatment with the outcome shows how strongly confounders explaining all the residual outcome variation would have to be associated with the treatment to eliminate the estimated effect. Next, we offer graphical tools for elaborating on problematic confounders, examining the sensitivity of point estimates, t-values, as well as ``extreme scenarios'' !-->
 
+## The OVB framework
 
-The starting point of the analysis is a linear regression model of an outcome $Y$ on a treatment $D$, controlling for a set of covariates given by \emph{both} ${\bf X}$ and $Z$,
+The starting point of our analysis is a *full* linear regression model of an outcome $Y$ on a treatment $D$, controlling for a set of covariates given by \emph{both} ${\bf X}$ and $Z$,
 \begin{align}
 Y &= \hat{\tau} D + {\bf X} \hat{{\bf \beta}} +  \hat{\gamma}Z + \hat{\epsilon}_{\text{full}}  \label{eq:fulleq}
 \end{align}
-\noindent where $Y$ is an $(n \times 1)$ vector containing the outcome of interest for each of the $n$ observations and $D$ is an $(n \times 1)$ treatment variable (which may be continuous or binary); ${\bf X}$ is an $(n \times p)$ matrix of \emph{observed} (pre-treatment) covariates including the constant; and $Z$ is a single $(n \times 1)$ \emph{unobserved} covariate. 
+\noindent where $Y$ is an $(n \times 1)$ vector containing the outcome of interest for each of the $n$ observations and $D$ is an $(n \times 1)$ treatment variable (which may be continuous or binary); ${\bf X}$ is an $(n \times p)$ matrix of \emph{observed} covariates including the constant; and $Z$ is a single $(n \times 1)$ \emph{unobserved} covariate (we discuss how to extend results for a multivariate $Z$ below).  
 
-However, since $Z$ is unobserved, the feasible regression the investigator can estimate is the restricted model
+Equation \ref{eq:fulleq} is the regresion model that the investigator *wished* she had run to obtain a valid causal estimate of the effect of $D$ on $Y$. Nevertheless,  $Z$ is unobserved. Therefore, the feasible regression the investigator is able to estimate is the *restricted* model \emph{omitting} $Z$, that is,
 \begin{align}
 Y  &= \hat{\tau}_{\text{res}} D + {\bf X} \hat{{\bf \beta}}_{\text{res}} + \hat{\epsilon}_{\text{res}}\label{eq:restrictedeq}
 \end{align}
-\noindent where $\hat{\tau}_{\text{res}}$, $\hat{{\bf \beta}}_{\text{res}}$ are the coefficient estimates of the restricted OLS with only $D$ and ${\bf X}$, \emph{omitting} $Z$, and  $\hat{\epsilon}_{\text{res}}$ its corresponding residual. 
 
-How does the observed estimate $\hat{\tau}_{\text{res}}$ compare to the desired estimate, $\hat{\tau}$? Let us define as $\widehat{\text{bias}}$ the difference between these estimates, $\widehat{\text{bias}}~:=~\hat{\tau}_{\text{\text{res}}}~-~\hat{\tau}$, where the hat, $\widehat{(\cdot)}$, clarifies that this quantity is a difference between sample estimates, not the difference between the expectation of a sample estimate and a population value. 
+Given the discrepancy of what we wish to know and what we actually have, the main question we would like to answer is: how do the observed point estimate and standard error of the restricted regression, $\hat{\tau}_{\text{res}}$ and $\widehat{se}(\hat{\tau}_{\text{res}})$, compare to the desired point estimate and standard error of the full regression, $\hat{\tau}$ and $\widehat{se}(\hat{\tau})$?
 
-###  Traditional OVB
+### OVB with the partial R2 parameterization
 
 <!-- \textcolor{blue}{We can take this route -- FWL to show the classical OVB in the coefficient scale, then switch to R2. Or we can just assert the bias is given by one formula for the estimate and one for the SE. In the Colombia paper, we now do the latter, so its very quick. Here though I like what we have now and lean towards keeping it -- its quick enough that the improvement in understanding is worth it, I think.} !-->
 
-Using the Frisch-Waugh-Lovell (FWL) theorem (\citealp{frisch1933partial, lovell1963seasonal, lovell2008simple}) we can  ``partial out'' the observed covariates ${\bf X}$ to give the familiar omitted variable bias (OVB) solution,
+Define as $\widehat{\text{bias}}$ the difference between the full and restricted  estimates, 
 
 \begin{align}
-\hat{\tau}_{\text{\text{res}}} &= \frac{\text{cov}(D^{\perp {\bf X}}, ~Y^{\perp {\bf X}})}{\text{var}(D^{\perp {\bf X}})} \notag\\
-			&= \frac{\text{cov}(D^{\perp {\bf X}},~\hat{\tau} D^{\perp {\bf X}} + \hat{\gamma}Z^{\perp {\bf X}} )}{\text{var}(D^{\perp {\bf X}})} \notag\\
-			&= \hat{\tau} +  \hat{\gamma}\left(\frac{\text{cov}(D^{\perp {\bf X}},~Z^{\perp {\bf X}})}{\text{var}(D^{\perp {\bf X}})} \right) \notag\\
-				&= \hat{\tau} + \hat{\gamma}\hat{\delta}  \label{eq:biasdef}
+\widehat{\text{bias}}~:=~\hat{\tau}_{\text{\text{res}}}~-~\hat{\tau}
 \end{align}
 
-\noindent where $\text{cov}(\cdot)$ and $\text{var}(\cdot)$ denote the \emph{sample} covariance and variance; $Y^{\perp {\bf X}}$, $D^{\perp {\bf X}}$ and $Z^{\perp {\bf X}}$ are the variables $Y$, $D$ and $Z$ after removing the components linearly explained by ${\bf X}$ and we define $\hat{\delta}~:=~\frac{\text{cov}(D^{\perp {\bf X}}, Z^{\perp {\bf X}})}{\text{var}(D^{\perp {\bf X}})}$. We then have
-\begin{align}
-\widehat{\text{bias}} =  \hat{\gamma}\hat{\delta}  \label{eq:deltagamma}
-\end{align}
-
-###  Reparameterizing the OVB formula
-
-Appealing again to the FWL theorem, we can expand Eq. \ref{eq:deltagamma}
+Now let: (i) $R^2_{D\sim Z | {\bf X}}$ denote the share of residual variance of the *treatment* explained by the omitted variable $Z$, after accounting for ${\bf X}$; and, (ii)  $R^2_{Y\sim Z|D, {\bf X}}$ denote the share of residual variance of the *outcome* explained by the omitted variable $Z$, after accounting for ${\bf X}$ and $D$. Then, @cinelli:jrssb2019 have shown that the bias can be written as,
 
 \begin{align}
-\widehat{\text{bias}} &=  \hat{\delta}\hat{\gamma}\notag\\
- &= \left(\frac{\text{cov}(D^{\perp {\bf X}}, ~ Z^{\perp {\bf X}})}{\text{var}(D^{\perp {\bf X}})}\right) \left(\frac{\text{cov}(Y^{\perp {\bf X},D}, ~Z^{\perp {\bf X},D})}{\text{var}(Z^{\perp {\bf X},D})}\right) \notag\\
-&= \left(\frac{\text{cor}(D^{\perp {\bf X}}, ~ Z^{\perp {\bf X}})\text{sd}(Z^{\perp {\bf X}})}{\text{sd}(D^{\perp {\bf X}})}\right) \left(\frac{\text{cor}(Y^{\perp {\bf X},D}, ~Z^{\perp {\bf X},D})\text{sd}(Y^{\perp {\bf X}, D})}{\text{sd}(Z^{\perp {\bf X},D})}\right) \notag\\
-&=  \left(\frac{\text{cor}(Y^{\perp {\bf X}, D}, ~Z^{\perp {\bf X},D}) \text{cor}(D^{\perp {\bf X}}, ~ Z^{\perp {\bf X}})}{\frac{\text{sd}(Z^{\perp {\bf X}, D})}{\text{sd}(Z^{\perp {\bf X}})}} \right)  \left(\frac{\text{sd}(Y^{\perp {\bf X},D})}{ \text{sd}(D^{\perp {\bf X}}) } \right) \label{eq:biascor}
+|\widehat{\text{bias}}| &= \text{se}(\hat{\tau}_{\text{res}}) \sqrt{\frac{ R^2_{Y\sim Z|D, {\bf X}}~ R^2_{D\sim Z | {\bf X}}}{1 - R^2_{D\sim Z | {\bf X}}} (\text{df})} \label{eq:r2bias2}
 \end{align}
 
-Noting that $\text{cor}(Y^{\perp {\bf X},D},Z^{\perp {\bf X},D}) ^ 2 = R^2_{Y\sim Z|{\bf X},D}$,  that $\text{cor}(Z^{\perp {\bf X}}, ~D^{\perp {\bf X}})^2 = R^2_{D\sim Z | {\bf X}}$, and that $\frac{\text{var}(Z^{\perp {\bf X}, D})}{\text{var}(Z^{\perp {\bf X}})} = 1-R^2_{Z \sim D | {\bf X}} = 1-R^2_{D \sim Z | {\bf X}}$, we can rewrite Eq. \ref{eq:biascor}to rely only partial $R^2$ measures of association rather than raw regression coefficients,
-
-\begin{align}
-|\widehat{\text{bias}}| &= \sqrt{\frac{ R^2_{Y\sim Z|D, {\bf X}}~ R^2_{D\sim Z | {\bf X}}}{1 - R^2_{D\sim Z | {\bf X}}}} \left(\frac{\text{sd}(Y^{\perp {\bf X}, D})}{ \text{sd}(D^{\perp {\bf X}}) }\right). \label{eq:r2bias}
-\end{align}
-
-Investigators may be interested in how confounders alter inference as well, so we also examine the standard error. Let $\text{df}$ denote the model degrees of freedom (for the restricted regression actually run). Noting that
-
-\begin{align}
-\text{se}(\hat{\tau}_{\text{res}}) &= \frac{\text{sd}(Y^{\perp {\bf X},D})}{\text{sd}(D^{\perp {\bf X}})} \sqrt{\frac{1}{\text{df}}} \label{eq:seres} \\  
-\text{se}(\hat{\tau}) &= \frac{\text{sd}(Y^{\perp {\bf X},D, Z})}{\text{sd}(D^{\perp {\bf X}, Z})} \sqrt{\frac{1}{\text{df} - 1}}, \label{eq:sefull}
-\end{align}
-
-\noindent  whose ratio is
-\begin{align}
-\frac{\text{se}(\hat{\tau})}{\text{se}(\hat{\tau}_{\text{res}})} &= \left(\frac{\text{sd}(Y^{\perp {\bf X}, D, Z})}{\text{sd}(Y^{\perp {\bf X},D})}  \right) 
-                                                                 \left(\frac{\text{sd}(D^{\perp {\bf X}})}{\text{sd}(D^{\perp {\bf X}, Z})}  \right) 
-                                                                 \sqrt{\frac{\text{df}}{\text{df}-1}},
-\end{align}
-
-\noindent  we obtain the expression for the standard error of $\hat{\tau}$
+Where $\text{df}$ stands for the degrees of freedom of the restricted regression actually run. Moreover, the estimated standard error of $\hat{\tau}$ can be recoverd with,
 
 \begin{align}
 \text{se}(\hat{\tau})  = \text{se}(\hat{\tau}_{\text{res}}) \sqrt{\frac{1 - R^2_{Y\sim Z|D, {\bf X}}}{1 - R^2_{D\sim Z | {\bf X}}} \left(\frac{\text{df}}{\text{df}-1}\right)}.  \label{eq:r2se} 
 \end{align}
 
-\noindent Moreover, with this we can further see the bias as
+Equations \ref{eq:r2bias2} and \ref{eq:r2se} reveal that, given  hypothetical values of $R^2_{D\sim Z | {\bf X}}$ and  $R^2_{Y\sim Z|D, {\bf X}}$, investigators can examine the sensitivity of  point estimates and standard-errors (and consequently also t-values, confidence intervals or p-values) to the inclusion of any omitted variable $Z$ with such strength. Another useful property of this parameterization is that the effect of $R^2_{Y\sim Z|D, {\bf X}}$ on the bias is bounded. This allows investigators to contemplate extreme sensitivity scenarios, in which the parameter $R^2_{Y\sim Z|D, {\bf X}}$ is set to 1 (or another conservativie value), and see what happens as $R^2_{D\sim Z | {\bf X}}$ varies. 
+
+
+<!-- One particular interesting way to assess this sensitivity is with the help of *contour plots*, which will be demonstrated with the package  \pkg{sensemakr} in the next section. -->
+
+
+<!-- Using the Frisch-Waugh-Lovell (FWL) theorem (\citealp{frisch1933partial, lovell1963seasonal, lovell2008simple}) we can  ``partial out'' the observed covariates ${\bf X}$ to obtain the traditional OVB solution, -->
+
+<!-- \begin{align} -->
+<!-- \hat{\tau}_{\text{\text{res}}} &= \frac{\text{cov}(D^{\perp {\bf X}}, ~Y^{\perp {\bf X}})}{\text{var}(D^{\perp {\bf X}})} \notag\\ -->
+<!-- 			&= \frac{\text{cov}(D^{\perp {\bf X}},~\hat{\tau} D^{\perp {\bf X}} + \hat{\gamma}Z^{\perp {\bf X}} )}{\text{var}(D^{\perp {\bf X}})} \notag\\ -->
+<!-- 			&= \hat{\tau} +  \hat{\gamma}\left(\frac{\text{cov}(D^{\perp {\bf X}},~Z^{\perp {\bf X}})}{\text{var}(D^{\perp {\bf X}})} \right) \notag\\ -->
+<!-- 				&= \hat{\tau} + \hat{\gamma}\hat{\delta}  \label{eq:biasdef} -->
+<!-- \end{align} -->
+
+<!-- \noindent where $\text{cov}(\cdot)$ and $\text{var}(\cdot)$ denote the \emph{sample} covariance and variance; $Y^{\perp {\bf X}}$, $D^{\perp {\bf X}}$ and $Z^{\perp {\bf X}}$ are the variables $Y$, $D$ and $Z$ after removing the components linearly explained by ${\bf X}$ and we define $\hat{\delta}~:=~\frac{\text{cov}(D^{\perp {\bf X}}, Z^{\perp {\bf X}})}{\text{var}(D^{\perp {\bf X}})}$. We then have -->
+<!-- \begin{align} -->
+<!-- \widehat{\text{bias}} =  \hat{\gamma}\hat{\delta}  \label{eq:deltagamma} -->
+<!-- \end{align} -->
+
+<!-- ###  Reparameterizing the OVB formula -->
+
+<!-- Appealing again to the FWL theorem, we can expand Eq. \ref{eq:deltagamma} -->
+
+<!-- \begin{align} -->
+<!-- \widehat{\text{bias}} &=  \hat{\delta}\hat{\gamma}\notag\\ -->
+<!--  &= \left(\frac{\text{cov}(D^{\perp {\bf X}}, ~ Z^{\perp {\bf X}})}{\text{var}(D^{\perp {\bf X}})}\right) \left(\frac{\text{cov}(Y^{\perp {\bf X},D}, ~Z^{\perp {\bf X},D})}{\text{var}(Z^{\perp {\bf X},D})}\right) \notag\\ -->
+<!-- &= \left(\frac{\text{cor}(D^{\perp {\bf X}}, ~ Z^{\perp {\bf X}})\text{sd}(Z^{\perp {\bf X}})}{\text{sd}(D^{\perp {\bf X}})}\right) \left(\frac{\text{cor}(Y^{\perp {\bf X},D}, ~Z^{\perp {\bf X},D})\text{sd}(Y^{\perp {\bf X}, D})}{\text{sd}(Z^{\perp {\bf X},D})}\right) \notag\\ -->
+<!-- &=  \left(\frac{\text{cor}(Y^{\perp {\bf X}, D}, ~Z^{\perp {\bf X},D}) \text{cor}(D^{\perp {\bf X}}, ~ Z^{\perp {\bf X}})}{\frac{\text{sd}(Z^{\perp {\bf X}, D})}{\text{sd}(Z^{\perp {\bf X}})}} \right)  \left(\frac{\text{sd}(Y^{\perp {\bf X},D})}{ \text{sd}(D^{\perp {\bf X}}) } \right) \label{eq:biascor} -->
+<!-- \end{align} -->
+
+<!-- Noting that $\text{cor}(Y^{\perp {\bf X},D},Z^{\perp {\bf X},D}) ^ 2 = R^2_{Y\sim Z|{\bf X},D}$,  that $\text{cor}(Z^{\perp {\bf X}}, ~D^{\perp {\bf X}})^2 = R^2_{D\sim Z | {\bf X}}$, and that $\frac{\text{var}(Z^{\perp {\bf X}, D})}{\text{var}(Z^{\perp {\bf X}})} = 1-R^2_{Z \sim D | {\bf X}} = 1-R^2_{D \sim Z | {\bf X}}$, we can rewrite Eq. \ref{eq:biascor}to rely only partial $R^2$ measures of association rather than raw regression coefficients, -->
+
+<!-- \begin{align} -->
+<!-- |\widehat{\text{bias}}| &= \sqrt{\frac{ R^2_{Y\sim Z|D, {\bf X}}~ R^2_{D\sim Z | {\bf X}}}{1 - R^2_{D\sim Z | {\bf X}}}} \left(\frac{\text{sd}(Y^{\perp {\bf X}, D})}{ \text{sd}(D^{\perp {\bf X}}) }\right). \label{eq:r2bias} -->
+<!-- \end{align} -->
+
+<!-- Investigators may be interested in how confounders alter inference as well, so we also examine the standard error. Let $\text{df}$ denote the model degrees of freedom (for the restricted regression actually run). Noting that -->
+
+<!-- \begin{align} -->
+<!-- \text{se}(\hat{\tau}_{\text{res}}) &= \frac{\text{sd}(Y^{\perp {\bf X},D})}{\text{sd}(D^{\perp {\bf X}})} \sqrt{\frac{1}{\text{df}}} \label{eq:seres} \\   -->
+<!-- \text{se}(\hat{\tau}) &= \frac{\text{sd}(Y^{\perp {\bf X},D, Z})}{\text{sd}(D^{\perp {\bf X}, Z})} \sqrt{\frac{1}{\text{df} - 1}}, \label{eq:sefull} -->
+<!-- \end{align} -->
+
+<!-- \noindent  whose ratio is -->
+<!-- \begin{align} -->
+<!-- \frac{\text{se}(\hat{\tau})}{\text{se}(\hat{\tau}_{\text{res}})} &= \left(\frac{\text{sd}(Y^{\perp {\bf X}, D, Z})}{\text{sd}(Y^{\perp {\bf X},D})}  \right)  -->
+<!--                                                                  \left(\frac{\text{sd}(D^{\perp {\bf X}})}{\text{sd}(D^{\perp {\bf X}, Z})}  \right)  -->
+<!--                                                                  \sqrt{\frac{\text{df}}{\text{df}-1}}, -->
+<!-- \end{align} -->
+
+<!-- \noindent  we obtain the expression for the standard error of $\hat{\tau}$ -->
+
+<!-- \begin{align} -->
+<!-- \text{se}(\hat{\tau})  = \text{se}(\hat{\tau}_{\text{res}}) \sqrt{\frac{1 - R^2_{Y\sim Z|D, {\bf X}}}{1 - R^2_{D\sim Z | {\bf X}}} \left(\frac{\text{df}}{\text{df}-1}\right)}.  \label{eq:r2se}  -->
+<!-- \end{align} -->
+
+<!-- \noindent Moreover, with this we can further see the bias as -->
+<!-- \begin{align} -->
+<!-- |\widehat{\text{bias}}| &= \text{se}(\hat{\tau}_{\text{res}}) \sqrt{\frac{ R^2_{Y\sim Z|D, {\bf X}}~ R^2_{D\sim Z | {\bf X}}}{1 - R^2_{D\sim Z | {\bf X}}} (\text{df})}. \label{eq:r2bias2} -->
+<!-- \end{align} -->
+
+
+<!-- ### Making sense of the partial R2 parameterization -->
+
+<!-- In the partial $R^2$ parameterization, the relative bias, $\left| \frac{\widehat{\text{bias}}}{\hat{\tau}_{\text{res}}}\right|$, has a simple form: -->
+<!-- \begin{align} -->
+<!-- \text{relative bias}  = -->
+<!-- \frac{\overbrace{|R_{Y\sim Z|D, {\bf X}} \times f_{D\sim Z|{\bf X}}|}^\textrm{bias factor}}{\underbrace{|f_{Y\sim D|{\bf X}}|}_\textrm{partial f of D with Y}} = -->
+<!-- \frac{\text{BF}}{|f_{Y\sim D|{\bf X}}|}. \label{eq:bf} -->
+<!-- \end{align} -->
+
+<!-- where $f_{D\sim Z|{\bf X}}$ is the partial Cohen's $f$.\footnote{Cohen's $f$ is a measure of strength of association which , $R^2/(1-R^2)$. Here we replace that $R^2$ with the relevant partial value, $R^2_{D\sim Z|{\bf X}}$ to produce a Cohen's $f$ that describes how strongly $Z$ predicts $D$ given $\bf{X}$} -->
+
+<!-- How the confounder affects the variance has a straightforward interpretation as well. The relative change in the variance, $\frac{\text{var}(\hat{\tau})}{\text{var}(\hat{\tau}_{\text{res}})}$, can be decomposed into three components, -->
+
+<!-- \begin{align} -->
+<!-- \text{relative change in variance}   &=   -->
+<!-- \overbrace{\left(1 - R^2_{Y\sim Z|D, {\bf X}}\right)}^\textrm{VRF}  -->
+<!-- \underbrace{\left(\frac{ 1}{ 1 - R^2_{D\sim Z | {\bf X}}}\right)}_\textrm{VIF} -->
+<!-- \overbrace{\left(\frac{\text{df}}{\text{df}-1}\right)}^\textrm{change in df} \notag\\ -->
+<!-- &= \text{VRF} \times \text{VIF} \times \text{change in df}.\label{eq:relvar} -->
+<!-- \end{align} -->
+
+
+
+## Sensitivity statistics for routine reporting
+
+The previous formulas fully determine the bias (or adjusted values) of the estimate and the standard error for any given degree of confounding, and as such can be used in numerous ways to explore the sensitivity of a regression result. For instance, sensitivity contour plots and sensitivity plots of extreme scenarios, which we demonstrate in the next section using \pkg{sensemakr}, allow us to visualize the entire range of results that would be obtained as we vary both sensitivity parameters. 
+
+Nevertheless, making sensitivity analysis standard practice benefits from simple and interpretable sensitivity measures which can quickly describe the sensitivity of a study to unobserved confounding. These statistics serve two main purposes:
+
+1. They can be easily displayed alongside other usual summary statistics in regression tables, making a minimal sensitivity analysis to unobserved confounding simple, accessible and standardized;
+
+2. They can be easily computed from quantities found in a rregression table, thereby enabling readers and reviwers to assess the sensitivity of results they see in print, even if the original authors did not perform sensitivity analyses.
+
+With this in mind, @cinelli:jrssb2019 propose two main  sensitivity statistics for *routine reporting*: (i) the (observed) partial $R^2$ of the treatment with the outcome, $R^2_{Y\sim D \mid {\bf X}}$; and,  the *robustness value*.
+
+<!-- that can more easily and readily convey the sensitivity of a results in the face of unobserved confounding and can be added to regression tables without having to convey an entire contour plot. -->
+
+### The partial R2 of the treatment with the outcome
+
+Beyond being an effect measure that quantifies how much variation of the outcome the treatment explains, the partial $R^2$ of the treatment with the outcome can also be used to convey how robust the point estimate is to unobserved confounding in an ``extreme scenario''. More precisely, suppose the unobserved confounder $Z$ explains \emph{all} residual variance of the outcome, that is, $R_{Y\sim Z|D, {\bf X}}~=~1$.  Then, for this confounder to bring the point estimate to zero, it must explain  *at least* as much residual variation of the treatment as the residual variation of the outcome that the treatment currently  explains.  In other words, if  $R_{Y\sim Z|D, {\bf X}}~=~1$, then we must have that  $R^2_{D\sim Z|{\bf X}} \geq R^2_{Y\sim D|{\bf X}}$, otherwise this confounder cannot logically account for all the observed association between the treatment and the outcome.
+
+
+### The Robustness Value
+
+The second sensitivity statistics is the *robustness value*. The robustness value $RV_{q,\alpha}$, measures the *minimal* strength of association that the confounder needs to have, *both* with the treatment and with the outcome, so that a confidence interval of level $\alpha$ includes a change of $q\%$ of the current estimated value.
+
+Let $f_q := q|f_{Y\sim D | {\bf X}}|$, where $|f_{Y\sim D | {\bf X}}|$ is the partial *Cohen's f* of the treatment with the outcome multiplied by the percentage reduction $q$ deemed to be problematic.\footnote{Cohen's $f^2$ can be written as $f^2_{Y\sim D | {\bf X}} = R^2_{Y\sim D | {\bf X}}/(1-R^2_{Y\sim D | {\bf X}})$} Also, let $|t^*_{\alpha, \text{df}-1}|$ denote the t-value threshold for a t-test with significance level of $\alpha$ and $\text{df}-1$ degrees of freedom, and define $f^*_{\alpha, \text{df} - 1} := |t^*_{\alpha, \text{df}-1}|/\sqrt{\text{df} -1}$.   Finally,  construct $f_{q, \alpha}$, which "deducts" from $f_{Y\sim D | {\bf X}}$ both the proportion of reduction $q$ of the point estimate and the boundary below which statistical significance is lost at the level of $\alpha$. That is, 
+
 \begin{align}
-|\widehat{\text{bias}}| &= \text{se}(\hat{\tau}_{\text{res}}) \sqrt{\frac{ R^2_{Y\sim Z|D, {\bf X}}~ R^2_{D\sim Z | {\bf X}}}{1 - R^2_{D\sim Z | {\bf X}}} (\text{df})}. \label{eq:r2bias2}
+f_{q, \alpha} := f_q - f^*_{\alpha,\text{df} - 1}
 \end{align}
 
-
-### Making sense of the partial R2 parameterization
-
-In the partial $R^2$ parameterization, the relative bias, $\left| \frac{\widehat{\text{bias}}}{\hat{\tau}_{\text{res}}}\right|$, has a simple form:
-\begin{align}
-\text{relative bias}  =
-\frac{\overbrace{|R_{Y\sim Z|D, {\bf X}} \times f_{D\sim Z|{\bf X}}|}^\textrm{bias factor}}{\underbrace{|f_{Y\sim D|{\bf X}}|}_\textrm{partial f of D with Y}} =
-\frac{\text{BF}}{|f_{Y\sim D|{\bf X}}|}. \label{eq:bf}
-\end{align}
-
-where $f_{D\sim Z|{\bf X}}$ is the partial Cohen's $f$.\footnote{Cohen's $f$ is a measure of strength of association which , $R^2/(1-R^2)$. Here we replace that $R^2$ with the relevant partial value, $R^2_{D\sim Z|{\bf X}}$ to produce a Cohen's $f$ that describes how strongly $Z$ predicts $D$ given $\bf{X}$}
-
-How the confounder affects the variance has a straightforward interpretation as well. The relative change in the variance, $\frac{\text{var}(\hat{\tau})}{\text{var}(\hat{\tau}_{\text{res}})}$, can be decomposed into three components,
+We then have that $RV_{q,\alpha}$ is given by [@cinelli:jrssb2019; @cinelli:wp2020],
 
 \begin{align}
-\text{relative change in variance}   &=  
-\overbrace{\left(1 - R^2_{Y\sim Z|D, {\bf X}}\right)}^\textrm{VRF} 
-\underbrace{\left(\frac{ 1}{ 1 - R^2_{D\sim Z | {\bf X}}}\right)}_\textrm{VIF}
-\overbrace{\left(\frac{\text{df}}{\text{df}-1}\right)}^\textrm{change in df} \notag\\
-&= \text{VRF} \times \text{VIF} \times \text{change in df}.\label{eq:relvar}
+RV_{q, \alpha} =\left\{ 
+\begin{array}{ll}
+0, & \text{if}~~f_{q, \alpha} < 0 \\
+\frac{1}{2}\left(\sqrt{f_{q, \alpha}^4 + 4f_{q, \alpha}^2} - f_{q, \alpha}^2\right), & \text{if}~~ f_{q} < 1/f^*_{\alpha, \text{df}-1}\\
+(f_{q}^2 - f^{*2}_{\alpha,\text{df} - 1})/(1+f^2_{q}), & \text{otherwise}. 
+\end{array}\right.
+\label{eq:rvt_main}
 \end{align}
 
-### Bounds on the strength of confounding
+\noindent Any confounder that explains $RV_{q,\alpha}\%$ of the residual variance *both* of the treatment and of the outcome is sufficiently strong to make the adjusted t-test not reject the null hypothesis $H_0: \tau = (1-q)|\hat{\tau}_{\text{res}}|$ at the $\alpha$ level (or, equivalently, to make the adjusted $1-\alpha$ confidence interval include $(1-q)|\hat{\tau}_{\text{res}}|$). Likewise, a confounder with both associations lower than $RV_{q, \alpha}$ is not capable of overturning the conclusion of such a test. 
+
+
+## Bounds on the strength of confounding
 
 @cinelli:jrssb2019 employs a bounding approach that uses observed covariates and their strength of association with the treatment and outcome as benchmarks against which to judge hypothetical degrees of confounding, or to argue for bounds on the permissible level of confounding.  Assume first that $Z \perp {\bf X}$ or, equivalently, consider only the part of $Z$ not linearly explained by ${\bf X}$. Suppose a researcher is willing to assume that  some covariate $X_j$ is particularly important to the treatment or outcome, and in fact that omitted variables cannot explain as much residual variance of $D$ or $Y$ as an observed covariate, $X_j$.  More flexibly, one can assert that confounding uniquely explains nor more than $k_D$ times as much of the treatment as does $X_j$ of the treatment, and no more than $k_Y$ as much of the outcome. Formally, this means
 \begin{align}
@@ -303,36 +402,9 @@ R^2_{D\sim Z|{\bf X}} = k_D f^2_{D\sim X_{j}|{\bf X}{-j}}, \qquad R^2_{Y\sim Z|D
 
 These equations allow us to investigate the maximum bias possible due to confounding at most ``k times'' as strong as a particular covariate $X_j$. 
 
+## Multiple or non-linear confounders
 
-## Sensitivity statistics for routine reporting
 
-As the formulas above determine the bias (or adjusted values) of the estimate and the standard error for any given degree of confounding, they can be used in numerous ways to explore the sensitivity of a result. Contour plots, which we demonstrate below, allow us to visualize the entire range of results that would be obtained as we vary both sensitivity parameters. However, @cinelli:jrssb2019 propose several summary statistics that can more easily and readily convey the sensitivity of a results in the face of unobserved confounding and can be added to regression tables without having to convey an entire contour plot.
-
-### The partial R2 of the treatment with the outcome
-
-Consider the following question: ``if an extreme confounder explained all the residual variance of the outcome, how strongly associated with the treatment would it need to be in order to eliminate the estimated effect?'' As it happens, the answer is precisely the $R^2_{Y\sim D|{\bf X}}$. 
-
-Specifically, a confounder explaining \emph{all} residual variance of the outcome implies $R_{Y\sim Z|D, {\bf X}}~=~1$. By Equation \ref{eq:bf}, to bring the estimated effect down to zero (relative~bias = 1), this means $|f_{D\sim Z|{\bf X}}|$ needs to equal $|f_{Y\sim D|{\bf X}}|$, which implies $R^2_{D\sim Z|{\bf X}}~=~R^2_{Y\sim D|{\bf X}}$.  Thus, $R^2_{Y\sim D|{\bf X}}$ is not only the determinant of the robustness of the treatment effect coefficient, but can also be interpreted as the result of an ``extreme scenario'' sensitivity analysis.
-
-### The Robustness Value
-
-Let $|t^*_{\alpha, \text{df}-1}|$ denote the t-value threshold for a t-test with significance level of $\alpha$ and $\text{df}-1$ degrees of freedom, and define $f^*_{\alpha, \text{df} - 1} := |t^*_{\alpha, \text{df}-1}|/\sqrt{\text{df} -1}$. 
-Now construct an adjusted  $f_{q, \alpha}$, accounting for both the proportion of reduction $q$ of the point estimate and the boundary below which statistical significance is lost at the level of $\alpha$. First, define 
-$f_q = q|f_{Y\sim D | {\bf X}}|$. Then construct 
-\begin{align}
-f_{q, \alpha} := f_q - f^*_{\alpha,\text{df} - 1}
-\end{align}
-\noindent If $f_{q, \alpha} < 0$, then the robustness value is zero. If $f_{q, \alpha} > 0$, then a confounder with a partial $R^2$ of,
-\begin{align}
-RV_{q, \alpha} = \frac{1}{2}\left(\sqrt{f_{q, \alpha}^4 + 4f_{q, \alpha}^2} - f_{q, \alpha}^2\right), \label{eq:rvt_main}
-\end{align}
-
-\noindent both with the treatment and with the outcome is sufficiently strong to make the adjusted t-test not reject the null hypothesis $H_0: \tau = (1-q)|\hat{\tau}_{\text{res}}|$ at the $\alpha$ level (or, equivalently, to make the adjusted $1-\alpha$ confidence interval include $(1-q)|\hat{\tau}_{\text{res}}|$). When $RV_{q, \alpha} > 1 - 1/f^2_{q}$ then, as with the $RV_q$, we can conclude that no confounder with both associations lower than $RV_{q, \alpha}$ is able to overturn the conclusion of such a test. In the rare cases when \mbox{$RV_{q, \alpha} \leq 1 - 1/f^2_{q}$}, then setting  
-$$
-RV_{q, \alpha} = (f_{q}^2 - f^{*2}_{\alpha,\text{df} - 1})/(1+f^2_{q})
-$$ 
-
-restores the property that no confounder weaker on both associations would change the conclusion.
 
 # An illustration of the basic functionality: violence in Darfur
 

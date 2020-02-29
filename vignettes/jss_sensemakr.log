@@ -1,12 +1,12 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.10.4)  17 FEB 2020 17:56
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.10.4)  28 FEB 2020 16:40
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
-**/private/var/folders/ff/s23htd2n0zbbr4f4p3hsylmm0000gn/T/RtmpwcQm2I/preview-1
-74a9cf09a42.dir/jss_sensemakr.tex
+**/private/var/folders/ff/s23htd2n0zbbr4f4p3hsylmm0000gn/T/RtmpJ0Qwc3/preview-2
+c687338b79d.dir/jss_sensemakr.tex
 
-(/private/var/folders/ff/s23htd2n0zbbr4f4p3hsylmm0000gn/T/RtmpwcQm2I/preview-17
-4a9cf09a42.dir/jss_sensemakr.tex
+(/private/var/folders/ff/s23htd2n0zbbr4f4p3hsylmm0000gn/T/RtmpJ0Qwc3/preview-2c
+687338b79d.dir/jss_sensemakr.tex
 LaTeX2e <2015/01/01>
 Babel <3.9l> and hyphenation patterns for 79 languages loaded.
 (./jss.cls
@@ -718,26 +718,25 @@ LaTeX Font Info:    Font shape `T1/pzc/m/n' in size <28> not available
 LaTeX Font Info:    Try loading font information for T1+aess on input line 68.
 (/usr/local/texlive/2015/texmf-dist/tex/latex/ae/t1aess.fd
 File: t1aess.fd 1997/11/16 Font definitions for T1/aess.
-)
-Underfull \vbox (badness 4569) has occurred while \output is active []
-
-[1
+) [1
 
 {/usr/local/texlive/2015/texmf-var/fonts/map/pdftex/updmap/pdftex.map} <./jsslo
 go.jpg>]
+LaTeX Font Info:    Try loading font information for TS1+aer on input line 99.
+LaTeX Font Info:    No file TS1aer.fd. on input line 99.
+
+LaTeX Font Warning: Font shape `TS1/aer/m/n' undefined
+(Font)              using `TS1/cmr/m/n' instead
+(Font)              for symbol `textbullet' on input line 99.
+
 LaTeX Font Info:    Font shape `T1/aer/b/sl' in size <10.95> not available
-(Font)              Font shape `T1/aer/bx/sl' tried instead on input line 158.
+(Font)              Font shape `T1/aer/bx/sl' tried instead on input line 161.
 
 Overfull \hbox (5.47499pt too wide) has occurred while \output is active
 \T1/aer/m/n/10.95 2 []
  []
 
 [2]
-
-Package hyperref Warning: Difference (2) between bookmark levels is greater 
-(hyperref)                than one, level fixed on input line 160.
-
-
 Overfull \hbox (5.47499pt too wide) has occurred while \output is active
 [] \T1/aer/m/n/10.95 3
  []
@@ -753,36 +752,24 @@ Overfull \hbox (5.47499pt too wide) has occurred while \output is active
  []
 
 [5]
-Overfull \hbox (9.59369pt too wide) in paragraph at lines 331--340
-[]\T1/aer/m/n/10.95 Specifically, a con-founder ex-plain-ing \T1/aer/m/it/10.95
- all \T1/aer/m/n/10.95 resid-ual vari-ance of the out-come im-plies $\OML/cmm/m
-/it/10.95 R[] [] \OT1/cmr/m/n/10.95 =  []1$\T1/aer/m/n/10.95 .
- []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 360--370
-
- []
-
-
-Package hyperref Warning: Suppressing link with empty target on input line 388.
+Package hyperref Warning: Suppressing link with empty target on input line 394.
 
 
 
 Package hyperref Warning: Difference (2) between bookmark levels is greater 
-(hyperref)                than one, level fixed on input line 394.
+(hyperref)                than one, level fixed on input line 400.
 
+LaTeX Font Info:    Try loading font information for T1+aett on input line 409.
 
+(/usr/local/texlive/2015/texmf-dist/tex/latex/ae/t1aett.fd
+File: t1aett.fd 1997/11/16 Font definitions for T1/aett.
+)
 Overfull \hbox (5.47499pt too wide) has occurred while \output is active
 \T1/aer/m/n/10.95 6 []
  []
 
 [6]
-LaTeX Font Info:    Try loading font information for T1+aett on input line 403.
-
-(/usr/local/texlive/2015/texmf-dist/tex/latex/ae/t1aett.fd
-File: t1aett.fd 1997/11/16 Font definitions for T1/aett.
-)
 Overfull \hbox (5.47499pt too wide) has occurred while \output is active
 [] \T1/aer/m/n/10.95 7
  []
@@ -793,13 +780,16 @@ Overfull \hbox (5.47499pt too wide) has occurred while \output is active
  []
 
 [8]
-LaTeX Font Info:    Try loading font information for TS1+aer on input line 564.
+LaTeX Font Info:    Try loading font information for TS1+aett on input line 643
+.
+LaTeX Font Info:    No file TS1aett.fd. on input line 643.
 
-LaTeX Font Info:    No file TS1aer.fd. on input line 564.
-
-LaTeX Font Warning: Font shape `TS1/aer/m/n' undefined
+LaTeX Font Warning: Font shape `TS1/aett/m/n' undefined
 (Font)              using `TS1/cmr/m/n' instead
-(Font)              for symbol `textbullet' on input line 564.
+(Font)              for symbol `textquotesingle' on input line 643.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
 Overfull \hbox (5.47499pt too wide) has occurred while \output is active
@@ -807,13 +797,10 @@ Overfull \hbox (5.47499pt too wide) has occurred while \output is active
  []
 
 [9]
-LaTeX Font Info:    Try loading font information for TS1+aett on input line 637
-.
-LaTeX Font Info:    No file TS1aett.fd. on input line 637.
-
-LaTeX Font Warning: Font shape `TS1/aett/m/n' undefined
-(Font)              using `TS1/cmr/m/n' instead
-(Font)              for symbol `textquotesingle' on input line 637.
+Overfull \hbox (0.55333pt too wide) in paragraph at lines 721--739
+[]\T1/aer/m/n/10.95 Sometimes re-searchers may have a hard time mak-ing judg-me
+nts re-gard-ing the \T1/aer/m/it/10.95 ab-so-lute strength
+ []
 
 
 Overfull \hbox (10.94998pt too wide) has occurred while \output is active
@@ -821,60 +808,62 @@ Overfull \hbox (10.94998pt too wide) has occurred while \output is active
  []
 
 [10]
-Overfull \hbox (0.55333pt too wide) in paragraph at lines 715--733
-[]\T1/aer/m/n/10.95 Sometimes re-searchers may have a hard time mak-ing judg-me
-nts re-gard-ing the \T1/aer/m/it/10.95 ab-so-lute strength
- []
+</private/var/folders/ff/s23htd2n0zbbr4f4p3hsylmm0000gn/T/RtmpJ0Qwc3/preview-2c
+687338b79d.dir/jss_sensemakr_files/figure-latex/both_plots_real-1.pdf, id=332, 
+566.115pt x 276.03125pt>
+File: /private/var/folders/ff/s23htd2n0zbbr4f4p3hsylmm0000gn/T/RtmpJ0Qwc3/previ
+ew-2c687338b79d.dir/jss_sensemakr_files/figure-latex/both_plots_real-1.pdf Grap
+hic file (type pdf)
 
+<use /private/var/folders/ff/s23htd2n0zbbr4f4p3hsylmm0000gn/T/RtmpJ0Qwc3/previe
+w-2c687338b79d.dir/jss_sensemakr_files/figure-latex/both_plots_real-1.pdf>
+Package pdftex.def Info: /private/var/folders/ff/s23htd2n0zbbr4f4p3hsylmm0000gn
+/T/RtmpJ0Qwc3/preview-2c687338b79d.dir/jss_sensemakr_files/figure-latex/both_pl
+ots_real-1.pdf used on input line 812.
+(pdftex.def)             Requested size: 421.58775pt x 210.79677pt.
 
 Overfull \hbox (10.94998pt too wide) has occurred while \output is active
 [] \T1/aer/m/n/10.95 11
  []
 
 [11]
-</private/var/folders/ff/s23htd2n0zbbr4f4p3hsylmm0000gn/T/RtmpwcQm2I/preview-17
-4a9cf09a42.dir/jss_sensemakr_files/figure-latex/both_plots_real-1.pdf, id=349, 
-566.115pt x 276.03125pt>
-File: /private/var/folders/ff/s23htd2n0zbbr4f4p3hsylmm0000gn/T/RtmpwcQm2I/previ
-ew-174a9cf09a42.dir/jss_sensemakr_files/figure-latex/both_plots_real-1.pdf Grap
-hic file (type pdf)
+</private/var/folders/ff/s23htd2n0zbbr4f4p3hsylmm0000gn/T/RtmpJ0Qwc3/preview-2c
+687338b79d.dir/jss_sensemakr_files/figure-latex/darfur_extreme-1.pdf, id=341, 3
+76.40625pt x 249.93375pt>
+File: /private/var/folders/ff/s23htd2n0zbbr4f4p3hsylmm0000gn/T/RtmpJ0Qwc3/previ
+ew-2c687338b79d.dir/jss_sensemakr_files/figure-latex/darfur_extreme-1.pdf Graph
+ic file (type pdf)
 
-<use /private/var/folders/ff/s23htd2n0zbbr4f4p3hsylmm0000gn/T/RtmpwcQm2I/previe
-w-174a9cf09a42.dir/jss_sensemakr_files/figure-latex/both_plots_real-1.pdf>
+<use /private/var/folders/ff/s23htd2n0zbbr4f4p3hsylmm0000gn/T/RtmpJ0Qwc3/previe
+w-2c687338b79d.dir/jss_sensemakr_files/figure-latex/darfur_extreme-1.pdf>
 Package pdftex.def Info: /private/var/folders/ff/s23htd2n0zbbr4f4p3hsylmm0000gn
-/T/RtmpwcQm2I/preview-174a9cf09a42.dir/jss_sensemakr_files/figure-latex/both_pl
-ots_real-1.pdf used on input line 806.
-(pdftex.def)             Requested size: 421.58775pt x 210.79677pt.
+/T/RtmpJ0Qwc3/preview-2c687338b79d.dir/jss_sensemakr_files/figure-latex/darfur_
+extreme-1.pdf used on input line 849.
+(pdftex.def)             Requested size: 351.34073pt x 250.94757pt.
 
 Overfull \hbox (10.94998pt too wide) has occurred while \output is active
 \T1/aer/m/n/10.95 12 []
  []
 
-[12 </private/var/folders/ff/s23htd2n0zbbr4f4p3hsylmm0000gn/T/RtmpwcQm2I/previe
-w-174a9cf09a42.dir/jss_sensemakr_files/figure-latex/both_plots_real-1.pdf>]
-</private/var/folders/ff/s23htd2n0zbbr4f4p3hsylmm0000gn/T/RtmpwcQm2I/preview-17
-4a9cf09a42.dir/jss_sensemakr_files/figure-latex/darfur_extreme-1.pdf, id=364, 3
-76.40625pt x 249.93375pt>
-File: /private/var/folders/ff/s23htd2n0zbbr4f4p3hsylmm0000gn/T/RtmpwcQm2I/previ
-ew-174a9cf09a42.dir/jss_sensemakr_files/figure-latex/darfur_extreme-1.pdf Graph
-ic file (type pdf)
-
-<use /private/var/folders/ff/s23htd2n0zbbr4f4p3hsylmm0000gn/T/RtmpwcQm2I/previe
-w-174a9cf09a42.dir/jss_sensemakr_files/figure-latex/darfur_extreme-1.pdf>
-Package pdftex.def Info: /private/var/folders/ff/s23htd2n0zbbr4f4p3hsylmm0000gn
-/T/RtmpwcQm2I/preview-174a9cf09a42.dir/jss_sensemakr_files/figure-latex/darfur_
-extreme-1.pdf used on input line 843.
-(pdftex.def)             Requested size: 351.34073pt x 250.94757pt.
-
+[12 </private/var/folders/ff/s23htd2n0zbbr4f4p3hsylmm0000gn/T/RtmpJ0Qwc3/previe
+w-2c687338b79d.dir/jss_sensemakr_files/figure-latex/both_plots_real-1.pdf> </pr
+ivate/var/folders/ff/s23htd2n0zbbr4f4p3hsylmm0000gn/T/RtmpJ0Qwc3/preview-2c6873
+38b79d.dir/jss_sensemakr_files/figure-latex/darfur_extreme-1.pdf>]
 Overfull \hbox (10.94998pt too wide) has occurred while \output is active
 [] \T1/aer/m/n/10.95 13
  []
 
-[13 </private/var/folders/ff/s23htd2n0zbbr4f4p3hsylmm0000gn/T/RtmpwcQm2I/previe
-w-174a9cf09a42.dir/jss_sensemakr_files/figure-latex/darfur_extreme-1.pdf>]
-Overfull \hbox (0.14926pt too wide) in paragraph at lines 932--938
+[13]
+Overfull \hbox (0.14926pt too wide) in paragraph at lines 938--944
 []\T1/aer/m/n/10.95 Users will most com-monly call upon the main func-tions and
  re-lated meth-ods, i.e. \T1/aett/m/n/10.95 sensemakr()
+ []
+
+
+Overfull \hbox (40.3954pt too wide) in paragraph at lines 961--970
+[]\T1/aer/m/it/10.95 functions for com-put-ing sen-si-tiv-ity statis-tics\T1/ae
+r/m/n/10.95 : these com-prise the func-tions \T1/aett/m/n/10.95 robustness_valu
+e()\T1/aer/m/n/10.95 ,
  []
 
 
@@ -883,13 +872,6 @@ Overfull \hbox (10.94998pt too wide) has occurred while \output is active
  []
 
 [14]
-Overfull \hbox (40.3954pt too wide) in paragraph at lines 955--964
-[]\T1/aer/m/it/10.95 functions for com-put-ing sen-si-tiv-ity statis-tics\T1/ae
-r/m/n/10.95 : these com-prise the func-tions \T1/aett/m/n/10.95 robustness_valu
-e()\T1/aer/m/n/10.95 ,
- []
-
-
 Overfull \hbox (10.94998pt too wide) has occurred while \output is active
 [] \T1/aer/m/n/10.95 15
  []
@@ -900,170 +882,163 @@ Overfull \hbox (10.94998pt too wide) has occurred while \output is active
  []
 
 [16]
-Overfull \hbox (10.94998pt too wide) has occurred while \output is active
-[] \T1/aer/m/n/10.95 17
- []
-
-[17]
-</private/var/folders/ff/s23htd2n0zbbr4f4p3hsylmm0000gn/T/RtmpwcQm2I/preview-17
-4a9cf09a42.dir/jss_sensemakr_files/figure-latex/unnamed-chunk-5-1.pdf, id=412, 
+</private/var/folders/ff/s23htd2n0zbbr4f4p3hsylmm0000gn/T/RtmpJ0Qwc3/preview-2c
+687338b79d.dir/jss_sensemakr_files/figure-latex/unnamed-chunk-5-1.pdf, id=396, 
 313.17pt x 312.16624pt>
-File: /private/var/folders/ff/s23htd2n0zbbr4f4p3hsylmm0000gn/T/RtmpwcQm2I/previ
-ew-174a9cf09a42.dir/jss_sensemakr_files/figure-latex/unnamed-chunk-5-1.pdf Grap
+File: /private/var/folders/ff/s23htd2n0zbbr4f4p3hsylmm0000gn/T/RtmpJ0Qwc3/previ
+ew-2c687338b79d.dir/jss_sensemakr_files/figure-latex/unnamed-chunk-5-1.pdf Grap
 hic file (type pdf)
 
-<use /private/var/folders/ff/s23htd2n0zbbr4f4p3hsylmm0000gn/T/RtmpwcQm2I/previe
-w-174a9cf09a42.dir/jss_sensemakr_files/figure-latex/unnamed-chunk-5-1.pdf>
+<use /private/var/folders/ff/s23htd2n0zbbr4f4p3hsylmm0000gn/T/RtmpJ0Qwc3/previe
+w-2c687338b79d.dir/jss_sensemakr_files/figure-latex/unnamed-chunk-5-1.pdf>
 Package pdftex.def Info: /private/var/folders/ff/s23htd2n0zbbr4f4p3hsylmm0000gn
-/T/RtmpwcQm2I/preview-174a9cf09a42.dir/jss_sensemakr_files/figure-latex/unnamed
--chunk-5-1.pdf used on input line 1182.
+/T/RtmpJ0Qwc3/preview-2c687338b79d.dir/jss_sensemakr_files/figure-latex/unnamed
+-chunk-5-1.pdf used on input line 1188.
 (pdftex.def)             Requested size: 250.94728pt x 250.9432pt.
-
-</private/var/folders/ff/s23htd2n0zbbr4f4p3hsylmm0000gn/T/RtmpwcQm2I/preview-17
-4a9cf09a42.dir/jss_sensemakr_files/figure-latex/unnamed-chunk-6-1.pdf, id=413, 
-268.00125pt x 249.93375pt>
-File: /private/var/folders/ff/s23htd2n0zbbr4f4p3hsylmm0000gn/T/RtmpwcQm2I/previ
-ew-174a9cf09a42.dir/jss_sensemakr_files/figure-latex/unnamed-chunk-6-1.pdf Grap
-hic file (type pdf)
-
-<use /private/var/folders/ff/s23htd2n0zbbr4f4p3hsylmm0000gn/T/RtmpwcQm2I/previe
-w-174a9cf09a42.dir/jss_sensemakr_files/figure-latex/unnamed-chunk-6-1.pdf>
-Package pdftex.def Info: /private/var/folders/ff/s23htd2n0zbbr4f4p3hsylmm0000gn
-/T/RtmpwcQm2I/preview-174a9cf09a42.dir/jss_sensemakr_files/figure-latex/unnamed
--chunk-6-1.pdf used on input line 1199.
-(pdftex.def)             Requested size: 250.93565pt x 250.94757pt.
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 Overfull \hbox (10.94998pt too wide) has occurred while \output is active
+[] \T1/aer/m/n/10.95 17
+ []
+
+[17]
+</private/var/folders/ff/s23htd2n0zbbr4f4p3hsylmm0000gn/T/RtmpJ0Qwc3/preview-2c
+687338b79d.dir/jss_sensemakr_files/figure-latex/unnamed-chunk-6-1.pdf, id=402, 
+268.00125pt x 249.93375pt>
+File: /private/var/folders/ff/s23htd2n0zbbr4f4p3hsylmm0000gn/T/RtmpJ0Qwc3/previ
+ew-2c687338b79d.dir/jss_sensemakr_files/figure-latex/unnamed-chunk-6-1.pdf Grap
+hic file (type pdf)
+
+<use /private/var/folders/ff/s23htd2n0zbbr4f4p3hsylmm0000gn/T/RtmpJ0Qwc3/previe
+w-2c687338b79d.dir/jss_sensemakr_files/figure-latex/unnamed-chunk-6-1.pdf>
+Package pdftex.def Info: /private/var/folders/ff/s23htd2n0zbbr4f4p3hsylmm0000gn
+/T/RtmpJ0Qwc3/preview-2c687338b79d.dir/jss_sensemakr_files/figure-latex/unnamed
+-chunk-6-1.pdf used on input line 1205.
+(pdftex.def)             Requested size: 250.93565pt x 250.94757pt.
+
+Overfull \hbox (10.94998pt too wide) has occurred while \output is active
 \T1/aer/m/n/10.95 18 []
  []
 
-[18 </private/var/folders/ff/s23htd2n0zbbr4f4p3hsylmm0000gn/T/RtmpwcQm2I/previe
-w-174a9cf09a42.dir/jss_sensemakr_files/figure-latex/unnamed-chunk-5-1.pdf>]
+[18 </private/var/folders/ff/s23htd2n0zbbr4f4p3hsylmm0000gn/T/RtmpJ0Qwc3/previe
+w-2c687338b79d.dir/jss_sensemakr_files/figure-latex/unnamed-chunk-5-1.pdf> </pr
+ivate/var/folders/ff/s23htd2n0zbbr4f4p3hsylmm0000gn/T/RtmpJ0Qwc3/preview-2c6873
+38b79d.dir/jss_sensemakr_files/figure-latex/unnamed-chunk-6-1.pdf>]
 Overfull \hbox (10.94998pt too wide) has occurred while \output is active
 [] \T1/aer/m/n/10.95 19
  []
 
-[19 </private/var/folders/ff/s23htd2n0zbbr4f4p3hsylmm0000gn/T/RtmpwcQm2I/previe
-w-174a9cf09a42.dir/jss_sensemakr_files/figure-latex/unnamed-chunk-6-1.pdf>]
+[19]
 Overfull \hbox (10.94998pt too wide) has occurred while \output is active
 \T1/aer/m/n/10.95 20 []
  []
 
 [20]
-</private/var/folders/ff/s23htd2n0zbbr4f4p3hsylmm0000gn/T/RtmpwcQm2I/preview-17
-4a9cf09a42.dir/jss_sensemakr_files/figure-latex/unnamed-chunk-10-1.pdf, id=460,
- 313.17pt x 312.16624pt>
-File: /private/var/folders/ff/s23htd2n0zbbr4f4p3hsylmm0000gn/T/RtmpwcQm2I/previ
-ew-174a9cf09a42.dir/jss_sensemakr_files/figure-latex/unnamed-chunk-10-1.pdf Gra
-phic file (type pdf)
+</private/var/folders/ff/s23htd2n0zbbr4f4p3hsylmm0000gn/T/RtmpJ0Qwc3/preview-2c
+687338b79d.dir/jss_sensemakr_files/figure-latex/unnamed-chunk-7-1.pdf, id=450, 
+313.17pt x 312.16624pt>
+File: /private/var/folders/ff/s23htd2n0zbbr4f4p3hsylmm0000gn/T/RtmpJ0Qwc3/previ
+ew-2c687338b79d.dir/jss_sensemakr_files/figure-latex/unnamed-chunk-7-1.pdf Grap
+hic file (type pdf)
 
-<use /private/var/folders/ff/s23htd2n0zbbr4f4p3hsylmm0000gn/T/RtmpwcQm2I/previe
-w-174a9cf09a42.dir/jss_sensemakr_files/figure-latex/unnamed-chunk-10-1.pdf>
+<use /private/var/folders/ff/s23htd2n0zbbr4f4p3hsylmm0000gn/T/RtmpJ0Qwc3/previe
+w-2c687338b79d.dir/jss_sensemakr_files/figure-latex/unnamed-chunk-7-1.pdf>
 Package pdftex.def Info: /private/var/folders/ff/s23htd2n0zbbr4f4p3hsylmm0000gn
-/T/RtmpwcQm2I/preview-174a9cf09a42.dir/jss_sensemakr_files/figure-latex/unnamed
--chunk-10-1.pdf used on input line 1386.
+/T/RtmpJ0Qwc3/preview-2c687338b79d.dir/jss_sensemakr_files/figure-latex/unnamed
+-chunk-7-1.pdf used on input line 1392.
 (pdftex.def)             Requested size: 250.94728pt x 250.9432pt.
 
 Overfull \hbox (10.94998pt too wide) has occurred while \output is active
 [] \T1/aer/m/n/10.95 21
  []
 
-[21] <collider.png, id=467, 1284.8pt x 1300.86pt>
+[21 </private/var/folders/ff/s23htd2n0zbbr4f4p3hsylmm0000gn/T/RtmpJ0Qwc3/previe
+w-2c687338b79d.dir/jss_sensemakr_files/figure-latex/unnamed-chunk-7-1.pdf>] <co
+llider.png, id=463, 1284.8pt x 1300.86pt>
 File: collider.png Graphic file (type png)
 <use collider.png>
-Package pdftex.def Info: collider.png used on input line 1409.
+Package pdftex.def Info: collider.png used on input line 1415.
 (pdftex.def)             Requested size: 144.52396pt x 144.5242pt.
 
 Overfull \hbox (10.94998pt too wide) has occurred while \output is active
 \T1/aer/m/n/10.95 22 []
  []
 
-[22 <./collider.png> </private/var/folders/ff/s23htd2n0zbbr4f4p3hsylmm0000gn/T/
-RtmpwcQm2I/preview-174a9cf09a42.dir/jss_sensemakr_files/figure-latex/unnamed-ch
-unk-10-1.pdf>]
-</private/var/folders/ff/s23htd2n0zbbr4f4p3hsylmm0000gn/T/RtmpwcQm2I/preview-17
-4a9cf09a42.dir/jss_sensemakr_files/figure-latex/unnamed-chunk-12-1.pdf, id=482,
- 313.17pt x 312.16624pt>
-File: /private/var/folders/ff/s23htd2n0zbbr4f4p3hsylmm0000gn/T/RtmpwcQm2I/previ
-ew-174a9cf09a42.dir/jss_sensemakr_files/figure-latex/unnamed-chunk-12-1.pdf Gra
-phic file (type pdf)
+[22 <./collider.png>]
+</private/var/folders/ff/s23htd2n0zbbr4f4p3hsylmm0000gn/T/RtmpJ0Qwc3/preview-2c
+687338b79d.dir/jss_sensemakr_files/figure-latex/unnamed-chunk-9-1.pdf, id=473, 
+313.17pt x 312.16624pt>
+File: /private/var/folders/ff/s23htd2n0zbbr4f4p3hsylmm0000gn/T/RtmpJ0Qwc3/previ
+ew-2c687338b79d.dir/jss_sensemakr_files/figure-latex/unnamed-chunk-9-1.pdf Grap
+hic file (type pdf)
 
-<use /private/var/folders/ff/s23htd2n0zbbr4f4p3hsylmm0000gn/T/RtmpwcQm2I/previe
-w-174a9cf09a42.dir/jss_sensemakr_files/figure-latex/unnamed-chunk-12-1.pdf>
+<use /private/var/folders/ff/s23htd2n0zbbr4f4p3hsylmm0000gn/T/RtmpJ0Qwc3/previe
+w-2c687338b79d.dir/jss_sensemakr_files/figure-latex/unnamed-chunk-9-1.pdf>
 Package pdftex.def Info: /private/var/folders/ff/s23htd2n0zbbr4f4p3hsylmm0000gn
-/T/RtmpwcQm2I/preview-174a9cf09a42.dir/jss_sensemakr_files/figure-latex/unnamed
--chunk-12-1.pdf used on input line 1463.
+/T/RtmpJ0Qwc3/preview-2c687338b79d.dir/jss_sensemakr_files/figure-latex/unnamed
+-chunk-9-1.pdf used on input line 1469.
 (pdftex.def)             Requested size: 250.94728pt x 250.9432pt.
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-
+(./jss_sensemakr.bbl
 Overfull \hbox (10.94998pt too wide) has occurred while \output is active
 [] \T1/aer/m/n/10.95 23
  []
 
-[23] (./jss_sensemakr.bbl
+[23 </private/var/folders/ff/s23htd2n0zbbr4f4p3hsylmm0000gn/T/RtmpJ0Qwc3/previe
+w-2c687338b79d.dir/jss_sensemakr_files/figure-latex/unnamed-chunk-9-1.pdf>]
 Overfull \hbox (10.94998pt too wide) has occurred while \output is active
 \T1/aer/m/n/10.95 24 []
  []
 
-[24 </private/var/folders/ff/s23htd2n0zbbr4f4p3hsylmm0000gn/T/RtmpwcQm2I/previe
-w-174a9cf09a42.dir/jss_sensemakr_files/figure-latex/unnamed-chunk-12-1.pdf>]
-Overfull \hbox (10.94998pt too wide) has occurred while \output is active
-[] \T1/aer/m/n/10.95 25
- []
-
-[25])
-Underfull \hbox (badness 10000) in paragraph at lines 1485--1485
+[24])
+Underfull \hbox (badness 10000) in paragraph at lines 1491--1491
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1485--1485
+Underfull \hbox (badness 10000) in paragraph at lines 1491--1491
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1485--1485
+Underfull \hbox (badness 10000) in paragraph at lines 1491--1491
 
  []
 
 LaTeX Font Info:    Font shape `T1/pzc/m/n' in size <13> not available
-(Font)              Font shape `T1/pzc/mb/it' tried instead on input line 1485.
+(Font)              Font shape `T1/pzc/mb/it' tried instead on input line 1491.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1485.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1491.
 
 Overfull \hbox (10.94998pt too wide) has occurred while \output is active
-\T1/aer/m/n/10.95 26 []
+[] \T1/aer/m/n/10.95 25
  []
 
-[26]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 1485.
+[25]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 1491.
 (./jss_sensemakr.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1485.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1485.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1491.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1491.
 
 Package rerunfilecheck Info: File `jss_sensemakr.out' has not changed.
-(rerunfilecheck)             Checksum: 324F8FC2B6EA35659C94DA56E361403C;4434.
+(rerunfilecheck)             Checksum: F3ECAD5E5DE767D55E2204D2783A2F6B;4476.
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
 
 LaTeX Warning: There were multiply-defined labels.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1485.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1491.
  ) 
 Here is how much of TeX's memory you used:
- 8046 strings out of 493089
- 121824 string characters out of 6134842
- 204505 words of memory out of 5000000
- 11163 multiletter control sequences out of 15000+600000
+ 8021 strings out of 493089
+ 121320 string characters out of 6134842
+ 202224 words of memory out of 5000000
+ 11147 multiletter control sequences out of 15000+600000
  64535 words of font info for 117 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 36i,19n,34p,497b,478s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 36i,17n,34p,497b,474s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2015/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc
 }{/usr/local/texlive/2015/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/te
 xlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmb10.pfb></usr/local/texl
@@ -1072,37 +1047,35 @@ ve/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texliv
 e/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx6.pfb></usr/local/texlive/
 2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx7.pfb></usr/local/texlive/20
 15/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx8.pfb></usr/local/texlive/2015
-/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb></usr/local/texlive/2015/t
-exmf-dist/fonts/type1/public/amsfonts/cm/cmbxsl10.pfb></usr/local/texlive/2015/
-texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2015/t
-exmf-dist/fonts/type1/public/amsfonts/cmextra/cmex8.pfb></usr/local/texlive/201
-5/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2015
-/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/local/texlive/2015/t
-exmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/local/texlive/2015/tex
-mf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2015/texmf
--dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/local/texlive/2015/texmf-d
-ist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2015/texmf-dis
-t/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/texlive/2015/texmf-dist/f
-onts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2015/texmf-dist/font
-s/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2015/texmf-dist/fonts/t
-ype1/public/amsfonts/cm/cmr9.pfb></usr/local/texlive/2015/texmf-dist/fonts/type
-1/public/amsfonts/cm/cmsl10.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1
-/public/amsfonts/cm/cmsltt10.pfb></usr/local/texlive/2015/texmf-dist/fonts/type
-1/public/amsfonts/cm/cmss10.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1
-/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/
-public/amsfonts/cm/cmsy6.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/pu
-blic/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/publ
-ic/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public
-/amsfonts/cm/cmsy9.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/a
-msfonts/cm/cmti10.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/am
-sfonts/cm/cmti12.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/ams
-fonts/cm/cmtt10.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/cm-s
-uper/sfrm1095.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/urw/zapfchan/
-uzcmi8a.pfb>
-Output written on jss_sensemakr.pdf (26 pages, 609229 bytes).
+/texmf-dist/fonts/type1/public/amsfonts/cm/cmbxsl10.pfb></usr/local/texlive/201
+5/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2015
+/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2015/
+texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/local/texlive/2015/te
+xmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/local/texlive/2015/texm
+f-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2015/texmf-
+dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/local/texlive/2015/texmf-di
+st/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2015/texmf-dist
+/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/texlive/2015/texmf-dist/fo
+nts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2015/texmf-dist/fonts
+/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2015/texmf-dist/fonts/ty
+pe1/public/amsfonts/cm/cmr9.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1
+/public/amsfonts/cm/cmsl10.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/
+public/amsfonts/cm/cmsltt10.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1
+/public/amsfonts/cm/cmss10.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/
+public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/p
+ublic/amsfonts/cm/cmsy6.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/pub
+lic/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/publi
+c/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/
+amsfonts/cm/cmsy9.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/am
+sfonts/cm/cmti10.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/ams
+fonts/cm/cmti12.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsf
+onts/cm/cmtt10.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/cm-su
+per/sfrm1095.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/urw/zapfchan/u
+zcmi8a.pfb>
+Output written on jss_sensemakr.pdf (25 pages, 583856 bytes).
 PDF statistics:
- 671 PDF objects out of 1000 (max. 8388607)
- 583 compressed objects within 6 object streams
- 173 named destinations out of 1000 (max. 500000)
+ 648 PDF objects out of 1000 (max. 8388607)
+ 563 compressed objects within 6 object streams
+ 164 named destinations out of 1000 (max. 500000)
  289 words of extra memory for PDF output out of 10000 (max. 10000000)
 
