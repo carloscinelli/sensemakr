@@ -18,6 +18,7 @@ knitr::opts_chunk$set(
 ```
 
 ```{r, echo = FALSE}
+rm(list = ls())
 embed_png <- function(path, dpi = NULL) {
   meta <- attr(png::readPNG(path, native = TRUE, info = TRUE), "info")
   if (!is.null(dpi)) meta$dpi <- rep(dpi, 2)
@@ -43,7 +44,7 @@ Prior work in sensitivity analysis---dating back at least to Imbens (2003), and 
 
 ## Simulating the data
 
-Let us begin by simulating the data generating process used in our example. Consider a treatment variable $D$, an outcome variable $Y$, one observed confounder $X$, and one *unobserved* confounder $Z$. Again, all disturbance variables $U$ are mutually independent and note that, in reality, the treatment $D$ has *no causal effect* on the outcome $Y$. 
+Let us begin by simulating the data generating process used in our example. Consider a treatment variable $D$, an outcome variable $Y$, one observed confounder $X$, and one *unobserved* confounder $Z$. Again, all disturbance variables $U$ standardized mutually independent gaussians, and note that, in reality, the treatment $D$ has *no causal effect* on the outcome $Y$. 
 
 \begin{align}
 Z &= U_{z}\\
@@ -52,20 +53,24 @@ D &= X + Z + U_d\\
 Y &= X + Z + U_y
 \end{align}
 
-Also note that, in this model: (i) the unobserved confounder $Z$ is independent of $X$; and, (ii) the unobserved confounder $Z$ is *exactly like* $X$ in terms of its strength of association with the treatment and the outcome. The code below creates a sample of size 10,000 of this data generating process.
+Also note that, in this model: (i) the unobserved confounder $Z$ is independent of $X$; and, (ii) the unobserved confounder $Z$ is *exactly like* $X$ in terms of its strength of association with the treatment and the outcome. The code below creates a sample of size 100 of this data generating process. We make sure to create residuals that are standardized and orthogonal so that all properties that we describe here will hold exactly even in this finite sample.
 
 
 ```{r}
-# sets seed for reproducibility
-set.seed(12345)
+# function for orthogonalizing and
+# standardizing residuals
+resid_maker <- function(n, C){
+  e <- resid(lm(rnorm(n) ~ C))
+  e  <- c(scale(e))
+  return(e)
+}
 
 # simulates data
-n <- 1e5
-Z <- rnorm(n)
-X <- rnorm(n)
-Z <- resid(lm(Z ~ X)) # makes sure that Z is ortogonal to X
-D <- X + Z + rnorm(n)
-Y <- X + Z + rnorm(n)
+n <- 100
+X <- scale(rnorm(n))
+Z <- resid_maker(n, X) 
+D <- X + Z + resid_maker(n, cbind(X, Z)) 
+Y <- X + Z + resid_maker(n, cbind(X, Z, D))
 ```
 
 ## Fitting the model
