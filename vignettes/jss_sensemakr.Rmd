@@ -547,20 +547,17 @@ The basic functionality demonstrated in this section will likely suffice for mos
 
 # Customized sensitivity analyses 
 
-The basic functionality demonstrated int he previous section will likely suffice for most users, most of the time. Sometimes, however, more flexibility will be needed in a given project. When this happens, researchers may resort directly to other sensitivity functions of the package to customize their sensitivity analysis. Those functions can be found in the `reference` documentation, and we also provide some examples of those types of analyses next.
+Users that want to perform customized sensitivity analyses, beyond what is offered by default in `sensemakr()`, can do so by using the individual functions of the package. These functions can be divided in the following categories, according to their functionalities:
 
+- *functions for computing the bias, adjusted estimates and standard errors:* these comprise, among others, the functions `bias()`, `relative_bias()`, `bias_factor()`, `adjusted_estimate()`, `adjusted_se()`, `adjusted_t()` and `adjusted_partial_r2()`. These functions take as input the original (unadjusted) estimate (in the form of a model or numeric values) and a pair of sensitivity parameters (the partial $R^2$ of the omitted variable with the treatment and the outcome), and return the new adjusted quantity adjusted for omitted variable bias. 
 
-Users will most commonly call upon the main functions and related methods, i.e. \code{sensemakr()} and the `plot()`, `print()`, and `summary()` methods for it. The package also gives users access to lower-level functions in order to compute key sensitivity statistics directly. The  \pkg{sensemakr} package is organized:
+- *functions for computing sensitivity statistics*: these comprise, among others, the functions `partial_r2()`,  `robustness_value()`, and `sensitivity_stats()`. These functions compute sensitivity statistics suited for routine reporting, as proposed in @cinelli:jrssb2019. These functions take as input the original (unadjusted) estimate (in the form of a model or numeric values), and return the corresponding sensitivity statistic.
 
-Users that want to perform more specific sensitivity analysis can use individual functions. These functions can divided in the following categories, according to their functionalities:
+- *bounding functions*: the main function is `ovb_bounds()`, which computes bounds on the strength of confounding "k times" as strong as certain observed convariates.
 
-- *functions for computing the bias, adjusted estimates and standard errors:* these comprise the functions `bias()`, `relative_bias()`, `bias_factor()`, `adjusted_estimate()`, `adjusted_se()`, `adjusted_t()` and `adjusted_partial_r2()`. These functions take as input the original (unadjested) quantity and a pair of sensitivity parameters (the partial $R^2$ of the omitted variable with the treatment and the outcome), and return the new adjusted quantity reflecting the omitted variable bias. 
+- *sensitivity plots*: These functions provide direct access to sensitivity contour plots `ovb_contour_plot()` and sensitivity plots of extreme scenarios `ovb_extreme_plot()` for customization. There is also a convenience function `add_bound_to_contou()` that faciliates the placement of user computed bounds on contour plots. The default options for plots works best with width and height around 4 to 5 inches.
 
-- *functions for computing sensitivity statistics*: these comprise the functions `robustness_value()`, `partial_r2()`, `partial_f()`, `partial_f2()` and `sensitivity_stats()`. These functions compute the sensitivity statistics proposed in @cinelli:jrssb2019, such as the robustness value and the partial $R^2$ of the treatment with the outcome, which reveal how robust the regression estimate is to unobserved confounding.
-
-- *bounding functions*: the function `ovb_bound()` computes bounds on the strength of confounding
-
-- *plotting functions*: 
+In this section, we illustrate the use of these functionalities through several examples. 
 
 ## Revisiting Darfur
 
@@ -614,7 +611,6 @@ adjusted_t(darfur.model, treatment = "directlyharmed", r2dz.x = 0.05, r2yz.dx = 
 
 ### Plotting functions
 
-Current default options for plots works best with plots width and height around 4 to 5 inches.
 
 \paragraph{Contour plots}. These can be called directly and bounds/benchmarks can be added to them through additional calls. For example,
 
@@ -685,7 +681,7 @@ Also note that, in this model: (i) the unobserved confounder $Z$ is independent 
 set.seed(12345)
 
 # simulates data
-n <- 1e5
+n <- 1e4
 Z <- rnorm(n)
 X <- rnorm(n)
 Z <- resid(lm(Z ~ X)) # makes sure that Z is ortogonal to X
