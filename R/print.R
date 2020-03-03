@@ -137,18 +137,22 @@ summary.sensemakr <- function(object, digits = max(3L, getOption("digits") - 3L)
 #' If you need only html, use the option "pure_html".
 #'
 #' @param verbose if `TRUE`, the function prints the LaTeX code with \code{\link{cat}}
+#'
+#' @param float if `TRUE`, the latex function wraps the code in a \code{table} environment.
 #' @export
-ovb_minimal_reporting <- function(x, digits = 3, verbose = TRUE, format = c("latex", "html", "pure_html"), ...){
+ovb_minimal_reporting <- function(x, digits = 3, verbose = TRUE, format = c("latex", "html", "pure_html"), float = TRUE, ...){
   format <- match.arg(format)
   fun    <- switch(format,
                    latex = latex_table,
                    html  = html_table,
                    pure_html = html_table_no_mathjax)
 
-  fun(x = x, digits = digits, verbose = verbose, ...)
+  fun(x = x, digits = digits, verbose = verbose, float = float, ...)
 }
 
-latex_table <- function(x, digits = 3, verbose = TRUE, ...){
+
+
+latex_table <- function(x, digits = 3, verbose = TRUE, float = TRUE, ...){
   # Let's begin
   table_settings = list(...)
   # Override variable labels
@@ -163,9 +167,14 @@ latex_table <- function(x, digits = 3, verbose = TRUE, ...){
 
 
   # Okay, static beginning
-  table_begin = paste0("\\begin{table}[!h]\n",
-                       "\\centering\n",
-                       "\\begin{tabular}{lrrrrrr}\n")
+  if (float) {
+    table_begin <- paste0("\\begin{table}[!h]\n",
+                         "\\centering\n")
+  } else {
+    table_begin <- ""
+  }
+
+  tabular_begin <- "\\begin{tabular}{lrrrrrr}\n"
 
   # Outcome variable header
   outcome_header = sprintf("\\multicolumn{7}{c}{Outcome: \\textit{%s}} \\\\\n",
@@ -228,12 +237,21 @@ latex_table <- function(x, digits = 3, verbose = TRUE, ...){
   label = ifelse(!is.null(table_settings[["label"]]),
                  paste0("\\label{", table_settings[["label"]], "} \n"),
                  "")
+  if (float) {
+    table_end <- "\\end{table}"
+  } else {
+    table_end <- ""
+  }
 
-  table_end = "\\end{table}"
 
   # Stick it all together
-  table = paste0(table_begin, outcome_header, coeff_header,
-                 coeff_results, footnote, tabular_end,
+  table = paste0(table_begin,
+                 tabular_begin,
+                 outcome_header,
+                 coeff_header,
+                 coeff_results,
+                 footnote,
+                 tabular_end,
                  caption, label, table_end)
 
   # Cat to output valid LaTeX for rmarkdown
