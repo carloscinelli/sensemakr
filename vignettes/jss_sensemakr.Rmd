@@ -555,7 +555,7 @@ Users that want to perform customized sensitivity analyses, beyond what is offer
 
 - *bounding functions*: the main function is `ovb_bounds()`, which computes bounds on the strength of confounding "k times" as strong as certain observed convariates.
 
-- *sensitivity plots*: These functions provide direct access to sensitivity contour plots `ovb_contour_plot()` and sensitivity plots of extreme scenarios `ovb_extreme_plot()` for customization. There is also a convenience function `add_bound_to_contou()` that faciliates the placement of user computed bounds on contour plots. The default options for plots works best with width and height around 4 to 5 inches.
+- *sensitivity plots*: These functions provide direct access to sensitivity contour plots `ovb_contour_plot()` and sensitivity plots of extreme scenarios `ovb_extreme_plot()` for customization. There is also a convenience function `add_bound_to_contou()` that faciliates the placement of user computed bounds on contour plots. All plot functions return invisibly the data needed to replicate the plot. The default options for plots works best with width and height around 4 to 5 inches.
 
 In this section, we illustrate the use of these functionalities through several examples. 
 
