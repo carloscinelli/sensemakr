@@ -93,7 +93,7 @@ knit_hooks$set(output = function(x, options) {
 <!-- Investigating the causal effect of some variable (the "treatment") on another (the "outcome") using observational data poses a perenial problem for researchers across disciplines.  -->
 The most common strategy for making causal inferences with observational data is to adjust for observed covariates, and the most common method for doing such adjustment is  (linear) regression. Claiming that the resulting regression coefficient is an unbiased estimate of the causal effect of interest, however, relies on the untestable assumption of no unobserved confounders. Rarely can this assumption be expected to hold exactly, and \emph{qualitative} debates of whether or not \emph{any} unobserved confounding exists are generally not productive---it always does. Therefore, a more useful discussion is \emph{quantitative}: how strong would unobserved confounding need to be to change the research conclusions? Are confounders with such strength plausible? Sensitivity analysis allows us to quantitatively discuss the fragility of putative causal estimates when the underlying assumption of no unobserved confounding is challenged.
 
-The goal of this paper is to introduce the R package \pkg{sensemakr}, whcih implements a suite of tools proposed in @cinelli:jrssb2019 for assessing the sensitivity of a regression coefficient to the inclusion of omitted variables. The goal of \pkg{sensemakr} is to make it easy to understand the impact that omitted variables would have on a regression result. This allows analysts to investigate the robustness of their estimates to violations of the assumption of no unobserved confounding, answering questions such as:
+The goal of this paper is to introduce the R  and \proglang{Stata} package \pkg{sensemakr} \citep{sensemakr:R,sensemakr:stata}, whcih implements a suite of sensitivity analysis tools proposed in @cinelli:jrssb2019 for assessing the sensitivity of a regression coefficient to the inclusion of omitted variables. The goal of \pkg{sensemakr} is to make it easy to understand the impact that omitted variables would have on a regression result. This allows analysts to investigate the robustness of their estimates to violations of the assumption of no unobserved confounding, answering questions such as:
 
 - How strong would an unobserved confounder (or a group of confounders) have to be to change our research conclusions?
 
@@ -452,7 +452,7 @@ darfur.sensitivity <- sensemakr(model = darfur.model,
 
 After running `sensemakr()`, we can explore the sensitivity analysis results.
 
-### Minimal sensitivity reporting
+### Sensitivity statistics for routine reporting
 
 The print method of `sensemakr` provides a quick review of the original (unadjusted) estimate along with three summary sensitivity statistics suited for *routine reporting*: (1) the partial R2 of the treatment with the outcome; (2) the robustnuess value (RV) required to reduce the estimate entirely to zero (i.e. $q=1$); and, (3) the RV beyond which the estimate would no longer be statistically distinguishable from zero at the 0.05 level ($q=1$, $\alpha=0.05$). 
 
@@ -589,9 +589,9 @@ Users that want to perform customized sensitivity analyses, beyond what is offer
 
 In this section, we illustrate these functionalities via examples. 
 
-## Customized bounds
+## Formal versus informal benchmarking: customizing bounds
 
-### Background:  informal Benchmarking
+<!-- ### Background -->
 
 Informal “benchmarking” procedures have been widely suggested in the sensitivity analysis literature as a means to aid interpretation. It intends to describe how an unobserved confounder $Z$ “not unlike” some observed covariate $X_j$ would alter the results of a study (e.g., Imbens, 2003; Blackwell, 2013; Hosman et al. 2010, Dorie et al., 2016, Hong et al. 2018). \cite{cinelli:jrssb2019} show why these proposals may lead users to erroneous conclusions, and offer formal bounds on the bias that could be produced by unobserved confounding “as strong” as certain observed covariates (as we have reviewed here in Section XXX). Here we replicate the example in Section 6.1 of  @cinelli:jrssb2019, in which such benchmarks produce clearly misleading results. Replicating this example with `sensemakr` provides a useful tutorial on how users can construct their own sensitivity contour plots with customized bounds, beyond what is offered by default on the package.
 
@@ -680,28 +680,28 @@ rownames(formal_bound) <- NULL
 formal_bound[1:6]
 ```
 
-As we can see, the results of the bounding procedure shows us that, an unobserved confounder $Z$, "not unlike $X$",  would: (1) explain 50% of the residual variation of the treatment and 33% of the residual variation of the outcome; (2) bring the point estimate exactly to zero; and, (3) bring the standard error to 0.1. And this is precisely what we have if one runs the full regression model adjusting for $X$ and $Z$, as shown in the second column of Table \ref{tab:naive}.
+As we can see, the results of the bounding procedure shows us that, an unobserved confounder $Z$, "not unlike $X$",  would: (1) explain 50% of the residual variation of the treatment and 33% of the residual variation of the outcome; (2) bring the point estimate exactly to zero; and, (3) bring the standard error to 0.102. And this is precisely what one obtains when running the full regression model adjusting for \emph{both} $X$ and $Z$, as shown in the second column of Table \ref{tab:naive}.
 
 
 ### Informal benchmarks
 
-Computing the bias due to the omission of $Z$ requires two sensitivity parameters: its partial $R^2$ with the treatment $D$ and its partial $R^2$ with the outcome $Y$.  Intuitively, it seems that, instead of appealing to  Equation \ref{eq:bounds}, one could take a simpler route: take as reference the observed partial $R^2$ of $X$ with $D$ and $Y$, and use those, without adjustment, as the plausible values for the sensitivity parameters. That is the essence of many informal benchmarking proposals. So let us compute these informal bounds.
+Computing the bias due to the omission of $Z$ requires two sensitivity parameters: its partial $R^2$ with the treatment $D$ and its partial $R^2$ with the outcome $Y$.  Intuitively, it seems that, instead of appealing to  Equation \ref{eq:bounds}, one could take a simpler route: take as references the observed partial $R^2$ of $X$ with $D$ and $Y$, and use those, without adjustment, as the plausible values for the sensitivity parameters. This rationale is the essence of many informal benchmarking proposals. But what can happen if one uses this informal approximation insted of the formal bounds?
 
-First, we can obtain the observed partial $R^2$ of $X$ with $Y$ using the `partial_r2()` function of `sensemakr` in the `model.ydx` regression.
+To compute the informal benchmarks, we first need to obtain the observed partial $R^2$ of $X$ with $Y$. This can be done using the `partial_r2()` function of `sensemakr` in the `model.ydx` regression.
 
 ```{r partial_r2_y}
 r2yx.d <- partial_r2(model.ydx, covariates = "X")
 
 ```
 
-To obtain the partial $R^2$ of $X$ with the treatment, we need to fit a treatment regression $D \sim X$ first.
+We next need to obtain the partial $R^2$ of $X$ with the treatment. For that, we need to fit a new regression of the treatment $D$ on the observed covariate $X$.
 
 ```{r partial_r2_d}
 model.dx <- lm(D ~ X)
 r2dx   <- partial_r2(model.dx, covariates = "X")
 ```
 
-Once both partial $R^2$ are computed, we can determine the implied adjusted estimate due to an unobserved confounder $Z$ using the `adjusted_estimate()` function. 
+Once both partial $R^2$ are computed, we can determine what would be the implied adjusted estimate due to an unobserved confounder $Z$ with this pair of partial $R^2$. This can be computed using the `adjusted_estimate()` function. 
 
 ```{r informal_adj_estimate}
 informal_adjusted_estimate <- adjusted_estimate(model     = model.ydx, 
@@ -710,7 +710,7 @@ informal_adjusted_estimate <- adjusted_estimate(model     = model.ydx,
                                                 r2yz.dx   = r2yx.d)
 ```
 
-We can now compare the informal benchmarks with the previous formal bounds. We first plot the sensitivity contours with `ovb_contour_plot()`. Next, we the informal benchmark with the numeric method of the function `add_bound_to_contour()`. Finally, we add the formal bounds previously computed. When needed, users can customize the position of the bound label in the plot with the arguments `label.bump.x` and `label.bump.y`. Several other graphical customizations are available.
+We can now compare the informal benchmarks with the previous formal bounds. First one should plot the sensitivity contours with the function `ovb_contour_plot()`. Next, we add the informal benchmark to the contours, using the numeric method of the function `add_bound_to_contour()`. Finally, the formal bounds previously computed are added. When needed, users can customize the position of the bound label in the plot with the arguments `label.bump.x` and `label.bump.y`. Several other graphical customizations are available.
 
 
 ```{r fig_cap_naive, echo=FALSE}
@@ -734,119 +734,95 @@ add_bound_to_contour(bounds = formal_bound,
                      bound_label = "Formal bound")
 ```
 
-As we can see, the results of the informal benchmark are different from what we expected. The informal benchmark point is still far away from zero, and this would lead an investigator to incorrectly conclude that an unobserved confounder $Z$ "not unlike $X$" is not sufficient to explain away the observed effect. Moreover, this incorrect conclusion occurs despite *correctly* assuming that: (i) $Z$ and $X$ have the same strength of association with $D$ and $Y$; and, (ii) $Z$ is independent of $X$. Why does this happen?
+Note the results of the informal benchmark are very different from what one expects. The informal benchmark point is still far away from zero, and this would lead an investigator to incorrectly conclude that an unobserved confounder $Z$ "not unlike $X$" is not sufficient to explain away the observed effect, when in fact it would. Moreover, this incorrect conclusion occurs despite the investigator *correctly* assuming both that: (i) $Z$ and $X$ have the same strength of association with $D$ and $Y$; and, (ii) $Z$ is independent of $X$. 
 
-As explained in Section 6.1 of @cinelli:jrssb2019, there are two problems affecting informal benchmarks in this setting. First, we have to make an adjustment of baseline variance to be explained, since the sensitivity parameters consider the partial $R^2$ of $Z$ with the outcome, after taking into account what is already explained by $X$. Second, consider the DAG of our structural model, as shown in Figure \ref{fig:dag_naive}
+Why does this happen? As explained in Section 6.1 of @cinelli:jrssb2019, there are two problems affecting informal benchmarks in this setting. First, we have to make an adjustment of baseline variance to be explained, since the sensitivity parameters consider the partial $R^2$ of $Z$ with the outcome, after taking into account what is already explained by $X$. Second, consider the DAG of our structural model, as shown in Figure \ref{fig:dag_naive}. Note that, although $Z$ is *marginally* independent of $X$, note that $Z$ is not *conditionally* independent of $X$, *given* $D$, because $D$ is a *collider* (Pearl, 2009). Conditioning on $D$, thus, creates an association between $Z$ and $X$, and this distorts the observed quantities of $X$ that are being used for benchmarking. Finally, note that using the formal bounds leads the researcher to the correct conclusion: an unobserved confounder $Z$ similar to $X$ is strong enough to explain away all the observed association. Given these considerations, we do not recomment using informal benchmarks for sensitivity analysis, and suggest empirical researchers to use formal approaches such as the ones provided with `ovb_bounds()`.  For further details and discussion, we point readers to Sections 4.4 and 6.1 of @cinelli:jrssb2019.
 
 \begin{figure}
 \centering
-\includegraphics[width = 4in, height = 4in]{collider.png}
-\caption{DAG of the model given by Equations \ref{eq:naive_first} to \ref{eq:naive_last}. Note that, although, marginally $Z$ is independent of $X$, conditioning on $D$ creates dependency between these two variables, since $D$ is a collider (Pearl, 2009).}
+\includegraphics[width = 2.5in, height = 2.5in]{collider.png}
+\caption{DAG of the model given by Equations \ref{eq:naive_first} to \ref{eq:naive_last}. Note that, although,  $Z$ is marginally independent of $X$, conditioning on $D$ creates dependency between these two variables, since $D$ is a collider (Pearl, 2009).}
 \label{fig:dag_naive}
 \end{figure}
 
-That is, although $Z$ is *marginally* independent of $X$, note that $Z$ is not *conditionally* independent of $X$, *given* $D$, because $D$ is a *collider* (Pearl, 2009). Conditioning on $D$ creates an association between $Z$ and $X$, and this distorts the observed quantities of $X$ that are being used for benchmarking.  Given the above considerations, we do not recomment using informal benchmarks for sensitivity analysis. As we have seen before, note that, using the formal bounds, the researcher now reaches the correct conclusion: an unobserved confounder $Z$ similar to $X$ is strong enough to explain away all the observed association. For further details and discussion, we point readers to Sections 4.4 and 6.1 of @cinelli:jrssb2019.
 
 
 
-## Revisiting Darfur
 
-Show here how to reproduce with lower level functions:
+## Revisiting Darfur: assessing the sensitivity of results you see in print
+
+We end this section by showing users how they can assess the sensitivity of results they see in print, but do not have access to microdata. To this end, we now take a more practical approach and show how one can reproduce all the results Secion XXX with only the summary statistics from the regression table.
 
 
 ### Sensitivity statistics
 
-There are individual functions for each of the sensitivity statistics, \code{robustness_value()}, \code{partial_r2()}, and the \code{partial_f()}.  The robustness value and partial $R^2$ have been described above as key sensitivity statistics useful in standard reporting and with direct interpretations.  The partial $f$ does not have as direct an interpretation but appears frequently in the mathematics described above as a sufficient statistic from which sensitivity analyses can be constructed. 
+The robustness value and partial $R^2$ have been described above as key sensitivity statistics useful in standard reporting and with direct interpretations. If the user wants to just compute those, instead of using `sensemakr()`, it may be simpler to use the individual functions for each of the sensitivity statistics, namely, \code{robustness_value()} and \code{partial_r2()}. These functions have both \code{lm} and \code{numeric} numeric methods so that users may pass in an \code{lm} object or call them using numerical values based from elsewhere. The code below computes the RV and the partial $R^2$ directly from the regression model.
 
-These functions have both \code{lm} and \code{numeric} numeric methods so that users may pass in an \code{lm} object or call them using numerical values based from elsewhere.
-
-```{r}
-# lm method
+```{r rv_lm, results='hide'}
 robustness_value(model = darfur.model, covariates = "directlyharmed")
 partial_r2(model = darfur.model, covariates = "directlyharmed")
-partial_f(model = darfur.model, covariates = "directlyharmed")
-
-# numeric method
-robustness_value(t_statistic = 4.18445, dof = 783)
-partial_r2(t_statistic = 4.18445, dof = 783)
-partial_f(t_statistic = 4.18445, dof = 783)
 ```
 
-We also provide the convenience function \code{sensitivity_stats()} to compute all three sensitivity statistics for a regression coefficient of interest. The function returns a \code{data.frame}.
+When one does not have access to the data, but has access to summary statistiscs such as the point estimate for the `directlyharmed`  (0.097), its standard error (`0.023`) and the degress of freedom of the regression (`783`), on can still compute the RV and partial $R^2$.
 
-```{r}
-sensitivity_stats(model = darfur.model, treatment = "directlyharmed", alpha = 0.05)
+```{r rv_num, results='hide'}
+robustness_value(t_statistic = 0.097/0.023, dof = 783)
+partial_r2(t_statistic = 0.097/0.023, dof = 783)
 ```
 
-### Bias and adjusted quantities
-
-Several functions are useful to determine biases or adjusted estimates given those biases for postulated degrees of confounding: \code{bias()}, \code{relative_bias()}, \code{ajdusted_estimate()}, \code{adjusted_se()} \code{adjusted_t()}, \code{adjusted_partal_r2()}. Suppose we postulate confounding able to explain 5\% of residual variation in treatment and in the outcome.  We can compute various biases and adjustments directly,
-
-```{r}
-bias(darfur.model, treatment = "directlyharmed", r2dz.x = 0.05, r2yz.dx = 0.05)
-relative_bias(darfur.model, treatment = "directlyharmed", r2dz.x = 0.05, r2yz.dx = 0.05)
-
-adjusted_estimate(darfur.model, treatment = "directlyharmed", r2dz.x = 0.05, r2yz.dx = 0.05)
-adjusted_estimate(estimate = 0.09731582, se = 0.02325654,
-                  dof = 783, r2dz.x = 0.05, r2yz.dx = 0.05)
-
-### Adjustment to SE
-adjusted_se(darfur.model, treatment = "directlyharmed", r2dz.x = 0.05, r2yz.dx = 0.05)
-
-### Adjusted t-value 
-adjusted_t(darfur.model, treatment = "directlyharmed", r2dz.x = 0.05, r2yz.dx = 0.05)
-```
-
-### Bounds
+The package `sensemakr` also provides a convenience function \code{sensitivity_stats()} that computes all sensitivity statistics for a regression coefficient of interest. The function returns a \code{data.frame} with those values.
 
 ### Plotting functions
 
+All plotting functions can be called directly with `lm` objects or numerical data. For example, the code below uses the function `ovb_contour_plot()` to replicate Figure \ref{fig:darfur_contours} (without the bounds) using only the summary statistics of Table \ref{tab:darfur_ols}.
 
-\paragraph{Contour plots}. These can be called directly and bounds/benchmarks can be added to them through additional calls. For example,
-
-```{r}
-# contour plot
-ovb_contour_plot(model = darfur.model, 
-                 treatment = "directlyharmed",
-                 benchmark_covariates = "female",
-                 kd = 2, nlevels = 5, lim = 0.3)
-
-add_bound_to_contour(r2dz.x = 0.1, 
-                     r2yz.dx = 0.1, 
-                     bound_value = adjusted_estimate(model = darfur.model,
-                                                     treatment = "directlyharmed", 
-                                                     r2dz.x = .1, r2yz.dx = .1),
-                     bound_label = "Manual Bound")
-
-
-# add bound 3/1 times stronger than female
-add_bound_to_contour(model = darfur.model,
-                     treatment = "directlyharmed",
-                     benchmark_covariates = "female",
-                     kd = 3, ky = 1)
-
-# add bound 50/2 times stronger than age
-add_bound_to_contour(model = darfur.model,
-                     treatment = "directlyharmed",
-                     benchmark_covariates = "age",
-                     kd = 50, ky = 2)
+```{r plot_numeric, eval = FALSE}
+ovb_contour_plot(estimate = 0.097, se = 0.023, dof = 783)
+ovb_contour_plot(estimate = 0.097, se = 0.023, dof = 783, 
+                 sensitivity.of = "t-value")
 ```
 
-\paragraph{Extreme scenario plots}
+With the `ovb_extreme_plot()` function it is also possible to reproduce Figure \ref{fig:extreme} with the summary statistics.
+
+```{r extreme_numeric, eval = FALSE}
+ovb_extreme_plot(estimate = 0.097, se = 0.023, dof = 783)
+```
+
+All plotting functions return invisibly the data needed to reproduce them, thereby allowing users that prefer to create their own plots to easily do so.
+
+### Adjusted estimates, standard errors and t-values 
+
+These functions allow users to compute the adjusted estimates given different postulated degrees of confounding. As before, they can be called directly with `lm` objects or numerical data. For instance, in the case of Darfur, suppose a researcher has reasons to believe a confounder that explains 10% of the residual variance of the treatment and 20% of the residual variance of the outcome.  If this researher does not have acess to the Darfur data, she can still compute the bias that a confounder with such strength could cause. Here we show how to obtain the adjusted estimate and t-value that one would have obtained in the full regression adjusting for such confounder.
 
 ```{r}
-ovb_extreme_plot(model = darfur.model, 
-                 treatment = "directlyharmed",
-                 benchmark_covariates = "female",
-                 kd = 1:4,
-                 lim = 0.05)
+adjusted_estimate(estimate = 0.097, se = 0.023, dof = 783, 
+                  r2dz.x = .1, r2yz.dx = 0.15)
+adjusted_t(estimate = 0.097, se = 0.023, dof = 783, 
+           r2dz.x = .1, r2yz.dx = 0.15)
 ```
+
+The computation shows that this confounder is not strong enough to bring the estimate to zero, but it is sufficient to bring the t-value below the usual 5% signifiance threshold of 1.96.
+
+
+### Computing bounds
+
+
+
 
 
 # Stata Package
 
 Briefly reproduce Darfur in stata.
 
+
+
+
+
 # Final Remarks
+
+
+
+
+
 
 # References
