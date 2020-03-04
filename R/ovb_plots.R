@@ -400,7 +400,7 @@ ovb_contour_plot.numeric = function(estimate,
                                     cex.lab = .8,
                                     cex.axis = .8,
                                     cex.main = 1,
-                                    asp = 1,
+                                    asp = lim/lim.y,
                                     list.par = list(mar = c(4,4,1,1), pty = "s"),
                                     round = 3,
                                     ...) {

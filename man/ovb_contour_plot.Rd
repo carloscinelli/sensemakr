@@ -85,7 +85,7 @@ ovb_contour_plot(...)
   cex.lab = 0.8,
   cex.axis = 0.8,
   cex.main = 1,
-  asp = 1,
+  asp = lim/lim.y,
   list.par = list(mar = c(4, 4, 1, 1), pty = "s"),
   round = 3,
   ...
