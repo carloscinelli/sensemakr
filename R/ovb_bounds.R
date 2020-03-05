@@ -2,133 +2,6 @@
 # Bounds ------------------------------------------------------------------
 
 
-
-
-
-# future bounds to work on ------------------------------------------------
-
-
-# total_r2_bound <- function(r2dxj, r2yxj, r2dx, r2yx, r2yd.x, kd = 1, ky = 1){
-#
-#   check_k(ky)
-#   check_k(kd)
-#   if (length(r2dxj) != length(r2yxj)) stop("r2dxj and r2yxj must have the same length")
-#   if (length(r2dx) > 1) stop("r2dx must be of length 1")
-#   if (length(r2yx) > 1) stop("r2yx must be of length 1")
-#   if (length(r2yd.x) > 1) stop("r2yd.x must be of length 1")
-#
-#   r2dz.x = kd*(r2dxj/(1 - r2dx))
-#   r2yz.x = ky*(r2yxj/(1 - r2yx))
-#   r2yz.dx = ((sqrt(r2yz.x) - sqrt(r2yd.x)*sqrt(r2dz.x))/(sqrt(1 - r2yd.x)*sqrt(1 - r2dz.x)))^2
-#   out = list(r2dz.x = r2dz.x, r2yz.dx = r2yz.dx)
-#   return(out)
-# }
-#
-# partial_r2_bound_no_d <- function(r2dxj.x, r2yxj.x, r2yd.x, kd = 1, ky = 1){
-#
-#   check_k(ky)
-#   check_k(kd)
-#   if (length(r2dxj.x) != length(r2yxj.x)) stop("r2dxj.x and r2yxj.x must have the same length")
-#   if (length(r2yd.x) > 1) stop("r2yd.x must be of length 1")
-#
-#   r2dz.x = kd*(r2dxj.x/(1 - r2dxj.x))
-#   r2yz.x = ky*(r2yxj.x/(1 - r2yxj.x))
-#   r2yz.dx = ((sqrt(r2yz.x) - sqrt(r2yd.x)*sqrt(r2dz.x))/(sqrt(1 - r2yd.x)*sqrt(1 - r2dz.x)))^2
-#   out = list(r2dz.x = r2dz.x, r2yz.dx = r2yz.dx)
-#   return(out)
-# }
-
-
-
-# bounding methods --------------------------------------------------------
-
-
-ovb_partial_r2_bound <- function(...){
-  UseMethod("ovb_partial_r2_bound")
-}
-
-ovb_partial_r2_bound.numeric <- function(r2dxj.x,
-                                         r2yxj.x,
-                                         kd = 1,
-                                         ky = 1,
-                                         bound_label =
-                                           rep("manual",
-                                               max(length(r2dxj.x), length(r2yxj.x)))
-                                                           ){
-  # Error handling
-
-  check_r2(r2yz.dx = r2dxj.x, r2dz.x =  r2yxj.x)
-
-  r2dz.x = kd*(r2dxj.x/(1 - r2dxj.x))
-
-  if (any(r2dz.x > 1)) {
-    warning("Impossible kd value, returning NA. Try a lower kd.")
-    r2dz.x[r2dz.x > 1] <- NA
-  }
-
-  # Bound for R^2 of Y with Z: Footnote 10
-  r2zxj.xd = kd * (r2dxj.x^2) / ((1 - kd * r2dxj.x) * (1 - r2dxj.x))
-
-  if (any(r2zxj.xd > 1)) {
-    warning("Impossible kd value, returning NA. Try a lower kd.")
-    r2zxj.xd[r2zxj.xd > 1] <- NA
-  }
-
-  r2yz.dx = ((sqrt(ky) + sqrt(r2zxj.xd)) /
-               sqrt(1 - r2zxj.xd))^2 * (r2yxj.x / (1 - r2yxj.x))
-
-  if (any(r2yz.dx > 1)) {
-    warning("Implied bound on r2yz.dx greater than 1, try lower kd and/or ky. Setting r2yz.dx to 1.")
-    r2yz.dx[r2yz.dx > 1] <- 1
-  }
-
-  out = data.frame(
-    bound_label = bound_label,
-    r2dz.x = r2dz.x,
-    r2yz.dx = r2yz.dx,
-    stringsAsFactors = FALSE)
-
-  return(out)
-}
-
-ovb_partial_r2_bound.lm <- function(model,
-                                    treatment,
-                                    benchmark_covariates,
-                                    kd = 1, ky = kd){
-
-  if (!is.character(treatment)) stop("Argument treatment must be a string.")
-  if (length(treatment) > 1) stop("You must pass only one treatment")
-
-
-  if (!is.character(benchmark_covariates)) stop("Argument benchmark_covariates must be a string.")
-
-  bounds <- vector(mode = "list", length = length(benchmark_covariates))
-
-  # gets partial r2 with outcome
-  r2yxj.x <- partial_r2(model, covariates = benchmark_covariates)
-
-  # gets partial r2 with treatment
-  treatment_model <- update(model,  paste(treatment, "~ . - ", treatment))
-  r2dxj.x <- partial_r2(treatment_model, covariates = benchmark_covariates)
-
-  for (i in seq_along(benchmark_covariates)) {
-
-    bound_label = label_maker(benchmark_covariate = benchmark_covariates[i],
-                              kd = kd,
-                              ky = ky)
-
-    bounds[[i]] <- ovb_partial_r2_bound(r2dxj.x = r2dxj.x[i],
-                                        r2yxj.x = r2yxj.x[i],
-                                        kd = kd,
-                                        ky = ky,
-                                        bound_label = bound_label)
-  }
-  bounds <- do.call("rbind", bounds)
-  return(bounds)
-}
-
-
-
 # general bounder ---------------------------------------------------------
 
 #  workhorse for any bounding type
@@ -136,24 +9,26 @@ ovb_partial_r2_bound.lm <- function(model,
 #' Bounds on the strength of unobserved confounders using observed covariates
 #'
 #' @description
-#' Bounds on the strength of unobserved confounders using observed covariates, as in Cinelli and Hazlett (2020).
+#' Bounds on the strength of unobserved confounders using observed covariates, as in Cinelli and Hazlett (2020). The main generic function is \code{ovb_bounds}, which can compute both the bounds on the strength of confounding as well as the adjusted estimates, standard errors, t-values and confidence intervals.
+#'
+#' Other functions that compute only the bounds on the strength of confounding are also provided. These functions may be useful when computing benchmarks for using only summary statistics from papers you see in print.
 #'
 #' @details
 #' Currently it implements only the bounds based on partial R2. Other bounds will be implemented soon.
 #'
 #'
 #' @return
-#' The function returns a \code{\link{data.frame}} with the bounds on the strength of the unobserved confounder
-#' as well with the adjusted point estimates, standard errors and t-values (optional, controlled by argument \code{adjusted_estimates}).
+#' The function \code{ovb_bounds} returns a \code{\link{data.frame}} with the bounds on the strength of the unobserved confounder
+#' as well with the adjusted point estimates, standard errors and t-values (optional, controlled by argument \code{adjusted_estimates = TRUE}).
 #'
 #' @inheritParams sensemakr
+#' @rdname ovb_bounds
 #' @export
 ovb_bounds <- function(...){
   UseMethod("ovb_bounds")
 }
 
-#' @inheritParams ovb_contour_plot
-#' @rdname ovb_bounds
+#' @inheritParams sensemakr
 #' @param bound type of bounding procedure. Currently only \code{"partial r2"} is implemented.
 #' @param adjusted_estimates should the bounder also compute the adjusted estimates? Default is \code{TRUE}.
 #' @param alpha significance level for computing the adjusted confidence intervals. Default is 0.05.
@@ -170,6 +45,7 @@ ovb_bounds <- function(...){
 #'           kd = 1:3)
 #'
 #' @references Cinelli, C. and Hazlett, C. (2020), "Making Sense of Sensitivity: Extending Omitted Variable Bias." Journal of the Royal Statistical Society, Series B (Statistical Methodology).
+#' @rdname ovb_bounds
 #' @export
 ovb_bounds.lm <- function(model,
                           treatment,
@@ -224,6 +100,184 @@ ovb_bounds.lm <- function(model,
   class(bounds) <- c("ovb_bounds", "data.frame")
   bounds
 }
+
+
+
+# future bounds to work on ------------------------------------------------
+
+
+# total_r2_bound <- function(r2dxj, r2yxj, r2dx, r2yx, r2yd.x, kd = 1, ky = 1){
+#
+#   check_k(ky)
+#   check_k(kd)
+#   if (length(r2dxj) != length(r2yxj)) stop("r2dxj and r2yxj must have the same length")
+#   if (length(r2dx) > 1) stop("r2dx must be of length 1")
+#   if (length(r2yx) > 1) stop("r2yx must be of length 1")
+#   if (length(r2yd.x) > 1) stop("r2yd.x must be of length 1")
+#
+#   r2dz.x = kd*(r2dxj/(1 - r2dx))
+#   r2yz.x = ky*(r2yxj/(1 - r2yx))
+#   r2yz.dx = ((sqrt(r2yz.x) - sqrt(r2yd.x)*sqrt(r2dz.x))/(sqrt(1 - r2yd.x)*sqrt(1 - r2dz.x)))^2
+#   out = list(r2dz.x = r2dz.x, r2yz.dx = r2yz.dx)
+#   return(out)
+# }
+#
+# partial_r2_bound_no_d <- function(r2dxj.x, r2yxj.x, r2yd.x, kd = 1, ky = 1){
+#
+#   check_k(ky)
+#   check_k(kd)
+#   if (length(r2dxj.x) != length(r2yxj.x)) stop("r2dxj.x and r2yxj.x must have the same length")
+#   if (length(r2yd.x) > 1) stop("r2yd.x must be of length 1")
+#
+#   r2dz.x = kd*(r2dxj.x/(1 - r2dxj.x))
+#   r2yz.x = ky*(r2yxj.x/(1 - r2yxj.x))
+#   r2yz.dx = ((sqrt(r2yz.x) - sqrt(r2yd.x)*sqrt(r2dz.x))/(sqrt(1 - r2yd.x)*sqrt(1 - r2dz.x)))^2
+#   out = list(r2dz.x = r2dz.x, r2yz.dx = r2yz.dx)
+#   return(out)
+# }
+
+
+
+# bounding methods --------------------------------------------------------
+
+
+#' @references Cinelli, C. and Hazlett, C. (2020), "Making Sense of Sensitivity: Extending Omitted Variable Bias." Journal of the Royal Statistical Society, Series B (Statistical Methodology).
+#' @rdname ovb_bounds
+#' @export
+ovb_partial_r2_bound <- function(...){
+  UseMethod("ovb_partial_r2_bound")
+}
+
+#' @param r2dxj.x partial R2 of covariate Xj with the treatment D (after partialling out the effect of the remaining covariates X, excluding Xj).
+#' @param r2yxj.x partial R2 of covariate Xj with the outcome Y (after partialling out the effect of the remaining covariates X, excluding Xj).
+#' @return
+#' The function `ovb_partial_r2_bound()` returns only \code{\link{data.frame}} with the bounds on the strength of the unobserved confounder. Adjusted estimates, standard
+#' errors and t-values (among other quantities) need to be computed manually by the user using those bounds with the functions \code{\link{adjusted_estimate}}, \code{\link{adjusted_se}} and \code{\link{adjusted_t}}.
+#'
+#' @examples
+#'
+#'#########################################################
+#'## Let's construct bounds from summary statistics only ##
+#'#########################################################
+#'# Suppose you didn't have access to the data, but only to
+#'# the treatment and outcome regression tables.
+#'# You can still compute the bounds.
+#'
+#'# Use the t statistic of female in the outcome regression
+#'# to compute the partial R2 of female with the outcome.
+#'r2yxj.x <- partial_r2(t_statistic = -9.789, dof = 783)
+#'
+#'# Use the t-value of female in the *treatment* regression
+#'# to compute the partial R2 of female with the treatment
+#'r2dxj.x <- partial_r2(t_statistic = -2.680, dof = 783)
+#'
+#'# Compute manually bounds on the strength of confounders 1, 2, or 3
+#'# times as strong as female
+#'bounds <- ovb_partial_r2_bound(r2dxj.x = r2dxj.x,
+#'                               r2yxj.x = r2yxj.x,
+#'                               kd = 1:3,
+#'                               ky = 1:3,
+#'                               bound_label = paste(1:3, "x", "female"))
+#'# Compute manually adjusted estimates
+#'bound.values <- adjusted_estimate(estimate = 0.0973,
+#'                                  se = 0.0232,
+#'                                  dof = 783,
+#'                                  r2dz.x = bounds$r2dz.x,
+#'                                  r2yz.dx = bounds$r2yz.dx)
+#'
+#'# Plot contours and bounds
+#'ovb_contour_plot(estimate = 0.0973,
+#'                 se = 0.0232,
+#'                 dof = 783)
+#'add_bound_to_contour(bounds, bound_value = bound.values)
+#'
+#'
+#' @inheritParams sensemakr
+#' @inheritParams ovb_bounds
+#' @rdname ovb_bounds
+#' @export
+ovb_partial_r2_bound.numeric <- function(r2dxj.x,
+                                         r2yxj.x,
+                                         kd = 1,
+                                         ky = 1,
+                                         bound_label = "manual",
+                                         ...){
+  # Error handling
+
+  check_r2(r2yz.dx = r2dxj.x, r2dz.x =  r2yxj.x)
+
+  r2dz.x <- kd*(r2dxj.x/(1 - r2dxj.x))
+
+  if (any(r2dz.x > 1)) {
+    warning("Impossible kd value, returning NA. Try a lower kd.")
+    r2dz.x[r2dz.x > 1] <- NA
+  }
+
+  # Bound for R^2 of Y with Z: Footnote 10
+  r2zxj.xd = kd * (r2dxj.x^2) / ((1 - kd * r2dxj.x) * (1 - r2dxj.x))
+
+  if (any(r2zxj.xd > 1)) {
+    warning("Impossible kd value, returning NA. Try a lower kd.")
+    r2zxj.xd[r2zxj.xd > 1] <- NA
+  }
+
+  r2yz.dx <- ((sqrt(ky) + sqrt(r2zxj.xd)) /
+               sqrt(1 - r2zxj.xd))^2 * (r2yxj.x / (1 - r2yxj.x))
+
+  if (any(r2yz.dx > 1)) {
+    warning("Implied bound on r2yz.dx greater than 1, try lower kd and/or ky. Setting r2yz.dx to 1.")
+    r2yz.dx[r2yz.dx > 1] <- 1
+  }
+
+  out <- data.frame(bound_label = bound_label,
+                    r2dz.x = r2dz.x,
+                    r2yz.dx = r2yz.dx,
+                    stringsAsFactors = FALSE)
+  class(out) <- c("ovb_partial_r2_bound", "data.frame")
+  return(out)
+}
+
+ovb_partial_r2_bound.lm <- function(model,
+                                    treatment,
+                                    benchmark_covariates,
+                                    kd = 1,
+                                    ky = kd,
+                                    adjusted_estimates = TRUE,
+                                    alpha = 0.05, ...){
+
+  if (!is.character(treatment)) stop("Argument treatment must be a string.")
+  if (length(treatment) > 1) stop("You must pass only one treatment")
+
+
+  if (!is.character(benchmark_covariates)) stop("Argument benchmark_covariates must be a string.")
+
+  bounds <- vector(mode = "list", length = length(benchmark_covariates))
+
+  # gets partial r2 with outcome
+  r2yxj.x <- partial_r2(model, covariates = benchmark_covariates)
+
+  # gets partial r2 with treatment
+  treatment_model <- update(model,  paste(treatment, "~ . - ", treatment))
+  r2dxj.x <- partial_r2(treatment_model, covariates = benchmark_covariates)
+
+  for (i in seq_along(benchmark_covariates)) {
+
+    bound_label = label_maker(benchmark_covariate = benchmark_covariates[i],
+                              kd = kd,
+                              ky = ky)
+
+    bounds[[i]] <- ovb_partial_r2_bound(r2dxj.x = r2dxj.x[i],
+                                        r2yxj.x = r2yxj.x[i],
+                                        kd = kd,
+                                        ky = ky,
+                                        bound_label = bound_label)
+  }
+  bounds <- do.call("rbind", bounds)
+  return(bounds)
+}
+
+
+
 
 label_maker <- function(benchmark_covariate, kd, ky, digits = 2) {
   # Generate the label text

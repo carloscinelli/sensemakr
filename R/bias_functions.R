@@ -64,7 +64,7 @@ adjusted_estimate.lm <- function(model, treatment,  r2dz.x, r2yz.dx, reduce = TR
   model_data <- model_helper(model, covariates = treatment)
   adj_estimate <- with(model_data,
        adjusted_estimate(estimate = estimate, se = se, dof = dof, r2dz.x = r2dz.x, r2yz.dx = r2yz.dx, reduce = reduce))
-  names(adj_estimate) <- treatment
+  names(adj_estimate) <- rep(treatment, length(adj_estimate))
   return(adj_estimate)
 }
 
@@ -136,7 +136,7 @@ adjusted_se.lm <- function(model, treatment,  r2dz.x, r2yz.dx, ...){
   # extract model data
   model_data <- model_helper(model, covariates = treatment)
   new_se <- with(model_data, adjusted_se(se = se, dof = dof, r2dz.x = r2dz.x, r2yz.dx = r2yz.dx))
-  names(new_se) <- treatment
+  names(new_se) <- rep(treatment, length(new_se))
   return(new_se)
 }
 
@@ -177,7 +177,7 @@ adjusted_t.lm <- function(model, treatment,  r2dz.x, r2yz.dx, reduce = TRUE, h0 
   model_data <- model_helper(model, covariates = treatment)
   new_t <- with(model_data, adjusted_t(estimate = estimate, se = se, dof = dof, r2dz.x = r2dz.x,
                                        r2yz.dx = r2yz.dx, reduce = reduce, h0 = h0))
-  names(new_t) <- treatment
+  names(new_t) <- rep(treatment, length(new_t))
   return(new_t)
 }
 
@@ -244,7 +244,7 @@ bias.lm <- function(model, treatment,  r2dz.x, r2yz.dx, ...){
   # extract model data
   model_data <- model_helper(model, covariates = treatment)
   bias <- with(model_data, bias(se = se, dof = dof, r2dz.x = r2dz.x, r2yz.dx = r2yz.dx))
-  names(bias) <- treatment
+  names(bias) <- rep(treatment, length(bias))
   return(bias)
 }
 
@@ -264,7 +264,7 @@ relative_bias.lm <- function(model, treatment, r2dz.x, r2yz.dx, ...){
                                                se = se, dof = dof,
                                                r2dz.x = r2dz.x,
                                                r2yz.dx = r2yz.dx))
-  names(rel.bias) <- treatment
+  names(rel.bias) <- rep(treatment, length(rel.bias))
   return(rel.bias)
 }
 

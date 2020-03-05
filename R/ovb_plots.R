@@ -30,7 +30,6 @@ plot.env$treatment <- NULL
 #' extreme scenarios plots of omitted variable bias as in \code{\link{ovb_extreme_plot}}.
 #' @param ... arguments passed to the plot functions. Check arguments in  \code{\link{ovb_contour_plot}}
 #' and \code{\link{ovb_extreme_plot}}.
-#' @inheritParams ovb_contour_plot
 #' @export
 plot.sensemakr = function(x,
                           type = c("contour", "extreme"),
@@ -628,6 +627,8 @@ add_bound_to_contour <- function(...){
   UseMethod("add_bound_to_contour")
 }
 
+
+
 #' @export
 add_bound_to_contour.ovb_bounds <- function(bounds,
                                             label.text = TRUE,
@@ -653,6 +654,32 @@ add_bound_to_contour.ovb_bounds <- function(bounds,
       bound_value <- bounds$adjusted_t
     }
   }
+  add_bound_to_contour(r2dz.x = bounds$r2dz.x,
+                       r2yz.dx = bounds$r2yz.dx,
+                       bound_value = bound_value,
+                       bound_label = bound_label,
+                       label.text = label.text,
+                       cex.label.text = cex.label.text,
+                       label.bump.x = label.bump.x,
+                       label.bump.y = label.bump.y,
+                       round = round,
+                       ...)
+}
+
+
+#' @export
+add_bound_to_contour.ovb_partial_r2_bound <- function(bounds,
+                                                      label.text = TRUE,
+                                                      bound_label = bounds$bound_label,
+                                                      bound_value = NULL,
+                                                      label.bump.x = plot.env$lim*(1/15),
+                                                      label.bump.y = plot.env$lim.y*(1/15),
+                                                      round = 2,
+                                                      cex.label.text = .7,
+                                                      ...){
+  # gets bound from environment
+  #
+
   add_bound_to_contour(r2dz.x = bounds$r2dz.x,
                        r2yz.dx = bounds$r2yz.dx,
                        bound_value = bound_value,
