@@ -91,15 +91,20 @@ knit_hooks$set(output = function(x, options) {
 # Introduction
 
 <!-- Investigating the causal effect of some variable (the "treatment") on another (the "outcome") using observational data poses a perenial problem for researchers across disciplines.  -->
-The most common strategy for making causal inferences with observational data is to adjust for observed covariates, and the most common method for doing such adjustment is  (linear) regression. Claiming that the resulting regression coefficient is an unbiased estimate of the causal effect of interest, however, relies on the untestable assumption of no unobserved confounders. Rarely can this assumption be expected to hold exactly, and \emph{qualitative} debates of whether or not \emph{any} unobserved confounding exists are generally not productive---it always does. Therefore, a more useful discussion is \emph{quantitative}: how strong would unobserved confounding need to be to change the research conclusions? Are confounders with such strength plausible? Sensitivity analysis allows us to quantitatively discuss the fragility of putative causal estimates when the underlying assumption of no unobserved confounding is challenged.
+Investigators in a wide range of disciplines face the perenial challenge of making and defending causal claims using observational sources of data in which they could not ensure the "treatment" variable of interest was randomized or otherwise free of confounding. The most common strategy in such circumstances is to condition on or adjust for observed covariates in the hopes that there are not problematic unobserved covariates that remain. Linear regression remains among the most widely used approaches to realize such adjustments. 
 
-The goal of this paper is to introduce the R  and \proglang{Stata} package \pkg{sensemakr} \citep{sensemakr:R,sensemakr:stata}, whcih implements a suite of sensitivity analysis tools proposed in @cinelli:jrssb2019 for assessing the sensitivity of a regression coefficient to the inclusion of omitted variables. The goal of \pkg{sensemakr} is to make it easy to understand the impact that omitted variables would have on a regression result. This allows analysts to investigate the robustness of their estimates to violations of the assumption of no unobserved confounding, answering questions such as:
+Supporting the claim that the coefficient from such a regression unbiasedly estimates a causal quantity requires defending an untestable assumption that there are no unobserved confounders. Moreover, such an assumption does not need to hold precisely (and never does) in order for a research result to remain substantively valid and informative. Sensitivity analyses quantify how strong unobserved confounding needs to be to change the research conclusions. They also aid in reasoning as whether confounding of such strength is plausible. This gives investigators the ability to rigorously describe the fragility of putative causal estimates in the face of potential unobserved confounding.
+
+<!--, and \emph{qualitative} debates of whether or not \emph{any} unobserved confounding exists are generally not productive---it always does. Therefore, a more useful discussion is \emph{quantitative}: how strong would unobserved confounding need to be to change the research conclusions? Are confounders with such strength plausible? Sensitivity analysis allows us to quantitatively discuss the fragility of putative causal estimates when the underlying assumption of no unobserved confounding is challenged.
+!-->
+
+The goal of this paper is to introduce the \proglang{R} and \proglang{Stata} package \pkg{sensemakr} \citep{sensemakr:R,sensemakr:stata}, which implements a suite of sensitivity analysis tools proposed in @cinelli:jrssb2019 for assessing the sensitivity of a regression coefficient to the inclusion of omitted variables. The goal of \pkg{sensemakr} is to make it easy to understand the impact that omitted variables would have on a regression result. This allows analysts to investigate the robustness of their estimates to violations of the assumption of no unobserved confounding, answering questions such as:
 
 - How strong would an unobserved confounder (or a group of confounders) have to be to change our research conclusions?
 
 - In a worst-case scenario, how robust are our results to all unobserved confounders acting together, possibly non-linearly?
 
-- How strong would confounging need to be relative to the strength of observed covariates, to change our answer a certain amount?
+- How strong would confounding need to be relative to the strength of observed covariates, to change our answer a certain amount?
 
 
 
@@ -111,11 +116,9 @@ The goal of this paper is to introduce the R  and \proglang{Stata} package \pkg{
 <!-- In the common setting where researchers "adjust for observables" using tools such as regression,  claiming that the resulting estimate is unbiased for a causal quantity rely on untestable assumptions about the absence of unobserved confounders. Weaker claims, e.g. that the causal quantity has a particular sign, similarly require that unobserved confounding does not exceed a certain level. Sensitivity analyses aid in evaluating such claims, by equiping investigators with information about how sensitive a given result is to varying degrees of unobserved confounding, improving upon our ability to understand and transparently communicate results under confounding.  -->
 
 
-Although several sensitivity analyses have been proposed, dating back to @cornfield1959smoking, with more recent contributions including [@rosenbaum1983assessing; @robins1999association; @frank:smr2000; @rosenbaum2002gamma; @imbens2003sensitivity; @brumback2004sensitivity; @frank:eepa2008; @hosman2010sensitivity; @imai2010identification; @arah2011; @blackwell2013selection; @frank2013would; @carnegie:jree2016; @dorie2016flexible; @middleton2016bias; @oster:jbes2017; @cinelli:icml2019; @franks:jasa2019] Yet, such sensitivity analyses remain underutilized. We argue that a number of factors contribute to this reluctant uptake. One is the complicated nature and strong assumptions many of these methods impose, sometimes involving restrictions on or even a complete description of the nature of the confounder. A second reason is that though users routinely report "regression tables" (or perhaps coefficient plots) to convey the results of a regression, until recently we have lacked "standard" quantities that can simply and correctly summarize sensitivity in the face of unobserved confounding. Third, and most fundamentally, connecting the results of a formal sensitivity analysis to a cogent argument about what types of confounders may exist in one's research project is often difficult, particularly when there are no compelling arguments as to why the treatment assignment should be approximately "ignorable", "exogeneous", or "as-if random".  Further, some of the solutions offered by the literature can lead users to erroneous conclusions.  
+Various sensitivity analyses have been proposed dating back to @cornfield1959smoking, with more recent contributions including [@rosenbaum1983assessing; @robins1999association; @frank:smr2000; @rosenbaum2002gamma; @imbens2003sensitivity; @brumback2004sensitivity; @frank:eepa2008; @hosman2010sensitivity; @imai2010identification; @arah2011; @blackwell2013selection; @frank2013would; @carnegie:jree2016; @dorie2016flexible; @middleton2016bias; @oster:jbes2017; @cinelli:icml2019; @franks:jasa2019]. Yet, such sensitivity analyses remain underutilized. We argue that a number of factors contribute to this reluctant uptake. One is the complicated nature and strong assumptions many of these methods impose, sometimes involving restrictions on or even a complete description of the nature of the confounder. A second reason is that though users routinely report "regression tables" (or perhaps coefficient plots) to convey the results of a regression, until recently we have lacked "standard" quantities that can simply and correctly summarize sensitivity in the face of unobserved confounding. Third, and most fundamentally, connecting the results of a formal sensitivity analysis to a cogent argument about what types of confounders may exist in one's research project is often difficult, particularly when there are no compelling arguments as to why the treatment assignment should be approximately "ignorable", "exogeneous", or "as-if random".  Further, some of the solutions offered by the literature can lead users to erroneous conclusions.  
 
-
-
-<!-- Carlos: I think the quick start ends up not being very useful, because we need to explain everything anyway... -->
+<!-- Carlos: I think the quick start ends up not being very useful, because we need to explain everything anyway... !-->
 <!-- ## Illustration -->
 
 <!-- As a "quick-start" guide, we first show the basic functionality of the package in a simulated example. This functionality will suffice for most users most of the time. The basic workflow is as follows:  -->
@@ -195,15 +198,17 @@ Although several sensitivity analyses have been proposed, dating back to @cornfi
 <!-- ``` -->
 
 
-<!-- where the point labeled `1xX` indicates the adjusted estimate as it would appear had confouding been as strong as $X$.  -->
+<!-- where the point labeled `1xX` indicates the adjusted estimate as it would appear had confouding been as strong as $X$.  !-->
 
 
 # Sensitivity analysis in an omitted variable bias framework
 
-In this section, we briefly review the omitted variable bias (OVB) framework for sensitivity analysis presented in @cinelli:jrssb2019. This method builds upon a scale-free reparameterization of the OVB formula in terms of partial $R^2$ values. This reparameterization  enables a number of useful analyses, such as: 
+In this section, we briefly review the omitted variable bias (OVB) framework for sensitivity analysis presented in @cinelli:jrssb2019. This method builds on a scale-free reparameterization of the OVB formula in terms of partial $R^2$ values. Benefits of thie parameterization include:
+<!-- CJH: I don't care that much but this last sentence above and the list below strike me as odd here; they are a little in the weeds for a reader who hasn't actually gotten through the setup before. I'd suggest moving to after we give the formulas in terms of R2s.. 
+!-->
 
 - assessing the sensitivity of multiple confounders acting together, possibly non-linearly;
-- assessing the sensitivity to extreme scenarios in which all (or a big portion) of the residual variation of the oucome is assumed to be explained by unobserved confounding;
+- assessing the sensitivity to extreme scenarios in which all (or a designated portion) of the residual variation of the oucome is assumed to be explained by unobserved confounding;
 - exploiting knowledge of relative strength of variables to bound the bias due to unobserved confounding;
 - presenting all sensitivity results concisely, for easy routine reporting.
 
@@ -236,8 +241,6 @@ Y  &= \hat{\tau}_{\text{res}} D + {\bf X} \hat{{\bf \beta}}_{\text{res}} + \hat{
 Given the discrepancy of what we wish to know and what we actually have, the main question we would like to answer is: how do the observed point estimate and standard error of the restricted regression, $\hat{\tau}_{\text{res}}$ and $\widehat{se}(\hat{\tau}_{\text{res}})$, compare to the desired point estimate and standard error of the full regression, $\hat{\tau}$ and $\widehat{se}(\hat{\tau})$?
 
 ### OVB with the partial R2 parameterization
-
-<!-- \textcolor{blue}{We can take this route -- FWL to show the classical OVB in the coefficient scale, then switch to R2. Or we can just assert the bias is given by one formula for the estimate and one for the SE. In the Colombia paper, we now do the latter, so its very quick. Here though I like what we have now and lean towards keeping it -- its quick enough that the improvement in understanding is worth it, I think.} !-->
 
 Define as $\widehat{\text{bias}}$ the difference between the full and restricted  estimates, 
 
@@ -307,16 +310,17 @@ Consider a confounder orthogonal to the observed covariates, ie., $Z \perp {\bf 
 k_D := \frac{R^2_{D\sim Z|{\bf X}_{-j}}}{R^2_{D\sim X_{j}|{\bf X}_{-j}} },  \qquad k_Y := \frac{R^2_{Y \sim Z |{\bf X}_{-j},D}}{R^2_{Y \sim X_{j} |{\bf X}_{-j},D}}.
 \end{align}
 
-Where ${\bf X}_{-j}$ represents the vector of covariates ${\bf X}$ excluding $X_{j}$. Note that $k_D$ measures the *relative strength* of the observed covariate $X_j$, when compared to the unobserved confounder $Z$,   in terms of the explanatory power of treatment variation (after adjusting for the remaining covariates ${\bf X}_{-j}$). To make things concrete, if, for example, the omission of $X_j$ results in a larger mean squared error in the treatment assignment regression than the omission of $Z$, this means $k_D \leq 1$. Similar interpretation can be given to $k_Y$, *mutatis mutandis*.
-
-Given parameters $k_D$ and $k_Y$, @cinelli:jrssb2019 show that it is possible to rewrite the strength of the confounders as,
+Where ${\bf X}_{-j}$ represents the vector of covariates ${\bf X}$ excluding $X_{j}$. That is, the terms $k_D$ and $k_Y$ represent how strong the confounder $Z$ is relative to observed covariate $X_j$, where "strength" is measured by the partial $R^2$ they explain in the treatment (for $k_D$) and the outcome (for $k_Y$). Note that we will not know $k_D$ or $k_Y$; rather, any assumed values of ($k_D$, $k_Y$) imposes bounds on the resulting confounding and bias. 
+<!-- Note that $k_D$ is defined as the *relative strength* of the observed covariate $X_j$, when compared to the unobserved confounder $Z$,   in terms of the explanatory power of treatment variation (after adjusting for the remaining covariates ${\bf X}_{-j}$). If the omission of $X_j$ results in a larger mean squared error in the treatment assignment regression than the omission of $Z$ means $k_D \leq 1$. Similar interpretation can be given to $k_Y$, *mutatis mutandis*.!-->
+Specifically, @cinelli:jrssb2019 show that we can rewrite the strength of the confounders as,
 \begin{align}
 R^2_{D\sim Z|{\bf X}} = k_D f^2_{D\sim X_{j}|{\bf X}{-j}}, \qquad R^2_{Y\sim Z|D, {\bf X}} \leq \eta^2 f^2_{Y \sim X_j|{\bf X}_{-j},D} \label{eq:bounds}
 \end{align}
 
 \noindent where $\eta$ is a scalar which depends on $k_Y$, $k_D$ and $R^2_{D\sim X_{j}|{\bf X}{-j}}$.
+<!-- we should write $\eta$ out somewhere... !-->
 
-These equations allow the investigator to assess the maximum bias that a confounder at most ``k times'' as strong as a particular covariate $X_j$ could cause, and thus help understanding, in relative terms, the strength of confounding necessary to be problematic. Furthermore, if the researcher has domain knowledge to argue that a certain covariate $X_j$ is particularly important in explaining treatment or outcome variation, and that omitted variables cannot explain as much residual variance of $D$ or $Y$ as that observed covariate, these results can be used to set plausible bounds in the total amount of confonding.
+These equations allow the investigator to assess the maximum bias that a confounder at most ``k times'' as strong as a particular covariate $X_j$ could cause, showing the relative strength of confounding necessary for bias to have been problematic. Furthermore, if the researcher has domain knowledge to argue that a certain covariate $X_j$ is particularly important in explaining treatment or outcome variation, and that omitted variables cannot explain as much residual variance of $D$ or $Y$ as that observed covariate, these results can be used to set plausible bounds in the total amount of confonding.
 
 
 ## Multiple or non-linear confounders
@@ -327,22 +331,19 @@ Finally, suppose that, instead of a single unobserved confounder $Z$, there are 
 Y &= \hat{\tau} D + {\bf X} \hat{{\bf \beta}} +  {\bf Z}\hat{{\bf \gamma}} + \hat{\epsilon}_{\text{full}}.  \label{eq:fulleq2}
 \end{align}
 
-How would the previous sensitivity analyses change? As @cinelli:jrssb2019 show, the previous results considering a single unobserved confounder are in fact *conservative* when considering the impact of multiple confounders, barring an adjustment in the degrees of freedom of Equation \ref{eq:r2se}. Moreover, since the vector ${\bf Z}$ is arbitrary, this can also acommodate non-linear confounders or even misspecification of the functional form of the observed covariates ${\bf X}$. In other words, to assess the maximum bias that multiple, non-linear confounders could cause in our current estimates, it suffices to think in terms of the \emph{maximum explantory power} that ${\bf Z}$ could have have in the treatment and outcome regressions, as parameterized by $R^2_{D\sim {\bf Z} | {\bf X}}$ and $R^2_{Y\sim {\bf Z} |D, {\bf X}}$.
-
+As @cinelli:jrssb2019 show, the previous results considering a single unobserved confounder are in fact *conservative* when considering the impact of multiple confounders, barring an adjustment in the degrees of freedom of Equation \ref{eq:r2se}. Moreover, since the vector ${\bf Z}$ is arbitrary, this can also acommodate non-linear confounders or even misspecification of the functional form of the observed covariates ${\bf X}$. In other words, to assess the maximum bias that multiple, non-linear confounders could cause in our current estimates, it suffices to think in terms of the \emph{maximum explantory power} that ${\bf Z}$ could have have in the treatment and outcome regressions, as parameterized by $R^2_{D\sim {\bf Z} | {\bf X}}$ and $R^2_{Y\sim {\bf Z} |D, {\bf X}}$.
 
 # Basic functionality
 
-In this section we illustrate the basic functionality of the package.  Given that sensitivity analysis requires contextual knowledge to be properly interpreted, we illustrate these tools with a real example. Here we use \pkg{sensemakr} to reproduce all results found in Section 5 of @cinelli:jrssb2019, which estimates the effects of exposure to violence on attitudes towards peace, in Darfur. Further details about this application and the data can be found in @hazlett:jcr2019.
+In this section we illustrate the basic functionality of the package, using the \proglang{R} version first, with a brief review of the \proglang{Stata} version after. Given that sensitivity analysis requires contextual knowledge to be properly interpreted, we illustrate these tools with a real example. Here we use \pkg{sensemakr} to reproduce all results found in Section 5 of @cinelli:jrssb2019, which estimates the effects of exposure to violence on attitudes towards peace, in Darfur. Further details about this application and the data can be found in @hazlett:jcr2019.
 
 <!-- The main function is `sensemakr()`, and it aims to provide a simple interface that will suffice for most users. The function performs the most common sensitivity analyses, which can then be further explored with the print, plot and summary methods, as we illustrate below.  -->
 
 ##  Violence in Darfur: data and research question
 
-In 2003 and 2004, the Darfurian government orchestrated a horrific campaign of violence against civilians, killing an estimated two hundred thousand people. This application asks whether, on average, being directly injured or maimed in this episode made individuals more likely to feel “vengeful” and unwilling to make peace with those who perpetrated this violence. Or, were those who directly suffered from such violence most motivated to see it end by making peace?
+In 2003 and 2004, the Darfurian government orchestrated a horrific campaign of violence against civilians, killing an estimated two hundred thousand people. This application asks whether, on average, being directly injured or maimed in this episode made individuals more likely to feel “vengeful” and unwilling to make peace with those who perpetrated this violence. Or, might those who directly suffered such violence be motivated to see it end, supporting calls for peace?
 
-
-
-The `sensemakr` package comes with an example dataset drawn from a survey on attitudes of Darfurian refugees in eastern Chad [@hazlett:jcr2019]. To get started we first need to install the package. From within \proglang{R}, the \pkg{sensemakr} package can be installed from the Comprehensive \proglang{R} Archive Network (CRAN).
+The `sensemakr` package provides the data required for this example based on a survey among Darfurian refugees in eastern Chad [@hazlett:jcr2019]. To get started we first need to install the package. From within \proglang{R}, the \pkg{sensemakr} package can be installed from the Comprehensive \proglang{R} Archive Network (CRAN).
 
 ```{r install_sensemakr, eval = FALSE}
 install.packages("sensemakr")
@@ -357,9 +358,7 @@ data("darfur")
 
 The "treatment" variable of interest is `directlyharmed`, which indicates whether the individual was physically injured or maimed during the attack on her or his village in Darfur. The main outcome of interest is `peacefactor`, an index measuring pro-peace attitudes.  Other covariates in the data include: `village` (a factor variable indicating the original village of the respondent), `female` (a binary indicator of gender), `age`, `herder_dar` (whether they were a herder in Darfur), `farmer_dar` (whether they were a farmer in Darfur), and `past_voted` (whether they report having voted in an earlier election, prior to the conflict). For further details, see `?darfur`.
 
-
-The purpose of these attacks was to punish civilians from ethnic groups presumed to support the opposition, and to kill or drive these groups out so as to reduce this support. Violence against civilians included aerial bombardments by the government as well as assaults by the *Janjaweed*, a pro-government militia.  For this example, suppose a researcher argues that, while some villages were more or less intensively attacked, within village violence was largely indiscriminate. The bombings could not be finely targeted owing to their crudeness, and there were not many reason to target them.  Similarly, the *Janjaweed* had no reason to target certain individuals rather than others, and no information with which to do so---with one major exception: women were targeted and often subjected to sexual violence. 
-
+[@hazlett:jcr2019] argues that the purpose of these attacks was to punish civilians from ethnic groups presumed to support the opposition and to kill or drive these groups out so as to reduce this support. Violence against civilians included aerial bombardments by the government as well as assaults by the *Janjaweed*, a pro-government militia.  For this example, suppose a researcher argues that, while some villages were more or less intensively attacked, within village violence was largely indiscriminate. The bombings could not be finely targeted owing to their crudeness, and there were not many reason to target them.  Similarly, the *Janjaweed* had no reason to target certain individuals rather than others, and no information with which to do so---with one major exception: women were targeted and often subjected to sexual violence. 
 
 Given these considerations, this researcher may argue that adjusting for `village` and `female` is sufficient for control of confounding, and run the following linear regression model (in which other pre-treatment covariates, although not necessary for identification, are also included):
 
@@ -385,11 +384,9 @@ stargazer::stargazer(darfur.model,
 \label{tab:darfur_ols}
 \end{table}
 
-
-
 ### The threat of unobserved confounders
 
-The previous estimate requires the assumption of *no unobserved confounders* for unbiasedness. While supported by the claim that there is no targeting of violence within village and gender strata, not all investigators may agree with this account. For example, one may argue that, athough the bombing was crude, bombs were still more likely to hit the center of the village, and those in the center were also likely to hold different attitudes towards peace. One may also argue that the *Janjaweed* may observe signals that indicate, for example, the wealth of individuals. Or, perhaps, that an individual's prior political attitudes could have led them to take actions that exposed them to greater risks. To complicate things, all these factors could interact with each other or otherwise have other non-linear effects.
+The previous estimate requires the assumption of *no unobserved confounders* for unbiasedness. While supported by the claim that there is no targeting of violence within village and gender strata, not all investigators may agree with this account. For example, although the bombing was crude, perhaps bombs were still more likely to hit the center of the village, and those in the center were also likely to hold different attitudes towards peace. Or, perhaps somebody argues that the *Janjaweed* observe signals that indicate individual characteristics such as wealth, and target attackes using this information. Or, perhaps an individual's prior political attitudes could have led them to take actions that exposed them to greater risk during the attack. To complicate things, all these factors could interact with each other or otherwise have other non-linear effects.
 
 These concerns suggest that, instead of the previous linear model (`darfur.model`), we should have run a model such as
 
@@ -401,18 +398,17 @@ darfur.complete.model <- lm(peacefactor ~ directlyharmed  + village +
                             data = darfur)
 ```
 
-Where here `center*wealth*political_attitudes` is  the `R` formula for including *fully interacted* terms for these three variables. 
+Where here `center*wealth*political_attitudes` indicates *fully interacted* terms for these three variables. However trying to fit the model `darfur.complete.model` will result in error: none of the variables `center`, `wealth` or `political_attitudes` were measured. We can nevertheless ask questions such as "how strong would these unobserved confounders (or *all* reamaining unobserved confounders) need to be to change our previous conclusions?" Or, given an assumption on how strongly these and other omitted variables relate to the treatment and the outcome, how would including them have changed our inferences regarding the coefficient of `directlyharmed`? We show next how `sensemakr` answer each of these questions. <!--These are precisely the types of questions that can be answered with `sensemakr`.!-->
 
-However trying to fit the model `darfur.complete.model` will result in error: none of the variables `center`, `wealth` or `political_attitudes` were measured. We can nevertheless ask questions such as "how strong would these unobserved confounders (or *all* reamaining unobserved confounderß) need to be to change our previous conclusions?" Or, more precisely, given an assumption on how strongly these and other omitted variables relate to the treatment and the outcome, how would including them have changed our inferences regarding the coefficient of `directlyharmed`? These are precisely the types of questions that can be answered with `sensemakr`.
-
-Additionally,  we have domain knowledge regarding the main determinants of exposure to violence, such as the special role of gender in targetting. This knowledge can be used to either aid in interpretation of the magnitude of confounding required to change the research conclusions, or to impose limits upon the strength of unobserved confounding.  For instance, even if variables such as `wealth` remained as confounders, one could argue that it is unreasonable to expect that they explain more of the variation of exposure to violence than does gender.  We show next how `sensemakr` can leverage such claims to bound the plausible strength of unobserved variables.
+<!-- CJH: I'm not sure we need this next bit here as a pre-amble; could just explain when we do it. !-->
+Additionally, domain knowledge regarding the main determinants of exposure to violence, such as the special role of gender in targetting, can be used to either (i) aid in interpretation of the magnitude of confounding required to change the research conclusions, or (ii) impose limits upon the strength of unobserved confounding. For instance, even if variables such as `wealth` remained as confounders, one could argue that it is unreasonable to expect that they explain more of the variation of exposure to violence than does gender.  We show next how `sensemakr` can leverage such claims to bound the plausible strength of unobserved variables.
 
 <!-- How can we leverage claims regarding the relative importance of the variable `female` to bound the plausible strength of unobserved variables? We show next how to answer those questions using `sensemakr`.  -->
 
 
 ## Violence in Darfur: sensitivity analysis
 
-The main function of the package is `sensemakr()`. This function performs the most commonly required sensitivity analyses, which can then be  further explored with the print, summary and plot methods (see details in `?print.sensemakr` and `?plot.sensemakr`). We begin the analysis by applying `sensemakr` to the original regression model, `darfur.model`:
+The main function in the package is `sensemakr()`. This function performs the most commonly required sensitivity analyses, which can then be  further explored with the print, summary and plot methods (see details in `?print.sensemakr` and `?plot.sensemakr`). We begin the analysis by applying `sensemakr` to the original regression model, `darfur.model`:
 
 ```{r sesemakr_darfur}
 darfur.sensitivity <- sensemakr(model = darfur.model, 
@@ -431,7 +427,7 @@ The arguments of this call are:
 
 - **treatment**:  the name of the treatment variable. In our case, `"directlyharmed"`.
 
-- **benchmark_covariates**: the names of covariates that will be used to bound the plausible strength of the unobserved confounders. Here, we put `"female"`, which one could argue to be among the main determinants of exposure to violence, and it also found to be among the strongest determinants of attitudes towards peace.
+- **benchmark_covariates**: the names of covariates that will be used to bound the plausible strength of the unobserved confounders. Here, we put `"female"`, which one could argue to be among the main determinants of exposure to violence.  It also found to be among the strongest determinants of attitudes towards peace empirically here.
 
 - **kd** and **ky**: these arguments parameterize how many times stronger the confounder is related to the treatment ( `kd` ) and to the outcome ( `ky` ) in comparison to the observed benchmark covariate ( `"female"` ). In our example, setting `kd = 1:3` and `ky = 1:3` means we want to investigate the maximum strength of a confounder once, twice, or three times as strong as female (in explaining treatment and outcome variation).  If only `kd` is given, `ky` will be set equal to it by default.
 
@@ -454,7 +450,7 @@ After running `sensemakr()`, we can explore the sensitivity analysis results.
 
 ### Sensitivity statistics for routine reporting
 
-The print method of `sensemakr` provides a quick review of the original (unadjusted) estimate along with three summary sensitivity statistics suited for *routine reporting*: (1) the partial R2 of the treatment with the outcome; (2) the robustnuess value (RV) required to reduce the estimate entirely to zero (i.e. $q=1$); and, (3) the RV beyond which the estimate would no longer be statistically distinguishable from zero at the 0.05 level ($q=1$, $\alpha=0.05$). 
+The print method for `sensemakr` provides the original (unadjusted) estimate along with three summary sensitivity statistics suited for *routine reporting*: (1) the partial $R^2$ of the treatment with the outcome; (2) the robustnuess value (RV) required to reduce the estimate entirely to zero (i.e. $q=1$); and, (3) the RV beyond which the estimate would no longer be statistically distinguishable from zero at the 0.05 level ($q=1$, $\alpha=0.05$). 
 
 ```{r darfur_print}
 darfur.sensitivity
@@ -482,7 +478,7 @@ df = 783 & & \multicolumn{5}{r}{ \small \textit{Bound (1x female)}: $R^2_{Y\sim 
 \label{tab:minimal}
 \end{table}
 
-These three sensitivity statistics provide a  *minimal reporting* for sensitivity analysis. More precisely:
+These three sensitivity statistics provide a  *minimal reporting* style for sensitivity analysis. More precisely:
 
 - The robustness value for bringing the point estimate of `directlyharmed` exactly to zero ($RV_{q=1}$) is 13.9%. This means that unobserved confounders that explain 13.9% of the residual variance *both* of the treatment and of the outcome are sufficiently strong to explain away all the observed effect. On the other hand, unobserved confounders that *do not* explain at least 13.9% of the residual variance *both* of the treatment and of the outcome are not sufficiently strong to do so.
 
@@ -492,11 +488,9 @@ These three sensitivity statistics provide a  *minimal reporting* for sensitivit
 
 These are useful quantities that summarize *what we need to know* in order to safely rule out confounders that are deemed to be problematic. Interpreting these values requires domain knowledge about the data generating process. Therefore, we encourage researchers to argue about what are plausible bounds on the maximum explanatory power that unobserved confounders could have in a given application.
 
-Sometimes researchers may have a hard time making judgments regarding the *absolute strength* of a confounder, but may have grounds to make *relative claims*, for instance, by arguing that unobserved confounders are likely not multiple times stronger than a certain observed covariate. In  our application, this is indeed the case. One could argue that, given the nature of the attacks, it is hard to imagine that  unobserved confounding could explain much more of targetting than what was explained by the observed variable `female`. 
+Where investigators are unable to offer strong arguments limiting the *absolute strength* of confounding, it is often informative to make *relative claims*, for instance, by arguing that unobserved confounders are likely not multiple times stronger than a certain observed covariate. In  our application, this is indeed the case. One could argue that, given the nature of the attacks, it is hard to imagine that  unobserved confounding could explain much more of targetting than what was explained by the observed variable `female`. The lower corner of the table, thus, provides bounds on confounding as strong as female, $R^2_{Y\sim Z| {\bf X}, D}$ = 12.5\%, and $R^2_{D\sim Z| {\bf X} }$ = 0.9\%. Since both of those are below the RV, the table reveals that confounders as strong as `female` are not sufficient to explain away the observed estimate. Moreover, the bound on $R^2_{D\sim Z| {\bf X} }$ is below the partial $R^2$ of the treatment with the outcome, $R^2_{Y \sim D |{\bf X}}$. This means that even an extreme confounder explaining all residual variation of the outcome and as strongly associated with the treatment as `female` would not overturn the research conclusions As noted above, these results are exact for a single unobserved confounder, and conservative for multiple confounders, possibly acting non-linearly. 
 
-The lower corner of the table, thus, provides bounds on confounding as strong as female, $R^2_{Y\sim Z| {\bf X}, D}$ = 12.5\%, and $R^2_{D\sim Z| {\bf X} }$ = 0.9\%. Since both of those are below the RV, the table reveals that confounders as strong as `female` are not sufficient to explain away the observed estimate. Moreover, the bound on $R^2_{D\sim Z| {\bf X} }$ is below the partial $R^2$ of the treatment with the outcome, $R^2_{Y \sim D |{\bf X}}$. This means that even an extreme confounder explaining all residual variation of the outcome and as strongly associated with the treatment as `female` would not be able to overturn the research conclusions
-
-As mentioned in the previous section, all these results are exact for a single unobserved confounder, and conservative for multiple confounders, possibly acting non-linearly. Finally, the summary method for `sensemakr` provides an extensive report with verbal descriptions verbal descriptions of all these analyses. Here, for instance, entering `summary(darfur.sensitivity)` produces verbose output similar to the text explanations in the last several paragraphs, so that researchers can directly cite or include such text in their reports.
+Finally, the summary method for `sensemakr` provides an extensive report with verbal descriptions verbal descriptions of all these analyses. Here, for instance, entering `summary(darfur.sensitivity)` produces verbose output similar to the text explanations in the last several paragraphs (and thus not reproduced here), so that researchers can directly cite or include such text in their reports.
 
 <!-- For further details, please refer to [Cinelli and Hazlett (2020)](https://rss.onlinelibrary.wiley.com/doi/full/10.1111/rssb.12348).  -->
 
@@ -507,21 +501,17 @@ As mentioned in the previous section, all these results are exact for a single u
 
 ### Sensitivity contour plots of point estimates and t-values
 
-The previous sensitivity table  provides a good summary of how robust the current estimate is to unobserved confounding. However, researchers may be willing to refine their analysis by visually exploring the whole range of possible estimates that confounders with different strengths could cause, while placing different bounds on the plausible strength of confounding based on different assumptions on how they compare to observed covariates.  For these, one can use the plot method for `sensemakr`.
-
-We begin by examining the default plot type, contour plots for the point estimate.
+The sensitivity table offers a useful summary of how robust the current estimate is to unobserved confounding. However, researchers may extend their analysis by visually exploring the whole range of possible estimates that confounders with different strengths could cause. These plots can also represent different bounds on the plausible strength of confounding based on different assumptions on how they compare to observed covariates.  For these, one can use the plot method for `sensemakr`. We begin by examining the default plot type, contour plots for the point estimate.
 
 ```{r estimate_plot_call, eval = FALSE}
 plot(darfur.sensitivity)
 ```
 
-The resulting plot is shown in the left of Figure \ref{fig:darfur_contours}. The horizontal axis shows the hypothetical residual share of variation of the treatment that unobserved confouding explains, $R^2_{D\sim Z| {\bf X} }$. The vertical axis shows the hypothetical partial $R^2$ of unobserved confouding with the outcome, $R^2_{Y\sim Z| {\bf X}, D}$. The contours show what would be the estimate for `directlyharmed` that one would have obtained in the full regression model including unobserved confounders with such hypothetical strengths. Note the plot is parameterized in way that hurts our preferred hypothesis, by pulling the estimate towards zero---the direction of the bias was set in the argument `reduce = TRUE` of `sensemakr()`.
+The resulting plot is shown in the left of Figure \ref{fig:darfur_contours}. The horizontal axis shows the hypothetical residual share of variation of the treatment that unobserved confouding explains, $R^2_{D\sim Z| {\bf X} }$. The vertical axis shows the hypothetical partial $R^2$ of unobserved confouding with the outcome, $R^2_{Y\sim Z| {\bf X}, D}$. The contours show what would be the estimate for `directlyharmed` that one would have obtained in the full regression model including unobserved confounders with such hypothetical strengths. Note the plot is parameterized in way that hurts our preferred hypothesis, by pulling the estimate towards zero. Recall that the direction of the bias was set in the argument `reduce = TRUE` of `sensemakr()`.
 
 The bounds on the strength of confouding, determined by the parameter `kd = 1:3` in the call for `sensemakr()`, are also shown in the plot. Note that the plot reveals that the direction of the effect (positive) is robust to confounding once, twice or even three times as strong as the observed covariate `female`, although in this last case the magnitude of the effect is reduced to a third of the original estimate.
 
-
 We now examine the sensitivity of the *t-value* for testing the null hypothesis of zero effect. For this, it suffices to change the option `sensitivity.of = "t-value"`.
-
 
 ```{r t_plot_call, eval = FALSE}
 plot(darfur.sensitivity, sensitivity.of = "t-value")
@@ -539,11 +529,11 @@ plot(darfur.sensitivity, sensitivity.of = "t-value")
 par(old.par)
 ```
 
-The resulting plot is shown in the right of Figure \ref{fig:darfur_contours}.  The plot reveals that, at the 5% significance level, the null hypothesis of zero effect would still be rejected given confounders once or twice as strong as `female`. However, by contrast to the point-estimate, accounting for sampling uncertainty now means that the null hypothesis of zero effect *would not* be rejected with the inclusion of a confounder three times as strong as `female`. 
+The resulting plot is shown in the right of Figure \ref{fig:darfur_contours}. At the 5% significance level, the null hypothesis of zero effect would still be rejected given confounders once or twice as strong as `female`. However, while the point-estimate remains positive, accounting for sampling uncertainty now means that the null hypothesis of zero effect *would not* be rejected with the inclusion of a confounder three times as strong as `female`. 
 
 ### Sensitivity plots of extreme scenarios
 
-Sometimes researchers may be better equipped to make plausibility judgments about the strength of determinants of the treatment assignment mechanism, and have less knowledge about the determinantes of the outcome. In those cases,  sensitivity plots using *extreme scenarios* are a useful option. These are produced with the option `type = extreme`. Here one assumes confounding explains **all** or  some large fraction of the residual variance of the outcome, then vary how strongly such confounding is hypothetically related to the treatment, to see how this affects the resulting point estimate.
+Sometimes researchers may be better equipped to make plausibility judgments about the strength of determinants of the treatment assignment mechanism, and have less knowledge about the determinantes of the outcome. In those cases, sensitivity plots using *extreme scenarios* are a useful option. These are produced with the option `type = extreme`. Here one assumes confounding explains **all** or  some large fraction of the residual variance of the outcome, then vary how strongly such confounding is hypothetically related to the treatment, to see how this affects the resulting point estimate.
 
 ```{r fig_cap_extreme, echo = FALSE}
 fig.cap.extreme <- "\\label{fig:extreme}Sensitivity analysis to extreme scenarios."
@@ -554,30 +544,31 @@ fig.cap.extreme <- "\\label{fig:extreme}Sensitivity analysis to extreme scenario
 plot(darfur.sensitivity, type = "extreme")
 ```
 
-The plot is shown in Figure \ref{fig:extreme}. The default option for the extreme scenarios is `r2yz.dx = c(1, .75, .5)`, which sets the association of confounders with the outcome to  $R^2_{Y\sim Z| {\bf X}, D} = 100\%$,  $R^2_{Y\sim Z| {\bf X}, D}=75\%$  and  $R^2_{Y\sim Z| {\bf X}, D}=50\%$, producing three separate curves for each scenario. The bounds on the strength of association of a confounder once, twice or three times as strongly associated with the treatment as `female` are shown as red ticks in the horizonal axis.  As the plot shows, even in the most extreme case of $R^2_{Y\sim Z| {\bf X}, D}=100\%$, confounders would need to be more than twice as strongly associated with the treatment to fully explain away the point estimate. Moving to  the scenarios $R^2_{Y\sim Z| {\bf X}, D}=75\%$  and  $R^2_{Y\sim Z| {\bf X}, D}=50\%$, confounders would need to be more than three times as strongly associated with the treatment to fully explain away the point estimate.
+Figure \ref{fig:extreme} shows the result. By default these plots consider confounding that explains 100%, 75%, and 50% of variation in the residual outcome, equivalent to setting the argument `r2yz.dx = c(1, .75, .5)`. <!--, which sets the association of confounders with the outcome to  $R^2_{Y\sim Z| {\bf X}, D} = 100\%$,  $R^2_{Y\sim Z| {\bf X}, D}=75\%$  and  $R^2_{Y\sim Z| {\bf X}, D}=50\%$, producing three separate curves for each scenario. !--> The bounds on the strength of association of a confounder once, twice or three times as strongly associated with the treatment as `female` are shown as red ticks in the horizonal axis.  As the plot shows, even in the most extreme case ($R^2_{Y\sim Z| {\bf X}, D}=100\%$), confounders would need to be more than twice as strongly associated with the treatment as `female` was to fully explain away the point estimate. Moving to  the scenarios $R^2_{Y\sim Z| {\bf X}, D}=75\%$  and  $R^2_{Y\sim Z| {\bf X}, D}=50\%$, confounders would need to be more than three times as strongly associated with the treatment to fully explain away the point estimate. 
 
-Having demonstrated the basic functionality of the package, we end this section by recalling some important caveats on intepretation that apply to any sensitivity analyses. Readers may refer to @cinelli:jrssb2019 for further discussion. 
 
 ## A disciplined discussion about confounding
 
+Having demonstrated the basic functionality of the package, we end this section by recalling some important caveats on intepretation that apply to any sensitivity analyses. Readers may refer to @cinelli:jrssb2019 for further discussion. The results computed by `sensemakr()` tell us what we need to be prepared to believe in order to sustain that a given conclusion is not due to confounding. In particular, the results of the sensitivity analysis performed here show that, to explain all the observed estimated effect, even in a worst case scenario where the unobserved confounder explains all residual variation of the outcome, this unobserved confounder would need to be more than twice as strongly associated with the treatment as the covariate `female`. This is a *true quantitative statement* that describes the strength of confounding needed to overturn the research conclusions.  
 
-The results computed by `sensemakr()` tell us what we need to be prepared to believe in order to sustain that a given conclusion is not due to confounding. In particular, the results of the sensitivity analysis performed here show that, to explain all the observed estimated effect, even in a worst case scenario where the unobserved confounder explains all residual variation of the outcome, this unobserved confounder would need to be more than twice as strongly associated with the treatment as the covariate `female`. This is a *true quantitative statement* that describes the strength of confounding needed to overturn the research conclusions.  
+To counter a common misconception, we emphasize that such an analysis says nothing about whether such a confounder does or does not exist. The role of sensitivity analysis is, instead, to *discipline the discussion* regarding the causal interpretation of the effect estimate. In particular,
 
-The analysis, however, says nothing about whether such a confounder does or does not exist. The role of sensitivity analysis is, therefore, to *discipline the discussion* regarding the causal interpretation of the effect estimate. In particular,
+1. A causal interpretation of the research conclusion may be defended by articulating that a confounder with such strength is unlikely. For instance, one could argue that, given the way injuries (the "treatment") occurred, the scope for targeting particular types of individuals was quite limited; aircraft dropped makeshift and unguided bombs and other objects over villages, and militia raided without concern for who they are targeting---the only known major exception to this was targeting gender, which is one of the most visually apparent characteristics of an individual, and was a strong factor in targetting. 
 
-1. A causal interpretation of the estimate may be defended by articulating that a confounder with such strength is unlikely. For instance, one could argue that, given the way injuries (the "treatment") occurred, the scope for targeting particular types of individuals was quite limited; aircraft dropped makeshift and unguided bombs and other objects over villages, and militia raided without concern for who they are targeting---the only known major exception to this was targeting gender, which is one of the most visually apparent characteristics of an individual, and was a strong factor in targetting. 
+2. Likewise, similar grounds are required to persuasively dismiss a causal interpretation of the result. There are requirements, in terms of (relative) strength, that the hypothesized unobserved confounders need to meet in order to be problematic. For instance, a skeptic can most helpfully articulate (using domain knowledge) why a confounder that explains at least more than twice of the variation of the treatment assignment than the covariate `female` is plausible. Otherwise, that confounder cannot logically account for all the observed association, even in an extreme scenario.
 
-2. Likewise, similar grounds are required to persuasively dismiss a causal interpretation of the estimate. There are standards of (relative) strength that the hypothesized unobserved confounders need to meet in order to be problematic. For instance, a skeptic has to articulate (using domain knowledge) why a confounder that explains at least more than twice of the variation of the treatment assignment than the covariate `female` is plausible. Otherwise, that confounder cannot logically account for all the observed association, even in an extreme scenario.
+Robustness in the face of confouding is thus claimed to the extent one agrees with the arguments in 1 (which rely on domain knowledge about attacks in Darfur), while a result can be deemed fragile insofar as alternative stories meeting the requirements in 2 can be offered. Sensitivity analyses should not be used to obviate discussions about confouding by engaging in automatic procedures; rather, they should stimulate a more displined, quantitative argument about confounding, in which such statements are made and debated.
 
-Robustness in the face of confouding is thus claimed to the extent one agrees with the arguments in 1 (which rely on domain knowledge about attacks in Darfur), while a result can be deemed fragile insofar as alternative stories meeting the requirements in 2 can be offered. Sensitivity analyses should not be used to obviate discussions about confouding by engaging in automatic procedures; rather, they should stimulate a more displined, quantitative argument about confounding, in which such statements are made and properly debated.
+### Advanced use
+<!-- CJH: Carlos, you had "going further" as the section name. That seemed a bit casual. Though maybe "advanced use is too boring or intimidating. !-->
 
-### Going further
-
-The basic functionality demonstrated in this section will likely suffice for most users, most of the time. Sometimes, however, more flexibility will be needed in a given project. When this happens, researchers may resort directly to other sensitivity functions of the package to customize their sensitivity analyses, which we discuss next. 
+The functionality demonstrated above will suffice for most users, most of the time. Sometimes, however, more flexibility will be needed, and can be obtained by employing additional functions in the package. The functions most likely to be called upon can be divded into the following categories, 
+<!--We demonstrate several such cases here.
 
 # Customized sensitivity analyses 
 
 Users that want to perform customized sensitivity analyses, beyond what is offered by default in `sensemakr()`, can do so by using the individual functions of the package. These functions can be divided in the following categories, according to their functionalities:
+!-->
 
 - *functions for computing the bias, adjusted estimates and standard errors:* these comprise, among others, the functions `bias()`,  `adjusted_estimate()`, `adjusted_se()` and `adjusted_t()`. These functions take as input the original (unadjusted) estimate (in the form of a linear model or numeric values) and a pair of sensitivity parameters (the partial $R^2$ of the omitted variable with the treatment and the outcome), and return the new quantity adjusted for omitted variable bias. 
 
@@ -587,7 +578,11 @@ Users that want to perform customized sensitivity analyses, beyond what is offer
 
 - *bounding functions*: these functions computes bounds on the strength of confounding "k times" as strong as certain observed convariates. The main high level function is `ovb_bounds()`, and there is also the auxiliary function `ovb_partial_r2_bound()`.
 
-In this section, we illustrate these functionalities via examples. 
+<!-- In this section, we illustrate these functionalities via examples.  !-->
+We demonstrate use of these functions below through examples chosen to illustrate important features of this sensitivity analysis.
+
+
+RESUME HERE
 
 ## Formal versus informal benchmarking: customizing bounds
 
