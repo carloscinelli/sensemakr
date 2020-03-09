@@ -12,7 +12,7 @@ understand the impact of omitted variables in linear regression models, as discu
 The main function of the package is  \code{\link{sensemakr}}, which computes the most common sensitivity analysis results.
 After running \code{sensemakr} you may directly use the plot and print methods in the returned object.
 
- You may also use the other sensitivity functions of the package directly, such as the functions for sensitivity plots
+You may also use the other sensitivity functions of the package directly, such as the functions for sensitivity plots
 (\code{\link{ovb_contour_plot}}, \code{\link{ovb_extreme_plot}}) the functions for computing bias-adjusted estimates and t-values (\code{\link{adjusted_estimate}}, \code{\link{adjusted_t}}),
 the functions for computing the robustness value and partial R2 (\code{\link{robustness_value}}, \code{\link{partial_r2}}),  or the functions for bounding the strength
 of unobserved confounders (\code{\link{ovb_bounds}}), among others.

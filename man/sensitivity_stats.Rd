@@ -8,17 +8,11 @@
 \usage{
 sensitivity_stats(...)
 
-\method{sensitivity_stats}{lm}(model, treatment, q = 1, alpha = 0.05, ...)
+\method{sensitivity_stats}{lm}(model, treatment, q = 1, alpha = 0.05,
+  ...)
 
-\method{sensitivity_stats}{numeric}(
-  estimate,
-  se,
-  dof,
-  treatment = "treatment",
-  q = 1,
-  alpha = 0.05,
-  ...
-)
+\method{sensitivity_stats}{numeric}(estimate, se, dof,
+  treatment = "treatment", q = 1, alpha = 0.05, ...)
 }
 \arguments{
 \item{...}{Arguments passed to other methods. First argument should either be an

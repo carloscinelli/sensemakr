@@ -8,9 +8,11 @@
 \usage{
 robustness_value(...)
 
-\method{robustness_value}{lm}(model, covariates = NULL, q = 1, alpha = NULL, ...)
+\method{robustness_value}{lm}(model, covariates = NULL, q = 1,
+  alpha = NULL, ...)
 
-\method{robustness_value}{numeric}(t_statistic, dof, q = 1, alpha = NULL, ...)
+\method{robustness_value}{numeric}(t_statistic, dof, q = 1,
+  alpha = NULL, ...)
 }
 \arguments{
 \item{...}{arguments passed to other methods. First argument should either be an \code{lm} model with the

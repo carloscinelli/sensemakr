@@ -9,87 +9,35 @@
 \usage{
 ovb_contour_plot(...)
 
-\method{ovb_contour_plot}{lm}(
-  model,
-  treatment,
-  benchmark_covariates = NULL,
-  kd = 1,
-  ky = kd,
-  r2dz.x = NULL,
-  r2yz.dx = r2dz.x,
-  bound_label = "manual",
-  sensitivity.of = c("estimate", "t-value"),
-  reduce = TRUE,
-  estimate.threshold = 0,
-  t.threshold = 2,
-  lim = max(c(0.4, r2dz.x * 1.2, r2yz.dx * 1.2)),
-  lim.y = lim,
-  nlevels = 10,
-  col.contour = "grey40",
-  col.thr.line = "red",
-  label.text = TRUE,
-  cex.label.text = 0.7,
-  label.bump.x = lim * (1/15),
-  label.bump.y = lim.y * (1/15),
-  round = 3,
-  ...
-)
+\method{ovb_contour_plot}{lm}(model, treatment,
+  benchmark_covariates = NULL, kd = 1, ky = kd, r2dz.x = NULL,
+  r2yz.dx = r2dz.x, bound_label = "manual",
+  sensitivity.of = c("estimate", "t-value"), reduce = TRUE,
+  estimate.threshold = 0, t.threshold = 2, lim = max(c(0.4, r2dz.x *
+  1.2, r2yz.dx * 1.2)), lim.y = lim, nlevels = 10,
+  col.contour = "grey40", col.thr.line = "red", label.text = TRUE,
+  cex.label.text = 0.7, label.bump.x = lim * (1/15),
+  label.bump.y = lim.y * (1/15), round = 3, ...)
 
-\method{ovb_contour_plot}{formula}(
-  formula,
-  data,
-  treatment,
-  benchmark_covariates = NULL,
-  kd = 1,
-  ky = kd,
-  r2dz.x = NULL,
-  r2yz.dx = r2dz.x,
-  bound_label = NULL,
-  sensitivity.of = c("estimate", "t-value"),
-  reduce = TRUE,
-  estimate.threshold = 0,
-  t.threshold = 2,
-  lim = max(c(0.4, r2dz.x * 1.2, r2yz.dx * 1.2)),
-  lim.y = lim,
-  nlevels = 10,
-  col.contour = "grey40",
-  col.thr.line = "red",
-  label.text = TRUE,
-  cex.label.text = 0.7,
-  round = 3,
-  ...
-)
+\method{ovb_contour_plot}{formula}(formula, data, treatment,
+  benchmark_covariates = NULL, kd = 1, ky = kd, r2dz.x = NULL,
+  r2yz.dx = r2dz.x, bound_label = NULL,
+  sensitivity.of = c("estimate", "t-value"), reduce = TRUE,
+  estimate.threshold = 0, t.threshold = 2, lim = max(c(0.4, r2dz.x *
+  1.2, r2yz.dx * 1.2)), lim.y = lim, nlevels = 10,
+  col.contour = "grey40", col.thr.line = "red", label.text = TRUE,
+  cex.label.text = 0.7, round = 3, ...)
 
-\method{ovb_contour_plot}{numeric}(
-  estimate,
-  se,
-  dof,
-  r2dz.x = NULL,
-  r2yz.dx = r2dz.x,
-  bound_label = rep("manual", length(r2dz.x)),
-  sensitivity.of = c("estimate", "t-value"),
-  reduce = TRUE,
-  estimate.threshold = 0,
-  t.threshold = 2,
-  lim = max(c(0.4, r2dz.x * 1.2, r2yz.dx * 1.2)),
-  lim.y = lim,
-  nlevels = 10,
-  col.contour = "black",
-  col.thr.line = "red",
-  label.text = TRUE,
-  cex.label.text = 0.7,
-  label.bump.x = lim * (1/15),
-  label.bump.y = lim.y * (1/15),
-  xlab = NULL,
-  ylab = NULL,
-  cex.lab = 0.8,
-  cex.axis = 0.8,
-  cex.main = 1,
-  asp = 1,
-  list.par = list(mar = c(4, 4, 1, 1), pty = "s"),
-  round = 3,
-  ...
-)
+\method{ovb_contour_plot}{numeric}(estimate, se, dof, r2dz.x = NULL,
+  r2yz.dx = r2dz.x, bound_label = rep("manual", length(r2dz.x)),
+  sensitivity.of = c("estimate", "t-value"), reduce = TRUE,
+  estimate.threshold = 0, t.threshold = 2, lim = max(c(0.4, r2dz.x *
+  1.2, r2yz.dx * 1.2)), lim.y = lim, nlevels = 10,
+  col.contour = "black", col.thr.line = "red", label.text = TRUE,
+  cex.label.text = 0.7, label.bump.x = lim * (1/15),
+  label.bump.y = lim.y * (1/15), xlab = NULL, ylab = NULL,
+  cex.lab = 0.8, cex.axis = 0.8, cex.main = 1, asp = 1,
+  list.par = list(mar = c(4, 4, 1, 1), pty = "s"), round = 3, ...)
 }
 \arguments{
 \item{...}{arguments passed to other methods. First argument should either be an \code{\link{lm}} model with the
