@@ -63,7 +63,7 @@ robustness_value = function(...) {
 #' the robustness value of all covariates.
 #' @param q percent change of the effect estimate that would be deemed problematic.  Default is \code{1},
 #' which means a reduction of 100\% of the current effect estimate (bring estimate to zero). It has to be greater than zero.
-#' @param alpha significance level used for computation of the robustness value. If \code{NULL} (the default), the robustness value refers only to the point estimate, no sampling uncertainty is taken into account.
+#' @param alpha significance level used for computation of the robustness value. If \code{NULL} (the default), the robustness value refers only to the point estimate, no sampling uncertainty is taken into account (this is equivalent to set \code{alpha = 1}).
 #' @rdname robustness_value
 #' @export
 #' @importFrom stats setNames
@@ -104,24 +104,32 @@ robustness_value.numeric <- function(t_statistic, dof, q =1, alpha = NULL, ...){
   check_q(q)
   check_alpha(alpha)
 
-  # Calculate RV
-  # QF is q * absolute value(partial f). We can get partial f from t for cov.
-  # of interest.
-  qf = q * abs(t_statistic / sqrt(dof))
-
-  # If we have an alpha value (i.e. we want to know whether the result will be
-  # significant, rather than whether it will be >0) we need to adjust the qf
-  # accordingly. [eqn. 18 from "Making Sense of Sensitivity"]
-  if (!is.null(alpha)) {
-    critical_f = abs(qt(alpha / 2,
-                        df = dof - 1)) / sqrt(dof - 1)
-      qf = qf - (critical_f)
+  if (is.null(alpha)) {
+    alpha <- 1
   }
 
-  # Eqn. 19 from "Making Sense of Sensitivity"
-  rv <- ifelse(qf < 0, 0,  0.5 * (sqrt(qf^4 + (4 * qf^2)) - qf^2))
-  attributes(rv) <- list(names = names(rv), q = q, alpha = alpha, class = c("numeric","rv"))
-  rv
+  # computes fq
+  fq  <-  q * abs(t_statistic / sqrt(dof))
+
+  # computes critical f
+  f.crit <- abs(qt(alpha / 2, df = dof - 1)) / sqrt(dof - 1)
+
+  # computes fqa
+  fqa <- fq - f.crit
+
+  # constraint binding case
+  rv  <-  0.5 * (sqrt(fqa^4 + (4 * fqa^2)) - fqa^2)
+
+  # constraint not binding case
+  rvx <- (fq^2 - f.crit^2)/(1 + fq^2)
+
+  # combine results
+  rv.out <- rv # initiate everyone as binding
+  rv.out[fqa < 0] <- 0 # zero for those who have negative fqa
+  rv.out[fq > 1/f.crit] <- rvx # extreme rv for those who are not binding
+
+  attributes(rv.out) <- list(names = names(rv.out), q = q, alpha = alpha, class = c("numeric","rv"))
+  rv.out
 }
 
 #
