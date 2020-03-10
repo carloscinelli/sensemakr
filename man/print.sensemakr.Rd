@@ -6,18 +6,14 @@
 \alias{ovb_minimal_reporting}
 \title{Sensitivity analysis print and summary methods for \code{sensemakr}}
 \usage{
-\method{print}{sensemakr}(x, digits = max(3L, getOption("digits") - 2L), ...)
+\method{print}{sensemakr}(x, digits = max(3L, getOption("digits") - 2L),
+  ...)
 
-\method{summary}{sensemakr}(object, digits = max(3L, getOption("digits") - 3L), ...)
+\method{summary}{sensemakr}(object, digits = max(3L, getOption("digits")
+  - 3L), ...)
 
-ovb_minimal_reporting(
-  x,
-  digits = 3,
-  verbose = TRUE,
-  format = c("latex", "html", "pure_html"),
-  float = TRUE,
-  ...
-)
+ovb_minimal_reporting(x, digits = 3, verbose = TRUE,
+  format = c("latex", "html", "pure_html"), float = TRUE, ...)
 }
 \arguments{
 \item{x}{an object of class \code{\link{sensemakr}}.}

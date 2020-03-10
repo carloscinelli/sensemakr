@@ -24,9 +24,11 @@
 \usage{
 adjusted_estimate(...)
 
-\method{adjusted_estimate}{lm}(model, treatment, r2dz.x, r2yz.dx, reduce = TRUE, ...)
+\method{adjusted_estimate}{lm}(model, treatment, r2dz.x, r2yz.dx,
+  reduce = TRUE, ...)
 
-\method{adjusted_estimate}{numeric}(estimate, se, dof, r2dz.x, r2yz.dx, reduce = TRUE, ...)
+\method{adjusted_estimate}{numeric}(estimate, se, dof, r2dz.x, r2yz.dx,
+  reduce = TRUE, ...)
 
 adjusted_se(...)
 
@@ -36,32 +38,19 @@ adjusted_se(...)
 
 adjusted_t(...)
 
-\method{adjusted_t}{numeric}(estimate, se, dof, r2dz.x, r2yz.dx, reduce = TRUE, h0 = 0, ...)
+\method{adjusted_t}{numeric}(estimate, se, dof, r2dz.x, r2yz.dx,
+  reduce = TRUE, h0 = 0, ...)
 
-\method{adjusted_t}{lm}(model, treatment, r2dz.x, r2yz.dx, reduce = TRUE, h0 = 0, ...)
+\method{adjusted_t}{lm}(model, treatment, r2dz.x, r2yz.dx, reduce = TRUE,
+  h0 = 0, ...)
 
 adjusted_partial_r2(...)
 
-\method{adjusted_partial_r2}{numeric}(
-  estimate,
-  se,
-  dof,
-  r2dz.x,
-  r2yz.dx,
-  reduce = TRUE,
-  h0 = 0,
-  ...
-)
+\method{adjusted_partial_r2}{numeric}(estimate, se, dof, r2dz.x, r2yz.dx,
+  reduce = TRUE, h0 = 0, ...)
 
-\method{adjusted_partial_r2}{lm}(
-  model,
-  treatment,
-  r2dz.x,
-  r2yz.dx,
-  reduce = TRUE,
-  h0 = 0,
-  ...
-)
+\method{adjusted_partial_r2}{lm}(model, treatment, r2dz.x, r2yz.dx,
+  reduce = TRUE, h0 = 0, ...)
 
 bias(...)
 

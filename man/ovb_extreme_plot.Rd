@@ -9,59 +9,24 @@
 \usage{
 ovb_extreme_plot(...)
 
-\method{ovb_extreme_plot}{lm}(
-  model,
-  treatment,
-  benchmark_covariates = NULL,
-  kd = 1,
-  r2yz.dx = c(1, 0.75, 0.5),
-  r2dz.x = NULL,
-  reduce = TRUE,
-  threshold = 0,
-  lim = min(c(r2dz.x + 0.1, 0.5)),
-  legend = TRUE,
-  cex.legend = 0.65,
-  legend.bty = "n",
-  ...
-)
+\method{ovb_extreme_plot}{lm}(model, treatment,
+  benchmark_covariates = NULL, kd = 1, r2yz.dx = c(1, 0.75, 0.5),
+  r2dz.x = NULL, reduce = TRUE, threshold = 0, lim = min(c(r2dz.x +
+  0.1, 0.5)), legend = TRUE, cex.legend = 0.65, legend.bty = "n",
+  ...)
 
-\method{ovb_extreme_plot}{formula}(
-  formula,
-  data,
-  treatment,
-  benchmark_covariates = NULL,
-  kd = 1,
-  r2yz.dx = c(1, 0.75, 0.5),
-  r2dz.x = NULL,
-  reduce = TRUE,
-  threshold = 0,
-  lim = min(c(r2dz.x + 0.1, 0.5)),
-  legend = TRUE,
-  cex.legend = 0.65,
-  legend.bty = "n",
-  ...
-)
+\method{ovb_extreme_plot}{formula}(formula, data, treatment,
+  benchmark_covariates = NULL, kd = 1, r2yz.dx = c(1, 0.75, 0.5),
+  r2dz.x = NULL, reduce = TRUE, threshold = 0, lim = min(c(r2dz.x +
+  0.1, 0.5)), legend = TRUE, cex.legend = 0.65, legend.bty = "n",
+  ...)
 
-\method{ovb_extreme_plot}{numeric}(
-  estimate,
-  se,
-  dof,
-  r2dz.x = NULL,
-  r2yz.dx = c(1, 0.75, 0.5),
-  reduce = TRUE,
-  threshold = 0,
-  lim = min(c(r2dz.x + 0.1, 0.5)),
-  legend = TRUE,
-  legend.title = NULL,
-  cex.legend = 0.65,
-  legend.bty = "n",
-  xlab = NULL,
-  ylab = NULL,
-  cex.lab = 0.7,
-  cex.axis = 0.7,
-  list.par = list(oma = c(1, 1, 1, 1)),
-  ...
-)
+\method{ovb_extreme_plot}{numeric}(estimate, se, dof, r2dz.x = NULL,
+  r2yz.dx = c(1, 0.75, 0.5), reduce = TRUE, threshold = 0,
+  lim = min(c(r2dz.x + 0.1, 0.5)), legend = TRUE,
+  legend.title = NULL, cex.legend = 0.65, legend.bty = "n",
+  xlab = NULL, ylab = NULL, cex.lab = 0.7, cex.axis = 0.7,
+  list.par = list(oma = c(1, 1, 1, 1)), ...)
 }
 \arguments{
 \item{...}{arguments passed to other methods. First argument should either be an \code{\link{lm}} model with the
