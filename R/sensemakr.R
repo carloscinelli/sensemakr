@@ -293,13 +293,13 @@ sensemakr.formula <- function(formula,
 }
 
 #' @inheritParams adjusted_estimate
+#' @inheritParams ovb_partial_r2_bound
 #' @export
 #' @rdname sensemakr
 sensemakr.numeric <- function(estimate,
                               se,
                               dof,
                               treatment = "D",
-                              outcome = "Y",
                               q = 1,
                               alpha = 0.05,
                               r2dz.x = NULL,
@@ -382,7 +382,7 @@ sensemakr.numeric <- function(estimate,
     bench_bounds$adjusted_se = adjusted_se(estimate = estimate,
                                          se = se,
                                          dof = dof,
-                                         r2yz.dx =bench_bounds$r2yz.dx,
+                                         r2yz.dx = bench_bounds$r2yz.dx,
                                          r2dz.x = bench_bounds$r2dz.x)
 
     bench_bounds$adjusted_t = adjusted_t(estimate = estimate,

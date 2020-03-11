@@ -45,7 +45,6 @@ sensemakr(...)
   se,
   dof,
   treatment = "D",
-  outcome = "Y",
   q = 1,
   alpha = 0.05,
   r2dz.x = NULL,
@@ -104,6 +103,10 @@ absolute value of the estimated coefficient? Default is \code{TRUE}.}
 \item{se}{Standard error of the coefficient estimate.}
 
 \item{dof}{Residual degrees of freedom of the regression.}
+
+\item{r2dxj.x}{partial R2 of covariate Xj with the treatment D (after partialling out the effect of the remaining covariates X, excluding Xj).}
+
+\item{r2yxj.dx}{partial R2 of covariate Xj with the outcome Y (after partialling out the effect of the remaining covariates X, excluding Xj).}
 }
 \value{
 An object of class \code{sensemakr}, containing:
