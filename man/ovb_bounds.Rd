@@ -26,7 +26,7 @@ ovb_partial_r2_bound(...)
 
 \method{ovb_partial_r2_bound}{numeric}(
   r2dxj.x,
-  r2yxj.x,
+  r2yxj.dx,
   kd = 1,
   ky = 1,
   bound_label = "manual",
@@ -63,7 +63,7 @@ absolute value of the estimated coefficient? Default is \code{TRUE}.}
 
 \item{r2dxj.x}{partial R2 of covariate Xj with the treatment D (after partialling out the effect of the remaining covariates X, excluding Xj).}
 
-\item{r2yxj.x}{partial R2 of covariate Xj with the outcome Y (after partialling out the effect of the remaining covariates X, excluding Xj).}
+\item{r2yxj.dx}{partial R2 of covariate Xj with the outcome Y (after partialling out the effect of the remaining covariates X, excluding Xj).}
 
 \item{bound_label}{label to bounds provided manually in \code{r2dz.x} and \code{r2yz.dx}.}
 }
@@ -104,7 +104,7 @@ ovb_bounds(model, treatment = "directlyharmed",
 
 # Use the t statistic of female in the outcome regression
 # to compute the partial R2 of female with the outcome.
-r2yxj.x <- partial_r2(t_statistic = -9.789, dof = 783)
+r2yxj.dx <- partial_r2(t_statistic = -9.789, dof = 783)
 
 # Use the t-value of female in the *treatment* regression
 # to compute the partial R2 of female with the treatment
@@ -113,7 +113,7 @@ r2dxj.x <- partial_r2(t_statistic = -2.680, dof = 783)
 # Compute manually bounds on the strength of confounders 1, 2, or 3
 # times as strong as female
 bounds <- ovb_partial_r2_bound(r2dxj.x = r2dxj.x,
-                              r2yxj.x = r2yxj.x,
+                              r2yxj.dx = r2yxj.dx,
                               kd = 1:3,
                               ky = 1:3,
                               bound_label = paste(1:3, "x", "female"))

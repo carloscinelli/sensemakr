@@ -294,6 +294,7 @@ sensemakr.formula <- function(formula,
 
 #' @inheritParams adjusted_estimate
 #' @export
+#' @rdname sensemakr
 sensemakr.numeric <- function(estimate,
                               se,
                               dof,
@@ -303,10 +304,10 @@ sensemakr.numeric <- function(estimate,
                               alpha = 0.05,
                               r2dz.x = NULL,
                               r2yz.dx = r2dz.x,
-                              bound_label = "confounder",
-                              benchmark_covariates = NULL,
+                              bound_label = "manual_bound",
                               r2dxj.x = NULL,
-                              r2yxj.x = NULL,
+                              r2yxj.dx = r2dxj.x,
+                              benchmark_covariates = "manual_benchmark",
                               kd = 1,
                               ky = kd,
                               reduce = TRUE,
@@ -360,15 +361,40 @@ sensemakr.numeric <- function(estimate,
     out$bounds <-  NULL
   }
 
-  if (!is.null(benchmark_covariates)) {
+  if (!is.null(r2dxj.x)) {
 
     bound_label <- label_maker(benchmark_covariate = benchmark_covariates,
                                kd = kd, ky = ky)
+
     bench_bounds <- ovb_partial_r2_bound(r2dxj.x = r2dxj.x,
-                                         r2yxj.x = r2yxj.x,
+                                         r2yxj.dx = r2yxj.dx,
                                          kd = kd,
                                          ky = ky,
                                          bound_label = bound_label)
+    # compute adjusted effects
+    bench_bounds$adjusted_estimate = adjusted_estimate(estimate = estimate,
+                                                     se = se,
+                                                     dof = dof,
+                                                     r2yz.dx = bench_bounds$r2yz.dx,
+                                                     r2dz.x =  bench_bounds$r2dz.x,
+                                                     reduce = reduce)
+
+    bench_bounds$adjusted_se = adjusted_se(estimate = estimate,
+                                         se = se,
+                                         dof = dof,
+                                         r2yz.dx =bench_bounds$r2yz.dx,
+                                         r2dz.x = bench_bounds$r2dz.x)
+
+    bench_bounds$adjusted_t = adjusted_t(estimate = estimate,
+                                       se = se,
+                                       dof = dof,
+                                       r2yz.dx = bench_bounds$r2yz.dx,
+                                       r2dz.x =  bench_bounds$r2dz.x,
+                                       reduce = reduce)
+
+    se_multiple <- qt(alpha/2, df = dof, lower.tail = F)
+    bench_bounds$adjusted_lower_CI <- bench_bounds$adjusted_estimate - se_multiple*bench_bounds$adjusted_se
+    bench_bounds$adjusted_upper_CI <- bench_bounds$adjusted_estimate + se_multiple*bench_bounds$adjusted_se
 
     out$bounds <- rbind(out$bounds, bench_bounds)
   }

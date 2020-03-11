@@ -127,7 +127,7 @@ test_that("Manual numeric sensemakr input",
                              ky       = 2)
 
           check_bounds <- out$bounds
-          est <- check_bounds$adjusted_estimate
+          est <- check_bounds$adjusted_estimate[1]
           est.check <- adjusted_estimate(estimate = 2,
                                          se       = 2,
                                          dof      = 100,

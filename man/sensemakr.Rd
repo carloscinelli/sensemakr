@@ -4,6 +4,7 @@
 \alias{sensemakr}
 \alias{sensemakr.lm}
 \alias{sensemakr.formula}
+\alias{sensemakr.numeric}
 \title{Sensitivity analysis to unobserved confounders}
 \usage{
 sensemakr(...)
@@ -35,6 +36,26 @@ sensemakr(...)
   r2dz.x = NULL,
   r2yz.dx = r2dz.x,
   bound_label = "",
+  reduce = TRUE,
+  ...
+)
+
+\method{sensemakr}{numeric}(
+  estimate,
+  se,
+  dof,
+  treatment = "D",
+  outcome = "Y",
+  q = 1,
+  alpha = 0.05,
+  r2dz.x = NULL,
+  r2yz.dx = r2dz.x,
+  bound_label = "manual_bound",
+  r2dxj.x = NULL,
+  r2yxj.dx = r2dxj.x,
+  benchmark_covariates = "manual_benchmark",
+  kd = 1,
+  ky = kd,
   reduce = TRUE,
   ...
 )
@@ -77,6 +98,12 @@ absolute value of the estimated coefficient? Default is \code{TRUE}.}
 \item{formula}{an object of the class \code{\link{formula}}: a symbolic description of the model to be fitted.}
 
 \item{data}{data needed only when you pass a formula as first parameter. An object of the class \code{\link{data.frame}} containing the variables used in the analysis.}
+
+\item{estimate}{Coefficient estimate.}
+
+\item{se}{Standard error of the coefficient estimate.}
+
+\item{dof}{Residual degrees of freedom of the regression.}
 }
 \value{
 An object of class \code{sensemakr}, containing:

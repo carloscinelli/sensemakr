@@ -122,15 +122,15 @@ ovb_bounds.lm <- function(model,
 #   return(out)
 # }
 #
-# partial_r2_bound_no_d <- function(r2dxj.x, r2yxj.x, r2yd.x, kd = 1, ky = 1){
+# partial_r2_bound_no_d <- function(r2dxj.x, r2yxj.dx, r2yd.x, kd = 1, ky = 1){
 #
 #   check_k(ky)
 #   check_k(kd)
-#   if (length(r2dxj.x) != length(r2yxj.x)) stop("r2dxj.x and r2yxj.x must have the same length")
+#   if (length(r2dxj.x) != length(r2yxj.dx)) stop("r2dxj.x and r2yxj.dx must have the same length")
 #   if (length(r2yd.x) > 1) stop("r2yd.x must be of length 1")
 #
 #   r2dz.x = kd*(r2dxj.x/(1 - r2dxj.x))
-#   r2yz.x = ky*(r2yxj.x/(1 - r2yxj.x))
+#   r2yz.x = ky*(r2yxj.dx/(1 - r2yxj.dx))
 #   r2yz.dx = ((sqrt(r2yz.x) - sqrt(r2yd.x)*sqrt(r2dz.x))/(sqrt(1 - r2yd.x)*sqrt(1 - r2dz.x)))^2
 #   out = list(r2dz.x = r2dz.x, r2yz.dx = r2yz.dx)
 #   return(out)
@@ -149,7 +149,7 @@ ovb_partial_r2_bound <- function(...){
 }
 
 #' @param r2dxj.x partial R2 of covariate Xj with the treatment D (after partialling out the effect of the remaining covariates X, excluding Xj).
-#' @param r2yxj.x partial R2 of covariate Xj with the outcome Y (after partialling out the effect of the remaining covariates X, excluding Xj).
+#' @param r2yxj.dx partial R2 of covariate Xj with the outcome Y (after partialling out the effect of the remaining covariates X, excluding Xj).
 #' @return
 #' The function `ovb_partial_r2_bound()` returns only \code{\link{data.frame}} with the bounds on the strength of the unobserved confounder. Adjusted estimates, standard
 #' errors and t-values (among other quantities) need to be computed manually by the user using those bounds with the functions \code{\link{adjusted_estimate}}, \code{\link{adjusted_se}} and \code{\link{adjusted_t}}.
@@ -165,7 +165,7 @@ ovb_partial_r2_bound <- function(...){
 #'
 #'# Use the t statistic of female in the outcome regression
 #'# to compute the partial R2 of female with the outcome.
-#'r2yxj.x <- partial_r2(t_statistic = -9.789, dof = 783)
+#'r2yxj.dx <- partial_r2(t_statistic = -9.789, dof = 783)
 #'
 #'# Use the t-value of female in the *treatment* regression
 #'# to compute the partial R2 of female with the treatment
@@ -174,7 +174,7 @@ ovb_partial_r2_bound <- function(...){
 #'# Compute manually bounds on the strength of confounders 1, 2, or 3
 #'# times as strong as female
 #'bounds <- ovb_partial_r2_bound(r2dxj.x = r2dxj.x,
-#'                               r2yxj.x = r2yxj.x,
+#'                               r2yxj.dx = r2yxj.dx,
 #'                               kd = 1:3,
 #'                               ky = 1:3,
 #'                               bound_label = paste(1:3, "x", "female"))
@@ -197,14 +197,14 @@ ovb_partial_r2_bound <- function(...){
 #' @rdname ovb_bounds
 #' @export
 ovb_partial_r2_bound.numeric <- function(r2dxj.x,
-                                         r2yxj.x,
+                                         r2yxj.dx,
                                          kd = 1,
                                          ky = 1,
                                          bound_label = "manual",
                                          ...){
   # Error handling
 
-  check_r2(r2yz.dx = r2dxj.x, r2dz.x =  r2yxj.x)
+  check_r2(r2yz.dx = r2dxj.x, r2dz.x =  r2yxj.dx)
 
   r2dz.x <- kd*(r2dxj.x/(1 - r2dxj.x))
 
@@ -222,7 +222,7 @@ ovb_partial_r2_bound.numeric <- function(r2dxj.x,
   }
 
   r2yz.dx <- ((sqrt(ky) + sqrt(r2zxj.xd)) /
-               sqrt(1 - r2zxj.xd))^2 * (r2yxj.x / (1 - r2yxj.x))
+               sqrt(1 - r2zxj.xd))^2 * (r2yxj.dx / (1 - r2yxj.dx))
 
   if (any(r2yz.dx > 1)) {
     warning("Implied bound on r2yz.dx greater than 1, try lower kd and/or ky. Setting r2yz.dx to 1.")
@@ -254,7 +254,7 @@ ovb_partial_r2_bound.lm <- function(model,
   bounds <- vector(mode = "list", length = length(benchmark_covariates))
 
   # gets partial r2 with outcome
-  r2yxj.x <- partial_r2(model, covariates = benchmark_covariates)
+  r2yxj.dx <- partial_r2(model, covariates = benchmark_covariates)
 
   # gets partial r2 with treatment
   treatment_model <- update(model,  paste(treatment, "~ . - ", treatment))
@@ -267,7 +267,7 @@ ovb_partial_r2_bound.lm <- function(model,
                               ky = ky)
 
     bounds[[i]] <- ovb_partial_r2_bound(r2dxj.x = r2dxj.x[i],
-                                        r2yxj.x = r2yxj.x[i],
+                                        r2yxj.dx = r2yxj.dx[i],
                                         kd = kd,
                                         ky = ky,
                                         bound_label = bound_label)

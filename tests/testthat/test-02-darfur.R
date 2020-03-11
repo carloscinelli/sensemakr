@@ -196,7 +196,7 @@ test_that(desc = "testing darfur sensemakr manually",
                                     treatment = "directlyharmed",
                                     benchmark_covariates = "female",
                                     r2dxj.x = partial_r2(model.treat, covariates = "female"),
-                                    r2yxj.x = partial_r2(model, covariates = "female"),
+                                    r2yxj.dx = partial_r2(model, covariates = "female"),
                                     kd = 1:3)
             plot(darfur_out)
             plot(darfur_out, type = "extreme")
@@ -217,17 +217,28 @@ test_that(desc = "testing darfur sensemakr manually",
             expect_equivalent(c(darfur_out$sensitivity_stats$rv_qa), 0.07626, tolerance = 1e-5)
 
             # bounds
-            check_bounds <- structure(list(bound_label = c("1x female", "2x female", "3x female"),
-                                           r2dz.x = c(0.00916428667504862, 0.0183285733500972, 0.0274928600251459),
-                                           r2yz.dx = c(0.12464092303637, 0.249324064199975, 0.374050471038094),
-                                           adjusted_estimate = c(0.0752202712144491, 0.0529151723844518, 0.0303960234641548),
-                                           adjusted_se = c(0.0218733277437572, 0.0203500620779637, 0.0186700648170924),
-                                           adjusted_t = c(3.43890386024675, 2.60024623913809, 1.62806202131271)),
-                                      .Names = c("bound_label", "r2dz.x", "r2yz.dx",
-                                                 "adjusted_estimate", "adjusted_se", "adjusted_t"),
-                                      row.names = c(NA, -3L), class = c("ovb_bounds", "data.frame"))
+            check_bounds <-
+              structure(
+                list(
+                  bound_label = c("1x female", "2x female", "3x female"),
+                  r2dz.x = c(0.00916428667504862, 0.0183285733500972, 0.0274928600251459),
+                  r2yz.dx = c(0.12464092303637, 0.249324064199975, 0.374050471038094),
+                  adjusted_estimate = c(0.0752202698486415, 0.0529151689180575,
+                                        0.0303960178770157),
+                  adjusted_se = c(0.0218733298036818, 0.0203500639944344,
+                                  0.0186700665753491),
+                  adjusted_t = c(3.43890347394571, 2.60024582392121,
+                                 1.62806156873318),
+                  adjusted_lower_CI = c(0.0322829603180086,
+                                        0.0129680276030601, -0.00625329133645187),
+                  adjusted_upper_CI = c(0.118157579379274,
+                                        0.092862310233055, 0.0670453270904833)
+                ),
+                row.names = c(NA, -3L),
+                class = "data.frame"
+              )
 
-            expect_equal(as.data.frame(darfur_out$bounds), as.data.frame(check_bounds[1:3]))
+            expect_equal(as.data.frame(darfur_out$bounds), as.data.frame(check_bounds))
           })
 
 
