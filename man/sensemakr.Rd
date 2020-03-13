@@ -39,7 +39,7 @@ Default value is the same as \code{kd}.}
 \item{q}{percent change of the effect estimate that would be deemed problematic.  Default is \code{1},
 which means a reduction of 100\% of the current effect estimate (bring estimate to zero). It has to be greater than zero.}
 
-\item{alpha}{significance level used for computation of the robustness value. If \code{NULL} (the default), the robustness value refers only to the point estimate, no sampling uncertainty is taken into account.}
+\item{alpha}{significance level used for computation of the robustness value. If \code{NULL} (the default), the robustness value refers only to the point estimate, no sampling uncertainty is taken into account (this is equivalent to set \code{alpha = 1}).}
 
 \item{r2dz.x}{Hypothetical partial R2 of unobserved confounder
 Z with treatment D, given covariates X.}
