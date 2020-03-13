@@ -29,24 +29,30 @@ Methodology).](https://doi.org/10.1111/rssb.12348)
   - Check out the Robustness Value Shiny App at:
     <https://carloscinelli.shinyapps.io/robustness_value/>
 
-  - A stata version of the packge is coming soon.
+  - Check out the [package
+    website](http://carloscinelli.com/sensemakr/)\!
+
+  - A stata version of the packge is coming very soon.
+
+  - Software paper coming soon.
 
 # Details
 
 For theoretical details, [please see the full
 paper](https://www.researchgate.net/publication/322509816_Making_Sense_of_Sensitivity_Extending_Omitted_Variable_Bias).
-A step-by-step hands on vignette will be ready soon.
+
+For a practical introduction, [see the package
+vignette](http://carloscinelli.com/sensemakr/articles/sensemakr.html).
 
 # CRAN
 
-The package has just been released on CRAN\! To install the current CRAN
-version run:
+To install the current CRAN version run:
 
 ``` r
 install.packages("sensemakr")
 ```
 
-# How to install the development version from GitHub
+# Development version
 
 To install the development version on GitHub make sure you have the
 package `devtools` installed.

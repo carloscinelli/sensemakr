@@ -63,14 +63,14 @@ robustness_value = function(...) {
 #' the robustness value of all covariates.
 #' @param q percent change of the effect estimate that would be deemed problematic.  Default is \code{1},
 #' which means a reduction of 100\% of the current effect estimate (bring estimate to zero). It has to be greater than zero.
-#' @param alpha significance level used for computation of the robustness value. If \code{NULL} (the default), the robustness value refers only to the point estimate, no sampling uncertainty is taken into account (this is equivalent to set \code{alpha = 1}).
+#' @param alpha significance level.
 #' @rdname robustness_value
 #' @export
 #' @importFrom stats setNames
 robustness_value.lm = function(model,
                                covariates = NULL,
                                q = 1,
-                               alpha = NULL, ...) {
+                               alpha = 1, ...) {
 
   # check arguments
   check_q(q)
@@ -98,7 +98,7 @@ robustness_value.default = function(model, ...) {
 #' @param  dof residual degrees of freedom of the regression
 #' @rdname robustness_value
 #' @export
-robustness_value.numeric <- function(t_statistic, dof, q =1, alpha = NULL, ...){
+robustness_value.numeric <- function(t_statistic, dof, q =1, alpha = 1, ...){
 
   # check arguments
   check_q(q)
@@ -464,10 +464,9 @@ check_q <- function(q) {
 
 check_alpha <- function(alpha) {
   # Error: alpha, if provided, was non-numeric or out of bounds
-  if (!is.null(alpha) && (!is.numeric(alpha) || length(alpha) > 1 ||
+  if ((!is.numeric(alpha) || length(alpha) > 1 ||
                           alpha < 0 || alpha > 1)) {
-    stop("The `alpha` parameter, if provided, must be a single number ",
-         "between 0 and 1.")
+    stop("`alpha` must be between 0 and 1.")
   }
 }
 
