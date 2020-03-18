@@ -170,8 +170,8 @@ ovb_contour_plot = function(...) {
 #' or adjusted t-values (\code{"t-value"})?
 #' @param estimate.threshold critical threshold for the point estimate.
 #' @param t.threshold critical threshold for the t-value.
-#' @param lim sets limit for plot axis. If `lim.y` is also provided, sets limit for x-axis only.
-#' @param lim.y sets limit for y-axis. Default is the same as `lim`.
+#' @param lim sets limit for x-axis. If `NULL`, limits are computed automatically.
+#' @param lim.y  sets limit for y-axis. If `NULL`, limits are computed automatically.
 #' @param nlevels number of levels for the contour plot.
 #' @param col.contour color of contour lines.
 #' @param col.thr.line color of threshold contour line.
@@ -183,6 +183,7 @@ ovb_contour_plot = function(...) {
 ovb_contour_plot.lm = function(model,
                                treatment,
                                benchmark_covariates = NULL,
+                               group_benchmarks = NULL,
                                kd = 1,
                                ky = kd,
                                r2dz.x = NULL,
@@ -192,43 +193,17 @@ ovb_contour_plot.lm = function(model,
                                reduce = TRUE,
                                estimate.threshold = 0,
                                t.threshold = 2,
-                               lim = max(c(0.4, r2dz.x*1.2, r2yz.dx*1.2)),
-                               lim.y = lim,
                                nlevels = 10,
                                col.contour = "grey40",
                                col.thr.line = "red",
                                label.text = TRUE,
                                cex.label.text = .7,
-                               label.bump.x = lim*(1/15),
-                               label.bump.y = lim.y*(1/15),
                                round = 3,
                                ...) {
 
 
   check_multipliers(ky = ky, kd = kd)
-  if (lim > 1) {
-    lim <- 1
-    label.bump.x = lim*(1/15)
-    warning("Contour limit larger than 1 was set to 1.")
-  }
 
-  if (lim.y > 1) {
-    lim.y <- 1
-    label.bump.y = lim.y*(1/15)
-    warning("Contour limit larger than 1 was set to 1.")
-  }
-
-  if (lim < 0) {
-    lim <- 0.4
-    label.bump.x = lim*(1/15)
-    warning("Contour limit less than 0 was set to 0.4.")
-  }
-
-  if (lim.y < 0) {
-    lim.y <- 0.4
-    label.bump.y = lim.y*(1/15)
-    warning("Contour limit less than 0 was set to 0.4.")
-  }
 
   sensitivity.of <- match.arg(sensitivity.of)
   # extract model data
@@ -246,28 +221,21 @@ ovb_contour_plot.lm = function(model,
                           r2yz.dx = r2yz.dx,
                           bound_label = bound_label,
                           stringsAsFactors = FALSE)
-    lim <- max(c(lim, r2dz.x*1.2))
-    label.bump.x = lim*(1/15)
-    lim.y <- max(c(lim.y, r2yz.dx*1.2))
-    label.bump.y = lim.y*(1/15)
   } else{
     bounds <-  NULL
   }
 
-  if (!is.null(benchmark_covariates)) {
+  if (!is.null(benchmark_covariates) | !is.null(group_benchmarks)) {
 
     # we will need to add an option for the bound type
     bench_bounds <- ovb_bounds(model = model,
                                treatment = treatment,
                                benchmark_covariates = benchmark_covariates,
+                               group_benchmarks = group_benchmarks,
                                kd = kd,
                                ky = ky,
                                adjusted_estimates = FALSE)
     bounds <- rbind(bounds, bench_bounds)
-    lim <- max(c(lim, bounds$r2dz.x*1.2))
-    label.bump.x = lim*(1/15)
-    lim.y <- max(c(lim.y, bounds$r2yz.dx*1.2))
-    label.bump.y = lim.y*(1/15)
   }
 
   # update treatment env
@@ -283,15 +251,11 @@ ovb_contour_plot.lm = function(model,
                    bound_label = bounds$bound_label,
                    sensitivity.of = sensitivity.of,
                    t.threshold = t.threshold,
-                   lim = lim,
-                   lim.y = lim.y,
                    nlevels = nlevels,
                    col.contour = col.contour,
                    col.thr.line = col.thr.line,
                    label.text = label.text,
                    cex.label.text = cex.label.text,
-                   label.bump.x = label.bump.x,
-                   label.bump.y = label.bump.y,
                    round = round,
                    ...)
 
@@ -306,6 +270,7 @@ ovb_contour_plot.formula = function(formula,
                                     data,
                                     treatment,
                                     benchmark_covariates = NULL,
+                                    group_benchmarks = NULL,
                                     kd = 1,
                                     ky = kd,
                                     r2dz.x = NULL,
@@ -315,8 +280,6 @@ ovb_contour_plot.formula = function(formula,
                                     reduce = TRUE,
                                     estimate.threshold = 0,
                                     t.threshold = 2,
-                                    lim = max(c(0.4, r2dz.x*1.2, r2yz.dx*1.2)),
-                                    lim.y = lim,
                                     nlevels = 10,
                                     col.contour = "grey40",
                                     col.thr.line = "red",
@@ -341,6 +304,7 @@ ovb_contour_plot.formula = function(formula,
   ovb_contour_plot(model = outcome_model,
                    treatment = treatment,
                    benchmark_covariates = benchmark_covariates,
+                   group_benchmarks = group_benchmarks,
                    kd = kd,
                    ky = ky,
                    reduce = reduce,
@@ -350,8 +314,6 @@ ovb_contour_plot.formula = function(formula,
                    bound_label = bound_label,
                    sensitivity.of = sensitivity.of,
                    t.threshold = t.threshold,
-                   lim = lim,
-                   lim.y = lim.y,
                    nlevels = nlevels,
                    col.contour = col.contour,
                    col.thr.line = col.thr.line,
@@ -385,15 +347,15 @@ ovb_contour_plot.numeric = function(estimate,
                                     reduce = TRUE,
                                     estimate.threshold = 0,
                                     t.threshold = 2,
-                                    lim = max(c(0.4, r2dz.x*1.2, r2yz.dx*1.2)),
-                                    lim.y = lim,
+                                    lim = NULL,
+                                    lim.y = NULL,
                                     nlevels = 10,
                                     col.contour = "black",
                                     col.thr.line = "red",
                                     label.text = TRUE,
                                     cex.label.text = .7,
-                                    label.bump.x = lim*(1/15),
-                                    label.bump.y = lim.y*(1/15),
+                                    label.bump.x = NULL,
+                                    label.bump.y = NULL,
                                     xlab = NULL,
                                     ylab = NULL,
                                     cex.lab = .8,
@@ -406,34 +368,47 @@ ovb_contour_plot.numeric = function(estimate,
 
   check_estimate(estimate)
   check_r2(r2dz.x = r2dz.x, r2yz.dx = r2yz.dx)
+  if (length(r2dz.x) != length(r2yz.dx)) {
+    stop("Length of r2dz.x and r2yz.dx partial R2 must match")
+  }
+
+  if (is.null(lim)){
+    lim   <- min(max(c(0.4, r2dz.x*1.2)), 1 - 1e-12)
+  }
+
+  if (is.null(lim.y)){
+    lim.y <- min(max(c(0.4, r2yz.dx*1.2)), 1 - 1e-12)
+  }
+
+  if (is.null(label.bump.x)){
+    label.bump.x <- lim*(1/15)
+  }
+
+  if (is.null(label.bump.y)){
+    label.bump.y <- lim.y*(1/15)
+  }
 
   if (lim > 1) {
-    lim <- 1
-    label.bump.x = lim*(1/15)
+    lim <- 1 - 1e-12
     warning("Contour limit larger than 1 was set to 1.")
   }
 
   if (lim.y > 1) {
-    lim.y <- 1
-    label.bump.y = lim.y*(1/15)
+    lim.y <- 1 - 1e-12
     warning("Contour limit larger than 1 was set to 1.")
   }
 
   if (lim < 0) {
     lim <- 0.4
-    label.bump.x = lim*(1/15)
     warning("Contour limit less than 0 was set to 0.4.")
   }
 
   if (lim.y < 0) {
     lim.y <- 0.4
-    label.bump.y = lim.y*(1/15)
     warning("Contour limit less than 0 was set to 0.4.")
   }
 
-  if (length(r2dz.x) != length(r2yz.dx)) {
-    stop("Length of r2dz.x and r2yz.dx partial R2 must match")
-  }
+
 
   sensitivity.of <- match.arg(sensitivity.of)
 
@@ -848,6 +823,7 @@ ovb_extreme_plot <- function(...){
 ovb_extreme_plot.lm <- function(model,
                                 treatment,
                                 benchmark_covariates = NULL,
+                                group_benchmarks = NULL,
                                 kd = 1,
                                 r2yz.dx = c(1, 0.75, 0.5),
                                 r2dz.x = NULL,
@@ -878,11 +854,12 @@ ovb_extreme_plot.lm <- function(model,
   se <- model_data$se
   dof <- model_data$dof
 
-  if (!is.null(benchmark_covariates)) {
+  if (!is.null(benchmark_covariates) | !is.null(group_benchmarks)) {
       # TODO: We will need to make bound_type an option later
       bounds <- ovb_bounds(model = model,
                            treatment = treatment,
                            benchmark_covariates = benchmark_covariates,
+                           group_benchmarks = group_benchmarks,
                            kd = kd,
                            ky = 1)
 
@@ -916,6 +893,7 @@ ovb_extreme_plot.formula = function(formula,
                                     data,
                                     treatment,
                                     benchmark_covariates = NULL,
+                                    group_benchmarks = NULL,
                                     kd = 1,
                                     r2yz.dx = c(1, 0.75, 0.5),
                                     r2dz.x = NULL,
@@ -936,6 +914,7 @@ ovb_extreme_plot.formula = function(formula,
   ovb_extreme_plot(model = outcome_model,
                    treatment = treatment,
                    benchmark_covariates = benchmark_covariates,
+                   group_benchmarks = group_benchmarks,
                    kd = kd,
                    r2yz.dx = r2yz.dx,
                    r2dz.x = r2dz.x,

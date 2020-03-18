@@ -13,6 +13,7 @@ ovb_extreme_plot(...)
   model,
   treatment,
   benchmark_covariates = NULL,
+  group_benchmarks = NULL,
   kd = 1,
   r2yz.dx = c(1, 0.75, 0.5),
   r2dz.x = NULL,
@@ -30,6 +31,7 @@ ovb_extreme_plot(...)
   data,
   treatment,
   benchmark_covariates = NULL,
+  group_benchmarks = NULL,
   kd = 1,
   r2yz.dx = c(1, 0.75, 0.5),
   r2dz.x = NULL,
@@ -77,6 +79,8 @@ of the model.}
 \item{benchmark_covariates}{a character vector of the names of covariates that will be used to bound the plausible strength
 of the unobserved confounders.}
 
+\item{group_benchmarks}{a named list with character vector names of covariates that will be used, as a group, to bound the plausible strength of the unobserved confounders. The names of the list will be used for the benchmark labels. Note: for factor variables with more than two levels, you need to provide the name of each level as encoded in the \code{lm} model (the columns of \code{model.matrix}).}
+
 \item{kd}{numeric vector. Parameterizes how many times stronger the confounder is related to the treatment in comparison to the observed benchmark covariate.
 Default value is \code{1} (confounder is as strong as benchmark covariate).}
 
@@ -91,7 +95,7 @@ absolute value of the estimated coefficient? Default is \code{TRUE}.}
 
 \item{threshold}{estimate threshold.}
 
-\item{lim}{sets limit for plot axis. If `lim.y` is also provided, sets limit for x-axis only.}
+\item{lim}{sets limit for x-axis. If `NULL`, limits are computed automatically.}
 
 \item{legend}{should legend be plotted? Default is \code{TRUE}.}
 

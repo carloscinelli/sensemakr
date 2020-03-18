@@ -49,7 +49,8 @@ ovb_bounds <- function(...){
 #' @export
 ovb_bounds.lm <- function(model,
                           treatment,
-                          benchmark_covariates,
+                          benchmark_covariates = NULL,
+                          group_benchmarks = NULL,
                           kd = 1,
                           ky = kd,
                           reduce = TRUE,
@@ -68,6 +69,7 @@ ovb_bounds.lm <- function(model,
   bounds <- bounder(model = model,
                     treatment = treatment,
                     benchmark_covariates = benchmark_covariates,
+                    group_benchmarks = group_benchmarks,
                     kd = kd,
                     ky = ky)
 
@@ -239,7 +241,8 @@ ovb_partial_r2_bound.numeric <- function(r2dxj.x,
 
 ovb_partial_r2_bound.lm <- function(model,
                                     treatment,
-                                    benchmark_covariates,
+                                    benchmark_covariates = NULL,
+                                    group_benchmarks = NULL,
                                     kd = 1,
                                     ky = kd,
                                     adjusted_estimates = TRUE,
@@ -249,16 +252,44 @@ ovb_partial_r2_bound.lm <- function(model,
   if (length(treatment) > 1) stop("You must pass only one treatment")
 
 
-  if (!is.character(benchmark_covariates)) stop("Argument benchmark_covariates must be a string.")
+  if (!is.null(benchmark_covariates) & !is.character(benchmark_covariates))
+    stop("Argument benchmark_covariates must be a string.")
 
+
+  # treatment model
+  treatment_model <- update(model,  paste(treatment, "~ . - ", treatment))
+
+  # initialize
   bounds <- vector(mode = "list", length = length(benchmark_covariates))
+  r2yxj.dx <- NULL
+  r2dxj.x  <- NULL
 
+  if(!is.null(benchmark_covariates)){
   # gets partial r2 with outcome
   r2yxj.dx <- partial_r2(model, covariates = benchmark_covariates)
 
   # gets partial r2 with treatment
-  treatment_model <- update(model,  paste(treatment, "~ . - ", treatment))
   r2dxj.x <- partial_r2(treatment_model, covariates = benchmark_covariates)
+  }
+
+  if (!is.null(group_benchmarks)){
+    if (!is.list(group_benchmarks)) stop("group_benchmarks must be a list")
+    if (is.null(names(group_benchmarks))) stop("group_benchmarks must be a *named* list.
+                                               Names are used for labeling the benchmarks.")
+    n_groups <- length(group_benchmarks)
+    label.groups <- r2d.group <- r2y.group <- rep(NA, n_groups)
+
+    for(i in seq_along(group_benchmarks)){
+      r2y.group[i] <-  group_partial_r2(model, covariates = group_benchmarks[[i]])
+      r2d.group[i] <-  group_partial_r2(treatment_model, covariates = group_benchmarks[[i]])
+      label.groups[i] <- names(group_benchmarks)[i]
+    }
+
+    r2yxj.dx <- c(r2yxj.dx, r2y.group)
+    r2dxj.x  <- c(r2dxj.x, r2d.group)
+    benchmark_covariates <- c(benchmark_covariates, label.groups)
+
+  }
 
   for (i in seq_along(benchmark_covariates)) {
 

@@ -13,6 +13,7 @@ ovb_contour_plot(...)
   model,
   treatment,
   benchmark_covariates = NULL,
+  group_benchmarks = NULL,
   kd = 1,
   ky = kd,
   r2dz.x = NULL,
@@ -22,15 +23,11 @@ ovb_contour_plot(...)
   reduce = TRUE,
   estimate.threshold = 0,
   t.threshold = 2,
-  lim = max(c(0.4, r2dz.x * 1.2, r2yz.dx * 1.2)),
-  lim.y = lim,
   nlevels = 10,
   col.contour = "grey40",
   col.thr.line = "red",
   label.text = TRUE,
   cex.label.text = 0.7,
-  label.bump.x = lim * (1/15),
-  label.bump.y = lim.y * (1/15),
   round = 3,
   ...
 )
@@ -40,6 +37,7 @@ ovb_contour_plot(...)
   data,
   treatment,
   benchmark_covariates = NULL,
+  group_benchmarks = NULL,
   kd = 1,
   ky = kd,
   r2dz.x = NULL,
@@ -49,8 +47,6 @@ ovb_contour_plot(...)
   reduce = TRUE,
   estimate.threshold = 0,
   t.threshold = 2,
-  lim = max(c(0.4, r2dz.x * 1.2, r2yz.dx * 1.2)),
-  lim.y = lim,
   nlevels = 10,
   col.contour = "grey40",
   col.thr.line = "red",
@@ -71,15 +67,15 @@ ovb_contour_plot(...)
   reduce = TRUE,
   estimate.threshold = 0,
   t.threshold = 2,
-  lim = max(c(0.4, r2dz.x * 1.2, r2yz.dx * 1.2)),
-  lim.y = lim,
+  lim = NULL,
+  lim.y = NULL,
   nlevels = 10,
   col.contour = "black",
   col.thr.line = "red",
   label.text = TRUE,
   cex.label.text = 0.7,
-  label.bump.x = lim * (1/15),
-  label.bump.y = lim.y * (1/15),
+  label.bump.x = NULL,
+  label.bump.y = NULL,
   xlab = NULL,
   ylab = NULL,
   cex.lab = 0.8,
@@ -105,6 +101,8 @@ of the model.}
 \item{benchmark_covariates}{a character vector of the names of covariates that will be used to bound the plausible strength
 of the unobserved confounders.}
 
+\item{group_benchmarks}{a named list with character vector names of covariates that will be used, as a group, to bound the plausible strength of the unobserved confounders. The names of the list will be used for the benchmark labels. Note: for factor variables with more than two levels, you need to provide the name of each level as encoded in the \code{lm} model (the columns of \code{model.matrix}).}
+
 \item{kd}{numeric vector. Parameterizes how many times stronger the confounder is related to the treatment in comparison to the observed benchmark covariate.
 Default value is \code{1} (confounder is as strong as benchmark covariate).}
 
@@ -129,10 +127,6 @@ absolute value of the estimated coefficient? Default is \code{TRUE}.}
 
 \item{t.threshold}{critical threshold for the t-value.}
 
-\item{lim}{sets limit for plot axis. If `lim.y` is also provided, sets limit for x-axis only.}
-
-\item{lim.y}{sets limit for y-axis. Default is the same as `lim`.}
-
 \item{nlevels}{number of levels for the contour plot.}
 
 \item{col.contour}{color of contour lines.}
@@ -142,10 +136,6 @@ absolute value of the estimated coefficient? Default is \code{TRUE}.}
 \item{label.text}{should label texts be plotted? Default is \code{TRUE}.}
 
 \item{cex.label.text}{size of the label text.}
-
-\item{label.bump.x}{bump on the x coordinate of label text.}
-
-\item{label.bump.y}{bump on the y coordinate of label text.}
 
 \item{round}{number of digits to show in contours and bound values}
 
@@ -158,6 +148,14 @@ absolute value of the estimated coefficient? Default is \code{TRUE}.}
 \item{se}{Standard error of the coefficient estimate.}
 
 \item{dof}{Residual degrees of freedom of the regression.}
+
+\item{lim}{sets limit for x-axis. If `NULL`, limits are computed automatically.}
+
+\item{lim.y}{sets limit for y-axis. If `NULL`, limits are computed automatically.}
+
+\item{label.bump.x}{bump on the x coordinate of label text.}
+
+\item{label.bump.y}{bump on the y coordinate of label text.}
 
 \item{xlab}{label of x axis. If `NULL`, default label is used.}
 

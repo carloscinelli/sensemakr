@@ -166,6 +166,7 @@ sensemakr <- function(...){
 #' @inheritParams adjusted_estimate
 #' @param benchmark_covariates a character vector of the names of covariates that will be used to bound the plausible strength
 #' of the unobserved confounders.
+#' @param group_benchmarks a named list with character vector names of covariates that will be used, as a group, to bound the plausible strength of the unobserved confounders. The names of the list will be used for the benchmark labels. Note: for factor variables with more than two levels, you need to provide the name of each level as encoded in the \code{lm} model (the columns of \code{model.matrix}).
 #' @param kd numeric vector. Parameterizes how many times stronger the confounder is related to the treatment in comparison to the observed benchmark covariate.
 #' Default value is \code{1} (confounder is as strong as benchmark covariate).
 #' @param ky numeric vector. Parameterizes how many times stronger the confounder is related to the outcome in comparison to the observed benchmark covariate.
@@ -177,6 +178,7 @@ sensemakr <- function(...){
 sensemakr.lm <- function(model,
                          treatment,
                          benchmark_covariates = NULL,
+                         group_benchmarks = NULL,
                          kd = 1,
                          ky = kd,
                          q = 1,
@@ -233,10 +235,11 @@ sensemakr.lm <- function(model,
     out$bounds <-  NULL
   }
 
-  if (!is.null(benchmark_covariates)) {
+  if (!is.null(benchmark_covariates) | !is.null(group_benchmarks)) {
     bench_bounds <- ovb_bounds(model = model,
                                treatment = treatment,
                                benchmark_covariates = benchmark_covariates,
+                               group_benchmarks = group_benchmarks,
                                kd = kd,
                                ky = ky,
                                q = q,
