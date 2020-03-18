@@ -146,10 +146,10 @@ fully account for the observed effect. You may also compute robustness value tak
     <pre class="usage"><span class='fu'>robustness_value</span>(<span class='no'>...</span>)
 
 <span class='co'># S3 method for lm</span>
-<span class='fu'>robustness_value</span>(<span class='no'>model</span>, <span class='kw'>covariates</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>q</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)
+<span class='fu'>robustness_value</span>(<span class='no'>model</span>, <span class='kw'>covariates</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>q</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for numeric</span>
-<span class='fu'>robustness_value</span>(<span class='no'>t_statistic</span>, <span class='no'>dof</span>, <span class='kw'>q</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
+<span class='fu'>robustness_value</span>(<span class='no'>t_statistic</span>, <span class='no'>dof</span>, <span class='kw'>q</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -175,7 +175,7 @@ which means a reduction of 100% of the current effect estimate (bring estimate t
     </tr>
     <tr>
       <th>alpha</th>
-      <td><p>significance level used for computation of the robustness value. If <code>NULL</code> (the default), the robustness value refers only to the point estimate, no sampling uncertainty is taken into account.</p></td>
+      <td><p>significance level.</p></td>
     </tr>
     <tr>
       <th>t_statistic</th>
@@ -207,11 +207,11 @@ which means a reduction of 100% of the current effect estimate (bring estimate t
 <span class='co'>## robustness value of directly harmed q =1 (reduce estimate to zero)</span>
 <span class='fu'>robustness_value</span>(<span class='no'>model</span>, <span class='kw'>covariates</span> <span class='kw'>=</span> <span class='st'>"directlyharmed"</span>)</div><div class='output co'>#&gt; directlyharmed 
 #&gt;      0.1387764 
-#&gt; Parameters: q = 1</div><div class='input'>
+#&gt; Parameters: q = 1, alpha = 1 </div><div class='input'>
 <span class='co'>## robustness value of directly harmed q = 1/2 (reduce estimate in half)</span>
 <span class='fu'>robustness_value</span>(<span class='no'>model</span>, <span class='kw'>covariates</span> <span class='kw'>=</span> <span class='st'>"directlyharmed"</span>, <span class='kw'>q</span> <span class='kw'>=</span> <span class='fl'>1</span>/<span class='fl'>2</span>)</div><div class='output co'>#&gt; directlyharmed 
 #&gt;     0.07202698 
-#&gt; Parameters: q = 0.5</div><div class='input'>
+#&gt; Parameters: q = 0.5, alpha = 1 </div><div class='input'>
 <span class='co'>## robustness value of directly harmed q = 1/2, alpha = 0.05</span>
 <span class='co'>## (reduce estimate in half, with 95% confidence)</span>
 <span class='fu'>robustness_value</span>(<span class='no'>model</span>, <span class='kw'>covariates</span> <span class='kw'>=</span> <span class='st'>"directlyharmed"</span>, <span class='kw'>q</span> <span class='kw'>=</span> <span class='fl'>1</span>/<span class='fl'>2</span>, <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>0.05</span>)</div><div class='output co'>#&gt; directlyharmed 
@@ -219,7 +219,7 @@ which means a reduction of 100% of the current effect estimate (bring estimate t
 #&gt; Parameters: q = 0.5, alpha = 0.05 </div><div class='input'>
 <span class='co'># you can also provide the statistics directly</span>
 <span class='fu'>robustness_value</span>(<span class='kw'>t_statistic</span> <span class='kw'>=</span> <span class='fl'>4.18445</span>, <span class='kw'>dof</span> <span class='kw'>=</span> <span class='fl'>783</span>)</div><div class='output co'>#&gt; [1] 0.1387764
-#&gt; Parameters: q = 1</div></pre>
+#&gt; Parameters: q = 1, alpha = 1 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

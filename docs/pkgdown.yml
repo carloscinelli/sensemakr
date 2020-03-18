@@ -1,7 +1,8 @@
-pandoc: 2.3.1
+pandoc: 2.7.3
 pkgdown: 1.4.1
 pkgdown_sha: ~
 articles:
   informal_benchmarking: informal_benchmarking.html
   sensemakr: sensemakr.html
+  sensitivity_you_see_in_print: sensitivity_you_see_in_print.html
 

@@ -138,6 +138,7 @@ After running <code>sensemakr</code> you may directly use the <code>plot</code>,
   <span class='no'>model</span>,
   <span class='no'>treatment</span>,
   <span class='kw'>benchmark_covariates</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>group_benchmarks</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>kd</span> <span class='kw'>=</span> <span class='fl'>1</span>,
   <span class='kw'>ky</span> <span class='kw'>=</span> <span class='no'>kd</span>,
   <span class='kw'>q</span> <span class='kw'>=</span> <span class='fl'>1</span>,
@@ -162,6 +163,26 @@ After running <code>sensemakr</code> you may directly use the <code>plot</code>,
   <span class='kw'>r2dz.x</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>r2yz.dx</span> <span class='kw'>=</span> <span class='no'>r2dz.x</span>,
   <span class='kw'>bound_label</span> <span class='kw'>=</span> <span class='st'>""</span>,
+  <span class='kw'>reduce</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='no'>...</span>
+)
+
+<span class='co'># S3 method for numeric</span>
+<span class='fu'>sensemakr</span>(
+  <span class='no'>estimate</span>,
+  <span class='no'>se</span>,
+  <span class='no'>dof</span>,
+  <span class='kw'>treatment</span> <span class='kw'>=</span> <span class='st'>"D"</span>,
+  <span class='kw'>q</span> <span class='kw'>=</span> <span class='fl'>1</span>,
+  <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>0.05</span>,
+  <span class='kw'>r2dz.x</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>r2yz.dx</span> <span class='kw'>=</span> <span class='no'>r2dz.x</span>,
+  <span class='kw'>bound_label</span> <span class='kw'>=</span> <span class='st'>"manual_bound"</span>,
+  <span class='kw'>r2dxj.x</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>r2yxj.dx</span> <span class='kw'>=</span> <span class='no'>r2dxj.x</span>,
+  <span class='kw'>benchmark_covariates</span> <span class='kw'>=</span> <span class='st'>"manual_benchmark"</span>,
+  <span class='kw'>kd</span> <span class='kw'>=</span> <span class='fl'>1</span>,
+  <span class='kw'>ky</span> <span class='kw'>=</span> <span class='no'>kd</span>,
   <span class='kw'>reduce</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='no'>...</span>
 )</pre>
@@ -190,6 +211,10 @@ of the model.</p></td>
 of the unobserved confounders.</p></td>
     </tr>
     <tr>
+      <th>group_benchmarks</th>
+      <td><p>a named list with character vector names of covariates that will be used, as a group, to bound the plausible strength of the unobserved confounders. The names of the list will be used for the benchmark labels. Note: for factor variables with more than two levels, you need to provide the name of each level as encoded in the <code>lm</code> model (the columns of <code>model.matrix</code>).</p></td>
+    </tr>
+    <tr>
       <th>kd</th>
       <td><p>numeric vector. Parameterizes how many times stronger the confounder is related to the treatment in comparison to the observed benchmark covariate.
 Default value is <code>1</code> (confounder is as strong as benchmark covariate).</p></td>
@@ -206,7 +231,7 @@ which means a reduction of 100% of the current effect estimate (bring estimate t
     </tr>
     <tr>
       <th>alpha</th>
-      <td><p>significance level used for computation of the robustness value. If <code>NULL</code> (the default), the robustness value refers only to the point estimate, no sampling uncertainty is taken into account.</p></td>
+      <td><p>significance level.</p></td>
     </tr>
     <tr>
       <th>r2dz.x</th>
@@ -234,6 +259,26 @@ absolute value of the estimated coefficient? Default is <code>TRUE</code>.</p></
     <tr>
       <th>data</th>
       <td><p>data needed only when you pass a formula as first parameter. An object of the class <code><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></code> containing the variables used in the analysis.</p></td>
+    </tr>
+    <tr>
+      <th>estimate</th>
+      <td><p>Coefficient estimate.</p></td>
+    </tr>
+    <tr>
+      <th>se</th>
+      <td><p>Standard error of the coefficient estimate.</p></td>
+    </tr>
+    <tr>
+      <th>dof</th>
+      <td><p>Residual degrees of freedom of the regression.</p></td>
+    </tr>
+    <tr>
+      <th>r2dxj.x</th>
+      <td><p>partial R2 of covariate Xj with the treatment D (after partialling out the effect of the remaining covariates X, excluding Xj).</p></td>
+    </tr>
+    <tr>
+      <th>r2yxj.dx</th>
+      <td><p>partial R2 of covariate Xj with the outcome Y (after partialling out the effect of the remaining covariates X, excluding Xj).</p></td>
     </tr>
     </table>
 

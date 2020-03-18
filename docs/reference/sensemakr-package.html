@@ -245,11 +245,11 @@ of unobserved confounders (<code><a href='ovb_bounds.html'>ovb_bounds</a></code>
 <span class='co'># robustness value of directly harmed q = 1 (reduce estimate to zero)</span>
 <span class='fu'><a href='robustness_value.html'>robustness_value</a></span>(<span class='no'>model</span>, <span class='kw'>covariates</span> <span class='kw'>=</span> <span class='st'>"directlyharmed"</span>)</div><div class='output co'>#&gt; directlyharmed 
 #&gt;      0.1387764 
-#&gt; Parameters: q = 1</div><div class='input'>
+#&gt; Parameters: q = 1, alpha = 1 </div><div class='input'>
 <span class='co'># robustness value of directly harmed q = 1/2 (reduce estimate in half)</span>
 <span class='fu'><a href='robustness_value.html'>robustness_value</a></span>(<span class='no'>model</span>, <span class='kw'>covariates</span> <span class='kw'>=</span> <span class='st'>"directlyharmed"</span>, <span class='kw'>q</span> <span class='kw'>=</span> <span class='fl'>1</span>/<span class='fl'>2</span>)</div><div class='output co'>#&gt; directlyharmed 
 #&gt;     0.07202698 
-#&gt; Parameters: q = 0.5</div><div class='input'>
+#&gt; Parameters: q = 0.5, alpha = 1 </div><div class='input'>
 <span class='co'># robustness value of directly harmed q = 1/2, alpha = 0.05</span>
 <span class='fu'><a href='robustness_value.html'>robustness_value</a></span>(<span class='no'>model</span>, <span class='kw'>covariates</span> <span class='kw'>=</span> <span class='st'>"directlyharmed"</span>, <span class='kw'>q</span> <span class='kw'>=</span> <span class='fl'>1</span>/<span class='fl'>2</span>, <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>0.05</span>)</div><div class='output co'>#&gt; directlyharmed 
 #&gt;    0.004562761 

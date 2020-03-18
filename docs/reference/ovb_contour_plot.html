@@ -150,6 +150,7 @@ and the covariates used for benchmarking the strength of unobserved confounding.
   <span class='no'>model</span>,
   <span class='no'>treatment</span>,
   <span class='kw'>benchmark_covariates</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>group_benchmarks</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>kd</span> <span class='kw'>=</span> <span class='fl'>1</span>,
   <span class='kw'>ky</span> <span class='kw'>=</span> <span class='no'>kd</span>,
   <span class='kw'>r2dz.x</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
@@ -159,15 +160,11 @@ and the covariates used for benchmarking the strength of unobserved confounding.
   <span class='kw'>reduce</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>estimate.threshold</span> <span class='kw'>=</span> <span class='fl'>0</span>,
   <span class='kw'>t.threshold</span> <span class='kw'>=</span> <span class='fl'>2</span>,
-  <span class='kw'>lim</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0.4</span>, <span class='no'>r2dz.x</span> * <span class='fl'>1.2</span>, <span class='no'>r2yz.dx</span> * <span class='fl'>1.2</span>)),
-  <span class='kw'>lim.y</span> <span class='kw'>=</span> <span class='no'>lim</span>,
   <span class='kw'>nlevels</span> <span class='kw'>=</span> <span class='fl'>10</span>,
   <span class='kw'>col.contour</span> <span class='kw'>=</span> <span class='st'>"grey40"</span>,
   <span class='kw'>col.thr.line</span> <span class='kw'>=</span> <span class='st'>"red"</span>,
   <span class='kw'>label.text</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>cex.label.text</span> <span class='kw'>=</span> <span class='fl'>0.7</span>,
-  <span class='kw'>label.bump.x</span> <span class='kw'>=</span> <span class='no'>lim</span> * (<span class='fl'>1</span>/<span class='fl'>15</span>),
-  <span class='kw'>label.bump.y</span> <span class='kw'>=</span> <span class='no'>lim.y</span> * (<span class='fl'>1</span>/<span class='fl'>15</span>),
   <span class='kw'>round</span> <span class='kw'>=</span> <span class='fl'>3</span>,
   <span class='no'>...</span>
 )
@@ -178,6 +175,7 @@ and the covariates used for benchmarking the strength of unobserved confounding.
   <span class='no'>data</span>,
   <span class='no'>treatment</span>,
   <span class='kw'>benchmark_covariates</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>group_benchmarks</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>kd</span> <span class='kw'>=</span> <span class='fl'>1</span>,
   <span class='kw'>ky</span> <span class='kw'>=</span> <span class='no'>kd</span>,
   <span class='kw'>r2dz.x</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
@@ -187,8 +185,6 @@ and the covariates used for benchmarking the strength of unobserved confounding.
   <span class='kw'>reduce</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>estimate.threshold</span> <span class='kw'>=</span> <span class='fl'>0</span>,
   <span class='kw'>t.threshold</span> <span class='kw'>=</span> <span class='fl'>2</span>,
-  <span class='kw'>lim</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0.4</span>, <span class='no'>r2dz.x</span> * <span class='fl'>1.2</span>, <span class='no'>r2yz.dx</span> * <span class='fl'>1.2</span>)),
-  <span class='kw'>lim.y</span> <span class='kw'>=</span> <span class='no'>lim</span>,
   <span class='kw'>nlevels</span> <span class='kw'>=</span> <span class='fl'>10</span>,
   <span class='kw'>col.contour</span> <span class='kw'>=</span> <span class='st'>"grey40"</span>,
   <span class='kw'>col.thr.line</span> <span class='kw'>=</span> <span class='st'>"red"</span>,
@@ -210,21 +206,21 @@ and the covariates used for benchmarking the strength of unobserved confounding.
   <span class='kw'>reduce</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>estimate.threshold</span> <span class='kw'>=</span> <span class='fl'>0</span>,
   <span class='kw'>t.threshold</span> <span class='kw'>=</span> <span class='fl'>2</span>,
-  <span class='kw'>lim</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0.4</span>, <span class='no'>r2dz.x</span> * <span class='fl'>1.2</span>, <span class='no'>r2yz.dx</span> * <span class='fl'>1.2</span>)),
-  <span class='kw'>lim.y</span> <span class='kw'>=</span> <span class='no'>lim</span>,
+  <span class='kw'>lim</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>lim.y</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>nlevels</span> <span class='kw'>=</span> <span class='fl'>10</span>,
   <span class='kw'>col.contour</span> <span class='kw'>=</span> <span class='st'>"black"</span>,
   <span class='kw'>col.thr.line</span> <span class='kw'>=</span> <span class='st'>"red"</span>,
   <span class='kw'>label.text</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>cex.label.text</span> <span class='kw'>=</span> <span class='fl'>0.7</span>,
-  <span class='kw'>label.bump.x</span> <span class='kw'>=</span> <span class='no'>lim</span> * (<span class='fl'>1</span>/<span class='fl'>15</span>),
-  <span class='kw'>label.bump.y</span> <span class='kw'>=</span> <span class='no'>lim.y</span> * (<span class='fl'>1</span>/<span class='fl'>15</span>),
+  <span class='kw'>label.bump.x</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>label.bump.y</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>xlab</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>ylab</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>cex.lab</span> <span class='kw'>=</span> <span class='fl'>0.8</span>,
   <span class='kw'>cex.axis</span> <span class='kw'>=</span> <span class='fl'>0.8</span>,
   <span class='kw'>cex.main</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>asp</span> <span class='kw'>=</span> <span class='fl'>1</span>,
+  <span class='kw'>asp</span> <span class='kw'>=</span> <span class='no'>lim</span>/<span class='no'>lim.y</span>,
   <span class='kw'>list.par</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>mar</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>4</span>, <span class='fl'>4</span>, <span class='fl'>1</span>, <span class='fl'>1</span>), <span class='kw'>pty</span> <span class='kw'>=</span> <span class='st'>"s"</span>),
   <span class='kw'>round</span> <span class='kw'>=</span> <span class='fl'>3</span>,
   <span class='no'>...</span>
@@ -253,6 +249,10 @@ of the model.</p></td>
       <th>benchmark_covariates</th>
       <td><p>a character vector of the names of covariates that will be used to bound the plausible strength
 of the unobserved confounders.</p></td>
+    </tr>
+    <tr>
+      <th>group_benchmarks</th>
+      <td><p>a named list with character vector names of covariates that will be used, as a group, to bound the plausible strength of the unobserved confounders. The names of the list will be used for the benchmark labels. Note: for factor variables with more than two levels, you need to provide the name of each level as encoded in the <code>lm</code> model (the columns of <code>model.matrix</code>).</p></td>
     </tr>
     <tr>
       <th>kd</th>
@@ -297,14 +297,6 @@ absolute value of the estimated coefficient? Default is <code>TRUE</code>.</p></
       <td><p>critical threshold for the t-value.</p></td>
     </tr>
     <tr>
-      <th>lim</th>
-      <td><p>sets limit for plot axis. If `lim.y` is also provided, sets limit for x-axis only.</p></td>
-    </tr>
-    <tr>
-      <th>lim.y</th>
-      <td><p>sets limit for y-axis. Default is the same as `lim`.</p></td>
-    </tr>
-    <tr>
       <th>nlevels</th>
       <td><p>number of levels for the contour plot.</p></td>
     </tr>
@@ -323,14 +315,6 @@ absolute value of the estimated coefficient? Default is <code>TRUE</code>.</p></
     <tr>
       <th>cex.label.text</th>
       <td><p>size of the label text.</p></td>
-    </tr>
-    <tr>
-      <th>label.bump.x</th>
-      <td><p>bump on the x coordinate of label text.</p></td>
-    </tr>
-    <tr>
-      <th>label.bump.y</th>
-      <td><p>bump on the y coordinate of label text.</p></td>
     </tr>
     <tr>
       <th>round</th>
@@ -355,6 +339,22 @@ absolute value of the estimated coefficient? Default is <code>TRUE</code>.</p></
     <tr>
       <th>dof</th>
       <td><p>Residual degrees of freedom of the regression.</p></td>
+    </tr>
+    <tr>
+      <th>lim</th>
+      <td><p>sets limit for x-axis. If `NULL`, limits are computed automatically.</p></td>
+    </tr>
+    <tr>
+      <th>lim.y</th>
+      <td><p>sets limit for y-axis. If `NULL`, limits are computed automatically.</p></td>
+    </tr>
+    <tr>
+      <th>label.bump.x</th>
+      <td><p>bump on the x coordinate of label text.</p></td>
+    </tr>
+    <tr>
+      <th>label.bump.y</th>
+      <td><p>bump on the y coordinate of label text.</p></td>
     </tr>
     <tr>
       <th>xlab</th>

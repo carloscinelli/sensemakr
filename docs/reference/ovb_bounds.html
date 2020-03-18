@@ -36,7 +36,8 @@
 
 
 <meta property="og:title" content="Bounds on the strength of unobserved confounders using observed covariates — ovb_bounds" />
-<meta property="og:description" content="Bounds on the strength of unobserved confounders using observed covariates, as in Cinelli and Hazlett (2020)." />
+<meta property="og:description" content="Bounds on the strength of unobserved confounders using observed covariates, as in Cinelli and Hazlett (2020). The main generic function is ovb_bounds, which can compute both the bounds on the strength of confounding as well as the adjusted estimates, standard errors, t-values and confidence intervals.
+Other functions that compute only the bounds on the strength of confounding are also provided. These functions may be useful when computing benchmarks for using only summary statistics from papers you see in print." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -124,7 +125,8 @@
     </div>
 
     <div class="ref-description">
-    <p>Bounds on the strength of unobserved confounders using observed covariates, as in Cinelli and Hazlett (2020).</p>
+    <p>Bounds on the strength of unobserved confounders using observed covariates, as in Cinelli and Hazlett (2020). The main generic function is <code>ovb_bounds</code>, which can compute both the bounds on the strength of confounding as well as the adjusted estimates, standard errors, t-values and confidence intervals.</p>
+<p>Other functions that compute only the bounds on the strength of confounding are also provided. These functions may be useful when computing benchmarks for using only summary statistics from papers you see in print.</p>
     </div>
 
     <pre class="usage"><span class='fu'>ovb_bounds</span>(<span class='no'>...</span>)
@@ -133,13 +135,26 @@
 <span class='fu'>ovb_bounds</span>(
   <span class='no'>model</span>,
   <span class='no'>treatment</span>,
-  <span class='no'>benchmark_covariates</span>,
+  <span class='kw'>benchmark_covariates</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>group_benchmarks</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>kd</span> <span class='kw'>=</span> <span class='fl'>1</span>,
   <span class='kw'>ky</span> <span class='kw'>=</span> <span class='no'>kd</span>,
   <span class='kw'>reduce</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>bound</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"partial r2"</span>, <span class='st'>"partial r2 no D"</span>, <span class='st'>"total r2"</span>),
   <span class='kw'>adjusted_estimates</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>0.05</span>,
+  <span class='no'>...</span>
+)
+
+<span class='fu'>ovb_partial_r2_bound</span>(<span class='no'>...</span>)
+
+<span class='co'># S3 method for numeric</span>
+<span class='fu'>ovb_partial_r2_bound</span>(
+  <span class='no'>r2dxj.x</span>,
+  <span class='no'>r2yxj.dx</span>,
+  <span class='kw'>kd</span> <span class='kw'>=</span> <span class='fl'>1</span>,
+  <span class='kw'>ky</span> <span class='kw'>=</span> <span class='fl'>1</span>,
+  <span class='kw'>bound_label</span> <span class='kw'>=</span> <span class='st'>"manual"</span>,
   <span class='no'>...</span>
 )</pre>
 
@@ -165,6 +180,10 @@ of the model.</p></td>
       <th>benchmark_covariates</th>
       <td><p>a character vector of the names of covariates that will be used to bound the plausible strength
 of the unobserved confounders.</p></td>
+    </tr>
+    <tr>
+      <th>group_benchmarks</th>
+      <td><p>a named list with character vector names of covariates that will be used, as a group, to bound the plausible strength of the unobserved confounders. The names of the list will be used for the benchmark labels. Note: for factor variables with more than two levels, you need to provide the name of each level as encoded in the <code>lm</code> model (the columns of <code>model.matrix</code>).</p></td>
     </tr>
     <tr>
       <th>kd</th>
@@ -193,18 +212,33 @@ absolute value of the estimated coefficient? Default is <code>TRUE</code>.</p></
       <th>alpha</th>
       <td><p>significance level for computing the adjusted confidence intervals. Default is 0.05.</p></td>
     </tr>
+    <tr>
+      <th>r2dxj.x</th>
+      <td><p>partial R2 of covariate Xj with the treatment D (after partialling out the effect of the remaining covariates X, excluding Xj).</p></td>
+    </tr>
+    <tr>
+      <th>r2yxj.dx</th>
+      <td><p>partial R2 of covariate Xj with the outcome Y (after partialling out the effect of the remaining covariates X, excluding Xj).</p></td>
+    </tr>
+    <tr>
+      <th>bound_label</th>
+      <td><p>label to bounds provided manually in <code>r2dz.x</code> and <code>r2yz.dx</code>.</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>The function returns a <code><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></code> with the bounds on the strength of the unobserved confounder
-as well with the adjusted point estimates, standard errors and t-values (optional, controlled by argument <code>adjusted_estimates</code>).</p>
+    <p>The function <code>ovb_bounds</code> returns a <code><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></code> with the bounds on the strength of the unobserved confounder
+as well with the adjusted point estimates, standard errors and t-values (optional, controlled by argument <code>adjusted_estimates = TRUE</code>).</p>
+<p>The function `ovb_partial_r2_bound()` returns only <code><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></code> with the bounds on the strength of the unobserved confounder. Adjusted estimates, standard
+errors and t-values (among other quantities) need to be computed manually by the user using those bounds with the functions <code><a href='adjusted_estimate.html'>adjusted_estimate</a></code>, <code><a href='adjusted_estimate.html'>adjusted_se</a></code> and <code><a href='adjusted_estimate.html'>adjusted_t</a></code>.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>Currently it implements only the bounds based on partial R2. Other bounds will be implemented soon.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Cinelli, C. and Hazlett, C. (2020), "Making Sense of Sensitivity: Extending Omitted Variable Bias." Journal of the Royal Statistical Society, Series B (Statistical Methodology).</p>
+<p>Cinelli, C. and Hazlett, C. (2020), "Making Sense of Sensitivity: Extending Omitted Variable Bias." Journal of the Royal Statistical Society, Series B (Statistical Methodology).</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
@@ -230,6 +264,41 @@ as well with the adjusted point estimates, standard errors and t-values (optiona
 #&gt; 4  0.02322921   4.111965       0.049918808        0.14111661
 #&gt; 5  0.02318681   4.041819       0.048201225        0.13923257
 #&gt; 6  0.02314421   3.971334       0.046481338        0.13734543</div><div class='input'>
+
+<span class='co'>#########################################################</span>
+<span class='co'>## Let's construct bounds from summary statistics only ##</span>
+<span class='co'>#########################################################</span>
+<span class='co'># Suppose you didn't have access to the data, but only to</span>
+<span class='co'># the treatment and outcome regression tables.</span>
+<span class='co'># You can still compute the bounds.</span>
+
+<span class='co'># Use the t statistic of female in the outcome regression</span>
+<span class='co'># to compute the partial R2 of female with the outcome.</span>
+<span class='no'>r2yxj.dx</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='partial_r2.html'>partial_r2</a></span>(<span class='kw'>t_statistic</span> <span class='kw'>=</span> -<span class='fl'>9.789</span>, <span class='kw'>dof</span> <span class='kw'>=</span> <span class='fl'>783</span>)
+
+<span class='co'># Use the t-value of female in the *treatment* regression</span>
+<span class='co'># to compute the partial R2 of female with the treatment</span>
+<span class='no'>r2dxj.x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='partial_r2.html'>partial_r2</a></span>(<span class='kw'>t_statistic</span> <span class='kw'>=</span> -<span class='fl'>2.680</span>, <span class='kw'>dof</span> <span class='kw'>=</span> <span class='fl'>783</span>)
+
+<span class='co'># Compute manually bounds on the strength of confounders 1, 2, or 3</span>
+<span class='co'># times as strong as female</span>
+<span class='no'>bounds</span> <span class='kw'>&lt;-</span> <span class='fu'>ovb_partial_r2_bound</span>(<span class='kw'>r2dxj.x</span> <span class='kw'>=</span> <span class='no'>r2dxj.x</span>,
+                              <span class='kw'>r2yxj.dx</span> <span class='kw'>=</span> <span class='no'>r2yxj.dx</span>,
+                              <span class='kw'>kd</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>3</span>,
+                              <span class='kw'>ky</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>3</span>,
+                              <span class='kw'>bound_label</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span>(<span class='fl'>1</span>:<span class='fl'>3</span>, <span class='st'>"x"</span>, <span class='st'>"female"</span>))
+<span class='co'># Compute manually adjusted estimates</span>
+<span class='no'>bound.values</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='adjusted_estimate.html'>adjusted_estimate</a></span>(<span class='kw'>estimate</span> <span class='kw'>=</span> <span class='fl'>0.0973</span>,
+                                 <span class='kw'>se</span> <span class='kw'>=</span> <span class='fl'>0.0232</span>,
+                                 <span class='kw'>dof</span> <span class='kw'>=</span> <span class='fl'>783</span>,
+                                 <span class='kw'>r2dz.x</span> <span class='kw'>=</span> <span class='no'>bounds</span>$<span class='no'>r2dz.x</span>,
+                                 <span class='kw'>r2yz.dx</span> <span class='kw'>=</span> <span class='no'>bounds</span>$<span class='no'>r2yz.dx</span>)
+
+<span class='co'># Plot contours and bounds</span>
+<span class='fu'><a href='ovb_contour_plot.html'>ovb_contour_plot</a></span>(<span class='kw'>estimate</span> <span class='kw'>=</span> <span class='fl'>0.0973</span>,
+                <span class='kw'>se</span> <span class='kw'>=</span> <span class='fl'>0.0232</span>,
+                <span class='kw'>dof</span> <span class='kw'>=</span> <span class='fl'>783</span>)</div><div class='input'><span class='fu'><a href='add_bound_to_contour.html'>add_bound_to_contour</a></span>(<span class='no'>bounds</span>, <span class='kw'>bound_value</span> <span class='kw'>=</span> <span class='no'>bound.values</span>)</div><div class='img'><img src='ovb_bounds-1.png' alt='' width='700' height='433' /></div><div class='input'>
+
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

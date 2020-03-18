@@ -146,6 +146,7 @@ The dotted red line represent the threshold for the effect estimate deemed to be
   <span class='no'>model</span>,
   <span class='no'>treatment</span>,
   <span class='kw'>benchmark_covariates</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>group_benchmarks</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>kd</span> <span class='kw'>=</span> <span class='fl'>1</span>,
   <span class='kw'>r2yz.dx</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>0.75</span>, <span class='fl'>0.5</span>),
   <span class='kw'>r2dz.x</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
@@ -164,6 +165,7 @@ The dotted red line represent the threshold for the effect estimate deemed to be
   <span class='no'>data</span>,
   <span class='no'>treatment</span>,
   <span class='kw'>benchmark_covariates</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>group_benchmarks</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>kd</span> <span class='kw'>=</span> <span class='fl'>1</span>,
   <span class='kw'>r2yz.dx</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>0.75</span>, <span class='fl'>0.5</span>),
   <span class='kw'>r2dz.x</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
@@ -223,6 +225,10 @@ of the model.</p></td>
 of the unobserved confounders.</p></td>
     </tr>
     <tr>
+      <th>group_benchmarks</th>
+      <td><p>a named list with character vector names of covariates that will be used, as a group, to bound the plausible strength of the unobserved confounders. The names of the list will be used for the benchmark labels. Note: for factor variables with more than two levels, you need to provide the name of each level as encoded in the <code>lm</code> model (the columns of <code>model.matrix</code>).</p></td>
+    </tr>
+    <tr>
       <th>kd</th>
       <td><p>numeric vector. Parameterizes how many times stronger the confounder is related to the treatment in comparison to the observed benchmark covariate.
 Default value is <code>1</code> (confounder is as strong as benchmark covariate).</p></td>
@@ -248,7 +254,7 @@ absolute value of the estimated coefficient? Default is <code>TRUE</code>.</p></
     </tr>
     <tr>
       <th>lim</th>
-      <td><p>sets limit for plot axis. If `lim.y` is also provided, sets limit for x-axis only.</p></td>
+      <td><p>sets limit for x-axis. If `NULL`, limits are computed automatically.</p></td>
     </tr>
     <tr>
       <th>legend</th>
