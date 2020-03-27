@@ -201,7 +201,7 @@ ovb_partial_r2_bound <- function(...){
 ovb_partial_r2_bound.numeric <- function(r2dxj.x,
                                          r2yxj.dx,
                                          kd = 1,
-                                         ky = 1,
+                                         ky = kd,
                                          bound_label = "manual",
                                          ...){
   # Error handling
@@ -211,7 +211,7 @@ ovb_partial_r2_bound.numeric <- function(r2dxj.x,
   r2dz.x <- kd*(r2dxj.x/(1 - r2dxj.x))
 
   if (any(r2dz.x > 1)) {
-    warning("Impossible kd value, returning NA. Try a lower kd.")
+    stop("Implied bound on r2dz.x > 1. Impossible kd value. Try a lower kd.")
     r2dz.x[r2dz.x > 1] <- NA
   }
 
@@ -219,7 +219,7 @@ ovb_partial_r2_bound.numeric <- function(r2dxj.x,
   r2zxj.xd = kd * (r2dxj.x^2) / ((1 - kd * r2dxj.x) * (1 - r2dxj.x))
 
   if (any(r2zxj.xd > 1)) {
-    warning("Impossible kd value, returning NA. Try a lower kd.")
+    stop("Impossible kd value. Try a lower kd.")
     r2zxj.xd[r2zxj.xd > 1] <- NA
   }
 

@@ -29,7 +29,7 @@ ovb_partial_r2_bound(...)
   r2dxj.x,
   r2yxj.dx,
   kd = 1,
-  ky = 1,
+  ky = kd,
   bound_label = "manual",
   ...
 )
