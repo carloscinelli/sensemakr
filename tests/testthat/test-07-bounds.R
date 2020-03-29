@@ -85,3 +85,22 @@ test_that("Bounds warning",
 
 
           })
+
+
+
+test_that("Group benchmarks",
+          {
+             model <- lm(peacefactor ~ directlyharmed + age + farmer_dar + herder_dar +
+                          pastvoted + hhsize_darfur + female + village, data = darfur)
+
+             check1 <- ovb_contour_plot(model = model,
+                               treatment = "directlyharmed",
+                               benchmark_covariates = list(`fem+past` = c("female", "pastvoted")))
+
+              out <- sensemakr(model = model,
+                               treatment = "directlyharmed",
+                               benchmark_covariates = list(`fem+past` = c("female", "pastvoted")))
+              check2 <- plot(out)
+              expect_equal(check1, check2)
+
+          })

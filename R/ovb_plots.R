@@ -224,13 +224,12 @@ ovb_contour_plot.lm = function(model,
     bounds <-  NULL
   }
 
-  if (!is.null(benchmark_covariates) | !is.null(group_benchmarks)) {
+  if (!is.null(benchmark_covariates)) {
 
     # we will need to add an option for the bound type
     bench_bounds <- ovb_bounds(model = model,
                                treatment = treatment,
                                benchmark_covariates = benchmark_covariates,
-                               group_benchmarks = group_benchmarks,
                                kd = kd,
                                ky = ky,
                                adjusted_estimates = FALSE)
@@ -269,7 +268,6 @@ ovb_contour_plot.formula = function(formula,
                                     data,
                                     treatment,
                                     benchmark_covariates = NULL,
-                                    group_benchmarks = NULL,
                                     kd = 1,
                                     ky = kd,
                                     r2dz.x = NULL,
@@ -303,7 +301,6 @@ ovb_contour_plot.formula = function(formula,
   ovb_contour_plot(model = outcome_model,
                    treatment = treatment,
                    benchmark_covariates = benchmark_covariates,
-                   group_benchmarks = group_benchmarks,
                    kd = kd,
                    ky = ky,
                    reduce = reduce,
@@ -857,12 +854,11 @@ ovb_extreme_plot.lm <- function(model,
   se <- model_data$se
   dof <- model_data$dof
 
-  if (!is.null(benchmark_covariates) | !is.null(group_benchmarks)) {
+  if (!is.null(benchmark_covariates)) {
       # TODO: We will need to make bound_type an option later
       bounds <- ovb_bounds(model = model,
                            treatment = treatment,
                            benchmark_covariates = benchmark_covariates,
-                           group_benchmarks = group_benchmarks,
                            kd = kd,
                            ky = 1)
 
@@ -896,7 +892,6 @@ ovb_extreme_plot.formula = function(formula,
                                     data,
                                     treatment,
                                     benchmark_covariates = NULL,
-                                    group_benchmarks = NULL,
                                     kd = 1,
                                     r2yz.dx = c(1, 0.75, 0.5),
                                     r2dz.x = NULL,
@@ -917,7 +912,6 @@ ovb_extreme_plot.formula = function(formula,
   ovb_extreme_plot(model = outcome_model,
                    treatment = treatment,
                    benchmark_covariates = benchmark_covariates,
-                   group_benchmarks = group_benchmarks,
                    kd = kd,
                    r2yz.dx = r2yz.dx,
                    r2dz.x = r2dz.x,

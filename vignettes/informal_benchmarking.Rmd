@@ -57,6 +57,9 @@ Also note that, in this model: (i) the unobserved confounder $Z$ is independent 
 
 
 ```{r}
+# loads sensemakr package
+library(sensemakr)
+
 # simulates data
 n <- 100
 X <- scale(rnorm(n))
@@ -83,9 +86,6 @@ Computing the bias due to the omission of $Z$ requires two sensitivity parameter
 Intuitively, it seems that we could take as reference the observed partial $R^2$ of $X$ with $D$ and $Y$, and use those as the plausible values for the sensitivity parameters. That's the essence of many informal benchmarking proposals. So llet us now compute those observed partial $R^2$ using the `partial_r2()` function of `sensemakr`. For the partial $R^2$ of $X$ with the treatment, we also need to fit a treatment regression $D \sim X$ first.
 
 ```{r}
-# loads sensemakr package
-library(sensemakr)
-
 # fits treatment regression
 model.dx <- lm(D ~ X)
 

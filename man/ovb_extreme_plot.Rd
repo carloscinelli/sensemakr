@@ -30,7 +30,6 @@ ovb_extreme_plot(...)
   data,
   treatment,
   benchmark_covariates = NULL,
-  group_benchmarks = NULL,
   kd = 1,
   r2yz.dx = c(1, 0.75, 0.5),
   r2dz.x = NULL,
