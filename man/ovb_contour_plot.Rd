@@ -13,7 +13,6 @@ ovb_contour_plot(...)
   model,
   treatment,
   benchmark_covariates = NULL,
-  group_benchmarks = NULL,
   kd = 1,
   ky = kd,
   r2dz.x = NULL,

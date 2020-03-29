@@ -14,11 +14,10 @@
 #'
 #' @param n sample size.
 #' @param C a numeric matrix with \code{n] rows and \code{p} columns.
-
 #' @return
 #'
 #' The function returns a numeric vector orthogonal to C.
-#'
+#' @importFrom stats lm resid
 #' @export
 resid_maker <- function(n, C){
   e <- resid(lm(rnorm(n) ~ C))

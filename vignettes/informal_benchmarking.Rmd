@@ -57,14 +57,6 @@ Also note that, in this model: (i) the unobserved confounder $Z$ is independent 
 
 
 ```{r}
-# function for orthogonalizing and
-# standardizing residuals
-resid_maker <- function(n, C){
-  e <- resid(lm(rnorm(n) ~ C))
-  e  <- c(scale(e))
-  return(e)
-}
-
 # simulates data
 n <- 100
 X <- scale(rnorm(n))
