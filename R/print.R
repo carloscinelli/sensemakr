@@ -139,6 +139,7 @@ summary.sensemakr <- function(object, digits = max(3L, getOption("digits") - 3L)
 #' @param verbose if `TRUE`, the function prints the LaTeX code with \code{\link{cat}}
 #' @export
 ovb_minimal_reporting <- function(x, digits = 3, verbose = TRUE, format = c("latex", "html", "pure_html"), ...){
+  if(class(x) != "sensemakr") stop("Object needs to be of class sensemakr.")
   format <- match.arg(format)
   fun    <- switch(format,
                    latex = latex_table,

@@ -46,15 +46,12 @@
 #'
 #' # you can also provide the statistics directly
 #' robustness_value(t_statistic = 4.18445, dof = 783)
-
-
 #' @return
 #' The function returns a numerical vector with the robustness value. The arguments q and alpha are saved as attributes of the vector for reference.
 #' @references Cinelli, C. and Hazlett, C. (2020), "Making Sense of Sensitivity: Extending Omitted Variable Bias." Journal of the Royal Statistical Society, Series B (Statistical Methodology).
 #' @export
 #' @importFrom stats df.residual qt update vcov
 robustness_value = function(...) {
-
   UseMethod("robustness_value")
 }
 
@@ -104,9 +101,6 @@ robustness_value.numeric <- function(t_statistic, dof, q =1, alpha = 1, ...){
   check_q(q)
   check_alpha(alpha)
 
-  if (is.null(alpha)) {
-    alpha <- 1
-  }
 
   # computes fq
   fq  <-  q * abs(t_statistic / sqrt(dof))

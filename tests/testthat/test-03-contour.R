@@ -85,6 +85,20 @@ test_that("contour plot tests", {
                                      r2dz.x = 0.1,
                                      bound_label = ""))
 
+  expect_warning(ovb_contour_plot(estimate = 2,
+                   se = 0.5,
+                   dof = 200,
+                   r2yz.dx = 0.1,
+                   r2dz.x = 0.1,
+                   bound_label = "", lim.y = 1.1))
+
+  expect_warning(ovb_contour_plot(estimate = 2,
+                                  se = 0.5,
+                                  dof = 200,
+                                  r2yz.dx = 0.1,
+                                  r2dz.x = 0.1,
+                                  bound_label = "", lim.y = -.1))
+
   expect_invisible(ovb_contour_plot(estimate = 2,
                                     se = 0.5,
                                     dof = 200,

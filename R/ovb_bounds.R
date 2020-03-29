@@ -50,7 +50,6 @@ ovb_bounds <- function(...){
 ovb_bounds.lm <- function(model,
                           treatment,
                           benchmark_covariates = NULL,
-                          group_benchmarks = NULL,
                           kd = 1,
                           ky = kd,
                           reduce = TRUE,
@@ -69,7 +68,6 @@ ovb_bounds.lm <- function(model,
   bounds <- bounder(model = model,
                     treatment = treatment,
                     benchmark_covariates = benchmark_covariates,
-                    group_benchmarks = group_benchmarks,
                     kd = kd,
                     ky = ky)
 
@@ -100,7 +98,8 @@ ovb_bounds.lm <- function(model,
 
   }
   class(bounds) <- c("ovb_bounds", "data.frame")
-  bounds
+  row.names(bounds) <- NULL
+  return(bounds)
 }
 
 
@@ -210,17 +209,15 @@ ovb_partial_r2_bound.numeric <- function(r2dxj.x,
 
   r2dz.x <- kd*(r2dxj.x/(1 - r2dxj.x))
 
-  if (any(r2dz.x > 1)) {
-    stop("Implied bound on r2dz.x > 1. Impossible kd value. Try a lower kd.")
-    r2dz.x[r2dz.x > 1] <- NA
+  if (any(r2dz.x >= 1)) {
+    stop("Implied bound on r2dz.x >= 1. Impossible kd value. Try a lower kd.")
   }
 
   # Bound for R^2 of Y with Z: Footnote 10
   r2zxj.xd = kd * (r2dxj.x^2) / ((1 - kd * r2dxj.x) * (1 - r2dxj.x))
 
-  if (any(r2zxj.xd > 1)) {
+  if (any(r2zxj.xd >= 1)) {
     stop("Impossible kd value. Try a lower kd.")
-    r2zxj.xd[r2zxj.xd > 1] <- NA
   }
 
   r2yz.dx <- ((sqrt(ky) + sqrt(r2zxj.xd)) /
@@ -242,7 +239,6 @@ ovb_partial_r2_bound.numeric <- function(r2dxj.x,
 ovb_partial_r2_bound.lm <- function(model,
                                     treatment,
                                     benchmark_covariates = NULL,
-                                    group_benchmarks = NULL,
                                     kd = 1,
                                     ky = kd,
                                     adjusted_estimates = TRUE,
@@ -251,9 +247,6 @@ ovb_partial_r2_bound.lm <- function(model,
   if (!is.character(treatment)) stop("Argument treatment must be a string.")
   if (length(treatment) > 1) stop("You must pass only one treatment")
 
-
-  if (!is.null(benchmark_covariates) & !is.character(benchmark_covariates))
-    stop("Argument benchmark_covariates must be a string.")
 
 
   # treatment model
@@ -264,30 +257,41 @@ ovb_partial_r2_bound.lm <- function(model,
   r2yxj.dx <- NULL
   r2dxj.x  <- NULL
 
-  if(!is.null(benchmark_covariates)){
-  # gets partial r2 with outcome
-  r2yxj.dx <- partial_r2(model, covariates = benchmark_covariates)
+  if (!is.null(benchmark_covariates)) {
+    if(is.character(benchmark_covariates)){
 
-  # gets partial r2 with treatment
-  r2dxj.x <- partial_r2(treatment_model, covariates = benchmark_covariates)
-  }
+      # gets partial r2 with outcome
+      r2yxj.dx <- partial_r2(model, covariates = benchmark_covariates)
 
-  if (!is.null(group_benchmarks)){
-    if (!is.list(group_benchmarks)) stop("group_benchmarks must be a list")
-    if (is.null(names(group_benchmarks))) stop("group_benchmarks must be a *named* list.
-                                               Names are used for labeling the benchmarks.")
-    n_groups <- length(group_benchmarks)
-    label.groups <- r2d.group <- r2y.group <- rep(NA, n_groups)
+      # gets partial r2 with treatment
+      r2dxj.x <- partial_r2(treatment_model, covariates = benchmark_covariates)
 
-    for(i in seq_along(group_benchmarks)){
-      r2y.group[i] <-  group_partial_r2(model, covariates = group_benchmarks[[i]])
-      r2d.group[i] <-  group_partial_r2(treatment_model, covariates = group_benchmarks[[i]])
-      label.groups[i] <- names(group_benchmarks)[i]
+    } else {
+
+      if (!is.list(benchmark_covariates)) stop("Argument benchmark_covariates must be either a string or a list.")
+
+      if (is.null(names(benchmark_covariates)))
+      stop("If benchmark_covariates is a list, it must be a *named* list.\t",
+            "Names are used for labeling the benchmarks.")
+
+      classes <- sapply(X = benchmark_covariates, FUN = class)
+
+      if(!all(classes == "character"))
+        stop("All elements of the list passed to benchmark_covariates must be of class 'character'.")
+
+      n_groups <- length(benchmark_covariates)
+      label.groups <- r2d.group <- r2y.group <- rep(NA, n_groups)
+
+      for(i in seq_along(benchmark_covariates)){
+        r2y.group[i] <-  group_partial_r2(model, covariates = benchmark_covariates[[i]])
+        r2d.group[i] <-  group_partial_r2(treatment_model, covariates = benchmark_covariates[[i]])
+        label.groups[i] <- names(benchmark_covariates)[i]
+      }
+
+      r2yxj.dx <- r2y.group
+      r2dxj.x  <- r2d.group
+      benchmark_covariates <-  label.groups
     }
-
-    r2yxj.dx <- c(r2yxj.dx, r2y.group)
-    r2dxj.x  <- c(r2dxj.x, r2d.group)
-    benchmark_covariates <- c(benchmark_covariates, label.groups)
 
   }
 
@@ -303,7 +307,9 @@ ovb_partial_r2_bound.lm <- function(model,
                                         ky = ky,
                                         bound_label = bound_label)
   }
+
   bounds <- do.call("rbind", bounds)
+
   return(bounds)
 }
 

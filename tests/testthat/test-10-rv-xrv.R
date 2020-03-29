@@ -40,5 +40,17 @@ test_that("Non contraining cases (XRV)",
             # should be true: all ts are larger than tcrit
             expect_true(all(ts_to_check > tcrit))
 
+            expect_error(robustness_value(t = 2, dof = 100, alpha = NULL))
+
+          }
+)
+
+test_that("Print RV",
+          {
+            skip_on_cran()
+            rv <- robustness_value(t = 2, dof = 100)
+            out <- capture.output(print(rv))
+            check <- c("[1] 0.1809975", "Parameters: q = 1, alpha = 1 ")
+            expect_equal(out, check)
           }
 )
