@@ -13,7 +13,7 @@
 #'
 #'
 #' @param n sample size.
-#' @param C a numeric matrix with \code{n] rows and \code{p} columns.
+#' @param C a numeric matrix with \code{n} rows and \code{p} columns.
 #' @return
 #'
 #' The function returns a numeric vector orthogonal to C.

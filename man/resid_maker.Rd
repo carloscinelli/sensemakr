@@ -8,6 +8,8 @@ resid_maker(n, C)
 }
 \arguments{
 \item{n}{sample size.}
+
+\item{C}{a numeric matrix with \code{n} rows and \code{p} columns.}
 }
 \value{
 The function returns a numeric vector orthogonal to C.
