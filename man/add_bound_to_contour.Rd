@@ -43,8 +43,7 @@ add_bound_to_contour(...)
 
 \item{model}{An \code{lm} object with the outcome regression.}
 
-\item{benchmark_covariates}{a character vector of the names of covariates that will be used to bound the plausible strength
-of the unobserved confounders.}
+\item{benchmark_covariates}{The user has two options: (i)  character vector of the names of covariates that will be used to bound the plausible strength of the unobserved confounders. Each variable will be considered separately; (ii) a named list with character vector names of covariates that will be used, \emph{as a group}, to bound the plausible strength of the unobserved confounders. The names of the list will be used for the benchmark labels. Note: for factor variables with more than two levels, you need to provide the name of each level as encoded in the \code{lm} model (the columns of \code{model.matrix}).}
 
 \item{kd}{numeric vector. Parameterizes how many times stronger the confounder is related to the treatment in comparison to the observed benchmark covariate.
 Default value is \code{1} (confounder is as strong as benchmark covariate).}

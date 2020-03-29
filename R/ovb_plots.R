@@ -614,8 +614,13 @@ add_bound_to_contour.ovb_bounds <- function(bounds,
                                             round = 2,
                                             cex.label.text = .7,
                                             ...){
+
+
+  if (is.null(plot.env$treatment)) {
+    stop("No treatment found. Please draw a contour plot first, or provide the treatment variable name manually.")
+  }
+
   # gets bound from environment
-  #
   if (bounds$treatment != plot.env$treatment) {
   warning("Treament variable of bounds (",  bounds$treatment, ") ",
           "differs from the treatment variable of the last contour plot (",
@@ -1119,20 +1124,3 @@ check_multipliers = function(ky, kd) {
   }
 }
 
-
-check_contour_lim <- function(lim) {
-
-  if (lim > 1) {
-    lim <- 1
-    warning("Contour limit larger than 1 was set to 1.")
-    return(lim)
-  }
-
-  if (lim < 0) {
-    lim <- 0.4
-    warning("Contour limit less than 0 was set to 0.4.")
-    return(lim)
-  }
-
-  return(lim)
-}
