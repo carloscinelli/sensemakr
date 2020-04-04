@@ -19,11 +19,13 @@ test_that("Numerical Tests",{
   expect_equal(adjusted_se(se = 3, dof = 100, r2dz.x = 0.3, r2yz.dx = 0.4),
                3*sqrt(100/99)*sqrt((1 - 0.4)/(1 - 0.3)))
 
-  expect_equal(adjusted_t(estimate = 2, se = 3, dof = 100, r2dz.x = 0.3, r2yz.dx = 0.4),
+  expect_equivalent(adjusted_t(estimate = 2, se = 3, dof = 100, r2dz.x = 0.3, r2yz.dx = 0.4),
                (2 - 3*sqrt(100)*sqrt(0.4*0.3/(1 - 0.3)))/(3*sqrt(100/99)*sqrt((1 - 0.4)/(1 - 0.3))))
 
-  expect_equal(adjusted_t(estimate = 2, se = 3, dof = 100, r2dz.x = 0.3, r2yz.dx = 0.4, reduce = F),
+  expect_equivalent(adjusted_t(estimate = 2, se = 3, dof = 100, r2dz.x = 0.3, r2yz.dx = 0.4, reduce = F),
                (2 + 3*sqrt(100)*sqrt(0.4*0.3/(1 - 0.3)))/(3*sqrt(100/99)*sqrt((1 - 0.4)/(1 - 0.3))))
+
+  expect_equivalent(adjusted_t(estimate = 0.097, se = 0.0233, dof = 783, r2dz.x = 0, r2yz.dx= 0, h0 = 2*0.097), -4.160431, tol=1e-4)
 
 
   expect_equal(c(robustness_value(t = 2, dof = 10)), 0.5*(sqrt((2/sqrt(10))^4 + 4*((2/sqrt(10))^2)) - (2/sqrt(10))^2))

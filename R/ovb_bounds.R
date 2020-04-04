@@ -56,6 +56,7 @@ ovb_bounds.lm <- function(model,
                           bound = c("partial r2", "partial r2 no D", "total r2"),
                           adjusted_estimates = TRUE,
                           alpha = 0.05,
+                          h0 = 0,
                           ...) {
 
   bound = match.arg(bound)
@@ -90,11 +91,13 @@ ovb_bounds.lm <- function(model,
                                    treatment = treatment,
                                    r2yz.dx = bounds$r2yz.dx,
                                    r2dz.x = bounds$r2dz.x,
+                                   h0 = h0,
                                    reduce = reduce)
 
     se_multiple <- qt(alpha/2, df = model$df.residual, lower.tail = F)
     bounds$adjusted_lower_CI <- bounds$adjusted_estimate - se_multiple*bounds$adjusted_se
     bounds$adjusted_upper_CI <- bounds$adjusted_estimate + se_multiple*bounds$adjusted_se
+
 
   }
   class(bounds) <- c("ovb_bounds", "data.frame")

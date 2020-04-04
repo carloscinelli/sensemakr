@@ -19,6 +19,7 @@ ovb_bounds(...)
   bound = c("partial r2", "partial r2 no D", "total r2"),
   adjusted_estimates = TRUE,
   alpha = 0.05,
+  h0 = 0,
   ...
 )
 

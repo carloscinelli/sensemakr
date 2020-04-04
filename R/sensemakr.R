@@ -192,18 +192,25 @@ sensemakr.lm <- function(model,
                    alpha = alpha,
                    reduce = reduce)
 
+
+
   # senstivity statistics
   out$sensitivity_stats <- sensitivity_stats(model = model,
                                              treatment = treatment,
                                              q = q,
-                                             alpha = alpha)
+                                             alpha = alpha,
+                                             reduce = reduce)
+  estimate <- out$sensitivity_stats$estimate
+
+  h0 <- ifelse(reduce, estimate*(1 - q), estimate*(1 + q))
+
   # bounds on ovb
   if (!is.null(r2dz.x)) {
     check_r2(r2dz.x = r2dz.x, r2yz.dx = r2yz.dx)
     out$bounds <-  data.frame(r2dz.x = r2dz.x,
-                          r2yz.dx = r2yz.dx,
-                          bound_label = bound_label,
-                          stringsAsFactors = FALSE)
+                              r2yz.dx = r2yz.dx,
+                              bound_label = bound_label,
+                              stringsAsFactors = FALSE)
 
     out$bounds$treatment <- treatment
 
@@ -215,15 +222,16 @@ sensemakr.lm <- function(model,
                                                      reduce = reduce)
 
     out$bounds$adjusted_se = adjusted_se(model = model,
-                                     treatment = treatment,
-                                     r2yz.dx = r2yz.dx,
-                                     r2dz.x = r2dz.x)
+                                         treatment = treatment,
+                                         r2yz.dx = r2yz.dx,
+                                         r2dz.x = r2dz.x)
 
     out$bounds$adjusted_t = adjusted_t(model = model,
-                                   treatment = treatment,
-                                   r2yz.dx = r2yz.dx,
-                                   r2dz.x = r2dz.x,
-                                   reduce = reduce)
+                                       treatment = treatment,
+                                       r2yz.dx = r2yz.dx,
+                                       r2dz.x = r2dz.x,
+                                       h0 = h0,
+                                       reduce = reduce)
 
     se_multiple <- qt(alpha/2, df = model$df.residual, lower.tail = F)
     out$bounds$adjusted_lower_CI <- out$bounds$adjusted_estimate - se_multiple*out$bounds$adjusted_se
@@ -240,6 +248,7 @@ sensemakr.lm <- function(model,
                                ky = ky,
                                q = q,
                                alpha = alpha,
+                               h0 = h0,
                                reduce = reduce)
     out$bounds <- rbind(out$bounds, bench_bounds)
   }
@@ -385,11 +394,11 @@ sensemakr.numeric <- function(estimate,
                                          r2dz.x = bench_bounds$r2dz.x)
 
     bench_bounds$adjusted_t = adjusted_t(estimate = estimate,
-                                       se = se,
-                                       dof = dof,
-                                       r2yz.dx = bench_bounds$r2yz.dx,
-                                       r2dz.x =  bench_bounds$r2dz.x,
-                                       reduce = reduce)
+                                         se = se,
+                                         dof = dof,
+                                         r2yz.dx = bench_bounds$r2yz.dx,
+                                         r2dz.x =  bench_bounds$r2dz.x,
+                                         reduce = reduce)
 
     se_multiple <- qt(alpha/2, df = dof, lower.tail = F)
     bench_bounds$adjusted_lower_CI <- bench_bounds$adjusted_estimate - se_multiple*bench_bounds$adjusted_se

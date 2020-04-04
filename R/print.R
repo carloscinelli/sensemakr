@@ -42,9 +42,15 @@ print.sensemakr = function(x,
                            ) {
   cat("Sensitivity Analysis to Unobserved Confounding\n\n")
 
+
   cat("Model Formula: ", paste(deparse(x$info$formula),
                                        sep = "\n", collapse = "\n"),
       "\n\n", sep = "")
+
+  reduce <- x$info$reduce
+  q <- x$info$q
+
+  cat("Null hypothesis:", "q =", q, "and", "reduce =", reduce,"\n\n")
 
   cat("Unadjusted Estimates of '", treatment <- x$sensitivity_stats$treatment, "':\n ")
   cat(" Coef. estimate:", estimate <- round(x$sensitivity_stats$estimate, digits), "\n ")
@@ -76,16 +82,23 @@ summary.sensemakr <- function(object, digits = max(3L, getOption("digits") - 3L)
   x <- object
   q <- x$info$q
   alpha <- x$info$alpha
+  reduce <- x$info$reduce
+  h0 <- round(ifelse(reduce, x$sensitivity_stats$estimate*(1 - q), x$sensitivity_stats$estimate*(1 + q)), 4)
+  direction <- ifelse(reduce, "reduce", "increase")
   cat("Sensitivity Analysis to Unobserved Confounding\n\n")
 
   cat("Model Formula: ", paste(deparse(x$info$formula),
                                sep = "\n", collapse = "\n"),
       "\n\n", sep = "")
+  cat("Null hypothesis:", "q =", q, "and", "reduce =", reduce,"\n")
+  cat("-- This means we are considering biases that", direction, "the absolute value of the current estimate.\n")
+  cat("-- The null hypothesis deemed problematic is H0:tau =", h0, "\n")
+  cat("\n")
 
   cat("Unadjusted Estimates of", paste0("'",treatment <- x$sensitivity_stats$treatment,"':"), "\n ")
   cat(" Coef. estimate:", estimate <- round(x$sensitivity_stats$estimate, digits), "\n ")
   cat(" Standard Error:", se <- round(x$sensitivity_stats$se, digits), "\n ")
-  cat(" t-value:", t_statistic <- round(x$sensitivity_stats$t_statistic, digits), "\n")
+  cat(" t-value", "(H0:tau =", paste0(h0,"):"), t_statistic <- round(x$sensitivity_stats$t_statistic, digits), "\n")
   cat("\n")
 
   cat("Sensitivity Statistics:\n ")
@@ -101,18 +114,18 @@ summary.sensemakr <- function(object, digits = max(3L, getOption("digits") - 3L)
   cat("\n\n")
   cat("-- Robustness Value,", "q =", paste0(q, ":"), "unobserved confounders (orthogonal to the covariates) that explain more than",
       paste0(100*rv_q,"%"), "of the residual variance",
-      "of both the treatment and the outcome are strong enough to bring the point estimate to", paste0(round((1-q)*estimate,4)),
+      "of both the treatment and the outcome are strong enough to bring the point estimate to", paste0(h0),
       "(a bias of", paste0(100*q, "%"),"of the original estimate).",
       "Conversely, unobserved confounders that do not explain more than", paste0(100*rv_q,"%"), "of the residual variance",
-      "of both the treatment and the outcome are not strong enough to bring the point estimate to", paste0(round((1-q)*estimate,4),"."))
+      "of both the treatment and the outcome are not strong enough to bring the point estimate to", paste0(h0,"."))
   cat("\n\n")
   cat("-- Robustness Value,", "q =", paste0(q, ","), "alpha =", paste0(alpha, ":"), "unobserved confounders (orthogonal to the covariates) that explain more than", paste0(100*rv_qa,"%"), "of the residual variance",
       "of both the treatment and the outcome are strong enough to bring the estimate to a range where it is no longer 'statistically different' from",
-      paste0(round((1-q)*estimate,4)), "(a bias of", paste0(100*q, "%"),"of the original estimate),",
+      paste0(h0), "(a bias of", paste0(100*q, "%"),"of the original estimate),",
       "at the significance level of alpha =", paste0(alpha, "."),
       "Conversely, unobserved confounders that do not explain more than", paste0(100*rv_qa,"%"), "of the residual variance",
       "of both the treatment and the outcome are not strong enough to bring the estimate to a range where it is no longer 'statistically different' from",
-      paste0(round((1-q)*estimate,4),","),
+      paste0(h0,","),
       "at the significance level of alpha =", paste0(alpha,"."))
   cat("\n\n")
 

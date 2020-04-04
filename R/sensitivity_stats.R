@@ -403,7 +403,9 @@ sensitivity_stats <- function(...){
 sensitivity_stats.lm <- function(model,
                                  treatment,
                                  q = 1,
-                                 alpha = 0.05, ...)
+                                 alpha = 0.05,
+                                 reduce = TRUE,
+                                 ...)
 {
 
   model_data <- model_helper(model, covariates = treatment)
@@ -413,7 +415,8 @@ sensitivity_stats.lm <- function(model,
                                                           treatment = treatment,
                                                           q = q,
                                                           alpha = alpha,
-                                                          t_statistics = t_statistic))
+                                                          reduce = reduce,
+                                                          ...))
   sensitivity_stats
 }
 
@@ -426,12 +429,14 @@ sensitivity_stats.numeric <- function(estimate,
                                       treatment = "treatment",
                                       q = 1,
                                       alpha = 0.05,
+                                      reduce = TRUE,
                                       ...)
 {
   if (se < 0 ) stop("Standard Error must be positive")
   if (!is.numeric(se)) stop("Standard Error must be a numeric value")
   if (dof < 0) stop("Degrees of Freedom must be poisitive")
-  t_statistic <- estimate/se
+  h0 <- ifelse(reduce, estimate*(1 - q), estimate*(1 + q) )
+  t_statistic <- (estimate - h0)/se
   sensitivity_stats <- data.frame(treatment = treatment, stringsAsFactors = FALSE)
   sensitivity_stats[["estimate"]] <- estimate
   sensitivity_stats[["se"]] <- se

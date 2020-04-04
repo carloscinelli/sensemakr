@@ -30,5 +30,5 @@ test_that("Adjusted Partial R2",{
   reduce <- rel_bias(coef(model.r)["d"], coef(model)["d"]) > 0
 
   adj.r2 <- adjusted_partial_r2(model.r, treatment = "d", r2dz.x = r2d.z, r2yz.dx = r2yz.d, reduce = reduce)
-  expect_equal(adj.r2, unname(r2yd.z))
+  expect_equivalent(adj.r2, unname(r2yd.z))
 })

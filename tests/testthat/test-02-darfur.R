@@ -69,7 +69,7 @@ test_that(desc = "testing darfur sensemakr",
                                                  "adjusted_lower_CI", "adjusted_upper_CI"),
                                       row.names = c(NA, -3L), class = c("ovb_bounds", "data.frame"))
 
-            expect_equal(darfur_out$bounds, check_bounds)
+            expect_equivalent(darfur_out$bounds, check_bounds)
 
             out1 <- capture.output(darfur_out)
             out1 <- capture.output(summary(darfur_out))
@@ -122,7 +122,7 @@ test_that(desc = "testing darfur sensemakr but negative",
                                                  "adjusted_lower_CI", "adjusted_upper_CI"),
                                       row.names = c(NA, -3L), class = c("ovb_bounds", "data.frame"))
 
-            expect_equal(darfur_out$bounds, check_bounds)
+            expect_equivalent(darfur_out$bounds, check_bounds)
 
             out1 <- capture.output(darfur_out)
             out1 <- capture.output(summary(darfur_out))
@@ -180,7 +180,7 @@ test_that(desc = "testing darfur sensemakr with formula",
                                                  "adjusted_lower_CI", "adjusted_upper_CI"),
                                       row.names = c(NA, -3L), class = c("ovb_bounds", "data.frame"))
 
-            expect_equal(darfur_out$bounds, check_bounds)
+            expect_equivalent(darfur_out$bounds, check_bounds)
           })
 
 
@@ -238,7 +238,7 @@ test_that(desc = "testing darfur sensemakr manually",
                 class = "data.frame"
               )
 
-            expect_equal(as.data.frame(darfur_out$bounds), as.data.frame(check_bounds))
+            expect_equivalent(as.data.frame(darfur_out$bounds), as.data.frame(check_bounds))
           })
 
 
@@ -372,13 +372,23 @@ test_that("testing darfur print",
             darfur_out <- sensemakr(model, treatment = "directlyharmed", benchmark_covariates = "female", kd = 1:3)
             darfur_out2 <- sensemakr(model, treatment = "directlyharmed")
 
-            print.sense <- "Sensitivity Analysis to Unobserved Confounding\n\nModel Formula: peacefactor ~ directlyharmed + age + farmer_dar + herder_dar + \n    pastvoted + hhsize_darfur + female + village\n\nUnadjusted Estimates of ' directlyharmed ':\n  Coef. estimate: 0.09732 \n  Standard Error: 0.02326 \n  t-value: 4.18445 \n\nSensitivity Statistics:\n  Partial R2 of treatment with outcome: 0.02187 \n  Robustness Value, q = 1 : 0.13878 \n  Robustness Value, q = 1 alpha = 0.05 : 0.07626 \n\nFor more information, check summary."
+
+
+
+            print.sense <- "Sensitivity Analysis to Unobserved Confounding\n\nModel Formula: peacefactor ~ directlyharmed + age + farmer_dar + herder_dar + \n    pastvoted + hhsize_darfur + female + village\n\nNull hypothesis: q = 1 and reduce = TRUE \n\nUnadjusted Estimates of ' directlyharmed ':\n  Coef. estimate: 0.09732 \n  Standard Error: 0.02326 \n  t-value: 4.18445 \n\nSensitivity Statistics:\n  Partial R2 of treatment with outcome: 0.02187 \n  Robustness Value, q = 1 : 0.13878 \n  Robustness Value, q = 1 alpha = 0.05 : 0.07626 \n\nFor more information, check summary."
             compare <- capture_output(print(darfur_out))
             expect_equal(compare, print.sense)
 
-            summary.sense <- "Sensitivity Analysis to Unobserved Confounding\n\nModel Formula: peacefactor ~ directlyharmed + age + farmer_dar + herder_dar + \n    pastvoted + hhsize_darfur + female + village\n\nUnadjusted Estimates of 'directlyharmed': \n  Coef. estimate: 0.0973 \n  Standard Error: 0.0233 \n  t-value: 4.1844 \n\nSensitivity Statistics:\n  Partial R2 of treatment with outcome: 0.0219 \n  Robustness Value, q = 1: 0.1388 \n  Robustness Value, q = 1, alpha = 0.05: 0.0763 \n\nVerbal interpretation of sensitivity statistics:\n\n-- Partial R2 of the treatment with the outcome: an extreme confounder (orthogonal to the covariates) that explains 100% of the residual variance of the outcome, would need to explain at least 2.19% of the residual variance of the treatment to fully account for the observed estimated effect.\n\n-- Robustness Value, q = 1: unobserved confounders (orthogonal to the covariates) that explain more than 13.88% of the residual variance of both the treatment and the outcome are strong enough to bring the point estimate to 0 (a bias of 100% of the original estimate). Conversely, unobserved confounders that do not explain more than 13.88% of the residual variance of both the treatment and the outcome are not strong enough to bring the point estimate to 0.\n\n-- Robustness Value, q = 1, alpha = 0.05: unobserved confounders (orthogonal to the covariates) that explain more than 7.63% of the residual variance of both the treatment and the outcome are strong enough to bring the estimate to a range where it is no longer 'statistically different' from 0 (a bias of 100% of the original estimate), at the significance level of alpha = 0.05. Conversely, unobserved confounders that do not explain more than 7.63% of the residual variance of both the treatment and the outcome are not strong enough to bring the estimate to a range where it is no longer 'statistically different' from 0, at the significance level of alpha = 0.05.\n\nBounds on omitted variable bias:\n Bound Label R2dz.x R2yz.dx      Treatment Adjusted Estimate Adjusted Se\n   1x female 0.0092  0.1246 directlyharmed            0.0752      0.0219\n   2x female 0.0183  0.2493 directlyharmed            0.0529      0.0204\n   3x female 0.0275  0.3741 directlyharmed            0.0304      0.0187\n Adjusted T Adjusted Lower CI Adjusted Upper CI\n     3.4389            0.0323            0.1182\n     2.6002            0.0130            0.0929\n     1.6281           -0.0063            0.0670"
+
+
+
+            summary.sense <- "Sensitivity Analysis to Unobserved Confounding\n\nModel Formula: peacefactor ~ directlyharmed + age + farmer_dar + herder_dar + \n    pastvoted + hhsize_darfur + female + village\n\nNull hypothesis: q = 1 and reduce = TRUE \n-- This means we are considering biases that reduce the absolute value of the current estimate.\n-- The null hypothesis deemed problematic is H0:tau = 0 \n\nUnadjusted Estimates of 'directlyharmed': \n  Coef. estimate: 0.0973 \n  Standard Error: 0.0233 \n  t-value (H0:tau = 0): 4.1844 \n\nSensitivity Statistics:\n  Partial R2 of treatment with outcome: 0.0219 \n  Robustness Value, q = 1: 0.1388 \n  Robustness Value, q = 1, alpha = 0.05: 0.0763 \n\nVerbal interpretation of sensitivity statistics:\n\n-- Partial R2 of the treatment with the outcome: an extreme confounder (orthogonal to the covariates) that explains 100% of the residual variance of the outcome, would need to explain at least 2.19% of the residual variance of the treatment to fully account for the observed estimated effect.\n\n-- Robustness Value, q = 1: unobserved confounders (orthogonal to the covariates) that explain more than 13.88% of the residual variance of both the treatment and the outcome are strong enough to bring the point estimate to 0 (a bias of 100% of the original estimate). Conversely, unobserved confounders that do not explain more than 13.88% of the residual variance of both the treatment and the outcome are not strong enough to bring the point estimate to 0.\n\n-- Robustness Value, q = 1, alpha = 0.05: unobserved confounders (orthogonal to the covariates) that explain more than 7.63% of the residual variance of both the treatment and the outcome are strong enough to bring the estimate to a range where it is no longer 'statistically different' from 0 (a bias of 100% of the original estimate), at the significance level of alpha = 0.05. Conversely, unobserved confounders that do not explain more than 7.63% of the residual variance of both the treatment and the outcome are not strong enough to bring the estimate to a range where it is no longer 'statistically different' from 0, at the significance level of alpha = 0.05.\n\nBounds on omitted variable bias:\n Bound Label R2dz.x R2yz.dx      Treatment Adjusted Estimate Adjusted Se\n   1x female 0.0092  0.1246 directlyharmed            0.0752      0.0219\n   2x female 0.0183  0.2493 directlyharmed            0.0529      0.0204\n   3x female 0.0275  0.3741 directlyharmed            0.0304      0.0187\n Adjusted T Adjusted Lower CI Adjusted Upper CI\n     3.4389            0.0323            0.1182\n     2.6002            0.0130            0.0929\n     1.6281           -0.0063            0.0670"
             compare <- capture_output(summary(darfur_out))
             expect_equal(compare, summary.sense)
+
+
+
+
 
             latex.table <- c("\\begin{table}[!h]", "\\centering", "\\begin{tabular}{lrrrrrr}",
                              "\\multicolumn{7}{c}{Outcome: \\textit{peacefactor}} \\\\", "\\hline \\hline ",

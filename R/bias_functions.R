@@ -150,6 +150,22 @@ adjusted_t <- function(...){
 }
 
 
+
+
+
+#' @rdname adjusted_estimate
+#' @param h0 Null hypothesis for computation of the t-value. Default is zero.
+#' @export
+adjusted_t.lm <- function(model, treatment,  r2dz.x, r2yz.dx, reduce = TRUE, h0 = 0, ...){
+  # extract model data
+  model_data <- model_helper(model, covariates = treatment)
+  new_t <- with(model_data, adjusted_t(estimate = estimate, se = se, dof = dof, r2dz.x = r2dz.x,
+                                       r2yz.dx = r2yz.dx, reduce = reduce, h0 = h0))
+  names(new_t) <- rep(treatment, length(new_t))
+  return(new_t)
+}
+
+
 #' @rdname adjusted_estimate
 #' @export
 adjusted_t.numeric = function(estimate, se, dof, r2dz.x, r2yz.dx, reduce = TRUE, h0 = 0, ...) {
@@ -163,22 +179,21 @@ adjusted_t.numeric = function(estimate, se, dof, r2dz.x, r2yz.dx, reduce = TRUE,
     stop("Estimate provided must be a single number.")
   }
   new_estimate <- adjusted_estimate(estimate = estimate, r2yz.dx = r2yz.dx, r2dz.x = r2dz.x, se = se, dof = dof,reduce =  reduce)
- new_t <-  (new_estimate - h0) / adjusted_se(r2yz.dx = r2yz.dx, r2dz.x = r2dz.x, se = se, dof = dof)
- unname(new_t)
- return(new_t)
+  new_t <-  (new_estimate - h0) / adjusted_se(r2yz.dx = r2yz.dx, r2dz.x = r2dz.x, se = se, dof = dof)
+  unname(new_t)
+  attributes(new_t) <- list(h0 = h0)
+  class(new_t) <- c("numeric", "t_stats")
+  return(new_t)
 }
 
-
-#' @rdname adjusted_estimate
-#' @param h0 Null hypothesis for computation of the t-value. Default is zero.
 #' @export
-adjusted_t.lm <- function(model, treatment,  r2dz.x, r2yz.dx, reduce = TRUE, h0 = 0, ...){
-  # extract model data
-  model_data <- model_helper(model, covariates = treatment)
-  new_t <- with(model_data, adjusted_t(estimate = estimate, se = se, dof = dof, r2dz.x = r2dz.x,
-                                       r2yz.dx = r2yz.dx, reduce = reduce, h0 = h0))
-  names(new_t) <- rep(treatment, length(new_t))
-  return(new_t)
+print.t_stats <- function(x, ...){
+  value <- x
+  attributes(value) <- NULL
+  class(value) <- "numeric"
+  print(value)
+  h0 <- attr(x, "h0")
+  cat("H0:tau =", h0)
 }
 
 

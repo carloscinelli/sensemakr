@@ -8,7 +8,7 @@ test_that("r^2 helper functions", {
 
   expect_equal(bias, 1.5, tolerance = 1e-3)
   expect_equal(se, 0.2377, tolerance = 1e-3)
-  expect_equal(t_result, 10.5145, tolerance = 1e-3)
+  expect_equivalent(t_result, 10.5145, tolerance = 1e-3)
 
   # Errors
   # Bad estimate

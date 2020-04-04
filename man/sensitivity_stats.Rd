@@ -8,7 +8,7 @@
 \usage{
 sensitivity_stats(...)
 
-\method{sensitivity_stats}{lm}(model, treatment, q = 1, alpha = 0.05, ...)
+\method{sensitivity_stats}{lm}(model, treatment, q = 1, alpha = 0.05, reduce = TRUE, ...)
 
 \method{sensitivity_stats}{numeric}(
   estimate,
@@ -17,6 +17,7 @@ sensitivity_stats(...)
   treatment = "treatment",
   q = 1,
   alpha = 0.05,
+  reduce = TRUE,
   ...
 )
 }
@@ -34,6 +35,9 @@ of the model.}
 which means a reduction of 100\% of the current effect estimate (bring estimate to zero). It has to be greater than zero.}
 
 \item{alpha}{significance level.}
+
+\item{reduce}{Should the bias adjustment reduce or increase the
+absolute value of the estimated coefficient? Default is \code{TRUE}.}
 
 \item{estimate}{Coefficient estimate.}
 

@@ -438,6 +438,7 @@ ovb_contour_plot.numeric = function(estimate,
                    FUN = "adjusted_t",
                    se = se, dof = dof,
                    estimate = estimate,
+                   reduce = reduce,
                    h0 = estimate.threshold) # we are computing the t-value of H0: tau = estimate.threshold
     threshold = t.threshold
     plot_estimate = (estimate - estimate.threshold) / se
