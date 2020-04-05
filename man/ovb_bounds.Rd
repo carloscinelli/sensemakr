@@ -61,6 +61,8 @@ absolute value of the estimated coefficient? Default is \code{TRUE}.}
 
 \item{alpha}{significance level for computing the adjusted confidence intervals. Default is 0.05.}
 
+\item{h0}{Null hypothesis for computation of the t-value. Default is zero.}
+
 \item{r2dxj.x}{partial R2 of covariate Xj with the treatment D (after partialling out the effect of the remaining covariates X, excluding Xj).}
 
 \item{r2yxj.dx}{partial R2 of covariate Xj with the outcome Y (after partialling out the effect of the remaining covariates X, excluding Xj).}

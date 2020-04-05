@@ -8,8 +8,8 @@
 \alias{adjusted_se.numeric}
 \alias{adjusted_se.lm}
 \alias{adjusted_t}
-\alias{adjusted_t.numeric}
 \alias{adjusted_t.lm}
+\alias{adjusted_t.numeric}
 \alias{adjusted_partial_r2}
 \alias{adjusted_partial_r2.numeric}
 \alias{adjusted_partial_r2.lm}
@@ -36,9 +36,9 @@ adjusted_se(...)
 
 adjusted_t(...)
 
-\method{adjusted_t}{numeric}(estimate, se, dof, r2dz.x, r2yz.dx, reduce = TRUE, h0 = 0, ...)
-
 \method{adjusted_t}{lm}(model, treatment, r2dz.x, r2yz.dx, reduce = TRUE, h0 = 0, ...)
+
+\method{adjusted_t}{numeric}(estimate, se, dof, r2dz.x, r2yz.dx, reduce = TRUE, h0 = 0, ...)
 
 adjusted_partial_r2(...)
 
