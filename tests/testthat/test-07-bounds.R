@@ -104,3 +104,66 @@ test_that("Group benchmarks",
               expect_equal(check1, check2)
 
           })
+
+
+test_that("Group benchmarks - simulations",
+          {
+
+            # exact
+            rm(list = ls())
+            set.seed(10)
+            n <- 1e3
+            z1 <- resid_maker(n, rep(1, n))
+            z2 <- resid_maker(n, z1)
+            x1 <- resid_maker(n, cbind(z1, z2))
+            x2 <- resid_maker(n, cbind(z1, z2, x1))
+            d  <- 2*x1 + 1*x2 + 2*z1 + 1*z2 + resid_maker(n, cbind(z1, z2, x1, x2))*5
+            y  <- 2*x1 + 1*x2 + 2*z1 + 1*z2 + resid_maker(n, cbind(z1, z2, x1, x2, d))*5
+            model <- lm(y ~ d + x1 + x2)
+            r2yx <- group_partial_r2(lm(y ~ d + x1 + x2), covariates = c("x1", "x2"))
+            r2yz <- group_partial_r2(lm(y ~ d + z1 + z2), covariates = c("z1", "z2"))
+            ky <- r2yz/r2yx
+
+            r2dz <- group_partial_r2(lm(d ~ z1 + z2), covariates = c("z1", "z2"))
+            r2dx <- group_partial_r2(lm(d ~ x1 + x2), covariates = c("x1", "x2"))
+            kd <- r2dz/r2dx
+            out   <- sensemakr(model = model, treatment = "d", benchmark_covariates = list(X = c("x1", "x2")), kd =kd, ky= ky)
+            expect_equivalent(out$bounds$adjusted_estimate, 0)
+
+            # conservative
+            rm(list = ls())
+            rcoef <- function() runif(1, -2, 2)
+            n <- 1e3
+            z1 <- resid_maker(n, rep(1, n))
+            z2 <- resid_maker(n, z1)
+            x1 <- resid_maker(n, cbind(z1, z2))
+            x2 <- resid_maker(n, cbind(z1, z2, x1))
+            d  <- rcoef()*x1 + rcoef()*x2 + rcoef()*z1 + rcoef()*z2 + resid_maker(n, cbind(z1, z2, x1, x2))*5
+            y  <- rcoef()*x1 + rcoef()*x2 + rcoef()*z1 + rcoef()*z2 + resid_maker(n, cbind(z1, z2, x1, x2, d))*5
+            model <- lm(y ~ d + x1 + x2)
+            r2yx <- group_partial_r2(lm(y ~ d + x1 + x2), covariates = c("x1", "x2"))
+            r2yz <- group_partial_r2(lm(y ~ d + z1 + z2), covariates = c("z1", "z2"))
+            ky <- r2yz/r2yx
+
+            r2dz <- group_partial_r2(lm(d ~ z1 + z2), covariates = c("z1", "z2"))
+            r2dx <- group_partial_r2(lm(d ~ x1 + x2), covariates = c("x1", "x2"))
+            kd <- r2dz/r2dx
+            out   <- sensemakr(model = model, treatment = "d", benchmark_covariates = list(X = c("x1", "x2")), kd =kd, ky= ky)
+            full.model <- lm(y ~ d + x1 + x2 + z1 + z2)
+            true_r2yz.dx <- group_partial_r2(full.model, covariates = c("z1", "z2"))
+            full.model.d <-lm(d ~ x1 + x2 + z1 + z2)
+            true_r2dz.x <- group_partial_r2(full.model.d, covariates = c("z1", "z2"))
+            expect_equal(out$bounds$r2dz.x, true_r2dz.x)
+            expect_true(out$bounds$r2yz.dx > true_r2yz.dx)
+
+          })
+
+
+
+
+
+
+
+
+
+
