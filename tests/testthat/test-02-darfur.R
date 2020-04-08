@@ -407,3 +407,15 @@ test_that("testing darfur print",
             expect_equal(capture.output(ovb_minimal_reporting(darfur_out2)), latex2)
 
           })
+
+
+test_that("testing darfur different q",
+          {
+            darfur_out <- sensemakr(model, treatment = "directlyharmed", benchmark_covariates = "female", q = 2, kd = 1:3)
+            rvq <- darfur_out$sensitivity_stats$rv_q
+            rvqa <- darfur_out$sensitivity_stats$rv_qa
+            expect_equivalent(rvq, robustness_value(model, covariates = "directlyharmed", q = 2))
+            expect_equivalent(rvqa, robustness_value(model, covariates = "directlyharmed", q = 2,alpha = 0.05))
+          }
+
+)

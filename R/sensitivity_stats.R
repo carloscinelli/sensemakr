@@ -436,15 +436,16 @@ sensitivity_stats.numeric <- function(estimate,
   if (!is.numeric(se)) stop("Standard Error must be a numeric value")
   if (dof < 0) stop("Degrees of Freedom must be poisitive")
   h0 <- ifelse(reduce, estimate*(1 - q), estimate*(1 + q) )
+  original_t  <- estimate/se
   t_statistic <- (estimate - h0)/se
   sensitivity_stats <- data.frame(treatment = treatment, stringsAsFactors = FALSE)
   sensitivity_stats[["estimate"]] <- estimate
   sensitivity_stats[["se"]] <- se
   sensitivity_stats[["t_statistic"]] <- t_statistic
-  sensitivity_stats[["r2yd.x"]] <- as.numeric(partial_r2(t_statistic = t_statistic, dof = dof))
-  sensitivity_stats[["rv_q"]] <- (robustness_value(t_statistic = t_statistic, dof = dof, q = q))
-  sensitivity_stats[["rv_qa"]] <- (robustness_value(t_statistic = t_statistic, dof = dof, q = q, alpha = alpha))
-  sensitivity_stats[["f2yd.x"]] <- as.numeric(partial_f2(t_statistic = t_statistic, dof = dof))
+  sensitivity_stats[["r2yd.x"]] <- as.numeric(partial_r2(t_statistic = original_t, dof = dof))
+  sensitivity_stats[["rv_q"]] <- (robustness_value(t_statistic = original_t, dof = dof, q = q))
+  sensitivity_stats[["rv_qa"]] <- (robustness_value(t_statistic = original_t, dof = dof, q = q, alpha = alpha))
+  sensitivity_stats[["f2yd.x"]] <- as.numeric(partial_f2(t_statistic = original_t, dof = dof))
   sensitivity_stats[["dof"]] <- dof
   sensitivity_stats
 }
