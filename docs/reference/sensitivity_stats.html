@@ -132,7 +132,7 @@ partial_r2 and partial_f2 of the coefficient of interest." />
     <pre class="usage"><span class='fu'>sensitivity_stats</span>(<span class='no'>...</span>)
 
 <span class='co'># S3 method for lm</span>
-<span class='fu'>sensitivity_stats</span>(<span class='no'>model</span>, <span class='no'>treatment</span>, <span class='kw'>q</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>0.05</span>, <span class='no'>...</span>)
+<span class='fu'>sensitivity_stats</span>(<span class='no'>model</span>, <span class='no'>treatment</span>, <span class='kw'>q</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>0.05</span>, <span class='kw'>reduce</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for numeric</span>
 <span class='fu'>sensitivity_stats</span>(
@@ -142,6 +142,7 @@ partial_r2 and partial_f2 of the coefficient of interest." />
   <span class='kw'>treatment</span> <span class='kw'>=</span> <span class='st'>"treatment"</span>,
   <span class='kw'>q</span> <span class='kw'>=</span> <span class='fl'>1</span>,
   <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>0.05</span>,
+  <span class='kw'>reduce</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='no'>...</span>
 )</pre>
 
@@ -171,6 +172,11 @@ which means a reduction of 100% of the current effect estimate (bring estimate t
     <tr>
       <th>alpha</th>
       <td><p>significance level.</p></td>
+    </tr>
+    <tr>
+      <th>reduce</th>
+      <td><p>Should the bias adjustment reduce or increase the
+absolute value of the estimated coefficient? Default is <code>TRUE</code>.</p></td>
     </tr>
     <tr>
       <th>estimate</th>
@@ -241,7 +247,7 @@ which means a reduction of 100% of the current effect estimate (bring estimate t
 
       <footer>
       <div class="copyright">
-  <p>Developed by <a href='https://carloscinelli.com'>Carlos Cinelli</a>, <a href='https://chadhazlett.com'>Chad Hazlett</a>.</p>
+  <p>Developed by <a href='https://carloscinelli.com'>Carlos Cinelli</a>, <a href='https://www.jeremyferwerda.com/'>Jeremy Ferwerda</a>, <a href='https://chadhazlett.com'>Chad Hazlett</a>.</p>
 </div>
 
 <div class="pkgdown">

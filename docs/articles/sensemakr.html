@@ -194,17 +194,19 @@ Note:               *p&lt;0.1; **p&lt;0.05; ***p&lt;0.01</code></pre>
 <span id="cb7-4"><a href="#cb7-4"></a><span class="co">#&gt; Model Formula: peacefactor ~ directlyharmed + village + female + age + farmer_dar + </span></span>
 <span id="cb7-5"><a href="#cb7-5"></a><span class="co">#&gt;     herder_dar + pastvoted + hhsize_darfur</span></span>
 <span id="cb7-6"><a href="#cb7-6"></a><span class="co">#&gt; </span></span>
-<span id="cb7-7"><a href="#cb7-7"></a><span class="co">#&gt; Unadjusted Estimates of ' directlyharmed ':</span></span>
-<span id="cb7-8"><a href="#cb7-8"></a><span class="co">#&gt;   Coef. estimate: 0.09732 </span></span>
-<span id="cb7-9"><a href="#cb7-9"></a><span class="co">#&gt;   Standard Error: 0.02326 </span></span>
-<span id="cb7-10"><a href="#cb7-10"></a><span class="co">#&gt;   t-value: 4.18445 </span></span>
-<span id="cb7-11"><a href="#cb7-11"></a><span class="co">#&gt; </span></span>
-<span id="cb7-12"><a href="#cb7-12"></a><span class="co">#&gt; Sensitivity Statistics:</span></span>
-<span id="cb7-13"><a href="#cb7-13"></a><span class="co">#&gt;   Partial R2 of treatment with outcome: 0.02187 </span></span>
-<span id="cb7-14"><a href="#cb7-14"></a><span class="co">#&gt;   Robustness Value, q = 1 : 0.13878 </span></span>
-<span id="cb7-15"><a href="#cb7-15"></a><span class="co">#&gt;   Robustness Value, q = 1 alpha = 0.05 : 0.07626 </span></span>
-<span id="cb7-16"><a href="#cb7-16"></a><span class="co">#&gt; </span></span>
-<span id="cb7-17"><a href="#cb7-17"></a><span class="co">#&gt; For more information, check summary.</span></span></code></pre></div>
+<span id="cb7-7"><a href="#cb7-7"></a><span class="co">#&gt; Null hypothesis: q = 1 and reduce = TRUE </span></span>
+<span id="cb7-8"><a href="#cb7-8"></a><span class="co">#&gt; </span></span>
+<span id="cb7-9"><a href="#cb7-9"></a><span class="co">#&gt; Unadjusted Estimates of ' directlyharmed ':</span></span>
+<span id="cb7-10"><a href="#cb7-10"></a><span class="co">#&gt;   Coef. estimate: 0.09732 </span></span>
+<span id="cb7-11"><a href="#cb7-11"></a><span class="co">#&gt;   Standard Error: 0.02326 </span></span>
+<span id="cb7-12"><a href="#cb7-12"></a><span class="co">#&gt;   t-value: 4.18445 </span></span>
+<span id="cb7-13"><a href="#cb7-13"></a><span class="co">#&gt; </span></span>
+<span id="cb7-14"><a href="#cb7-14"></a><span class="co">#&gt; Sensitivity Statistics:</span></span>
+<span id="cb7-15"><a href="#cb7-15"></a><span class="co">#&gt;   Partial R2 of treatment with outcome: 0.02187 </span></span>
+<span id="cb7-16"><a href="#cb7-16"></a><span class="co">#&gt;   Robustness Value, q = 1 : 0.13878 </span></span>
+<span id="cb7-17"><a href="#cb7-17"></a><span class="co">#&gt;   Robustness Value, q = 1 alpha = 0.05 : 0.07626 </span></span>
+<span id="cb7-18"><a href="#cb7-18"></a><span class="co">#&gt; </span></span>
+<span id="cb7-19"><a href="#cb7-19"></a><span class="co">#&gt; For more information, check summary.</span></span></code></pre></div>
 <p>The package also provides a function that creates a latex or html table with these results, as shown below (for the latex table, simply change the argument to <code>format = "latex"</code>).</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="kw"><a href="../reference/print.sensemakr.html">ovb_minimal_reporting</a></span>(darfur.sensitivity, <span class="dt">format =</span> <span class="st">"html"</span>)</span></code></pre></div>
 <table class="table">
@@ -367,7 +369,7 @@ summary(darfur.sensitivity)
 
 
       <footer><div class="copyright">
-  <p>Developed by <a href="https://carloscinelli.com">Carlos Cinelli</a>, <a href="https://chadhazlett.com">Chad Hazlett</a>.</p>
+  <p>Developed by <a href="https://carloscinelli.com">Carlos Cinelli</a>, <a href="https://www.jeremyferwerda.com/">Jeremy Ferwerda</a>, <a href="https://chadhazlett.com">Chad Hazlett</a>.</p>
 </div>
 
 <div class="pkgdown">

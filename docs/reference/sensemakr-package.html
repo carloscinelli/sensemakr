@@ -163,6 +163,8 @@ of unobserved confounders (<code><a href='ovb_bounds.html'>ovb_bounds</a></code>
 #&gt; Model Formula: peacefactor ~ directlyharmed + age + farmer_dar + herder_dar + 
 #&gt;     pastvoted + hhsize_darfur + female + village
 #&gt; 
+#&gt; Null hypothesis: q = 1 and reduce = TRUE 
+#&gt; 
 #&gt; Unadjusted Estimates of ' directlyharmed ':
 #&gt;   Coef. estimate: 0.09732 
 #&gt;   Standard Error: 0.02326 
@@ -180,10 +182,14 @@ of unobserved confounders (<code><a href='ovb_bounds.html'>ovb_bounds</a></code>
 #&gt; Model Formula: peacefactor ~ directlyharmed + age + farmer_dar + herder_dar + 
 #&gt;     pastvoted + hhsize_darfur + female + village
 #&gt; 
+#&gt; Null hypothesis: q = 1 and reduce = TRUE 
+#&gt; -- This means we are considering biases that reduce the absolute value of the current estimate.
+#&gt; -- The null hypothesis deemed problematic is H0:tau = 0 
+#&gt; 
 #&gt; Unadjusted Estimates of 'directlyharmed': 
 #&gt;   Coef. estimate: 0.0973 
 #&gt;   Standard Error: 0.0233 
-#&gt;   t-value: 4.1844 
+#&gt;   t-value (H0:tau = 0): 4.1844 
 #&gt; 
 #&gt; Sensitivity Statistics:
 #&gt;   Partial R2 of treatment with outcome: 0.0219 
@@ -287,8 +293,8 @@ of unobserved confounders (<code><a href='ovb_bounds.html'>ovb_bounds</a></code>
 <span class='fu'><a href='adjusted_estimate.html'>adjusted_estimate</a></span>(<span class='no'>model</span>, <span class='kw'>treatment</span> <span class='kw'>=</span> <span class='st'>"directlyharmed"</span>, <span class='kw'>r2dz.x</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>r2yz.dx</span> <span class='kw'>=</span> <span class='fl'>0.1</span>)</div><div class='output co'>#&gt; directlyharmed 
 #&gt;     0.02871889 </div><div class='input'>
 <span class='co'># adjusted t-value given hypothetical strength of confounder</span>
-<span class='fu'><a href='adjusted_estimate.html'>adjusted_t</a></span>(<span class='no'>model</span>, <span class='kw'>treatment</span> <span class='kw'>=</span> <span class='st'>"directlyharmed"</span>, <span class='kw'>r2dz.x</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>r2yz.dx</span> <span class='kw'>=</span> <span class='fl'>0.1</span>)</div><div class='output co'>#&gt; directlyharmed 
-#&gt;       1.234085 </div><div class='input'>
+<span class='fu'><a href='adjusted_estimate.html'>adjusted_t</a></span>(<span class='no'>model</span>, <span class='kw'>treatment</span> <span class='kw'>=</span> <span class='st'>"directlyharmed"</span>, <span class='kw'>r2dz.x</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>r2yz.dx</span> <span class='kw'>=</span> <span class='fl'>0.1</span>)</div><div class='output co'>#&gt; [1] 1.234085
+#&gt; H0:tau = 0</div><div class='input'>
 <span class='co'># bias contour plot directly from lm model</span>
 <span class='fu'><a href='ovb_contour_plot.html'>ovb_contour_plot</a></span>(<span class='no'>model</span>,
                  <span class='kw'>treatment</span> <span class='kw'>=</span> <span class='st'>"directlyharmed"</span>,
@@ -314,7 +320,7 @@ of unobserved confounders (<code><a href='ovb_bounds.html'>ovb_bounds</a></code>
 
       <footer>
       <div class="copyright">
-  <p>Developed by <a href='https://carloscinelli.com'>Carlos Cinelli</a>, <a href='https://chadhazlett.com'>Chad Hazlett</a>.</p>
+  <p>Developed by <a href='https://carloscinelli.com'>Carlos Cinelli</a>, <a href='https://www.jeremyferwerda.com/'>Jeremy Ferwerda</a>, <a href='https://chadhazlett.com'>Chad Hazlett</a>.</p>
 </div>
 
 <div class="pkgdown">

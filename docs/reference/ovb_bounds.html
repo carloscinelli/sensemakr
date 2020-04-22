@@ -136,13 +136,13 @@ Other functions that compute only the bounds on the strength of confounding are 
   <span class='no'>model</span>,
   <span class='no'>treatment</span>,
   <span class='kw'>benchmark_covariates</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>group_benchmarks</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>kd</span> <span class='kw'>=</span> <span class='fl'>1</span>,
   <span class='kw'>ky</span> <span class='kw'>=</span> <span class='no'>kd</span>,
   <span class='kw'>reduce</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>bound</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"partial r2"</span>, <span class='st'>"partial r2 no D"</span>, <span class='st'>"total r2"</span>),
   <span class='kw'>adjusted_estimates</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>0.05</span>,
+  <span class='kw'>h0</span> <span class='kw'>=</span> <span class='fl'>0</span>,
   <span class='no'>...</span>
 )
 
@@ -153,7 +153,7 @@ Other functions that compute only the bounds on the strength of confounding are 
   <span class='no'>r2dxj.x</span>,
   <span class='no'>r2yxj.dx</span>,
   <span class='kw'>kd</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>ky</span> <span class='kw'>=</span> <span class='fl'>1</span>,
+  <span class='kw'>ky</span> <span class='kw'>=</span> <span class='no'>kd</span>,
   <span class='kw'>bound_label</span> <span class='kw'>=</span> <span class='st'>"manual"</span>,
   <span class='no'>...</span>
 )</pre>
@@ -178,12 +178,7 @@ of the model.</p></td>
     </tr>
     <tr>
       <th>benchmark_covariates</th>
-      <td><p>a character vector of the names of covariates that will be used to bound the plausible strength
-of the unobserved confounders.</p></td>
-    </tr>
-    <tr>
-      <th>group_benchmarks</th>
-      <td><p>a named list with character vector names of covariates that will be used, as a group, to bound the plausible strength of the unobserved confounders. The names of the list will be used for the benchmark labels. Note: for factor variables with more than two levels, you need to provide the name of each level as encoded in the <code>lm</code> model (the columns of <code>model.matrix</code>).</p></td>
+      <td><p>The user has two options: (i)  character vector of the names of covariates that will be used to bound the plausible strength of the unobserved confounders. Each variable will be considered separately; (ii) a named list with character vector names of covariates that will be used, <em>as a group</em>, to bound the plausible strength of the unobserved confounders. The names of the list will be used for the benchmark labels. Note: for factor variables with more than two levels, you need to provide the name of each level as encoded in the <code>lm</code> model (the columns of <code>model.matrix</code>).</p></td>
     </tr>
     <tr>
       <th>kd</th>
@@ -211,6 +206,10 @@ absolute value of the estimated coefficient? Default is <code>TRUE</code>.</p></
     <tr>
       <th>alpha</th>
       <td><p>significance level for computing the adjusted confidence intervals. Default is 0.05.</p></td>
+    </tr>
+    <tr>
+      <th>h0</th>
+      <td><p>Null hypothesis for computation of the t-value. Default is zero.</p></td>
     </tr>
     <tr>
       <th>r2dxj.x</th>
@@ -317,7 +316,7 @@ errors and t-values (among other quantities) need to be computed manually by the
 
       <footer>
       <div class="copyright">
-  <p>Developed by <a href='https://carloscinelli.com'>Carlos Cinelli</a>, <a href='https://chadhazlett.com'>Chad Hazlett</a>.</p>
+  <p>Developed by <a href='https://carloscinelli.com'>Carlos Cinelli</a>, <a href='https://www.jeremyferwerda.com/'>Jeremy Ferwerda</a>, <a href='https://chadhazlett.com'>Chad Hazlett</a>.</p>
 </div>
 
 <div class="pkgdown">

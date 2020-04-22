@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Partial R2 of groups of covariates in a linear regression model — group_partial_r2 • sensemakr</title>
+<title>Creates orthogonal residuals — resid_maker • sensemakr</title>
 
 
 <!-- jquery -->
@@ -35,8 +35,10 @@
 
 
 
-<meta property="og:title" content="Partial R2 of groups of covariates in a linear regression model — group_partial_r2" />
-<meta property="og:description" content="This function computes the partial R2 of a group of covariates in a linear regression model." />
+<meta property="og:title" content="Creates orthogonal residuals — resid_maker" />
+<meta property="og:description" content="This function is an auxiliary function for simulation purposes.
+It creates a vector of n standard normal random variables, residualizes
+this vector against a matrix of covariates C, then standardizes the vector again." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -118,73 +120,42 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Partial R2 of groups of covariates in a linear regression model</h1>
-    <small class="dont-index">Source: <a href='https://github.com/chadhazlett/sensemakr/blob/master/R/sensitivity_stats.R'><code>R/sensitivity_stats.R</code></a></small>
-    <div class="hidden name"><code>group_partial_r2.Rd</code></div>
+    <h1>Creates orthogonal residuals</h1>
+    <small class="dont-index">Source: <a href='https://github.com/chadhazlett/sensemakr/blob/master/R/other.R'><code>R/other.R</code></a></small>
+    <div class="hidden name"><code>resid_maker.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>This function computes the partial R2 of a group of covariates in a linear regression model.</p>
+    <p>This function is an auxiliary function for simulation purposes.
+It creates a vector of n standard normal random variables, residualizes
+this vector against a matrix of covariates C, then standardizes the vector again.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>group_partial_r2</span>(<span class='no'>...</span>)
-
-<span class='co'># S3 method for lm</span>
-<span class='fu'>group_partial_r2</span>(<span class='no'>model</span>, <span class='no'>covariates</span>, <span class='no'>...</span>)
-
-<span class='co'># S3 method for numeric</span>
-<span class='fu'>group_partial_r2</span>(<span class='no'>F.stats</span>, <span class='no'>p</span>, <span class='no'>dof</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>resid_maker</span>(<span class='no'>n</span>, <span class='no'>C</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>...</th>
-      <td><p>arguments passed to other methods. First argument should either be an <code>lm</code> object
-with the regression model or a numeric vector with the F-statistics for the group of covariates.</p></td>
+      <th>n</th>
+      <td><p>sample size.</p></td>
     </tr>
     <tr>
-      <th>model</th>
-      <td><p>an <code>lm</code> object with the regression model</p></td>
-    </tr>
-    <tr>
-      <th>covariates</th>
-      <td><p>model covariates for which their grouped partial R2 will be computed.</p></td>
-    </tr>
-    <tr>
-      <th>F.stats</th>
-      <td><p>F-statistics for the group of covariates.</p></td>
-    </tr>
-    <tr>
-      <th>p</th>
-      <td><p>number of parameters in the model.</p></td>
-    </tr>
-    <tr>
-      <th>dof</th>
-      <td><p>residual degrees of freedom of the model.</p></td>
+      <th>C</th>
+      <td><p>a numeric matrix with <code>n</code> rows and <code>p</code> columns.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A numeric vector with the computed partial R2.</p>
+    <p>The function returns a numeric vector orthogonal to C.</p>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"darfur"</span>)
-
-<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='no'>peacefactor</span> ~ <span class='no'>directlyharmed</span> + <span class='no'>age</span> + <span class='no'>farmer_dar</span> + <span class='no'>herder_dar</span> +
-             <span class='no'>pastvoted</span> + <span class='no'>hhsize_darfur</span> + <span class='no'>female</span> + <span class='no'>village</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>darfur</span>)
-
-<span class='fu'>group_partial_r2</span>(<span class='no'>model</span>, <span class='kw'>covariates</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"female"</span>, <span class='st'>"pastvoted"</span>))</div><div class='output co'>#&gt; [1] 0.1168128</div><div class='input'>
-</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#value">Value</a></li>
-      <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>

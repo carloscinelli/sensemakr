@@ -138,14 +138,13 @@ After running <code>sensemakr</code> you may directly use the <code>plot</code>,
   <span class='no'>model</span>,
   <span class='no'>treatment</span>,
   <span class='kw'>benchmark_covariates</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>group_benchmarks</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>kd</span> <span class='kw'>=</span> <span class='fl'>1</span>,
   <span class='kw'>ky</span> <span class='kw'>=</span> <span class='no'>kd</span>,
   <span class='kw'>q</span> <span class='kw'>=</span> <span class='fl'>1</span>,
   <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>0.05</span>,
   <span class='kw'>r2dz.x</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>r2yz.dx</span> <span class='kw'>=</span> <span class='no'>r2dz.x</span>,
-  <span class='kw'>bound_label</span> <span class='kw'>=</span> <span class='st'>"manual"</span>,
+  <span class='kw'>bound_label</span> <span class='kw'>=</span> <span class='st'>"Manual Bound"</span>,
   <span class='kw'>reduce</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='no'>...</span>
 )
@@ -207,12 +206,7 @@ of the model.</p></td>
     </tr>
     <tr>
       <th>benchmark_covariates</th>
-      <td><p>a character vector of the names of covariates that will be used to bound the plausible strength
-of the unobserved confounders.</p></td>
-    </tr>
-    <tr>
-      <th>group_benchmarks</th>
-      <td><p>a named list with character vector names of covariates that will be used, as a group, to bound the plausible strength of the unobserved confounders. The names of the list will be used for the benchmark labels. Note: for factor variables with more than two levels, you need to provide the name of each level as encoded in the <code>lm</code> model (the columns of <code>model.matrix</code>).</p></td>
+      <td><p>The user has two options: (i)  character vector of the names of covariates that will be used to bound the plausible strength of the unobserved confounders. Each variable will be considered separately; (ii) a named list with character vector names of covariates that will be used, <em>as a group</em>, to bound the plausible strength of the unobserved confounders. The names of the list will be used for the benchmark labels. Note: for factor variables with more than two levels, you need to provide the name of each level as encoded in the <code>lm</code> model (the columns of <code>model.matrix</code>).</p></td>
     </tr>
     <tr>
       <th>kd</th>
@@ -319,6 +313,8 @@ of unobserved confounders (<code><a href='ovb_bounds.html'>ovb_bounds</a></code>
 #&gt; Model Formula: peacefactor ~ directlyharmed + age + farmer_dar + herder_dar + 
 #&gt;     pastvoted + hhsize_darfur + female + village
 #&gt; 
+#&gt; Null hypothesis: q = 1 and reduce = TRUE 
+#&gt; 
 #&gt; Unadjusted Estimates of ' directlyharmed ':
 #&gt;   Coef. estimate: 0.09732 
 #&gt;   Standard Error: 0.02326 
@@ -336,10 +332,14 @@ of unobserved confounders (<code><a href='ovb_bounds.html'>ovb_bounds</a></code>
 #&gt; Model Formula: peacefactor ~ directlyharmed + age + farmer_dar + herder_dar + 
 #&gt;     pastvoted + hhsize_darfur + female + village
 #&gt; 
+#&gt; Null hypothesis: q = 1 and reduce = TRUE 
+#&gt; -- This means we are considering biases that reduce the absolute value of the current estimate.
+#&gt; -- The null hypothesis deemed problematic is H0:tau = 0 
+#&gt; 
 #&gt; Unadjusted Estimates of 'directlyharmed': 
 #&gt;   Coef. estimate: 0.0973 
 #&gt;   Standard Error: 0.0233 
-#&gt;   t-value: 4.1844 
+#&gt;   t-value (H0:tau = 0): 4.1844 
 #&gt; 
 #&gt; Sensitivity Statistics:
 #&gt;   Partial R2 of treatment with outcome: 0.0219 
@@ -400,7 +400,7 @@ of unobserved confounders (<code><a href='ovb_bounds.html'>ovb_bounds</a></code>
 
       <footer>
       <div class="copyright">
-  <p>Developed by <a href='https://carloscinelli.com'>Carlos Cinelli</a>, <a href='https://chadhazlett.com'>Chad Hazlett</a>.</p>
+  <p>Developed by <a href='https://carloscinelli.com'>Carlos Cinelli</a>, <a href='https://www.jeremyferwerda.com/'>Jeremy Ferwerda</a>, <a href='https://chadhazlett.com'>Chad Hazlett</a>.</p>
 </div>
 
 <div class="pkgdown">

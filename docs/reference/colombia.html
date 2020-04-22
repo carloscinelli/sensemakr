@@ -215,10 +215,14 @@ likely rule out all confounding.</p>
 #&gt; 
 #&gt; Model Formula: yes_vote ~ santos14 + fat_2010to2013 + elev + gdppc + pop13
 #&gt; 
+#&gt; Null hypothesis: q = 1 and reduce = TRUE 
+#&gt; -- This means we are considering biases that reduce the absolute value of the current estimate.
+#&gt; -- The null hypothesis deemed problematic is H0:tau = 0 
+#&gt; 
 #&gt; Unadjusted Estimates of 'santos14': 
 #&gt;   Coef. estimate: 0.6668 
 #&gt;   Standard Error: 0.0178 
-#&gt;   t-value: 37.4551 
+#&gt;   t-value (H0:tau = 0): 37.4551 
 #&gt; 
 #&gt; Sensitivity Statistics:
 #&gt;   Partial R2 of treatment with outcome: 0.588 
@@ -260,7 +264,7 @@ likely rule out all confounding.</p>
 
       <footer>
       <div class="copyright">
-  <p>Developed by <a href='https://carloscinelli.com'>Carlos Cinelli</a>, <a href='https://chadhazlett.com'>Chad Hazlett</a>.</p>
+  <p>Developed by <a href='https://carloscinelli.com'>Carlos Cinelli</a>, <a href='https://www.jeremyferwerda.com/'>Jeremy Ferwerda</a>, <a href='https://chadhazlett.com'>Chad Hazlett</a>.</p>
 </div>
 
 <div class="pkgdown">

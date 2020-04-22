@@ -109,20 +109,17 @@ D &amp;= X + Z + U_d\\
 Y &amp;= X + Z + U_y
 \end{align}\]</span></p>
 <p>Also note that, in this model: (i) the unobserved confounder <span class="math inline">\(Z\)</span> is independent of <span class="math inline">\(X\)</span>; and, (ii) the unobserved confounder <span class="math inline">\(Z\)</span> is <em>exactly like</em> <span class="math inline">\(X\)</span> in terms of its strength of association with the treatment and the outcome. The code below creates a sample of size 100 of this data generating process. We make sure to create residuals that are standardized and orthogonal so that all properties that we describe here will hold exactly even in this finite sample.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="co"># function for orthogonalizing and</span></span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="co"># standardizing residuals</span></span>
-<span id="cb1-3"><a href="#cb1-3"></a>resid_maker &lt;-<span class="st"> </span><span class="cf">function</span>(n, C){</span>
-<span id="cb1-4"><a href="#cb1-4"></a>  e &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/residuals.html">resid</a></span>(<span class="kw"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span>(<span class="kw"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span>(n) <span class="op">~</span><span class="st"> </span>C))</span>
-<span id="cb1-5"><a href="#cb1-5"></a>  e  &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/scale.html">scale</a></span>(e))</span>
-<span id="cb1-6"><a href="#cb1-6"></a>  <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span>(e)</span>
-<span id="cb1-7"><a href="#cb1-7"></a>}</span>
-<span id="cb1-8"><a href="#cb1-8"></a></span>
-<span id="cb1-9"><a href="#cb1-9"></a><span class="co"># simulates data</span></span>
-<span id="cb1-10"><a href="#cb1-10"></a>n &lt;-<span class="st"> </span><span class="dv">100</span></span>
-<span id="cb1-11"><a href="#cb1-11"></a>X &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/scale.html">scale</a></span>(<span class="kw"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span>(n))</span>
-<span id="cb1-12"><a href="#cb1-12"></a>Z &lt;-<span class="st"> </span><span class="kw">resid_maker</span>(n, X) </span>
-<span id="cb1-13"><a href="#cb1-13"></a>D &lt;-<span class="st"> </span>X <span class="op">+</span><span class="st"> </span>Z <span class="op">+</span><span class="st"> </span><span class="kw">resid_maker</span>(n, <span class="kw"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span>(X, Z)) </span>
-<span id="cb1-14"><a href="#cb1-14"></a>Y &lt;-<span class="st"> </span>X <span class="op">+</span><span class="st"> </span>Z <span class="op">+</span><span class="st"> </span><span class="kw">resid_maker</span>(n, <span class="kw"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span>(X, Z, D))</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="co"># loads sensemakr package</span></span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(sensemakr)</span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="co">#&gt; See details in:</span></span>
+<span id="cb1-4"><a href="#cb1-4"></a><span class="co">#&gt; Carlos Cinelli and Chad Hazlett (2020). Making Sense of Sensitivity: Extending Omitted Variable Bias. Journal of the Royal Statistical Society, Series B (Statistical Methodology).</span></span>
+<span id="cb1-5"><a href="#cb1-5"></a></span>
+<span id="cb1-6"><a href="#cb1-6"></a><span class="co"># simulates data</span></span>
+<span id="cb1-7"><a href="#cb1-7"></a>n &lt;-<span class="st"> </span><span class="dv">100</span></span>
+<span id="cb1-8"><a href="#cb1-8"></a>X &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/scale.html">scale</a></span>(<span class="kw"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span>(n))</span>
+<span id="cb1-9"><a href="#cb1-9"></a>Z &lt;-<span class="st"> </span><span class="kw"><a href="../reference/resid_maker.html">resid_maker</a></span>(n, X) </span>
+<span id="cb1-10"><a href="#cb1-10"></a>D &lt;-<span class="st"> </span>X <span class="op">+</span><span class="st"> </span>Z <span class="op">+</span><span class="st"> </span><span class="kw"><a href="../reference/resid_maker.html">resid_maker</a></span>(n, <span class="kw"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span>(X, Z)) </span>
+<span id="cb1-11"><a href="#cb1-11"></a>Y &lt;-<span class="st"> </span>X <span class="op">+</span><span class="st"> </span>Z <span class="op">+</span><span class="st"> </span><span class="kw"><a href="../reference/resid_maker.html">resid_maker</a></span>(n, <span class="kw"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span>(X, Z, D))</span></code></pre></div>
 </div>
 <div id="fitting-the-model" class="section level2">
 <h2 class="hasAnchor">
@@ -135,14 +132,14 @@ Y &amp;= X + Z + U_y
 <span id="cb2-5"><a href="#cb2-5"></a><span class="co">#&gt; lm(formula = Y ~ D + X)</span></span>
 <span id="cb2-6"><a href="#cb2-6"></a><span class="co">#&gt; </span></span>
 <span id="cb2-7"><a href="#cb2-7"></a><span class="co">#&gt; Residuals:</span></span>
-<span id="cb2-8"><a href="#cb2-8"></a><span class="co">#&gt;     Min      1Q  Median      3Q     Max </span></span>
-<span id="cb2-9"><a href="#cb2-9"></a><span class="co">#&gt; -3.2612 -0.8071 -0.0279  0.7727  4.5227 </span></span>
+<span id="cb2-8"><a href="#cb2-8"></a><span class="co">#&gt;      Min       1Q   Median       3Q      Max </span></span>
+<span id="cb2-9"><a href="#cb2-9"></a><span class="co">#&gt; -2.66349 -0.85726  0.06998  0.76466  3.09925 </span></span>
 <span id="cb2-10"><a href="#cb2-10"></a><span class="co">#&gt; </span></span>
 <span id="cb2-11"><a href="#cb2-11"></a><span class="co">#&gt; Coefficients:</span></span>
-<span id="cb2-12"><a href="#cb2-12"></a><span class="co">#&gt;              Estimate Std. Error t value Pr(&gt;|t|)    </span></span>
-<span id="cb2-13"><a href="#cb2-13"></a><span class="co">#&gt; (Intercept) 7.772e-17  1.237e-01   0.000  1.00000    </span></span>
-<span id="cb2-14"><a href="#cb2-14"></a><span class="co">#&gt; D           5.000e-01  8.793e-02   5.686 1.37e-07 ***</span></span>
-<span id="cb2-15"><a href="#cb2-15"></a><span class="co">#&gt; X           5.000e-01  1.523e-01   3.283  0.00143 ** </span></span>
+<span id="cb2-12"><a href="#cb2-12"></a><span class="co">#&gt;               Estimate Std. Error t value Pr(&gt;|t|)    </span></span>
+<span id="cb2-13"><a href="#cb2-13"></a><span class="co">#&gt; (Intercept) -1.665e-16  1.237e-01   0.000  1.00000    </span></span>
+<span id="cb2-14"><a href="#cb2-14"></a><span class="co">#&gt; D            5.000e-01  8.793e-02   5.686 1.37e-07 ***</span></span>
+<span id="cb2-15"><a href="#cb2-15"></a><span class="co">#&gt; X            5.000e-01  1.523e-01   3.283  0.00143 ** </span></span>
 <span id="cb2-16"><a href="#cb2-16"></a><span class="co">#&gt; ---</span></span>
 <span id="cb2-17"><a href="#cb2-17"></a><span class="co">#&gt; Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span></span>
 <span id="cb2-18"><a href="#cb2-18"></a><span class="co">#&gt; </span></span>
@@ -156,17 +153,12 @@ Y &amp;= X + Z + U_y
 <a href="#informal-benchmarks" class="anchor"></a>Informal benchmarks</h2>
 <p>Computing the bias due to the omission of <span class="math inline">\(Z\)</span> requires two sensitivity parameters: its partial <span class="math inline">\(R^2\)</span> with the treatment <span class="math inline">\(D\)</span> and its partial <span class="math inline">\(R^2\)</span> with the outcome <span class="math inline">\(Y\)</span>. How could we go about computing the bias that a confounder <span class="math inline">\(Z\)</span> “not unlike <span class="math inline">\(X\)</span>” would cause?</p>
 <p>Intuitively, it seems that we could take as reference the observed partial <span class="math inline">\(R^2\)</span> of <span class="math inline">\(X\)</span> with <span class="math inline">\(D\)</span> and <span class="math inline">\(Y\)</span>, and use those as the plausible values for the sensitivity parameters. That’s the essence of many informal benchmarking proposals. So llet us now compute those observed partial <span class="math inline">\(R^2\)</span> using the <code><a href="../reference/partial_r2.html">partial_r2()</a></code> function of <code>sensemakr</code>. For the partial <span class="math inline">\(R^2\)</span> of <span class="math inline">\(X\)</span> with the treatment, we also need to fit a treatment regression <span class="math inline">\(D \sim X\)</span> first.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="co"># loads sensemakr package</span></span>
-<span id="cb3-2"><a href="#cb3-2"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(sensemakr)</span>
-<span id="cb3-3"><a href="#cb3-3"></a><span class="co">#&gt; See details in:</span></span>
-<span id="cb3-4"><a href="#cb3-4"></a><span class="co">#&gt; Carlos Cinelli and Chad Hazlett (2020). Making Sense of Sensitivity: Extending Omitted Variable Bias. Journal of the Royal Statistical Society, Series B (Statistical Methodology).</span></span>
-<span id="cb3-5"><a href="#cb3-5"></a></span>
-<span id="cb3-6"><a href="#cb3-6"></a><span class="co"># fits treatment regression</span></span>
-<span id="cb3-7"><a href="#cb3-7"></a>model.dx &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span>(D <span class="op">~</span><span class="st"> </span>X)</span>
-<span id="cb3-8"><a href="#cb3-8"></a></span>
-<span id="cb3-9"><a href="#cb3-9"></a><span class="co"># computes observed partial R2 of X</span></span>
-<span id="cb3-10"><a href="#cb3-10"></a>r2yx.d &lt;-<span class="st"> </span><span class="kw"><a href="../reference/partial_r2.html">partial_r2</a></span>(model.ydx, <span class="dt">covariates =</span> <span class="st">"X"</span>)</span>
-<span id="cb3-11"><a href="#cb3-11"></a>r2dx   &lt;-<span class="st"> </span><span class="kw"><a href="../reference/partial_r2.html">partial_r2</a></span>(model.dx, <span class="dt">covariates =</span> <span class="st">"X"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="co"># fits treatment regression</span></span>
+<span id="cb3-2"><a href="#cb3-2"></a>model.dx &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span>(D <span class="op">~</span><span class="st"> </span>X)</span>
+<span id="cb3-3"><a href="#cb3-3"></a></span>
+<span id="cb3-4"><a href="#cb3-4"></a><span class="co"># computes observed partial R2 of X</span></span>
+<span id="cb3-5"><a href="#cb3-5"></a>r2yx.d &lt;-<span class="st"> </span><span class="kw"><a href="../reference/partial_r2.html">partial_r2</a></span>(model.ydx, <span class="dt">covariates =</span> <span class="st">"X"</span>)</span>
+<span id="cb3-6"><a href="#cb3-6"></a>r2dx   &lt;-<span class="st"> </span><span class="kw"><a href="../reference/partial_r2.html">partial_r2</a></span>(model.dx, <span class="dt">covariates =</span> <span class="st">"X"</span>)</span></code></pre></div>
 <p>Once both partial <span class="math inline">\(R^2\)</span> are computed, we can determine the implied adjusted estimate due to an unobserved confounder <span class="math inline">\(Z\)</span> using the <code><a href="../reference/adjusted_estimate.html">adjusted_estimate()</a></code> function.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>informal_adjusted_estimate &lt;-<span class="st"> </span><span class="kw"><a href="../reference/adjusted_estimate.html">adjusted_estimate</a></span>(model.ydx, </span>
 <span id="cb4-2"><a href="#cb4-2"></a>                                                <span class="dt">treatment =</span> <span class="st">"D"</span>, </span>
@@ -243,7 +235,7 @@ Y &amp;= X + Z + U_y
 
 
       <footer><div class="copyright">
-  <p>Developed by <a href="https://carloscinelli.com">Carlos Cinelli</a>, <a href="https://chadhazlett.com">Chad Hazlett</a>.</p>
+  <p>Developed by <a href="https://carloscinelli.com">Carlos Cinelli</a>, <a href="https://www.jeremyferwerda.com/">Jeremy Ferwerda</a>, <a href="https://chadhazlett.com">Chad Hazlett</a>.</p>
 </div>
 
 <div class="pkgdown">

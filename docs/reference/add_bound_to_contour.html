@@ -174,8 +174,7 @@
     </tr>
     <tr>
       <th>benchmark_covariates</th>
-      <td><p>a character vector of the names of covariates that will be used to bound the plausible strength
-of the unobserved confounders.</p></td>
+      <td><p>The user has two options: (i)  character vector of the names of covariates that will be used to bound the plausible strength of the unobserved confounders. Each variable will be considered separately; (ii) a named list with character vector names of covariates that will be used, <em>as a group</em>, to bound the plausible strength of the unobserved confounders. The names of the list will be used for the benchmark labels. Note: for factor variables with more than two levels, you need to provide the name of each level as encoded in the <code>lm</code> model (the columns of <code>model.matrix</code>).</p></td>
     </tr>
     <tr>
       <th>kd</th>
@@ -278,7 +277,7 @@ with outcome Y, given covariates X and treatment D.</p></td>
 
       <footer>
       <div class="copyright">
-  <p>Developed by <a href='https://carloscinelli.com'>Carlos Cinelli</a>, <a href='https://chadhazlett.com'>Chad Hazlett</a>.</p>
+  <p>Developed by <a href='https://carloscinelli.com'>Carlos Cinelli</a>, <a href='https://www.jeremyferwerda.com/'>Jeremy Ferwerda</a>, <a href='https://chadhazlett.com'>Chad Hazlett</a>.</p>
 </div>
 
 <div class="pkgdown">

@@ -5,6 +5,7 @@ Date: 2020-01-18
 Version: 0.1.3.9000
 Authors@R: c(
   person("Carlos", "Cinelli", role = c("aut", "cre"), email = "carloscinelli@hotmail.com"),
+  person("Jeremy", "Ferwerda", role = "aut"),
   person("Chad", "Hazlett", role = "aut"),
   person("Aaron", "Rudkin", role = "ctb")
   )

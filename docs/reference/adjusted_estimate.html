@@ -155,11 +155,11 @@ current coefficient estimate, standard error and degrees of freedom.</p>
 
 <span class='fu'>adjusted_t</span>(<span class='no'>...</span>)
 
-<span class='co'># S3 method for numeric</span>
-<span class='fu'>adjusted_t</span>(<span class='no'>estimate</span>, <span class='no'>se</span>, <span class='no'>dof</span>, <span class='no'>r2dz.x</span>, <span class='no'>r2yz.dx</span>, <span class='kw'>reduce</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>h0</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='no'>...</span>)
-
 <span class='co'># S3 method for lm</span>
 <span class='fu'>adjusted_t</span>(<span class='no'>model</span>, <span class='no'>treatment</span>, <span class='no'>r2dz.x</span>, <span class='no'>r2yz.dx</span>, <span class='kw'>reduce</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>h0</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='no'>...</span>)
+
+<span class='co'># S3 method for numeric</span>
+<span class='fu'>adjusted_t</span>(<span class='no'>estimate</span>, <span class='no'>se</span>, <span class='no'>dof</span>, <span class='no'>r2dz.x</span>, <span class='no'>r2yz.dx</span>, <span class='kw'>reduce</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>h0</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='no'>...</span>)
 
 <span class='fu'>adjusted_partial_r2</span>(<span class='no'>...</span>)
 
@@ -287,15 +287,16 @@ absolute value of the estimated coefficient? Default is <code>TRUE</code>.</p></
 <span class='fu'>adjusted_se</span>(<span class='no'>model</span>, <span class='kw'>treatment</span> <span class='kw'>=</span> <span class='st'>"directlyharmed"</span>, <span class='kw'>r2dz.x</span> <span class='kw'>=</span> <span class='fl'>0.05</span>, <span class='kw'>r2yz.dx</span> <span class='kw'>=</span> <span class='fl'>0.05</span>)</div><div class='output co'>#&gt; directlyharmed 
 #&gt;      0.0232714 </div><div class='input'>
 <span class='co'># computes adjusted t-value for confounder with  r2dz.x = 0.05, r2yz.dx = 0.05</span>
-<span class='fu'>adjusted_t</span>(<span class='no'>model</span>, <span class='kw'>treatment</span> <span class='kw'>=</span> <span class='st'>"directlyharmed"</span>, <span class='kw'>r2dz.x</span> <span class='kw'>=</span> <span class='fl'>0.05</span>, <span class='kw'>r2yz.dx</span> <span class='kw'>=</span> <span class='fl'>0.05</span>)</div><div class='output co'>#&gt; directlyharmed 
-#&gt;       2.747241 </div><div class='input'>
+<span class='fu'>adjusted_t</span>(<span class='no'>model</span>, <span class='kw'>treatment</span> <span class='kw'>=</span> <span class='st'>"directlyharmed"</span>, <span class='kw'>r2dz.x</span> <span class='kw'>=</span> <span class='fl'>0.05</span>, <span class='kw'>r2yz.dx</span> <span class='kw'>=</span> <span class='fl'>0.05</span>)</div><div class='output co'>#&gt; [1] 2.747241
+#&gt; H0:tau = 0</div><div class='input'>
 <span class='co'># Alternatively, pass in numerical values directly.</span>
 <span class='fu'>adjusted_estimate</span>(<span class='kw'>estimate</span> <span class='kw'>=</span> <span class='fl'>0.09731582</span>, <span class='kw'>se</span> <span class='kw'>=</span> <span class='fl'>0.02325654</span>,
                   <span class='kw'>dof</span> <span class='kw'>=</span> <span class='fl'>783</span>, <span class='kw'>r2dz.x</span> <span class='kw'>=</span> <span class='fl'>0.05</span>, <span class='kw'>r2yz.dx</span> <span class='kw'>=</span> <span class='fl'>0.05</span>)</div><div class='output co'>#&gt; [1] 0.06393214</div><div class='input'>
 <span class='fu'>adjusted_se</span>(<span class='kw'>estimate</span> <span class='kw'>=</span> <span class='fl'>0.09731582</span>, <span class='kw'>se</span> <span class='kw'>=</span> <span class='fl'>0.02325654</span>,
             <span class='kw'>dof</span> <span class='kw'>=</span> <span class='fl'>783</span>, <span class='kw'>r2dz.x</span> <span class='kw'>=</span> <span class='fl'>0.05</span>, <span class='kw'>r2yz.dx</span> <span class='kw'>=</span> <span class='fl'>0.05</span>)</div><div class='output co'>#&gt; [1] 0.02327141</div><div class='input'>
 <span class='fu'>adjusted_t</span>(<span class='kw'>estimate</span> <span class='kw'>=</span> <span class='fl'>0.09731582</span>, <span class='kw'>se</span> <span class='kw'>=</span> <span class='fl'>0.02325654</span>,
-           <span class='kw'>dof</span> <span class='kw'>=</span> <span class='fl'>783</span>, <span class='kw'>r2dz.x</span> <span class='kw'>=</span> <span class='fl'>0.05</span>, <span class='kw'>r2yz.dx</span> <span class='kw'>=</span> <span class='fl'>0.05</span>)</div><div class='output co'>#&gt; [1] 2.74724</div><div class='input'>
+           <span class='kw'>dof</span> <span class='kw'>=</span> <span class='fl'>783</span>, <span class='kw'>r2dz.x</span> <span class='kw'>=</span> <span class='fl'>0.05</span>, <span class='kw'>r2yz.dx</span> <span class='kw'>=</span> <span class='fl'>0.05</span>)</div><div class='output co'>#&gt; [1] 2.74724
+#&gt; H0:tau = 0</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -313,7 +314,7 @@ absolute value of the estimated coefficient? Default is <code>TRUE</code>.</p></
 
       <footer>
       <div class="copyright">
-  <p>Developed by <a href='https://carloscinelli.com'>Carlos Cinelli</a>, <a href='https://chadhazlett.com'>Chad Hazlett</a>.</p>
+  <p>Developed by <a href='https://carloscinelli.com'>Carlos Cinelli</a>, <a href='https://www.jeremyferwerda.com/'>Jeremy Ferwerda</a>, <a href='https://chadhazlett.com'>Chad Hazlett</a>.</p>
 </div>
 
 <div class="pkgdown">
