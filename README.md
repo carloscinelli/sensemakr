@@ -32,7 +32,7 @@ Methodology).](https://doi.org/10.1111/rssb.12348)
   - Check out the [package
     website](http://carloscinelli.com/sensemakr/)\!
 
-  - A stata version of the packge is coming very soon.
+  - The first version of the package for Stata is available [here](https://github.com/resonance1/sensemakr-stata) 
 
   - Software paper coming soon.
 
