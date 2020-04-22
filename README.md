@@ -26,13 +26,15 @@ Methodology).](https://doi.org/10.1111/rssb.12348)
 
 # News
 
+  - Check out the new [Stata
+    version](https://github.com/resonance1/sensemakr-stata) of the
+    package\!
+
   - Check out the Robustness Value Shiny App at:
     <https://carloscinelli.shinyapps.io/robustness_value/>
 
   - Check out the [package
     website](http://carloscinelli.com/sensemakr/)\!
-
-  - The first version of the package for Stata is available [here](https://github.com/resonance1/sensemakr-stata) 
 
   - Software paper coming soon.
 
@@ -90,6 +92,8 @@ sensitivity
 #> Model Formula: peacefactor ~ directlyharmed + age + farmer_dar + herder_dar + 
 #>     pastvoted + hhsize_darfur + female + village
 #> 
+#> Null hypothesis: q = 1 and reduce = TRUE 
+#> 
 #> Unadjusted Estimates of ' directlyharmed ':
 #>   Coef. estimate: 0.09732 
 #>   Standard Error: 0.02326 
@@ -109,10 +113,14 @@ summary(sensitivity)
 #> Model Formula: peacefactor ~ directlyharmed + age + farmer_dar + herder_dar + 
 #>     pastvoted + hhsize_darfur + female + village
 #> 
+#> Null hypothesis: q = 1 and reduce = TRUE 
+#> -- This means we are considering biases that reduce the absolute value of the current estimate.
+#> -- The null hypothesis deemed problematic is H0:tau = 0 
+#> 
 #> Unadjusted Estimates of 'directlyharmed': 
 #>   Coef. estimate: 0.0973 
 #>   Standard Error: 0.0233 
-#>   t-value: 4.1844 
+#>   t-value (H0:tau = 0): 4.1844 
 #> 
 #> Sensitivity Statistics:
 #>   Partial R2 of treatment with outcome: 0.0219 
