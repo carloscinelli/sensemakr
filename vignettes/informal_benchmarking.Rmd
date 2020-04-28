@@ -40,7 +40,7 @@ To aid in understanding and appreciating the risk of informal benchmarking proce
 
 ## Background
 
-Prior work in sensitivity analysis---dating back at least to Imbens (2003), and followed by others (e.g, Hosman et al. 2010, Dorie et al., 2016, Hong et al. 2018)---hasproposed comparing observables with unobservables by informally using statistics of observed variables to "calibrate intuitions" about sensitivity parameters concerning the unobserved variable. This practice, however, can have undesirable consequences, illustrated below. Section 4.4 of [Cinelli and Hazlett (2020)](https://doi.org/10.1111/rssb.12348) provides an alternative. This approach, bounding the maximum strength of confounding given relative judgments on how the strength unobserved variables compares to the strength of observed variables. The `sensemakr` package allows us to compute bounds given an assumption about how confounding compares to observed covariates, using the function `ovb_bounds()`, which we demonstrate below.
+Prior work in sensitivity analysis---dating back at least to Imbens (2003), and followed by others (e.g, Hosman et al. 2010, Dorie et al., 2016, Hong et al. 2018)---has proposed comparing observables with unobservables by informally using statistics of observed variables to "calibrate intuitions" about sensitivity parameters concerning the unobserved variable. This practice, however, can have undesirable consequences, illustrated below. Section 4.4 of [Cinelli and Hazlett (2020)](https://doi.org/10.1111/rssb.12348) provides an alternative. This approach, bounding the maximum strength of confounding given relative judgments on how the strength unobserved variables compares to the strength of observed variables. The `sensemakr` package allows us to compute bounds given an assumption about how confounding compares to observed covariates, using the function `ovb_bounds()`, which we demonstrate below.
 
 ## Simulating the data
 
@@ -76,14 +76,14 @@ In this example, the investigator does not observe the confounder $Z$. Therefore
 model.ydx <- lm(Y ~ D + X) 
 summary(model.ydx)
 ```
-Note we obtain a large and statistically significant coefficient estimate of the effect of $X$ on $Y$ ($0.5$). However, we know that the variable $Z$ is not observed, and there is the fear that this estimated effect is in fact due to the bias caused by $Z$. On the other hand, let us suppose the investigator correctly know that: (i) $Z$ and $X$ have the same strength of association with $D$ and $Y$; and, (ii) $Z$ is independent of $X$. Can we leverage this information to undersand how much bias a confounder $Z$ "not unlike" $X$ could cause?
+Note we obtain a large and statistically significant coefficient estimate of the effect of $X$ on $Y$ ($0.5$). However, we know that the variable $Z$ is not observed, and there is the fear that this estimated effect is in fact due to the bias caused by $Z$. On the other hand, let us suppose the investigator correctly know that: (i) $Z$ and $X$ have the same strength of association with $D$ and $Y$; and, (ii) $Z$ is independent of $X$. Can we leverage this information to understand how much bias a confounder $Z$ "not unlike" $X$ could cause?
 
 
 ## Informal benchmarks
 
 Computing the bias due to the omission of $Z$ requires two sensitivity parameters: its partial $R^2$ with the treatment $D$ and its partial $R^2$ with the outcome $Y$. How could we go about computing the bias that a confounder $Z$ "not unlike $X$" would cause? 
 
-Intuitively, it seems that we could take as reference the observed partial $R^2$ of $X$ with $D$ and $Y$, and use those as the plausible values for the sensitivity parameters. That's the essence of many informal benchmarking proposals. So llet us now compute those observed partial $R^2$ using the `partial_r2()` function of `sensemakr`. For the partial $R^2$ of $X$ with the treatment, we also need to fit a treatment regression $D \sim X$ first.
+Intuitively, it seems that we could take as reference the observed partial $R^2$ of $X$ with $D$ and $Y$, and use those as the plausible values for the sensitivity parameters. That's the essence of many informal benchmarking proposals. So let us now compute those observed partial $R^2$ using the `partial_r2()` function of `sensemakr`. For the partial $R^2$ of $X$ with the treatment, we also need to fit a treatment regression $D \sim X$ first.
 
 ```{r}
 # fits treatment regression
@@ -130,7 +130,7 @@ That is, although $Z$ is *marginally* independent of $X$, note that $Z$ is not *
 
 ## Formal bounds
 
-Given the above considerations, we do not recomment using informal benchmarks for sensitivity analysis. We now show how to compute formal bounds. In `sensemakr`, you can use the function `ovb_bounds()`.
+Given the above considerations, we do not recommend using informal benchmarks for sensitivity analysis. We now show how to compute formal bounds. In `sensemakr`, you can use the function `ovb_bounds()`.
 
 ```{r, fig.align='center'}
 # compute formal bounds
@@ -140,7 +140,7 @@ formal_bound <- ovb_bounds(model = model.ydx,
                            kd = 1, ky = 1)
 ```
 
-In this function you specify the linear model being used (`model.ydx`), the treatment of interst ($D$), the observed variable used for benchmarking ($X$), and how stronger $Z$ is in explaining treatment (`kd`) and outcome (`ky`) variation, as compared to the benchmark variable $X$. We can now plot the proper bound against the informal benchmark.
+In this function you specify the linear model being used (`model.ydx`), the treatment of interest ($D$), the observed variable used for benchmarking ($X$), and how stronger $Z$ is in explaining treatment (`kd`) and outcome (`ky`) variation, as compared to the benchmark variable $X$. We can now plot the proper bound against the informal benchmark.
 
 ```{r, fig.align='center'}
 # contour plot
