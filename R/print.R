@@ -135,7 +135,8 @@ summary.sensemakr <- function(object, digits = max(3L, getOption("digits") - 3L)
     bounds[numeric] <- lapply(bounds[numeric], round, digits = digits)
     names(bounds) <-  sapply(gsub("\\_", " ",  names(bounds)), .simpleCap)
 
-    cat("Bounds on omitted variable bias:\n")
+    cat("Bounds on omitted variable bias:\n\n")
+    cat("--The table below shows the maximum strength of unobserved confounders with association with the treatment and the outcome bounded by a multiple of the observed explanatory power of the chosen benchmark covariate(s).\n\n")
     print(bounds, row.names = FALSE)
   }
 }
