@@ -1,7 +1,7 @@
 Package: sensemakr
 Type: Package
 Title: Sensitivity Analysis Tools for Regression Models
-Date: 2020-01-18
+Date: 2020-04-28
 Version: 0.1.3.9000
 Authors@R: c(
   person("Carlos", "Cinelli", role = c("aut", "cre"), email = "carloscinelli@hotmail.com"),
@@ -10,6 +10,7 @@ Authors@R: c(
   person("Aaron", "Rudkin", role = "ctb")
   )
 Author: Carlos Cinelli [aut, cre],
+  Jeremy Ferwerda [aut],
   Chad Hazlett [aut],
   Aaron Rudkin [ctb]
 Maintainer: Carlos Cinelli <carloscinelli@hotmail.com>
