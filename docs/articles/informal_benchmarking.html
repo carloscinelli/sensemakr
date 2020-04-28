@@ -37,7 +37,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sensemakr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.3.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.3</span>
       </span>
     </div>
 
@@ -96,7 +96,7 @@
 <div id="background" class="section level2">
 <h2 class="hasAnchor">
 <a href="#background" class="anchor"></a>Background</h2>
-<p>Prior work in sensitivity analysis—dating back at least to Imbens (2003), and followed by others (e.g, Hosman et al. 2010, Dorie et al., 2016, Hong et al. 2018)—hasproposed comparing observables with unobservables by informally using statistics of observed variables to “calibrate intuitions” about sensitivity parameters concerning the unobserved variable. This practice, however, can have undesirable consequences, illustrated below. Section 4.4 of <a href="https://doi.org/10.1111/rssb.12348">Cinelli and Hazlett (2020)</a> provides an alternative. This approach, bounding the maximum strength of confounding given relative judgments on how the strength unobserved variables compares to the strength of observed variables. The <code>sensemakr</code> package allows us to compute bounds given an assumption about how confounding compares to observed covariates, using the function <code><a href="../reference/ovb_bounds.html">ovb_bounds()</a></code>, which we demonstrate below.</p>
+<p>Prior work in sensitivity analysis—dating back at least to Imbens (2003), and followed by others (e.g, Hosman et al. 2010, Dorie et al., 2016, Hong et al. 2018)—has proposed comparing observables with unobservables by informally using statistics of observed variables to “calibrate intuitions” about sensitivity parameters concerning the unobserved variable. This practice, however, can have undesirable consequences, illustrated below. Section 4.4 of <a href="https://doi.org/10.1111/rssb.12348">Cinelli and Hazlett (2020)</a> provides an alternative. This approach, bounding the maximum strength of confounding given relative judgments on how the strength unobserved variables compares to the strength of observed variables. The <code>sensemakr</code> package allows us to compute bounds given an assumption about how confounding compares to observed covariates, using the function <code><a href="../reference/ovb_bounds.html">ovb_bounds()</a></code>, which we demonstrate below.</p>
 </div>
 <div id="simulating-the-data" class="section level2">
 <h2 class="hasAnchor">
@@ -133,11 +133,11 @@ Y &amp;= X + Z + U_y
 <span id="cb2-6"><a href="#cb2-6"></a><span class="co">#&gt; </span></span>
 <span id="cb2-7"><a href="#cb2-7"></a><span class="co">#&gt; Residuals:</span></span>
 <span id="cb2-8"><a href="#cb2-8"></a><span class="co">#&gt;     Min      1Q  Median      3Q     Max </span></span>
-<span id="cb2-9"><a href="#cb2-9"></a><span class="co">#&gt; -3.2077 -0.7721 -0.0522  0.8259  2.8592 </span></span>
+<span id="cb2-9"><a href="#cb2-9"></a><span class="co">#&gt; -3.6745 -0.8657  0.2179  0.9031  2.1540 </span></span>
 <span id="cb2-10"><a href="#cb2-10"></a><span class="co">#&gt; </span></span>
 <span id="cb2-11"><a href="#cb2-11"></a><span class="co">#&gt; Coefficients:</span></span>
 <span id="cb2-12"><a href="#cb2-12"></a><span class="co">#&gt;               Estimate Std. Error t value Pr(&gt;|t|)    </span></span>
-<span id="cb2-13"><a href="#cb2-13"></a><span class="co">#&gt; (Intercept) -1.381e-31  1.237e-01   0.000  1.00000    </span></span>
+<span id="cb2-13"><a href="#cb2-13"></a><span class="co">#&gt; (Intercept) -1.332e-16  1.237e-01   0.000  1.00000    </span></span>
 <span id="cb2-14"><a href="#cb2-14"></a><span class="co">#&gt; D            5.000e-01  8.793e-02   5.686 1.37e-07 ***</span></span>
 <span id="cb2-15"><a href="#cb2-15"></a><span class="co">#&gt; X            5.000e-01  1.523e-01   3.283  0.00143 ** </span></span>
 <span id="cb2-16"><a href="#cb2-16"></a><span class="co">#&gt; ---</span></span>
@@ -146,13 +146,13 @@ Y &amp;= X + Z + U_y
 <span id="cb2-19"><a href="#cb2-19"></a><span class="co">#&gt; Residual standard error: 1.237 on 97 degrees of freedom</span></span>
 <span id="cb2-20"><a href="#cb2-20"></a><span class="co">#&gt; Multiple R-squared:    0.5,  Adjusted R-squared:  0.4897 </span></span>
 <span id="cb2-21"><a href="#cb2-21"></a><span class="co">#&gt; F-statistic:  48.5 on 2 and 97 DF,  p-value: 2.512e-15</span></span></code></pre></div>
-<p>Note we obtain a large and statistically significant coefficient estimate of the effect of <span class="math inline">\(X\)</span> on <span class="math inline">\(Y\)</span> (<span class="math inline">\(0.5\)</span>). However, we know that the variable <span class="math inline">\(Z\)</span> is not observed, and there is the fear that this estimated effect is in fact due to the bias caused by <span class="math inline">\(Z\)</span>. On the other hand, let us suppose the investigator correctly know that: (i) <span class="math inline">\(Z\)</span> and <span class="math inline">\(X\)</span> have the same strength of association with <span class="math inline">\(D\)</span> and <span class="math inline">\(Y\)</span>; and, (ii) <span class="math inline">\(Z\)</span> is independent of <span class="math inline">\(X\)</span>. Can we leverage this information to undersand how much bias a confounder <span class="math inline">\(Z\)</span> “not unlike” <span class="math inline">\(X\)</span> could cause?</p>
+<p>Note we obtain a large and statistically significant coefficient estimate of the effect of <span class="math inline">\(X\)</span> on <span class="math inline">\(Y\)</span> (<span class="math inline">\(0.5\)</span>). However, we know that the variable <span class="math inline">\(Z\)</span> is not observed, and there is the fear that this estimated effect is in fact due to the bias caused by <span class="math inline">\(Z\)</span>. On the other hand, let us suppose the investigator correctly know that: (i) <span class="math inline">\(Z\)</span> and <span class="math inline">\(X\)</span> have the same strength of association with <span class="math inline">\(D\)</span> and <span class="math inline">\(Y\)</span>; and, (ii) <span class="math inline">\(Z\)</span> is independent of <span class="math inline">\(X\)</span>. Can we leverage this information to understand how much bias a confounder <span class="math inline">\(Z\)</span> “not unlike” <span class="math inline">\(X\)</span> could cause?</p>
 </div>
 <div id="informal-benchmarks" class="section level2">
 <h2 class="hasAnchor">
 <a href="#informal-benchmarks" class="anchor"></a>Informal benchmarks</h2>
 <p>Computing the bias due to the omission of <span class="math inline">\(Z\)</span> requires two sensitivity parameters: its partial <span class="math inline">\(R^2\)</span> with the treatment <span class="math inline">\(D\)</span> and its partial <span class="math inline">\(R^2\)</span> with the outcome <span class="math inline">\(Y\)</span>. How could we go about computing the bias that a confounder <span class="math inline">\(Z\)</span> “not unlike <span class="math inline">\(X\)</span>” would cause?</p>
-<p>Intuitively, it seems that we could take as reference the observed partial <span class="math inline">\(R^2\)</span> of <span class="math inline">\(X\)</span> with <span class="math inline">\(D\)</span> and <span class="math inline">\(Y\)</span>, and use those as the plausible values for the sensitivity parameters. That’s the essence of many informal benchmarking proposals. So llet us now compute those observed partial <span class="math inline">\(R^2\)</span> using the <code><a href="../reference/partial_r2.html">partial_r2()</a></code> function of <code>sensemakr</code>. For the partial <span class="math inline">\(R^2\)</span> of <span class="math inline">\(X\)</span> with the treatment, we also need to fit a treatment regression <span class="math inline">\(D \sim X\)</span> first.</p>
+<p>Intuitively, it seems that we could take as reference the observed partial <span class="math inline">\(R^2\)</span> of <span class="math inline">\(X\)</span> with <span class="math inline">\(D\)</span> and <span class="math inline">\(Y\)</span>, and use those as the plausible values for the sensitivity parameters. That’s the essence of many informal benchmarking proposals. So let us now compute those observed partial <span class="math inline">\(R^2\)</span> using the <code><a href="../reference/partial_r2.html">partial_r2()</a></code> function of <code>sensemakr</code>. For the partial <span class="math inline">\(R^2\)</span> of <span class="math inline">\(X\)</span> with the treatment, we also need to fit a treatment regression <span class="math inline">\(D \sim X\)</span> first.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="co"># fits treatment regression</span></span>
 <span id="cb3-2"><a href="#cb3-2"></a>model.dx &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span>(D <span class="op">~</span><span class="st"> </span>X)</span>
 <span id="cb3-3"><a href="#cb3-3"></a></span>
@@ -184,13 +184,13 @@ Y &amp;= X + Z + U_y
 <div id="formal-bounds" class="section level2">
 <h2 class="hasAnchor">
 <a href="#formal-bounds" class="anchor"></a>Formal bounds</h2>
-<p>Given the above considerations, we do not recomment using informal benchmarks for sensitivity analysis. We now show how to compute formal bounds. In <code>sensemakr</code>, you can use the function <code><a href="../reference/ovb_bounds.html">ovb_bounds()</a></code>.</p>
+<p>Given the above considerations, we do not recommend using informal benchmarks for sensitivity analysis. We now show how to compute formal bounds. In <code>sensemakr</code>, you can use the function <code><a href="../reference/ovb_bounds.html">ovb_bounds()</a></code>.</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="co"># compute formal bounds</span></span>
 <span id="cb6-2"><a href="#cb6-2"></a>formal_bound &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ovb_bounds.html">ovb_bounds</a></span>(<span class="dt">model =</span> model.ydx, </span>
 <span id="cb6-3"><a href="#cb6-3"></a>                           <span class="dt">treatment =</span> <span class="st">"D"</span>, </span>
 <span id="cb6-4"><a href="#cb6-4"></a>                           <span class="dt">benchmark_covariates =</span> <span class="st">"X"</span>, </span>
 <span id="cb6-5"><a href="#cb6-5"></a>                           <span class="dt">kd =</span> <span class="dv">1</span>, <span class="dt">ky =</span> <span class="dv">1</span>)</span></code></pre></div>
-<p>In this function you specify the linear model being used (<code>model.ydx</code>), the treatment of interst (<span class="math inline">\(D\)</span>), the observed variable used for benchmarking (<span class="math inline">\(X\)</span>), and how stronger <span class="math inline">\(Z\)</span> is in explaining treatment (<code>kd</code>) and outcome (<code>ky</code>) variation, as compared to the benchmark variable <span class="math inline">\(X\)</span>. We can now plot the proper bound against the informal benchmark.</p>
+<p>In this function you specify the linear model being used (<code>model.ydx</code>), the treatment of interest (<span class="math inline">\(D\)</span>), the observed variable used for benchmarking (<span class="math inline">\(X\)</span>), and how stronger <span class="math inline">\(Z\)</span> is in explaining treatment (<code>kd</code>) and outcome (<code>ky</code>) variation, as compared to the benchmark variable <span class="math inline">\(X\)</span>. We can now plot the proper bound against the informal benchmark.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="co"># contour plot</span></span>
 <span id="cb7-2"><a href="#cb7-2"></a><span class="kw"><a href="../reference/ovb_contour_plot.html">ovb_contour_plot</a></span>(model.ydx,  </span>
 <span id="cb7-3"><a href="#cb7-3"></a>                 <span class="dt">treatment =</span> <span class="st">"D"</span>,</span>

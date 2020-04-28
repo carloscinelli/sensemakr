@@ -82,7 +82,7 @@ sensitivity analysis reporting, as suggested in Cinelli and Hazlett (2020)." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sensemakr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.3.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.3</span>
       </span>
     </div>
 
@@ -244,6 +244,9 @@ If you need only html, use the option "pure_html".</p></td>
 #&gt; -- Robustness Value, q = 1, alpha = 0.05: unobserved confounders (orthogonal to the covariates) that explain more than 7.63% of the residual variance of both the treatment and the outcome are strong enough to bring the estimate to a range where it is no longer 'statistically different' from 0 (a bias of 100% of the original estimate), at the significance level of alpha = 0.05. Conversely, unobserved confounders that do not explain more than 7.63% of the residual variance of both the treatment and the outcome are not strong enough to bring the estimate to a range where it is no longer 'statistically different' from 0, at the significance level of alpha = 0.05.
 #&gt; 
 #&gt; Bounds on omitted variable bias:
+#&gt; 
+#&gt; --The table below shows the maximum strength of unobserved confounders with association with the treatment and the outcome bounded by a multiple of the observed explanatory power of the chosen benchmark covariate(s).
+#&gt; 
 #&gt;  Bound Label R2dz.x R2yz.dx      Treatment Adjusted Estimate Adjusted Se
 #&gt;    1x female 0.0092  0.1246 directlyharmed            0.0752      0.0219
 #&gt;    2x female 0.0183  0.2493 directlyharmed            0.0529      0.0204
