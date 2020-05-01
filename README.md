@@ -26,6 +26,9 @@ Methodology).](https://doi.org/10.1111/rssb.12348)
 
 # News
 
+  - Check out the [software paper
+    preprint](https://www.researchgate.net/publication/340965014_sensemakr_Sensitivity_Analysis_Tools_for_OLS_in_R_and_Stata)\!
+
   - Check out the new [Stata
     version](https://github.com/resonance1/sensemakr-stata) of the
     package\!
@@ -36,15 +39,15 @@ Methodology).](https://doi.org/10.1111/rssb.12348)
   - Check out the [package
     website](http://carloscinelli.com/sensemakr/)\!
 
-  - Software paper coming soon.
-
 # Details
 
-For theoretical details, [please see the full
+For theoretical details, [please see the JRSS-B
 paper](https://www.researchgate.net/publication/322509816_Making_Sense_of_Sensitivity_Extending_Omitted_Variable_Bias).
 
-For a practical introduction, [see the package
-vignette](http://carloscinelli.com/sensemakr/articles/sensemakr.html).
+For a practical introduction, [please see the software
+paper](https://www.researchgate.net/publication/340965014_sensemakr_Sensitivity_Analysis_Tools_for_OLS_in_R_and_Stata)
+or [see the package
+vignettes](http://carloscinelli.com/sensemakr/articles/sensemakr.html).
 
 # CRAN
 
@@ -63,6 +66,19 @@ package `devtools` installed.
 # install.packages("devtools") 
 devtools::install_github("chadhazlett/sensemakr")
 ```
+
+# Citation
+
+Please use the following citations:
+
+  - [Cinelli, C., & Hazlett, C. (2020). “Making sense of sensitivity:
+    Extending omitted variable bias.” Journal of the Royal Statistical
+    Society: Series B (Statistical Methodology), 82(1),
+    39-67.](https://doi.org/10.1111/rssb.12348)
+
+  - [Cinelli, C., & Ferwerda, J., & Hazlett, C. (2020). “sensemakr:
+    Sensitivity Analysis Tools for OLS in R and
+    Stata.”](https://www.researchgate.net/publication/340965014_sensemakr_Sensitivity_Analysis_Tools_for_OLS_in_R_and_Stata)
 
 # Basic usage
 
