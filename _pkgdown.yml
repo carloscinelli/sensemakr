@@ -17,13 +17,16 @@ authors:
 
 navbar:
   structure:
-    left: [home, intro, articles, reference, shiny]
+    left: [home, intro, articles, jss, reference, shiny]
     right: [github]
   components:
     home: ~
     articles:
       href: articles/index.html
       text: Articles
+    jss:
+      href: https://www.researchgate.net/publication/340965014_sensemakr_Sensitivity_Analysis_Tools_for_OLS_in_R_and_Stata
+      text: Software Paper
     shiny:
       href: https://carloscinelli.shinyapps.io/robustness_value/
       text: Shiny App
