@@ -93,6 +93,7 @@
 <h1 class="hasAnchor">
 <a href="#news" class="anchor"></a>News</h1>
 <ul>
+<li><p>Watch the <a href="https://www.youtube.com/watch?v=p3dfHj6ki68">useR! 2020 presentation</a> for a quick introduction on sensemakr.</p></li>
 <li><p>Check out the <a href="https://www.researchgate.net/publication/340965014_sensemakr_Sensitivity_Analysis_Tools_for_OLS_in_R_and_Stata">software paper preprint</a>!</p></li>
 <li><p>Check out the new <a href="https://github.com/resonance1/sensemakr-stata">Stata version</a> of the package!</p></li>
 <li><p>Check out the Robustness Value Shiny App at: <a href="https://carloscinelli.shinyapps.io/robustness_value/" class="uri">https://carloscinelli.shinyapps.io/robustness_value/</a></p></li>
@@ -104,6 +105,9 @@
 <a href="#details" class="anchor"></a>Details</h1>
 <p>For theoretical details, <a href="https://www.researchgate.net/publication/322509816_Making_Sense_of_Sensitivity_Extending_Omitted_Variable_Bias">please see the JRSS-B paper</a>.</p>
 <p>For a practical introduction, <a href="https://www.researchgate.net/publication/340965014_sensemakr_Sensitivity_Analysis_Tools_for_OLS_in_R_and_Stata">please see the software paper</a> or <a href="http://carloscinelli.com/sensemakr/articles/sensemakr.html">see the package vignettes</a>.</p>
+<p>For a quick start, watch the 15 min tutorial on sensitivity analysis using sensemakr prepared for useR! 2020:</p>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/p3dfHj6ki68" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+</iframe>
 </div>
 <div id="cran" class="section level1">
 <h1 class="hasAnchor">
@@ -199,17 +203,20 @@
 <span id="cb3-67"><a href="#cb3-67"></a><span class="co">#&gt; -- Robustness Value, q = 1, alpha = 0.05: unobserved confounders (orthogonal to the covariates) that explain more than 7.63% of the residual variance of both the treatment and the outcome are strong enough to bring the estimate to a range where it is no longer 'statistically different' from 0 (a bias of 100% of the original estimate), at the significance level of alpha = 0.05. Conversely, unobserved confounders that do not explain more than 7.63% of the residual variance of both the treatment and the outcome are not strong enough to bring the estimate to a range where it is no longer 'statistically different' from 0, at the significance level of alpha = 0.05.</span></span>
 <span id="cb3-68"><a href="#cb3-68"></a><span class="co">#&gt; </span></span>
 <span id="cb3-69"><a href="#cb3-69"></a><span class="co">#&gt; Bounds on omitted variable bias:</span></span>
-<span id="cb3-70"><a href="#cb3-70"></a><span class="co">#&gt;  Bound Label R2dz.x R2yz.dx      Treatment Adjusted Estimate Adjusted Se</span></span>
-<span id="cb3-71"><a href="#cb3-71"></a><span class="co">#&gt;    1x female 0.0092  0.1246 directlyharmed            0.0752      0.0219</span></span>
-<span id="cb3-72"><a href="#cb3-72"></a><span class="co">#&gt;    2x female 0.0183  0.2493 directlyharmed            0.0529      0.0204</span></span>
-<span id="cb3-73"><a href="#cb3-73"></a><span class="co">#&gt;    3x female 0.0275  0.3741 directlyharmed            0.0304      0.0187</span></span>
-<span id="cb3-74"><a href="#cb3-74"></a><span class="co">#&gt;  Adjusted T Adjusted Lower CI Adjusted Upper CI</span></span>
-<span id="cb3-75"><a href="#cb3-75"></a><span class="co">#&gt;      3.4389            0.0323            0.1182</span></span>
-<span id="cb3-76"><a href="#cb3-76"></a><span class="co">#&gt;      2.6002            0.0130            0.0929</span></span>
-<span id="cb3-77"><a href="#cb3-77"></a><span class="co">#&gt;      1.6281           -0.0063            0.0670</span></span>
-<span id="cb3-78"><a href="#cb3-78"></a></span>
-<span id="cb3-79"><a href="#cb3-79"></a><span class="co"># plot bias contour of point estimate</span></span>
-<span id="cb3-80"><a href="#cb3-80"></a><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(sensitivity)</span></code></pre></div>
+<span id="cb3-70"><a href="#cb3-70"></a><span class="co">#&gt; </span></span>
+<span id="cb3-71"><a href="#cb3-71"></a><span class="co">#&gt; --The table below shows the maximum strength of unobserved confounders with association with the treatment and the outcome bounded by a multiple of the observed explanatory power of the chosen benchmark covariate(s).</span></span>
+<span id="cb3-72"><a href="#cb3-72"></a><span class="co">#&gt; </span></span>
+<span id="cb3-73"><a href="#cb3-73"></a><span class="co">#&gt;  Bound Label R2dz.x R2yz.dx      Treatment Adjusted Estimate Adjusted Se</span></span>
+<span id="cb3-74"><a href="#cb3-74"></a><span class="co">#&gt;    1x female 0.0092  0.1246 directlyharmed            0.0752      0.0219</span></span>
+<span id="cb3-75"><a href="#cb3-75"></a><span class="co">#&gt;    2x female 0.0183  0.2493 directlyharmed            0.0529      0.0204</span></span>
+<span id="cb3-76"><a href="#cb3-76"></a><span class="co">#&gt;    3x female 0.0275  0.3741 directlyharmed            0.0304      0.0187</span></span>
+<span id="cb3-77"><a href="#cb3-77"></a><span class="co">#&gt;  Adjusted T Adjusted Lower CI Adjusted Upper CI</span></span>
+<span id="cb3-78"><a href="#cb3-78"></a><span class="co">#&gt;      3.4389            0.0323            0.1182</span></span>
+<span id="cb3-79"><a href="#cb3-79"></a><span class="co">#&gt;      2.6002            0.0130            0.0929</span></span>
+<span id="cb3-80"><a href="#cb3-80"></a><span class="co">#&gt;      1.6281           -0.0063            0.0670</span></span>
+<span id="cb3-81"><a href="#cb3-81"></a></span>
+<span id="cb3-82"><a href="#cb3-82"></a><span class="co"># plot bias contour of point estimate</span></span>
+<span id="cb3-83"><a href="#cb3-83"></a><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(sensitivity)</span></code></pre></div>
 <p><img src="reference/figures/figures-basic-usage-1.png" style="display: block; margin: auto;"></p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a></span>
 <span id="cb4-2"><a href="#cb4-2"></a><span class="co"># plot bias contour of t-value</span></span>

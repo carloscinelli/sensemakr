@@ -35,9 +35,9 @@ ovb_partial_r2_bound(...)
 )
 }
 \arguments{
-\item{...}{arguments passed to other methods. First argument should either be an \code{\link{lm}} model with the
-outcome regression, or a \code{\link{formula}} describing the model along
-with the \code{\link{data.frame}} containing the variables of the model.}
+\item{...}{arguments passed to other methods. First argument should either be (i) an \code{\link{lm}} model with the
+outcome regression (argument \code{model}); (ii) a \code{\link{formula}} describing the model along
+with the \code{\link{data.frame}} containing the variables of the model (arguments \code{formula} and \code{data}); or, (iii) the numerical estimated value of the coefficient, along with the numeric values of standard errors and degrees of freedom (arguments \code{estimate}, \code{se} and \code{df}).}
 
 \item{model}{An \code{lm} object with the outcome regression.}
 

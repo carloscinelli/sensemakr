@@ -26,6 +26,10 @@ Methodology).](https://doi.org/10.1111/rssb.12348)
 
 # News
 
+  - Watch the [useR\! 2020
+    presentation](https://www.youtube.com/watch?v=p3dfHj6ki68) for a
+    quick introduction on sensemakr.
+
   - Check out the [software paper
     preprint](https://www.researchgate.net/publication/340965014_sensemakr_Sensitivity_Analysis_Tools_for_OLS_in_R_and_Stata)\!
 
@@ -48,6 +52,13 @@ For a practical introduction, [please see the software
 paper](https://www.researchgate.net/publication/340965014_sensemakr_Sensitivity_Analysis_Tools_for_OLS_in_R_and_Stata)
 or [see the package
 vignettes](http://carloscinelli.com/sensemakr/articles/sensemakr.html).
+
+For a quick start, watch the 15 min tutorial on sensitivity analysis
+using sensemakr prepared for useR\! 2020:
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/p3dfHj6ki68" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+
+</iframe>
 
 # CRAN
 
@@ -152,6 +163,9 @@ summary(sensitivity)
 #> -- Robustness Value, q = 1, alpha = 0.05: unobserved confounders (orthogonal to the covariates) that explain more than 7.63% of the residual variance of both the treatment and the outcome are strong enough to bring the estimate to a range where it is no longer 'statistically different' from 0 (a bias of 100% of the original estimate), at the significance level of alpha = 0.05. Conversely, unobserved confounders that do not explain more than 7.63% of the residual variance of both the treatment and the outcome are not strong enough to bring the estimate to a range where it is no longer 'statistically different' from 0, at the significance level of alpha = 0.05.
 #> 
 #> Bounds on omitted variable bias:
+#> 
+#> --The table below shows the maximum strength of unobserved confounders with association with the treatment and the outcome bounded by a multiple of the observed explanatory power of the chosen benchmark covariate(s).
+#> 
 #>  Bound Label R2dz.x R2yz.dx      Treatment Adjusted Estimate Adjusted Se
 #>    1x female 0.0092  0.1246 directlyharmed            0.0752      0.0219
 #>    2x female 0.0183  0.2493 directlyharmed            0.0529      0.0204

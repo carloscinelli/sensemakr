@@ -112,9 +112,10 @@ NULL
 #' the functions for computing the robustness value and partial R2 (\code{\link{robustness_value}}, \code{\link{partial_r2}}),  or the functions for bounding the strength
 #' of unobserved confounders (\code{\link{ovb_bounds}}), among others.
 #'
-#' @param ... arguments passed to other methods. First argument should either be an \code{\link{lm}} model with the
-#' outcome regression, or a \code{\link{formula}} describing the model along
-#' with the \code{\link{data.frame}} containing the variables of the model.
+#' @param ... arguments passed to other methods. First argument should either be (i) an \code{\link{lm}} model with the
+#' outcome regression (argument \code{model}); (ii) a \code{\link{formula}} describing the model along
+#' with the \code{\link{data.frame}} containing the variables of the model (arguments \code{formula} and \code{data}); or, (iii) the numerical estimated value of the coefficient, along with the numeric values of standard errors and degrees of freedom (arguments \code{estimate}, \code{se} and \code{df}).
+#'
 #'
 #'
 #'
