@@ -201,6 +201,7 @@ ovb_partial_r2_bound <- function(...){
 #' @inheritParams ovb_bounds
 #' @rdname ovb_bounds
 #' @export
+#' @import stats
 ovb_partial_r2_bound.numeric <- function(r2dxj.x,
                                          r2yxj.dx,
                                          kd = 1,
@@ -258,12 +259,19 @@ ovb_partial_r2_bound.lm <- function(model,
 
   m      <- model.matrix(model)[,-1]
   keep   <- !(colnames(m) %in% treatment)
-  quoted <- sapply(colnames(m[,keep]), function(x) paste0("`", x, "`"))
-  vars   <- paste(quoted, collapse = " + ")
-  form   <- paste(treatment, "~", vars)
-  treatment_model <- lm(as.formula(form), data = as.data.frame(m))
+  d      <- m[,treatment]
+  XX     <- cbind(1, m[, keep, drop = FALSE])
+  treatment_model <- lm(d ~ XX + 0)
+  treatment_model
 
+  # treatment_model <- lm.fit(y = m[,treatment, drop = F], x = m[,keep])
+  # quoted <- sapply(colnames(m[,keep]), function(x) paste0("`", x, "`"))
+  # vars   <- paste(quoted, collapse = " + ")
+  #form1   <- paste(treatment, "~", vars)
+  #form   <- eval(parse(text = form1, keep.source = T))
+  #treatment_model <- lm(as.formula(form), data = as.data.frame(m))
   # initialize
+
   bounds <- vector(mode = "list", length = length(benchmark_covariates))
   r2yxj.dx <- NULL
   r2dxj.x  <- NULL
@@ -275,7 +283,8 @@ ovb_partial_r2_bound.lm <- function(model,
       r2yxj.dx <- partial_r2(model, covariates = benchmark_covariates)
 
       # gets partial r2 with treatment
-      r2dxj.x <- partial_r2(treatment_model, covariates = benchmark_covariates)
+      bench.treat  <- paste0("XX", benchmark_covariates)
+      r2dxj.x <- partial_r2(treatment_model, covariates = bench.treat)
 
     } else {
 
@@ -295,7 +304,8 @@ ovb_partial_r2_bound.lm <- function(model,
 
       for(i in seq_along(benchmark_covariates)){
         r2y.group[i] <-  group_partial_r2(model, covariates = benchmark_covariates[[i]])
-        r2d.group[i] <-  group_partial_r2(treatment_model, covariates = benchmark_covariates[[i]])
+        bench.treat  <- paste0("XX", benchmark_covariates[[i]])
+        r2d.group[i] <-  group_partial_r2(treatment_model, covariates = bench.treat)
         label.groups[i] <- names(benchmark_covariates)[i]
       }
 

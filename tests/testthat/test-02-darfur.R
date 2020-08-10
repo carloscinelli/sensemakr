@@ -419,3 +419,21 @@ test_that("testing darfur different q",
           }
 
 )
+
+test_that("Darfur group benchmarks", {
+  village <- grep(pattern = "village", names(coef(model)), value = T)
+
+  sensitivity <- sensemakr(model, treatment = "directlyharmed",
+                           benchmark_covariates = list(village = village),
+                           kd = 0.3)
+
+  r2y <- group_partial_r2(model, covariates = village)
+  treat.model <- update(model, directlyharmed ~ .-directlyharmed)
+  r2d <- group_partial_r2(treat.model, covariates = village)
+  bounds.check <- ovb_partial_r2_bound(r2dxj.x = r2d, r2yxj.dx = r2y, kd = 0.3)
+  bounds <- sensitivity$bounds
+  expect_equal(bounds$r2dz.x, bounds.check$r2dz.x)
+  expect_equal(bounds$r2yz.dx, bounds.check$r2yz.dx)
+
+}
+          )
