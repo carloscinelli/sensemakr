@@ -161,6 +161,34 @@ test_that("Group benchmarks - simulations",
 
 
 
+test_that("Factor treatment and factor benchmarks",{
+
+  data(mtcars)
+  mtcars$cyl <- as.factor(mtcars$cyl)
+  mtcars$gear <- as.factor(mtcars$gear)
+
+  model <- lm(mpg ~ cyl + gear, data = mtcars)
+  sens <- sensemakr(model, treatment = "cyl6", benchmark_covariates = list(gear = c("gear4", "gear5")))
+  sens
+  coef.summ <- coef(summary(model))
+  t.value <- coef.summ["cyl6", "t value"]
+  rv <- robustness_value(t.value, model$df.residual)
+  rv.check <- sens$sensitivity_stats$rv_q
+  expect_equal(rv, rv.check)
+
+  # benchmarks
+  r2y <- group_partial_r2(model, covariates = c("gear4", "gear5"))
+  mtcars <- cbind(mtcars, model.matrix(~cyl + gear + 0, data = mtcars))
+  treat.model <- lm(cyl6 ~ cyl8 + gear4 + gear5, data= mtcars)
+  r2d <- group_partial_r2(treat.model, covariates = c("gear4", "gear5"))
+  bounds <- sensemakr:::ovb_partial_r2_bound.numeric(r2dxj.x = r2d, r2yxj.dx = r2y)
+  bounds.check <- sens$bounds
+  expect_equal(bounds$r2dz.x, bounds.check$r2dz.x)
+  expect_equal(bounds$r2yz.dx, bounds.check$r2yz.dx)
+  adj.est<- adjusted_estimate(model, treatment = "cyl6", r2dz.x = bounds$r2dz.x, r2yz.dx = bounds$r2yz.dx)
+  expect_equivalent(adj.est, bounds.check$adjusted_estimate)
+
+})
 
 
 

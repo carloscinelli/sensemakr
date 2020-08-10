@@ -254,7 +254,14 @@ ovb_partial_r2_bound.lm <- function(model,
 
 
   # treatment model
-  treatment_model <- update(model,  paste(treatment, "~ . - ", treatment))
+  # treatment_model <- update(model,  paste(treatment, "~ . - ", treatment))
+
+  m      <- model.matrix(model)[,-1]
+  keep   <- !(colnames(m) %in% treatment)
+  quoted <- sapply(colnames(m[,keep]), function(x) paste0("`", x, "`"))
+  vars   <- paste(quoted, collapse = " + ")
+  form   <- paste(treatment, "~", vars)
+  treatment_model <- lm(as.formula(form), data = as.data.frame(m))
 
   # initialize
   bounds <- vector(mode = "list", length = length(benchmark_covariates))
