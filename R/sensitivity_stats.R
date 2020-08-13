@@ -120,7 +120,7 @@ robustness_value.numeric <- function(t_statistic, dof, q =1, alpha = 1, ...){
   # combine results
   rv.out <- rv # initiate everyone as binding
   rv.out[fqa < 0] <- 0 # zero for those who have negative fqa
-  rv.out[fq > 1/f.crit] <- rvx # extreme rv for those who are not binding
+  rv.out[fqa > 0 & fq > 1/f.crit] <- rvx[fqa > 0 & fq > 1/f.crit] # extreme rv for those who are not binding
 
   attributes(rv.out) <- list(names = names(rv.out), q = q, alpha = alpha, class = c("numeric","rv"))
   rv.out

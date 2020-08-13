@@ -139,3 +139,13 @@ test_that("Manual numeric sensemakr input",
 
           })
 
+
+test_that("Small sample RV",
+          {
+            n <- 4
+            x <- rnorm(n)
+            y <- rnorm(n)
+            rv <- robustness_value(lm(y~x), alpha = 0.05)["x"]
+            expect_gte(rv, 0)
+          }
+          )
