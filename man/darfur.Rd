@@ -4,7 +4,8 @@
 \name{darfur}
 \alias{darfur}
 \title{Data from survey of Darfurian refugees in eastern Chad.}
-\format{A data frame with 1276 rows and 14 columns.
+\format{
+A data frame with 1276 rows and 14 columns.
 \describe{
   \item{wouldvote}{If elections were held in Darfur in the future, would you vote? (0/1)}
   \item{peacefactor}{A measure of pro-peace attitudes, from a factor analysis of several questions. Rescaled such that 0 is minimally pro-peace and 1 is maximally pro-peace.}
@@ -30,7 +31,8 @@
   \item{village}{Factor variable indicating village of respondent. 486
   unique villages are accounted for in the data.}
   \item{female}{The respondent identifies as female (0/1). 582 respondents are female-identified, 694 are not.}
-}}
+}
+}
 \usage{
 darfur
 }

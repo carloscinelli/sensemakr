@@ -241,6 +241,11 @@ ovb_partial_r2_bound.numeric <- function(r2dxj.x,
   return(out)
 }
 
+#' @inheritParams sensemakr
+#' @inheritParams ovb_bounds
+#' @rdname ovb_bounds
+#' @export
+#' @import stats
 ovb_partial_r2_bound.lm <- function(model,
                                     treatment,
                                     benchmark_covariates = NULL,

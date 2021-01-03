@@ -5,6 +5,7 @@
 \alias{ovb_bounds.lm}
 \alias{ovb_partial_r2_bound}
 \alias{ovb_partial_r2_bound.numeric}
+\alias{ovb_partial_r2_bound.lm}
 \title{Bounds on the strength of unobserved confounders using observed covariates}
 \usage{
 ovb_bounds(...)
@@ -31,6 +32,17 @@ ovb_partial_r2_bound(...)
   kd = 1,
   ky = kd,
   bound_label = "manual",
+  ...
+)
+
+\method{ovb_partial_r2_bound}{lm}(
+  model,
+  treatment,
+  benchmark_covariates = NULL,
+  kd = 1,
+  ky = kd,
+  adjusted_estimates = TRUE,
+  alpha = 0.05,
   ...
 )
 }
