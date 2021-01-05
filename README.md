@@ -56,7 +56,9 @@ vignettes](http://carloscinelli.com/sensemakr/articles/sensemakr.html).
 For a quick start, watch the 15 min tutorial on sensitivity analysis
 using sensemakr prepared for useR\! 2020:
 
-[![IMAGE ALT TEXT](http://img.youtube.com/vi/p3dfHj6ki68/0.jpg)](http://www.youtube.com/watch?v=p3dfHj6ki68 "user!2020 sensemakr")
+<iframe width="560" height="315" src="https://www.youtube.com/embed/p3dfHj6ki68" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+
+</iframe>
 
 # CRAN
 

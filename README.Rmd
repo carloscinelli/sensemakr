@@ -81,7 +81,7 @@ Please use the following citations:
 # Basic usage
 
 
-```{r basic-usage, fig.align='center', collapse=T}
+```{r basic-usage, fig.align='center', collapse=T, dpi=300}
 # loads package
 library(sensemakr)
 

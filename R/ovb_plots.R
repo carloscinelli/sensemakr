@@ -618,7 +618,7 @@ add_bound_to_contour.ovb_bounds <- function(bounds,
   }
 
   # gets bound from environment
-  if (bounds$treatment != plot.env$treatment) {
+  if (any(!bounds$treatment %in% plot.env$treatment)) {
   warning("Treament variable of bounds (",  bounds$treatment, ") ",
           "differs from the treatment variable of the last contour plot (",
           plot.env$treatment, ").")
