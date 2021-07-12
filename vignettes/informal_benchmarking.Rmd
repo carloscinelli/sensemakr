@@ -3,7 +3,7 @@ title: "The Risks of Informal Benchmarking"
 author: "Carlos Cinelli and Chad Hazlett"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{informal_benchmarking}
+  %\VignetteIndexEntry{The Risks of Informal Benchmarking}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
