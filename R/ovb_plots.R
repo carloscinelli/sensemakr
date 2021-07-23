@@ -332,6 +332,7 @@ ovb_contour_plot.formula = function(formula,
 #' @param cex.main The magnification to be used for main titles relative to the current setting of cex.
 #' @param cex.axis The magnification to be used for axis annotation relative to the current setting of cex.
 #' @param asp the y/x aspect ratio. Default is 1.
+#' @param show.unadjusted should the unadjusted estimates be shown? Default is `TRUE`.
 #' @export
 ovb_contour_plot.numeric = function(estimate,
                                     se,
@@ -343,6 +344,7 @@ ovb_contour_plot.numeric = function(estimate,
                                     reduce = TRUE,
                                     estimate.threshold = 0,
                                     t.threshold = 2,
+                                    show.unadjusted = TRUE,
                                     lim = NULL,
                                     lim.y = NULL,
                                     nlevels = 10,
@@ -521,13 +523,15 @@ ovb_contour_plot.numeric = function(estimate,
           ...)
 
   # Add the point of the initial estimate.
-  points(0, 0, pch = 17, col = "black", cex = 1)
+  if(show.unadjusted){
+    points(0, 0, pch = 17, col = "black", cex = 1)
 
-  text(0.0 + label.bump.x, 0.00 + label.bump.y,
-       paste0("Unadjusted\n(",
-              signif(plot_estimate, 2),
-              ")"),
-       cex = cex.label.text)
+    text(0.0 + label.bump.x, 0.00 + label.bump.y,
+         paste0("Unadjusted\n(",
+                signif(plot_estimate, 2),
+                ")"),
+         cex = cex.label.text)
+  }
 
   # add bounds
   if (!is.null(r2dz.x)) {

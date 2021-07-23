@@ -65,6 +65,7 @@ ovb_contour_plot(...)
   reduce = TRUE,
   estimate.threshold = 0,
   t.threshold = 2,
+  show.unadjusted = TRUE,
   lim = NULL,
   lim.y = NULL,
   nlevels = 10,
@@ -143,6 +144,8 @@ absolute value of the estimated coefficient? Default is \code{TRUE}.}
 \item{se}{Standard error of the coefficient estimate.}
 
 \item{dof}{Residual degrees of freedom of the regression.}
+
+\item{show.unadjusted}{should the unadjusted estimates be shown? Default is `TRUE`.}
 
 \item{lim}{sets limit for x-axis. If `NULL`, limits are computed automatically.}
 
