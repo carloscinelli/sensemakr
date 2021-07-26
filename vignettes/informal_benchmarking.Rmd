@@ -36,15 +36,15 @@ embed_png <- function(path, dpi = NULL) {
 
 Informal "benchmarking" procedures have been widely suggested in the sensitivity analysis literature as a means to aid interpretation. It intends to describe how an unobserved confounder $Z$ "not unlike" some observed covariate $X_j$ would alter the results of a study (e.g., Imbens, 2003; Blackwell, 2013; Hosman et al. 2010, Dorie et al., 2016, Hong et al. 2018). [Cinelli and Hazlett (2020)](https://doi.org/10.1111/rssb.12348) show why these proposals may lead users to erroneous conclusions, and offer formal bounds on the bias that could be produced by unobserved confounding "as strong" as certain observed covariates. 
 
-To aid in understanding and appreciating the risk of informal benchmarking procedures, this vignette replicates the example in Section 6.1 of [Cinelli and Hazlett (2020)](https://doi.org/10.1111/rssb.12348), in which such benchmarks produce clearly misleading results. Further, replicating this example with `sensemakr` provides a useful tutorial on how users can construct their own sensitivity contour plots with customized bounds, beyond what is offered by default on the package.
+To aid in understanding and appreciating the risk of informal benchmarking procedures, this vignette replicates the example in Section 6.1 of [Cinelli and Hazlett (2020)](https://doi.org/10.1111/rssb.12348), in which such benchmarks produce clearly misleading results. Replicating this example with `sensemakr` also provides a useful tutorial on how users can construct their own sensitivity contour plots with customized bounds, beyond what is offered by default on the package.
 
 ## Background
 
-Prior work in sensitivity analysis---dating back at least to Imbens (2003), and followed by others (e.g, Hosman et al. 2010, Dorie et al., 2016, Hong et al. 2018)---has proposed comparing observables with unobservables by informally using statistics of observed variables to "calibrate intuitions" about sensitivity parameters concerning the unobserved variable. This practice, however, can have undesirable consequences, illustrated below. Section 4.4 of [Cinelli and Hazlett (2020)](https://doi.org/10.1111/rssb.12348) provides an alternative. This approach, bounding the maximum strength of confounding given relative judgments on how the strength unobserved variables compares to the strength of observed variables. The `sensemakr` package allows us to compute bounds given an assumption about how confounding compares to observed covariates, using the function `ovb_bounds()`, which we demonstrate below.
+Prior work in sensitivity analysis---dating back at least to Imbens (2003), and followed by others (e.g, Hosman et al. 2010, Dorie et al., 2016, Hong et al. 2018)---has proposed comparing observables with unobservables by informally using statistics of observed variables to "calibrate intuitions" about sensitivity parameters concerning the unobserved variable. This practice, however, can have undesirable consequences, illustrated below. Section 4.4 of [Cinelli and Hazlett (2020)](https://doi.org/10.1111/rssb.12348) provides an alternative. This approach bounds the maximum strength of confounding given relative judgments on how the strength unobserved variables compares to the strength of observed variables. The `sensemakr` package allows us to compute such bounds using the function `ovb_bounds()`, which we demonstrate below.
 
 ## Simulating the data
 
-Let us begin by simulating the data generating process used in our example. Consider a treatment variable $D$, an outcome variable $Y$, one observed confounder $X$, and one *unobserved* confounder $Z$. Again, all disturbance variables $U$ standardized mutually independent gaussians, and note that, in reality, the treatment $D$ has *no causal effect* on the outcome $Y$. 
+Let us begin by simulating the data generating process used in our example. Consider a treatment variable $D$, an outcome variable $Y$, one observed confounder $X$, and one *unobserved* confounder $Z$. Again, all disturbance variables $U$ are standardized mutually independent gaussians, and note that, in reality, the treatment $D$ has *no causal effect* on the outcome $Y$. 
 
 \begin{align}
 Z &= U_{z}\\
@@ -76,7 +76,7 @@ In this example, the investigator does not observe the confounder $Z$. Therefore
 model.ydx <- lm(Y ~ D + X) 
 summary(model.ydx)
 ```
-Note we obtain a large and statistically significant coefficient estimate of the effect of $X$ on $Y$ ($0.5$). However, we know that the variable $Z$ is not observed, and there is the fear that this estimated effect is in fact due to the bias caused by $Z$. On the other hand, let us suppose the investigator correctly know that: (i) $Z$ and $X$ have the same strength of association with $D$ and $Y$; and, (ii) $Z$ is independent of $X$. Can we leverage this information to understand how much bias a confounder $Z$ "not unlike" $X$ could cause?
+Note we obtain a large and statistically significant coefficient estimate of the effect of $X$ on $Y$ ($0.5$). However, we know that the variable $Z$ is not observed, and there is the fear that this estimated effect is in fact due to the bias caused by $Z$. On the other hand, let us suppose the investigator correctly knows that: (i) $Z$ and $X$ have the same strength of association with $D$ and $Y$; and, (ii) $Z$ is independent of $X$. Can we leverage this information to understand how much bias a confounder $Z$ "not unlike" $X$ could cause?
 
 
 ## Informal benchmarks
