@@ -6,13 +6,13 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The Risks of Informal Benchmarking • sensemakr</title>
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><meta property="og:title" content="The Risks of Informal Benchmarking">
-<meta property="og:description" content="">
-<meta name="twitter:card" content="summary">
+<meta property="og:description" content="sensemakr">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -24,7 +24,7 @@
   gtag('config', 'UA-158095434-1');
 </script>
 </head>
-<body>
+<body data-spy="scroll" data-target="#toc">
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -61,8 +61,8 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/chadhazlett/sensemakr">
-    <span class="fab fa fab fa-github fa-lg"></span>
+  <a href="https://github.com/chadhazlett/sensemakr/">
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -76,10 +76,10 @@
 
       
 
-      </header><div class="row">
+      </header><script src="informal_benchmarking_files/header-attrs-2.9/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1>The Risks of Informal Benchmarking</h1>
+      <h1 data-toc-skip>The Risks of Informal Benchmarking</h1>
                         <h4 class="author">Carlos Cinelli and Chad Hazlett</h4>
             
       
@@ -94,17 +94,17 @@
 <h2 class="hasAnchor">
 <a href="#introduction" class="anchor"></a>Introduction</h2>
 <p>Informal “benchmarking” procedures have been widely suggested in the sensitivity analysis literature as a means to aid interpretation. It intends to describe how an unobserved confounder <span class="math inline">\(Z\)</span> “not unlike” some observed covariate <span class="math inline">\(X_j\)</span> would alter the results of a study (e.g., Imbens, 2003; Blackwell, 2013; Hosman et al. 2010, Dorie et al., 2016, Hong et al. 2018). <a href="https://doi.org/10.1111/rssb.12348">Cinelli and Hazlett (2020)</a> show why these proposals may lead users to erroneous conclusions, and offer formal bounds on the bias that could be produced by unobserved confounding “as strong” as certain observed covariates.</p>
-<p>To aid in understanding and appreciating the risk of informal benchmarking procedures, this vignette replicates the example in Section 6.1 of <a href="https://doi.org/10.1111/rssb.12348">Cinelli and Hazlett (2020)</a>, in which such benchmarks produce clearly misleading results. Further, replicating this example with <code>sensemakr</code> provides a useful tutorial on how users can construct their own sensitivity contour plots with customized bounds, beyond what is offered by default on the package.</p>
+<p>To aid in understanding and appreciating the risk of informal benchmarking procedures, this vignette replicates the example in Section 6.1 of <a href="https://doi.org/10.1111/rssb.12348">Cinelli and Hazlett (2020)</a>, in which such benchmarks produce clearly misleading results. Replicating this example with <code>sensemakr</code> also provides a useful tutorial on how users can construct their own sensitivity contour plots with customized bounds, beyond what is offered by default on the package.</p>
 </div>
 <div id="background" class="section level2">
 <h2 class="hasAnchor">
 <a href="#background" class="anchor"></a>Background</h2>
-<p>Prior work in sensitivity analysis—dating back at least to Imbens (2003), and followed by others (e.g, Hosman et al. 2010, Dorie et al., 2016, Hong et al. 2018)—has proposed comparing observables with unobservables by informally using statistics of observed variables to “calibrate intuitions” about sensitivity parameters concerning the unobserved variable. This practice, however, can have undesirable consequences, illustrated below. Section 4.4 of <a href="https://doi.org/10.1111/rssb.12348">Cinelli and Hazlett (2020)</a> provides an alternative. This approach, bounding the maximum strength of confounding given relative judgments on how the strength unobserved variables compares to the strength of observed variables. The <code>sensemakr</code> package allows us to compute bounds given an assumption about how confounding compares to observed covariates, using the function <code><a href="../reference/ovb_bounds.html">ovb_bounds()</a></code>, which we demonstrate below.</p>
+<p>Prior work in sensitivity analysis—dating back at least to Imbens (2003), and followed by others (e.g, Hosman et al. 2010, Dorie et al., 2016, Hong et al. 2018)—has proposed comparing observables with unobservables by informally using statistics of observed variables to “calibrate intuitions” about sensitivity parameters concerning the unobserved variable. This practice, however, can have undesirable consequences, illustrated below. Section 4.4 of <a href="https://doi.org/10.1111/rssb.12348">Cinelli and Hazlett (2020)</a> provides an alternative. This approach bounds the maximum strength of confounding given relative judgments on how the strength unobserved variables compares to the strength of observed variables. The <code>sensemakr</code> package allows us to compute such bounds using the function <code><a href="../reference/ovb_bounds.html">ovb_bounds()</a></code>, which we demonstrate below.</p>
 </div>
 <div id="simulating-the-data" class="section level2">
 <h2 class="hasAnchor">
 <a href="#simulating-the-data" class="anchor"></a>Simulating the data</h2>
-<p>Let us begin by simulating the data generating process used in our example. Consider a treatment variable <span class="math inline">\(D\)</span>, an outcome variable <span class="math inline">\(Y\)</span>, one observed confounder <span class="math inline">\(X\)</span>, and one <em>unobserved</em> confounder <span class="math inline">\(Z\)</span>. Again, all disturbance variables <span class="math inline">\(U\)</span> standardized mutually independent gaussians, and note that, in reality, the treatment <span class="math inline">\(D\)</span> has <em>no causal effect</em> on the outcome <span class="math inline">\(Y\)</span>.</p>
+<p>Let us begin by simulating the data generating process used in our example. Consider a treatment variable <span class="math inline">\(D\)</span>, an outcome variable <span class="math inline">\(Y\)</span>, one observed confounder <span class="math inline">\(X\)</span>, and one <em>unobserved</em> confounder <span class="math inline">\(Z\)</span>. Again, all disturbance variables <span class="math inline">\(U\)</span> are standardized mutually independent gaussians, and note that, in reality, the treatment <span class="math inline">\(D\)</span> has <em>no causal effect</em> on the outcome <span class="math inline">\(Y\)</span>.</p>
 <p><span class="math display">\[\begin{align}
 Z &amp;= U_{z}\\
 X &amp;= U_{x}\\
@@ -112,72 +112,77 @@ D &amp;= X + Z + U_d\\
 Y &amp;= X + Z + U_y
 \end{align}\]</span></p>
 <p>Also note that, in this model: (i) the unobserved confounder <span class="math inline">\(Z\)</span> is independent of <span class="math inline">\(X\)</span>; and, (ii) the unobserved confounder <span class="math inline">\(Z\)</span> is <em>exactly like</em> <span class="math inline">\(X\)</span> in terms of its strength of association with the treatment and the outcome. The code below creates a sample of size 100 of this data generating process. We make sure to create residuals that are standardized and orthogonal so that all properties that we describe here will hold exactly even in this finite sample.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="co"># loads sensemakr package</span></span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(sensemakr)</span>
-<span id="cb1-3"><a href="#cb1-3"></a><span class="co">#&gt; See details in:</span></span>
-<span id="cb1-4"><a href="#cb1-4"></a><span class="co">#&gt; Carlos Cinelli and Chad Hazlett (2020). Making Sense of Sensitivity: Extending Omitted Variable Bias. Journal of the Royal Statistical Society, Series B (Statistical Methodology).</span></span>
-<span id="cb1-5"><a href="#cb1-5"></a></span>
-<span id="cb1-6"><a href="#cb1-6"></a><span class="co"># simulates data</span></span>
-<span id="cb1-7"><a href="#cb1-7"></a>n &lt;-<span class="st"> </span><span class="dv">100</span></span>
-<span id="cb1-8"><a href="#cb1-8"></a>X &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/scale.html">scale</a></span>(<span class="kw"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span>(n))</span>
-<span id="cb1-9"><a href="#cb1-9"></a>Z &lt;-<span class="st"> </span><span class="kw"><a href="../reference/resid_maker.html">resid_maker</a></span>(n, X) </span>
-<span id="cb1-10"><a href="#cb1-10"></a>D &lt;-<span class="st"> </span>X <span class="op">+</span><span class="st"> </span>Z <span class="op">+</span><span class="st"> </span><span class="kw"><a href="../reference/resid_maker.html">resid_maker</a></span>(n, <span class="kw"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span>(X, Z)) </span>
-<span id="cb1-11"><a href="#cb1-11"></a>Y &lt;-<span class="st"> </span>X <span class="op">+</span><span class="st"> </span>Z <span class="op">+</span><span class="st"> </span><span class="kw"><a href="../reference/resid_maker.html">resid_maker</a></span>(n, <span class="kw"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span>(X, Z, D))</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># loads sensemakr package</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/chadhazlett/sensemakr">sensemakr</a></span><span class="op">)</span>
+<span class="co">#&gt; See details in:</span>
+<span class="co">#&gt; Carlos Cinelli and Chad Hazlett (2020). Making Sense of Sensitivity: Extending Omitted Variable Bias. Journal of the Royal Statistical Society, Series B (Statistical Methodology).</span>
+
+<span class="co"># simulates data</span>
+<span class="va">n</span> <span class="op">&lt;-</span> <span class="fl">100</span>
+<span class="va">X</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/scale.html">scale</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">)</span>
+<span class="va">Z</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/resid_maker.html">resid_maker</a></span><span class="op">(</span><span class="va">n</span>, <span class="va">X</span><span class="op">)</span> 
+<span class="va">D</span> <span class="op">&lt;-</span> <span class="va">X</span> <span class="op">+</span> <span class="va">Z</span> <span class="op">+</span> <span class="fu"><a href="../reference/resid_maker.html">resid_maker</a></span><span class="op">(</span><span class="va">n</span>, <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span><span class="op">(</span><span class="va">X</span>, <span class="va">Z</span><span class="op">)</span><span class="op">)</span> 
+<span class="va">Y</span> <span class="op">&lt;-</span> <span class="va">X</span> <span class="op">+</span> <span class="va">Z</span> <span class="op">+</span> <span class="fu"><a href="../reference/resid_maker.html">resid_maker</a></span><span class="op">(</span><span class="va">n</span>, <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span><span class="op">(</span><span class="va">X</span>, <span class="va">Z</span>, <span class="va">D</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="fitting-the-model" class="section level2">
 <h2 class="hasAnchor">
 <a href="#fitting-the-model" class="anchor"></a>Fitting the model</h2>
 <p>In this example, the investigator does not observe the confounder <span class="math inline">\(Z\)</span>. Therefore, she is forced to fit the restricted linear model <span class="math inline">\(Y \sim D + X\)</span>, resulting in the following estimated values</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>model.ydx &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span>(Y <span class="op">~</span><span class="st"> </span>D <span class="op">+</span><span class="st"> </span>X) </span>
-<span id="cb2-2"><a href="#cb2-2"></a><span class="kw"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(model.ydx)</span>
-<span id="cb2-3"><a href="#cb2-3"></a><span class="co">#&gt; </span></span>
-<span id="cb2-4"><a href="#cb2-4"></a><span class="co">#&gt; Call:</span></span>
-<span id="cb2-5"><a href="#cb2-5"></a><span class="co">#&gt; lm(formula = Y ~ D + X)</span></span>
-<span id="cb2-6"><a href="#cb2-6"></a><span class="co">#&gt; </span></span>
-<span id="cb2-7"><a href="#cb2-7"></a><span class="co">#&gt; Residuals:</span></span>
-<span id="cb2-8"><a href="#cb2-8"></a><span class="co">#&gt;     Min      1Q  Median      3Q     Max </span></span>
-<span id="cb2-9"><a href="#cb2-9"></a><span class="co">#&gt; -3.2244 -0.7697 -0.0115  0.8638  3.4638 </span></span>
-<span id="cb2-10"><a href="#cb2-10"></a><span class="co">#&gt; </span></span>
-<span id="cb2-11"><a href="#cb2-11"></a><span class="co">#&gt; Coefficients:</span></span>
-<span id="cb2-12"><a href="#cb2-12"></a><span class="co">#&gt;              Estimate Std. Error t value Pr(&gt;|t|)    </span></span>
-<span id="cb2-13"><a href="#cb2-13"></a><span class="co">#&gt; (Intercept) 5.551e-18  1.237e-01   0.000  1.00000    </span></span>
-<span id="cb2-14"><a href="#cb2-14"></a><span class="co">#&gt; D           5.000e-01  8.793e-02   5.686 1.37e-07 ***</span></span>
-<span id="cb2-15"><a href="#cb2-15"></a><span class="co">#&gt; X           5.000e-01  1.523e-01   3.283  0.00143 ** </span></span>
-<span id="cb2-16"><a href="#cb2-16"></a><span class="co">#&gt; ---</span></span>
-<span id="cb2-17"><a href="#cb2-17"></a><span class="co">#&gt; Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span></span>
-<span id="cb2-18"><a href="#cb2-18"></a><span class="co">#&gt; </span></span>
-<span id="cb2-19"><a href="#cb2-19"></a><span class="co">#&gt; Residual standard error: 1.237 on 97 degrees of freedom</span></span>
-<span id="cb2-20"><a href="#cb2-20"></a><span class="co">#&gt; Multiple R-squared:    0.5,  Adjusted R-squared:  0.4897 </span></span>
-<span id="cb2-21"><a href="#cb2-21"></a><span class="co">#&gt; F-statistic:  48.5 on 2 and 97 DF,  p-value: 2.512e-15</span></span></code></pre></div>
-<p>Note we obtain a large and statistically significant coefficient estimate of the effect of <span class="math inline">\(X\)</span> on <span class="math inline">\(Y\)</span> (<span class="math inline">\(0.5\)</span>). However, we know that the variable <span class="math inline">\(Z\)</span> is not observed, and there is the fear that this estimated effect is in fact due to the bias caused by <span class="math inline">\(Z\)</span>. On the other hand, let us suppose the investigator correctly know that: (i) <span class="math inline">\(Z\)</span> and <span class="math inline">\(X\)</span> have the same strength of association with <span class="math inline">\(D\)</span> and <span class="math inline">\(Y\)</span>; and, (ii) <span class="math inline">\(Z\)</span> is independent of <span class="math inline">\(X\)</span>. Can we leverage this information to understand how much bias a confounder <span class="math inline">\(Z\)</span> “not unlike” <span class="math inline">\(X\)</span> could cause?</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">model.ydx</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">Y</span> <span class="op">~</span> <span class="va">D</span> <span class="op">+</span> <span class="va">X</span><span class="op">)</span> 
+<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">model.ydx</span><span class="op">)</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Call:</span>
+<span class="co">#&gt; lm(formula = Y ~ D + X)</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Residuals:</span>
+<span class="co">#&gt;     Min      1Q  Median      3Q     Max </span>
+<span class="co">#&gt; -2.6417 -0.8080 -0.0659  0.6228  3.6090 </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Coefficients:</span>
+<span class="co">#&gt;               Estimate Std. Error t value Pr(&gt;|t|)    </span>
+<span class="co">#&gt; (Intercept) -2.442e-16  1.237e-01   0.000  1.00000    </span>
+<span class="co">#&gt; D            5.000e-01  8.793e-02   5.686 1.37e-07 ***</span>
+<span class="co">#&gt; X            5.000e-01  1.523e-01   3.283  0.00143 ** </span>
+<span class="co">#&gt; ---</span>
+<span class="co">#&gt; Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Residual standard error: 1.237 on 97 degrees of freedom</span>
+<span class="co">#&gt; Multiple R-squared:    0.5,  Adjusted R-squared:  0.4897 </span>
+<span class="co">#&gt; F-statistic:  48.5 on 2 and 97 DF,  p-value: 2.512e-15</span></code></pre></div>
+<p>Note we obtain a large and statistically significant coefficient estimate of the effect of <span class="math inline">\(X\)</span> on <span class="math inline">\(Y\)</span> (<span class="math inline">\(0.5\)</span>). However, we know that the variable <span class="math inline">\(Z\)</span> is not observed, and there is the fear that this estimated effect is in fact due to the bias caused by <span class="math inline">\(Z\)</span>. On the other hand, let us suppose the investigator correctly knows that: (i) <span class="math inline">\(Z\)</span> and <span class="math inline">\(X\)</span> have the same strength of association with <span class="math inline">\(D\)</span> and <span class="math inline">\(Y\)</span>; and, (ii) <span class="math inline">\(Z\)</span> is independent of <span class="math inline">\(X\)</span>. Can we leverage this information to understand how much bias a confounder <span class="math inline">\(Z\)</span> “not unlike” <span class="math inline">\(X\)</span> could cause?</p>
 </div>
 <div id="informal-benchmarks" class="section level2">
 <h2 class="hasAnchor">
 <a href="#informal-benchmarks" class="anchor"></a>Informal benchmarks</h2>
 <p>Computing the bias due to the omission of <span class="math inline">\(Z\)</span> requires two sensitivity parameters: its partial <span class="math inline">\(R^2\)</span> with the treatment <span class="math inline">\(D\)</span> and its partial <span class="math inline">\(R^2\)</span> with the outcome <span class="math inline">\(Y\)</span>. How could we go about computing the bias that a confounder <span class="math inline">\(Z\)</span> “not unlike <span class="math inline">\(X\)</span>” would cause?</p>
 <p>Intuitively, it seems that we could take as reference the observed partial <span class="math inline">\(R^2\)</span> of <span class="math inline">\(X\)</span> with <span class="math inline">\(D\)</span> and <span class="math inline">\(Y\)</span>, and use those as the plausible values for the sensitivity parameters. That’s the essence of many informal benchmarking proposals. So let us now compute those observed partial <span class="math inline">\(R^2\)</span> using the <code><a href="../reference/partial_r2.html">partial_r2()</a></code> function of <code>sensemakr</code>. For the partial <span class="math inline">\(R^2\)</span> of <span class="math inline">\(X\)</span> with the treatment, we also need to fit a treatment regression <span class="math inline">\(D \sim X\)</span> first.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="co"># fits treatment regression</span></span>
-<span id="cb3-2"><a href="#cb3-2"></a>model.dx &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span>(D <span class="op">~</span><span class="st"> </span>X)</span>
-<span id="cb3-3"><a href="#cb3-3"></a></span>
-<span id="cb3-4"><a href="#cb3-4"></a><span class="co"># computes observed partial R2 of X</span></span>
-<span id="cb3-5"><a href="#cb3-5"></a>r2yx.d &lt;-<span class="st"> </span><span class="kw"><a href="../reference/partial_r2.html">partial_r2</a></span>(model.ydx, <span class="dt">covariates =</span> <span class="st">"X"</span>)</span>
-<span id="cb3-6"><a href="#cb3-6"></a>r2dx   &lt;-<span class="st"> </span><span class="kw"><a href="../reference/partial_r2.html">partial_r2</a></span>(model.dx, <span class="dt">covariates =</span> <span class="st">"X"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># fits treatment regression</span>
+<span class="va">model.dx</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">D</span> <span class="op">~</span> <span class="va">X</span><span class="op">)</span>
+
+<span class="co"># computes observed partial R2 of X</span>
+<span class="va">r2yx.d</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/partial_r2.html">partial_r2</a></span><span class="op">(</span><span class="va">model.ydx</span>, covariates <span class="op">=</span> <span class="st">"X"</span><span class="op">)</span>
+<span class="va">r2dx</span>   <span class="op">&lt;-</span> <span class="fu"><a href="../reference/partial_r2.html">partial_r2</a></span><span class="op">(</span><span class="va">model.dx</span>, covariates <span class="op">=</span> <span class="st">"X"</span><span class="op">)</span></code></pre></div>
 <p>Once both partial <span class="math inline">\(R^2\)</span> are computed, we can determine the implied adjusted estimate due to an unobserved confounder <span class="math inline">\(Z\)</span> using the <code><a href="../reference/adjusted_estimate.html">adjusted_estimate()</a></code> function.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>informal_adjusted_estimate &lt;-<span class="st"> </span><span class="kw"><a href="../reference/adjusted_estimate.html">adjusted_estimate</a></span>(model.ydx, </span>
-<span id="cb4-2"><a href="#cb4-2"></a>                                                <span class="dt">treatment =</span> <span class="st">"D"</span>, </span>
-<span id="cb4-3"><a href="#cb4-3"></a>                                                <span class="dt">r2dz.x =</span> r2dx, </span>
-<span id="cb4-4"><a href="#cb4-4"></a>                                                <span class="dt">r2yz.dx =</span> r2yx.d)</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">informal_adjusted_estimate</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/adjusted_estimate.html">adjusted_estimate</a></span><span class="op">(</span><span class="va">model.ydx</span>, 
+                                                treatment <span class="op">=</span> <span class="st">"D"</span>, 
+                                                r2dz.x <span class="op">=</span> <span class="va">r2dx</span>, 
+                                                r2yz.dx <span class="op">=</span> <span class="va">r2yx.d</span><span class="op">)</span></code></pre></div>
 <p>We can now plot the sensitivity contours with <code><a href="../reference/ovb_contour_plot.html">ovb_contour_plot()</a></code> and add our informal benchmark with the numeric method of <code><a href="../reference/add_bound_to_contour.html">add_bound_to_contour()</a></code>. The arguments <code>label.bump.x</code> and <code>label.bump.y</code> of these functions allow adjusting the position of the bound label in the plot.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="co"># draws sensitivity contours</span></span>
-<span id="cb5-2"><a href="#cb5-2"></a><span class="kw"><a href="../reference/ovb_contour_plot.html">ovb_contour_plot</a></span>(model.ydx,  </span>
-<span id="cb5-3"><a href="#cb5-3"></a>                 <span class="dt">treatment =</span> <span class="st">"D"</span>, </span>
-<span id="cb5-4"><a href="#cb5-4"></a>                 <span class="dt">lim =</span> <span class="fl">.6</span>)</span>
-<span id="cb5-5"><a href="#cb5-5"></a></span>
-<span id="cb5-6"><a href="#cb5-6"></a><span class="co"># adds informal benchmark </span></span>
-<span id="cb5-7"><a href="#cb5-7"></a><span class="kw"><a href="../reference/add_bound_to_contour.html">add_bound_to_contour</a></span>(<span class="dt">r2dz.x =</span> r2dx, </span>
-<span id="cb5-8"><a href="#cb5-8"></a>                     <span class="dt">r2yz.dx =</span> r2yx.d, </span>
-<span id="cb5-9"><a href="#cb5-9"></a>                     <span class="dt">bound_value =</span> informal_adjusted_estimate,</span>
-<span id="cb5-10"><a href="#cb5-10"></a>                     <span class="dt">bound_label =</span> <span class="st">"Informal benchmark"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># draws sensitivity contours</span>
+<span class="fu"><a href="../reference/ovb_contour_plot.html">ovb_contour_plot</a></span><span class="op">(</span><span class="va">model.ydx</span>,  
+                 treatment <span class="op">=</span> <span class="st">"D"</span>, 
+                 lim <span class="op">=</span> <span class="fl">.6</span><span class="op">)</span>
+
+<span class="co"># adds informal benchmark </span>
+<span class="fu"><a href="../reference/add_bound_to_contour.html">add_bound_to_contour</a></span><span class="op">(</span>r2dz.x <span class="op">=</span> <span class="va">r2dx</span>, 
+                     r2yz.dx <span class="op">=</span> <span class="va">r2yx.d</span>, 
+                     bound_value <span class="op">=</span> <span class="va">informal_adjusted_estimate</span>,
+                     bound_label <span class="op">=</span> <span class="st">"Informal benchmark"</span><span class="op">)</span></code></pre></div>
 <p><img src="informal_benchmarking_files/figure-html/unnamed-chunk-7-1.png" width="480" style="display: block; margin: auto;"></p>
 <p>As we can see, the results of the informal benchmark are different from what we expected. The informal benchmark point is still far away from zero, and this would lead an investigator to incorrectly conclude that an unobserved confounder <span class="math inline">\(Z\)</span> “not unlike <span class="math inline">\(X\)</span>” is not sufficient to explain away the observed effect. Moreover, this incorrect conclusion occurs despite <em>correctly</em> assuming that: (i) <span class="math inline">\(Z\)</span> and <span class="math inline">\(X\)</span> have the same strength of association with <span class="math inline">\(D\)</span> and <span class="math inline">\(Y\)</span>; and, (ii) <span class="math inline">\(Z\)</span> is independent of <span class="math inline">\(X\)</span>. Why does this happen?</p>
 <p>As explained in Section 6.1 of <a href="https://doi.org/10.1111/rssb.12348">Cinelli and Hazlett (2020)</a>, there are two problems affecting informal benchmarks in this setting. First, we have to make an adjustment of baseline variance to be explained, since the sensitivity parameters consider the partial <span class="math inline">\(R^2\)</span> of <span class="math inline">\(Z\)</span> with the outcome, after taking into account what is already explained by <span class="math inline">\(X\)</span>. Second, consider the DAG of our structural model:</p>
@@ -188,24 +193,26 @@ Y &amp;= X + Z + U_y
 <h2 class="hasAnchor">
 <a href="#formal-bounds" class="anchor"></a>Formal bounds</h2>
 <p>Given the above considerations, we do not recommend using informal benchmarks for sensitivity analysis. We now show how to compute formal bounds. In <code>sensemakr</code>, you can use the function <code><a href="../reference/ovb_bounds.html">ovb_bounds()</a></code>.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="co"># compute formal bounds</span></span>
-<span id="cb6-2"><a href="#cb6-2"></a>formal_bound &lt;-<span class="st"> </span><span class="kw"><a href="../reference/ovb_bounds.html">ovb_bounds</a></span>(<span class="dt">model =</span> model.ydx, </span>
-<span id="cb6-3"><a href="#cb6-3"></a>                           <span class="dt">treatment =</span> <span class="st">"D"</span>, </span>
-<span id="cb6-4"><a href="#cb6-4"></a>                           <span class="dt">benchmark_covariates =</span> <span class="st">"X"</span>, </span>
-<span id="cb6-5"><a href="#cb6-5"></a>                           <span class="dt">kd =</span> <span class="dv">1</span>, <span class="dt">ky =</span> <span class="dv">1</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># compute formal bounds</span>
+<span class="va">formal_bound</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ovb_bounds.html">ovb_bounds</a></span><span class="op">(</span>model <span class="op">=</span> <span class="va">model.ydx</span>, 
+                           treatment <span class="op">=</span> <span class="st">"D"</span>, 
+                           benchmark_covariates <span class="op">=</span> <span class="st">"X"</span>, 
+                           kd <span class="op">=</span> <span class="fl">1</span>, ky <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></code></pre></div>
 <p>In this function you specify the linear model being used (<code>model.ydx</code>), the treatment of interest (<span class="math inline">\(D\)</span>), the observed variable used for benchmarking (<span class="math inline">\(X\)</span>), and how stronger <span class="math inline">\(Z\)</span> is in explaining treatment (<code>kd</code>) and outcome (<code>ky</code>) variation, as compared to the benchmark variable <span class="math inline">\(X\)</span>. We can now plot the proper bound against the informal benchmark.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="co"># contour plot</span></span>
-<span id="cb7-2"><a href="#cb7-2"></a><span class="kw"><a href="../reference/ovb_contour_plot.html">ovb_contour_plot</a></span>(model.ydx,  </span>
-<span id="cb7-3"><a href="#cb7-3"></a>                 <span class="dt">treatment =</span> <span class="st">"D"</span>,</span>
-<span id="cb7-4"><a href="#cb7-4"></a>                 <span class="dt">lim =</span> <span class="fl">.6</span>)</span>
-<span id="cb7-5"><a href="#cb7-5"></a></span>
-<span id="cb7-6"><a href="#cb7-6"></a><span class="kw"><a href="../reference/add_bound_to_contour.html">add_bound_to_contour</a></span>(<span class="dt">r2dz.x =</span> r2dx, </span>
-<span id="cb7-7"><a href="#cb7-7"></a>                     <span class="dt">r2yz.dx =</span> r2yx.d, </span>
-<span id="cb7-8"><a href="#cb7-8"></a>                     <span class="dt">bound_value =</span> informal_adjusted_estimate,</span>
-<span id="cb7-9"><a href="#cb7-9"></a>                     <span class="dt">bound_label =</span> <span class="st">"Informal benchmark"</span>)</span>
-<span id="cb7-10"><a href="#cb7-10"></a></span>
-<span id="cb7-11"><a href="#cb7-11"></a><span class="kw"><a href="../reference/add_bound_to_contour.html">add_bound_to_contour</a></span>(<span class="dt">bounds =</span> formal_bound,</span>
-<span id="cb7-12"><a href="#cb7-12"></a>                     <span class="dt">bound_label =</span> <span class="st">"Proper bound"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># contour plot</span>
+<span class="fu"><a href="../reference/ovb_contour_plot.html">ovb_contour_plot</a></span><span class="op">(</span><span class="va">model.ydx</span>,  
+                 treatment <span class="op">=</span> <span class="st">"D"</span>,
+                 lim <span class="op">=</span> <span class="fl">.6</span><span class="op">)</span>
+
+<span class="fu"><a href="../reference/add_bound_to_contour.html">add_bound_to_contour</a></span><span class="op">(</span>r2dz.x <span class="op">=</span> <span class="va">r2dx</span>, 
+                     r2yz.dx <span class="op">=</span> <span class="va">r2yx.d</span>, 
+                     bound_value <span class="op">=</span> <span class="va">informal_adjusted_estimate</span>,
+                     bound_label <span class="op">=</span> <span class="st">"Informal benchmark"</span><span class="op">)</span>
+
+<span class="fu"><a href="../reference/add_bound_to_contour.html">add_bound_to_contour</a></span><span class="op">(</span>bounds <span class="op">=</span> <span class="va">formal_bound</span>,
+                     bound_label <span class="op">=</span> <span class="st">"Proper bound"</span><span class="op">)</span></code></pre></div>
 <p><img src="informal_benchmarking_files/figure-html/unnamed-chunk-10-1.png" width="480" style="display: block; margin: auto;"></p>
 <p>Note that, using the formal bounds, the researcher now reaches the correct conclusion that, an unobserved confounder <span class="math inline">\(Z\)</span> similar to <span class="math inline">\(X\)</span> is strong enough to explain away all the observed association. For further details, please see Sections 4.4 and 6.1 of <a href="https://doi.org/10.1111/rssb.12348">Cinelli and Hazlett (2020)</a>.</p>
 </div>
@@ -216,22 +223,11 @@ Y &amp;= X + Z + U_y
 </div>
   </div>
 
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
 
-        <div id="tocnav">
-      <h2 class="hasAnchor">
-<a href="#tocnav" class="anchor"></a>Contents</h2>
-      <ul class="nav nav-pills nav-stacked">
-<li><a href="#introduction">Introduction</a></li>
-      <li><a href="#background">Background</a></li>
-      <li><a href="#simulating-the-data">Simulating the data</a></li>
-      <li><a href="#fitting-the-model">Fitting the model</a></li>
-      <li><a href="#informal-benchmarks">Informal benchmarks</a></li>
-      <li><a href="#formal-bounds">Formal bounds</a></li>
-      <li><a href="#references">References</a></li>
-      </ul>
+        <nav id="toc" data-toggle="toc"><h2 data-toc-skip>Contents</h2>
+    </nav>
 </div>
-      </div>
 
 </div>
 
@@ -242,7 +238,7 @@ Y &amp;= X + Z + U_y
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

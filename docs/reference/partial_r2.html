@@ -10,23 +10,27 @@
 
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -47,7 +51,6 @@ for sensitivity analysis using a bias factor table.
 The function partial_r2 computes the partial R2. The function partial_f2 computes the partial f2 and the function partial_f the partial f.
 They can take as input an lm object or you may pass directly t-value and degrees of freedom.
 For partial R2 of groups of covariates, check group_partial_r2." />
-<meta name="twitter:card" content="summary" />
 
 
 
@@ -75,7 +78,7 @@ For partial R2 of groups of covariates, check group_partial_r2." />
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -113,8 +116,8 @@ For partial R2 of groups of covariates, check group_partial_r2." />
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/chadhazlett/sensemakr">
-    <span class="fab fa fab fa-github fa-lg"></span>
+  <a href="https://github.com/chadhazlett/sensemakr/">
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -150,23 +153,23 @@ They can take as input an <code><a href='https://rdrr.io/r/stats/lm.html'>lm</a>
 <p>For partial R2 of groups of covariates, check <code><a href='group_partial_r2.html'>group_partial_r2</a></code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>partial_r2</span>(<span class='no'>...</span>)
+    <pre class="usage"><span class='fu'>partial_r2</span><span class='op'>(</span><span class='va'>...</span><span class='op'>)</span>
 
 <span class='co'># S3 method for lm</span>
-<span class='fu'>partial_r2</span>(<span class='no'>model</span>, <span class='kw'>covariates</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)
+<span class='fu'>partial_r2</span><span class='op'>(</span><span class='va'>model</span>, covariates <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='co'># S3 method for numeric</span>
-<span class='fu'>partial_r2</span>(<span class='no'>t_statistic</span>, <span class='no'>dof</span>, <span class='no'>...</span>)
+<span class='fu'>partial_r2</span><span class='op'>(</span><span class='va'>t_statistic</span>, <span class='va'>dof</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>partial_f2</span>(<span class='no'>...</span>)
+<span class='fu'>partial_f2</span><span class='op'>(</span><span class='va'>...</span><span class='op'>)</span>
 
 <span class='co'># S3 method for numeric</span>
-<span class='fu'>partial_f2</span>(<span class='no'>t_statistic</span>, <span class='no'>dof</span>, <span class='no'>...</span>)
+<span class='fu'>partial_f2</span><span class='op'>(</span><span class='va'>t_statistic</span>, <span class='va'>dof</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='co'># S3 method for lm</span>
-<span class='fu'>partial_f2</span>(<span class='no'>model</span>, <span class='kw'>covariates</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)
+<span class='fu'>partial_f2</span><span class='op'>(</span><span class='va'>model</span>, covariates <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>partial_f</span>(<span class='no'>...</span>)</pre>
+<span class='fu'>partial_f</span><span class='op'>(</span><span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -206,31 +209,29 @@ the partial R2 of all covariates.</p></td>
     <pre class="examples"><div class='input'>
 <span class='co'># using an lm object</span>
 <span class='co'>## loads data</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"darfur"</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"darfur"</span><span class='op'>)</span>
 
 <span class='co'>## fits model</span>
-<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='no'>peacefactor</span> ~ <span class='no'>directlyharmed</span> + <span class='no'>age</span> + <span class='no'>farmer_dar</span> + <span class='no'>herder_dar</span> +
-             <span class='no'>pastvoted</span> + <span class='no'>hhsize_darfur</span> + <span class='no'>female</span> + <span class='no'>village</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>darfur</span>)
+<span class='va'>model</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>peacefactor</span> <span class='op'>~</span> <span class='va'>directlyharmed</span> <span class='op'>+</span> <span class='va'>age</span> <span class='op'>+</span> <span class='va'>farmer_dar</span> <span class='op'>+</span> <span class='va'>herder_dar</span> <span class='op'>+</span>
+             <span class='va'>pastvoted</span> <span class='op'>+</span> <span class='va'>hhsize_darfur</span> <span class='op'>+</span> <span class='va'>female</span> <span class='op'>+</span> <span class='va'>village</span>, data <span class='op'>=</span> <span class='va'>darfur</span><span class='op'>)</span>
 
 <span class='co'>## partial R2 of the treatment (directly harmed) with the outcome (peacefactor)</span>
-<span class='fu'>partial_r2</span>(<span class='no'>model</span>, <span class='kw'>covariates</span> <span class='kw'>=</span> <span class='st'>"directlyharmed"</span>)</div><div class='output co'>#&gt; directlyharmed 
+<span class='fu'>partial_r2</span><span class='op'>(</span><span class='va'>model</span>, covariates <span class='op'>=</span> <span class='st'>"directlyharmed"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; directlyharmed 
 #&gt;     0.02187309 </div><div class='input'>
 <span class='co'>## partial R2 of female with the outcome</span>
-<span class='fu'>partial_r2</span>(<span class='no'>model</span>, <span class='kw'>covariates</span> <span class='kw'>=</span> <span class='st'>"female"</span>)</div><div class='output co'>#&gt;    female 
+<span class='fu'>partial_r2</span><span class='op'>(</span><span class='va'>model</span>, covariates <span class='op'>=</span> <span class='st'>"female"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;    female 
 #&gt; 0.1090339 </div><div class='input'>
 <span class='co'># you can also provide the statistics directly</span>
-<span class='fu'>partial_r2</span>(<span class='kw'>t_statistic</span> <span class='kw'>=</span> <span class='fl'>4.18445</span>, <span class='kw'>dof</span> <span class='kw'>=</span> <span class='fl'>783</span>)</div><div class='output co'>#&gt; [1] 0.02187309</div><div class='input'>
+<span class='fu'>partial_r2</span><span class='op'>(</span>t_statistic <span class='op'>=</span> <span class='fl'>4.18445</span>, dof <span class='op'>=</span> <span class='fl'>783</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 0.02187309</div><div class='input'>
 </div></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#value">Value</a></li>
-      <li><a href="#references">References</a></li>
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
@@ -241,7 +242,7 @@ the partial R2 of all covariates.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

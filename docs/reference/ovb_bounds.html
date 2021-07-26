@@ -10,23 +10,27 @@
 
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -38,7 +42,6 @@
 <meta property="og:title" content="Bounds on the strength of unobserved confounders using observed covariates — ovb_bounds" />
 <meta property="og:description" content="Bounds on the strength of unobserved confounders using observed covariates, as in Cinelli and Hazlett (2020). The main generic function is ovb_bounds, which can compute both the bounds on the strength of confounding as well as the adjusted estimates, standard errors, t-values and confidence intervals.
 Other functions that compute only the bounds on the strength of confounding are also provided. These functions may be useful when computing benchmarks for using only summary statistics from papers you see in print." />
-<meta name="twitter:card" content="summary" />
 
 
 
@@ -66,7 +69,7 @@ Other functions that compute only the bounds on the strength of confounding are 
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -104,8 +107,8 @@ Other functions that compute only the bounds on the strength of confounding are 
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/chadhazlett/sensemakr">
-    <span class="fab fa fab fa-github fa-lg"></span>
+  <a href="https://github.com/chadhazlett/sensemakr/">
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -132,34 +135,46 @@ Other functions that compute only the bounds on the strength of confounding are 
 <p>Other functions that compute only the bounds on the strength of confounding are also provided. These functions may be useful when computing benchmarks for using only summary statistics from papers you see in print.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>ovb_bounds</span>(<span class='no'>...</span>)
+    <pre class="usage"><span class='fu'>ovb_bounds</span><span class='op'>(</span><span class='va'>...</span><span class='op'>)</span>
 
 <span class='co'># S3 method for lm</span>
-<span class='fu'>ovb_bounds</span>(
-  <span class='no'>model</span>,
-  <span class='no'>treatment</span>,
-  <span class='kw'>benchmark_covariates</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>kd</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>ky</span> <span class='kw'>=</span> <span class='no'>kd</span>,
-  <span class='kw'>reduce</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>bound</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"partial r2"</span>, <span class='st'>"partial r2 no D"</span>, <span class='st'>"total r2"</span>),
-  <span class='kw'>adjusted_estimates</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>0.05</span>,
-  <span class='kw'>h0</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='no'>...</span>
-)
+<span class='fu'>ovb_bounds</span><span class='op'>(</span>
+  <span class='va'>model</span>,
+  <span class='va'>treatment</span>,
+  benchmark_covariates <span class='op'>=</span> <span class='cn'>NULL</span>,
+  kd <span class='op'>=</span> <span class='fl'>1</span>,
+  ky <span class='op'>=</span> <span class='va'>kd</span>,
+  reduce <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  bound <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"partial r2"</span>, <span class='st'>"partial r2 no D"</span>, <span class='st'>"total r2"</span><span class='op'>)</span>,
+  adjusted_estimates <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  alpha <span class='op'>=</span> <span class='fl'>0.05</span>,
+  h0 <span class='op'>=</span> <span class='fl'>0</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span>
 
-<span class='fu'>ovb_partial_r2_bound</span>(<span class='no'>...</span>)
+<span class='fu'>ovb_partial_r2_bound</span><span class='op'>(</span><span class='va'>...</span><span class='op'>)</span>
 
 <span class='co'># S3 method for numeric</span>
-<span class='fu'>ovb_partial_r2_bound</span>(
-  <span class='no'>r2dxj.x</span>,
-  <span class='no'>r2yxj.dx</span>,
-  <span class='kw'>kd</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>ky</span> <span class='kw'>=</span> <span class='no'>kd</span>,
-  <span class='kw'>bound_label</span> <span class='kw'>=</span> <span class='st'>"manual"</span>,
-  <span class='no'>...</span>
-)</pre>
+<span class='fu'>ovb_partial_r2_bound</span><span class='op'>(</span>
+  <span class='va'>r2dxj.x</span>,
+  <span class='va'>r2yxj.dx</span>,
+  kd <span class='op'>=</span> <span class='fl'>1</span>,
+  ky <span class='op'>=</span> <span class='va'>kd</span>,
+  bound_label <span class='op'>=</span> <span class='st'>"manual"</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span>
+
+<span class='co'># S3 method for lm</span>
+<span class='fu'>ovb_partial_r2_bound</span><span class='op'>(</span>
+  <span class='va'>model</span>,
+  <span class='va'>treatment</span>,
+  benchmark_covariates <span class='op'>=</span> <span class='cn'>NULL</span>,
+  kd <span class='op'>=</span> <span class='fl'>1</span>,
+  ky <span class='op'>=</span> <span class='va'>kd</span>,
+  adjusted_estimates <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  alpha <span class='op'>=</span> <span class='fl'>0.05</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -245,14 +260,15 @@ errors and t-values (among other quantities) need to be computed manually by the
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
 <span class='co'># runs regression model</span>
-<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='no'>peacefactor</span> ~ <span class='no'>directlyharmed</span> + <span class='no'>age</span> + <span class='no'>farmer_dar</span> + <span class='no'>herder_dar</span> +
-             <span class='no'>pastvoted</span> + <span class='no'>hhsize_darfur</span> + <span class='no'>female</span> + <span class='no'>village</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>darfur</span>)
+<span class='va'>model</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>peacefactor</span> <span class='op'>~</span> <span class='va'>directlyharmed</span> <span class='op'>+</span> <span class='va'>age</span> <span class='op'>+</span> <span class='va'>farmer_dar</span> <span class='op'>+</span> <span class='va'>herder_dar</span> <span class='op'>+</span>
+             <span class='va'>pastvoted</span> <span class='op'>+</span> <span class='va'>hhsize_darfur</span> <span class='op'>+</span> <span class='va'>female</span> <span class='op'>+</span> <span class='va'>village</span>, data <span class='op'>=</span> <span class='va'>darfur</span><span class='op'>)</span>
 
 <span class='co'># bounds on the strength of confounders 1, 2, or 3 times as strong as female</span>
 <span class='co'># and 1,2, or 3 times as strong as pastvoted</span>
-<span class='fu'>ovb_bounds</span>(<span class='no'>model</span>, <span class='kw'>treatment</span> <span class='kw'>=</span> <span class='st'>"directlyharmed"</span>,
-          <span class='kw'>benchmark_covariates</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"female"</span>, <span class='st'>"pastvoted"</span>),
-          <span class='kw'>kd</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>3</span>)</div><div class='output co'>#&gt;    bound_label      r2dz.x     r2yz.dx      treatment adjusted_estimate
+<span class='fu'>ovb_bounds</span><span class='op'>(</span><span class='va'>model</span>, treatment <span class='op'>=</span> <span class='st'>"directlyharmed"</span>,
+          benchmark_covariates <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"female"</span>, <span class='st'>"pastvoted"</span><span class='op'>)</span>,
+          kd <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;    bound_label      r2dz.x     r2yz.dx      treatment adjusted_estimate
 #&gt; 1    1x female 0.009164287 0.124640923 directlyharmed        0.07522027
 #&gt; 2    2x female 0.018328573 0.249324064 directlyharmed        0.05291517
 #&gt; 3    3x female 0.027492860 0.374050471 directlyharmed        0.03039602
@@ -276,43 +292,39 @@ errors and t-values (among other quantities) need to be computed manually by the
 
 <span class='co'># Use the t statistic of female in the outcome regression</span>
 <span class='co'># to compute the partial R2 of female with the outcome.</span>
-<span class='no'>r2yxj.dx</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='partial_r2.html'>partial_r2</a></span>(<span class='kw'>t_statistic</span> <span class='kw'>=</span> -<span class='fl'>9.789</span>, <span class='kw'>dof</span> <span class='kw'>=</span> <span class='fl'>783</span>)
+<span class='va'>r2yxj.dx</span> <span class='op'>&lt;-</span> <span class='fu'><a href='partial_r2.html'>partial_r2</a></span><span class='op'>(</span>t_statistic <span class='op'>=</span> <span class='op'>-</span><span class='fl'>9.789</span>, dof <span class='op'>=</span> <span class='fl'>783</span><span class='op'>)</span>
 
 <span class='co'># Use the t-value of female in the *treatment* regression</span>
 <span class='co'># to compute the partial R2 of female with the treatment</span>
-<span class='no'>r2dxj.x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='partial_r2.html'>partial_r2</a></span>(<span class='kw'>t_statistic</span> <span class='kw'>=</span> -<span class='fl'>2.680</span>, <span class='kw'>dof</span> <span class='kw'>=</span> <span class='fl'>783</span>)
+<span class='va'>r2dxj.x</span> <span class='op'>&lt;-</span> <span class='fu'><a href='partial_r2.html'>partial_r2</a></span><span class='op'>(</span>t_statistic <span class='op'>=</span> <span class='op'>-</span><span class='fl'>2.680</span>, dof <span class='op'>=</span> <span class='fl'>783</span><span class='op'>)</span>
 
 <span class='co'># Compute manually bounds on the strength of confounders 1, 2, or 3</span>
 <span class='co'># times as strong as female</span>
-<span class='no'>bounds</span> <span class='kw'>&lt;-</span> <span class='fu'>ovb_partial_r2_bound</span>(<span class='kw'>r2dxj.x</span> <span class='kw'>=</span> <span class='no'>r2dxj.x</span>,
-                              <span class='kw'>r2yxj.dx</span> <span class='kw'>=</span> <span class='no'>r2yxj.dx</span>,
-                              <span class='kw'>kd</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>3</span>,
-                              <span class='kw'>ky</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>3</span>,
-                              <span class='kw'>bound_label</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span>(<span class='fl'>1</span>:<span class='fl'>3</span>, <span class='st'>"x"</span>, <span class='st'>"female"</span>))
+<span class='va'>bounds</span> <span class='op'>&lt;-</span> <span class='fu'>ovb_partial_r2_bound</span><span class='op'>(</span>r2dxj.x <span class='op'>=</span> <span class='va'>r2dxj.x</span>,
+                              r2yxj.dx <span class='op'>=</span> <span class='va'>r2yxj.dx</span>,
+                              kd <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span>,
+                              ky <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span>,
+                              bound_label <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span>, <span class='st'>"x"</span>, <span class='st'>"female"</span><span class='op'>)</span><span class='op'>)</span>
 <span class='co'># Compute manually adjusted estimates</span>
-<span class='no'>bound.values</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='adjusted_estimate.html'>adjusted_estimate</a></span>(<span class='kw'>estimate</span> <span class='kw'>=</span> <span class='fl'>0.0973</span>,
-                                 <span class='kw'>se</span> <span class='kw'>=</span> <span class='fl'>0.0232</span>,
-                                 <span class='kw'>dof</span> <span class='kw'>=</span> <span class='fl'>783</span>,
-                                 <span class='kw'>r2dz.x</span> <span class='kw'>=</span> <span class='no'>bounds</span>$<span class='no'>r2dz.x</span>,
-                                 <span class='kw'>r2yz.dx</span> <span class='kw'>=</span> <span class='no'>bounds</span>$<span class='no'>r2yz.dx</span>)
+<span class='va'>bound.values</span> <span class='op'>&lt;-</span> <span class='fu'><a href='adjusted_estimate.html'>adjusted_estimate</a></span><span class='op'>(</span>estimate <span class='op'>=</span> <span class='fl'>0.0973</span>,
+                                 se <span class='op'>=</span> <span class='fl'>0.0232</span>,
+                                 dof <span class='op'>=</span> <span class='fl'>783</span>,
+                                 r2dz.x <span class='op'>=</span> <span class='va'>bounds</span><span class='op'>$</span><span class='va'>r2dz.x</span>,
+                                 r2yz.dx <span class='op'>=</span> <span class='va'>bounds</span><span class='op'>$</span><span class='va'>r2yz.dx</span><span class='op'>)</span>
 
 <span class='co'># Plot contours and bounds</span>
-<span class='fu'><a href='ovb_contour_plot.html'>ovb_contour_plot</a></span>(<span class='kw'>estimate</span> <span class='kw'>=</span> <span class='fl'>0.0973</span>,
-                <span class='kw'>se</span> <span class='kw'>=</span> <span class='fl'>0.0232</span>,
-                <span class='kw'>dof</span> <span class='kw'>=</span> <span class='fl'>783</span>)</div><div class='input'><span class='fu'><a href='add_bound_to_contour.html'>add_bound_to_contour</a></span>(<span class='no'>bounds</span>, <span class='kw'>bound_value</span> <span class='kw'>=</span> <span class='no'>bound.values</span>)</div><div class='img'><img src='ovb_bounds-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'><a href='ovb_contour_plot.html'>ovb_contour_plot</a></span><span class='op'>(</span>estimate <span class='op'>=</span> <span class='fl'>0.0973</span>,
+                se <span class='op'>=</span> <span class='fl'>0.0232</span>,
+                dof <span class='op'>=</span> <span class='fl'>783</span><span class='op'>)</span>
+</div><div class='input'><span class='fu'><a href='add_bound_to_contour.html'>add_bound_to_contour</a></span><span class='op'>(</span><span class='va'>bounds</span>, bound_value <span class='op'>=</span> <span class='va'>bound.values</span><span class='op'>)</span>
+</div><div class='img'><img src='ovb_bounds-1.png' alt='' width='700' height='433' /></div><div class='input'>
 
 </div></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#value">Value</a></li>
-      <li><a href="#details">Details</a></li>
-      <li><a href="#references">References</a></li>
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
@@ -323,7 +335,7 @@ errors and t-values (among other quantities) need to be computed manually by the
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

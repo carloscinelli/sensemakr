@@ -10,23 +10,27 @@
 
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -46,7 +50,6 @@ voting in support of the peace referendum. The question of interest in Hazlett a
 what can be said about the causal effect of either violence (fatalities) or
 of political affiliation with Santos, recognizing that analyses of either cannot
 likely rule out all confounding." />
-<meta name="twitter:card" content="summary" />
 
 
 
@@ -74,7 +77,7 @@ likely rule out all confounding." />
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -112,8 +115,8 @@ likely rule out all confounding." />
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/chadhazlett/sensemakr">
-    <span class="fab fa fab fa-github fa-lg"></span>
+  <a href="https://github.com/chadhazlett/sensemakr/">
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -148,12 +151,12 @@ of political affiliation with Santos, recognizing that analyses of either cannot
 likely rule out all confounding.</p>
     </div>
 
-    <pre class="usage"><span class='no'>colombia</span></pre>
+    <pre class="usage"><span class='va'>colombia</span></pre>
 
 
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>A data frame with 1123 rows and 16 columns.</p><dl class='dl-horizontal'>
+    <p>A data frame with 1123 rows and 16 columns.</p><dl>
   <dt>department</dt><dd><p>Name for the provincial level unit, called departments or departmentos, of which there are 32 in the country.</p></dd>
   <dt>dept_code</dt><dd><p>Short code for the department</p></dd>
   <dt>town</dt><dd><p>Name for the town, which is the smallest electoral unit available and is the unit of analysis.</p></dd>
@@ -172,49 +175,53 @@ likely rule out all confounding.</p>
   <dt>fat_2010to2013</dt><dd><p>Sum of fatalities due to FARC in the town in 2010 to 2013 (from GTD).</p></dd>
 
 </dl>
+
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Hazlett, C., and Parente, F. (2020). "Who supports peace with the FARC? A sensitivity-based approach under imperfect identification"</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># loads data</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>colombia</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>colombia</span><span class='op'>)</span>
 
 <span class='co'>#-----------------------------------------------------</span>
 <span class='co'># Violence Models</span>
 <span class='co'>#-----------------------------------------------------</span>
 
 <span class='co'>### Model 1 (bivariate)</span>
-<span class='no'>model1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='no'>yes_vote</span> ~ <span class='no'>fat_2001to2005_gtd</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>colombia</span>)
+<span class='va'>model1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>yes_vote</span> <span class='op'>~</span> <span class='va'>fat_2001to2005_gtd</span>, data <span class='op'>=</span> <span class='va'>colombia</span><span class='op'>)</span>
 
 <span class='co'>### Model 2 (more controls, and lagged violence.)</span>
-<span class='no'>model2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='no'>yes_vote</span> ~ <span class='no'>fat_2001to2005_gtd</span> + <span class='no'>fat_2006to2010_gtd</span> +
-               <span class='no'>fat_2011to2015_gtd</span> + <span class='no'>total_eligible</span> + <span class='no'>santos10</span> + <span class='no'>gdppc</span> ,
-             <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>colombia</span>)
+<span class='va'>model2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>yes_vote</span> <span class='op'>~</span> <span class='va'>fat_2001to2005_gtd</span> <span class='op'>+</span> <span class='va'>fat_2006to2010_gtd</span> <span class='op'>+</span>
+               <span class='va'>fat_2011to2015_gtd</span> <span class='op'>+</span> <span class='va'>total_eligible</span> <span class='op'>+</span> <span class='va'>santos10</span> <span class='op'>+</span> <span class='va'>gdppc</span> ,
+             data <span class='op'>=</span> <span class='va'>colombia</span><span class='op'>)</span>
 
 <span class='co'>### Sensitivity analysis - Model 2, for effect of most recent violence.</span>
-<span class='no'>sense.model2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='sensemakr.html'>sensemakr</a></span>(<span class='no'>model2</span>,
-                          <span class='kw'>treatment</span> <span class='kw'>=</span> <span class='st'>"fat_2011to2015_gtd"</span>,
-                          <span class='kw'>benchmark</span> <span class='kw'>=</span> <span class='st'>"santos10"</span>,
-                          <span class='kw'>kd</span> <span class='kw'>=</span> <span class='fl'>1</span>)
+<span class='va'>sense.model2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='sensemakr.html'>sensemakr</a></span><span class='op'>(</span><span class='va'>model2</span>,
+                          treatment <span class='op'>=</span> <span class='st'>"fat_2011to2015_gtd"</span>,
+                          benchmark <span class='op'>=</span> <span class='st'>"santos10"</span>,
+                          kd <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>
 
 <span class='co'>### contour plot point estimate</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>sense.model2</span>)</div><div class='img'><img src='colombia-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>sense.model2</span><span class='op'>)</span>
+</div><div class='img'><img src='colombia-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'>### contour plot t-value</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>sense.model2</span>, <span class='kw'>sensitivity.of</span> <span class='kw'>=</span> <span class='st'>"t-value"</span>)</div><div class='img'><img src='colombia-2.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>sense.model2</span>, sensitivity.of <span class='op'>=</span> <span class='st'>"t-value"</span><span class='op'>)</span>
+</div><div class='img'><img src='colombia-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'>#---------------------------------------------</span>
 <span class='co'># Political Affiliation Model</span>
 <span class='co'>#---------------------------------------------</span>
 
 <span class='co'>### Model 3: santos2014 as measure of political support for Santos, with control variables.</span>
-<span class='no'>model3</span>  <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='no'>yes_vote</span> ~ <span class='no'>santos14</span> + <span class='no'>fat_2010to2013</span> + <span class='no'>elev</span> + <span class='no'>gdppc</span> + <span class='no'>pop13</span>,
-              <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>colombia</span>)
+<span class='va'>model3</span>  <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>yes_vote</span> <span class='op'>~</span> <span class='va'>santos14</span> <span class='op'>+</span> <span class='va'>fat_2010to2013</span> <span class='op'>+</span> <span class='va'>elev</span> <span class='op'>+</span> <span class='va'>gdppc</span> <span class='op'>+</span> <span class='va'>pop13</span>,
+              data <span class='op'>=</span> <span class='va'>colombia</span><span class='op'>)</span>
 
 <span class='co'>### Sensitivity analysis - Model 3</span>
-<span class='no'>sense.model3</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='sensemakr.html'>sensemakr</a></span>(<span class='no'>model3</span>, <span class='kw'>treatment</span> <span class='kw'>=</span> <span class='st'>"santos14"</span>,
-                          <span class='kw'>benchmark</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"gdppc"</span>,<span class='st'>"elev"</span>),
-                          <span class='kw'>kd</span> <span class='kw'>=</span> <span class='fl'>3</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>sense.model3</span>)</div><div class='output co'>#&gt; Sensitivity Analysis to Unobserved Confounding
+<span class='va'>sense.model3</span> <span class='op'>&lt;-</span> <span class='fu'><a href='sensemakr.html'>sensemakr</a></span><span class='op'>(</span><span class='va'>model3</span>, treatment <span class='op'>=</span> <span class='st'>"santos14"</span>,
+                          benchmark <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"gdppc"</span>,<span class='st'>"elev"</span><span class='op'>)</span>,
+                          kd <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>sense.model3</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; Sensitivity Analysis to Unobserved Confounding
 #&gt; 
 #&gt; Model Formula: yes_vote ~ santos14 + fat_2010to2013 + elev + gdppc + pop13
 #&gt; 
@@ -251,19 +258,17 @@ likely rule out all confounding.</p>
 #&gt;             0.6015            0.6733
 #&gt;             0.5648            0.7111</div><div class='input'>
 <span class='co'>### contour plot point estimate</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>sense.model3</span>, <span class='kw'>lim</span> <span class='kw'>=</span> <span class='fl'>.9</span>)</div><div class='img'><img src='colombia-3.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>sense.model3</span>, lim <span class='op'>=</span> <span class='fl'>.9</span><span class='op'>)</span>
+</div><div class='img'><img src='colombia-3.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'>### contour plot t-value</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>sense.model3</span>, <span class='kw'>sensitivity.of</span> <span class='kw'>=</span> <span class='st'>"t-value"</span>, <span class='kw'>lim</span> <span class='kw'>=</span> <span class='fl'>0.9</span>)</div><div class='img'><img src='colombia-4.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>sense.model3</span>, sensitivity.of <span class='op'>=</span> <span class='st'>"t-value"</span>, lim <span class='op'>=</span> <span class='fl'>0.9</span><span class='op'>)</span>
+</div><div class='img'><img src='colombia-4.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#format">Format</a></li>
-      <li><a href="#references">References</a></li>
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
@@ -274,7 +279,7 @@ likely rule out all confounding.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

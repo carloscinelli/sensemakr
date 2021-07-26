@@ -10,23 +10,27 @@
 
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -39,7 +43,6 @@
 <meta property="og:description" content="This function performs sensitivity analysis to omitted variables as discussed in Cinelli and Hazlett (2020). It returns an object of
 class sensemakr with several pre-computed sensitivity statistics for reporting.
 After running sensemakr you may directly use the plot, print and summary methods in the returned object." />
-<meta name="twitter:card" content="summary" />
 
 
 
@@ -67,7 +70,7 @@ After running sensemakr you may directly use the plot, print and summary methods
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -105,8 +108,8 @@ After running sensemakr you may directly use the plot, print and summary methods
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/chadhazlett/sensemakr">
-    <span class="fab fa fab fa-github fa-lg"></span>
+  <a href="https://github.com/chadhazlett/sensemakr/">
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -134,60 +137,60 @@ class <code>sensemakr</code> with several pre-computed sensitivity statistics fo
 After running <code>sensemakr</code> you may directly use the <code>plot</code>, <code>print</code> and <code>summary</code> methods in the returned object.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>sensemakr</span>(<span class='no'>...</span>)
+    <pre class="usage"><span class='fu'>sensemakr</span><span class='op'>(</span><span class='va'>...</span><span class='op'>)</span>
 
 <span class='co'># S3 method for lm</span>
-<span class='fu'>sensemakr</span>(
-  <span class='no'>model</span>,
-  <span class='no'>treatment</span>,
-  <span class='kw'>benchmark_covariates</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>kd</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>ky</span> <span class='kw'>=</span> <span class='no'>kd</span>,
-  <span class='kw'>q</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>0.05</span>,
-  <span class='kw'>r2dz.x</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>r2yz.dx</span> <span class='kw'>=</span> <span class='no'>r2dz.x</span>,
-  <span class='kw'>bound_label</span> <span class='kw'>=</span> <span class='st'>"Manual Bound"</span>,
-  <span class='kw'>reduce</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='no'>...</span>
-)
+<span class='fu'>sensemakr</span><span class='op'>(</span>
+  <span class='va'>model</span>,
+  <span class='va'>treatment</span>,
+  benchmark_covariates <span class='op'>=</span> <span class='cn'>NULL</span>,
+  kd <span class='op'>=</span> <span class='fl'>1</span>,
+  ky <span class='op'>=</span> <span class='va'>kd</span>,
+  q <span class='op'>=</span> <span class='fl'>1</span>,
+  alpha <span class='op'>=</span> <span class='fl'>0.05</span>,
+  r2dz.x <span class='op'>=</span> <span class='cn'>NULL</span>,
+  r2yz.dx <span class='op'>=</span> <span class='va'>r2dz.x</span>,
+  bound_label <span class='op'>=</span> <span class='st'>"Manual Bound"</span>,
+  reduce <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span>
 
 <span class='co'># S3 method for formula</span>
-<span class='fu'>sensemakr</span>(
-  <span class='no'>formula</span>,
-  <span class='no'>data</span>,
-  <span class='no'>treatment</span>,
-  <span class='kw'>benchmark_covariates</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>kd</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>ky</span> <span class='kw'>=</span> <span class='no'>kd</span>,
-  <span class='kw'>q</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>0.05</span>,
-  <span class='kw'>r2dz.x</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>r2yz.dx</span> <span class='kw'>=</span> <span class='no'>r2dz.x</span>,
-  <span class='kw'>bound_label</span> <span class='kw'>=</span> <span class='st'>""</span>,
-  <span class='kw'>reduce</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='no'>...</span>
-)
+<span class='fu'>sensemakr</span><span class='op'>(</span>
+  <span class='va'>formula</span>,
+  <span class='va'>data</span>,
+  <span class='va'>treatment</span>,
+  benchmark_covariates <span class='op'>=</span> <span class='cn'>NULL</span>,
+  kd <span class='op'>=</span> <span class='fl'>1</span>,
+  ky <span class='op'>=</span> <span class='va'>kd</span>,
+  q <span class='op'>=</span> <span class='fl'>1</span>,
+  alpha <span class='op'>=</span> <span class='fl'>0.05</span>,
+  r2dz.x <span class='op'>=</span> <span class='cn'>NULL</span>,
+  r2yz.dx <span class='op'>=</span> <span class='va'>r2dz.x</span>,
+  bound_label <span class='op'>=</span> <span class='st'>""</span>,
+  reduce <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span>
 
 <span class='co'># S3 method for numeric</span>
-<span class='fu'>sensemakr</span>(
-  <span class='no'>estimate</span>,
-  <span class='no'>se</span>,
-  <span class='no'>dof</span>,
-  <span class='kw'>treatment</span> <span class='kw'>=</span> <span class='st'>"D"</span>,
-  <span class='kw'>q</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>0.05</span>,
-  <span class='kw'>r2dz.x</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>r2yz.dx</span> <span class='kw'>=</span> <span class='no'>r2dz.x</span>,
-  <span class='kw'>bound_label</span> <span class='kw'>=</span> <span class='st'>"manual_bound"</span>,
-  <span class='kw'>r2dxj.x</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>r2yxj.dx</span> <span class='kw'>=</span> <span class='no'>r2dxj.x</span>,
-  <span class='kw'>benchmark_covariates</span> <span class='kw'>=</span> <span class='st'>"manual_benchmark"</span>,
-  <span class='kw'>kd</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>ky</span> <span class='kw'>=</span> <span class='no'>kd</span>,
-  <span class='kw'>reduce</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='no'>...</span>
-)</pre>
+<span class='fu'>sensemakr</span><span class='op'>(</span>
+  <span class='va'>estimate</span>,
+  <span class='va'>se</span>,
+  <span class='va'>dof</span>,
+  treatment <span class='op'>=</span> <span class='st'>"D"</span>,
+  q <span class='op'>=</span> <span class='fl'>1</span>,
+  alpha <span class='op'>=</span> <span class='fl'>0.05</span>,
+  r2dz.x <span class='op'>=</span> <span class='cn'>NULL</span>,
+  r2yz.dx <span class='op'>=</span> <span class='va'>r2dz.x</span>,
+  bound_label <span class='op'>=</span> <span class='st'>"manual_bound"</span>,
+  r2dxj.x <span class='op'>=</span> <span class='cn'>NULL</span>,
+  r2yxj.dx <span class='op'>=</span> <span class='va'>r2dxj.x</span>,
+  benchmark_covariates <span class='op'>=</span> <span class='st'>"manual_benchmark"</span>,
+  kd <span class='op'>=</span> <span class='fl'>1</span>,
+  ky <span class='op'>=</span> <span class='va'>kd</span>,
+  reduce <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -281,7 +284,7 @@ absolute value of the estimated coefficient? Default is <code>TRUE</code>.</p></
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>An object of class <code>sensemakr</code>, containing:</p><dl class='dl-horizontal'>
+    <p>An object of class <code>sensemakr</code>, containing:</p><dl>
  <dt> <code>info</code> </dt><dd><p>A <code>data.frame</code> with the general information of the analysis, including the formula used, the name of the treatment variable, parameter values such as <code>q</code>, <code>alpha</code>, and whether the bias is assumed to reduce the current estimate.</p></dd>
  <dt> <code>sensitivity_stats</code> </dt><dd><p>A <code>data.frame</code> with the sensitivity statistics for the treatment variable, as computed by the function <code><a href='sensitivity_stats.html'>sensitivity_stats</a></code>.</p></dd>
  <dt> <code>bounds</code> </dt><dd><p>A <code>data.frame</code> with bounds on the strength of confounding according to some benchmark covariates, as computed by the function <code><a href='ovb_bounds.html'>ovb_bounds</a></code>.</p></dd>
@@ -300,18 +303,19 @@ of unobserved confounders (<code><a href='ovb_bounds.html'>ovb_bounds</a></code>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># loads dataset</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"darfur"</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"darfur"</span><span class='op'>)</span>
 
 <span class='co'># runs regression model</span>
-<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='no'>peacefactor</span> ~ <span class='no'>directlyharmed</span> + <span class='no'>age</span> + <span class='no'>farmer_dar</span> + <span class='no'>herder_dar</span> +
-                         <span class='no'>pastvoted</span> + <span class='no'>hhsize_darfur</span> + <span class='no'>female</span> + <span class='no'>village</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>darfur</span>)
+<span class='va'>model</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>peacefactor</span> <span class='op'>~</span> <span class='va'>directlyharmed</span> <span class='op'>+</span> <span class='va'>age</span> <span class='op'>+</span> <span class='va'>farmer_dar</span> <span class='op'>+</span> <span class='va'>herder_dar</span> <span class='op'>+</span>
+                         <span class='va'>pastvoted</span> <span class='op'>+</span> <span class='va'>hhsize_darfur</span> <span class='op'>+</span> <span class='va'>female</span> <span class='op'>+</span> <span class='va'>village</span>, data <span class='op'>=</span> <span class='va'>darfur</span><span class='op'>)</span>
 
 <span class='co'># runs sensemakr for sensitivity analysis</span>
-<span class='no'>sensitivity</span> <span class='kw'>&lt;-</span> <span class='fu'>sensemakr</span>(<span class='no'>model</span>, <span class='kw'>treatment</span> <span class='kw'>=</span> <span class='st'>"directlyharmed"</span>,
-                               <span class='kw'>benchmark_covariates</span> <span class='kw'>=</span> <span class='st'>"female"</span>,
-                               <span class='kw'>kd</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>3</span>)
+<span class='va'>sensitivity</span> <span class='op'>&lt;-</span> <span class='fu'>sensemakr</span><span class='op'>(</span><span class='va'>model</span>, treatment <span class='op'>=</span> <span class='st'>"directlyharmed"</span>,
+                               benchmark_covariates <span class='op'>=</span> <span class='st'>"female"</span>,
+                               kd <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span><span class='op'>)</span>
 <span class='co'># short description of results</span>
-<span class='no'>sensitivity</span></div><div class='output co'>#&gt; Sensitivity Analysis to Unobserved Confounding
+<span class='va'>sensitivity</span>
+</div><div class='output co'>#&gt; Sensitivity Analysis to Unobserved Confounding
 #&gt; 
 #&gt; Model Formula: peacefactor ~ directlyharmed + age + farmer_dar + herder_dar + 
 #&gt;     pastvoted + hhsize_darfur + female + village
@@ -330,7 +334,8 @@ of unobserved confounders (<code><a href='ovb_bounds.html'>ovb_bounds</a></code>
 #&gt; 
 #&gt; For more information, check summary.</div><div class='input'>
 <span class='co'># long description of results</span>
-<span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>sensitivity</span>)</div><div class='output co'>#&gt; Sensitivity Analysis to Unobserved Confounding
+<span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>sensitivity</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; Sensitivity Analysis to Unobserved Confounding
 #&gt; 
 #&gt; Model Formula: peacefactor ~ directlyharmed + age + farmer_dar + herder_dar + 
 #&gt;     pastvoted + hhsize_darfur + female + village
@@ -370,13 +375,17 @@ of unobserved confounders (<code><a href='ovb_bounds.html'>ovb_bounds</a></code>
 #&gt;      2.6002            0.0130            0.0929
 #&gt;      1.6281           -0.0063            0.0670</div><div class='input'>
 <span class='co'># plot bias contour of point estimate</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>sensitivity</span>)</div><div class='img'><img src='sensemakr-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>sensitivity</span><span class='op'>)</span>
+</div><div class='img'><img src='sensemakr-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># plot bias contour of t-value</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>sensitivity</span>, <span class='kw'>sensitivity.of</span> <span class='kw'>=</span> <span class='st'>"t-value"</span>)</div><div class='img'><img src='sensemakr-2.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>sensitivity</span>, sensitivity.of <span class='op'>=</span> <span class='st'>"t-value"</span><span class='op'>)</span>
+</div><div class='img'><img src='sensemakr-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># plot extreme scenario</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>sensitivity</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"extreme"</span>)</div><div class='img'><img src='sensemakr-3.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>sensitivity</span>, type <span class='op'>=</span> <span class='st'>"extreme"</span><span class='op'>)</span>
+</div><div class='img'><img src='sensemakr-3.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># latex code for sensitivity table</span>
-<span class='fu'><a href='print.sensemakr.html'>ovb_minimal_reporting</a></span>(<span class='no'>sensitivity</span>)</div><div class='output co'>#&gt; \begin{table}[!h]
+<span class='fu'><a href='print.sensemakr.html'>ovb_minimal_reporting</a></span><span class='op'>(</span><span class='va'>sensitivity</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; \begin{table}[!h]
 #&gt; \centering
 #&gt; \begin{tabular}{lrrrrrr}
 #&gt; \multicolumn{7}{c}{Outcome: \textit{peacefactor}} \\
@@ -390,16 +399,10 @@ of unobserved confounders (<code><a href='ovb_bounds.html'>ovb_bounds</a></code>
 #&gt; \end{table}</div><div class='input'>
 </div></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#value">Value</a></li>
-      <li><a href="#references">References</a></li>
-      <li><a href="#see-also">See also</a></li>
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
@@ -410,7 +413,7 @@ of unobserved confounders (<code><a href='ovb_bounds.html'>ovb_bounds</a></code>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

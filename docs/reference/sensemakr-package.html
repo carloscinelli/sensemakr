@@ -10,23 +10,27 @@
 
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -38,7 +42,6 @@
 <meta property="og:title" content="Sensemakr: extending omitted variable bias — sensemakr-package" />
 <meta property="og:description" content="The sensemakr package implements a suite of sensitivity analysis tools that makes it easier to
 understand the impact of omitted variables in linear regression models, as discussed in Cinelli and Hazlett (2020)." />
-<meta name="twitter:card" content="summary" />
 
 
 
@@ -66,7 +69,7 @@ understand the impact of omitted variables in linear regression models, as discu
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -104,8 +107,8 @@ understand the impact of omitted variables in linear regression models, as discu
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/chadhazlett/sensemakr">
-    <span class="fab fa fab fa-github fa-lg"></span>
+  <a href="https://github.com/chadhazlett/sensemakr/">
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -150,18 +153,19 @@ of unobserved confounders (<code><a href='ovb_bounds.html'>ovb_bounds</a></code>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
 <span class='co'># loads dataset</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"darfur"</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"darfur"</span><span class='op'>)</span>
 
 <span class='co'># runs regression model</span>
-<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='no'>peacefactor</span> ~ <span class='no'>directlyharmed</span> + <span class='no'>age</span> + <span class='no'>farmer_dar</span> + <span class='no'>herder_dar</span> +
-              <span class='no'>pastvoted</span> + <span class='no'>hhsize_darfur</span> + <span class='no'>female</span> + <span class='no'>village</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>darfur</span>)
+<span class='va'>model</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>peacefactor</span> <span class='op'>~</span> <span class='va'>directlyharmed</span> <span class='op'>+</span> <span class='va'>age</span> <span class='op'>+</span> <span class='va'>farmer_dar</span> <span class='op'>+</span> <span class='va'>herder_dar</span> <span class='op'>+</span>
+              <span class='va'>pastvoted</span> <span class='op'>+</span> <span class='va'>hhsize_darfur</span> <span class='op'>+</span> <span class='va'>female</span> <span class='op'>+</span> <span class='va'>village</span>, data <span class='op'>=</span> <span class='va'>darfur</span><span class='op'>)</span>
 
 <span class='co'># runs sensemakr for sensitivity analysis</span>
-<span class='no'>sensitivity</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='sensemakr.html'>sensemakr</a></span>(<span class='no'>model</span>, <span class='kw'>treatment</span> <span class='kw'>=</span> <span class='st'>"directlyharmed"</span>,
-                         <span class='kw'>benchmark_covariates</span> <span class='kw'>=</span> <span class='st'>"female"</span>,
-                         <span class='kw'>kd</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>3</span>)
+<span class='va'>sensitivity</span> <span class='op'>&lt;-</span> <span class='fu'><a href='sensemakr.html'>sensemakr</a></span><span class='op'>(</span><span class='va'>model</span>, treatment <span class='op'>=</span> <span class='st'>"directlyharmed"</span>,
+                         benchmark_covariates <span class='op'>=</span> <span class='st'>"female"</span>,
+                         kd <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span><span class='op'>)</span>
 <span class='co'># short description of results</span>
-<span class='no'>sensitivity</span></div><div class='output co'>#&gt; Sensitivity Analysis to Unobserved Confounding
+<span class='va'>sensitivity</span>
+</div><div class='output co'>#&gt; Sensitivity Analysis to Unobserved Confounding
 #&gt; 
 #&gt; Model Formula: peacefactor ~ directlyharmed + age + farmer_dar + herder_dar + 
 #&gt;     pastvoted + hhsize_darfur + female + village
@@ -180,7 +184,8 @@ of unobserved confounders (<code><a href='ovb_bounds.html'>ovb_bounds</a></code>
 #&gt; 
 #&gt; For more information, check summary.</div><div class='input'>
 <span class='co'># long description of results</span>
-<span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>sensitivity</span>)</div><div class='output co'>#&gt; Sensitivity Analysis to Unobserved Confounding
+<span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>sensitivity</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; Sensitivity Analysis to Unobserved Confounding
 #&gt; 
 #&gt; Model Formula: peacefactor ~ directlyharmed + age + farmer_dar + herder_dar + 
 #&gt;     pastvoted + hhsize_darfur + female + village
@@ -220,13 +225,17 @@ of unobserved confounders (<code><a href='ovb_bounds.html'>ovb_bounds</a></code>
 #&gt;      2.6002            0.0130            0.0929
 #&gt;      1.6281           -0.0063            0.0670</div><div class='input'>
 <span class='co'># plot bias contour of point estimate</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>sensitivity</span>)</div><div class='img'><img src='sensemakr-package-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>sensitivity</span><span class='op'>)</span>
+</div><div class='img'><img src='sensemakr-package-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># plot bias contour of t-value</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>sensitivity</span>, <span class='kw'>sensitivity.of</span> <span class='kw'>=</span> <span class='st'>"t-value"</span>)</div><div class='img'><img src='sensemakr-package-2.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>sensitivity</span>, sensitivity.of <span class='op'>=</span> <span class='st'>"t-value"</span><span class='op'>)</span>
+</div><div class='img'><img src='sensemakr-package-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># plot extreme scenario</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>sensitivity</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"extreme"</span>)</div><div class='img'><img src='sensemakr-package-3.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>sensitivity</span>, type <span class='op'>=</span> <span class='st'>"extreme"</span><span class='op'>)</span>
+</div><div class='img'><img src='sensemakr-package-3.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># latex code for sensitivity table</span>
-<span class='fu'><a href='print.sensemakr.html'>ovb_minimal_reporting</a></span>(<span class='no'>sensitivity</span>)</div><div class='output co'>#&gt; \begin{table}[!h]
+<span class='fu'><a href='print.sensemakr.html'>ovb_minimal_reporting</a></span><span class='op'>(</span><span class='va'>sensitivity</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; \begin{table}[!h]
 #&gt; \centering
 #&gt; \begin{tabular}{lrrrrrr}
 #&gt; \multicolumn{7}{c}{Outcome: \textit{peacefactor}} \\
@@ -239,12 +248,14 @@ of unobserved confounders (<code><a href='ovb_bounds.html'>ovb_bounds</a></code>
 #&gt; \end{tabular}
 #&gt; \end{table}</div><div class='input'>
 <span class='co'># data.frame with sensitivity statistics</span>
-<span class='no'>sensitivity</span>$<span class='no'>sensitivity_stats</span></div><div class='output co'>#&gt;        treatment   estimate         se t_statistic     r2yd.x      rv_q
+<span class='va'>sensitivity</span><span class='op'>$</span><span class='va'>sensitivity_stats</span>
+</div><div class='output co'>#&gt;        treatment   estimate         se t_statistic     r2yd.x      rv_q
 #&gt; 1 directlyharmed 0.09731582 0.02325654     4.18445 0.02187309 0.1387764
 #&gt;        rv_qa     f2yd.x dof
 #&gt; 1 0.07625797 0.02236222 783</div><div class='input'>
 <span class='co'>#  data.frame with bounds on the strengh of confounders</span>
-<span class='no'>sensitivity</span>$<span class='no'>bounds</span></div><div class='output co'>#&gt;   bound_label      r2dz.x   r2yz.dx      treatment adjusted_estimate
+<span class='va'>sensitivity</span><span class='op'>$</span><span class='va'>bounds</span>
+</div><div class='output co'>#&gt;   bound_label      r2dz.x   r2yz.dx      treatment adjusted_estimate
 #&gt; 1   1x female 0.009164287 0.1246409 directlyharmed        0.07522027
 #&gt; 2   2x female 0.018328573 0.2493241 directlyharmed        0.05291517
 #&gt; 3   3x female 0.027492860 0.3740505 directlyharmed        0.03039602
@@ -255,33 +266,40 @@ of unobserved confounders (<code><a href='ovb_bounds.html'>ovb_bounds</a></code>
 <span class='co'>### Using sensitivity functions directly ###</span>
 
 <span class='co'># robustness value of directly harmed q = 1 (reduce estimate to zero)</span>
-<span class='fu'><a href='robustness_value.html'>robustness_value</a></span>(<span class='no'>model</span>, <span class='kw'>covariates</span> <span class='kw'>=</span> <span class='st'>"directlyharmed"</span>)</div><div class='output co'>#&gt; directlyharmed 
+<span class='fu'><a href='robustness_value.html'>robustness_value</a></span><span class='op'>(</span><span class='va'>model</span>, covariates <span class='op'>=</span> <span class='st'>"directlyharmed"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; directlyharmed 
 #&gt;      0.1387764 
 #&gt; Parameters: q = 1, alpha = 1 </div><div class='input'>
 <span class='co'># robustness value of directly harmed q = 1/2 (reduce estimate in half)</span>
-<span class='fu'><a href='robustness_value.html'>robustness_value</a></span>(<span class='no'>model</span>, <span class='kw'>covariates</span> <span class='kw'>=</span> <span class='st'>"directlyharmed"</span>, <span class='kw'>q</span> <span class='kw'>=</span> <span class='fl'>1</span>/<span class='fl'>2</span>)</div><div class='output co'>#&gt; directlyharmed 
+<span class='fu'><a href='robustness_value.html'>robustness_value</a></span><span class='op'>(</span><span class='va'>model</span>, covariates <span class='op'>=</span> <span class='st'>"directlyharmed"</span>, q <span class='op'>=</span> <span class='fl'>1</span><span class='op'>/</span><span class='fl'>2</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; directlyharmed 
 #&gt;     0.07202698 
 #&gt; Parameters: q = 0.5, alpha = 1 </div><div class='input'>
 <span class='co'># robustness value of directly harmed q = 1/2, alpha = 0.05</span>
-<span class='fu'><a href='robustness_value.html'>robustness_value</a></span>(<span class='no'>model</span>, <span class='kw'>covariates</span> <span class='kw'>=</span> <span class='st'>"directlyharmed"</span>, <span class='kw'>q</span> <span class='kw'>=</span> <span class='fl'>1</span>/<span class='fl'>2</span>, <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>0.05</span>)</div><div class='output co'>#&gt; directlyharmed 
+<span class='fu'><a href='robustness_value.html'>robustness_value</a></span><span class='op'>(</span><span class='va'>model</span>, covariates <span class='op'>=</span> <span class='st'>"directlyharmed"</span>, q <span class='op'>=</span> <span class='fl'>1</span><span class='op'>/</span><span class='fl'>2</span>, alpha <span class='op'>=</span> <span class='fl'>0.05</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; directlyharmed 
 #&gt;    0.004562761 
 #&gt; Parameters: q = 0.5, alpha = 0.05 </div><div class='input'>
 <span class='co'># partial R2 of directly harmed with peacefactor</span>
-<span class='fu'><a href='partial_r2.html'>partial_r2</a></span>(<span class='no'>model</span>, <span class='kw'>covariates</span> <span class='kw'>=</span> <span class='st'>"directlyharmed"</span>)</div><div class='output co'>#&gt; directlyharmed 
+<span class='fu'><a href='partial_r2.html'>partial_r2</a></span><span class='op'>(</span><span class='va'>model</span>, covariates <span class='op'>=</span> <span class='st'>"directlyharmed"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; directlyharmed 
 #&gt;     0.02187309 </div><div class='input'>
 <span class='co'># partial R2 of female with peacefactor</span>
-<span class='fu'><a href='partial_r2.html'>partial_r2</a></span>(<span class='no'>model</span>, <span class='kw'>covariates</span> <span class='kw'>=</span> <span class='st'>"female"</span>)</div><div class='output co'>#&gt;    female 
+<span class='fu'><a href='partial_r2.html'>partial_r2</a></span><span class='op'>(</span><span class='va'>model</span>, covariates <span class='op'>=</span> <span class='st'>"female"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;    female 
 #&gt; 0.1090339 </div><div class='input'>
 <span class='co'># data.frame with sensitivity statistics</span>
-<span class='fu'><a href='sensitivity_stats.html'>sensitivity_stats</a></span>(<span class='no'>model</span>, <span class='kw'>treatment</span> <span class='kw'>=</span> <span class='st'>"directlyharmed"</span>)</div><div class='output co'>#&gt;        treatment   estimate         se t_statistic     r2yd.x      rv_q
+<span class='fu'><a href='sensitivity_stats.html'>sensitivity_stats</a></span><span class='op'>(</span><span class='va'>model</span>, treatment <span class='op'>=</span> <span class='st'>"directlyharmed"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;        treatment   estimate         se t_statistic     r2yd.x      rv_q
 #&gt; 1 directlyharmed 0.09731582 0.02325654     4.18445 0.02187309 0.1387764
 #&gt;        rv_qa     f2yd.x dof
 #&gt; 1 0.07625797 0.02236222 783</div><div class='input'>
 <span class='co'># bounds on the strength of confounders using female and age</span>
-<span class='fu'><a href='ovb_bounds.html'>ovb_bounds</a></span>(<span class='no'>model</span>,
-           <span class='kw'>treatment</span> <span class='kw'>=</span> <span class='st'>"directlyharmed"</span>,
-           <span class='kw'>benchmark_covariates</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"female"</span>, <span class='st'>"age"</span>),
-           <span class='kw'>kd</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>3</span>)</div><div class='output co'>#&gt;   bound_label      r2dz.x     r2yz.dx      treatment adjusted_estimate
+<span class='fu'><a href='ovb_bounds.html'>ovb_bounds</a></span><span class='op'>(</span><span class='va'>model</span>,
+           treatment <span class='op'>=</span> <span class='st'>"directlyharmed"</span>,
+           benchmark_covariates <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"female"</span>, <span class='st'>"age"</span><span class='op'>)</span>,
+           kd <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;   bound_label      r2dz.x     r2yz.dx      treatment adjusted_estimate
 #&gt; 1   1x female 0.009164287 0.124640923 directlyharmed        0.07522027
 #&gt; 2   2x female 0.018328573 0.249324064 directlyharmed        0.05291517
 #&gt; 3   3x female 0.027492860 0.374050471 directlyharmed        0.03039602
@@ -296,30 +314,30 @@ of unobserved confounders (<code><a href='ovb_bounds.html'>ovb_bounds</a></code>
 #&gt; 5  0.02310779   4.041698       0.048034163        0.13875527
 #&gt; 6  0.02302527   3.970892       0.046232296        0.13662943</div><div class='input'>
 <span class='co'># adjusted estimate given hypothetical strength of confounder</span>
-<span class='fu'><a href='adjusted_estimate.html'>adjusted_estimate</a></span>(<span class='no'>model</span>, <span class='kw'>treatment</span> <span class='kw'>=</span> <span class='st'>"directlyharmed"</span>, <span class='kw'>r2dz.x</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>r2yz.dx</span> <span class='kw'>=</span> <span class='fl'>0.1</span>)</div><div class='output co'>#&gt; directlyharmed 
+<span class='fu'><a href='adjusted_estimate.html'>adjusted_estimate</a></span><span class='op'>(</span><span class='va'>model</span>, treatment <span class='op'>=</span> <span class='st'>"directlyharmed"</span>, r2dz.x <span class='op'>=</span> <span class='fl'>0.1</span>, r2yz.dx <span class='op'>=</span> <span class='fl'>0.1</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; directlyharmed 
 #&gt;     0.02871889 </div><div class='input'>
 <span class='co'># adjusted t-value given hypothetical strength of confounder</span>
-<span class='fu'><a href='adjusted_estimate.html'>adjusted_t</a></span>(<span class='no'>model</span>, <span class='kw'>treatment</span> <span class='kw'>=</span> <span class='st'>"directlyharmed"</span>, <span class='kw'>r2dz.x</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>r2yz.dx</span> <span class='kw'>=</span> <span class='fl'>0.1</span>)</div><div class='output co'>#&gt; [1] 1.234085
+<span class='fu'><a href='adjusted_estimate.html'>adjusted_t</a></span><span class='op'>(</span><span class='va'>model</span>, treatment <span class='op'>=</span> <span class='st'>"directlyharmed"</span>, r2dz.x <span class='op'>=</span> <span class='fl'>0.1</span>, r2yz.dx <span class='op'>=</span> <span class='fl'>0.1</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 1.234085
 #&gt; H0:tau = 0</div><div class='input'>
 <span class='co'># bias contour plot directly from lm model</span>
-<span class='fu'><a href='ovb_contour_plot.html'>ovb_contour_plot</a></span>(<span class='no'>model</span>,
-                 <span class='kw'>treatment</span> <span class='kw'>=</span> <span class='st'>"directlyharmed"</span>,
-                 <span class='kw'>benchmark_covariates</span> <span class='kw'>=</span> <span class='st'>"female"</span>,
-                 <span class='kw'>kd</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>3</span>)</div><div class='img'><img src='sensemakr-package-4.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'><a href='ovb_contour_plot.html'>ovb_contour_plot</a></span><span class='op'>(</span><span class='va'>model</span>,
+                 treatment <span class='op'>=</span> <span class='st'>"directlyharmed"</span>,
+                 benchmark_covariates <span class='op'>=</span> <span class='st'>"female"</span>,
+                 kd <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span><span class='op'>)</span>
+</div><div class='img'><img src='sensemakr-package-4.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># extreme scenario plot directly from lm model</span>
-<span class='fu'><a href='ovb_extreme_plot.html'>ovb_extreme_plot</a></span>(<span class='no'>model</span>,
-                 <span class='kw'>treatment</span> <span class='kw'>=</span> <span class='st'>"directlyharmed"</span>,
-                 <span class='kw'>benchmark_covariates</span> <span class='kw'>=</span> <span class='st'>"female"</span>,
-                 <span class='kw'>kd</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>3</span>, <span class='kw'>lim</span> <span class='kw'>=</span> <span class='fl'>0.05</span>)</div><div class='img'><img src='sensemakr-package-5.png' alt='' width='700' height='433' /></div></pre>
+<span class='fu'><a href='ovb_extreme_plot.html'>ovb_extreme_plot</a></span><span class='op'>(</span><span class='va'>model</span>,
+                 treatment <span class='op'>=</span> <span class='st'>"directlyharmed"</span>,
+                 benchmark_covariates <span class='op'>=</span> <span class='st'>"female"</span>,
+                 kd <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span>, lim <span class='op'>=</span> <span class='fl'>0.05</span><span class='op'>)</span>
+</div><div class='img'><img src='sensemakr-package-5.png' alt='' width='700' height='433' /></div></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#details">Details</a></li>
-      <li><a href="#references">References</a></li>
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
@@ -330,7 +348,7 @@ of unobserved confounders (<code><a href='ovb_bounds.html'>ovb_bounds</a></code>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

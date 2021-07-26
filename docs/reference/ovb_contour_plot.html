@@ -10,23 +10,27 @@
 
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -45,7 +49,6 @@ The horizontal axis of the plot shows hypothetical values of the partial R2 of t
  The dotted red line show the chosen critical threshold (for instance, zero): confounders with such strength (or stronger) are sufficient to invalidate the research conclusions.
  All results are exact for single confounders and conservative for multiple/nonlinear confounders.
 See Cinelli and Hazlett (2020) for details." />
-<meta name="twitter:card" content="summary" />
 
 
 
@@ -73,7 +76,7 @@ See Cinelli and Hazlett (2020) for details." />
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -111,8 +114,8 @@ See Cinelli and Hazlett (2020) for details." />
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/chadhazlett/sensemakr">
-    <span class="fab fa fab fa-github fa-lg"></span>
+  <a href="https://github.com/chadhazlett/sensemakr/">
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -146,86 +149,87 @@ and the covariates used for benchmarking the strength of unobserved confounding.
 <p>See Cinelli and Hazlett (2020) for details.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>ovb_contour_plot</span>(<span class='no'>...</span>)
+    <pre class="usage"><span class='fu'>ovb_contour_plot</span><span class='op'>(</span><span class='va'>...</span><span class='op'>)</span>
 
 <span class='co'># S3 method for lm</span>
-<span class='fu'>ovb_contour_plot</span>(
-  <span class='no'>model</span>,
-  <span class='no'>treatment</span>,
-  <span class='kw'>benchmark_covariates</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>kd</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>ky</span> <span class='kw'>=</span> <span class='no'>kd</span>,
-  <span class='kw'>r2dz.x</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>r2yz.dx</span> <span class='kw'>=</span> <span class='no'>r2dz.x</span>,
-  <span class='kw'>bound_label</span> <span class='kw'>=</span> <span class='st'>"manual"</span>,
-  <span class='kw'>sensitivity.of</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"estimate"</span>, <span class='st'>"t-value"</span>),
-  <span class='kw'>reduce</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>estimate.threshold</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>t.threshold</span> <span class='kw'>=</span> <span class='fl'>2</span>,
-  <span class='kw'>nlevels</span> <span class='kw'>=</span> <span class='fl'>10</span>,
-  <span class='kw'>col.contour</span> <span class='kw'>=</span> <span class='st'>"grey40"</span>,
-  <span class='kw'>col.thr.line</span> <span class='kw'>=</span> <span class='st'>"red"</span>,
-  <span class='kw'>label.text</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>cex.label.text</span> <span class='kw'>=</span> <span class='fl'>0.7</span>,
-  <span class='kw'>round</span> <span class='kw'>=</span> <span class='fl'>3</span>,
-  <span class='no'>...</span>
-)
+<span class='fu'>ovb_contour_plot</span><span class='op'>(</span>
+  <span class='va'>model</span>,
+  <span class='va'>treatment</span>,
+  benchmark_covariates <span class='op'>=</span> <span class='cn'>NULL</span>,
+  kd <span class='op'>=</span> <span class='fl'>1</span>,
+  ky <span class='op'>=</span> <span class='va'>kd</span>,
+  r2dz.x <span class='op'>=</span> <span class='cn'>NULL</span>,
+  r2yz.dx <span class='op'>=</span> <span class='va'>r2dz.x</span>,
+  bound_label <span class='op'>=</span> <span class='st'>"manual"</span>,
+  sensitivity.of <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"estimate"</span>, <span class='st'>"t-value"</span><span class='op'>)</span>,
+  reduce <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  estimate.threshold <span class='op'>=</span> <span class='fl'>0</span>,
+  t.threshold <span class='op'>=</span> <span class='fl'>2</span>,
+  nlevels <span class='op'>=</span> <span class='fl'>10</span>,
+  col.contour <span class='op'>=</span> <span class='st'>"grey40"</span>,
+  col.thr.line <span class='op'>=</span> <span class='st'>"red"</span>,
+  label.text <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  cex.label.text <span class='op'>=</span> <span class='fl'>0.7</span>,
+  round <span class='op'>=</span> <span class='fl'>3</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span>
 
 <span class='co'># S3 method for formula</span>
-<span class='fu'>ovb_contour_plot</span>(
-  <span class='no'>formula</span>,
-  <span class='no'>data</span>,
-  <span class='no'>treatment</span>,
-  <span class='kw'>benchmark_covariates</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>kd</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>ky</span> <span class='kw'>=</span> <span class='no'>kd</span>,
-  <span class='kw'>r2dz.x</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>r2yz.dx</span> <span class='kw'>=</span> <span class='no'>r2dz.x</span>,
-  <span class='kw'>bound_label</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>sensitivity.of</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"estimate"</span>, <span class='st'>"t-value"</span>),
-  <span class='kw'>reduce</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>estimate.threshold</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>t.threshold</span> <span class='kw'>=</span> <span class='fl'>2</span>,
-  <span class='kw'>nlevels</span> <span class='kw'>=</span> <span class='fl'>10</span>,
-  <span class='kw'>col.contour</span> <span class='kw'>=</span> <span class='st'>"grey40"</span>,
-  <span class='kw'>col.thr.line</span> <span class='kw'>=</span> <span class='st'>"red"</span>,
-  <span class='kw'>label.text</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>cex.label.text</span> <span class='kw'>=</span> <span class='fl'>0.7</span>,
-  <span class='kw'>round</span> <span class='kw'>=</span> <span class='fl'>3</span>,
-  <span class='no'>...</span>
-)
+<span class='fu'>ovb_contour_plot</span><span class='op'>(</span>
+  <span class='va'>formula</span>,
+  <span class='va'>data</span>,
+  <span class='va'>treatment</span>,
+  benchmark_covariates <span class='op'>=</span> <span class='cn'>NULL</span>,
+  kd <span class='op'>=</span> <span class='fl'>1</span>,
+  ky <span class='op'>=</span> <span class='va'>kd</span>,
+  r2dz.x <span class='op'>=</span> <span class='cn'>NULL</span>,
+  r2yz.dx <span class='op'>=</span> <span class='va'>r2dz.x</span>,
+  bound_label <span class='op'>=</span> <span class='cn'>NULL</span>,
+  sensitivity.of <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"estimate"</span>, <span class='st'>"t-value"</span><span class='op'>)</span>,
+  reduce <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  estimate.threshold <span class='op'>=</span> <span class='fl'>0</span>,
+  t.threshold <span class='op'>=</span> <span class='fl'>2</span>,
+  nlevels <span class='op'>=</span> <span class='fl'>10</span>,
+  col.contour <span class='op'>=</span> <span class='st'>"grey40"</span>,
+  col.thr.line <span class='op'>=</span> <span class='st'>"red"</span>,
+  label.text <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  cex.label.text <span class='op'>=</span> <span class='fl'>0.7</span>,
+  round <span class='op'>=</span> <span class='fl'>3</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span>
 
 <span class='co'># S3 method for numeric</span>
-<span class='fu'>ovb_contour_plot</span>(
-  <span class='no'>estimate</span>,
-  <span class='no'>se</span>,
-  <span class='no'>dof</span>,
-  <span class='kw'>r2dz.x</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>r2yz.dx</span> <span class='kw'>=</span> <span class='no'>r2dz.x</span>,
-  <span class='kw'>bound_label</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='st'>"manual"</span>, <span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span>(<span class='no'>r2dz.x</span>)),
-  <span class='kw'>sensitivity.of</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"estimate"</span>, <span class='st'>"t-value"</span>),
-  <span class='kw'>reduce</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>estimate.threshold</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>t.threshold</span> <span class='kw'>=</span> <span class='fl'>2</span>,
-  <span class='kw'>lim</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>lim.y</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>nlevels</span> <span class='kw'>=</span> <span class='fl'>10</span>,
-  <span class='kw'>col.contour</span> <span class='kw'>=</span> <span class='st'>"black"</span>,
-  <span class='kw'>col.thr.line</span> <span class='kw'>=</span> <span class='st'>"red"</span>,
-  <span class='kw'>label.text</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>cex.label.text</span> <span class='kw'>=</span> <span class='fl'>0.7</span>,
-  <span class='kw'>label.bump.x</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>label.bump.y</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>xlab</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>ylab</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>cex.lab</span> <span class='kw'>=</span> <span class='fl'>0.8</span>,
-  <span class='kw'>cex.axis</span> <span class='kw'>=</span> <span class='fl'>0.8</span>,
-  <span class='kw'>cex.main</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>asp</span> <span class='kw'>=</span> <span class='no'>lim</span>/<span class='no'>lim.y</span>,
-  <span class='kw'>list.par</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>mar</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>4</span>, <span class='fl'>4</span>, <span class='fl'>1</span>, <span class='fl'>1</span>), <span class='kw'>pty</span> <span class='kw'>=</span> <span class='st'>"s"</span>),
-  <span class='kw'>round</span> <span class='kw'>=</span> <span class='fl'>3</span>,
-  <span class='no'>...</span>
-)</pre>
+<span class='fu'>ovb_contour_plot</span><span class='op'>(</span>
+  <span class='va'>estimate</span>,
+  <span class='va'>se</span>,
+  <span class='va'>dof</span>,
+  r2dz.x <span class='op'>=</span> <span class='cn'>NULL</span>,
+  r2yz.dx <span class='op'>=</span> <span class='va'>r2dz.x</span>,
+  bound_label <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='st'>"manual"</span>, <span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span><span class='op'>(</span><span class='va'>r2dz.x</span><span class='op'>)</span><span class='op'>)</span>,
+  sensitivity.of <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"estimate"</span>, <span class='st'>"t-value"</span><span class='op'>)</span>,
+  reduce <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  estimate.threshold <span class='op'>=</span> <span class='fl'>0</span>,
+  t.threshold <span class='op'>=</span> <span class='fl'>2</span>,
+  show.unadjusted <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  lim <span class='op'>=</span> <span class='cn'>NULL</span>,
+  lim.y <span class='op'>=</span> <span class='cn'>NULL</span>,
+  nlevels <span class='op'>=</span> <span class='fl'>10</span>,
+  col.contour <span class='op'>=</span> <span class='st'>"black"</span>,
+  col.thr.line <span class='op'>=</span> <span class='st'>"red"</span>,
+  label.text <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  cex.label.text <span class='op'>=</span> <span class='fl'>0.7</span>,
+  label.bump.x <span class='op'>=</span> <span class='cn'>NULL</span>,
+  label.bump.y <span class='op'>=</span> <span class='cn'>NULL</span>,
+  xlab <span class='op'>=</span> <span class='cn'>NULL</span>,
+  ylab <span class='op'>=</span> <span class='cn'>NULL</span>,
+  cex.lab <span class='op'>=</span> <span class='fl'>0.8</span>,
+  cex.axis <span class='op'>=</span> <span class='fl'>0.8</span>,
+  cex.main <span class='op'>=</span> <span class='fl'>1</span>,
+  asp <span class='op'>=</span> <span class='va'>lim</span><span class='op'>/</span><span class='va'>lim.y</span>,
+  list.par <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>mar <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>4</span>, <span class='fl'>4</span>, <span class='fl'>1</span>, <span class='fl'>1</span><span class='op'>)</span>, pty <span class='op'>=</span> <span class='st'>"s"</span><span class='op'>)</span>,
+  round <span class='op'>=</span> <span class='fl'>3</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -337,6 +341,10 @@ absolute value of the estimated coefficient? Default is <code>TRUE</code>.</p></
       <td><p>Residual degrees of freedom of the regression.</p></td>
     </tr>
     <tr>
+      <th>show.unadjusted</th>
+      <td><p>should the unadjusted estimates be shown? Default is `TRUE`.</p></td>
+    </tr>
+    <tr>
       <th>lim</th>
       <td><p>sets limit for x-axis. If `NULL`, limits are computed automatically.</p></td>
     </tr>
@@ -392,24 +400,20 @@ absolute value of the estimated coefficient? Default is <code>TRUE</code>.</p></
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
 <span class='co'># runs regression model</span>
-<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='no'>peacefactor</span> ~ <span class='no'>directlyharmed</span> + <span class='no'>age</span> + <span class='no'>farmer_dar</span> + <span class='no'>herder_dar</span> +
-                         <span class='no'>pastvoted</span> + <span class='no'>hhsize_darfur</span> + <span class='no'>female</span> + <span class='no'>village</span>,
-                         <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>darfur</span>)
+<span class='va'>model</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>peacefactor</span> <span class='op'>~</span> <span class='va'>directlyharmed</span> <span class='op'>+</span> <span class='va'>age</span> <span class='op'>+</span> <span class='va'>farmer_dar</span> <span class='op'>+</span> <span class='va'>herder_dar</span> <span class='op'>+</span>
+                         <span class='va'>pastvoted</span> <span class='op'>+</span> <span class='va'>hhsize_darfur</span> <span class='op'>+</span> <span class='va'>female</span> <span class='op'>+</span> <span class='va'>village</span>,
+                         data <span class='op'>=</span> <span class='va'>darfur</span><span class='op'>)</span>
 <span class='co'># contour plot</span>
-<span class='fu'>ovb_contour_plot</span>(<span class='no'>model</span>, <span class='kw'>treatment</span> <span class='kw'>=</span> <span class='st'>"directlyharmed"</span>,
-                        <span class='kw'>benchmark_covariates</span> <span class='kw'>=</span> <span class='st'>"female"</span>,
-                        <span class='kw'>kd</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>2</span>)</div><div class='img'><img src='ovb_contour_plot-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>ovb_contour_plot</span><span class='op'>(</span><span class='va'>model</span>, treatment <span class='op'>=</span> <span class='st'>"directlyharmed"</span>,
+                        benchmark_covariates <span class='op'>=</span> <span class='st'>"female"</span>,
+                        kd <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>2</span><span class='op'>)</span>
+</div><div class='img'><img src='ovb_contour_plot-1.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#value">Value</a></li>
-      <li><a href="#references">References</a></li>
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
@@ -420,7 +424,7 @@ absolute value of the estimated coefficient? Default is <code>TRUE</code>.</p></
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
