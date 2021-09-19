@@ -6,5 +6,7 @@ r:
   - release
   - devel
 cache: packages
+before_install: 
+    - R -e 'source("https://install-github.me/r-lib/remotes")'
 after_success:
     - Rscript -e 'covr::codecov()'
