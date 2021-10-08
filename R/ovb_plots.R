@@ -740,6 +740,12 @@ add_bound_to_contour.lm <- function(model,
 #' @rdname add_bound_to_contour
 #' @param bound_value value to be printed in label bound.
 #' @param round integer indicating the number of decimal places to be used for rounding.
+#' @param font.label.text font for the label text.
+#' @param point.pch plotting character for \code{\link{points}}.
+#' @param point.col color code or name for \code{\link{points}}.
+#' @param point.bg backgrounf (fill) color for \code{\link{points}}.
+#' @param point.cex size of \code{\link{points}}.
+#' @param point.font font for \code{\link{points}}.
 #' @export
 add_bound_to_contour.numeric <- function(r2dz.x,
                                          r2yz.dx,

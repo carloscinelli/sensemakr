@@ -85,6 +85,18 @@ Z with treatment D, given covariates X.}
 with outcome Y, given covariates X and treatment D.}
 
 \item{bound_value}{value to be printed in label bound.}
+
+\item{font.label.text}{font for the label text.}
+
+\item{point.pch}{plotting character for \code{\link{points}}.}
+
+\item{point.col}{color code or name for \code{\link{points}}.}
+
+\item{point.bg}{backgrounf (fill) color for \code{\link{points}}.}
+
+\item{point.cex}{size of \code{\link{points}}.}
+
+\item{point.font}{font for \code{\link{points}}.}
 }
 \value{
 The function adds bounds in an existing contour plot and returns `NULL`.

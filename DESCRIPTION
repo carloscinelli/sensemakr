@@ -17,8 +17,8 @@ Maintainer: Carlos Cinelli <carloscinelli@hotmail.com>
 Description: Implements a suite of sensitivity analysis tools 
   that extends the traditional omitted variable bias framework and makes it easier 
   to understand the impact of omitted variables in regression models, as discussed in Cinelli, C. and Hazlett, C. (2020), "Making Sense of Sensitivity: Extending Omitted Variable Bias." Journal of the Royal Statistical Society, Series B (Statistical Methodology) <doi:10.1111/rssb.12348>.
-URL: https://github.com/chadhazlett/sensemakr
-BugReports: https://github.com/chadhazlett/sensemakr/issues
+URL: https://github.com/carloscinelli/sensemakr
+BugReports: https://github.com/carloscinelli/sensemakr/issues
 License: GPL-3
 Depends: R (>= 3.1.0)
 Encoding: UTF-8
