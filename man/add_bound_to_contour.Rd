@@ -32,9 +32,15 @@ add_bound_to_contour(...)
   bound_label = NULL,
   label.text = TRUE,
   cex.label.text = 0.7,
+  font.label.text = 1,
   label.bump.x = plot.env$lim * (1/15),
   label.bump.y = plot.env$lim.y * (1/15),
   round = 2,
+  point.pch = 23,
+  point.col = "black",
+  point.bg = "red",
+  point.cex = 1,
+  point.font = 1,
   ...
 )
 }

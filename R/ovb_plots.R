@@ -747,9 +747,15 @@ add_bound_to_contour.numeric <- function(r2dz.x,
                                          bound_label = NULL,
                                          label.text = TRUE,
                                          cex.label.text = .7,
+                                         font.label.text = 1,
                                          label.bump.x = plot.env$lim*(1/15),
                                          label.bump.y = plot.env$lim.y*(1/15),
                                          round = 2,
+                                         point.pch = 23,
+                                         point.col = "black",
+                                         point.bg = "red",
+                                         point.cex = 1,
+                                         point.font =1,
                                          ...){
 
   for (i in seq.int(length(r2dz.x))) {
@@ -757,8 +763,11 @@ add_bound_to_contour.numeric <- function(r2dz.x,
 
     # Add the point on the contour:
     points(r2dz.x[i], r2yz.dx[i],
-           pch = 23, col = "black", bg = "red",
-           cex = 1, font = 1)
+           pch = point.pch,
+           col = point.col,
+           bg = point.bg,
+           cex = point.cex,
+           font = point.font)
     if (!is.null(bound_value[i])) {
       if (is.numeric(bound_value[i]))
         bound_value[i] <- round(bound_value[i], round)
@@ -774,7 +783,7 @@ add_bound_to_contour.numeric <- function(r2dz.x,
            r2yz.dx[i] + label.bump.y,
            labels = label,
            cex = cex.label.text,
-           font = 1)
+           font = font.label.text)
   }
 
 }
