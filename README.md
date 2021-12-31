@@ -26,6 +26,10 @@ Methodology).](https://doi.org/10.1111/rssb.12348)
 
 # News
 
+-   The [Online Causal Inference Seminar presentation](https://www.youtube.com/watch?v=j7mN_G5Gpyg) is now available.
+
+-   Check out the new [Python version](https://github.com/nlapier2/PySensemakr) of the package!
+
 -   Watch the [useR! 2020
     presentation](https://www.youtube.com/watch?v=p3dfHj6ki68) for a
     quick introduction on sensemakr.
