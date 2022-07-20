@@ -209,7 +209,7 @@ ovb_contour_plot.lm = function(model,
   if (!is.character(treatment)) stop("Argument treatment must be a string.")
   if (length(treatment) > 1) stop("You must pass only one treatment")
 
-  model_data <- model_helper(model, covariates = treatment)
+  model_data <- model_helper.lm(model, covariates = treatment)
   estimate <- model_data$estimate
   se <- model_data$se
   dof <- model_data$dof
@@ -227,7 +227,7 @@ ovb_contour_plot.lm = function(model,
   if (!is.null(benchmark_covariates)) {
 
     # we will need to add an option for the bound type
-    bench_bounds <- ovb_bounds(model = model,
+    bench_bounds <- ovb_bounds.lm(model = model,
                                treatment = treatment,
                                benchmark_covariates = benchmark_covariates,
                                kd = kd,
@@ -264,7 +264,7 @@ ovb_contour_plot.lm = function(model,
 #' @inheritParams adjusted_estimate
 #' @rdname ovb_contour_plot
 #' @export
-ovb_contour_plot.formula = function(formula,
+ovb_contour_plot.formula_lm = function(formula,
                                     data,
                                     treatment,
                                     benchmark_covariates = NULL,
@@ -298,7 +298,7 @@ ovb_contour_plot.formula = function(formula,
   lm.call <- call("lm", formula = substitute(formula), data = substitute(data))
   outcome_model = eval(lm.call)
 
-  ovb_contour_plot(model = outcome_model,
+  ovb_contour_plot.lm(model = outcome_model,
                    treatment = treatment,
                    benchmark_covariates = benchmark_covariates,
                    kd = kd,
@@ -704,7 +704,7 @@ add_bound_to_contour.lm <- function(model,
   }
 
   # we will need to add an option for the bound type
-  bounds <- ovb_bounds(model = model,
+  bounds <- ovb_bounds.lm(model = model,
                        treatment = treatment,
                        benchmark_covariates = benchmark_covariates,
                        kd = kd,
@@ -869,14 +869,14 @@ ovb_extreme_plot.lm <- function(model,
   }
 
 
-  model_data <- model_helper(model, covariates = treatment)
+  model_data <- model_helper.lm(model, covariates = treatment)
   estimate <- model_data$estimate
   se <- model_data$se
   dof <- model_data$dof
 
   if (!is.null(benchmark_covariates)) {
       # TODO: We will need to make bound_type an option later
-      bounds <- ovb_bounds(model = model,
+      bounds <- ovb_bounds.lm(model = model,
                            treatment = treatment,
                            benchmark_covariates = benchmark_covariates,
                            kd = kd,
@@ -908,7 +908,7 @@ ovb_extreme_plot.lm <- function(model,
 #' @inheritParams sensemakr
 #' @rdname ovb_extreme_plot
 #' @export
-ovb_extreme_plot.formula = function(formula,
+ovb_extreme_plot.formula_lm = function(formula,
                                     data,
                                     treatment,
                                     benchmark_covariates = NULL,
@@ -929,7 +929,7 @@ ovb_extreme_plot.formula = function(formula,
   lm.call <- call("lm", formula = substitute(formula), data = substitute(data))
   outcome_model = eval(lm.call)
 
-  ovb_extreme_plot(model = outcome_model,
+  ovb_extreme_plot.lm(model = outcome_model,
                    treatment = treatment,
                    benchmark_covariates = benchmark_covariates,
                    kd = kd,
