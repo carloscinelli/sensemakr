@@ -3,7 +3,7 @@
 \name{ovb_extreme_plot}
 \alias{ovb_extreme_plot}
 \alias{ovb_extreme_plot.lm}
-\alias{ovb_extreme_plot.formula}
+\alias{ovb_extreme_plot.formula_lm}
 \alias{ovb_extreme_plot.numeric}
 \title{Extreme scenarios plots of omitted variable bias}
 \usage{
@@ -25,7 +25,7 @@ ovb_extreme_plot(...)
   ...
 )
 
-\method{ovb_extreme_plot}{formula}(
+\method{ovb_extreme_plot}{formula_lm}(
   formula,
   data,
   treatment,
@@ -69,12 +69,12 @@ outcome regression, a \code{\link{formula}} describing the model along
 with the \code{\link{data.frame}} containing the variables of the model,
 or a numeric vector with the coefficient estimate.}
 
-\item{model}{An \code{lm} object with the outcome regression.}
+\item{model}{An \code{fixest} object with the outcome regression.}
 
 \item{treatment}{A character vector with the name of the treatment variable
 of the model.}
 
-\item{benchmark_covariates}{The user has two options: (i)  character vector of the names of covariates that will be used to bound the plausible strength of the unobserved confounders. Each variable will be considered separately; (ii) a named list with character vector names of covariates that will be used, \emph{as a group}, to bound the plausible strength of the unobserved confounders. The names of the list will be used for the benchmark labels. Note: for factor variables with more than two levels, you need to provide the name of each level as encoded in the \code{lm} model (the columns of \code{model.matrix}).}
+\item{benchmark_covariates}{The user has two options: (i)  character vector of the names of covariates that will be used to bound the plausible strength of the unobserved confounders. Each variable will be considered separately; (ii) a named list with character vector names of covariates that will be used, \emph{as a group}, to bound the plausible strength of the unobserved confounders. The names of the list will be used for the benchmark labels. Note: for factor variables with more than two levels, you need to provide the name of each level as encoded in the \code{fixest} model (the columns of \code{model.matrix}).}
 
 \item{kd}{numeric vector. Parameterizes how many times stronger the confounder is related to the treatment in comparison to the observed benchmark covariate.
 Default value is \code{1} (confounder is as strong as benchmark covariate).}
