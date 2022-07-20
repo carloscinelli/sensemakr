@@ -61,9 +61,23 @@ adjusted_estimate <- function(...){
 #' @export
 adjusted_estimate.lm <- function(model, treatment,  r2dz.x, r2yz.dx, reduce = TRUE, ...){
   # extract model data
-  model_data <- model_helper(model, covariates = treatment)
+  model_data <- model_helper.lm(model, covariates = treatment)
   adj_estimate <- with(model_data,
-       adjusted_estimate(estimate = estimate, se = se, dof = dof, r2dz.x = r2dz.x, r2yz.dx = r2yz.dx, reduce = reduce))
+       adjusted_estimate.numeric(estimate = estimate, se = se, dof = dof, r2dz.x = r2dz.x, r2yz.dx = r2yz.dx, reduce = reduce))
+  names(adj_estimate) <- rep(treatment, length(adj_estimate))
+  return(adj_estimate)
+}
+
+#' @param model An \code{fixest} object with the outcome regression.
+#' @param treatment A character vector with the name of the treatment variable
+#' of the model.
+#' @rdname adjusted_estimate
+#' @export
+adjusted_estimate.fixest <- function(model, treatment,  r2dz.x, r2yz.dx, reduce = TRUE, ...){
+  # extract model data
+  model_data <- model_helper.fixest(model, covariates = treatment)
+  adj_estimate <- with(model_data,
+                       adjusted_estimate.numeric(estimate = estimate, se = se, dof = dof, r2dz.x = r2dz.x, r2yz.dx = r2yz.dx, reduce = reduce))
   names(adj_estimate) <- rep(treatment, length(adj_estimate))
   return(adj_estimate)
 }
@@ -134,12 +148,21 @@ adjusted_se.numeric = function(se, dof, r2dz.x, r2yz.dx, ...) {
 #' @export
 adjusted_se.lm <- function(model, treatment,  r2dz.x, r2yz.dx, ...){
   # extract model data
-  model_data <- model_helper(model, covariates = treatment)
-  new_se <- with(model_data, adjusted_se(se = se, dof = dof, r2dz.x = r2dz.x, r2yz.dx = r2yz.dx))
+  model_data <- model_helper.lm(model, covariates = treatment)
+  new_se <- with(model_data, adjusted_se.numeric(se = se, dof = dof, r2dz.x = r2dz.x, r2yz.dx = r2yz.dx))
   names(new_se) <- rep(treatment, length(new_se))
   return(new_se)
 }
 
+#' @rdname adjusted_estimate
+#' @export
+adjusted_se.fixest <- function(model, treatment,  r2dz.x, r2yz.dx, ...){
+  # extract model data
+  model_data <- model_helper.fixest(model, covariates = treatment)
+  new_se <- with(model_data, adjusted_se.numeric(se = se, dof = dof, r2dz.x = r2dz.x, r2yz.dx = r2yz.dx))
+  names(new_se) <- rep(treatment, length(new_se))
+  return(new_se)
+}
 
 # adjusted t --------------------------------------------------------------
 
@@ -158,13 +181,24 @@ adjusted_t <- function(...){
 #' @export
 adjusted_t.lm <- function(model, treatment,  r2dz.x, r2yz.dx, reduce = TRUE, h0 = 0, ...){
   # extract model data
-  model_data <- model_helper(model, covariates = treatment)
-  new_t <- with(model_data, adjusted_t(estimate = estimate, se = se, dof = dof, r2dz.x = r2dz.x,
+  model_data <- model_helper.lm(model, covariates = treatment)
+  new_t <- with(model_data, adjusted_t.numeric(estimate = estimate, se = se, dof = dof, r2dz.x = r2dz.x,
                                        r2yz.dx = r2yz.dx, reduce = reduce, h0 = h0))
   names(new_t) <- rep(treatment, length(new_t))
   return(new_t)
 }
 
+#' @rdname adjusted_estimate
+#' @param h0 Null hypothesis for computation of the t-value. Default is zero.
+#' @export
+adjusted_t.fixest <- function(model, treatment,  r2dz.x, r2yz.dx, reduce = TRUE, h0 = 0, ...){
+  # extract model data
+  model_data <- model_helper.fixest(model, covariates = treatment)
+  new_t <- with(model_data, adjusted_t.numeric(estimate = estimate, se = se, dof = dof, r2dz.x = r2dz.x,
+                                       r2yz.dx = r2yz.dx, reduce = reduce, h0 = h0))
+  names(new_t) <- rep(treatment, length(new_t))
+  return(new_t)
+}
 
 #' @rdname adjusted_estimate
 #' @export
@@ -178,7 +212,7 @@ adjusted_t.numeric = function(estimate, se, dof, r2dz.x, r2yz.dx, reduce = TRUE,
   if (!is.numeric(estimate) || length(estimate) > 1) {
     stop("Estimate provided must be a single number.")
   }
-  new_estimate <- adjusted_estimate(estimate = estimate, r2yz.dx = r2yz.dx, r2dz.x = r2dz.x, se = se, dof = dof,reduce =  reduce)
+  new_estimate <- adjusted_estimate.numeric(estimate = estimate, r2yz.dx = r2yz.dx, r2dz.x = r2dz.x, se = se, dof = dof,reduce =  reduce)
   new_t <-  (new_estimate - h0) / adjusted_se(r2yz.dx = r2yz.dx, r2dz.x = r2dz.x, se = se, dof = dof)
   unname(new_t)
   attributes(new_t) <- list(h0 = h0)
@@ -213,7 +247,7 @@ adjusted_partial_r2.numeric <- function(estimate, se, dof, r2dz.x, r2yz.dx, redu
   check_se(se = se)
   check_dof(dof = dof)
   check_r2(r2yz.dx = r2yz.dx, r2dz.x =  r2dz.x)
-  new_t <- adjusted_t(estimate = estimate, r2yz.dx = r2yz.dx, r2dz.x = r2dz.x, se = se, dof = dof, reduce =  reduce, h0 = h0)
+  new_t <- adjusted_t.numeric(estimate = estimate, r2yz.dx = r2yz.dx, r2dz.x = r2dz.x, se = se, dof = dof, reduce =  reduce, h0 = h0)
   partial_r2(t_statistic = new_t, dof = dof - 1)
 }
 
@@ -221,9 +255,18 @@ adjusted_partial_r2.numeric <- function(estimate, se, dof, r2dz.x, r2yz.dx, redu
 #' @export
 adjusted_partial_r2.lm <- function(model, treatment,  r2dz.x, r2yz.dx, reduce = TRUE, h0 = 0, ...){
   # extract model data
-  model_data <- model_helper(model, covariates = treatment)
-  with(model_data, adjusted_partial_r2(estimate = estimate, se = se, dof = dof, r2dz.x = r2dz.x,
+  model_data <- model_helper.lm(model, covariates = treatment)
+  with(model_data, adjusted_partial_r2.numeric(estimate = estimate, se = se, dof = dof, r2dz.x = r2dz.x,
                               r2yz.dx = r2yz.dx, reduce = reduce, h0 = h0))
+}
+
+#' @rdname adjusted_estimate
+#' @export
+adjusted_partial_r2.fixest <- function(model, treatment,  r2dz.x, r2yz.dx, reduce = TRUE, h0 = 0, ...){
+  # extract model data
+  model_data <- model_helper.fixest(model, covariates = treatment)
+  with(model_data, adjusted_partial_r2.numeric(estimate = estimate, se = se, dof = dof, r2dz.x = r2dz.x,
+                                       r2yz.dx = r2yz.dx, reduce = reduce, h0 = h0))
 }
 
 
@@ -257,12 +300,21 @@ bias.numeric <- function(se, dof, r2dz.x, r2yz.dx,  ...) {
 #' @export
 bias.lm <- function(model, treatment,  r2dz.x, r2yz.dx, ...){
   # extract model data
-  model_data <- model_helper(model, covariates = treatment)
-  bias <- with(model_data, bias(se = se, dof = dof, r2dz.x = r2dz.x, r2yz.dx = r2yz.dx))
+  model_data <- model_helper.lm(model, covariates = treatment)
+  bias <- with(model_data, bias.numeric(se = se, dof = dof, r2dz.x = r2dz.x, r2yz.dx = r2yz.dx))
   names(bias) <- rep(treatment, length(bias))
   return(bias)
 }
 
+#' @rdname adjusted_estimate
+#' @export
+bias.fixest <- function(model, treatment,  r2dz.x, r2yz.dx, ...){
+  # extract model data
+  model_data <- model_helper.fixest(model, covariates = treatment)
+  bias <- with(model_data, bias.numeric(se = se, dof = dof, r2dz.x = r2dz.x, r2yz.dx = r2yz.dx))
+  names(bias) <- rep(treatment, length(bias))
+  return(bias)
+}
 
 #' @rdname adjusted_estimate
 #' @export
@@ -274,14 +326,27 @@ relative_bias <- function(...){
 #' @rdname adjusted_estimate
 #' @export
 relative_bias.lm <- function(model, treatment, r2dz.x, r2yz.dx, ...){
-  model_data <- model_helper(model, covariates = treatment)
-  rel.bias   <- with(model_data, relative_bias(estimate = estimate,
+  model_data <- model_helper.lm(model, covariates = treatment)
+  rel.bias   <- with(model_data, relative_bias.numeric(estimate = estimate,
                                                se = se, dof = dof,
                                                r2dz.x = r2dz.x,
                                                r2yz.dx = r2yz.dx))
   names(rel.bias) <- rep(treatment, length(rel.bias))
   return(rel.bias)
 }
+
+#' @rdname adjusted_estimate
+#' @export
+relative_bias.fixest <- function(model, treatment, r2dz.x, r2yz.dx, ...){
+  model_data <- model_helper.fixest(model, covariates = treatment)
+  rel.bias   <- with(model_data, relative_bias.numeric(estimate = estimate,
+                                               se = se, dof = dof,
+                                               r2dz.x = r2dz.x,
+                                               r2yz.dx = r2yz.dx))
+  names(rel.bias) <- rep(treatment, length(rel.bias))
+  return(rel.bias)
+}
+
 
 #' @rdname adjusted_estimate
 #' @export
@@ -293,7 +358,7 @@ relative_bias.numeric <- function(estimate, se, dof, r2dz.x, r2yz.dx,  ...) {
   check_r2(r2yz.dx = r2yz.dx, r2dz.x =  r2dz.x)
 
   t_statistic <- abs(estimate/se)
-  f <- partial_f(t_statistic = t_statistic, dof = dof)
+  f <- partial_f.numeric(t_statistic = t_statistic, dof = dof)
   BF <- bf(r2dz.x = r2dz.x, r2yz.dx = r2yz.dx)
   q <- BF/f
   return(q)
