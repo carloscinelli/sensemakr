@@ -159,8 +159,8 @@ NULL
 #'  }
 #'
 #' @export
-sensemakr <- function(...){
-  UseMethod("sensemakr")
+sensemakr <- function(model, ...){
+  UseMethod("sensemakr", model)
 }
 
 #' @export
@@ -196,11 +196,11 @@ sensemakr.lm <- function(model,
 
 
   # senstivity statistics
-  out$sensitivity_stats <- sensitivity_stats(model = model,
-                                             treatment = treatment,
-                                             q = q,
-                                             alpha = alpha,
-                                             reduce = reduce)
+  out$sensitivity_stats <- sensitivity_stats.lm(model = model,
+                                                treatment = treatment,
+                                                q = q,
+                                                alpha = alpha,
+                                                reduce = reduce)
   estimate <- out$sensitivity_stats$estimate
 
   h0 <- ifelse(reduce, estimate*(1 - q), estimate*(1 + q))
@@ -215,24 +215,24 @@ sensemakr.lm <- function(model,
 
     out$bounds$treatment <- treatment
 
-     # compute adjusted effects
-    out$bounds$adjusted_estimate = adjusted_estimate(model = model,
-                                                     treatment = treatment,
-                                                     r2yz.dx = r2yz.dx,
-                                                     r2dz.x = r2dz.x,
-                                                     reduce = reduce)
+    # compute adjusted effects
+    out$bounds$adjusted_estimate = adjusted_estimate.lm(model = model,
+                                                        treatment = treatment,
+                                                        r2yz.dx = r2yz.dx,
+                                                        r2dz.x = r2dz.x,
+                                                        reduce = reduce)
 
-    out$bounds$adjusted_se = adjusted_se(model = model,
-                                         treatment = treatment,
-                                         r2yz.dx = r2yz.dx,
-                                         r2dz.x = r2dz.x)
+    out$bounds$adjusted_se = adjusted_se.lm(model = model,
+                                            treatment = treatment,
+                                            r2yz.dx = r2yz.dx,
+                                            r2dz.x = r2dz.x)
 
-    out$bounds$adjusted_t = adjusted_t(model = model,
-                                       treatment = treatment,
-                                       r2yz.dx = r2yz.dx,
-                                       r2dz.x = r2dz.x,
-                                       h0 = h0,
-                                       reduce = reduce)
+    out$bounds$adjusted_t = adjusted_t.lm(model = model,
+                                          treatment = treatment,
+                                          r2yz.dx = r2yz.dx,
+                                          r2dz.x = r2dz.x,
+                                          h0 = h0,
+                                          reduce = reduce)
 
     se_multiple <- qt(alpha/2, df = model$df.residual, lower.tail = F)
     out$bounds$adjusted_lower_CI <- out$bounds$adjusted_estimate - se_multiple*out$bounds$adjusted_se
@@ -242,15 +242,15 @@ sensemakr.lm <- function(model,
   }
 
   if (!is.null(benchmark_covariates)) {
-    bench_bounds <- ovb_bounds(model = model,
-                               treatment = treatment,
-                               benchmark_covariates = benchmark_covariates,
-                               kd = kd,
-                               ky = ky,
-                               q = q,
-                               alpha = alpha,
-                               h0 = h0,
-                               reduce = reduce)
+    bench_bounds <- ovb_bounds.lm(model = model,
+                                  treatment = treatment,
+                                  benchmark_covariates = benchmark_covariates,
+                                  kd = kd,
+                                  ky = ky,
+                                  q = q,
+                                  alpha = alpha,
+                                  h0 = h0,
+                                  reduce = reduce)
     out$bounds <- rbind(out$bounds, bench_bounds)
   }
 
@@ -259,11 +259,113 @@ sensemakr.lm <- function(model,
   return(out)
 }
 
+#' @export
+#' @inheritParams adjusted_estimate
+#' @param benchmark_covariates The user has two options: (i)  character vector of the names of covariates that will be used to bound the plausible strength of the unobserved confounders. Each variable will be considered separately; (ii) a named list with character vector names of covariates that will be used, \emph{as a group}, to bound the plausible strength of the unobserved confounders. The names of the list will be used for the benchmark labels. Note: for factor variables with more than two levels, you need to provide the name of each level as encoded in the \code{fixest} model (the columns of \code{model.matrix}).
+#' @param kd numeric vector. Parameterizes how many times stronger the confounder is related to the treatment in comparison to the observed benchmark covariate.
+#' Default value is \code{1} (confounder is as strong as benchmark covariate).
+#' @param ky numeric vector. Parameterizes how many times stronger the confounder is related to the outcome in comparison to the observed benchmark covariate.
+#' Default value is the same as \code{kd}.
+#' @param bound_label label to bounds provided manually in \code{r2dz.x} and \code{r2yz.dx}.
+#' @inheritParams robustness_value
+#' @rdname sensemakr
+#' @importFrom stats formula
+sensemakr.fixest <- function(model,
+                             treatment,
+                             benchmark_covariates = NULL,
+                             kd = 1,
+                             ky = kd,
+                             q = 1,
+                             alpha = 0.05,
+                             r2dz.x = NULL,
+                             r2yz.dx = r2dz.x,
+                             bound_label = "Manual Bound",
+                             reduce = TRUE,
+                             ...){
+
+  if(model$method != "feols") {
+    stop("The fixest method is only implemented for feols")
+  }
+
+  out <- list()
+  out$info <- list(formula = formula(model),
+                   treatment = treatment,
+                   q = q,
+                   alpha = alpha,
+                   reduce = reduce)
+
+
+
+  # senstivity statistics
+  out$sensitivity_stats <- sensitivity_stats.fixest(model = model,
+                                                treatment = treatment,
+                                                q = q,
+                                                alpha = alpha,
+                                                reduce = reduce)
+  estimate <- out$sensitivity_stats$estimate
+
+  h0 <- ifelse(reduce, estimate*(1 - q), estimate*(1 + q))
+
+  # bounds on ovb
+  if (!is.null(r2dz.x)) {
+    check_r2(r2dz.x = r2dz.x, r2yz.dx = r2yz.dx)
+    out$bounds <-  data.frame(r2dz.x = r2dz.x,
+                              r2yz.dx = r2yz.dx,
+                              bound_label = bound_label,
+                              stringsAsFactors = FALSE)
+
+    out$bounds$treatment <- treatment
+
+    # compute adjusted effects
+    out$bounds$adjusted_estimate = adjusted_estimate.fixest(model = model,
+                                                        treatment = treatment,
+                                                        r2yz.dx = r2yz.dx,
+                                                        r2dz.x = r2dz.x,
+                                                        reduce = reduce)
+
+    out$bounds$adjusted_se = adjusted_se.fixest(model = model,
+                                            treatment = treatment,
+                                            r2yz.dx = r2yz.dx,
+                                            r2dz.x = r2dz.x)
+
+    out$bounds$adjusted_t = adjusted_t.fixest(model = model,
+                                          treatment = treatment,
+                                          r2yz.dx = r2yz.dx,
+                                          r2dz.x = r2dz.x,
+                                          h0 = h0,
+                                          reduce = reduce)
+
+    se_multiple <- qt(alpha/2, df = model$nobs - model$nparams, lower.tail = F)
+    out$bounds$adjusted_lower_CI <- out$bounds$adjusted_estimate - se_multiple*out$bounds$adjusted_se
+    out$bounds$adjusted_upper_CI <- out$bounds$adjusted_estimate + se_multiple*out$bounds$adjusted_se
+  } else{
+    out$bounds <-  NULL
+  }
+
+  if (!is.null(benchmark_covariates)) {
+    bench_bounds <- ovb_bounds.fixest(model = model,
+                                  treatment = treatment,
+                                  benchmark_covariates = benchmark_covariates,
+                                  kd = kd,
+                                  ky = ky,
+                                  q = q,
+                                  alpha = alpha,
+                                  h0 = h0,
+                                  reduce = reduce)
+    out$bounds <- rbind(out$bounds, bench_bounds)
+  }
+
+  class(out) <- "sensemakr"
+
+  return(out)
+}
+
+
 #' @param formula an object of the class \code{\link{formula}}: a symbolic description of the model to be fitted.
 #' @param data data needed only when you pass a formula as first parameter. An object of the class \code{\link{data.frame}} containing the variables used in the analysis.
 #' @rdname sensemakr
 #' @export
-sensemakr.formula <- function(formula,
+sensemakr.formula_lm <- function(formula,
                               data,
                               treatment,
                               benchmark_covariates = NULL,
@@ -329,7 +431,7 @@ sensemakr.numeric <- function(estimate,
                    reduce = reduce)
 
   # senstivity statistics
-  out$sensitivity_stats <- sensitivity_stats(estimate = estimate,
+  out$sensitivity_stats <- sensitivity_stats.numeric(estimate = estimate,
                                              se = se,
                                              dof = dof,
                                              treatment = treatment,
@@ -343,20 +445,20 @@ sensemakr.numeric <- function(estimate,
                               bound_label = bound_label,
                               stringsAsFactors = FALSE)
     # compute adjusted effects
-    out$bounds$adjusted_estimate = adjusted_estimate(estimate = estimate,
+    out$bounds$adjusted_estimate = adjusted_estimate.numeric(estimate = estimate,
                                                      se = se,
                                                      dof = dof,
                                                      r2yz.dx = r2yz.dx,
                                                      r2dz.x = r2dz.x,
                                                      reduce = reduce)
 
-    out$bounds$adjusted_se = adjusted_se(estimate = estimate,
+    out$bounds$adjusted_se = adjusted_se.numeric(estimate = estimate,
                                          se = se,
                                          dof = dof,
                                          r2yz.dx = r2yz.dx,
                                          r2dz.x = r2dz.x)
 
-    out$bounds$adjusted_t = adjusted_t(estimate = estimate,
+    out$bounds$adjusted_t = adjusted_t.numeric(estimate = estimate,
                                        se = se,
                                        dof = dof,
                                        r2yz.dx = r2yz.dx,
@@ -375,26 +477,26 @@ sensemakr.numeric <- function(estimate,
     bound_label <- label_maker(benchmark_covariate = benchmark_covariates,
                                kd = kd, ky = ky)
 
-    bench_bounds <- ovb_partial_r2_bound(r2dxj.x = r2dxj.x,
+    bench_bounds <- ovb_partial_r2_bound.numeric(r2dxj.x = r2dxj.x,
                                          r2yxj.dx = r2yxj.dx,
                                          kd = kd,
                                          ky = ky,
                                          bound_label = bound_label)
     # compute adjusted effects
-    bench_bounds$adjusted_estimate = adjusted_estimate(estimate = estimate,
+    bench_bounds$adjusted_estimate = adjusted_estimate.numeric(estimate = estimate,
                                                      se = se,
                                                      dof = dof,
                                                      r2yz.dx = bench_bounds$r2yz.dx,
                                                      r2dz.x =  bench_bounds$r2dz.x,
                                                      reduce = reduce)
 
-    bench_bounds$adjusted_se = adjusted_se(estimate = estimate,
+    bench_bounds$adjusted_se = adjusted_se.numeric(estimate = estimate,
                                          se = se,
                                          dof = dof,
                                          r2yz.dx = bench_bounds$r2yz.dx,
                                          r2dz.x = bench_bounds$r2dz.x)
 
-    bench_bounds$adjusted_t = adjusted_t(estimate = estimate,
+    bench_bounds$adjusted_t = adjusted_t.numeric(estimate = estimate,
                                          se = se,
                                          dof = dof,
                                          r2yz.dx = bench_bounds$r2yz.dx,
