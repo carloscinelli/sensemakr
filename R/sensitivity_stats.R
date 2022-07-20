@@ -21,7 +21,7 @@
 #'
 #'
 #'
-#' @param ... arguments passed to other methods. First argument should either be an \code{lm} model with the
+#' @param ... arguments passed to other methods. First argument should either be an \code{lm} model or a \code{fixest} model with the
 #' regression model or a numeric vector with the t-value of the coefficient estimate
 #'
 #' @examples
@@ -74,7 +74,7 @@ robustness_value.lm = function(model,
   check_alpha(alpha)
 
   # extract model data
-  model_data <- model_helper(model, covariates = covariates)
+  model_data <- model_helper.lm(model, covariates = covariates)
   t_statistic = setNames(model_data$t_statistics, model_data$covariates)
   dof         = model_data$dof
 
@@ -83,9 +83,36 @@ robustness_value.lm = function(model,
 
 }
 
+#' @param model an \code{fixest} object with the regression model.
+#' @param covariates model covariates for which the robustness value will be computed. Default is to compute
+#' the robustness value of all covariates.
+#' @param q percent change of the effect estimate that would be deemed problematic.  Default is \code{1},
+#' which means a reduction of 100\% of the current effect estimate (bring estimate to zero). It has to be greater than zero.
+#' @param alpha significance level.
+#' @rdname robustness_value
+#' @export
+#' @importFrom stats setNames
+robustness_value.fixest = function(model,
+                               covariates = NULL,
+                               q = 1,
+                               alpha = 1, ...) {
+
+  # check arguments
+  check_q(q)
+  check_alpha(alpha)
+
+  # extract model data
+  model_data <- model_helper.fixest(model, covariates = covariates)
+  t_statistic = setNames(model_data$t_statistics, model_data$covariates)
+  dof         = model_data$dof
+
+  # compute rv
+  robustness_value(t_statistic = t_statistic, dof = dof, q = q, alpha = alpha)
+
+}
 
 robustness_value.default = function(model, ...) {
-  stop("The `robustness_value` function must be passed either an `lm` model object, ",
+  stop("The `robustness_value` function must be passed either an `lm` model object, a `fixest` model object, ",
        "or the t-statistics and degrees of freedom directly. ",
        "Other object types are not supported. The object passed was of class ",
        class(model)[1])
@@ -172,8 +199,8 @@ print.rv <- function(x, ...){
 #'
 #' For partial R2 of groups of covariates, check \code{\link{group_partial_r2}}.
 #'
-#' @param ... arguments passed to other methods. First argument should either be an \code{lm} object
-#' with the regression model or a numeric vector with the t-value of the coefficient estimate
+#' @param ... arguments passed to other methods. First argument should either be an \code{lm} model or a \code{fixest} model with the
+#' regression model or a numeric vector with the t-value of the coefficient estimate
 #'
 #' @examples
 #'
@@ -212,7 +239,24 @@ partial_r2 = function(...) {
 partial_r2.lm = function(model, covariates = NULL, ...) {
 
   # extract model data
-  model_data <- model_helper(model, covariates = covariates)
+  model_data <- model_helper.lm(model, covariates = covariates)
+  t_statistic = setNames(model_data$t_statistics, model_data$covariates)
+  dof         = model_data$dof
+
+  # Return R^2 -- this is one R^2 for each coefficient, we will subset for
+  # coeff of interest later.
+  partial_r2(t_statistic = t_statistic, dof = dof)
+}
+
+#' @param model an \code{fixest} object with the regression model
+#' @param covariates model covariates for which the partial R2 will be computed. Default is to compute
+#' the partial R2 of all covariates.
+#' @rdname partial_r2
+#' @export
+partial_r2.fixest = function(model, covariates = NULL, ...) {
+
+  # extract model data
+  model_data <- model_helper.fixest(model, covariates = covariates)
   t_statistic = setNames(model_data$t_statistics, model_data$covariates)
   dof         = model_data$dof
 
@@ -253,7 +297,7 @@ partial_f2.numeric <- function(t_statistic, dof, ...){
 #' @export
 partial_f2.lm = function(model, covariates = NULL, ...) {
   # extract model data
-  model_data <- model_helper(model, covariates = covariates)
+  model_data <- model_helper.lm(model, covariates = covariates)
   t_statistic = setNames(model_data$t_statistics, model_data$covariates)
   dof         = model_data$dof
 
@@ -262,6 +306,18 @@ partial_f2.lm = function(model, covariates = NULL, ...) {
   partial_f2(t_statistic = t_statistic, dof = dof)
 }
 
+#' @rdname partial_r2
+#' @export
+partial_f2.fixest = function(model, covariates = NULL, ...) {
+  # extract model data
+  model_data <- model_helper.fixest(model, covariates = covariates)
+  t_statistic = setNames(model_data$t_statistics, model_data$covariates)
+  dof         = model_data$dof
+
+  # Return R^2 -- this is one R^2 for each coefficient, we will subset for
+  # coeff of interest later.
+  partial_f2(t_statistic = t_statistic, dof = dof)
+}
 partial_r2.default = function(model, ...) {
   stop("The `partial_f2` function must be passed either an `lm` model object, ",
        "or the t-statistics and degrees of freedom directly. ",
@@ -283,8 +339,8 @@ partial_f = function(...) sqrt(partial_f2(...))
 #'
 #' This function computes the partial R2 of a group of covariates in a linear regression model.
 #'
-#' @param ... arguments passed to other methods. First argument should either be an \code{lm} object
-#' with the regression model or a numeric vector with the F-statistics for the group of covariates.
+#' @param ... arguments passed to other methods. First argument should either be an \code{lm} model or a \code{fixest} model with the
+#' regression model or a numeric vector with the F-statistics for the group of covariates.
 #'
 #' @examples
 #'
@@ -326,6 +382,37 @@ group_partial_r2.lm <- function(model, covariates, ...){
 
   # degrees of freedom
   dof <- df.residual(model)
+
+
+  # compute F and R2
+  p <- length(coefs)
+  f <- (t(coefs) %*% solve(V) %*% coefs)/p
+
+  group_partial_r2(F.stats = f, p = p, dof = dof)
+
+}
+
+#' @inheritParams partial_r2
+#' @param covariates model covariates for which their grouped partial R2 will be computed.
+#' @rdname group_partial_r2
+#' @export
+group_partial_r2.fixest <- function(model, covariates, ...){
+
+  if (missing(covariates)) stop("Argument covariates missing.")
+
+  coefs <- coef(model)
+
+  check_covariates(all_names = names(coefs), covariates = covariates)
+
+  # coefficiens
+  coefs <- coefs[covariates]
+
+  # vcov matrix
+  V <- vcov(model)[covariates, covariates, drop = FALSE]
+
+  # degrees of freedom
+  # Mabye use a better approach
+  dof <- model$nobs - model$nparams
 
 
   # compute F and R2
@@ -408,7 +495,31 @@ sensitivity_stats.lm <- function(model,
                                  ...)
 {
 
-  model_data <- model_helper(model, covariates = treatment)
+  model_data <- model_helper.lm(model, covariates = treatment)
+  sensitivity_stats <- with(model_data, sensitivity_stats(estimate = estimate,
+                                                          se = se,
+                                                          dof = dof,
+                                                          treatment = treatment,
+                                                          q = q,
+                                                          alpha = alpha,
+                                                          reduce = reduce,
+                                                          ...))
+  sensitivity_stats
+}
+
+#' @inheritParams adjusted_estimate
+#' @inheritParams robustness_value
+#' @rdname sensitivity_stats
+#' @export
+sensitivity_stats.fixest <- function(model,
+                                 treatment,
+                                 q = 1,
+                                 alpha = 0.05,
+                                 reduce = TRUE,
+                                 ...)
+{
+
+  model_data <- model_helper.fixest(model, covariates = treatment)
   sensitivity_stats <- with(model_data, sensitivity_stats(estimate = estimate,
                                                           se = se,
                                                           dof = dof,
@@ -516,20 +627,45 @@ model_helper.lm = function(model, covariates = NULL, ...) {
   # warn_na_coefficients(model, covariates = covariates)
 
   # Let's avoid the NaN problem from dividing by zero
-  error_if_no_dof(model)
+  error_if_no_dof.lm(model)
 
   coefs <- coef(summary(model))
   covariates <- check_covariates(rownames(coefs), covariates)
 
-  if (!is.null(covariates)) coefs <- coefs[covariates, ,drop = FALSE]
+  if (!is.null(covariates)) {coefs <- coefs[covariates, ,drop = FALSE]}
 
-  list(
+  return(list(
     covariates = rownames(coefs),
     estimate = coefs[, "Estimate"],
     se = coefs[, "Std. Error"],
     t_statistics = coefs[, "t value"],
     dof = model$df.residual
-  )
+  ))
+}
+
+#' @export
+model_helper.fixest = function(model, covariates = NULL, ...) {
+  # Quickly extract things from an fixest object
+
+  # If we have a dropped coefficient (multicolinearity), we're not going to
+  # get an R^2 for this coefficient.
+  # warn_na_coefficients(model, covariates = covariates)
+
+  # Let's avoid the NaN problem from dividing by zero
+  error_if_no_dof.fixest(model)
+
+  coefs <- as.matrix(model$coeftable)
+  covariates <- check_covariates(rownames(coefs), covariates)
+
+  if (!is.null(covariates)) coefs <- coefs[covariates, ,drop = FALSE]
+
+  return(list(
+    covariates = rownames(coefs),
+    estimate = coefs[, "Estimate"],
+    se = coefs[, "Std. Error"],
+    t_statistics = coefs[, "t value"],
+    dof = model$nobs - model$nparams
+  ))
 }
 
 
@@ -551,8 +687,28 @@ model_helper.lm = function(model, covariates = NULL, ...) {
 #   }
 # }
 
-error_if_no_dof = function(model) {
+#' Helper function for checking dof statistics
+#'
+#' This is an internal function used for checking dof statistics.
+#'
+#' @param model model to extract dof from
+#' @param ... arguments passed to other methods.
+#' @export
+error_if_no_dof = function(...) {
+  UseMethod("error_if_no_dof")
+}
+
+#' @export
+error_if_no_dof.lm = function(model) {
   if (model$df.residual == 0) {
+    stop("There are 0 residual ",
+         "degrees of freedom in the regression model provided.")
+  }
+}
+
+#' @export
+error_if_no_dof.fixest = function(model) {
+  if (model$nobs - model$nparams == 0) {
     stop("There are 0 residual ",
          "degrees of freedom in the regression model provided.")
   }
