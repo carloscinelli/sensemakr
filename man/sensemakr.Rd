@@ -4,7 +4,7 @@
 \alias{sensemakr}
 \alias{sensemakr.lm}
 \alias{sensemakr.fixest}
-\alias{sensemakr.formula_lm}
+\alias{sensemakr.formula}
 \alias{sensemakr.numeric}
 \title{Sensitivity analysis to unobserved confounders}
 \usage{
@@ -40,8 +40,9 @@ sensemakr(...)
   ...
 )
 
-\method{sensemakr}{formula_lm}(
+\method{sensemakr}{formula}(
   formula,
+  method = c("lm", "feols"),
   data,
   treatment,
   benchmark_covariates = NULL,
@@ -76,7 +77,7 @@ sensemakr(...)
 )
 }
 \arguments{
-\item{...}{arguments passed to other methods. First argument should either be (i) an \code{\link{lm}} model with the
+\item{...}{arguments passed to other methods. First argument should either be (i) an \code{\link{lm}} or \code{\link{fixest::feols}} model with the
 outcome regression (argument \code{model}); (ii) a \code{\link{formula}} describing the model along
 with the \code{\link{data.frame}} containing the variables of the model (arguments \code{formula} and \code{data}); or, (iii) the numerical estimated value of the coefficient, along with the numeric values of standard errors and degrees of freedom (arguments \code{estimate}, \code{se} and \code{df}).}
 
@@ -110,6 +111,8 @@ with outcome Y, given covariates X and treatment D.}
 absolute value of the estimated coefficient? Default is \code{TRUE}.}
 
 \item{formula}{an object of the class \code{\link{formula}}: a symbolic description of the model to be fitted.}
+
+\item{method}{the default is \code{\link{lm}}. This argument can be changed to estimate the model using \code{\link{fixest::feols}}. In this case the formula needs to be written so it can be estimated with \code{\link{fixest::feols}} and the package need to be installed.}
 
 \item{data}{data needed only when you pass a formula as first parameter. An object of the class \code{\link{data.frame}} containing the variables used in the analysis.}
 
