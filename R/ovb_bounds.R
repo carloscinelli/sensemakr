@@ -434,7 +434,7 @@ ovb_partial_r2_bound.fixest <- function(model,
   if (length(treatment) > 1) stop("You must pass only one treatment")
 
   # treatment model
-  treatment_model <- update(model, update.formula(formula(model), paste(treatment, "~ . - ", treatment)))
+  treatment_model <- update(model, update.formula(model$fml, paste(treatment, "~ . - ", treatment)))
 
   #m      <- model.matrix(model)[,-1]
   #keep   <- !(colnames(m) %in% treatment)
