@@ -358,7 +358,7 @@ relative_bias.numeric <- function(estimate, se, dof, r2dz.x, r2yz.dx,  ...) {
   check_r2(r2yz.dx = r2yz.dx, r2dz.x =  r2dz.x)
 
   t_statistic <- abs(estimate/se)
-  f <- partial_f.numeric(t_statistic = t_statistic, dof = dof)
+  f <- partial_f(t_statistic = t_statistic, dof = dof)
   BF <- bf(r2dz.x = r2dz.x, r2yz.dx = r2yz.dx)
   q <- BF/f
   return(q)
