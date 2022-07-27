@@ -699,7 +699,7 @@ error_if_no_dof = function(...) {
 }
 
 #' @export
-error_if_no_dof.lm = function(model) {
+error_if_no_dof.lm = function(model, ...) {
   if (model$df.residual == 0) {
     stop("There are 0 residual ",
          "degrees of freedom in the regression model provided.")
@@ -707,7 +707,7 @@ error_if_no_dof.lm = function(model) {
 }
 
 #' @export
-error_if_no_dof.fixest = function(model) {
+error_if_no_dof.fixest = function(model, ...) {
   if (model$nobs - model$nparams == 0) {
     stop("There are 0 residual ",
          "degrees of freedom in the regression model provided.")
