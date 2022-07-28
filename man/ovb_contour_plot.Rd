@@ -3,7 +3,8 @@
 \name{ovb_contour_plot}
 \alias{ovb_contour_plot}
 \alias{ovb_contour_plot.lm}
-\alias{ovb_contour_plot.formula_lm}
+\alias{ovb_contour_plot.fixest}
+\alias{ovb_contour_plot.formula}
 \alias{ovb_contour_plot.numeric}
 \title{Contour plots of omitted variable bias}
 \usage{
@@ -31,8 +32,31 @@ ovb_contour_plot(...)
   ...
 )
 
-\method{ovb_contour_plot}{formula_lm}(
+\method{ovb_contour_plot}{fixest}(
+  model,
+  treatment,
+  benchmark_covariates = NULL,
+  kd = 1,
+  ky = kd,
+  r2dz.x = NULL,
+  r2yz.dx = r2dz.x,
+  bound_label = "manual",
+  sensitivity.of = c("estimate", "t-value"),
+  reduce = TRUE,
+  estimate.threshold = 0,
+  t.threshold = 2,
+  nlevels = 10,
+  col.contour = "grey40",
+  col.thr.line = "red",
+  label.text = TRUE,
+  cex.label.text = 0.7,
+  round = 3,
+  ...
+)
+
+\method{ovb_contour_plot}{formula}(
   formula,
+  method = c("lm", "feols"),
   data,
   treatment,
   benchmark_covariates = NULL,
@@ -136,6 +160,8 @@ absolute value of the estimated coefficient? Default is \code{TRUE}.}
 \item{round}{number of digits to show in contours and bound values}
 
 \item{formula}{an object of the class \code{\link{formula}}: a symbolic description of the model to be fitted.}
+
+\item{method}{the default is \code{\link{lm}}. This argument can be changed to estimate the model using \code{\link[fixest]{feols}}. In this case the formula needs to be written so it can be estimated with \code{\link[fixest]{feols}} and the package need to be installed.}
 
 \item{data}{data needed only when you pass a formula as first parameter. An object of the class \code{\link{data.frame}} containing the variables used in the analysis.}
 

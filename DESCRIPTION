@@ -31,6 +31,7 @@ Suggests:
     knitr,
     rmarkdown,
     png,
-    stargazer
+    stargazer, 
+    fixest
 LazyData: true
 VignetteBuilder: knitr

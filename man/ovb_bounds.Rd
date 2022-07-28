@@ -10,7 +10,7 @@
 \alias{ovb_partial_r2_bound.fixest}
 \title{Bounds on the strength of unobserved confounders using observed covariates}
 \usage{
-ovb_bounds(model, treatment = NULL, ...)
+ovb_bounds(...)
 
 \method{ovb_bounds}{lm}(
   model,
@@ -40,7 +40,7 @@ ovb_bounds(model, treatment = NULL, ...)
   ...
 )
 
-ovb_partial_r2_bound(model, treatment = treatment, ...)
+ovb_partial_r2_bound(...)
 
 \method{ovb_partial_r2_bound}{numeric}(
   r2dxj.x,
@@ -74,14 +74,14 @@ ovb_partial_r2_bound(model, treatment = treatment, ...)
 )
 }
 \arguments{
+\item{...}{arguments passed to other methods. First argument should either be (i) an \code{\link{lm}} or \code{\link[fixest]{feols}} model with the
+outcome regression (argument \code{model}); (ii) a \code{\link{formula}} describing the model along
+with the \code{\link{data.frame}} containing the variables of the model (arguments \code{formula} and \code{data}); or, (iii) the numerical estimated value of the coefficient, along with the numeric values of standard errors and degrees of freedom (arguments \code{estimate}, \code{se} and \code{df}).}
+
 \item{model}{An \code{fixest} object with the outcome regression.}
 
 \item{treatment}{A character vector with the name of the treatment variable
 of the model.}
-
-\item{...}{arguments passed to other methods. First argument should either be (i) an \code{\link{lm}} or \code{\link{fixest::feols}} model with the
-outcome regression (argument \code{model}); (ii) a \code{\link{formula}} describing the model along
-with the \code{\link{data.frame}} containing the variables of the model (arguments \code{formula} and \code{data}); or, (iii) the numerical estimated value of the coefficient, along with the numeric values of standard errors and degrees of freedom (arguments \code{estimate}, \code{se} and \code{df}).}
 
 \item{benchmark_covariates}{The user has two options: (i)  character vector of the names of covariates that will be used to bound the plausible strength of the unobserved confounders. Each variable will be considered separately; (ii) a named list with character vector names of covariates that will be used, \emph{as a group}, to bound the plausible strength of the unobserved confounders. The names of the list will be used for the benchmark labels. Note: for factor variables with more than two levels, you need to provide the name of each level as encoded in the \code{fixest} model (the columns of \code{model.matrix}).}
 

@@ -24,8 +24,8 @@
 #' @inheritParams sensemakr
 #' @rdname ovb_bounds
 #' @export
-ovb_bounds <- function(model, treatment = NULL, ...){
-  UseMethod("ovb_bounds", model)
+ovb_bounds <- function(...){
+  UseMethod("ovb_bounds")
 }
 
 #' @inheritParams sensemakr
@@ -226,7 +226,7 @@ ovb_bounds.fixest <- function(model,
 #' @references Cinelli, C. and Hazlett, C. (2020), "Making Sense of Sensitivity: Extending Omitted Variable Bias." Journal of the Royal Statistical Society, Series B (Statistical Methodology).
 #' @rdname ovb_bounds
 #' @export
-ovb_partial_r2_bound <- function(model, treatment = treatment, ...){
+ovb_partial_r2_bound <- function(...){
   UseMethod("ovb_partial_r2_bound")
 }
 
@@ -337,14 +337,14 @@ ovb_partial_r2_bound.lm <- function(model,
 
 
   # treatment model
-  treatment_model <- update(model, update.formula(formula(model), paste(treatment, "~ . - ", treatment)))
+  #treatment_model <- update(model,  paste(treatment, "~ . - ", treatment))
 
-  #m      <- model.matrix(model)[,-1]
-  #keep   <- !(colnames(m) %in% treatment)
-  #d      <- m[,treatment]
-  #XX     <- cbind(1, m[, keep, drop = FALSE])
-  #treatment_model <- lm(d ~ XX + 0)
-  #treatment_model
+  m      <- model.matrix(model)[,-1]
+  keep   <- !(colnames(m) %in% treatment)
+  d      <- m[,treatment]
+  XX     <- cbind(1, m[, keep, drop = FALSE])
+  treatment_model <- lm(d ~ XX + 0)
+  treatment_model
 
   # treatment_model <- lm.fit(y = m[,treatment, drop = F], x = m[,keep])
   # quoted <- sapply(colnames(m[,keep]), function(x) paste0("`", x, "`"))
@@ -365,8 +365,8 @@ ovb_partial_r2_bound.lm <- function(model,
       r2yxj.dx <- partial_r2.lm(model, covariates = benchmark_covariates)
 
       # gets partial r2 with treatment
-      #bench.treat  <- paste0("XX", benchmark_covariates)
-      r2dxj.x <- partial_r2.lm(treatment_model, covariates = benchmark_covariates)
+      bench.treat  <- paste0("XX", benchmark_covariates)
+      r2dxj.x <- partial_r2.lm(treatment_model, covariates = bench.treat)
 
     } else {
 
@@ -386,8 +386,8 @@ ovb_partial_r2_bound.lm <- function(model,
 
       for(i in seq_along(benchmark_covariates)){
         r2y.group[i] <-  group_partial_r2.lm(model, covariates = benchmark_covariates[[i]])
-        #bench.treat  <- paste0("XX", benchmark_covariates[[i]])
-        r2d.group[i] <-  group_partial_r2.lm(treatment_model, covariates = benchmark_covariates)
+        bench.treat  <- paste0("XX", benchmark_covariates[[i]])
+        r2d.group[i] <-  group_partial_r2.lm(treatment_model, covariates = bench.treat)
         label.groups[i] <- names(benchmark_covariates)[i]
       }
 
@@ -434,14 +434,17 @@ ovb_partial_r2_bound.fixest <- function(model,
   if (length(treatment) > 1) stop("You must pass only one treatment")
 
   # treatment model
-  treatment_model <- update(model, update.formula(model$fml, paste(treatment, "~ . - ", treatment)))
+  #treatment_model <- update(model, update.formula(model$fml, paste(treatment, "~ . - ", treatment)))
 
-  #m      <- model.matrix(model)[,-1]
-  #keep   <- !(colnames(m) %in% treatment)
-  #d      <- m[,treatment]
-  #XX     <- cbind(1, m[, keep, drop = FALSE])
-  #treatment_model <- lm(d ~ XX + 0)
-  #treatment_model
+  m      <- model.matrix(model)[,-1]
+  keep   <- !(colnames(m) %in% treatment)
+  d      <- data.frame(m[,treatment])
+  names(d) <- treatment
+  XX     <- m[, keep, drop = FALSE]
+  treat.data <- data.frame(d, XX)
+  fml.treat <- reformulate(paste(names(treat.data)[-1], collapse = " + "), response = treatment)
+  treatment_model <- fixest::feols(fml.treat, data = treat.data)
+  treatment_model
 
   # treatment_model <- lm.fit(y = m[,treatment, drop = F], x = m[,keep])
   # quoted <- sapply(colnames(m[,keep]), function(x) paste0("`", x, "`"))
@@ -484,7 +487,7 @@ ovb_partial_r2_bound.fixest <- function(model,
       for(i in seq_along(benchmark_covariates)){
         r2y.group[i] <-  group_partial_r2.fixest(model, covariates = benchmark_covariates[[i]])
         #bench.treat  <- paste0("XX", benchmark_covariates[[i]])
-        r2d.group[i] <-  group_partial_r2.fixest(treatment_model, covariates = benchmark_covariates)
+        r2d.group[i] <-  group_partial_r2.fixest(treatment_model, covariates = benchmark_covariates[[i]])
         label.groups[i] <- names(benchmark_covariates)[i]
       }
 

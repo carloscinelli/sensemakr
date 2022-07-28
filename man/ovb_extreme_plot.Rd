@@ -3,7 +3,8 @@
 \name{ovb_extreme_plot}
 \alias{ovb_extreme_plot}
 \alias{ovb_extreme_plot.lm}
-\alias{ovb_extreme_plot.formula_lm}
+\alias{ovb_extreme_plot.fixest}
+\alias{ovb_extreme_plot.formula}
 \alias{ovb_extreme_plot.numeric}
 \title{Extreme scenarios plots of omitted variable bias}
 \usage{
@@ -25,8 +26,25 @@ ovb_extreme_plot(...)
   ...
 )
 
-\method{ovb_extreme_plot}{formula_lm}(
+\method{ovb_extreme_plot}{fixest}(
+  model,
+  treatment,
+  benchmark_covariates = NULL,
+  kd = 1,
+  r2yz.dx = c(1, 0.75, 0.5),
+  r2dz.x = NULL,
+  reduce = TRUE,
+  threshold = 0,
+  lim = min(c(r2dz.x + 0.1, 0.5)),
+  legend = TRUE,
+  cex.legend = 0.65,
+  legend.bty = "n",
+  ...
+)
+
+\method{ovb_extreme_plot}{formula}(
   formula,
+  method = c("lm", "feols"),
   data,
   treatment,
   benchmark_covariates = NULL,
@@ -99,6 +117,8 @@ absolute value of the estimated coefficient? Default is \code{TRUE}.}
 \item{legend.bty}{legend box. See \code{bty} argument of \link{par}.}
 
 \item{formula}{an object of the class \code{\link{formula}}: a symbolic description of the model to be fitted.}
+
+\item{method}{the default is \code{\link{lm}}. This argument can be changed to estimate the model using \code{\link[fixest]{feols}}. In this case the formula needs to be written so it can be estimated with \code{\link[fixest]{feols}} and the package need to be installed.}
 
 \item{data}{data needed only when you pass a formula as first parameter. An object of the class \code{\link{data.frame}} containing the variables used in the analysis.}
 

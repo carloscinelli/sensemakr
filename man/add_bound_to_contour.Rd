@@ -3,12 +3,30 @@
 \name{add_bound_to_contour}
 \alias{add_bound_to_contour}
 \alias{add_bound_to_contour.lm}
+\alias{add_bound_to_contour.fixest}
 \alias{add_bound_to_contour.numeric}
 \title{Add bounds to contour plot of omitted variable bias}
 \usage{
 add_bound_to_contour(...)
 
 \method{add_bound_to_contour}{lm}(
+  model,
+  benchmark_covariates,
+  kd = 1,
+  ky = kd,
+  bound_label = NULL,
+  treatment = plot.env$treatment,
+  reduce = plot.env$reduce,
+  sensitivity.of = plot.env$sensitivity.of,
+  label.text = TRUE,
+  cex.label.text = 0.7,
+  label.bump.x = plot.env$lim * (1/15),
+  label.bump.y = plot.env$lim.y * (1/15),
+  round = 2,
+  ...
+)
+
+\method{add_bound_to_contour}{fixest}(
   model,
   benchmark_covariates,
   kd = 1,

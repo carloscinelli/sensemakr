@@ -1,36 +1,14 @@
-context("Testing Darfur Example")
+context("Testing Darfur Example with fixest model")
 # runs regression model
 
 data("darfur")
 
-model2 <-  lm(peacefactor ~ directlyharmed + age + farmer_dar + herder_dar +
+model2 <-  fixest::feols(peacefactor ~ directlyharmed + age + farmer_dar + herder_dar +
                 pastvoted + hhsize_darfur + female + village,
               data = within(darfur,  directlyharmed <- directlyharmed*(-1)))
 
-model <- lm(peacefactor ~ directlyharmed + age + farmer_dar + herder_dar +
+model <- fixest::feols(peacefactor ~ directlyharmed + age + farmer_dar + herder_dar +
               pastvoted + hhsize_darfur + female + village, data = darfur)
-
-test_that("testing darfur data", {
-
-
-  expect_equal(dim(darfur), c(1276, 14))
-
-  expect_equal(colnames(darfur),
-               c("wouldvote",
-                 "peacefactor",
-                 "peace_formerenemies",
-                 "peace_jjindiv",
-                 "peace_jjtribes",
-                 "gos_soldier_execute",
-                 "directlyharmed",
-                 "age",
-                 "farmer_dar",
-                 "herder_dar",
-                 "pastvoted",
-                 "hhsize_darfur",
-                 "village",
-                 "female"))
-})
 
 test_that(desc = "testing darfur sensemakr",
           {
@@ -63,11 +41,11 @@ test_that(desc = "testing darfur sensemakr",
                                            adjusted_t = c(3.43890386024675, 2.60024623913809, 1.62806202131271),
                                            adjusted_lower_CI = c(0.032282966, 0.012968035,-0.006253282),
                                            adjusted_upper_CI = c(0.11815758, 0.09286231, 0.06704533)
-                                           ),
-                                      .Names = c("bound_label", "r2dz.x", "r2yz.dx", "treatment",
-                                                 "adjusted_estimate", "adjusted_se", "adjusted_t",
-                                                 "adjusted_lower_CI", "adjusted_upper_CI"),
-                                      row.names = c(NA, -3L), class = c("ovb_bounds", "data.frame"))
+            ),
+            .Names = c("bound_label", "r2dz.x", "r2yz.dx", "treatment",
+                       "adjusted_estimate", "adjusted_se", "adjusted_t",
+                       "adjusted_lower_CI", "adjusted_upper_CI"),
+            row.names = c(NA, -3L), class = c("ovb_bounds", "data.frame"))
 
             expect_equivalent(darfur_out$bounds, check_bounds)
 
@@ -116,11 +94,11 @@ test_that(desc = "testing darfur sensemakr but negative",
                                            adjusted_t = c(-3.43890386024675, -2.60024623913809, -1.62806202131271),
                                            adjusted_lower_CI = -1*c(0.11815758, 0.09286231, 0.06704533),
                                            adjusted_upper_CI = -1*c(0.032282966, 0.012968035,-0.006253282)
-                                           ),
-                                      .Names = c("bound_label", "r2dz.x", "r2yz.dx", "treatment",
-                                                 "adjusted_estimate", "adjusted_se", "adjusted_t",
-                                                 "adjusted_lower_CI", "adjusted_upper_CI"),
-                                      row.names = c(NA, -3L), class = c("ovb_bounds", "data.frame"))
+            ),
+            .Names = c("bound_label", "r2dz.x", "r2yz.dx", "treatment",
+                       "adjusted_estimate", "adjusted_se", "adjusted_t",
+                       "adjusted_lower_CI", "adjusted_upper_CI"),
+            row.names = c(NA, -3L), class = c("ovb_bounds", "data.frame"))
 
             expect_equivalent(darfur_out$bounds, check_bounds)
 
@@ -143,13 +121,13 @@ test_that("testing darfur manual bounds",
             true_check   <- adjusted_se(model, treatment = "directlyharmed", r2dz.x = .1, r2yz.dx = .1)
             expect_equal(to_check, unname(true_check))
           }
-          )
+)
 
 
 test_that(desc = "testing darfur sensemakr with formula",
           {
             darfur_out <- sensemakr(formula = peacefactor ~ directlyharmed + age + farmer_dar + herder_dar +
-                                      pastvoted + hhsize_darfur + female + village, data = darfur, treatment = "directlyharmed", benchmark_covariates = "female", kd = 1:3)
+                                      pastvoted + hhsize_darfur + female + village, data = darfur, method = "feols", treatment = "directlyharmed", benchmark_covariates = "female", kd = 1:3)
 
             # info
             expect_equal(darfur_out$info$formula, peacefactor ~ directlyharmed + age + farmer_dar + herder_dar +
@@ -187,8 +165,8 @@ test_that(desc = "testing darfur sensemakr with formula",
 test_that(desc = "testing darfur sensemakr manually",
           {
 
-            model.treat <- lm(directlyharmed ~  age + farmer_dar + herder_dar +
-                          pastvoted + hhsize_darfur + female + village, data = darfur)
+            model.treat <- fixest::feols(directlyharmed ~  age + farmer_dar + herder_dar +
+                                pastvoted + hhsize_darfur + female + village, data = darfur)
 
             darfur_out <- sensemakr(estimate = 0.09731582,
                                     se = 0.02325654,
@@ -283,36 +261,36 @@ test_that(desc = "testing darfur sensitivity stats",
             expect_error(group_partial_r2(model))
             expect_equal(group_partial_r2(model, covariates = c("directlyharmed", "female")), 0.1350435, tolerance = 1e-5)
 
-})
+          })
 
 test_that(desc = "testing darfur adjusted estimates",
           {
 
-  should_be_zero <- adjusted_estimate(model, treatment = "directlyharmed", r2yz.dx = 1, r2dz.x = partial_r2(model, covariates = "directlyharmed"))
-  expect_equivalent(should_be_zero, 0)
+            should_be_zero <- adjusted_estimate(model, treatment = "directlyharmed", r2yz.dx = 1, r2dz.x = partial_r2(model, covariates = "directlyharmed"))
+            expect_equivalent(should_be_zero, 0)
 
-  rv <- robustness_value(model, covariates = "directlyharmed")
-  should_be_zero <- adjusted_estimate(model, treatment = "directlyharmed", r2yz.dx = rv, r2dz.x = rv)
-  expect_equivalent(should_be_zero, 0)
+            rv <- robustness_value(model, covariates = "directlyharmed")
+            should_be_zero <- adjusted_estimate(model, treatment = "directlyharmed", r2yz.dx = rv, r2dz.x = rv)
+            expect_equivalent(should_be_zero, 0)
 
 
-  rv <- robustness_value(model, covariates = "directlyharmed", alpha = 0.05)
-  thr <- qt(0.975, df = 783 - 1)
-  should_be_1.96 <- adjusted_t(model, treatment = "directlyharmed", r2yz.dx = rv, r2dz.x = rv)
-  expect_equivalent(c(should_be_1.96), thr)
+            rv <- robustness_value(model, covariates = "directlyharmed", alpha = 0.05)
+            thr <- qt(0.975, df = 783 - 1)
+            should_be_1.96 <- adjusted_t(model, treatment = "directlyharmed", r2yz.dx = rv, r2dz.x = rv)
+            expect_equivalent(c(should_be_1.96), thr)
 
-  should_be_estimate <- bias(model, treatment = "directlyharmed", r2yz.dx = 1, r2dz.x = partial_r2(model, covariates = "directlyharmed"))
-  expect_equivalent(should_be_estimate, coef(model)["directlyharmed"])
+            should_be_estimate <- bias(model, treatment = "directlyharmed", r2yz.dx = 1, r2dz.x = partial_r2(model, covariates = "directlyharmed"))
+            expect_equivalent(should_be_estimate, coef(model)["directlyharmed"])
 
-  rv <- robustness_value(model, covariates = "directlyharmed")
-  should_be_estimate <- bias(model, treatment = "directlyharmed", r2yz.dx = rv, r2dz.x = rv)
-  expect_equivalent(should_be_estimate, coef(model)["directlyharmed"])
+            rv <- robustness_value(model, covariates = "directlyharmed")
+            should_be_estimate <- bias(model, treatment = "directlyharmed", r2yz.dx = rv, r2dz.x = rv)
+            expect_equivalent(should_be_estimate, coef(model)["directlyharmed"])
 
-  rv <- robustness_value(model, covariates = "directlyharmed", q = 0.5)
-  should_be_half_estimate <- bias(model, treatment = "directlyharmed", r2yz.dx = rv, r2dz.x = rv)
-  expect_equivalent(should_be_half_estimate, coef(model)["directlyharmed"]/2)
+            rv <- robustness_value(model, covariates = "directlyharmed", q = 0.5)
+            should_be_half_estimate <- bias(model, treatment = "directlyharmed", r2yz.dx = rv, r2dz.x = rv)
+            expect_equivalent(should_be_half_estimate, coef(model)["directlyharmed"]/2)
 
-})
+          })
 
 test_that(desc = "testing darfur plots",
           {
@@ -363,7 +341,7 @@ test_that(desc = "testing darfur plots",
                                          r2yz.dx = 1,
                                          r2dz.x = extreme_out$scenario_r2yz.dx_1$r2dz.x[5])
             expect_equivalent(adj_est, extreme_out$scenario_r2yz.dx_1$adjusted_estimate[5])
-})
+          })
 
 
 test_that("testing darfur print",
@@ -420,18 +398,18 @@ test_that("testing darfur different q",
 
 test_that("Darfur group benchmarks",
           {
-  village <- grep(pattern = "village", names(coef(model)), value = T)
+            village <- grep(pattern = "village", names(coef(model)), value = T)
 
-  sensitivity <- sensemakr(model, treatment = "directlyharmed",
-                           benchmark_covariates = list(village = village),
-                           kd = 0.3)
+            sensitivity <- sensemakr(model, treatment = "directlyharmed",
+                                     benchmark_covariates = list(village = village),
+                                     kd = 0.3)
 
-  r2y <- group_partial_r2(model, covariates = village)
-  treat.model <- update(model, directlyharmed ~ .-directlyharmed)
-  r2d <- group_partial_r2(treat.model, covariates = village)
-  bounds.check <- ovb_partial_r2_bound(r2dxj.x = r2d, r2yxj.dx = r2y, kd = 0.3)
-  bounds <- sensitivity$bounds
-  expect_equal(bounds$r2dz.x, bounds.check$r2dz.x)
-  expect_equal(bounds$r2yz.dx, bounds.check$r2yz.dx)
+            r2y <- group_partial_r2(model, covariates = village)
+            treat.model <- update(model, directlyharmed ~ .-directlyharmed)
+            r2d <- group_partial_r2(treat.model, covariates = village)
+            bounds.check <- ovb_partial_r2_bound(r2dxj.x = r2d, r2yxj.dx = r2y, kd = 0.3)
+            bounds <- sensitivity$bounds
+            expect_equal(bounds$r2dz.x, bounds.check$r2dz.x)
+            expect_equal(bounds$r2yz.dx, bounds.check$r2yz.dx)
 
-})
+          })

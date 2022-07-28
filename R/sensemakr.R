@@ -112,7 +112,7 @@ NULL
 #' the functions for computing the robustness value and partial R2 (\code{\link{robustness_value}}, \code{\link{partial_r2}}),  or the functions for bounding the strength
 #' of unobserved confounders (\code{\link{ovb_bounds}}), among others.
 #'
-#' @param ... arguments passed to other methods. First argument should either be (i) an \code{\link{lm}} or \code{\link{fixest::feols}} model with the
+#' @param ... arguments passed to other methods. First argument should either be (i) an \code{\link{lm}} or \code{\link[fixest]{feols}} model with the
 #' outcome regression (argument \code{model}); (ii) a \code{\link{formula}} describing the model along
 #' with the \code{\link{data.frame}} containing the variables of the model (arguments \code{formula} and \code{data}); or, (iii) the numerical estimated value of the coefficient, along with the numeric values of standard errors and degrees of freedom (arguments \code{estimate}, \code{se} and \code{df}).
 #'
@@ -360,7 +360,7 @@ sensemakr.fixest <- function(model,
 
 
 #' @param formula an object of the class \code{\link{formula}}: a symbolic description of the model to be fitted.
-#' @param method the default is \code{\link{lm}}. This argument can be changed to estimate the model using \code{\link{fixest::feols}}. In this case the formula needs to be written so it can be estimated with \code{\link{fixest::feols}} and the package need to be installed.
+#' @param method the default is \code{\link{lm}}. This argument can be changed to estimate the model using \code{\link[fixest]{feols}}. In this case the formula needs to be written so it can be estimated with \code{\link[fixest]{feols}} and the package need to be installed.
 #' @param data data needed only when you pass a formula as first parameter. An object of the class \code{\link{data.frame}} containing the variables used in the analysis.
 #' @rdname sensemakr
 #' @export

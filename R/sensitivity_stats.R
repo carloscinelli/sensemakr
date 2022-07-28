@@ -411,9 +411,8 @@ group_partial_r2.fixest <- function(model, covariates, ...){
   V <- vcov(model)[covariates, covariates, drop = FALSE]
 
   # degrees of freedom
-  # Mabye use a better approach
+  # Mabye use a better approach?
   dof <- model$nobs - model$nparams
-
 
   # compute F and R2
   p <- length(coefs)
@@ -691,14 +690,18 @@ model_helper.fixest = function(model, covariates = NULL, ...) {
 #'
 #' This is an internal function used for checking dof statistics.
 #'
-#' @param model model to extract dof from
 #' @param ... arguments passed to other methods.
 #' @export
 error_if_no_dof = function(...) {
   UseMethod("error_if_no_dof")
 }
 
-#' @export
+#' Helper function for checking dof statistics
+#'
+#' This is an internal function used for checking dof statistics.
+#'
+#' @param model model to check dof in
+#' @param ... arguments passed to other methods.
 error_if_no_dof.lm = function(model, ...) {
   if (model$df.residual == 0) {
     stop("There are 0 residual ",
@@ -706,7 +709,12 @@ error_if_no_dof.lm = function(model, ...) {
   }
 }
 
-#' @export
+#' Helper function for checking dof statistics
+#'
+#' This is an internal function used for checking dof statistics.
+#'
+#' @param model model to check dof in
+#' @param ... arguments passed to other methods.
 error_if_no_dof.fixest = function(model, ...) {
   if (model$nobs - model$nparams == 0) {
     stop("There are 0 residual ",
