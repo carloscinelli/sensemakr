@@ -333,7 +333,7 @@ sensemakr.fixest <- function(model,
                                           h0 = h0,
                                           reduce = reduce)
 
-    se_multiple <- qt(alpha/2, df = model$nobs - model$nparams, lower.tail = F)
+    se_multiple <- qt(alpha/2, df = degrees_freedom(model, "resid"), lower.tail = F)
     out$bounds$adjusted_lower_CI <- out$bounds$adjusted_estimate - se_multiple*out$bounds$adjusted_se
     out$bounds$adjusted_upper_CI <- out$bounds$adjusted_estimate + se_multiple*out$bounds$adjusted_se
   } else{

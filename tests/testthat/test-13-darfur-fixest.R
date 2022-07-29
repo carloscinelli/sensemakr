@@ -10,6 +10,13 @@ model2 <-  fixest::feols(peacefactor ~ directlyharmed + age + farmer_dar + herde
 model <- fixest::feols(peacefactor ~ directlyharmed + age + farmer_dar + herder_dar +
               pastvoted + hhsize_darfur + female + village, data = darfur)
 
+model3 <- fixest::feols(peacefactor ~ directlyharmed + farmer_dar + herder_dar +
+                         pastvoted + hhsize_darfur + female | village + age, data = darfur)
+
+model4 <- fixest::feols(peacefactor ~ directlyharmed + farmer_dar + herder_dar +
+                          pastvoted + hhsize_darfur + female | village + age, data = darfur, vcov = "hetero")
+
+
 test_that(desc = "testing darfur sensemakr",
           {
             darfur_out <- sensemakr(model, treatment = "directlyharmed", benchmark_covariates = "female", kd = 1:3)
@@ -60,6 +67,105 @@ test_that(desc = "testing darfur sensemakr",
 
           })
 
+test_that(desc = "testing darfur sensemakr with fixed effexts",
+          {
+            darfur_out <- sensemakr(model3, treatment = "directlyharmed", benchmark_covariates = "female", kd = 1:3)
+            plot(darfur_out)
+            ovb_contour_plot(darfur_out)
+            ovb_extreme_plot(darfur_out)
+
+            # info
+            expect_equal(darfur_out$info$formula, peacefactor ~ directlyharmed + farmer_dar + herder_dar +
+                           pastvoted + hhsize_darfur + female | village + age)
+            expect_equal(darfur_out$info$treatment, "directlyharmed")
+            expect_equal(darfur_out$info$q, 1)
+            expect_equal(darfur_out$info$alpha, 0.05)
+            expect_equal(darfur_out$info$reduce, TRUE)
+
+            # sensitivity stats
+            expect_equal(darfur_out$sensitivity_stats$dof, 1201)
+            expect_equal(darfur_out$sensitivity_stats$r2yd.x, 0.01133576, tolerance = 1e-5)
+            expect_equivalent(c(darfur_out$sensitivity_stats$rv_q), 0.1014987, tolerance = 1e-5)
+            expect_equivalent(c(darfur_out$sensitivity_stats$rv_qa), 0.04918561, tolerance = 1e-5)
+
+            # bounds
+            check_bounds <- structure(list(bound_label = c("1x female", "2x female", "3x female"),
+                                           r2dz.x = c(0.003868176, 0.007736352, 0.011604527),
+                                           r2yz.dx = c(0.06070571, 0.12141507, 0.18212811),
+                                           treatment = rep("directlyharmed", 3),
+                                           adjusted_estimate = c(0.0782748, 0.06512113, 0.05191559),
+                                           adjusted_se = c(0.02392148, 0.02318056, 0.02240902),
+                                           adjusted_t = c(3.272156, 2.8093, 2.316728),
+                                           adjusted_lower_CI = c(0.03134226, 0.01964223,0.007950411),
+                                           adjusted_upper_CI = c(0.1252073, 0.1106, 0.09588077)
+            ),
+            .Names = c("bound_label", "r2dz.x", "r2yz.dx", "treatment",
+                       "adjusted_estimate", "adjusted_se", "adjusted_t",
+                       "adjusted_lower_CI", "adjusted_upper_CI"),
+            row.names = c(NA, -3L), class = c("ovb_bounds", "data.frame"))
+
+            expect_equivalent(darfur_out$bounds, check_bounds, tolerance = 1e-5)
+
+            out1 <- capture.output(darfur_out)
+            out1 <- capture.output(summary(darfur_out))
+            out3 <- capture.output(ovb_minimal_reporting(darfur_out))
+            darfur_out2 <- sensemakr(model3, treatment = "directlyharmed")
+            plot(darfur_out2)
+            ovb_contour_plot(darfur_out2)
+            ovb_extreme_plot(darfur_out2)
+            out3 <- capture.output(ovb_minimal_reporting(darfur_out2))
+
+          })
+
+test_that(desc = "testing darfur sensemakr with fixed effexts and se adjustement",
+          {
+            darfur_out <- sensemakr(model4, treatment = "directlyharmed", benchmark_covariates = "female", kd = 1:3)
+            plot(darfur_out)
+            ovb_contour_plot(darfur_out)
+            ovb_extreme_plot(darfur_out)
+
+            # info
+            expect_equal(darfur_out$info$formula, peacefactor ~ directlyharmed + farmer_dar + herder_dar +
+                           pastvoted + hhsize_darfur + female | village + age)
+            expect_equal(darfur_out$info$treatment, "directlyharmed")
+            expect_equal(darfur_out$info$q, 1)
+            expect_equal(darfur_out$info$alpha, 0.05)
+            expect_equal(darfur_out$info$reduce, TRUE)
+
+            # sensitivity stats
+            expect_equal(darfur_out$sensitivity_stats$dof, 716)
+            expect_equal(darfur_out$sensitivity_stats$r2yd.x, 0.01196593, tolerance = 1e-5)
+            expect_equivalent(c(darfur_out$sensitivity_stats$rv_q), 0.1041604, tolerance = 1e-5)
+            expect_equivalent(c(darfur_out$sensitivity_stats$rv_qa), 0.03596192, tolerance = 1e-5)
+
+            # bounds
+            check_bounds <- structure(list(bound_label = c("1x female", "2x female", "3x female"),
+                                           r2dz.x = c(0.004313658, 0.008627316, 0.012940974),
+                                           r2yz.dx = c(0.06566111, 0.13132712, 0.19699810),
+                                           treatment = rep("directlyharmed", 3),
+                                           adjusted_estimate = c(0.0773726, 0.06330679, 0.04917896),
+                                           adjusted_se = c(0.03008068, 0.02906742, 0.02800809),
+                                           adjusted_t = c(2.572169, 2.17793, 1.755884),
+                                           adjusted_lower_CI = c(0.01831573, 0.006239226, -0.005808839),
+                                           adjusted_upper_CI = c(0.1364295, 0.1203744, 0.1041668)
+            ),
+            .Names = c("bound_label", "r2dz.x", "r2yz.dx", "treatment",
+                       "adjusted_estimate", "adjusted_se", "adjusted_t",
+                       "adjusted_lower_CI", "adjusted_upper_CI"),
+            row.names = c(NA, -3L), class = c("ovb_bounds", "data.frame"))
+
+            expect_equivalent(darfur_out$bounds, check_bounds, tolerance = 1e-5)
+
+            out1 <- capture.output(darfur_out)
+            out1 <- capture.output(summary(darfur_out))
+            out3 <- capture.output(ovb_minimal_reporting(darfur_out))
+            darfur_out2 <- sensemakr(model4, treatment = "directlyharmed")
+            plot(darfur_out2)
+            ovb_contour_plot(darfur_out2)
+            ovb_extreme_plot(darfur_out2)
+            out3 <- capture.output(ovb_minimal_reporting(darfur_out2))
+
+          })
 
 test_that(desc = "testing darfur sensemakr but negative",
           {

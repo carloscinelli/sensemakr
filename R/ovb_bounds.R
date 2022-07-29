@@ -113,8 +113,8 @@ ovb_bounds.lm <- function(model,
 #' @param alpha significance level for computing the adjusted confidence intervals. Default is 0.05.
 #' @examples
 #'
-#'# runs regression model
-#'model <- lm(peacefactor ~ directlyharmed + age + farmer_dar + herder_dar +
+#'# run regression model
+#'model <- fixest::feols(peacefactor ~ directlyharmed + age + farmer_dar + herder_dar +
 #'              pastvoted + hhsize_darfur + female + village, data = darfur)
 #'
 #'# bounds on the strength of confounders 1, 2, or 3 times as strong as female
@@ -173,7 +173,7 @@ ovb_bounds.fixest <- function(model,
                                    h0 = h0,
                                    reduce = reduce)
 
-    se_multiple <- qt(alpha/2, df = model$nobs - model$nparams, lower.tail = F)
+    se_multiple <- qt(alpha/2, df = fixest::degrees_freedom(model, "resid"), lower.tail = F)
     bounds$adjusted_lower_CI <- bounds$adjusted_estimate - se_multiple*bounds$adjusted_se
     bounds$adjusted_upper_CI <- bounds$adjusted_estimate + se_multiple*bounds$adjusted_se
 
@@ -436,16 +436,20 @@ ovb_partial_r2_bound.fixest <- function(model,
   # treatment model
   #treatment_model <- update(model, update.formula(model$fml, paste(treatment, "~ . - ", treatment)))
 
-  m      <- model.matrix(model)[,-1]
+  m      <- model.matrix(model)
   keep   <- !(colnames(m) %in% treatment)
   d      <- as.matrix(m[,treatment])
   colnames(d) <- treatment
-  XX     <- cbind(1, m[, keep, drop = FALSE])
-  colnames(XX)[1] <- "(Intercept)"
-  #fixef_df <- model.frame(model1$fml_all$fixef, data =
+  XX     <- m[, keep, drop = FALSE]
 
-  treatment_model <- fixest::feols.fit(y = d, X = XX)
-  treatment_model
+  vcov <- model$summary_flags$vcov
+
+  if (!is.null(model$fixef_id)) {
+    fixef_df <- data.frame(model$fixef_id[1:length(model$fixef_id)])
+    treatment_model <- fixest::feols.fit(y = d, X = XX, fixef_df = fixef_df, vcov = vcov)
+  } else {
+    treatment_model <- fixest::feols.fit(y = d, X = XX)
+  }
 
   # treatment_model <- lm.fit(y = m[,treatment, drop = F], x = m[,keep])
   # quoted <- sapply(colnames(m[,keep]), function(x) paste0("`", x, "`"))
