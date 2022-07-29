@@ -438,12 +438,13 @@ ovb_partial_r2_bound.fixest <- function(model,
 
   m      <- model.matrix(model)[,-1]
   keep   <- !(colnames(m) %in% treatment)
-  d      <- data.frame(m[,treatment])
-  names(d) <- treatment
-  XX     <- m[, keep, drop = FALSE]
-  treat.data <- data.frame(d, XX)
-  fml.treat <- reformulate(paste(names(treat.data)[-1], collapse = " + "), response = treatment)
-  treatment_model <- fixest::feols(fml.treat, data = treat.data)
+  d      <- as.matrix(m[,treatment])
+  colnames(d) <- treatment
+  XX     <- cbind(1, m[, keep, drop = FALSE])
+  colnames(XX)[1] <- "(Intercept)"
+  #fixef_df <- model.frame(model1$fml_all$fixef, data =
+
+  treatment_model <- fixest::feols.fit(y = d, X = XX)
   treatment_model
 
   # treatment_model <- lm.fit(y = m[,treatment, drop = F], x = m[,keep])
