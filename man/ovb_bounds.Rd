@@ -74,9 +74,7 @@ ovb_partial_r2_bound(...)
 )
 }
 \arguments{
-\item{...}{arguments passed to other methods. First argument should either be (i) an \code{\link{lm}} or \code{\link[fixest]{feols}} model with the
-outcome regression (argument \code{model}); (ii) a \code{\link{formula}} describing the model along
-with the \code{\link{data.frame}} containing the variables of the model (arguments \code{formula} and \code{data}); or, (iii) the numerical estimated value of the coefficient, along with the numeric values of standard errors and degrees of freedom (arguments \code{estimate}, \code{se} and \code{df}).}
+\item{...}{arguments passed to other methods.}
 
 \item{model}{An \code{fixest} object with the outcome regression.}
 
@@ -136,8 +134,8 @@ ovb_bounds(model, treatment = "directlyharmed",
           kd = 1:3)
 
 
-# runs regression model
-model <- lm(peacefactor ~ directlyharmed + age + farmer_dar + herder_dar +
+# run regression model
+model <- fixest::feols(peacefactor ~ directlyharmed + age + farmer_dar + herder_dar +
              pastvoted + hhsize_darfur + female + village, data = darfur)
 
 # bounds on the strength of confounders 1, 2, or 3 times as strong as female

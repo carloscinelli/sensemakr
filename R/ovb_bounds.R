@@ -173,7 +173,7 @@ ovb_bounds.fixest <- function(model,
                                    h0 = h0,
                                    reduce = reduce)
 
-    se_multiple <- qt(alpha/2, df = fixest::degrees_freedom(model, "resid"), lower.tail = F)
+    se_multiple <- qt(alpha/2, df = fixest::degrees_freedom(model, "t"), lower.tail = F)
     bounds$adjusted_lower_CI <- bounds$adjusted_estimate - se_multiple*bounds$adjusted_se
     bounds$adjusted_upper_CI <- bounds$adjusted_estimate + se_multiple*bounds$adjusted_se
 

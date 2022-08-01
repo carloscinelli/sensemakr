@@ -265,6 +265,7 @@ sensemakr.lm <- function(model,
 #' @param ky numeric vector. Parameterizes how many times stronger the confounder is related to the outcome in comparison to the observed benchmark covariate.
 #' Default value is the same as \code{kd}.
 #' @param bound_label label to bounds provided manually in \code{r2dz.x} and \code{r2yz.dx}.
+#' @param ... arguments passed to other methods.
 #' @inheritParams robustness_value
 #' @rdname sensemakr
 #' @importFrom stats formula
@@ -333,7 +334,7 @@ sensemakr.fixest <- function(model,
                                           h0 = h0,
                                           reduce = reduce)
 
-    se_multiple <- qt(alpha/2, df = degrees_freedom(model, "resid"), lower.tail = F)
+    se_multiple <- qt(alpha/2, df = fixest::degrees_freedom(model, "t"), lower.tail = F)
     out$bounds$adjusted_lower_CI <- out$bounds$adjusted_estimate - se_multiple*out$bounds$adjusted_se
     out$bounds$adjusted_upper_CI <- out$bounds$adjusted_estimate + se_multiple*out$bounds$adjusted_se
   } else{
@@ -360,12 +361,14 @@ sensemakr.fixest <- function(model,
 
 
 #' @param formula an object of the class \code{\link{formula}}: a symbolic description of the model to be fitted.
-#' @param method the default is \code{\link{lm}}. This argument can be changed to estimate the model using \code{\link[fixest]{feols}}. In this case the formula needs to be written so it can be estimated with \code{\link[fixest]{feols}} and the package need to be installed.
+#' @param method the default is \code{\link{lm}}. This argument can be changed to estimate the model using \code{\link[fixest]{feols}}. In this case the formula needs to be written so it can be estimated with \code{\link[fixest]{feols}} and the package needs to be installed.
 #' @param data data needed only when you pass a formula as first parameter. An object of the class \code{\link{data.frame}} containing the variables used in the analysis.
+#' @param vcov the variance/covariance used in the estimation when using \code{\link[fixest]{feols}}. See \code{\link[fixest]{vcov.fixest}} for more details. Defaults to "iid".
 #' @rdname sensemakr
 #' @export
 sensemakr.formula <- function(formula,
                               method = c("lm", "feols"),
+                              vcov = "iid",
                               data,
                               treatment,
                               benchmark_covariates = NULL,
@@ -389,13 +392,13 @@ sensemakr.formula <- function(formula,
 
   if(type == "lm") {
     reg.call <- call(type, formula = substitute(formula), data = substitute(data))
-    outcome_model = eval(reg.call)
+    outcome_model <- eval(reg.call)
   } else if(type == "feols") {
-    if (!require("fixest")) {
+    if (!requireNamespace("fixest")) {
       stop("Please install the fixest package.")
     }
-    reg.call <- call(type, fml = substitute(formula), data = substitute(data))
-    outcome_model = eval(reg.call)
+    vcov <- vcov
+    outcome_model <- fixest::feols(fml = formula, data = data, vcov = vcov)
   }
 
   sensemakr(model = outcome_model,

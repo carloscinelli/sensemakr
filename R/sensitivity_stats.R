@@ -411,8 +411,8 @@ group_partial_r2.fixest <- function(model, covariates, ...){
   V <- vcov(model)[covariates, covariates, drop = FALSE]
 
   # degrees of freedom
-  # Using residual degrees. With fixed effect dof adjustment is still open question
-  dof <- fixest::degrees_freedom(model, "resid")
+  # Using the degrees of freedom used in the t-test. With fixed effect dof adjustment is still open question
+  dof <- fixest::degrees_freedom(model, "t")
 
   # compute F and R2
   p <- length(coefs)
@@ -663,7 +663,7 @@ model_helper.fixest = function(model, covariates = NULL, ...) {
     estimate = coefs[, "Estimate"],
     se = coefs[, "Std. Error"],
     t_statistics = coefs[, "t value"],
-    dof = fixest::degrees_freedom(model, "resid")
+    dof = fixest::degrees_freedom(model, "t")
   ))
 }
 
@@ -716,7 +716,7 @@ error_if_no_dof.lm = function(model, ...) {
 #' @param model model to check dof in
 #' @param ... arguments passed to other methods.
 error_if_no_dof.fixest = function(model, ...) {
-  if (fixest::degrees_freedom(model, "resid") == 0) {
+  if (fixest::degrees_freedom(model, "t") == 0) {
     stop("There are 0 residual ",
          "degrees of freedom in the regression model provided.")
   }

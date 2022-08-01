@@ -57,6 +57,7 @@ ovb_contour_plot(...)
 \method{ovb_contour_plot}{formula}(
   formula,
   method = c("lm", "feols"),
+  vcov = "iid",
   data,
   treatment,
   benchmark_covariates = NULL,
@@ -161,7 +162,9 @@ absolute value of the estimated coefficient? Default is \code{TRUE}.}
 
 \item{formula}{an object of the class \code{\link{formula}}: a symbolic description of the model to be fitted.}
 
-\item{method}{the default is \code{\link{lm}}. This argument can be changed to estimate the model using \code{\link[fixest]{feols}}. In this case the formula needs to be written so it can be estimated with \code{\link[fixest]{feols}} and the package need to be installed.}
+\item{method}{the default is \code{\link{lm}}. This argument can be changed to estimate the model using \code{\link[fixest]{feols}}. In this case the formula needs to be written so it can be estimated with \code{\link[fixest]{feols}} and the package needs to be installed.}
+
+\item{vcov}{the variance/covariance used in the estimation when using \code{\link[fixest]{feols}}. See \code{\link[fixest]{vcov.fixest}} for more details. Defaults to "iid".}
 
 \item{data}{data needed only when you pass a formula as first parameter. An object of the class \code{\link{data.frame}} containing the variables used in the analysis.}
 

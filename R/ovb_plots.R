@@ -359,6 +359,7 @@ ovb_contour_plot.fixest = function(model,
 #' @export
 ovb_contour_plot.formula = function(formula,
                                     method = c("lm", "feols"),
+                                    vcov = "iid",
                                     data,
                                     treatment,
                                     benchmark_covariates = NULL,
@@ -394,11 +395,11 @@ ovb_contour_plot.formula = function(formula,
     reg.call <- call(type, formula = substitute(formula), data = substitute(data))
     outcome_model = eval(reg.call)
   } else if(type == "feols") {
-    if (!require("fixest")) {
+    if (!requireNamespace("fixest")) {
       stop("Please install the fixest package.")
     }
-    reg.call <- call(type, fml = substitute(formula), data = substitute(data))
-    outcome_model = eval(reg.call)
+    vcov <- vcov
+    outcome_model <- fixest::feols(fml = formula, data = data, vcov = vcov)
   }
 
   ovb_contour_plot(model = outcome_model,
@@ -1145,6 +1146,7 @@ ovb_extreme_plot.fixest <- function(model,
 #' @export
 ovb_extreme_plot.formula = function(formula,
                                     method = c("lm", "feols"),
+                                    vcov = "iid",
                                     data,
                                     treatment,
                                     benchmark_covariates = NULL,
@@ -1168,11 +1170,11 @@ ovb_extreme_plot.formula = function(formula,
     reg.call <- call(type, formula = substitute(formula), data = substitute(data))
     outcome_model = eval(reg.call)
   } else if(type == "feols") {
-    if (!require("fixest")) {
+    if (!requireNamespace("fixest")) {
       stop("Please install the fixest package.")
     }
-    reg.call <- call(type, fml = substitute(formula), data = substitute(data))
-    outcome_model = eval(reg.call)
+    vcov <- vcov
+    outcome_model <- fixest::feols(fml = formula, data = data, vcov = vcov)
   }
 
   ovb_extreme_plot(model = outcome_model,
