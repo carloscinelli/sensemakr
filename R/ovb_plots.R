@@ -528,7 +528,7 @@ ovb_contour_plot.numeric = function(estimate,
 
     text(0.0 + label.bump.x, 0.00 + label.bump.y,
          paste0("Unadjusted\n(",
-                signif(plot_estimate, 2),
+                round(plot_estimate, digits = round),
                 ")"),
          cex = cex.label.text)
   }
