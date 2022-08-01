@@ -13,7 +13,7 @@ status](https://ci.appveyor.com/api/projects/status/utoc0803j4fxoje3?svg=true)](
 status](https://www.r-pkg.org/badges/version/sensemakr)](https://CRAN.R-project.org/package=sensemakr)
 [![Coverage
 status](https://codecov.io/gh/carloscinelli/sensemakr/branch/master/graph/badge.svg)](https://codecov.io/github/carloscinelli/sensemakr?branch=master)
-[![Donwloads](https://cranlogs.r-pkg.org/badges/sensemakr)](https://cran.r-project.org/package=sensemakr)
+[![Downloads](https://cranlogs.r-pkg.org/badges/sensemakr)](https://cran.r-project.org/package=sensemakr)
 <!-- badges: end -->
 
 `sensemakr` implements a suite of sensitivity analysis tools that
@@ -26,22 +26,26 @@ Methodology).](https://doi.org/10.1111/rssb.12348)
 
 # News
 
-  - Watch the [useR\! 2020
+-   The [Online Causal Inference Seminar presentation](https://www.youtube.com/watch?v=j7mN_G5Gpyg) is now available.
+
+-   Check out the new [Python version](https://github.com/nlapier2/PySensemakr) of the package!
+
+-   Watch the [useR! 2020
     presentation](https://www.youtube.com/watch?v=p3dfHj6ki68) for a
     quick introduction on sensemakr.
 
-  - Check out the [software paper
-    preprint](https://www.researchgate.net/publication/340965014_sensemakr_Sensitivity_Analysis_Tools_for_OLS_in_R_and_Stata)\!
+-   Check out the [software paper
+    preprint](https://www.researchgate.net/publication/340965014_sensemakr_Sensitivity_Analysis_Tools_for_OLS_in_R_and_Stata)!
 
-  - Check out the new [Stata
+-   Check out the new [Stata
     version](https://github.com/resonance1/sensemakr-stata) of the
-    package\!
+    package!
 
-  - Check out the Robustness Value Shiny App at:
+-   Check out the Robustness Value Shiny App at:
     <https://carloscinelli.shinyapps.io/robustness_value/>
 
-  - Check out the [package
-    website](http://carloscinelli.com/sensemakr/)\!
+-   Check out the [package
+    website](http://carloscinelli.com/sensemakr/)!
 
 # Details
 
@@ -54,10 +58,9 @@ or [see the package
 vignettes](http://carloscinelli.com/sensemakr/articles/sensemakr.html).
 
 For a quick start, watch the 15 min tutorial on sensitivity analysis
-using sensemakr prepared for useR\! 2020:
+using sensemakr prepared for useR! 2020:
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/p3dfHj6ki68" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
-
 </iframe>
 
 # CRAN
@@ -82,12 +85,12 @@ devtools::install_github("chadhazlett/sensemakr")
 
 Please use the following citations:
 
-  - [Cinelli, C., & Hazlett, C. (2020). “Making sense of sensitivity:
+-   [Cinelli, C., & Hazlett, C. (2020). “Making sense of sensitivity:
     Extending omitted variable bias.” Journal of the Royal Statistical
     Society: Series B (Statistical Methodology), 82(1),
     39-67.](https://doi.org/10.1111/rssb.12348)
 
-  - [Cinelli, C., & Ferwerda, J., & Hazlett, C. (2020). “sensemakr:
+-   [Cinelli, C., & Ferwerda, J., & Hazlett, C. (2020). “sensemakr:
     Sensitivity Analysis Tools for OLS in R and
     Stata.”](https://www.researchgate.net/publication/340965014_sensemakr_Sensitivity_Analysis_Tools_for_OLS_in_R_and_Stata)
 
@@ -182,7 +185,6 @@ plot(sensitivity)
 <img src="man/figures/figures-basic-usage-1.png" style="display: block; margin: auto;" />
 
 ``` r
-
 # plot bias contour of t-value
 plot(sensitivity, sensitivity.of = "t-value")
 ```
@@ -190,7 +192,6 @@ plot(sensitivity, sensitivity.of = "t-value")
 <img src="man/figures/figures-basic-usage-2.png" style="display: block; margin: auto;" />
 
 ``` r
-
 # plot extreme scenario
 plot(sensitivity, type = "extreme")
 ```
@@ -198,7 +199,6 @@ plot(sensitivity, type = "extreme")
 <img src="man/figures/figures-basic-usage-3.png" style="display: block; margin: auto;" />
 
 ``` r
-
 # latex code for sensitivity table
 ovb_minimal_reporting(sensitivity)
 #> \begin{table}[!h]

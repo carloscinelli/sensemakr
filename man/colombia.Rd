@@ -7,7 +7,7 @@
 \format{
 A data frame with 1123 rows and 16 columns.
 \describe{
-  \item{department}{Name for the provincial level unit, called departments or departmentos, of which there are 32 in the country.}
+  \item{department}{Name for the provincial level unit, called departments or departamentos, of which there are 32 in the country.}
   \item{dept_code}{Short code for the department}
   \item{town}{Name for the town, which is the smallest electoral unit available and is the unit of analysis.}
   \item{town_code}{Code for the town.}

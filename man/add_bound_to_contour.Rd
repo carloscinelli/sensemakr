@@ -32,9 +32,15 @@ add_bound_to_contour(...)
   bound_label = NULL,
   label.text = TRUE,
   cex.label.text = 0.7,
+  font.label.text = 1,
   label.bump.x = plot.env$lim * (1/15),
   label.bump.y = plot.env$lim.y * (1/15),
   round = 2,
+  point.pch = 23,
+  point.col = "black",
+  point.bg = "red",
+  point.cex = 1,
+  point.font = 1,
   ...
 )
 }
@@ -79,6 +85,18 @@ Z with treatment D, given covariates X.}
 with outcome Y, given covariates X and treatment D.}
 
 \item{bound_value}{value to be printed in label bound.}
+
+\item{font.label.text}{font for the label text.}
+
+\item{point.pch}{plotting character for \code{\link{points}}.}
+
+\item{point.col}{color code or name for \code{\link{points}}.}
+
+\item{point.bg}{backgrounf (fill) color for \code{\link{points}}.}
+
+\item{point.cex}{size of \code{\link{points}}.}
+
+\item{point.font}{font for \code{\link{points}}.}
 }
 \value{
 The function adds bounds in an existing contour plot and returns `NULL`.
