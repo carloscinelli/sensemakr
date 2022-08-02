@@ -3,9 +3,11 @@
 \name{ovb_bounds}
 \alias{ovb_bounds}
 \alias{ovb_bounds.lm}
+\alias{ovb_bounds.fixest}
 \alias{ovb_partial_r2_bound}
 \alias{ovb_partial_r2_bound.numeric}
 \alias{ovb_partial_r2_bound.lm}
+\alias{ovb_partial_r2_bound.fixest}
 \title{Bounds on the strength of unobserved confounders using observed covariates}
 \usage{
 ovb_bounds(...)
@@ -21,6 +23,21 @@ ovb_bounds(...)
   adjusted_estimates = TRUE,
   alpha = 0.05,
   h0 = 0,
+  ...
+)
+
+\method{ovb_bounds}{fixest}(
+  model,
+  treatment,
+  benchmark_covariates = NULL,
+  kd = 1,
+  ky = kd,
+  reduce = TRUE,
+  bound = c("partial r2", "partial r2 no D", "total r2"),
+  adjusted_estimates = TRUE,
+  alpha = 0.05,
+  h0 = 0,
+  message = T,
   ...
 )
 
@@ -45,18 +62,27 @@ ovb_partial_r2_bound(...)
   alpha = 0.05,
   ...
 )
+
+\method{ovb_partial_r2_bound}{fixest}(
+  model,
+  treatment,
+  benchmark_covariates = NULL,
+  kd = 1,
+  ky = kd,
+  adjusted_estimates = TRUE,
+  alpha = 0.05,
+  ...
+)
 }
 \arguments{
-\item{...}{arguments passed to other methods. First argument should either be (i) an \code{\link{lm}} model with the
-outcome regression (argument \code{model}); (ii) a \code{\link{formula}} describing the model along
-with the \code{\link{data.frame}} containing the variables of the model (arguments \code{formula} and \code{data}); or, (iii) the numerical estimated value of the coefficient, along with the numeric values of standard errors and degrees of freedom (arguments \code{estimate}, \code{se} and \code{df}).}
+\item{...}{arguments passed to other methods.}
 
-\item{model}{An \code{lm} object with the outcome regression.}
+\item{model}{An \code{fixest} object with the outcome regression.}
 
 \item{treatment}{A character vector with the name of the treatment variable
 of the model.}
 
-\item{benchmark_covariates}{The user has two options: (i)  character vector of the names of covariates that will be used to bound the plausible strength of the unobserved confounders. Each variable will be considered separately; (ii) a named list with character vector names of covariates that will be used, \emph{as a group}, to bound the plausible strength of the unobserved confounders. The names of the list will be used for the benchmark labels. Note: for factor variables with more than two levels, you need to provide the name of each level as encoded in the \code{lm} model (the columns of \code{model.matrix}).}
+\item{benchmark_covariates}{The user has two options: (i)  character vector of the names of covariates that will be used to bound the plausible strength of the unobserved confounders. Each variable will be considered separately; (ii) a named list with character vector names of covariates that will be used, \emph{as a group}, to bound the plausible strength of the unobserved confounders. The names of the list will be used for the benchmark labels. Note: for factor variables with more than two levels, you need to provide the name of each level as encoded in the \code{fixest} model (the columns of \code{model.matrix}).}
 
 \item{kd}{numeric vector. Parameterizes how many times stronger the confounder is related to the treatment in comparison to the observed benchmark covariate.
 Default value is \code{1} (confounder is as strong as benchmark covariate).}
@@ -74,6 +100,8 @@ absolute value of the estimated coefficient? Default is \code{TRUE}.}
 \item{alpha}{significance level for computing the adjusted confidence intervals. Default is 0.05.}
 
 \item{h0}{Null hypothesis for computation of the t-value. Default is zero.}
+
+\item{message}{should messages be printed? Default = TRUE.}
 
 \item{r2dxj.x}{partial R2 of covariate Xj with the treatment D (after partialling out the effect of the remaining covariates X, excluding Xj).}
 
@@ -100,6 +128,17 @@ Currently it implements only the bounds based on partial R2. Other bounds will b
 
 # runs regression model
 model <- lm(peacefactor ~ directlyharmed + age + farmer_dar + herder_dar +
+             pastvoted + hhsize_darfur + female + village, data = darfur)
+
+# bounds on the strength of confounders 1, 2, or 3 times as strong as female
+# and 1,2, or 3 times as strong as pastvoted
+ovb_bounds(model, treatment = "directlyharmed",
+          benchmark_covariates = c("female", "pastvoted"),
+          kd = 1:3)
+
+
+# run regression model
+model <- fixest::feols(peacefactor ~ directlyharmed + age + farmer_dar + herder_dar +
              pastvoted + hhsize_darfur + female + village, data = darfur)
 
 # bounds on the strength of confounders 1, 2, or 3 times as strong as female
@@ -147,6 +186,8 @@ add_bound_to_contour(bounds, bound_value = bound.values)
 
 }
 \references{
+Cinelli, C. and Hazlett, C. (2020), "Making Sense of Sensitivity: Extending Omitted Variable Bias." Journal of the Royal Statistical Society, Series B (Statistical Methodology).
+
 Cinelli, C. and Hazlett, C. (2020), "Making Sense of Sensitivity: Extending Omitted Variable Bias." Journal of the Royal Statistical Society, Series B (Statistical Methodology).
 
 Cinelli, C. and Hazlett, C. (2020), "Making Sense of Sensitivity: Extending Omitted Variable Bias." Journal of the Royal Statistical Society, Series B (Statistical Methodology).

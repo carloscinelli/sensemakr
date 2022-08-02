@@ -1,18 +1,20 @@
 Package: sensemakr
 Type: Package
 Title: Sensitivity Analysis Tools for Regression Models
-Date: 2021-10-07
-Version: 0.1.4
+Date: 2022-20-07
+Version: 0.1.5
 Authors@R: c(
   person("Carlos", "Cinelli", role = c("aut", "cre"), email = "carloscinelli@hotmail.com"),
   person("Jeremy", "Ferwerda", role = "aut"),
   person("Chad", "Hazlett", role = "aut"),
-  person("Aaron", "Rudkin", role = "ctb")
+  person("Aaron", "Rudkin", role = "ctb"),
+  person("Grigorij", "Ljubownikow", role = "ctb")
   )
 Author: Carlos Cinelli [aut, cre],
   Jeremy Ferwerda [aut],
   Chad Hazlett [aut],
-  Aaron Rudkin [ctb]
+  Aaron Rudkin [ctb], 
+  Grigorij Ljubownikow [ctb]
 Maintainer: Carlos Cinelli <carloscinelli@hotmail.com>
 Description: Implements a suite of sensitivity analysis tools 
   that extends the traditional omitted variable bias framework and makes it easier 
@@ -22,13 +24,14 @@ BugReports: https://github.com/carloscinelli/sensemakr/issues
 License: GPL-3
 Depends: R (>= 3.1.0)
 Encoding: UTF-8
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
 Suggests: 
     testthat,
     covr,
     knitr,
     rmarkdown,
     png,
-    stargazer
+    stargazer, 
+    fixest
 LazyData: true
 VignetteBuilder: knitr

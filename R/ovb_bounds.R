@@ -77,18 +77,18 @@ ovb_bounds.lm <- function(model,
     # compute adjusted effects
     bounds$treatment <- treatment
 
-    bounds$adjusted_estimate = adjusted_estimate(model = model,
+    bounds$adjusted_estimate = adjusted_estimate.lm(model = model,
                                                  treatment = treatment,
                                                  r2yz.dx = bounds$r2yz.dx,
                                                  r2dz.x = bounds$r2dz.x,
                                                  reduce = reduce)
 
-    bounds$adjusted_se = adjusted_se(model = model,
+    bounds$adjusted_se = adjusted_se.lm(model = model,
                                      treatment = treatment,
                                      r2yz.dx = bounds$r2yz.dx,
                                      r2dz.x = bounds$r2dz.x)
 
-    bounds$adjusted_t = adjusted_t(model = model,
+    bounds$adjusted_t = adjusted_t.lm(model = model,
                                    treatment = treatment,
                                    r2yz.dx = bounds$r2yz.dx,
                                    r2dz.x = bounds$r2dz.x,
@@ -106,6 +106,87 @@ ovb_bounds.lm <- function(model,
   return(bounds)
 }
 
+#' @inheritParams sensemakr
+#' @inheritParams adjusted_estimate
+#' @param bound type of bounding procedure. Currently only \code{"partial r2"} is implemented.
+#' @param adjusted_estimates should the bounder also compute the adjusted estimates? Default is \code{TRUE}.
+#' @param alpha significance level for computing the adjusted confidence intervals. Default is 0.05.
+#' @examples
+#'
+#'# run regression model
+#'model <- fixest::feols(peacefactor ~ directlyharmed + age + farmer_dar + herder_dar +
+#'              pastvoted + hhsize_darfur + female + village, data = darfur)
+#'
+#'# bounds on the strength of confounders 1, 2, or 3 times as strong as female
+#'# and 1,2, or 3 times as strong as pastvoted
+#'ovb_bounds(model, treatment = "directlyharmed",
+#'           benchmark_covariates = c("female", "pastvoted"),
+#'           kd = 1:3)
+#'
+#' @references Cinelli, C. and Hazlett, C. (2020), "Making Sense of Sensitivity: Extending Omitted Variable Bias." Journal of the Royal Statistical Society, Series B (Statistical Methodology).
+#' @rdname ovb_bounds
+#' @param message should messages be printed? Default = TRUE.
+#' @export
+ovb_bounds.fixest <- function(model,
+                          treatment,
+                          benchmark_covariates = NULL,
+                          kd = 1,
+                          ky = kd,
+                          reduce = TRUE,
+                          bound = c("partial r2", "partial r2 no D", "total r2"),
+                          adjusted_estimates = TRUE,
+                          alpha = 0.05,
+                          h0 = 0,
+                          message = T,
+                          ...) {
+
+  bound = match.arg(bound)
+
+  bounder = switch(bound,
+                   "partial r2" = ovb_partial_r2_bound,
+                   "partial r2 no D" = stop("Only partial r2 implemented now."),
+                   "total r2" = stop("Only partial r2 implemented now."))
+
+  bounds <- bounder(model = model,
+                    treatment = treatment,
+                    benchmark_covariates = benchmark_covariates,
+                    kd = kd,
+                    ky = ky)
+
+  if (adjusted_estimates) {
+    # compute adjusted effects
+    bounds$treatment <- treatment
+
+    bounds$adjusted_estimate = adjusted_estimate.fixest(model = model,
+                                                 treatment = treatment,
+                                                 r2yz.dx = bounds$r2yz.dx,
+                                                 r2dz.x = bounds$r2dz.x,
+                                                 reduce = reduce)
+
+    bounds$adjusted_se = adjusted_se.fixest(model = model,
+                                     treatment = treatment,
+                                     r2yz.dx = bounds$r2yz.dx,
+                                     r2dz.x = bounds$r2dz.x,
+                                     message = message)
+
+    bounds$adjusted_t = adjusted_t.fixest(model = model,
+                                   treatment = treatment,
+                                   r2yz.dx = bounds$r2yz.dx,
+                                   r2dz.x = bounds$r2dz.x,
+                                   h0 = h0,
+                                   reduce = reduce,
+                                   message = message)
+
+    se_multiple <- qt(alpha/2, df = fixest::degrees_freedom(model, type = "resid", vcov = "iid"), lower.tail = F)
+    bounds$adjusted_lower_CI <- bounds$adjusted_estimate - se_multiple*bounds$adjusted_se
+    bounds$adjusted_upper_CI <- bounds$adjusted_estimate + se_multiple*bounds$adjusted_se
+
+
+  }
+  class(bounds) <- c("ovb_bounds", "data.frame")
+  row.names(bounds) <- NULL
+  return(bounds)
+}
 
 
 # future bounds to work on ------------------------------------------------
@@ -260,7 +341,7 @@ ovb_partial_r2_bound.lm <- function(model,
 
 
   # treatment model
-  # treatment_model <- update(model,  paste(treatment, "~ . - ", treatment))
+  #treatment_model <- update(model,  paste(treatment, "~ . - ", treatment))
 
   m      <- model.matrix(model)[,-1]
   keep   <- !(colnames(m) %in% treatment)
@@ -285,11 +366,11 @@ ovb_partial_r2_bound.lm <- function(model,
     if(is.character(benchmark_covariates)){
 
       # gets partial r2 with outcome
-      r2yxj.dx <- partial_r2(model, covariates = benchmark_covariates)
+      r2yxj.dx <- partial_r2.lm(model, covariates = benchmark_covariates)
 
       # gets partial r2 with treatment
       bench.treat  <- paste0("XX", benchmark_covariates)
-      r2dxj.x <- partial_r2(treatment_model, covariates = bench.treat)
+      r2dxj.x <- partial_r2.lm(treatment_model, covariates = bench.treat)
 
     } else {
 
@@ -308,9 +389,9 @@ ovb_partial_r2_bound.lm <- function(model,
       label.groups <- r2d.group <- r2y.group <- rep(NA, n_groups)
 
       for(i in seq_along(benchmark_covariates)){
-        r2y.group[i] <-  group_partial_r2(model, covariates = benchmark_covariates[[i]])
+        r2y.group[i] <-  group_partial_r2.lm(model, covariates = benchmark_covariates[[i]])
         bench.treat  <- paste0("XX", benchmark_covariates[[i]])
-        r2d.group[i] <-  group_partial_r2(treatment_model, covariates = bench.treat)
+        r2d.group[i] <-  group_partial_r2.lm(treatment_model, covariates = bench.treat)
         label.groups[i] <- names(benchmark_covariates)[i]
       }
 
@@ -339,6 +420,110 @@ ovb_partial_r2_bound.lm <- function(model,
   return(bounds)
 }
 
+
+#' @inheritParams sensemakr
+#' @inheritParams ovb_bounds
+#' @rdname ovb_bounds
+#' @export
+#' @import stats
+ovb_partial_r2_bound.fixest <- function(model,
+                                    treatment,
+                                    benchmark_covariates = NULL,
+                                    kd = 1,
+                                    ky = kd,
+                                    adjusted_estimates = TRUE,
+                                    alpha = 0.05, ...){
+
+  if (!is.character(treatment)) stop("Argument treatment must be a string.")
+  if (length(treatment) > 1) stop("You must pass only one treatment")
+
+  # treatment model
+  #treatment_model <- update(model, update.formula(model$fml, paste(treatment, "~ . - ", treatment)))
+
+  m      <- model.matrix(model)
+  keep   <- !(colnames(m) %in% treatment)
+  d      <- as.matrix(m[,treatment])
+  colnames(d) <- treatment
+  XX     <- m[, keep, drop = FALSE]
+
+  # vcov <- model$call$vcov
+
+  if (!is.null(model$fixef_id)) {
+    fixef_df <- data.frame(model$fixef_id[1:length(model$fixef_id)])
+    treatment_model <- fixest::feols.fit(y = d, X = XX, fixef_df = fixef_df)
+  } else {
+    treatment_model <- fixest::feols.fit(y = d, X = XX)
+  }
+
+  # treatment_model <- lm.fit(y = m[,treatment, drop = F], x = m[,keep])
+  # quoted <- sapply(colnames(m[,keep]), function(x) paste0("`", x, "`"))
+  # vars   <- paste(quoted, collapse = " + ")
+  #form1   <- paste(treatment, "~", vars)
+  #form   <- eval(parse(text = form1, keep.source = T))
+  #treatment_model <- lm(as.formula(form), data = as.data.frame(m))
+  # initialize
+
+  bounds <- vector(mode = "list", length = length(benchmark_covariates))
+  r2yxj.dx <- NULL
+  r2dxj.x  <- NULL
+
+  if (!is.null(benchmark_covariates)) {
+    if(is.character(benchmark_covariates)){
+
+      # gets partial r2 with outcome
+      r2yxj.dx <- partial_r2.fixest(model, covariates = benchmark_covariates)
+
+      # gets partial r2 with treatment
+      #bench.treat  <- paste0("XX", benchmark_covariates)
+      r2dxj.x <- partial_r2.fixest(treatment_model, covariates = benchmark_covariates)
+
+    } else {
+
+      if (!is.list(benchmark_covariates)) stop("Argument benchmark_covariates must be either a string or a list.")
+
+      if (is.null(names(benchmark_covariates)))
+        stop("If benchmark_covariates is a list, it must be a *named* list.\t",
+             "Names are used for labeling the benchmarks.")
+
+      classes <- sapply(X = benchmark_covariates, FUN = class)
+
+      if(!all(classes == "character"))
+        stop("All elements of the list passed to benchmark_covariates must be of class 'character'.")
+
+      n_groups <- length(benchmark_covariates)
+      label.groups <- r2d.group <- r2y.group <- rep(NA, n_groups)
+
+      for(i in seq_along(benchmark_covariates)){
+        r2y.group[i] <-  group_partial_r2.fixest(model, covariates = benchmark_covariates[[i]])
+        #bench.treat  <- paste0("XX", benchmark_covariates[[i]])
+        r2d.group[i] <-  group_partial_r2.fixest(treatment_model, covariates = benchmark_covariates[[i]])
+        label.groups[i] <- names(benchmark_covariates)[i]
+      }
+
+      r2yxj.dx <- r2y.group
+      r2dxj.x  <- r2d.group
+      benchmark_covariates <-  label.groups
+    }
+
+  }
+
+  for (i in seq_along(benchmark_covariates)) {
+
+    bound_label = label_maker(benchmark_covariate = benchmark_covariates[i],
+                              kd = kd,
+                              ky = ky)
+
+    bounds[[i]] <- ovb_partial_r2_bound(r2dxj.x = r2dxj.x[i],
+                                        r2yxj.dx = r2yxj.dx[i],
+                                        kd = kd,
+                                        ky = ky,
+                                        bound_label = bound_label)
+  }
+
+  bounds <- do.call("rbind", bounds)
+
+  return(bounds)
+}
 
 
 

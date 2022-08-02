@@ -3,21 +3,27 @@
 \name{adjusted_estimate}
 \alias{adjusted_estimate}
 \alias{adjusted_estimate.lm}
+\alias{adjusted_estimate.fixest}
 \alias{adjusted_estimate.numeric}
 \alias{adjusted_se}
 \alias{adjusted_se.numeric}
 \alias{adjusted_se.lm}
+\alias{adjusted_se.fixest}
 \alias{adjusted_t}
 \alias{adjusted_t.lm}
+\alias{adjusted_t.fixest}
 \alias{adjusted_t.numeric}
 \alias{adjusted_partial_r2}
 \alias{adjusted_partial_r2.numeric}
 \alias{adjusted_partial_r2.lm}
+\alias{adjusted_partial_r2.fixest}
 \alias{bias}
 \alias{bias.numeric}
 \alias{bias.lm}
+\alias{bias.fixest}
 \alias{relative_bias}
 \alias{relative_bias.lm}
+\alias{relative_bias.fixest}
 \alias{relative_bias.numeric}
 \alias{rel_bias}
 \title{Bias-adjusted estimates, standard-errors and t-values}
@@ -25,6 +31,8 @@
 adjusted_estimate(...)
 
 \method{adjusted_estimate}{lm}(model, treatment, r2dz.x, r2yz.dx, reduce = TRUE, ...)
+
+\method{adjusted_estimate}{fixest}(model, treatment, r2dz.x, r2yz.dx, reduce = TRUE, ...)
 
 \method{adjusted_estimate}{numeric}(estimate, se, dof, r2dz.x, r2yz.dx, reduce = TRUE, ...)
 
@@ -34,9 +42,22 @@ adjusted_se(...)
 
 \method{adjusted_se}{lm}(model, treatment, r2dz.x, r2yz.dx, ...)
 
+\method{adjusted_se}{fixest}(model, treatment, r2dz.x, r2yz.dx, message = TRUE, ...)
+
 adjusted_t(...)
 
 \method{adjusted_t}{lm}(model, treatment, r2dz.x, r2yz.dx, reduce = TRUE, h0 = 0, ...)
+
+\method{adjusted_t}{fixest}(
+  model,
+  treatment,
+  r2dz.x,
+  r2yz.dx,
+  reduce = TRUE,
+  h0 = 0,
+  message = T,
+  ...
+)
 
 \method{adjusted_t}{numeric}(estimate, se, dof, r2dz.x, r2yz.dx, reduce = TRUE, h0 = 0, ...)
 
@@ -63,15 +84,29 @@ adjusted_partial_r2(...)
   ...
 )
 
+\method{adjusted_partial_r2}{fixest}(
+  model,
+  treatment,
+  r2dz.x,
+  r2yz.dx,
+  reduce = TRUE,
+  h0 = 0,
+  ...
+)
+
 bias(...)
 
 \method{bias}{numeric}(se, dof, r2dz.x, r2yz.dx, ...)
 
 \method{bias}{lm}(model, treatment, r2dz.x, r2yz.dx, ...)
 
+\method{bias}{fixest}(model, treatment, r2dz.x, r2yz.dx, ...)
+
 relative_bias(...)
 
 \method{relative_bias}{lm}(model, treatment, r2dz.x, r2yz.dx, ...)
+
+\method{relative_bias}{fixest}(model, treatment, r2dz.x, r2yz.dx, ...)
 
 \method{relative_bias}{numeric}(estimate, se, dof, r2dz.x, r2yz.dx, ...)
 
@@ -82,7 +117,7 @@ rel_bias(r.est, est)
 \code{lm} model with the outcome regression or a numeric vector with the
 coefficient estimate.}
 
-\item{model}{An \code{lm} object with the outcome regression.}
+\item{model}{An \code{fixest} object with the outcome regression.}
 
 \item{treatment}{A character vector with the name of the treatment variable
 of the model.}
@@ -101,6 +136,8 @@ absolute value of the estimated coefficient? Default is \code{TRUE}.}
 \item{se}{Standard error of the coefficient estimate.}
 
 \item{dof}{Residual degrees of freedom of the regression.}
+
+\item{message}{should messages be printed? Default = TRUE.}
 
 \item{h0}{Null hypothesis for computation of the t-value. Default is zero.}
 

@@ -242,7 +242,8 @@ test_that(desc = "testing darfur sensemakr manually",
           })
 
 
-test_that(desc = "testing darfur sensitivity stats",{
+test_that(desc = "testing darfur sensitivity stats",
+          {
 
             # checks RV
             ## RV q = 1
@@ -284,7 +285,8 @@ test_that(desc = "testing darfur sensitivity stats",{
 
 })
 
-test_that(desc = "testing darfur adjusted estimates",{
+test_that(desc = "testing darfur adjusted estimates",
+          {
 
   should_be_zero <- adjusted_estimate(model, treatment = "directlyharmed", r2yz.dx = 1, r2dz.x = partial_r2(model, covariates = "directlyharmed"))
   expect_equivalent(should_be_zero, 0)
@@ -361,9 +363,7 @@ test_that(desc = "testing darfur plots",
                                          r2yz.dx = 1,
                                          r2dz.x = extreme_out$scenario_r2yz.dx_1$r2dz.x[5])
             expect_equivalent(adj_est, extreme_out$scenario_r2yz.dx_1$adjusted_estimate[5])
-}
-
-)
+})
 
 
 test_that("testing darfur print",
@@ -416,11 +416,10 @@ test_that("testing darfur different q",
             rvqa <- darfur_out$sensitivity_stats$rv_qa
             expect_equivalent(rvq, robustness_value(model, covariates = "directlyharmed", q = 2))
             expect_equivalent(rvqa, robustness_value(model, covariates = "directlyharmed", q = 2,alpha = 0.05))
-          }
+          })
 
-)
-
-test_that("Darfur group benchmarks", {
+test_that("Darfur group benchmarks",
+          {
   village <- grep(pattern = "village", names(coef(model)), value = T)
 
   sensitivity <- sensemakr(model, treatment = "directlyharmed",
@@ -435,5 +434,4 @@ test_that("Darfur group benchmarks", {
   expect_equal(bounds$r2dz.x, bounds.check$r2dz.x)
   expect_equal(bounds$r2yz.dx, bounds.check$r2yz.dx)
 
-}
-          )
+})

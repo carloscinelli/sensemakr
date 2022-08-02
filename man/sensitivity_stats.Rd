@@ -3,12 +3,23 @@
 \name{sensitivity_stats}
 \alias{sensitivity_stats}
 \alias{sensitivity_stats.lm}
+\alias{sensitivity_stats.fixest}
 \alias{sensitivity_stats.numeric}
 \title{Sensitivity statistics for regression coefficients}
 \usage{
 sensitivity_stats(...)
 
 \method{sensitivity_stats}{lm}(model, treatment, q = 1, alpha = 0.05, reduce = TRUE, ...)
+
+\method{sensitivity_stats}{fixest}(
+  model,
+  treatment,
+  q = 1,
+  alpha = 0.05,
+  reduce = TRUE,
+  message = T,
+  ...
+)
 
 \method{sensitivity_stats}{numeric}(
   estimate,
@@ -26,7 +37,7 @@ sensitivity_stats(...)
 \code{lm} model with the outcome regression or a numeric vector with the
 coefficient estimate.}
 
-\item{model}{An \code{lm} object with the outcome regression.}
+\item{model}{An \code{fixest} object with the outcome regression.}
 
 \item{treatment}{A character vector with the name of the treatment variable
 of the model.}
@@ -38,6 +49,8 @@ which means a reduction of 100\% of the current effect estimate (bring estimate 
 
 \item{reduce}{Should the bias adjustment reduce or increase the
 absolute value of the estimated coefficient? Default is \code{TRUE}.}
+
+\item{message}{should messages be printed? Default = TRUE.}
 
 \item{estimate}{Coefficient estimate.}
 

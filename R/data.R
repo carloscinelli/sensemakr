@@ -39,7 +39,6 @@
 #'   unique villages are accounted for in the data.}
 #'   \item{female}{The respondent identifies as female (0/1). 582 respondents are female-identified, 694 are not.}
 #' }
-#' @references
 #' @references Cinelli, C. and Hazlett, C. (2020), "Making Sense of Sensitivity: Extending Omitted Variable Bias." Journal of the Royal Statistical Society, Series B (Statistical Methodology).
 #'
 #' Hazlett, Chad. (2019) "Angry or Weary? How Violence Impacts Attitudes toward Peace among Darfurian Refugees." Journal of Conflict Resolution: 0022002719879217.

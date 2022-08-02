@@ -9,7 +9,7 @@ The sensemakr package implements a suite of sensitivity analysis tools that make
 understand the impact of omitted variables in linear regression models, as discussed in Cinelli and Hazlett (2020).
 }
 \details{
-The main function of the package is  \code{\link{sensemakr}}, which computes the most common sensitivity analysis results.
+The main function of the package is \code{\link{sensemakr}}, which computes the most common sensitivity analysis results.
 After running \code{sensemakr} you may directly use the plot and print methods in the returned object.
 
  You may also use the other sensitivity functions of the package directly, such as the functions for sensitivity plots

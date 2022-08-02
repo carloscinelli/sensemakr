@@ -3,16 +3,20 @@
 \name{partial_r2}
 \alias{partial_r2}
 \alias{partial_r2.lm}
+\alias{partial_r2.fixest}
 \alias{partial_r2.numeric}
 \alias{partial_f2}
 \alias{partial_f2.numeric}
 \alias{partial_f2.lm}
+\alias{partial_f2.fixest}
 \alias{partial_f}
 \title{Computes the partial R2 and partial (Cohen's) f2}
 \usage{
 partial_r2(...)
 
 \method{partial_r2}{lm}(model, covariates = NULL, ...)
+
+\method{partial_r2}{fixest}(model, covariates = NULL, ...)
 
 \method{partial_r2}{numeric}(t_statistic, dof, ...)
 
@@ -22,13 +26,15 @@ partial_f2(...)
 
 \method{partial_f2}{lm}(model, covariates = NULL, ...)
 
+\method{partial_f2}{fixest}(model, covariates = NULL, ...)
+
 partial_f(...)
 }
 \arguments{
-\item{...}{arguments passed to other methods. First argument should either be an \code{lm} object
-with the regression model or a numeric vector with the t-value of the coefficient estimate}
+\item{...}{arguments passed to other methods. First argument should either be an \code{lm} model or a \code{fixest} model with the
+regression model or a numeric vector with the t-value of the coefficient estimate}
 
-\item{model}{an \code{lm} object with the regression model}
+\item{model}{an \code{fixest} object with the regression model}
 
 \item{covariates}{model covariates for which the partial R2 will be computed. Default is to compute
 the partial R2 of all covariates.}
