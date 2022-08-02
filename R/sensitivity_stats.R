@@ -421,7 +421,6 @@ group_partial_r2.fixest <- function(model, covariates, ...){
   V <- vcov(model, vcov = "iid")[covariates, covariates, drop = FALSE]
 
   # degrees of freedom
-  # Using the degrees of freedom used in the t-test. With fixed effect dof adjustment is still open question
   dof <- fixest::degrees_freedom(model, type = "resid", vcov = "iid")
 
   # compute F and R2
