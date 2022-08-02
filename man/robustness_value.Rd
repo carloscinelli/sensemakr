@@ -11,7 +11,14 @@ robustness_value(...)
 
 \method{robustness_value}{lm}(model, covariates = NULL, q = 1, alpha = 1, ...)
 
-\method{robustness_value}{fixest}(model, covariates = NULL, q = 1, alpha = 1, ...)
+\method{robustness_value}{fixest}(
+  model,
+  covariates = NULL,
+  q = 1,
+  alpha = 1,
+  message = TRUE,
+  ...
+)
 
 \method{robustness_value}{numeric}(t_statistic, dof, q = 1, alpha = 1, ...)
 }
@@ -28,6 +35,8 @@ the robustness value of all covariates.}
 which means a reduction of 100\% of the current effect estimate (bring estimate to zero). It has to be greater than zero.}
 
 \item{alpha}{significance level.}
+
+\item{message}{should messages be printed? Default = TRUE.}
 
 \item{t_statistic}{\code{numeric} vector with the t-value of the coefficient estimates}
 

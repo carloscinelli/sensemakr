@@ -89,18 +89,28 @@ robustness_value.lm = function(model,
 #' @param q percent change of the effect estimate that would be deemed problematic.  Default is \code{1},
 #' which means a reduction of 100\% of the current effect estimate (bring estimate to zero). It has to be greater than zero.
 #' @param alpha significance level.
+#' @param message should messages be printed? Default = TRUE.
 #' @rdname robustness_value
 #' @export
 #' @importFrom stats setNames
 robustness_value.fixest = function(model,
                                covariates = NULL,
                                q = 1,
-                               alpha = 1, ...) {
+                               alpha = 1,
+                               message = TRUE,
+                               ...) {
 
   # check arguments
   check_q(q)
   check_alpha(alpha)
-
+  if(message){
+    vcov_type <- model$call$vcov
+    if(alpha <1 & !is.null(vcov_type)){
+      if(vcov_type!= "iid"){
+        message("Note for fixest: using 'iid' standard errors. Support for robust standard errors coming soon.")
+      }
+    }
+  }
   # extract model data
   model_data <- model_helper.fixest(model, covariates = covariates)
   t_statistic = setNames(model_data$t_statistics, model_data$covariates)
@@ -408,11 +418,11 @@ group_partial_r2.fixest <- function(model, covariates, ...){
   coefs <- coefs[covariates]
 
   # vcov matrix
-  V <- vcov(model)[covariates, covariates, drop = FALSE]
+  V <- vcov(model, vcov = "iid")[covariates, covariates, drop = FALSE]
 
   # degrees of freedom
   # Using the degrees of freedom used in the t-test. With fixed effect dof adjustment is still open question
-  dof <- fixest::degrees_freedom(model, "t")
+  dof <- fixest::degrees_freedom(model, type = "resid", vcov = "iid")
 
   # compute F and R2
   p <- length(coefs)
@@ -509,15 +519,24 @@ sensitivity_stats.lm <- function(model,
 #' @inheritParams adjusted_estimate
 #' @inheritParams robustness_value
 #' @rdname sensitivity_stats
+#' @param message should messages be printed? Default = TRUE.
 #' @export
 sensitivity_stats.fixest <- function(model,
                                  treatment,
                                  q = 1,
                                  alpha = 0.05,
                                  reduce = TRUE,
+                                 message = T,
                                  ...)
 {
-
+  if(message){
+    vcov_type <- model$call$vcov
+    if(!is.null(vcov_type)){
+      if(vcov_type!= "iid"){
+        message("Note for fixest: using 'iid' standard errors. Support for robust standard errors coming soon.")
+      }
+    }
+  }
   model_data <- model_helper.fixest(model, covariates = treatment)
   sensitivity_stats <- with(model_data, sensitivity_stats(estimate = estimate,
                                                           se = se,
@@ -653,7 +672,8 @@ model_helper.fixest = function(model, covariates = NULL, ...) {
   # Let's avoid the NaN problem from dividing by zero
   error_if_no_dof.fixest(model)
 
-  coefs <- as.matrix(model$coeftable)
+
+  coefs <- as.matrix(summary(model, vcov = "iid")$coeftable)
   covariates <- check_covariates(rownames(coefs), covariates)
 
   if (!is.null(covariates)) coefs <- coefs[covariates, ,drop = FALSE]
@@ -663,7 +683,7 @@ model_helper.fixest = function(model, covariates = NULL, ...) {
     estimate = coefs[, "Estimate"],
     se = coefs[, "Std. Error"],
     t_statistics = coefs[, "t value"],
-    dof = fixest::degrees_freedom(model, "t")
+    dof = fixest::degrees_freedom(model, type = "resid", vcov = "iid")
   ))
 }
 
@@ -716,7 +736,7 @@ error_if_no_dof.lm = function(model, ...) {
 #' @param model model to check dof in
 #' @param ... arguments passed to other methods.
 error_if_no_dof.fixest = function(model, ...) {
-  if (fixest::degrees_freedom(model, "t") == 0) {
+  if (fixest::degrees_freedom(model, type = "resid", vcov = "iid") == 0) {
     stop("There are 0 residual ",
          "degrees of freedom in the regression model provided.")
   }

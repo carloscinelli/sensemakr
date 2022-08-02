@@ -125,6 +125,7 @@ ovb_bounds.lm <- function(model,
 #'
 #' @references Cinelli, C. and Hazlett, C. (2020), "Making Sense of Sensitivity: Extending Omitted Variable Bias." Journal of the Royal Statistical Society, Series B (Statistical Methodology).
 #' @rdname ovb_bounds
+#' @param message should messages be printed? Default = TRUE.
 #' @export
 ovb_bounds.fixest <- function(model,
                           treatment,
@@ -136,6 +137,7 @@ ovb_bounds.fixest <- function(model,
                           adjusted_estimates = TRUE,
                           alpha = 0.05,
                           h0 = 0,
+                          message = T,
                           ...) {
 
   bound = match.arg(bound)
@@ -164,16 +166,18 @@ ovb_bounds.fixest <- function(model,
     bounds$adjusted_se = adjusted_se.fixest(model = model,
                                      treatment = treatment,
                                      r2yz.dx = bounds$r2yz.dx,
-                                     r2dz.x = bounds$r2dz.x)
+                                     r2dz.x = bounds$r2dz.x,
+                                     message = message)
 
     bounds$adjusted_t = adjusted_t.fixest(model = model,
                                    treatment = treatment,
                                    r2yz.dx = bounds$r2yz.dx,
                                    r2dz.x = bounds$r2dz.x,
                                    h0 = h0,
-                                   reduce = reduce)
+                                   reduce = reduce,
+                                   message = message)
 
-    se_multiple <- qt(alpha/2, df = fixest::degrees_freedom(model, "t"), lower.tail = F)
+    se_multiple <- qt(alpha/2, df = fixest::degrees_freedom(model, type = "resid", vcov = "iid"), lower.tail = F)
     bounds$adjusted_lower_CI <- bounds$adjusted_estimate - se_multiple*bounds$adjusted_se
     bounds$adjusted_upper_CI <- bounds$adjusted_estimate + se_multiple*bounds$adjusted_se
 
@@ -442,11 +446,11 @@ ovb_partial_r2_bound.fixest <- function(model,
   colnames(d) <- treatment
   XX     <- m[, keep, drop = FALSE]
 
-  vcov <- model$summary_flags$vcov
+  # vcov <- model$summary_flags$vcov
 
   if (!is.null(model$fixef_id)) {
     fixef_df <- data.frame(model$fixef_id[1:length(model$fixef_id)])
-    treatment_model <- fixest::feols.fit(y = d, X = XX, fixef_df = fixef_df, vcov = vcov)
+    treatment_model <- fixest::feols.fit(y = d, X = XX, fixef_df = fixef_df)
   } else {
     treatment_model <- fixest::feols.fit(y = d, X = XX)
   }

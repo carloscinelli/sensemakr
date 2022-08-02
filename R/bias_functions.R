@@ -156,8 +156,16 @@ adjusted_se.lm <- function(model, treatment,  r2dz.x, r2yz.dx, ...){
 
 #' @rdname adjusted_estimate
 #' @export
-adjusted_se.fixest <- function(model, treatment,  r2dz.x, r2yz.dx, ...){
+adjusted_se.fixest <- function(model, treatment,  r2dz.x, r2yz.dx, message = TRUE, ...){
   # extract model data
+  if(message){
+    vcov_type <- model$call$vcov
+    if(!is.null(vcov_type)){
+      if(vcov_type!= "iid"){
+        message("Note for fixest: using 'iid' standard errors. Support for robust standard errors coming soon.")
+      }
+    }
+  }
   model_data <- model_helper.fixest(model, covariates = treatment)
   new_se <- with(model_data, adjusted_se.numeric(se = se, dof = dof, r2dz.x = r2dz.x, r2yz.dx = r2yz.dx))
   names(new_se) <- rep(treatment, length(new_se))
@@ -190,8 +198,17 @@ adjusted_t.lm <- function(model, treatment,  r2dz.x, r2yz.dx, reduce = TRUE, h0 
 
 #' @rdname adjusted_estimate
 #' @param h0 Null hypothesis for computation of the t-value. Default is zero.
+#' @param message should messages be printed? Default = TRUE.
 #' @export
-adjusted_t.fixest <- function(model, treatment,  r2dz.x, r2yz.dx, reduce = TRUE, h0 = 0, ...){
+adjusted_t.fixest <- function(model, treatment,  r2dz.x, r2yz.dx, reduce = TRUE, h0 = 0, message = T, ...){
+  if(message){
+    vcov_type <- model$call$vcov
+    if(!is.null(vcov_type)){
+      if(vcov_type!= "iid"){
+        message("Note for fixest: using 'iid' standard errors. Support for robust standard errors coming soon.")
+      }
+    }
+  }
   # extract model data
   model_data <- model_helper.fixest(model, covariates = treatment)
   new_t <- with(model_data, adjusted_t.numeric(estimate = estimate, se = se, dof = dof, r2dz.x = r2dz.x,

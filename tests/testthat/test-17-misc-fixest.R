@@ -17,5 +17,5 @@ test_that("weird regression model with r^2",
   data = cbind(y, data)
   fml <- reformulate(paste(colnames(data)[-1], collapse = " + "), response = "y")
   saturated_model = fixest::feols(fml = fml, data = data)
-  expect_error(partial_r2(saturated_model))
+  expect_equal(TRUE, all(is.nan(partial_r2(saturated_model))))
 })

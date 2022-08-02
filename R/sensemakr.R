@@ -286,6 +286,13 @@ sensemakr.fixest <- function(model,
     stop("The fixest method is only implemented for feols")
   }
 
+  vcov_type <- model$call$vcov
+  if(!is.null(vcov_type)){
+    if(vcov_type!= "iid"){
+      message("Note for fixest: using 'iid' standard errors. Support for robust standard errors coming soon.")
+    }
+  }
+
   out <- list()
   out$info <- list(formula = formula(model),
                    treatment = treatment,
@@ -300,7 +307,8 @@ sensemakr.fixest <- function(model,
                                                 treatment = treatment,
                                                 q = q,
                                                 alpha = alpha,
-                                                reduce = reduce)
+                                                reduce = reduce,
+                                                message = F)
   estimate <- out$sensitivity_stats$estimate
 
   h0 <- ifelse(reduce, estimate*(1 - q), estimate*(1 + q))
@@ -325,16 +333,16 @@ sensemakr.fixest <- function(model,
     out$bounds$adjusted_se = adjusted_se.fixest(model = model,
                                             treatment = treatment,
                                             r2yz.dx = r2yz.dx,
-                                            r2dz.x = r2dz.x)
+                                            r2dz.x = r2dz.x, message = F)
 
     out$bounds$adjusted_t = adjusted_t.fixest(model = model,
                                           treatment = treatment,
                                           r2yz.dx = r2yz.dx,
                                           r2dz.x = r2dz.x,
                                           h0 = h0,
-                                          reduce = reduce)
+                                          reduce = reduce, message = F)
 
-    se_multiple <- qt(alpha/2, df = fixest::degrees_freedom(model, "t"), lower.tail = F)
+    se_multiple <- qt(alpha/2, df = fixest::degrees_freedom(model, type = "resid", vcov = "iid"), lower.tail = F)
     out$bounds$adjusted_lower_CI <- out$bounds$adjusted_estimate - se_multiple*out$bounds$adjusted_se
     out$bounds$adjusted_upper_CI <- out$bounds$adjusted_estimate + se_multiple*out$bounds$adjusted_se
   } else{
@@ -350,7 +358,8 @@ sensemakr.fixest <- function(model,
                                   q = q,
                                   alpha = alpha,
                                   h0 = h0,
-                                  reduce = reduce)
+                                  reduce = reduce,
+                                  message = F)
     out$bounds <- rbind(out$bounds, bench_bounds)
   }
 

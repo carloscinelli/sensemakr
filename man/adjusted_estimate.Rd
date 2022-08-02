@@ -42,13 +42,22 @@ adjusted_se(...)
 
 \method{adjusted_se}{lm}(model, treatment, r2dz.x, r2yz.dx, ...)
 
-\method{adjusted_se}{fixest}(model, treatment, r2dz.x, r2yz.dx, ...)
+\method{adjusted_se}{fixest}(model, treatment, r2dz.x, r2yz.dx, message = TRUE, ...)
 
 adjusted_t(...)
 
 \method{adjusted_t}{lm}(model, treatment, r2dz.x, r2yz.dx, reduce = TRUE, h0 = 0, ...)
 
-\method{adjusted_t}{fixest}(model, treatment, r2dz.x, r2yz.dx, reduce = TRUE, h0 = 0, ...)
+\method{adjusted_t}{fixest}(
+  model,
+  treatment,
+  r2dz.x,
+  r2yz.dx,
+  reduce = TRUE,
+  h0 = 0,
+  message = T,
+  ...
+)
 
 \method{adjusted_t}{numeric}(estimate, se, dof, r2dz.x, r2yz.dx, reduce = TRUE, h0 = 0, ...)
 
@@ -127,6 +136,8 @@ absolute value of the estimated coefficient? Default is \code{TRUE}.}
 \item{se}{Standard error of the coefficient estimate.}
 
 \item{dof}{Residual degrees of freedom of the regression.}
+
+\item{message}{should messages be printed? Default = TRUE.}
 
 \item{h0}{Null hypothesis for computation of the t-value. Default is zero.}
 
