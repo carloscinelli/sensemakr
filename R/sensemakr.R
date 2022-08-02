@@ -286,12 +286,7 @@ sensemakr.fixest <- function(model,
     stop("The fixest method is only implemented for feols")
   }
 
-  vcov_type <- model$call$vcov
-  if(!is.null(vcov_type)){
-    if(vcov_type!= "iid"){
-      message("Note for fixest: using 'iid' standard errors. Support for robust standard errors coming soon.")
-    }
-  }
+  message_vcov.fixest(model)
 
   out <- list()
   out$info <- list(formula = formula(model),
@@ -406,7 +401,6 @@ sensemakr.formula <- function(formula,
     if (!requireNamespace("fixest")) {
       stop("Please install the fixest package.")
     }
-    vcov <- vcov
     outcome_model <- fixest::feols(fml = formula, data = data, vcov = vcov)
   }
 

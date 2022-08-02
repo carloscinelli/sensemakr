@@ -104,11 +104,8 @@ robustness_value.fixest = function(model,
   check_q(q)
   check_alpha(alpha)
   if(message){
-    vcov_type <- model$call$vcov
-    if(alpha <1 & !is.null(vcov_type)){
-      if(vcov_type!= "iid"){
-        message("Note for fixest: using 'iid' standard errors. Support for robust standard errors coming soon.")
-      }
+    if(alpha <1){
+      message_vcov.fixest(model)
     }
   }
   # extract model data
@@ -528,14 +525,8 @@ sensitivity_stats.fixest <- function(model,
                                  message = T,
                                  ...)
 {
-  if(message){
-    vcov_type <- model$call$vcov
-    if(!is.null(vcov_type)){
-      if(vcov_type!= "iid"){
-        message("Note for fixest: using 'iid' standard errors. Support for robust standard errors coming soon.")
-      }
-    }
-  }
+  if(message) message_vcov.fixest(model)
+
   model_data <- model_helper.fixest(model, covariates = treatment)
   sensitivity_stats <- with(model_data, sensitivity_stats(estimate = estimate,
                                                           se = se,
@@ -738,6 +729,17 @@ error_if_no_dof.fixest = function(model, ...) {
   if (fixest::degrees_freedom(model, type = "resid", vcov = "iid") == 0) {
     stop("There are 0 residual ",
          "degrees of freedom in the regression model provided.")
+  }
+}
+
+
+
+message_vcov.fixest <- function(model){
+  vcov_type <- attr(summary(model)$coeftable, which = "type")
+  if(!is.null(vcov_type)){
+    if(vcov_type != "IID"){
+      message("Note for fixest: using 'iid' standard errors. Support for robust standard errors coming soon.")
+    }
   }
 }
 
