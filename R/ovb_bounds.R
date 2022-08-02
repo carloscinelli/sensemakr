@@ -446,7 +446,7 @@ ovb_partial_r2_bound.fixest <- function(model,
   colnames(d) <- treatment
   XX     <- m[, keep, drop = FALSE]
 
-  # vcov <- model$summary_flags$vcov
+  # vcov <- model$call$vcov
 
   if (!is.null(model$fixef_id)) {
     fixef_df <- data.frame(model$fixef_id[1:length(model$fixef_id)])
