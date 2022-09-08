@@ -157,7 +157,7 @@ NULL
 #'  }
 #'
 #' @export
-sensemakr <- function(...){
+sensemakr <- function(model, ...){
   UseMethod("sensemakr")
 }
 

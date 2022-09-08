@@ -7,7 +7,7 @@
 \alias{group_partial_r2.numeric}
 \title{Partial R2 of groups of covariates in a linear regression model}
 \usage{
-group_partial_r2(...)
+group_partial_r2(model, ...)
 
 \method{group_partial_r2}{lm}(model, covariates, ...)
 
@@ -16,10 +16,10 @@ group_partial_r2(...)
 \method{group_partial_r2}{numeric}(F.stats, p, dof, ...)
 }
 \arguments{
+\item{model}{an \code{fixest} object with the regression model}
+
 \item{...}{arguments passed to other methods. First argument should either be an \code{lm} model or a \code{fixest} model with the
 regression model or a numeric vector with the F-statistics for the group of covariates.}
-
-\item{model}{an \code{fixest} object with the regression model}
 
 \item{covariates}{model covariates for which their grouped partial R2 will be computed.}
 

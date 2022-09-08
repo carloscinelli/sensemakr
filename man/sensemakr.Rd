@@ -8,7 +8,7 @@
 \alias{sensemakr.numeric}
 \title{Sensitivity analysis to unobserved confounders}
 \usage{
-sensemakr(...)
+sensemakr(model, ...)
 
 \method{sensemakr}{lm}(
   model,
@@ -78,9 +78,9 @@ sensemakr(...)
 )
 }
 \arguments{
-\item{...}{arguments passed to other methods.}
-
 \item{model}{An \code{fixest} object with the outcome regression.}
+
+\item{...}{arguments passed to other methods.}
 
 \item{treatment}{A character vector with the name of the treatment variable
 of the model.}

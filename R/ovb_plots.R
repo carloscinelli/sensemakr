@@ -155,7 +155,7 @@ ovb_extreme_plot.sensemakr <- function(x, r2yz.dx = c(1, 0.75, 0.5), ...){
 #'                         kd = 1:2)
 #'
 #' @export
-ovb_contour_plot = function(...) {
+ovb_contour_plot = function(model, ...) {
   UseMethod("ovb_contour_plot")
 }
 
@@ -703,7 +703,7 @@ ovb_contour_plot.numeric = function(estimate,
 #' The function adds bounds in an existing contour plot and returns `NULL`.
 #'
 #' @export
-add_bound_to_contour <- function(...){
+add_bound_to_contour <- function(model, ...){
   UseMethod("add_bound_to_contour")
 }
 
@@ -996,7 +996,7 @@ add_bound_to_contour.numeric <- function(r2dz.x,
 #'
 #' @inheritParams ovb_contour_plot
 #' @export
-ovb_extreme_plot <- function(...){
+ovb_extreme_plot <- function(model, ...){
   UseMethod("ovb_extreme_plot")
 
 }

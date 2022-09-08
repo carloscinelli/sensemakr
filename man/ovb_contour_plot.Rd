@@ -8,7 +8,7 @@
 \alias{ovb_contour_plot.numeric}
 \title{Contour plots of omitted variable bias}
 \usage{
-ovb_contour_plot(...)
+ovb_contour_plot(model, ...)
 
 \method{ovb_contour_plot}{lm}(
   model,
@@ -112,12 +112,12 @@ ovb_contour_plot(...)
 )
 }
 \arguments{
+\item{model}{An \code{fixest} object with the outcome regression.}
+
 \item{...}{arguments passed to other methods. First argument should either be an \code{\link{lm}} model with the
 outcome regression, a \code{\link{formula}} describing the model along
 with the \code{\link{data.frame}} containing the variables of the model,
 or a numeric vector with the coefficient estimate.}
-
-\item{model}{An \code{fixest} object with the outcome regression.}
 
 \item{treatment}{A character vector with the name of the treatment variable
 of the model.}

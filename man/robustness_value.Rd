@@ -7,7 +7,7 @@
 \alias{robustness_value.numeric}
 \title{Computes the robustness value}
 \usage{
-robustness_value(...)
+robustness_value(model, ...)
 
 \method{robustness_value}{lm}(model, covariates = NULL, q = 1, alpha = 1, ...)
 
@@ -23,10 +23,10 @@ robustness_value(...)
 \method{robustness_value}{numeric}(t_statistic, dof, q = 1, alpha = 1, ...)
 }
 \arguments{
+\item{model}{an \code{fixest} object with the regression model.}
+
 \item{...}{arguments passed to other methods. First argument should either be an \code{lm} model or a \code{fixest} model with the
 regression model or a numeric vector with the t-value of the coefficient estimate}
-
-\item{model}{an \code{fixest} object with the regression model.}
 
 \item{covariates}{model covariates for which the robustness value will be computed. Default is to compute
 the robustness value of all covariates.}

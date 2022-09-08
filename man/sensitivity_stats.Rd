@@ -7,7 +7,7 @@
 \alias{sensitivity_stats.numeric}
 \title{Sensitivity statistics for regression coefficients}
 \usage{
-sensitivity_stats(...)
+sensitivity_stats(model, ...)
 
 \method{sensitivity_stats}{lm}(model, treatment, q = 1, alpha = 0.05, reduce = TRUE, ...)
 
@@ -33,11 +33,11 @@ sensitivity_stats(...)
 )
 }
 \arguments{
+\item{model}{An \code{fixest} object with the outcome regression.}
+
 \item{...}{Arguments passed to other methods. First argument should either be an
 \code{lm} model with the outcome regression or a numeric vector with the
 coefficient estimate.}
-
-\item{model}{An \code{fixest} object with the outcome regression.}
 
 \item{treatment}{A character vector with the name of the treatment variable
 of the model.}

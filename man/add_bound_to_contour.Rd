@@ -7,7 +7,7 @@
 \alias{add_bound_to_contour.numeric}
 \title{Add bounds to contour plot of omitted variable bias}
 \usage{
-add_bound_to_contour(...)
+add_bound_to_contour(model, ...)
 
 \method{add_bound_to_contour}{lm}(
   model,
@@ -63,9 +63,9 @@ add_bound_to_contour(...)
 )
 }
 \arguments{
-\item{...}{arguments passed to other methods.}
-
 \item{model}{An \code{fixest} object with the outcome regression.}
+
+\item{...}{arguments passed to other methods.}
 
 \item{benchmark_covariates}{The user has two options: (i)  character vector of the names of covariates that will be used to bound the plausible strength of the unobserved confounders. Each variable will be considered separately; (ii) a named list with character vector names of covariates that will be used, \emph{as a group}, to bound the plausible strength of the unobserved confounders. The names of the list will be used for the benchmark labels. Note: for factor variables with more than two levels, you need to provide the name of each level as encoded in the \code{fixest} model (the columns of \code{model.matrix}).}
 

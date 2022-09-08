@@ -28,7 +28,7 @@
 \alias{rel_bias}
 \title{Bias-adjusted estimates, standard-errors and t-values}
 \usage{
-adjusted_estimate(...)
+adjusted_estimate(model, ...)
 
 \method{adjusted_estimate}{lm}(model, treatment, r2dz.x, r2yz.dx, reduce = TRUE, ...)
 
@@ -36,7 +36,7 @@ adjusted_estimate(...)
 
 \method{adjusted_estimate}{numeric}(estimate, se, dof, r2dz.x, r2yz.dx, reduce = TRUE, ...)
 
-adjusted_se(...)
+adjusted_se(model, ...)
 
 \method{adjusted_se}{numeric}(se, dof, r2dz.x, r2yz.dx, ...)
 
@@ -44,7 +44,7 @@ adjusted_se(...)
 
 \method{adjusted_se}{fixest}(model, treatment, r2dz.x, r2yz.dx, message = TRUE, ...)
 
-adjusted_t(...)
+adjusted_t(model, ...)
 
 \method{adjusted_t}{lm}(model, treatment, r2dz.x, r2yz.dx, reduce = TRUE, h0 = 0, ...)
 
@@ -61,7 +61,7 @@ adjusted_t(...)
 
 \method{adjusted_t}{numeric}(estimate, se, dof, r2dz.x, r2yz.dx, reduce = TRUE, h0 = 0, ...)
 
-adjusted_partial_r2(...)
+adjusted_partial_r2(model, ...)
 
 \method{adjusted_partial_r2}{numeric}(
   estimate,
@@ -94,7 +94,7 @@ adjusted_partial_r2(...)
   ...
 )
 
-bias(...)
+bias(model, ...)
 
 \method{bias}{numeric}(se, dof, r2dz.x, r2yz.dx, ...)
 
@@ -113,11 +113,11 @@ relative_bias(...)
 rel_bias(r.est, est)
 }
 \arguments{
+\item{model}{An \code{fixest} object with the outcome regression.}
+
 \item{...}{Arguments passed to other methods. First argument should either be an
 \code{lm} model with the outcome regression or a numeric vector with the
 coefficient estimate.}
-
-\item{model}{An \code{fixest} object with the outcome regression.}
 
 \item{treatment}{A character vector with the name of the treatment variable
 of the model.}

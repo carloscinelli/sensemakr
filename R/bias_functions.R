@@ -50,7 +50,7 @@
 #'            dof = 783, r2dz.x = 0.05, r2yz.dx = 0.05)
 #'
 #' @export
-adjusted_estimate <- function(...){
+adjusted_estimate <- function(model, ...){
   UseMethod("adjusted_estimate")
 }
 
@@ -125,7 +125,7 @@ adjusted_estimate.numeric <- function(estimate,
 
 #' @rdname adjusted_estimate
 #' @export
-adjusted_se <- function(...){
+adjusted_se <- function(model, ...){
   UseMethod("adjusted_se")
 }
 
@@ -176,7 +176,7 @@ adjusted_se.fixest <- function(model, treatment,  r2dz.x, r2yz.dx, message = TRU
 
 #' @rdname adjusted_estimate
 #' @export
-adjusted_t <- function(...){
+adjusted_t <- function(model, ...){
   UseMethod("adjusted_t")
 }
 
@@ -253,7 +253,7 @@ print.t_stats <- function(x, ...){
 
 #' @rdname adjusted_estimate
 #' @export
-adjusted_partial_r2 <- function(...){
+adjusted_partial_r2 <- function(model, ...){
   UseMethod("adjusted_partial_r2")
 }
 
@@ -292,7 +292,7 @@ adjusted_partial_r2.fixest <- function(model, treatment,  r2dz.x, r2yz.dx, reduc
 
 #' @rdname adjusted_estimate
 #' @export
-bias <- function(...){
+bias <- function(model, ...){
   UseMethod("bias")
 }
 
