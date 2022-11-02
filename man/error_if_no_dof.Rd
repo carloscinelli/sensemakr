@@ -12,3 +12,4 @@ error_if_no_dof(...)
 \description{
 This is an internal function used for checking dof statistics.
 }
+\keyword{internal}

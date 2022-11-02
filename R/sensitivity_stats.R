@@ -616,6 +616,7 @@ check_dof <- function(dof){
 #' @param covariates model covariates from which statistics will be extracted.
 #' @param ... arguments passed to other methods.
 #' @export
+#' @keywords internal
 model_helper = function(model, covariates = NULL, ...) {
   UseMethod("model_helper", model)
 }
@@ -652,6 +653,7 @@ model_helper.lm = function(model, covariates = NULL, ...) {
 }
 
 #' @export
+#' @keywords internal
 model_helper.fixest = function(model, covariates = NULL, ...) {
   # Quickly extract things from an fixest object
 
@@ -702,6 +704,7 @@ model_helper.fixest = function(model, covariates = NULL, ...) {
 #'
 #' @param ... arguments passed to other methods.
 #' @export
+#' @keywords internal
 error_if_no_dof = function(...) {
   UseMethod("error_if_no_dof")
 }
@@ -712,6 +715,7 @@ error_if_no_dof = function(...) {
 #'
 #' @param model model to check dof in
 #' @param ... arguments passed to other methods.
+#' @keywords internal
 error_if_no_dof.lm = function(model, ...) {
   if (model$df.residual == 0) {
     stop("There are 0 residual ",
@@ -725,6 +729,7 @@ error_if_no_dof.lm = function(model, ...) {
 #'
 #' @param model model to check dof in
 #' @param ... arguments passed to other methods.
+#' @keywords internal
 error_if_no_dof.fixest = function(model, ...) {
   if (fixest::degrees_freedom(model, type = "resid", vcov = "iid") == 0) {
     stop("There are 0 residual ",

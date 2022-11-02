@@ -14,3 +14,4 @@
 \description{
 This is an internal function used for checking dof statistics.
 }
+\keyword{internal}

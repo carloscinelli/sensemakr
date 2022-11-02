@@ -1,8 +1,8 @@
-pandoc: 2.11.4
-pkgdown: 1.6.1
+pandoc: 2.17.1.1
+pkgdown: 2.0.6
 pkgdown_sha: ~
 articles:
   informal_benchmarking: informal_benchmarking.html
   sensemakr: sensemakr.html
-last_built: 2021-07-26T18:16Z
+last_built: 2022-11-02T00:15Z
 

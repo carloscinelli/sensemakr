@@ -16,3 +16,4 @@ model_helper(model, covariates = NULL, ...)
 \description{
 This is an internal function used for extracting the necessary statistics from the models.
 }
+\keyword{internal}

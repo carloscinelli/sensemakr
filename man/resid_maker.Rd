@@ -19,3 +19,4 @@ This function is an auxiliary function for simulation purposes.
 It creates a vector of n standard normal random variables, residualizes
 this vector against a matrix of covariates C, then standardizes the vector again.
 }
+\keyword{internal}

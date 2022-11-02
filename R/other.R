@@ -19,6 +19,7 @@
 #' The function returns a numeric vector orthogonal to C.
 #' @importFrom stats lm resid
 #' @export
+#' @keywords internal
 resid_maker <- function(n, C){
   e <- resid(lm(rnorm(n) ~ C))
   e  <- c(scale(e))

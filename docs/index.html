@@ -27,6 +27,8 @@
 </script>
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -39,7 +41,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">sensemakr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.3.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.5</span>
       </span>
     </div>
 
@@ -52,18 +54,18 @@
   <a href="articles/index.html">Articles</a>
 </li>
 <li>
-  <a href="https://www.researchgate.net/publication/340965014_sensemakr_Sensitivity_Analysis_Tools_for_OLS_in_R_and_Stata">Software Paper</a>
+  <a href="https://www.researchgate.net/publication/340965014_sensemakr_Sensitivity_Analysis_Tools_for_OLS_in_R_and_Stata" class="external-link">Software Paper</a>
 </li>
 <li>
   <a href="reference/index.html">Reference</a>
 </li>
 <li>
-  <a href="https://carloscinelli.shinyapps.io/robustness_value/">Shiny App</a>
+  <a href="https://carloscinelli.shinyapps.io/robustness_value/" class="external-link">Shiny App</a>
 </li>
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/chadhazlett/sensemakr/">
+  <a href="https://github.com/carloscinelli/sensemakr/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -81,227 +83,235 @@
       </header><div class="row">
   <div class="contents col-md-9">
 
-<div id="sensemakr-sensitivity-analysis-tools-for-ols-" class="section level1">
-<div class="page-header"><h1 class="hasAnchor">
-<a href="#sensemakr-sensitivity-analysis-tools-for-ols-" class="anchor"></a>sensemakr: Sensitivity Analysis Tools for OLS <img src="reference/figures/sensemakr-logo-small.png" align="right">
+<div class="section level1">
+<div class="page-header"><h1 id="sensemakr-sensitivity-analysis-tools-for-ols-">sensemakr: Sensitivity Analysis Tools for OLS <img src="reference/figures/sensemakr-logo-small.png" align="right"><a class="anchor" aria-label="anchor" href="#sensemakr-sensitivity-analysis-tools-for-ols-"></a>
 </h1></div>
 <!-- badges: start -->
 
-<p><code>sensemakr</code> implements a suite of sensitivity analysis tools that extends the traditional omitted variable bias framework and makes it easier to understand the impact of omitted variables in regression models, as discussed in <a href="https://doi.org/10.1111/rssb.12348">Cinelli, C. and Hazlett, C. (2020) “Making Sense of Sensitivity: Extending Omitted Variable Bias.” Journal of the Royal Statistical Society, Series B (Statistical Methodology).</a></p>
+<p><code>sensemakr</code> implements a suite of sensitivity analysis tools that extends the traditional omitted variable bias framework and makes it easier to understand the impact of omitted variables in regression models, as discussed in <a href="https://doi.org/10.1111/rssb.12348" class="external-link">Cinelli, C. and Hazlett, C. (2020) “Making Sense of Sensitivity: Extending Omitted Variable Bias.” Journal of the Royal Statistical Society, Series B (Statistical Methodology).</a></p>
 </div>
-<div id="news" class="section level1">
-<h1 class="hasAnchor">
-<a href="#news" class="anchor"></a>News</h1>
+<div class="section level1">
+<h1 id="news">News<a class="anchor" aria-label="anchor" href="#news"></a>
+</h1>
 <ul>
-<li><p>Watch the <a href="https://www.youtube.com/watch?v=p3dfHj6ki68">useR! 2020 presentation</a> for a quick introduction on sensemakr.</p></li>
-<li><p>Check out the <a href="https://www.researchgate.net/publication/340965014_sensemakr_Sensitivity_Analysis_Tools_for_OLS_in_R_and_Stata">software paper preprint</a>!</p></li>
-<li><p>Check out the new <a href="https://github.com/resonance1/sensemakr-stata">Stata version</a> of the package!</p></li>
-<li><p>Check out the Robustness Value Shiny App at: <a href="https://carloscinelli.shinyapps.io/robustness_value/" class="uri">https://carloscinelli.shinyapps.io/robustness_value/</a></p></li>
-<li><p>Check out the <a href="http://carloscinelli.com/sensemakr/">package website</a>!</p></li>
+<li><p>The <a href="https://www.youtube.com/watch?v=j7mN_G5Gpyg" class="external-link">Online Causal Inference Seminar presentation</a> is now available.</p></li>
+<li><p>Check out the new <a href="https://github.com/nlapier2/PySensemakr" class="external-link">Python version</a> of the package!</p></li>
+<li><p>Watch the <a href="https://www.youtube.com/watch?v=p3dfHj6ki68" class="external-link">useR! 2020 presentation</a> for a quick introduction on sensemakr.</p></li>
+<li><p>Check out the <a href="https://www.researchgate.net/publication/340965014_sensemakr_Sensitivity_Analysis_Tools_for_OLS_in_R_and_Stata" class="external-link">software paper preprint</a>!</p></li>
+<li><p>Check out the new <a href="https://github.com/resonance1/sensemakr-stata" class="external-link">Stata version</a> of the package!</p></li>
+<li><p>Check out the Robustness Value Shiny App at: <a href="https://carloscinelli.shinyapps.io/robustness_value/" class="external-link uri">https://carloscinelli.shinyapps.io/robustness_value/</a></p></li>
+<li><p>Check out the <a href="http://carloscinelli.com/sensemakr/" class="external-link">package website</a>!</p></li>
 </ul>
 </div>
-<div id="details" class="section level1">
-<h1 class="hasAnchor">
-<a href="#details" class="anchor"></a>Details</h1>
-<p>For theoretical details, <a href="https://www.researchgate.net/publication/322509816_Making_Sense_of_Sensitivity_Extending_Omitted_Variable_Bias">please see the JRSS-B paper</a>.</p>
-<p>For a practical introduction, <a href="https://www.researchgate.net/publication/340965014_sensemakr_Sensitivity_Analysis_Tools_for_OLS_in_R_and_Stata">please see the software paper</a> or <a href="http://carloscinelli.com/sensemakr/articles/sensemakr.html">see the package vignettes</a>.</p>
+<div class="section level1">
+<h1 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a>
+</h1>
+<p>For theoretical details, <a href="https://www.researchgate.net/publication/322509816_Making_Sense_of_Sensitivity_Extending_Omitted_Variable_Bias" class="external-link">please see the JRSS-B paper</a>.</p>
+<p>For a practical introduction, <a href="https://www.researchgate.net/publication/340965014_sensemakr_Sensitivity_Analysis_Tools_for_OLS_in_R_and_Stata" class="external-link">please see the software paper</a> or <a href="http://carloscinelli.com/sensemakr/articles/sensemakr.html" class="external-link">see the package vignettes</a>.</p>
 <p>For a quick start, watch the 15 min tutorial on sensitivity analysis using sensemakr prepared for useR! 2020:</p>
 <iframe width="560" height="315" src="https://www.youtube.com/embed/p3dfHj6ki68" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
 </iframe>
 </div>
-<div id="cran" class="section level1">
-<h1 class="hasAnchor">
-<a href="#cran" class="anchor"></a>CRAN</h1>
+<div class="section level1">
+<h1 id="cran">CRAN<a class="anchor" aria-label="anchor" href="#cran"></a>
+</h1>
 <p>To install the current CRAN version run:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"sensemakr"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"sensemakr"</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div id="development-version" class="section level1">
-<h1 class="hasAnchor">
-<a href="#development-version" class="anchor"></a>Development version</h1>
+<div class="section level1">
+<h1 id="development-version">Development version<a class="anchor" aria-label="anchor" href="#development-version"></a>
+</h1>
 <p>To install the development version on GitHub make sure you have the package <code>devtools</code> installed.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># install.packages("devtools") </span>
-<span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span><span class="op">(</span><span class="st">"chadhazlett/sensemakr"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># install.packages("devtools") </span></span>
+<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"chadhazlett/sensemakr"</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div id="citation" class="section level1">
-<h1 class="hasAnchor">
-<a href="#citation" class="anchor"></a>Citation</h1>
+<div class="section level1">
+<h1 id="citation">Citation<a class="anchor" aria-label="anchor" href="#citation"></a>
+</h1>
 <p>Please use the following citations:</p>
 <ul>
-<li><p><a href="https://doi.org/10.1111/rssb.12348">Cinelli, C., &amp; Hazlett, C. (2020). “Making sense of sensitivity: Extending omitted variable bias.” Journal of the Royal Statistical Society: Series B (Statistical Methodology), 82(1), 39-67.</a></p></li>
-<li><p><a href="https://www.researchgate.net/publication/340965014_sensemakr_Sensitivity_Analysis_Tools_for_OLS_in_R_and_Stata">Cinelli, C., &amp; Ferwerda, J., &amp; Hazlett, C. (2020). “sensemakr: Sensitivity Analysis Tools for OLS in R and Stata.”</a></p></li>
+<li><p><a href="https://doi.org/10.1111/rssb.12348" class="external-link">Cinelli, C., &amp; Hazlett, C. (2020). “Making sense of sensitivity: Extending omitted variable bias.” Journal of the Royal Statistical Society: Series B (Statistical Methodology), 82(1), 39-67.</a></p></li>
+<li><p><a href="https://www.researchgate.net/publication/340965014_sensemakr_Sensitivity_Analysis_Tools_for_OLS_in_R_and_Stata" class="external-link">Cinelli, C., &amp; Ferwerda, J., &amp; Hazlett, C. (2020). “sensemakr: Sensitivity Analysis Tools for OLS in R and Stata.”</a></p></li>
 </ul>
 </div>
-<div id="basic-usage" class="section level1">
-<h1 class="hasAnchor">
-<a href="#basic-usage" class="anchor"></a>Basic usage</h1>
+<div class="section level1">
+<h1 id="basic-usage">Basic usage<a class="anchor" aria-label="anchor" href="#basic-usage"></a>
+</h1>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># loads package</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/chadhazlett/sensemakr">sensemakr</a></span><span class="op">)</span>
-<span class="co">#&gt; See details in:</span>
-<span class="co">#&gt; Carlos Cinelli and Chad Hazlett (2020). Making Sense of Sensitivity: Extending Omitted Variable Bias. Journal of the Royal Statistical Society, Series B (Statistical Methodology).</span>
-
-<span class="co"># loads dataset</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"darfur"</span><span class="op">)</span>
-
-<span class="co"># runs regression model</span>
-<span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">peacefactor</span> <span class="op">~</span> <span class="va">directlyharmed</span> <span class="op">+</span> <span class="va">age</span> <span class="op">+</span> <span class="va">farmer_dar</span> <span class="op">+</span> <span class="va">herder_dar</span> <span class="op">+</span>
-                         <span class="va">pastvoted</span> <span class="op">+</span> <span class="va">hhsize_darfur</span> <span class="op">+</span> <span class="va">female</span> <span class="op">+</span> <span class="va">village</span>, data <span class="op">=</span> <span class="va">darfur</span><span class="op">)</span>
-
-<span class="co"># runs sensemakr for sensitivity analysis</span>
-<span class="va">sensitivity</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/sensemakr.html">sensemakr</a></span><span class="op">(</span>model <span class="op">=</span> <span class="va">model</span>, 
-                         treatment <span class="op">=</span> <span class="st">"directlyharmed"</span>,
-                         benchmark_covariates <span class="op">=</span> <span class="st">"female"</span>,
-                         kd <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span>
-
-<span class="co"># short description of results</span>
-<span class="va">sensitivity</span>
-<span class="co">#&gt; Sensitivity Analysis to Unobserved Confounding</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Model Formula: peacefactor ~ directlyharmed + age + farmer_dar + herder_dar + </span>
-<span class="co">#&gt;     pastvoted + hhsize_darfur + female + village</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Null hypothesis: q = 1 and reduce = TRUE </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Unadjusted Estimates of ' directlyharmed ':</span>
-<span class="co">#&gt;   Coef. estimate: 0.09732 </span>
-<span class="co">#&gt;   Standard Error: 0.02326 </span>
-<span class="co">#&gt;   t-value: 4.18445 </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Sensitivity Statistics:</span>
-<span class="co">#&gt;   Partial R2 of treatment with outcome: 0.02187 </span>
-<span class="co">#&gt;   Robustness Value, q = 1 : 0.13878 </span>
-<span class="co">#&gt;   Robustness Value, q = 1 alpha = 0.05 : 0.07626 </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; For more information, check summary.</span>
-
-<span class="co"># long description of results</span>
-<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">sensitivity</span><span class="op">)</span>
-<span class="co">#&gt; Sensitivity Analysis to Unobserved Confounding</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Model Formula: peacefactor ~ directlyharmed + age + farmer_dar + herder_dar + </span>
-<span class="co">#&gt;     pastvoted + hhsize_darfur + female + village</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Null hypothesis: q = 1 and reduce = TRUE </span>
-<span class="co">#&gt; -- This means we are considering biases that reduce the absolute value of the current estimate.</span>
-<span class="co">#&gt; -- The null hypothesis deemed problematic is H0:tau = 0 </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Unadjusted Estimates of 'directlyharmed': </span>
-<span class="co">#&gt;   Coef. estimate: 0.0973 </span>
-<span class="co">#&gt;   Standard Error: 0.0233 </span>
-<span class="co">#&gt;   t-value (H0:tau = 0): 4.1844 </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Sensitivity Statistics:</span>
-<span class="co">#&gt;   Partial R2 of treatment with outcome: 0.0219 </span>
-<span class="co">#&gt;   Robustness Value, q = 1: 0.1388 </span>
-<span class="co">#&gt;   Robustness Value, q = 1, alpha = 0.05: 0.0763 </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Verbal interpretation of sensitivity statistics:</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; -- Partial R2 of the treatment with the outcome: an extreme confounder (orthogonal to the covariates) that explains 100% of the residual variance of the outcome, would need to explain at least 2.19% of the residual variance of the treatment to fully account for the observed estimated effect.</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; -- Robustness Value, q = 1: unobserved confounders (orthogonal to the covariates) that explain more than 13.88% of the residual variance of both the treatment and the outcome are strong enough to bring the point estimate to 0 (a bias of 100% of the original estimate). Conversely, unobserved confounders that do not explain more than 13.88% of the residual variance of both the treatment and the outcome are not strong enough to bring the point estimate to 0.</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; -- Robustness Value, q = 1, alpha = 0.05: unobserved confounders (orthogonal to the covariates) that explain more than 7.63% of the residual variance of both the treatment and the outcome are strong enough to bring the estimate to a range where it is no longer 'statistically different' from 0 (a bias of 100% of the original estimate), at the significance level of alpha = 0.05. Conversely, unobserved confounders that do not explain more than 7.63% of the residual variance of both the treatment and the outcome are not strong enough to bring the estimate to a range where it is no longer 'statistically different' from 0, at the significance level of alpha = 0.05.</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Bounds on omitted variable bias:</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; --The table below shows the maximum strength of unobserved confounders with association with the treatment and the outcome bounded by a multiple of the observed explanatory power of the chosen benchmark covariate(s).</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;  Bound Label R2dz.x R2yz.dx      Treatment Adjusted Estimate Adjusted Se</span>
-<span class="co">#&gt;    1x female 0.0092  0.1246 directlyharmed            0.0752      0.0219</span>
-<span class="co">#&gt;    2x female 0.0183  0.2493 directlyharmed            0.0529      0.0204</span>
-<span class="co">#&gt;    3x female 0.0275  0.3741 directlyharmed            0.0304      0.0187</span>
-<span class="co">#&gt;  Adjusted T Adjusted Lower CI Adjusted Upper CI</span>
-<span class="co">#&gt;      3.4389            0.0323            0.1182</span>
-<span class="co">#&gt;      2.6002            0.0130            0.0929</span>
-<span class="co">#&gt;      1.6281           -0.0063            0.0670</span>
-
-<span class="co"># plot bias contour of point estimate</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">sensitivity</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># loads package</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/carloscinelli/sensemakr" class="external-link">sensemakr</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; See details in:</span></span>
+<span><span class="co">#&gt; Carlos Cinelli and Chad Hazlett (2020). Making Sense of Sensitivity: Extending Omitted Variable Bias. Journal of the Royal Statistical Society, Series B (Statistical Methodology).</span></span>
+<span></span>
+<span><span class="co"># loads dataset</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"darfur"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># runs regression model</span></span>
+<span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">peacefactor</span> <span class="op">~</span> <span class="va">directlyharmed</span> <span class="op">+</span> <span class="va">age</span> <span class="op">+</span> <span class="va">farmer_dar</span> <span class="op">+</span> <span class="va">herder_dar</span> <span class="op">+</span></span>
+<span>                         <span class="va">pastvoted</span> <span class="op">+</span> <span class="va">hhsize_darfur</span> <span class="op">+</span> <span class="va">female</span> <span class="op">+</span> <span class="va">village</span>, data <span class="op">=</span> <span class="va">darfur</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># runs sensemakr for sensitivity analysis</span></span>
+<span><span class="va">sensitivity</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/sensemakr.html">sensemakr</a></span><span class="op">(</span>model <span class="op">=</span> <span class="va">model</span>, </span>
+<span>                         treatment <span class="op">=</span> <span class="st">"directlyharmed"</span>,</span>
+<span>                         benchmark_covariates <span class="op">=</span> <span class="st">"female"</span>,</span>
+<span>                         kd <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># short description of results</span></span>
+<span><span class="va">sensitivity</span></span>
+<span><span class="co">#&gt; Sensitivity Analysis to Unobserved Confounding</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Model Formula: peacefactor ~ directlyharmed + age + farmer_dar + herder_dar + </span></span>
+<span><span class="co">#&gt;     pastvoted + hhsize_darfur + female + village</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Null hypothesis: q = 1 and reduce = TRUE </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Unadjusted Estimates of ' directlyharmed ':</span></span>
+<span><span class="co">#&gt;   Coef. estimate: 0.09732 </span></span>
+<span><span class="co">#&gt;   Standard Error: 0.02326 </span></span>
+<span><span class="co">#&gt;   t-value: 4.18445 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Sensitivity Statistics:</span></span>
+<span><span class="co">#&gt;   Partial R2 of treatment with outcome: 0.02187 </span></span>
+<span><span class="co">#&gt;   Robustness Value, q = 1 : 0.13878 </span></span>
+<span><span class="co">#&gt;   Robustness Value, q = 1 alpha = 0.05 : 0.07626 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; For more information, check summary.</span></span>
+<span></span>
+<span><span class="co"># long description of results</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">sensitivity</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Sensitivity Analysis to Unobserved Confounding</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Model Formula: peacefactor ~ directlyharmed + age + farmer_dar + herder_dar + </span></span>
+<span><span class="co">#&gt;     pastvoted + hhsize_darfur + female + village</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Null hypothesis: q = 1 and reduce = TRUE </span></span>
+<span><span class="co">#&gt; -- This means we are considering biases that reduce the absolute value of the current estimate.</span></span>
+<span><span class="co">#&gt; -- The null hypothesis deemed problematic is H0:tau = 0 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Unadjusted Estimates of 'directlyharmed': </span></span>
+<span><span class="co">#&gt;   Coef. estimate: 0.0973 </span></span>
+<span><span class="co">#&gt;   Standard Error: 0.0233 </span></span>
+<span><span class="co">#&gt;   t-value (H0:tau = 0): 4.1844 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Sensitivity Statistics:</span></span>
+<span><span class="co">#&gt;   Partial R2 of treatment with outcome: 0.0219 </span></span>
+<span><span class="co">#&gt;   Robustness Value, q = 1: 0.1388 </span></span>
+<span><span class="co">#&gt;   Robustness Value, q = 1, alpha = 0.05: 0.0763 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Verbal interpretation of sensitivity statistics:</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; -- Partial R2 of the treatment with the outcome: an extreme confounder (orthogonal to the covariates) that explains 100% of the residual variance of the outcome, would need to explain at least 2.19% of the residual variance of the treatment to fully account for the observed estimated effect.</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; -- Robustness Value, q = 1: unobserved confounders (orthogonal to the covariates) that explain more than 13.88% of the residual variance of both the treatment and the outcome are strong enough to bring the point estimate to 0 (a bias of 100% of the original estimate). Conversely, unobserved confounders that do not explain more than 13.88% of the residual variance of both the treatment and the outcome are not strong enough to bring the point estimate to 0.</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; -- Robustness Value, q = 1, alpha = 0.05: unobserved confounders (orthogonal to the covariates) that explain more than 7.63% of the residual variance of both the treatment and the outcome are strong enough to bring the estimate to a range where it is no longer 'statistically different' from 0 (a bias of 100% of the original estimate), at the significance level of alpha = 0.05. Conversely, unobserved confounders that do not explain more than 7.63% of the residual variance of both the treatment and the outcome are not strong enough to bring the estimate to a range where it is no longer 'statistically different' from 0, at the significance level of alpha = 0.05.</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Bounds on omitted variable bias:</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; --The table below shows the maximum strength of unobserved confounders with association with the treatment and the outcome bounded by a multiple of the observed explanatory power of the chosen benchmark covariate(s).</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;  Bound Label R2dz.x R2yz.dx      Treatment Adjusted Estimate Adjusted Se</span></span>
+<span><span class="co">#&gt;    1x female 0.0092  0.1246 directlyharmed            0.0752      0.0219</span></span>
+<span><span class="co">#&gt;    2x female 0.0183  0.2493 directlyharmed            0.0529      0.0204</span></span>
+<span><span class="co">#&gt;    3x female 0.0275  0.3741 directlyharmed            0.0304      0.0187</span></span>
+<span><span class="co">#&gt;  Adjusted T Adjusted Lower CI Adjusted Upper CI</span></span>
+<span><span class="co">#&gt;      3.4389            0.0323            0.1182</span></span>
+<span><span class="co">#&gt;      2.6002            0.0130            0.0929</span></span>
+<span><span class="co">#&gt;      1.6281           -0.0063            0.0670</span></span>
+<span></span>
+<span><span class="co"># plot bias contour of point estimate</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">sensitivity</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/figures-basic-usage-1.png" style="display: block; margin: auto;"></p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-<span class="co"># plot bias contour of t-value</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">sensitivity</span>, sensitivity.of <span class="op">=</span> <span class="st">"t-value"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># plot bias contour of t-value</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">sensitivity</span>, sensitivity.of <span class="op">=</span> <span class="st">"t-value"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/figures-basic-usage-2.png" style="display: block; margin: auto;"></p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-<span class="co"># plot extreme scenario</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">sensitivity</span>, type <span class="op">=</span> <span class="st">"extreme"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># plot extreme scenario</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">sensitivity</span>, type <span class="op">=</span> <span class="st">"extreme"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/figures-basic-usage-3.png" style="display: block; margin: auto;"></p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-<span class="co"># latex code for sensitivity table</span>
-<span class="fu"><a href="reference/print.sensemakr.html">ovb_minimal_reporting</a></span><span class="op">(</span><span class="va">sensitivity</span><span class="op">)</span>
-<span class="co">#&gt; \begin{table}[!h]</span>
-<span class="co">#&gt; \centering</span>
-<span class="co">#&gt; \begin{tabular}{lrrrrrr}</span>
-<span class="co">#&gt; \multicolumn{7}{c}{Outcome: \textit{peacefactor}} \\</span>
-<span class="co">#&gt; \hline \hline </span>
-<span class="co">#&gt; Treatment: &amp; Est. &amp; S.E. &amp; t-value &amp; $R^2_{Y \sim D |{\bf X}}$ &amp; $RV_{q = 1}$ &amp; $RV_{q = 1, \alpha = 0.05}$  \\ </span>
-<span class="co">#&gt; \hline </span>
-<span class="co">#&gt; \textit{directlyharmed} &amp; 0.097 &amp; 0.023 &amp; 4.184 &amp; 2.2\% &amp; 13.9\% &amp; 7.6\% \\ </span>
-<span class="co">#&gt; \hline </span>
-<span class="co">#&gt; df = 783 &amp; &amp; \multicolumn{5}{r}{ \small \textit{Bound (1x female)}: $R^2_{Y\sim Z| {\bf X}, D}$ = 12.5\%, $R^2_{D\sim Z| {\bf X} }$ = 0.9\%} \\</span>
-<span class="co">#&gt; \end{tabular}</span>
-<span class="co">#&gt; \end{table}</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># latex code for sensitivity table</span></span>
+<span><span class="fu"><a href="reference/print.sensemakr.html">ovb_minimal_reporting</a></span><span class="op">(</span><span class="va">sensitivity</span><span class="op">)</span></span>
+<span><span class="co">#&gt; \begin{table}[!h]</span></span>
+<span><span class="co">#&gt; \centering</span></span>
+<span><span class="co">#&gt; \begin{tabular}{lrrrrrr}</span></span>
+<span><span class="co">#&gt; \multicolumn{7}{c}{Outcome: \textit{peacefactor}} \\</span></span>
+<span><span class="co">#&gt; \hline \hline </span></span>
+<span><span class="co">#&gt; Treatment: &amp; Est. &amp; S.E. &amp; t-value &amp; $R^2_{Y \sim D |{\bf X}}$ &amp; $RV_{q = 1}$ &amp; $RV_{q = 1, \alpha = 0.05}$  \\ </span></span>
+<span><span class="co">#&gt; \hline </span></span>
+<span><span class="co">#&gt; \textit{directlyharmed} &amp; 0.097 &amp; 0.023 &amp; 4.184 &amp; 2.2\% &amp; 13.9\% &amp; 7.6\% \\ </span></span>
+<span><span class="co">#&gt; \hline </span></span>
+<span><span class="co">#&gt; df = 783 &amp; &amp; \multicolumn{5}{r}{ \small \textit{Bound (1x female)}: $R^2_{Y\sim Z| {\bf X}, D}$ = 12.5\%, $R^2_{D\sim Z| {\bf X} }$ = 0.9\%} \\</span></span>
+<span><span class="co">#&gt; \end{tabular}</span></span>
+<span><span class="co">#&gt; \end{table}</span></span></code></pre></div>
 </div>
 
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <div class="links">
-<h2>Links</h2>
+<h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li>Download from CRAN at <br><a href="https://cloud.r-project.org/package=sensemakr">https://​cloud.r-project.org/​package=sensemakr</a>
-</li>
-<li>Browse source code at <br><a href="https://github.com/chadhazlett/sensemakr/">https://​github.com/​chadhazlett/​sensemakr/​</a>
-</li>
-<li>Report a bug at <br><a href="https://github.com/chadhazlett/sensemakr/issues">https://​github.com/​chadhazlett/​sensemakr/​issues</a>
-</li>
-</ul>
-</div>
-<div class="license">
-<h2>License</h2>
-<ul class="list-unstyled">
-<li><a href="https://www.r-project.org/Licenses/GPL-3">GPL-3</a></li>
-</ul>
-</div>
-<div class="developers">
-<h2>Developers</h2>
-<ul class="list-unstyled">
-<li>
-<a href="https://carloscinelli.com">Carlos Cinelli</a> <br><small class="roles"> Author, maintainer </small>  </li>
-<li>
-<a href="https://www.jeremyferwerda.com/">Jeremy Ferwerda</a> <br><small class="roles"> Author </small>  </li>
-<li>
-<a href="https://chadhazlett.com">Chad Hazlett</a> <br><small class="roles"> Author </small>  </li>
-<li><a href="authors.html">All authors...</a></li>
+<li><a href="https://cloud.r-project.org/package=sensemakr" class="external-link">View on CRAN</a></li>
+<li><a href="https://github.com/carloscinelli/sensemakr/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/carloscinelli/sensemakr/issues" class="external-link">Report a bug</a></li>
 </ul>
 </div>
 
-  <div class="dev-status">
-<h2>Dev status</h2>
+<div class="license">
+<h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
-<li><a href="https://travis-ci.org/carloscinelli/sensemakr"><img src="https://travis-ci.org/carloscinelli/sensemakr.svg?branch=master" alt="Travis-CI build Status"></a></li>
-<li><a href="https://ci.appveyor.com/project/carloscinelli/sensemakr"><img src="https://ci.appveyor.com/api/projects/status/utoc0803j4fxoje3?svg=true" alt="Appveyor build status"></a></li>
-<li><a href="https://CRAN.R-project.org/package=sensemakr"><img src="https://www.r-pkg.org/badges/version/sensemakr" alt="CRAN status"></a></li>
-<li><a href="https://codecov.io/github/carloscinelli/sensemakr?branch=master"><img src="https://codecov.io/gh/carloscinelli/sensemakr/branch/master/graph/badge.svg" alt="Coverage status"></a></li>
-<li><a href="https://cran.r-project.org/package=sensemakr"><img src="https://cranlogs.r-pkg.org/badges/sensemakr" alt="Donwloads"></a></li>
+<li><a href="https://www.r-project.org/Licenses/GPL-3" class="external-link">GPL-3</a></li>
 </ul>
 </div>
+
+
+<div class="citation">
+<h2 data-toc-skip>Citation</h2>
+<ul class="list-unstyled">
+<li><a href="authors.html#citation">Citing sensemakr</a></li>
+</ul>
 </div>
+
+<div class="developers">
+<h2 data-toc-skip>Developers</h2>
+<ul class="list-unstyled">
+<li>
+<a href="https://carloscinelli.com" class="external-link">Carlos Cinelli</a> <br><small class="roles"> Author, maintainer </small>  </li>
+<li>
+<a href="https://www.jeremyferwerda.com/" class="external-link">Jeremy Ferwerda</a> <br><small class="roles"> Author </small>  </li>
+<li>
+<a href="https://chadhazlett.com" class="external-link">Chad Hazlett</a> <br><small class="roles"> Author </small>  </li>
+<li><a href="authors.html">More about authors...</a></li>
+</ul>
+</div>
+
+<div class="dev-status">
+<h2 data-toc-skip>Dev status</h2>
+<ul class="list-unstyled">
+<li><a href="https://travis-ci.org/carloscinelli/sensemakr" class="external-link"><img src="https://travis-ci.org/carloscinelli/sensemakr.svg?branch=master" alt="Travis-CI build Status"></a></li>
+<li><a href="https://ci.appveyor.com/project/carloscinelli/sensemakr" class="external-link"><img src="https://ci.appveyor.com/api/projects/status/utoc0803j4fxoje3?svg=true" alt="Appveyor build status"></a></li>
+<li><a href="https://CRAN.R-project.org/package=sensemakr" class="external-link"><img src="https://www.r-pkg.org/badges/version/sensemakr" alt="CRAN status"></a></li>
+<li><a href="https://codecov.io/github/carloscinelli/sensemakr?branch=master" class="external-link"><img src="https://codecov.io/gh/carloscinelli/sensemakr/branch/master/graph/badge.svg" alt="Coverage status"></a></li>
+<li><a href="https://cran.r-project.org/package=sensemakr" class="external-link"><img src="https://cranlogs.r-pkg.org/badges/sensemakr" alt="Downloads"></a></li>
+</ul>
+</div>
+
+  </div>
 </div>
 
 
       <footer><div class="copyright">
-  <p>Developed by <a href="https://carloscinelli.com">Carlos Cinelli</a>, <a href="https://www.jeremyferwerda.com/">Jeremy Ferwerda</a>, <a href="https://chadhazlett.com">Chad Hazlett</a>.</p>
+  <p></p>
+<p>Developed by <a href="https://carloscinelli.com" class="external-link">Carlos Cinelli</a>, <a href="https://www.jeremyferwerda.com/" class="external-link">Jeremy Ferwerda</a>, <a href="https://chadhazlett.com" class="external-link">Chad Hazlett</a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer>
@@ -309,6 +319,8 @@
 
   
 
+
+  
 
   </body>
 </html>
