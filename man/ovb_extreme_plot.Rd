@@ -8,7 +8,7 @@
 \alias{ovb_extreme_plot.numeric}
 \title{Extreme scenarios plots of omitted variable bias}
 \usage{
-ovb_extreme_plot(model, ...)
+ovb_extreme_plot(...)
 
 \method{ovb_extreme_plot}{lm}(
   model,
@@ -83,12 +83,12 @@ ovb_extreme_plot(model, ...)
 )
 }
 \arguments{
-\item{model}{An \code{lm} or \code{fixest} object with the outcome regression.}
-
 \item{...}{arguments passed to other methods. First argument should either be an \code{\link{lm}} model with the
 outcome regression, a \code{\link{formula}} describing the model along
 with the \code{\link{data.frame}} containing the variables of the model,
 or a numeric vector with the coefficient estimate.}
+
+\item{model}{An \code{lm} or \code{fixest} object with the outcome regression.}
 
 \item{treatment}{A character vector with the name of the treatment variable
 of the model.}

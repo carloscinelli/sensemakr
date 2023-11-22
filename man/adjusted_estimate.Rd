@@ -9,6 +9,10 @@
 \alias{adjusted_se.numeric}
 \alias{adjusted_se.lm}
 \alias{adjusted_se.fixest}
+\alias{adjusted_ci}
+\alias{adjusted_ci.lm}
+\alias{adjusted_ci.fixest}
+\alias{adjusted_ci.numeric}
 \alias{adjusted_t}
 \alias{adjusted_t.lm}
 \alias{adjusted_t.fixest}
@@ -26,9 +30,9 @@
 \alias{relative_bias.fixest}
 \alias{relative_bias.numeric}
 \alias{rel_bias}
-\title{Bias-adjusted estimates, standard-errors and t-values}
+\title{Bias-adjusted estimates, standard-errors, t-values and confidence intervals}
 \usage{
-adjusted_estimate(model, ...)
+adjusted_estimate(...)
 
 \method{adjusted_estimate}{lm}(model, treatment, r2dz.x, r2yz.dx, reduce = TRUE, ...)
 
@@ -36,7 +40,7 @@ adjusted_estimate(model, ...)
 
 \method{adjusted_estimate}{numeric}(estimate, se, dof, r2dz.x, r2yz.dx, reduce = TRUE, ...)
 
-adjusted_se(model, ...)
+adjusted_se(...)
 
 \method{adjusted_se}{numeric}(se, dof, r2dz.x, r2yz.dx, ...)
 
@@ -44,7 +48,44 @@ adjusted_se(model, ...)
 
 \method{adjusted_se}{fixest}(model, treatment, r2dz.x, r2yz.dx, message = TRUE, ...)
 
-adjusted_t(model, ...)
+adjusted_ci(...)
+
+\method{adjusted_ci}{lm}(
+  model,
+  treatment,
+  r2dz.x,
+  r2yz.dx,
+  which = c("both", "ll", "ul"),
+  reduce = TRUE,
+  alpha = 0.05,
+  ...
+)
+
+\method{adjusted_ci}{fixest}(
+  model,
+  treatment,
+  r2dz.x,
+  r2yz.dx,
+  which = c("both", "ll", "ul"),
+  reduce = TRUE,
+  alpha = 0.05,
+  message = T,
+  ...
+)
+
+\method{adjusted_ci}{numeric}(
+  estimate,
+  se,
+  dof,
+  r2dz.x,
+  r2yz.dx,
+  which = c("both", "ll", "ul"),
+  reduce = TRUE,
+  alpha = 0.05,
+  ...
+)
+
+adjusted_t(...)
 
 \method{adjusted_t}{lm}(model, treatment, r2dz.x, r2yz.dx, reduce = TRUE, h0 = 0, ...)
 
@@ -61,7 +102,7 @@ adjusted_t(model, ...)
 
 \method{adjusted_t}{numeric}(estimate, se, dof, r2dz.x, r2yz.dx, reduce = TRUE, h0 = 0, ...)
 
-adjusted_partial_r2(model, ...)
+adjusted_partial_r2(...)
 
 \method{adjusted_partial_r2}{numeric}(
   estimate,
@@ -94,7 +135,7 @@ adjusted_partial_r2(model, ...)
   ...
 )
 
-bias(model, ...)
+bias(...)
 
 \method{bias}{numeric}(se, dof, r2dz.x, r2yz.dx, ...)
 
@@ -102,7 +143,7 @@ bias(model, ...)
 
 \method{bias}{fixest}(model, treatment, r2dz.x, r2yz.dx, ...)
 
-relative_bias(model, ...)
+relative_bias(...)
 
 \method{relative_bias}{lm}(model, treatment, r2dz.x, r2yz.dx, ...)
 
@@ -113,9 +154,9 @@ relative_bias(model, ...)
 rel_bias(r.est, est)
 }
 \arguments{
-\item{model}{An \code{lm} or \code{fixest} object with the outcome regression.}
-
 \item{...}{arguments passed to other methods.}
+
+\item{model}{An \code{lm} or \code{fixest} object with the outcome regression.}
 
 \item{treatment}{A character vector with the name of the treatment variable
 of the model.}
@@ -136,6 +177,10 @@ absolute value of the estimated coefficient? Default is \code{TRUE}.}
 \item{dof}{residual degrees of freedom of the regression.}
 
 \item{message}{should messages be printed? Default = TRUE.}
+
+\item{which}{which limit of the confidence interval to show? Options are "both", lower limit ("ll") or upper limit ("ul").}
+
+\item{alpha}{significance level.}
 
 \item{h0}{Null hypothesis for computation of the t-value. Default is zero.}
 

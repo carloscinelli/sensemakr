@@ -8,7 +8,7 @@
 \alias{sensemakr.numeric}
 \title{Sensitivity analysis to unobserved confounders}
 \usage{
-sensemakr(model, ...)
+sensemakr(...)
 
 \method{sensemakr}{lm}(
   model,
@@ -78,9 +78,9 @@ sensemakr(model, ...)
 )
 }
 \arguments{
-\item{model}{An \code{lm} or \code{fixest} object with the outcome regression.}
-
 \item{...}{arguments passed to other methods.}
+
+\item{model}{An \code{lm} or \code{fixest} object with the outcome regression.}
 
 \item{treatment}{A character vector with the name of the treatment variable
 of the model.}
@@ -163,6 +163,12 @@ plot(sensitivity)
 
 # plot bias contour of t-value
 plot(sensitivity, sensitivity.of = "t-value")
+
+# plot bias contour of lower limit of CI
+plot(sensitivity, sensitivity.of = "ll")
+
+# plot bias contour of upper limit of CI
+plot(sensitivity, sensitivity.of = "ul")
 
 # plot extreme scenario
 plot(sensitivity, type = "extreme")

@@ -1,6 +1,6 @@
 # General Sensitivity Statistics ------------------------------------------
 
-# (extreme) robustness value --------------------------------------------------------
+# robustness value --------------------------------------------------------
 
 
 #' Computes the (extreme) robustness value
@@ -64,7 +64,7 @@
 #' @references Cinelli, C. and Hazlett, C. (2020), "Making Sense of Sensitivity: Extending Omitted Variable Bias." Journal of the Royal Statistical Society, Series B (Statistical Methodology).
 #' @export
 #' @importFrom stats df.residual qt update vcov
-robustness_value = function(model, ...) {
+robustness_value = function(...) {
   UseMethod("robustness_value")
 }
 
@@ -180,9 +180,12 @@ robustness_value.numeric <- function(t_statistic, dof, q =1, alpha = 0.05, ...){
 # }
 
 
+# Extreme RV --------------------------------------------------------------
+
+
 #' @export
 #' @rdname robustness_value
-extreme_robustness_value = function(model, ...) {
+extreme_robustness_value = function(...) {
   UseMethod("extreme_robustness_value")
 }
 
@@ -329,7 +332,7 @@ print.rv <- function(x, ...){
 #'
 #' @references Cinelli, C. and Hazlett, C. (2020), "Making Sense of Sensitivity: Extending Omitted Variable Bias." Journal of the Royal Statistical Society, Series B (Statistical Methodology).
 #' @export
-partial_r2 = function(model, ...) {
+partial_r2 = function(...) {
   UseMethod("partial_r2")
 }
 
@@ -386,7 +389,7 @@ partial_r2.default = function(model) {
 
 #' @rdname partial_r2
 #' @export
-partial_f2 = function(model, ...) {
+partial_f2 = function(...) {
   UseMethod("partial_f2")
 }
 
@@ -435,7 +438,7 @@ partial_r2.default = function(model, ...) {
 
 #' @rdname partial_r2
 #' @export
-partial_f = function(model, ...) {
+partial_f = function(...) {
   UseMethod("partial_f")
   }
 
@@ -488,7 +491,7 @@ partial_r2.default = function(model, ...) {
 #' A numeric vector with the computed partial R2.
 #'
 #' @export
-group_partial_r2 <- function(model, ...){
+group_partial_r2 <- function(...){
   UseMethod("group_partial_r2")
 }
 
@@ -610,7 +613,7 @@ group_partial_r2.numeric <- function(F.stats, p, dof, ...){
 #' }
 #' @references Cinelli, C. and Hazlett, C. (2020), "Making Sense of Sensitivity: Extending Omitted Variable Bias." Journal of the Royal Statistical Society, Series B (Statistical Methodology).
 #' @export
-sensitivity_stats <- function(model, ...){
+sensitivity_stats <- function(...){
   UseMethod("sensitivity_stats")
 }
 

@@ -46,7 +46,8 @@ plot.sensemakr = function(x,
 
 
 #' @export
-ovb_contour_plot.sensemakr <- function(x, sensitivity.of = c("estimate", "t-value"), ...){
+ovb_contour_plot.sensemakr <- function(x,
+                                       sensitivity.of = c("estimate", "t-value", "ll", "ul"), ...){
 
   sensitivity.of <- match.arg(sensitivity.of)
 
@@ -155,7 +156,7 @@ ovb_extreme_plot.sensemakr <- function(x, r2yz.dx = c(1, 0.75, 0.5), ...){
 #'                         kd = 1:2)
 #'
 #' @export
-ovb_contour_plot = function(model, ...) {
+ovb_contour_plot = function(...) {
   UseMethod("ovb_contour_plot")
 }
 
@@ -163,10 +164,12 @@ ovb_contour_plot = function(model, ...) {
 #' @inheritParams sensemakr
 #' @inheritParams adjusted_estimate
 #' @rdname ovb_contour_plot
-#' @param sensitivity.of should the contour plot show adjusted estimates (\code{"estimate"})
-#' or adjusted t-values (\code{"t-value"})?
+#' @param sensitivity.of should the contour plot show adjusted estimates (\code{"estimate"}),
+#'  adjusted t-values (\code{"t-value"}), adjusted lower limits (\code{"ll"})
+#'  or upper limits (\code{"ul}) of confidence intervals?
 #' @param estimate.threshold critical threshold for the point estimate.
-#' @param t.threshold critical threshold for the t-value.
+#' @param alpha significance level
+#' @param t.threshold critical threshold for the t-value. If \code{NULL}, the value of \code{alpha} is used.
 #' @param lim sets limit for x-axis. If `NULL`, limits are computed automatically.
 #' @param lim.y  sets limit for y-axis. If `NULL`, limits are computed automatically.
 #' @param nlevels number of levels for the contour plot.
@@ -185,10 +188,11 @@ ovb_contour_plot.lm = function(model,
                                r2dz.x = NULL,
                                r2yz.dx = r2dz.x,
                                bound_label = "manual",
-                               sensitivity.of = c("estimate", "t-value"),
+                               sensitivity.of = c("estimate", "t-value", "ll", "ul"),
                                reduce = TRUE,
                                estimate.threshold = 0,
-                               t.threshold = 2,
+                               alpha = 0.05,
+                               t.threshold = NULL,
                                nlevels = 10,
                                col.contour = "grey40",
                                col.thr.line = "red",
@@ -201,6 +205,7 @@ ovb_contour_plot.lm = function(model,
   check_multipliers(ky = ky, kd = kd)
 
 
+
   sensitivity.of <- match.arg(sensitivity.of)
   # extract model data
   if (!is.character(treatment)) stop("Argument treatment must be a string.")
@@ -210,6 +215,10 @@ ovb_contour_plot.lm = function(model,
   estimate <- model_data$estimate
   se <- model_data$se
   dof <- model_data$dof
+
+  if (is.null( t.threshold)) {
+    t.threshold <- qt(1 - alpha/2, df = dof)
+  }
 
   if (!is.null(r2dz.x)) {
     check_r2(r2dz.x = r2dz.x, r2yz.dx = r2yz.dx)
@@ -225,11 +234,11 @@ ovb_contour_plot.lm = function(model,
 
     # we will need to add an option for the bound type
     bench_bounds <- ovb_bounds.lm(model = model,
-                               treatment = treatment,
-                               benchmark_covariates = benchmark_covariates,
-                               kd = kd,
-                               ky = ky,
-                               adjusted_estimates = FALSE)
+                                  treatment = treatment,
+                                  benchmark_covariates = benchmark_covariates,
+                                  kd = kd,
+                                  ky = ky,
+                                  adjusted_estimates = FALSE)
     bounds <- rbind(bounds, bench_bounds)
   }
 
@@ -273,24 +282,25 @@ ovb_contour_plot.lm = function(model,
 #' @param round number of digits to show in contours and bound values
 #' @export
 ovb_contour_plot.fixest = function(model,
-                               treatment,
-                               benchmark_covariates = NULL,
-                               kd = 1,
-                               ky = kd,
-                               r2dz.x = NULL,
-                               r2yz.dx = r2dz.x,
-                               bound_label = "manual",
-                               sensitivity.of = c("estimate", "t-value"),
-                               reduce = TRUE,
-                               estimate.threshold = 0,
-                               t.threshold = 2,
-                               nlevels = 10,
-                               col.contour = "grey40",
-                               col.thr.line = "red",
-                               label.text = TRUE,
-                               cex.label.text = .7,
-                               round = 3,
-                               ...) {
+                                   treatment,
+                                   benchmark_covariates = NULL,
+                                   kd = 1,
+                                   ky = kd,
+                                   r2dz.x = NULL,
+                                   r2yz.dx = r2dz.x,
+                                   bound_label = "manual",
+                                   sensitivity.of = c("estimate", "t-value", "ll", "ul"),
+                                   reduce = TRUE,
+                                   estimate.threshold = 0,
+                                   alpha = 0.05,
+                                   t.threshold = NULL,
+                                   nlevels = 10,
+                                   col.contour = "grey40",
+                                   col.thr.line = "red",
+                                   label.text = TRUE,
+                                   cex.label.text = .7,
+                                   round = 3,
+                                   ...) {
 
 
   check_multipliers(ky = ky, kd = kd)
@@ -305,6 +315,9 @@ ovb_contour_plot.fixest = function(model,
   estimate <- model_data$estimate
   se <- model_data$se
   dof <- model_data$dof
+  if (is.null( t.threshold)) {
+    t.threshold <- qt(1 - alpha/2, df = dof)
+  }
 
   if (!is.null(r2dz.x)) {
     check_r2(r2dz.x = r2dz.x, r2yz.dx = r2yz.dx)
@@ -368,10 +381,11 @@ ovb_contour_plot.formula = function(formula,
                                     r2dz.x = NULL,
                                     r2yz.dx = r2dz.x,
                                     bound_label = NULL,
-                                    sensitivity.of = c("estimate", "t-value"),
+                                    sensitivity.of = c("estimate", "t-value", "ll", "ul"),
                                     reduce = TRUE,
                                     estimate.threshold = 0,
-                                    t.threshold = 2,
+                                    alpha = 0.05,
+                                    t.threshold = NULL,
                                     nlevels = 10,
                                     col.contour = "grey40",
                                     col.thr.line = "red",
@@ -444,10 +458,11 @@ ovb_contour_plot.numeric = function(estimate,
                                     r2dz.x = NULL,
                                     r2yz.dx = r2dz.x,
                                     bound_label = rep("manual", length(r2dz.x)),
-                                    sensitivity.of = c("estimate", "t-value"),
+                                    sensitivity.of = c("estimate", "t-value", "ll", "ul"),
                                     reduce = TRUE,
                                     estimate.threshold = 0,
-                                    t.threshold = 2,
+                                    alpha = 0.05,
+                                    t.threshold = NULL,
                                     show.unadjusted = TRUE,
                                     lim = NULL,
                                     lim.y = NULL,
@@ -470,6 +485,10 @@ ovb_contour_plot.numeric = function(estimate,
 
   check_estimate(estimate)
   check_r2(r2dz.x = r2dz.x, r2yz.dx = r2yz.dx)
+  if (is.null( t.threshold)) {
+    t.threshold <- qt(1 - alpha/2, df = dof)
+  }
+
   if (length(r2dz.x) != length(r2yz.dx)) {
     stop("Length of r2dz.x and r2yz.dx partial R2 must match")
   }
@@ -556,6 +575,31 @@ ovb_contour_plot.numeric = function(estimate,
                                 r2dz.x = r2dz.x,
                                 r2yz.dx = r2yz.dx,
                                 reduce = reduce, h0 = estimate.threshold)
+
+  }
+
+  if (sensitivity.of %in% c("ll", "ul")) {
+    z_axis = outer(grid_values.x, grid_values.y,
+                   FUN = "adjusted_ci",
+                   which = sensitivity.of,
+                   se = se, dof = dof,
+                   estimate = estimate,
+                   reduce = reduce,
+                   alpha = alpha) # we are computing the t-value of H0: tau = estimate.threshold
+    threshold = estimate.threshold
+    plot_estimate = adjusted_ci(estimate = estimate, se = se, dof = dof, alpha = alpha,
+                                which = sensitivity.of,
+                                r2dz.x = 0, r2yz.dx = 0)
+
+    if (!is.null(r2dz.x))
+      bound_value <- adjusted_ci(estimate = estimate,
+                                 se = se,
+                                 dof = dof,
+                                 r2dz.x = r2dz.x,
+                                 r2yz.dx = r2yz.dx,
+                                 which = sensitivity.of,
+                                 reduce = reduce,
+                                 alpha = alpha)
 
   }
 
@@ -703,7 +747,7 @@ ovb_contour_plot.numeric = function(estimate,
 #' The function adds bounds in an existing contour plot and returns `NULL`.
 #'
 #' @export
-add_bound_to_contour <- function(model, ...){
+add_bound_to_contour <- function(...){
   UseMethod("add_bound_to_contour")
 }
 
@@ -996,7 +1040,7 @@ add_bound_to_contour.numeric <- function(r2dz.x,
 #'
 #' @inheritParams ovb_contour_plot
 #' @export
-ovb_extreme_plot <- function(model, ...){
+ovb_extreme_plot <- function(...){
   UseMethod("ovb_extreme_plot")
 
 }

@@ -8,7 +8,7 @@
 \alias{ovb_contour_plot.numeric}
 \title{Contour plots of omitted variable bias}
 \usage{
-ovb_contour_plot(model, ...)
+ovb_contour_plot(...)
 
 \method{ovb_contour_plot}{lm}(
   model,
@@ -19,10 +19,11 @@ ovb_contour_plot(model, ...)
   r2dz.x = NULL,
   r2yz.dx = r2dz.x,
   bound_label = "manual",
-  sensitivity.of = c("estimate", "t-value"),
+  sensitivity.of = c("estimate", "t-value", "ll", "ul"),
   reduce = TRUE,
   estimate.threshold = 0,
-  t.threshold = 2,
+  alpha = 0.05,
+  t.threshold = NULL,
   nlevels = 10,
   col.contour = "grey40",
   col.thr.line = "red",
@@ -41,10 +42,11 @@ ovb_contour_plot(model, ...)
   r2dz.x = NULL,
   r2yz.dx = r2dz.x,
   bound_label = "manual",
-  sensitivity.of = c("estimate", "t-value"),
+  sensitivity.of = c("estimate", "t-value", "ll", "ul"),
   reduce = TRUE,
   estimate.threshold = 0,
-  t.threshold = 2,
+  alpha = 0.05,
+  t.threshold = NULL,
   nlevels = 10,
   col.contour = "grey40",
   col.thr.line = "red",
@@ -66,10 +68,11 @@ ovb_contour_plot(model, ...)
   r2dz.x = NULL,
   r2yz.dx = r2dz.x,
   bound_label = NULL,
-  sensitivity.of = c("estimate", "t-value"),
+  sensitivity.of = c("estimate", "t-value", "ll", "ul"),
   reduce = TRUE,
   estimate.threshold = 0,
-  t.threshold = 2,
+  alpha = 0.05,
+  t.threshold = NULL,
   nlevels = 10,
   col.contour = "grey40",
   col.thr.line = "red",
@@ -86,10 +89,11 @@ ovb_contour_plot(model, ...)
   r2dz.x = NULL,
   r2yz.dx = r2dz.x,
   bound_label = rep("manual", length(r2dz.x)),
-  sensitivity.of = c("estimate", "t-value"),
+  sensitivity.of = c("estimate", "t-value", "ll", "ul"),
   reduce = TRUE,
   estimate.threshold = 0,
-  t.threshold = 2,
+  alpha = 0.05,
+  t.threshold = NULL,
   show.unadjusted = TRUE,
   lim = NULL,
   lim.y = NULL,
@@ -112,12 +116,12 @@ ovb_contour_plot(model, ...)
 )
 }
 \arguments{
-\item{model}{An \code{lm} or \code{fixest} object with the outcome regression.}
-
 \item{...}{arguments passed to other methods. First argument should either be an \code{\link{lm}} model with the
 outcome regression, a \code{\link{formula}} describing the model along
 with the \code{\link{data.frame}} containing the variables of the model,
 or a numeric vector with the coefficient estimate.}
+
+\item{model}{An \code{lm} or \code{fixest} object with the outcome regression.}
 
 \item{treatment}{A character vector with the name of the treatment variable
 of the model.}
@@ -145,6 +149,8 @@ or adjusted t-values (\code{"t-value"})?}
 absolute value of the estimated coefficient? Default is \code{TRUE}.}
 
 \item{estimate.threshold}{critical threshold for the point estimate.}
+
+\item{alpha}{significance level}
 
 \item{t.threshold}{critical threshold for the t-value.}
 

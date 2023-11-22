@@ -12,7 +12,7 @@
 \alias{extreme_robustness_value.numeric}
 \title{Computes the (extreme) robustness value}
 \usage{
-robustness_value(model, ...)
+robustness_value(...)
 
 \method{robustness_value}{lm}(model, covariates = NULL, q = 1, alpha = 0.05, ...)
 
@@ -27,7 +27,7 @@ robustness_value(model, ...)
 
 \method{robustness_value}{numeric}(t_statistic, dof, q = 1, alpha = 0.05, ...)
 
-extreme_robustness_value(model, ...)
+extreme_robustness_value(...)
 
 \method{extreme_robustness_value}{lm}(model, covariates = NULL, q = 1, alpha = 0.05, ...)
 
@@ -45,10 +45,10 @@ extreme_robustness_value(model, ...)
 \method{extreme_robustness_value}{numeric}(t_statistic, dof, q = 1, alpha = 0.05, ...)
 }
 \arguments{
-\item{model}{an \code{fixest} object with the regression model.}
-
 \item{...}{arguments passed to other methods. First argument should either be an \code{lm} model or a \code{fixest} model with the
 regression model or a numeric vector with the t-value of the coefficient estimate}
+
+\item{model}{an \code{fixest} object with the regression model.}
 
 \item{covariates}{model covariates for which the robustness value will be computed. Default is to compute
 the robustness value of all covariates.}
@@ -100,6 +100,7 @@ robustness_value(model, covariates = "directlyharmed", alpha = 1)
 
 ## extreme robustness value of directly harmed q =1 (reduce estimate to zero)
 extreme_robustness_value(model, covariates = "directlyharmed", alpha = 1)
+
 ## note it equals the partial R2 of the treatment with the outcome
 partial_r2(model, covariates = "directlyharmed")
 
@@ -112,6 +113,9 @@ robustness_value(model, covariates = "directlyharmed", q = 1/2, alpha = 0.05)
 
 # you can also provide the statistics directly
 robustness_value(t_statistic = 4.18445, dof = 783, alpha = 1)
+
+extreme_robustness_value(t_statistic = 4.18445, dof = 783, alpha = 1)
+
 }
 \references{
 Cinelli, C. and Hazlett, C. (2020), "Making Sense of Sensitivity: Extending Omitted Variable Bias." Journal of the Royal Statistical Society, Series B (Statistical Methodology).

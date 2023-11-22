@@ -59,7 +59,7 @@ adjusted_critical_value <- function(r2dz.x, r2yz.dx, dof, alpha = 0.05, max = T)
 
 # adjusted estimate -------------------------------------------------------
 
-#' Bias-adjusted estimates, standard-errors and t-values
+#' Bias-adjusted estimates, standard-errors, t-values and confidence intervals
 #'
 #' @description
 #'  These functions compute bias adjusted estimates (\code{adjusted_estimate}),
@@ -106,7 +106,7 @@ adjusted_critical_value <- function(r2dz.x, r2yz.dx, dof, alpha = 0.05, max = T)
 #'            dof = 783, r2dz.x = 0.05, r2yz.dx = 0.05)
 #'
 #' @export
-adjusted_estimate <- function(model, ...){
+adjusted_estimate <- function(...){
   UseMethod("adjusted_estimate")
 }
 
@@ -151,7 +151,8 @@ adjusted_estimate.numeric <- function(estimate,
                                       dof,
                                       r2dz.x,
                                       r2yz.dx,
-                                      reduce = TRUE, ...){
+                                      reduce = TRUE,
+                                      ...){
 
   if (!is.numeric(estimate) || length(estimate) > 1) {
     stop("Estimate provided must be a single number.")
@@ -178,7 +179,7 @@ adjusted_estimate.numeric <- function(estimate,
 
 #' @rdname adjusted_estimate
 #' @export
-adjusted_se <- function(model, ...){
+adjusted_se <- function(...){
   UseMethod("adjusted_se")
 }
 
@@ -225,17 +226,100 @@ adjusted_se.fixest <- function(model, treatment,  r2dz.x, r2yz.dx, message = TRU
   return(new_se)
 }
 
-# adjusted t --------------------------------------------------------------
+
+# adjusted ci -------------------------------------------------------------
 
 #' @rdname adjusted_estimate
 #' @export
-adjusted_t <- function(model, ...){
-  UseMethod("adjusted_t")
+adjusted_ci <- function(...){
+  UseMethod("adjusted_ci")
+}
+
+
+#' @rdname adjusted_estimate
+#' @param which which limit of the confidence interval to show? Options are "both", lower limit ("ll") or upper limit ("ul").
+#' @param alpha significance level.
+#' @export
+adjusted_ci.lm <- function(model, treatment,  r2dz.x, r2yz.dx,
+                           which = c("both", "ll", "ul"),
+                           reduce = TRUE, alpha = 0.05, ...){
+  # extract model data
+  model_data <- model_helper.lm(model, covariates = treatment)
+  new_ci <- with(model_data, adjusted_ci.numeric(estimate = estimate, se = se, dof = dof,
+                                                 r2dz.x = r2dz.x, r2yz.dx = r2yz.dx,
+                                                 which = which,
+                                                 reduce = reduce, alpha = alpha))
+  names(new_ci) <- rep(treatment, length(new_ci))
+  return(new_ci)
+}
+
+#' @rdname adjusted_estimate
+#' @param message should messages be printed? Default = TRUE.
+#' @export
+adjusted_ci.fixest <- function(model, treatment,  r2dz.x, r2yz.dx,
+                               which = c("both", "ll", "ul"),
+                               reduce = TRUE, alpha = 0.05, message = T, ...){
+  if(message){
+    vcov_type <- model$call$vcov
+    if(!is.null(vcov_type)){
+      if(vcov_type!= "iid"){
+        message("Note for fixest: using 'iid' standard errors. Support for robust standard errors coming soon.")
+      }
+    }
+  }
+  # extract model data
+  model_data <- model_helper.fixest(model, covariates = treatment)
+  new_ci <- with(model_data, adjusted_ci.numeric(estimate = estimate, se = se, dof = dof,
+                                                 r2dz.x = r2dz.x, r2yz.dx = r2yz.dx,
+                                                 which = which,
+                                                 reduce = reduce, alpha = alpha))
+  names(new_ci) <- rep(treatment, length(new_ci))
+  return(new_ci)
 }
 
 
 
+#' @rdname adjusted_estimate
+#' @export
+adjusted_ci.numeric = function(estimate, se, dof, r2dz.x, r2yz.dx,
+                               which = c("both", "ll", "ul"),
+                               reduce = TRUE, alpha = 0.05, ...) {
+  # Error handling
+  check_se(se = se)
+  check_dof(dof = dof)
+  check_r2(r2yz.dx = r2yz.dx, r2dz.x =  r2dz.x)
+  which <- match.arg(which)
+  # Error handling (most handled through dispatch to bias/se, but need
+  # to make sure estimate is also valid)
+  if (!is.numeric(estimate) || length(estimate) > 1) {
+    stop("Estimate provided must be a single number.")
+  }
+  t.crit <- sqrt(qf(p = 1 - (alpha), df1 = 1, df2 = dof - 1, lower.tail = TRUE))
 
+  new_estimate <- adjusted_estimate.numeric(estimate = estimate,
+                                            r2yz.dx = r2yz.dx, r2dz.x = r2dz.x,
+                                            se = se, dof = dof,reduce =  reduce)
+  new_se <- adjusted_se(r2yz.dx = r2yz.dx, r2dz.x = r2dz.x, se = se, dof = dof)
+
+  ll <- new_estimate - t.crit*new_se
+  ul <- new_estimate + t.crit*new_se
+  ci <- cbind(ll = ll, ul = ul)
+  if (which == "both"){
+    return(ci)
+  } else {
+  return(ci[,which])
+  }
+}
+
+
+
+# adjusted t --------------------------------------------------------------
+
+#' @rdname adjusted_estimate
+#' @export
+adjusted_t <- function(...){
+  UseMethod("adjusted_t")
+}
 
 #' @rdname adjusted_estimate
 #' @param h0 Null hypothesis for computation of the t-value. Default is zero.
@@ -306,7 +390,7 @@ print.t_stats <- function(x, ...){
 
 #' @rdname adjusted_estimate
 #' @export
-adjusted_partial_r2 <- function(model, ...){
+adjusted_partial_r2 <- function(...){
   UseMethod("adjusted_partial_r2")
 }
 
@@ -345,7 +429,7 @@ adjusted_partial_r2.fixest <- function(model, treatment,  r2dz.x, r2yz.dx, reduc
 
 #' @rdname adjusted_estimate
 #' @export
-bias <- function(model, ...){
+bias <- function(...){
   UseMethod("bias")
 }
 
@@ -388,7 +472,7 @@ bias.fixest <- function(model, treatment,  r2dz.x, r2yz.dx, ...){
 
 #' @rdname adjusted_estimate
 #' @export
-relative_bias <- function(model, ...){
+relative_bias <- function(...){
   UseMethod("relative_bias")
 }
 

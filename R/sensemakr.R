@@ -142,6 +142,12 @@ NULL
 #'# plot bias contour of t-value
 #'plot(sensitivity, sensitivity.of = "t-value")
 #'
+#'# plot bias contour of lower limit of CI
+#'plot(sensitivity, sensitivity.of = "ll")
+#'
+#'# plot bias contour of upper limit of CI
+#'plot(sensitivity, sensitivity.of = "ul")
+#'
 #'# plot extreme scenario
 #'plot(sensitivity, type = "extreme")
 #'
@@ -157,7 +163,7 @@ NULL
 #'  }
 #'
 #' @export
-sensemakr <- function(model, ...){
+sensemakr <- function(...){
   UseMethod("sensemakr")
 }
 
