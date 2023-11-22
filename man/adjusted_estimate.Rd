@@ -102,7 +102,7 @@ bias(model, ...)
 
 \method{bias}{fixest}(model, treatment, r2dz.x, r2yz.dx, ...)
 
-relative_bias(...)
+relative_bias(model, ...)
 
 \method{relative_bias}{lm}(model, treatment, r2dz.x, r2yz.dx, ...)
 
@@ -113,7 +113,7 @@ relative_bias(...)
 rel_bias(r.est, est)
 }
 \arguments{
-\item{model}{An \code{fixest} object with the outcome regression.}
+\item{model}{An \code{lm} of \code{fixest} object with the outcome regression.}
 
 \item{...}{Arguments passed to other methods. First argument should either be an
 \code{lm} model with the outcome regression or a numeric vector with the

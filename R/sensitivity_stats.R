@@ -280,7 +280,7 @@ partial_r2.numeric <- function(t_statistic, dof, ...){
 }
 
 partial_r2.default = function(model) {
-  stop("The `partial_r2` function must be passed either an `lm` model object, ",
+  stop("The `partial_r2` function must be passed either an `lm`/`fixest` model object, ",
        "or the t-statistics and degrees of freedom directly. ",
        "Other object types are not supported. The object passed was of class ",
        class(model)[1])
@@ -302,7 +302,7 @@ partial_f2.numeric <- function(t_statistic, dof, ...){
 
 #' @rdname partial_r2
 #' @export
-partial_f2.lm = function(model, covariates = NULL, ...) {
+partial_f2.lm <- function(model, covariates = NULL, ...) {
   # extract model data
   model_data <- model_helper.lm(model, covariates = covariates)
   t_statistic = setNames(model_data$t_statistics, model_data$covariates)
@@ -326,16 +326,46 @@ partial_f2.fixest = function(model, covariates = NULL, ...) {
   partial_f2(t_statistic = t_statistic, dof = dof)
 }
 partial_r2.default = function(model, ...) {
-  stop("The `partial_f2` function must be passed either an `lm` model object, ",
+  stop("The `partial_f2` function must be passed either an `lm`/`fixest`  model object, ",
        "or the t-statistics and degrees of freedom directly. ",
        "Other object types are not supported. The object passed was of class ",
        class(model)[1])
 }
 
 
+
+# partial f ---------------------------------------------------------------
+
+
 #' @rdname partial_r2
 #' @export
-partial_f = function(...) sqrt(partial_f2(...))
+partial_f = function(model, ...) {
+  UseMethod("partial_f")
+  }
+
+partial_f.fixest <- function(model, covariates = NULL, ...){
+  sqrt(partial_f2.fixest(model, covariates = NULL, ...))
+}
+
+partial_f.lm <- function(model, covariates = NULL, ...) {
+  sqrt(partial_f2.lm(model, covariates = NULL, ...))
+}
+
+partial_f.numeric <- function(t_statistic, dof, ...) {
+  sqrt(partial_f2.numeric(t_statistic, dof, ...))
+}
+
+
+
+partial_f.numeric <- function(t_statistic, dof, ...) sqrt(partial_f2.numeric(t_statistic, dof, ...))
+
+partial_r2.default = function(model, ...) {
+  stop("The `partial_f` function must be passed either an `lm`/`fixest` model object, ",
+       "or the t-statistics and degrees of freedom directly. ",
+       "Other object types are not supported. The object passed was of class ",
+       class(model)[1])
+}
+
 
 
 
@@ -551,9 +581,8 @@ sensitivity_stats.numeric <- function(estimate,
                                       reduce = TRUE,
                                       ...)
 {
-  if (se < 0 ) stop("Standard Error must be positive")
-  if (!is.numeric(se)) stop("Standard Error must be a numeric value")
-  if (dof < 0) stop("Degrees of Freedom must be poisitive")
+  check_se(se)
+  check_dof(dof)
   h0 <- ifelse(reduce, estimate*(1 - q), estimate*(1 + q) )
   original_t  <- estimate/se
   t_statistic <- (estimate - h0)/se
@@ -591,16 +620,16 @@ check_alpha <- function(alpha) {
 
 
 check_se <- function(se){
-  if (se < 0) {
-    stop("Standard error provided must be a single non-negative number")
-  }
+  if (!is.numeric(se)) stop("Standard Error must be a numeric value")
+  if (se < 0) stop("Standard error provided must be a single non-negative number")
 }
 
 check_dof <- function(dof){
-  if (!is.numeric(dof) || length(dof) > 1 || dof <= 0) {
-    stop("Degrees of freedom provided must be a single non-negative number.")
-  }
+    if (any(!is.numeric(dof) | dof < 0)) {
+      stop("Degrees of freedom provided must be a non-negative number.")
+    }
 }
+
 
 
 
@@ -705,7 +734,7 @@ model_helper.fixest = function(model, covariates = NULL, ...) {
 #' @param ... arguments passed to other methods.
 #' @export
 #' @keywords internal
-error_if_no_dof = function(...) {
+error_if_no_dof = function(model, ...) {
   UseMethod("error_if_no_dof")
 }
 

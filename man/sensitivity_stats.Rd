@@ -33,7 +33,7 @@ sensitivity_stats(model, ...)
 )
 }
 \arguments{
-\item{model}{An \code{fixest} object with the outcome regression.}
+\item{model}{An \code{lm} of \code{fixest} object with the outcome regression.}
 
 \item{...}{Arguments passed to other methods. First argument should either be an
 \code{lm} model with the outcome regression or a numeric vector with the

@@ -28,7 +28,7 @@ partial_f2(model, ...)
 
 \method{partial_f2}{fixest}(model, covariates = NULL, ...)
 
-partial_f(...)
+partial_f(model, ...)
 }
 \arguments{
 \item{model}{an \code{fixest} object with the regression model}

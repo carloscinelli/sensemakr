@@ -4,7 +4,7 @@
 \alias{error_if_no_dof}
 \title{Helper function for checking dof statistics}
 \usage{
-error_if_no_dof(...)
+error_if_no_dof(model, ...)
 }
 \arguments{
 \item{...}{arguments passed to other methods.}

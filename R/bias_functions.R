@@ -1,5 +1,43 @@
 # Bias functions ----------------------------------------------------------
 
+# adjusted critical value -------------------------------------------------
+
+#' Bias adjusted critical values
+#'
+#' @description
+#' These functions compute bias adjusted critical values for a given postulated strength of omitted variable with the dependent and independent variables of an OLS regression.
+#'
+#' Researchers can thus easily perform sensitivity analysis by simply substituting traditional thresholds with bias-adjusted thresholds, when testing a particular null hypothesis, or when constructing confidence intervals.
+#' @inheritParams adjusted_estimate
+#' @param alpha significance level. Default is `0.05`.
+#' @param max if `TRUE` (default) it computes the worst possible adjusted critical threshold for an omitted variable with strength limited by `r2dz.x` and `r2yz.dx`.
+#' @export
+adjusted_critical_value <- function(r2dz.x, r2yz.dx, dof, alpha = 0.05, max = T){
+
+  # check arguments
+  check_alpha(alpha)
+  check_dof(dof)
+  check_r2(r2dz.x, r2yz.dx)
+
+
+  # traditional critical value
+  t.crit <- sqrt(qf(p = 1 - (alpha), df1 = 1, df2 = dof-1, lower.tail = TRUE))
+  f.crit <- t.crit/sqrt(dof)
+  if (max == T) {
+    cond <- r2yz.dx  < f.crit^2 * (r2dz.x/(1-r2dz.x))
+    r2ys <- rep(NA, length(cond))
+    r2ys[!cond] <- r2yz.dx[!cond]
+    r2ys[cond] <- r2dz.x[cond]/(f.crit[cond]^2 + r2dz.x[cond])
+    r2yz.dx <- r2ys
+  }
+  sef <- sqrt(((1-r2yz.dx)/(1-r2dz.x))*(dof/(dof-1)))
+  bf  <- sqrt(r2yz.dx*r2dz.x/(1-r2dz.x))
+  t.dagger <- sef*t.crit + bf*sqrt(dof)
+  return(t.dagger)
+}
+
+t.dagger <- adjusted_critical_value
+
 # adjusted estimate -------------------------------------------------------
 
 #' Bias-adjusted estimates, standard-errors and t-values
@@ -13,9 +51,8 @@
 #' passing in numerical inputs, such as the
 #' current coefficient estimate, standard error and degrees of freedom.
 #'
-#' @param ... Arguments passed to other methods. First argument should either be an
-#' \code{lm} model with the outcome regression or a numeric vector with the
-#' coefficient estimate.
+#' @param ... arguments passed to other methods.
+#' @param model An \code{lm} or \code{fixest} object with the outcome regression.
 #'
 #' @return
 #' Numeric vector with bias, adjusted estimate, standard error, or t-value.
@@ -54,7 +91,7 @@ adjusted_estimate <- function(model, ...){
   UseMethod("adjusted_estimate")
 }
 
-#' @param model An \code{lm} object with the outcome regression.
+
 #' @param treatment A character vector with the name of the treatment variable
 #' of the model.
 #' @rdname adjusted_estimate
@@ -68,9 +105,6 @@ adjusted_estimate.lm <- function(model, treatment,  r2dz.x, r2yz.dx, reduce = TR
   return(adj_estimate)
 }
 
-#' @param model An \code{fixest} object with the outcome regression.
-#' @param treatment A character vector with the name of the treatment variable
-#' of the model.
 #' @rdname adjusted_estimate
 #' @export
 adjusted_estimate.fixest <- function(model, treatment,  r2dz.x, r2yz.dx, reduce = TRUE, ...){
@@ -233,7 +267,7 @@ adjusted_t.numeric = function(estimate, se, dof, r2dz.x, r2yz.dx, reduce = TRUE,
   new_t <-  (new_estimate - h0) / adjusted_se(r2yz.dx = r2yz.dx, r2dz.x = r2dz.x, se = se, dof = dof)
   unname(new_t)
   attributes(new_t) <- list(h0 = h0)
-  class(new_t) <- c("numeric", "t_stats")
+  class(new_t) <- c("numeric", "t_stats") # this is on purpose, numeric
   return(new_t)
 }
 
@@ -335,7 +369,7 @@ bias.fixest <- function(model, treatment,  r2dz.x, r2yz.dx, ...){
 
 #' @rdname adjusted_estimate
 #' @export
-relative_bias <- function(...){
+relative_bias <- function(model, ...){
   UseMethod("relative_bias")
 }
 

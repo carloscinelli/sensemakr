@@ -77,7 +77,7 @@ ovb_partial_r2_bound(...)
 \arguments{
 \item{...}{arguments passed to other methods.}
 
-\item{model}{An \code{fixest} object with the outcome regression.}
+\item{model}{An \code{lm} of \code{fixest} object with the outcome regression.}
 
 \item{treatment}{A character vector with the name of the treatment variable
 of the model.}

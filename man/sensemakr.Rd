@@ -78,7 +78,7 @@ sensemakr(model, ...)
 )
 }
 \arguments{
-\item{model}{An \code{fixest} object with the outcome regression.}
+\item{model}{An \code{lm} of \code{fixest} object with the outcome regression.}
 
 \item{...}{arguments passed to other methods.}
 
