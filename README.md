@@ -26,26 +26,21 @@ Methodology).](https://doi.org/10.1111/rssb.12348)
 
 # News
 
--   The [Online Causal Inference Seminar presentation](https://www.youtube.com/watch?v=j7mN_G5Gpyg) is now available.
+- Watch the [useR! 2020
+  presentation](https://www.youtube.com/watch?v=p3dfHj6ki68) for a quick
+  introduction on sensemakr.
 
--   Check out the new [Python version](https://github.com/nlapier2/PySensemakr) of the package!
+- Check out the [software paper
+  preprint](https://www.researchgate.net/publication/340965014_sensemakr_Sensitivity_Analysis_Tools_for_OLS_in_R_and_Stata)!
 
--   Watch the [useR! 2020
-    presentation](https://www.youtube.com/watch?v=p3dfHj6ki68) for a
-    quick introduction on sensemakr.
+- Check out the new [Stata
+  version](https://github.com/resonance1/sensemakr-stata) of the
+  package!
 
--   Check out the [software paper
-    preprint](https://www.researchgate.net/publication/340965014_sensemakr_Sensitivity_Analysis_Tools_for_OLS_in_R_and_Stata)!
+- Check out the Robustness Value Shiny App at:
+  <https://carloscinelli.shinyapps.io/robustness_value/>
 
--   Check out the new [Stata
-    version](https://github.com/resonance1/sensemakr-stata) of the
-    package!
-
--   Check out the Robustness Value Shiny App at:
-    <https://carloscinelli.shinyapps.io/robustness_value/>
-
--   Check out the [package
-    website](http://carloscinelli.com/sensemakr/)!
+- Check out the [package website](http://carloscinelli.com/sensemakr/)!
 
 # Details
 
@@ -85,14 +80,14 @@ devtools::install_github("chadhazlett/sensemakr")
 
 Please use the following citations:
 
--   [Cinelli, C., & Hazlett, C. (2020). “Making sense of sensitivity:
-    Extending omitted variable bias.” Journal of the Royal Statistical
-    Society: Series B (Statistical Methodology), 82(1),
-    39-67.](https://doi.org/10.1111/rssb.12348)
+- [Cinelli, C., & Hazlett, C. (2020). “Making sense of sensitivity:
+  Extending omitted variable bias.” Journal of the Royal Statistical
+  Society: Series B (Statistical Methodology), 82(1),
+  39-67.](https://doi.org/10.1111/rssb.12348)
 
--   [Cinelli, C., & Ferwerda, J., & Hazlett, C. (2020). “sensemakr:
-    Sensitivity Analysis Tools for OLS in R and
-    Stata.”](https://www.researchgate.net/publication/340965014_sensemakr_Sensitivity_Analysis_Tools_for_OLS_in_R_and_Stata)
+- [Cinelli, C., & Ferwerda, J., & Hazlett, C. (2020). “sensemakr:
+  Sensitivity Analysis Tools for OLS in R and
+  Stata.”](https://www.researchgate.net/publication/340965014_sensemakr_Sensitivity_Analysis_Tools_for_OLS_in_R_and_Stata)
 
 # Basic usage
 
@@ -185,6 +180,7 @@ plot(sensitivity)
 <img src="man/figures/figures-basic-usage-1.png" style="display: block; margin: auto;" />
 
 ``` r
+
 # plot bias contour of t-value
 plot(sensitivity, sensitivity.of = "t-value")
 ```
@@ -192,13 +188,23 @@ plot(sensitivity, sensitivity.of = "t-value")
 <img src="man/figures/figures-basic-usage-2.png" style="display: block; margin: auto;" />
 
 ``` r
-# plot extreme scenario
-plot(sensitivity, type = "extreme")
+
+# plot bias contour of lower limit of confidence interval
+plot(sensitivity, sensitivity.of = "ll")
 ```
 
 <img src="man/figures/figures-basic-usage-3.png" style="display: block; margin: auto;" />
 
 ``` r
+
+# plot extreme scenario
+plot(sensitivity, type = "extreme")
+```
+
+<img src="man/figures/figures-basic-usage-4.png" style="display: block; margin: auto;" />
+
+``` r
+
 # latex code for sensitivity table
 ovb_minimal_reporting(sensitivity)
 #> \begin{table}[!h]
@@ -214,3 +220,74 @@ ovb_minimal_reporting(sensitivity)
 #> \end{tabular}
 #> \end{table}
 ```
+
+``` r
+# html code for sensitivity table
+ovb_minimal_reporting(sensitivity, format = "pure_html")
+```
+
+<table style="align:center">
+<thead>
+<tr>
+<th style="text-align:left;border-bottom: 1px solid transparent;border-top: 1px solid black">
+</th>
+<th colspan="6" style="text-align:center;border-bottom: 1px solid black;border-top: 1px solid black">
+Outcome: peacefactor
+</th>
+</tr>
+<tr>
+<th style="text-align:left;border-top: 1px solid black">
+Treatment
+</th>
+<th style="text-align:right;border-top: 1px solid black">
+Est.
+</th>
+<th style="text-align:right;border-top: 1px solid black">
+S.E.
+</th>
+<th style="text-align:right;border-top: 1px solid black">
+t-value
+</th>
+<th style="text-align:right;border-top: 1px solid black">
+R<sup>2</sup><sub>Y~D\|X</sub>
+</th>
+<th style="text-align:right;border-top: 1px solid black">
+RV<sub>q = 1</sub>
+</th>
+<th style="text-align:right;border-top: 1px solid black">
+RV<sub>q = 1, α = 0.05</sub>
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left; border-bottom: 1px solid black">
+<i>directlyharmed</i>
+</td>
+<td style="text-align:right;border-bottom: 1px solid black">
+0.097
+</td>
+<td style="text-align:right;border-bottom: 1px solid black">
+0.023
+</td>
+<td style="text-align:right;border-bottom: 1px solid black">
+4.184
+</td>
+<td style="text-align:right;border-bottom: 1px solid black">
+2.2%
+</td>
+<td style="text-align:right;border-bottom: 1px solid black">
+13.9%
+</td>
+<td style="text-align:right;border-bottom: 1px solid black">
+7.6%
+</td>
+</tr>
+</tbody>
+<tr>
+<td colspan="7" style="text-align:right;border-bottom: 1px solid transparent;font-size:11px">
+Note: df = 783; Bound ( 1x female ): R<sup>2</sup><sub>Y~Z\|X,D</sub> =
+12.5%, R<sup>2</sup><sub>D~Z\|X</sub> = 0.9%
+</td>
+</tr>
+</table>
