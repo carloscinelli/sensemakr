@@ -162,7 +162,7 @@ robustness_value.numeric <- function(t_statistic, dof, q =1, alpha = 0.05, ...){
   rv  <-  0.5 * (sqrt(fqa^4 + (4 * fqa^2)) - fqa^2)
 
   # constraint not binding case
-  rvx <- (fq^2 - f.crit^2)/(1 + fq^2)
+  rvx <- extreme_robustness_value.numeric(t_statistic, dof = dof, q=q, alpha = alpha)
 
   # combine results
   rv.out <- rv # initiate everyone as binding
