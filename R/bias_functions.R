@@ -47,9 +47,10 @@ adjusted_critical_value <- function(r2dz.x, r2yz.dx, dof, alpha = 0.05, max = T)
     r2ys[cond] <- r2dz.x[cond]/(f.crit[cond]^2 + r2dz.x[cond])
     r2yz.dx <- r2ys
   }
-  sef <- sqrt(((1-r2yz.dx)/(1-r2dz.x))*(dof/(dof-1)))
-  bf  <- sqrt(r2yz.dx*r2dz.x/(1-r2dz.x))
-  t.dagger <- sef*t.crit + bf*sqrt(dof)
+  sef <- sef(r2dz.x = r2dz.x, r2yz.dx = r2yz.dx)
+  bf  <- bf(r2dz.x = r2dz.x, r2yz.dx = r2yz.dx)
+  ddof <- sqrt((dof/(dof-1)))
+  t.dagger <- t.crit*sef*ddof + bf*sqrt(dof)
   return(t.dagger)
 }
 
@@ -192,7 +193,7 @@ adjusted_se.numeric = function(se, dof, r2dz.x, r2yz.dx, ...) {
   check_r2(r2yz.dx = r2yz.dx, r2dz.x =  r2dz.x)
 
   # Run formula for SE of R^2
-  new_se <- sqrt((1 - r2yz.dx) / (1 - r2dz.x)) * se * sqrt(dof / (dof - 1))
+  new_se <- sef(r2dz.x = r2dz.x, r2yz.dx = r2yz.dx) * se * sqrt(dof / (dof - 1))
   new_se <- unname(new_se)
   return(new_se)
 }
@@ -536,6 +537,10 @@ bf <- function(r2dz.x, r2yz.dx){
   return(BF)
 }
 
+sef <- function(r2dz.x, r2yz.dx){
+  SEF <- sqrt(1 - r2yz.dx)/sqrt(1 - r2dz.x)
+  return(SEF)
+}
 
 
 
