@@ -112,7 +112,7 @@ ovb_contour_plot(model, ...)
 )
 }
 \arguments{
-\item{model}{An \code{lm} of \code{fixest} object with the outcome regression.}
+\item{model}{An \code{lm} or \code{fixest} object with the outcome regression.}
 
 \item{...}{arguments passed to other methods. First argument should either be an \code{\link{lm}} model with the
 outcome regression, a \code{\link{formula}} describing the model along
@@ -130,10 +130,10 @@ Default value is \code{1} (confounder is as strong as benchmark covariate).}
 \item{ky}{numeric vector. Parameterizes how many times stronger the confounder is related to the outcome in comparison to the observed benchmark covariate.
 Default value is the same as \code{kd}.}
 
-\item{r2dz.x}{Hypothetical partial R2 of unobserved confounder
+\item{r2dz.x}{hypothetical partial R2 of unobserved confounder
 Z with treatment D, given covariates X.}
 
-\item{r2yz.dx}{Hypothetical partial R2 of unobserved confounder Z
+\item{r2yz.dx}{hypothetical partial R2 of unobserved confounder Z
 with outcome Y, given covariates X and treatment D.}
 
 \item{bound_label}{label to bounds provided manually in \code{r2dz.x} and \code{r2yz.dx}.}
@@ -141,7 +141,7 @@ with outcome Y, given covariates X and treatment D.}
 \item{sensitivity.of}{should the contour plot show adjusted estimates (\code{"estimate"})
 or adjusted t-values (\code{"t-value"})?}
 
-\item{reduce}{Should the bias adjustment reduce or increase the
+\item{reduce}{should the bias adjustment reduce or increase the
 absolute value of the estimated coefficient? Default is \code{TRUE}.}
 
 \item{estimate.threshold}{critical threshold for the point estimate.}
@@ -170,9 +170,9 @@ absolute value of the estimated coefficient? Default is \code{TRUE}.}
 
 \item{estimate}{Coefficient estimate.}
 
-\item{se}{Standard error of the coefficient estimate.}
+\item{se}{standard error of the coefficient estimate.}
 
-\item{dof}{Residual degrees of freedom of the regression.}
+\item{dof}{residual degrees of freedom of the regression.}
 
 \item{show.unadjusted}{should the unadjusted estimates be shown? Default is `TRUE`.}
 

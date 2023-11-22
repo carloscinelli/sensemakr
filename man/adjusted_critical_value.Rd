@@ -2,25 +2,44 @@
 % Please edit documentation in R/bias_functions.R
 \name{adjusted_critical_value}
 \alias{adjusted_critical_value}
-\title{Bias adjusted critical values}
+\title{Bias-adjusted critical values}
 \usage{
 adjusted_critical_value(r2dz.x, r2yz.dx, dof, alpha = 0.05, max = T)
 }
 \arguments{
-\item{r2dz.x}{Hypothetical partial R2 of unobserved confounder
+\item{r2dz.x}{hypothetical partial R2 of unobserved confounder
 Z with treatment D, given covariates X.}
 
-\item{r2yz.dx}{Hypothetical partial R2 of unobserved confounder Z
+\item{r2yz.dx}{hypothetical partial R2 of unobserved confounder Z
 with outcome Y, given covariates X and treatment D.}
 
-\item{dof}{Residual degrees of freedom of the regression.}
+\item{dof}{residual degrees of freedom of the regression.}
 
 \item{alpha}{significance level. Default is `0.05`.}
 
 \item{max}{if `TRUE` (default) it computes the worst possible adjusted critical threshold for an omitted variable with strength limited by `r2dz.x` and `r2yz.dx`.}
 }
+\value{
+Numeric vector with bias-adjusted critical values.
+}
 \description{
 These functions compute bias adjusted critical values for a given postulated strength of omitted variable with the dependent and independent variables of an OLS regression.
 
 Researchers can thus easily perform sensitivity analysis by simply substituting traditional thresholds with bias-adjusted thresholds, when testing a particular null hypothesis, or when constructing confidence intervals.
+}
+\examples{
+
+# traditional critical threshold (no confounding) is 1.96 (dof = 1e4)
+adjusted_critical_value(r2dz.x = 0, r2yz.dx = 0, dof = 1e4, alpha = 0.05)
+
+# adjusted critical threshold, r2 = 1\% is 2.96 (dof = 1e4)
+adjusted_critical_value(r2dz.x = 0.01, r2yz.dx = 0.01, dof = 1e4, alpha = 0.05)
+
+
+}
+\references{
+Cinelli, C. and Hazlett, C. (2020), "Making Sense of Sensitivity: Extending Omitted Variable Bias." Journal of the Royal Statistical Society, Series B (Statistical Methodology).
+
+
+Cinelli, C. and Hazlett, C. (2023), "An Omitted Variable Bias Framework for Sensitivity Analysis of Instrumental Variables."
 }

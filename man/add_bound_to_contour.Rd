@@ -63,7 +63,7 @@ add_bound_to_contour(model, ...)
 )
 }
 \arguments{
-\item{model}{An \code{lm} of \code{fixest} object with the outcome regression.}
+\item{model}{An \code{lm} or \code{fixest} object with the outcome regression.}
 
 \item{...}{arguments passed to other methods.}
 
@@ -80,7 +80,7 @@ Default value is the same as \code{kd}.}
 \item{treatment}{A character vector with the name of the treatment variable
 of the model.}
 
-\item{reduce}{Should the bias adjustment reduce or increase the
+\item{reduce}{should the bias adjustment reduce or increase the
 absolute value of the estimated coefficient? Default is \code{TRUE}.}
 
 \item{sensitivity.of}{should the contour plot show adjusted estimates (\code{"estimate"})
@@ -96,10 +96,10 @@ or adjusted t-values (\code{"t-value"})?}
 
 \item{round}{integer indicating the number of decimal places to be used for rounding.}
 
-\item{r2dz.x}{Hypothetical partial R2 of unobserved confounder
+\item{r2dz.x}{hypothetical partial R2 of unobserved confounder
 Z with treatment D, given covariates X.}
 
-\item{r2yz.dx}{Hypothetical partial R2 of unobserved confounder Z
+\item{r2yz.dx}{hypothetical partial R2 of unobserved confounder Z
 with outcome Y, given covariates X and treatment D.}
 
 \item{bound_value}{value to be printed in label bound.}

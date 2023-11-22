@@ -78,7 +78,7 @@ sensemakr(model, ...)
 )
 }
 \arguments{
-\item{model}{An \code{lm} of \code{fixest} object with the outcome regression.}
+\item{model}{An \code{lm} or \code{fixest} object with the outcome regression.}
 
 \item{...}{arguments passed to other methods.}
 
@@ -98,15 +98,15 @@ which means a reduction of 100\% of the current effect estimate (bring estimate 
 
 \item{alpha}{significance level.}
 
-\item{r2dz.x}{Hypothetical partial R2 of unobserved confounder
+\item{r2dz.x}{hypothetical partial R2 of unobserved confounder
 Z with treatment D, given covariates X.}
 
-\item{r2yz.dx}{Hypothetical partial R2 of unobserved confounder Z
+\item{r2yz.dx}{hypothetical partial R2 of unobserved confounder Z
 with outcome Y, given covariates X and treatment D.}
 
 \item{bound_label}{label to bounds provided manually in \code{r2dz.x} and \code{r2yz.dx}.}
 
-\item{reduce}{Should the bias adjustment reduce or increase the
+\item{reduce}{should the bias adjustment reduce or increase the
 absolute value of the estimated coefficient? Default is \code{TRUE}.}
 
 \item{formula}{an object of the class \code{\link{formula}}: a symbolic description of the model to be fitted.}
@@ -119,9 +119,9 @@ absolute value of the estimated coefficient? Default is \code{TRUE}.}
 
 \item{estimate}{Coefficient estimate.}
 
-\item{se}{Standard error of the coefficient estimate.}
+\item{se}{standard error of the coefficient estimate.}
 
-\item{dof}{Residual degrees of freedom of the regression.}
+\item{dof}{residual degrees of freedom of the regression.}
 
 \item{r2dxj.x}{partial R2 of covariate Xj with the treatment D (after partialling out the effect of the remaining covariates X, excluding Xj).}
 

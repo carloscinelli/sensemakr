@@ -77,7 +77,7 @@ ovb_partial_r2_bound(...)
 \arguments{
 \item{...}{arguments passed to other methods.}
 
-\item{model}{An \code{lm} of \code{fixest} object with the outcome regression.}
+\item{model}{An \code{lm} or \code{fixest} object with the outcome regression.}
 
 \item{treatment}{A character vector with the name of the treatment variable
 of the model.}
@@ -90,7 +90,7 @@ Default value is \code{1} (confounder is as strong as benchmark covariate).}
 \item{ky}{numeric vector. Parameterizes how many times stronger the confounder is related to the outcome in comparison to the observed benchmark covariate.
 Default value is the same as \code{kd}.}
 
-\item{reduce}{Should the bias adjustment reduce or increase the
+\item{reduce}{should the bias adjustment reduce or increase the
 absolute value of the estimated coefficient? Default is \code{TRUE}.}
 
 \item{bound}{type of bounding procedure. Currently only \code{"partial r2"} is implemented.}
