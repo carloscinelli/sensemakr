@@ -183,7 +183,7 @@ test_that("Factor treatment and factor benchmarks",{
   sens <- sensemakr(model, treatment = "cyl6", benchmark_covariates = list(gear = c("gear4", "gear5")))
 
   t.value <- model$coeftable["cyl6","t value"]
-  rv <- robustness_value(t.value, model$nobs - model$nparams)
+  rv <- robustness_value(t.value, model$nobs - model$nparams, alpha = 1)
   rv.check <- sens$sensitivity_stats$rv_q
   expect_equal(rv, rv.check)
 

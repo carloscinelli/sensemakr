@@ -172,7 +172,7 @@ test_that("Factor treatment and factor benchmarks",{
   sens
   coef.summ <- coef(summary(model))
   t.value <- coef.summ["cyl6", "t value"]
-  rv <- robustness_value(t.value, model$df.residual)
+  rv <- robustness_value(t.value, model$df.residual, alpha = 1)
   rv.check <- sens$sensitivity_stats$rv_q
   expect_equal(rv, rv.check)
 

@@ -1,15 +1,19 @@
 # General Sensitivity Statistics ------------------------------------------
 
-# robustness value --------------------------------------------------------
+# (extreme) robustness value --------------------------------------------------------
 
 
-#' Computes the robustness value
+#' Computes the (extreme) robustness value
 #'
 #' @description
-#' This function computes the robustness value of a regression coefficient.
+#' This function computes the (extreme) robustness value of a regression coefficient.
+#'
+#' The extreme robustness value describes the minimum strength of association (parameterized in terms of partial R2) that
+#' omitted variables would need to have with the treatment alone in order to change the estimated coefficient by
+#' a certain amount (for instance, to bring it down to zero).
 #'
 #' The robustness value describes the minimum strength of association (parameterized in terms of partial R2) that
-#' omitted variables would need to have both with the treatment and with the outcome to change the estimated coefficient by
+#' omitted variables would need to have \emph{both} with the treatment and with the outcome to change the estimated coefficient by
 #' a certain amount (for instance, to bring it down to zero).
 #'
 #' For instance, a robustness value of 1\% means that an unobserved confounder that explain 1\% of the residual variance of the outcome
@@ -17,7 +21,7 @@
 #' means that any unobserved confounder that explain less than 90\% of the residual variance of both the outcome and the treatment assignment cannot
 #' fully account for the observed effect. You may also compute robustness value taking into account sampling uncertainty. See details in Cinelli and Hazlett (2020).
 #'
-#' The function \link{robustness_value} can take as input an \code{\link{lm}} object or you may directly pass the t-value and degrees of freedom.
+#' The functions \link{robustness_value} and \link{extreme_robustness_value} can take as input an \code{\link{lm}} object or you may directly pass the t-value and degrees of freedom.
 #'
 #'
 #'
@@ -35,17 +39,26 @@
 #'              pastvoted + hhsize_darfur + female + village, data = darfur)
 #'
 #' ## robustness value of directly harmed q =1 (reduce estimate to zero)
-#' robustness_value(model, covariates = "directlyharmed")
+#' robustness_value(model, covariates = "directlyharmed", alpha = 1)
+#'
+#' ## extreme robustness value of directly harmed q =1 (reduce estimate to zero)
+#' extreme_robustness_value(model, covariates = "directlyharmed", alpha = 1)
+#'
+#' ## note it equals the partial R2 of the treatment with the outcome
+#' partial_r2(model, covariates = "directlyharmed")
 #'
 #' ## robustness value of directly harmed q = 1/2 (reduce estimate in half)
-#' robustness_value(model, covariates = "directlyharmed", q = 1/2)
+#' robustness_value(model, covariates = "directlyharmed", q = 1/2, alpha = 1)
 #'
 #' ## robustness value of directly harmed q = 1/2, alpha = 0.05
 #' ## (reduce estimate in half, with 95% confidence)
 #' robustness_value(model, covariates = "directlyharmed", q = 1/2, alpha = 0.05)
 #'
 #' # you can also provide the statistics directly
-#' robustness_value(t_statistic = 4.18445, dof = 783)
+#' robustness_value(t_statistic = 4.18445, dof = 783, alpha = 1)
+#'
+#' extreme_robustness_value(t_statistic = 4.18445, dof = 783, alpha = 1)
+#'
 #' @return
 #' The function returns a numerical vector with the robustness value. The arguments q and alpha are saved as attributes of the vector for reference.
 #' @references Cinelli, C. and Hazlett, C. (2020), "Making Sense of Sensitivity: Extending Omitted Variable Bias." Journal of the Royal Statistical Society, Series B (Statistical Methodology).
@@ -67,7 +80,7 @@ robustness_value = function(model, ...) {
 robustness_value.lm = function(model,
                                covariates = NULL,
                                q = 1,
-                               alpha = 1, ...) {
+                               alpha = 0.05, ...) {
 
   # check arguments
   check_q(q)
@@ -96,7 +109,7 @@ robustness_value.lm = function(model,
 robustness_value.fixest = function(model,
                                covariates = NULL,
                                q = 1,
-                               alpha = 1,
+                               alpha = 0.05,
                                message = TRUE,
                                ...) {
 
@@ -129,7 +142,7 @@ robustness_value.default = function(model, ...) {
 #' @param  dof residual degrees of freedom of the regression
 #' @rdname robustness_value
 #' @export
-robustness_value.numeric <- function(t_statistic, dof, q =1, alpha = 1, ...){
+robustness_value.numeric <- function(t_statistic, dof, q =1, alpha = 0.05, ...){
 
   # check arguments
   check_q(q)
@@ -167,7 +180,90 @@ robustness_value.numeric <- function(t_statistic, dof, q =1, alpha = 1, ...){
 # }
 
 
+#' @export
+#' @rdname robustness_value
+extreme_robustness_value = function(model, ...) {
+  UseMethod("extreme_robustness_value")
+}
 
+#' @export
+#' @rdname robustness_value
+extreme_robustness_value.lm = function(model,
+                                       covariates = NULL,
+                                       q = 1,
+                                       alpha = 0.05, ...) {
+
+  # check arguments
+  check_q(q)
+  check_alpha(alpha)
+
+  # extract model data
+  model_data <- model_helper.lm(model, covariates = covariates)
+  t_statistic = setNames(model_data$t_statistics, model_data$covariates)
+  dof         = model_data$dof
+
+  # compute rv
+  extreme_robustness_value(t_statistic = t_statistic, dof = dof, q = q, alpha = alpha)
+
+}
+
+#' @export
+#' @rdname robustness_value
+extreme_robustness_value.fixest = function(model,
+                                   covariates = NULL,
+                                   q = 1,
+                                   alpha = 0.05,
+                                   message = TRUE,
+                                   ...) {
+
+  # check arguments
+  check_q(q)
+  check_alpha(alpha)
+  if(message){
+    if(alpha < 1){
+      message_vcov.fixest(model)
+    }
+  }
+  # extract model data
+  model_data <- model_helper.fixest(model, covariates = covariates)
+  t_statistic = setNames(model_data$t_statistics, model_data$covariates)
+  dof         = model_data$dof
+
+  # compute rv
+  extreme_robustness_value(t_statistic = t_statistic, dof = dof, q = q, alpha = alpha)
+
+}
+
+#' @export
+#' @rdname robustness_value
+robustness_value.default = function(model, ...) {
+  stop("The `extreme_robustness_value` function must be passed either an `lm` model object, a `fixest` model object, ",
+       "or the t-statistics and degrees of freedom directly. ",
+       "Other object types are not supported. The object passed was of class ",
+       class(model)[1])
+}
+
+
+#' @export
+#' @rdname robustness_value
+extreme_robustness_value.numeric <- function(t_statistic, dof, q =1, alpha = 0.05, ...){
+
+  # check arguments
+  check_q(q)
+  check_alpha(alpha)
+
+
+  # computes fq
+  fq  <-  q * abs(t_statistic / sqrt(dof))
+
+  # computes critical f
+  f.crit <- abs(qt(alpha / 2, df = dof - 1)) / sqrt(dof - 1)
+
+  xrv <- (fq^2 - f.crit^2)/(1 + fq^2)
+
+  attributes(xrv) <- list(names = names(xrv), q = q, alpha = alpha, class = c("numeric","rv"))
+  xrv
+}
 
 
 
@@ -591,7 +687,7 @@ sensitivity_stats.numeric <- function(estimate,
   sensitivity_stats[["se"]] <- se
   sensitivity_stats[["t_statistic"]] <- t_statistic
   sensitivity_stats[["r2yd.x"]] <- as.numeric(partial_r2(t_statistic = original_t, dof = dof))
-  sensitivity_stats[["rv_q"]] <- (robustness_value(t_statistic = original_t, dof = dof, q = q))
+  sensitivity_stats[["rv_q"]] <- (robustness_value(t_statistic = original_t, dof = dof, q = q, alpha = 1))
   sensitivity_stats[["rv_qa"]] <- (robustness_value(t_statistic = original_t, dof = dof, q = q, alpha = alpha))
   sensitivity_stats[["f2yd.x"]] <- as.numeric(partial_f2(t_statistic = original_t, dof = dof))
   sensitivity_stats[["dof"]] <- dof

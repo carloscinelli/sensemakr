@@ -28,21 +28,21 @@ test_that("Numerical Tests",{
   expect_equivalent(adjusted_t(estimate = 0.097, se = 0.0233, dof = 783, r2dz.x = 0, r2yz.dx= 0, h0 = 2*0.097), -4.160431, tol=1e-4)
 
 
-  expect_equal(c(robustness_value(t = 2, dof = 10)), 0.5*(sqrt((2/sqrt(10))^4 + 4*((2/sqrt(10))^2)) - (2/sqrt(10))^2))
+  expect_equal(c(robustness_value(t = 2, dof = 10, alpha = 1)), 0.5*(sqrt((2/sqrt(10))^4 + 4*((2/sqrt(10))^2)) - (2/sqrt(10))^2))
 
   expect_equal(group_partial_r2(F.stats = 10, dof = 100, p = 4), 10*4/(10*4 + 100))
 
   expect_equivalent(partial_r2(t_statistic = 1.89, dof = 1121), 0.0032, tolerance = 1e-4)
-  expect_equivalent(robustness_value(t_statistic = 1.89, dof = 1121), 0.055, tolerance = 1e-2)
+  expect_equivalent(robustness_value(t_statistic = 1.89, dof = 1121, alpha = 1), 0.055, tolerance = 1e-2)
 
   expect_equivalent(partial_r2(t_statistic = 2.11, dof = 1115), 0.004, tolerance = 1e-4)
-  expect_equivalent(robustness_value(t_statistic = 2.11, dof = 1115), 0.061, tolerance = 1e-2)
+  expect_equivalent(robustness_value(t_statistic = 2.11, dof = 1115, alpha = 1), 0.061, tolerance = 1e-2)
 
   expect_equivalent(partial_r2(t_statistic = 37.5, dof = 983), 0.59, tolerance = 1e-2)
-  expect_equivalent(robustness_value(t_statistic = 37.5, dof = 983), 0.68, tolerance = 1e-2)
+  expect_equivalent(robustness_value(t_statistic = 37.5, dof = 983, alpha =1), 0.68, tolerance = 1e-2)
 
   expect_equivalent(partial_r2(t_statistic = 17, dof = 983), 0.23, tolerance = 1e-2)
-  expect_equivalent(robustness_value(t_statistic = 17, dof = 983), 0.415, tolerance = 1e-2)
+  expect_equivalent(robustness_value(t_statistic = 17, dof = 983, alpha =1), 0.415, tolerance = 1e-2)
 
   expect_equal(bf(0.1, 0.3), sqrt(0.3 * 0.1/(1 - 0.1)))
 })
@@ -90,7 +90,7 @@ test_that("Print tests",
           {
             skip_on_cran()
             print_rv <- c("[1] 0.463325", "Parameters: q = 1, alpha = 1 ")
-            expect_equal(capture.output(robustness_value(t = 2, dof = 10)), print_rv)
+            expect_equal(capture.output(robustness_value(t = 2, dof = 10, alpha = 1)), print_rv)
 
             print_rvqa <- c("[1] 0", "Parameters: q = 1, alpha = 0.05 ")
             expect_equal(capture.output(robustness_value(t = 2, dof = 10, alpha = 0.05)), print_rvqa)
