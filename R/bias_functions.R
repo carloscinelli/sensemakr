@@ -238,11 +238,11 @@ adjusted_ci <- function(...){
 
 
 #' @rdname adjusted_estimate
-#' @param which which limit of the confidence interval to show? Options are "both", lower limit ("ll") or upper limit ("ul").
+#' @param which which limit of the confidence interval to show? Options are "both", lower limit ("lwr") or upper limit ("upr").
 #' @param alpha significance level.
 #' @export
 adjusted_ci.lm <- function(model, treatment,  r2dz.x, r2yz.dx,
-                           which = c("both", "ll", "ul"),
+                           which = c("both", "lwr", "upr"),
                            reduce = TRUE, alpha = 0.05, ...){
   # extract model data
   model_data <- model_helper.lm(model, covariates = treatment)
@@ -258,7 +258,7 @@ adjusted_ci.lm <- function(model, treatment,  r2dz.x, r2yz.dx,
 #' @param message should messages be printed? Default = TRUE.
 #' @export
 adjusted_ci.fixest <- function(model, treatment,  r2dz.x, r2yz.dx,
-                               which = c("both", "ll", "ul"),
+                               which = c("both", "lwr", "upr"),
                                reduce = TRUE, alpha = 0.05, message = T, ...){
   if(message){
     vcov_type <- model$call$vcov
@@ -283,7 +283,7 @@ adjusted_ci.fixest <- function(model, treatment,  r2dz.x, r2yz.dx,
 #' @rdname adjusted_estimate
 #' @export
 adjusted_ci.numeric = function(estimate, se, dof, r2dz.x, r2yz.dx,
-                               which = c("both", "ll", "ul"),
+                               which = c("both", "lwr", "upr"),
                                reduce = TRUE, alpha = 0.05, ...) {
   # Error handling
   check_se(se = se)
@@ -302,9 +302,9 @@ adjusted_ci.numeric = function(estimate, se, dof, r2dz.x, r2yz.dx,
                                             se = se, dof = dof,reduce =  reduce)
   new_se <- adjusted_se(r2yz.dx = r2yz.dx, r2dz.x = r2dz.x, se = se, dof = dof)
 
-  ll <- new_estimate - t.crit*new_se
-  ul <- new_estimate + t.crit*new_se
-  ci <- cbind(ll = ll, ul = ul)
+  lwr <- new_estimate - t.crit*new_se
+  upr <- new_estimate + t.crit*new_se
+  ci <- cbind(lwr = lwr, upr = upr)
   if (which == "both"){
     return(ci)
   } else {

@@ -55,7 +55,7 @@ adjusted_ci(...)
   treatment,
   r2dz.x,
   r2yz.dx,
-  which = c("both", "ll", "ul"),
+  which = c("both", "lwr", "upr"),
   reduce = TRUE,
   alpha = 0.05,
   ...
@@ -66,7 +66,7 @@ adjusted_ci(...)
   treatment,
   r2dz.x,
   r2yz.dx,
-  which = c("both", "ll", "ul"),
+  which = c("both", "lwr", "upr"),
   reduce = TRUE,
   alpha = 0.05,
   message = T,
@@ -79,7 +79,7 @@ adjusted_ci(...)
   dof,
   r2dz.x,
   r2yz.dx,
-  which = c("both", "ll", "ul"),
+  which = c("both", "lwr", "upr"),
   reduce = TRUE,
   alpha = 0.05,
   ...
@@ -178,7 +178,7 @@ absolute value of the estimated coefficient? Default is \code{TRUE}.}
 
 \item{message}{should messages be printed? Default = TRUE.}
 
-\item{which}{which limit of the confidence interval to show? Options are "both", lower limit ("ll") or upper limit ("ul").}
+\item{which}{which limit of the confidence interval to show? Options are "both", lower limit ("lwr") or upper limit ("upr").}
 
 \item{alpha}{significance level.}
 

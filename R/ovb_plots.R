@@ -47,7 +47,7 @@ plot.sensemakr = function(x,
 
 #' @export
 ovb_contour_plot.sensemakr <- function(x,
-                                       sensitivity.of = c("estimate", "t-value", "ll", "ul"), ...){
+                                       sensitivity.of = c("estimate", "t-value", "lwr", "upr"), ...){
 
   sensitivity.of <- match.arg(sensitivity.of)
 
@@ -165,8 +165,8 @@ ovb_contour_plot = function(...) {
 #' @inheritParams adjusted_estimate
 #' @rdname ovb_contour_plot
 #' @param sensitivity.of should the contour plot show adjusted estimates (\code{"estimate"}),
-#'  adjusted t-values (\code{"t-value"}), adjusted lower limits (\code{"ll"})
-#'  or upper limits (\code{"ul}) of confidence intervals?
+#'  adjusted t-values (\code{"t-value"}), adjusted lower limits (\code{"lwr"})
+#'  or upper limits (\code{"upr}) of confidence intervals?
 #' @param estimate.threshold critical threshold for the point estimate.
 #' @param alpha significance level
 #' @param t.threshold critical threshold for the t-value. If \code{NULL}, the value of \code{alpha} is used.
@@ -188,7 +188,7 @@ ovb_contour_plot.lm = function(model,
                                r2dz.x = NULL,
                                r2yz.dx = r2dz.x,
                                bound_label = "manual",
-                               sensitivity.of = c("estimate", "t-value", "ll", "ul"),
+                               sensitivity.of = c("estimate", "t-value", "lwr", "upr"),
                                reduce = TRUE,
                                estimate.threshold = 0,
                                alpha = 0.05,
@@ -289,7 +289,7 @@ ovb_contour_plot.fixest = function(model,
                                    r2dz.x = NULL,
                                    r2yz.dx = r2dz.x,
                                    bound_label = "manual",
-                                   sensitivity.of = c("estimate", "t-value", "ll", "ul"),
+                                   sensitivity.of = c("estimate", "t-value", "lwr", "upr"),
                                    reduce = TRUE,
                                    estimate.threshold = 0,
                                    alpha = 0.05,
@@ -381,7 +381,7 @@ ovb_contour_plot.formula = function(formula,
                                     r2dz.x = NULL,
                                     r2yz.dx = r2dz.x,
                                     bound_label = NULL,
-                                    sensitivity.of = c("estimate", "t-value", "ll", "ul"),
+                                    sensitivity.of = c("estimate", "t-value", "lwr", "upr"),
                                     reduce = TRUE,
                                     estimate.threshold = 0,
                                     alpha = 0.05,
@@ -458,7 +458,7 @@ ovb_contour_plot.numeric = function(estimate,
                                     r2dz.x = NULL,
                                     r2yz.dx = r2dz.x,
                                     bound_label = rep("manual", length(r2dz.x)),
-                                    sensitivity.of = c("estimate", "t-value", "ll", "ul"),
+                                    sensitivity.of = c("estimate", "t-value", "lwr", "upr"),
                                     reduce = TRUE,
                                     estimate.threshold = 0,
                                     alpha = 0.05,
@@ -578,7 +578,7 @@ ovb_contour_plot.numeric = function(estimate,
 
   }
 
-  if (sensitivity.of %in% c("ll", "ul")) {
+  if (sensitivity.of %in% c("lwr", "upr")) {
     z_axis = outer(grid_values.x, grid_values.y,
                    FUN = "adjusted_ci",
                    which = sensitivity.of,

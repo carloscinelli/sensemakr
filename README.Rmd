@@ -111,7 +111,7 @@ plot(sensitivity)
 plot(sensitivity, sensitivity.of = "t-value")
 
 # plot bias contour of lower limit of confidence interval
-plot(sensitivity, sensitivity.of = "ll")
+plot(sensitivity, sensitivity.of = "lwr")
 
 # plot extreme scenario
 plot(sensitivity, type = "extreme")

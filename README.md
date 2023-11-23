@@ -190,7 +190,7 @@ plot(sensitivity, sensitivity.of = "t-value")
 ``` r
 
 # plot bias contour of lower limit of confidence interval
-plot(sensitivity, sensitivity.of = "ll")
+plot(sensitivity, sensitivity.of = "lwr")
 ```
 
 <img src="man/figures/figures-basic-usage-3.png" style="display: block; margin: auto;" />

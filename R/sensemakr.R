@@ -143,10 +143,10 @@ NULL
 #'plot(sensitivity, sensitivity.of = "t-value")
 #'
 #'# plot bias contour of lower limit of CI
-#'plot(sensitivity, sensitivity.of = "ll")
+#'plot(sensitivity, sensitivity.of = "lwr")
 #'
 #'# plot bias contour of upper limit of CI
-#'plot(sensitivity, sensitivity.of = "ul")
+#'plot(sensitivity, sensitivity.of = "upr")
 #'
 #'# plot extreme scenario
 #'plot(sensitivity, type = "extreme")
