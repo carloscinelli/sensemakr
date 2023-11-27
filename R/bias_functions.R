@@ -38,11 +38,11 @@ adjusted_critical_value <- function(r2dz.x, r2yz.dx, dof, alpha = 0.05, max = T)
 
 
   # traditional critical value
-  t.crit <- sqrt(qf(p = 1 - (alpha), df1 = 1, df2 = dof-1, lower.tail = TRUE))
+  t.crit <- sqrt(qf(p = log(alpha), df1 = 1, df2 = dof-1, lower.tail = F, log.p = T))
   t.crit <- t.crit/rep(1, length(r2yz.dx))
   f.crit <- t.crit/sqrt(dof)
   if (max == T) {
-    cond <- r2yz.dx  < f.crit^2 * (r2dz.x/(1-r2dz.x))
+    cond <- r2dz.x  < f.crit^2 * (r2yz.dx/(1-r2yz.dx))
     r2ys <- rep(NA, length(cond))
     r2ys[!cond] <- r2yz.dx[!cond]
     r2ys[cond] <- r2dz.x[cond]/(f.crit[cond]^2 + r2dz.x[cond])
