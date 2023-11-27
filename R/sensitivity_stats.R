@@ -68,6 +68,15 @@ robustness_value = function(...) {
   UseMethod("robustness_value")
 }
 
+#' @description
+#' \code{rv} is a shorthand wrapper for \code{robustness_value}.
+#' @export
+#' @rdname robustness_value
+rv <- function(...){
+  robustness_value(...)
+}
+
+
 #' @param model an \code{lm} object with the regression model.
 #' @param covariates model covariates for which the robustness value will be computed. Default is to compute
 #' the robustness value of all covariates.
@@ -183,10 +192,19 @@ robustness_value.numeric <- function(t_statistic, dof, q =1, alpha = 0.05, ...){
 # Extreme RV --------------------------------------------------------------
 
 
+
 #' @export
 #' @rdname robustness_value
 extreme_robustness_value = function(...) {
   UseMethod("extreme_robustness_value")
+}
+
+#' @description
+#' \code{xrv} is a shorthand wrapper for \code{extreme_robustness_value}.
+#' @export
+#' @rdname robustness_value
+xrv <- function(...){
+  extreme_robustness_value(...)
 }
 
 #' @export
@@ -239,7 +257,7 @@ extreme_robustness_value.fixest = function(model,
 
 #' @export
 #' @rdname robustness_value
-robustness_value.default = function(model, ...) {
+extreme_robustness_value.default = function(model, ...) {
   stop("The `extreme_robustness_value` function must be passed either an `lm` model object, a `fixest` model object, ",
        "or the t-statistics and degrees of freedom directly. ",
        "Other object types are not supported. The object passed was of class ",
@@ -261,8 +279,8 @@ extreme_robustness_value.numeric <- function(t_statistic, dof, q =1, alpha = 0.0
 
   # computes critical f
   f.crit <- abs(qt(alpha / 2, df = dof - 1)) / sqrt(dof - 1)
-
   xrv <- (fq^2 - f.crit^2)/(1 + fq^2)
+  xrv[fq < f.crit] <- 0
 
   attributes(xrv) <- list(names = names(xrv), q = q, alpha = alpha, class = c("numeric","rv"))
   xrv
@@ -271,11 +289,11 @@ extreme_robustness_value.numeric <- function(t_statistic, dof, q =1, alpha = 0.0
 
 
 #' @export
-print.rv <- function(x, ...){
+print.rv <- function(x, digits = 3, ...){
   value <- x
   attributes(value) <- list(names = names(value))
   class(value) <- "numeric"
-  print(value)
+  print(value, digits = digits)
   q <- attr(x, "q")
   alpha <- attr(x, "alpha")
   cat("Parameters: q =", q)

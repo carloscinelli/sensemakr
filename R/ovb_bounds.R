@@ -343,10 +343,10 @@ ovb_partial_r2_bound.lm <- function(model,
   # treatment model
   #treatment_model <- update(model,  paste(treatment, "~ . - ", treatment))
 
-  m      <- model.matrix(model)[,-1]
+  m      <- model.matrix(model)
   keep   <- !(colnames(m) %in% treatment)
   d      <- m[,treatment]
-  XX     <- cbind(1, m[, keep, drop = FALSE])
+  XX     <- m[, keep, drop = FALSE]
   treatment_model <- lm(d ~ XX + 0)
   treatment_model
 

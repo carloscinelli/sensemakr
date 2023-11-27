@@ -96,7 +96,8 @@ ovb_contour_plot(...)
   t.threshold = NULL,
   show.unadjusted = TRUE,
   lim = NULL,
-  lim.y = NULL,
+  lim.x = lim,
+  lim.y = lim,
   nlevels = 10,
   col.contour = "black",
   col.thr.line = "red",
@@ -109,7 +110,7 @@ ovb_contour_plot(...)
   cex.lab = 0.8,
   cex.axis = 0.8,
   cex.main = 1,
-  asp = lim/lim.y,
+  asp = lim.x/lim.y,
   list.par = list(mar = c(4, 4, 1, 1), pty = "s"),
   round = 3,
   ...
@@ -182,7 +183,9 @@ absolute value of the estimated coefficient? Default is \code{TRUE}.}
 
 \item{show.unadjusted}{should the unadjusted estimates be shown? Default is `TRUE`.}
 
-\item{lim}{sets limit for x-axis. If `NULL`, limits are computed automatically.}
+\item{lim}{sets limit for both axis. If `NULL`, limits are computed automatically.}
+
+\item{lim.x}{sets limit for x-axis. If `NULL`, limits are computed automatically.}
 
 \item{lim.y}{sets limit for y-axis. If `NULL`, limits are computed automatically.}
 

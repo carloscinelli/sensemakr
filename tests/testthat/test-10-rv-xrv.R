@@ -49,7 +49,7 @@ test_that("Print RV",
           {
             skip_on_cran()
             rv <- robustness_value(t = 2, dof = 100, alpha = 1)
-            out <- capture.output(print(rv))
+            out <- capture.output(print(rv, digits = 7))
             check <- c("[1] 0.1809975", "Parameters: q = 1, alpha = 1 ")
             expect_equal(out, check)
           }

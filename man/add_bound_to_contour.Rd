@@ -20,7 +20,7 @@ add_bound_to_contour(...)
   sensitivity.of = plot.env$sensitivity.of,
   label.text = TRUE,
   cex.label.text = 0.7,
-  label.bump.x = plot.env$lim * (1/15),
+  label.bump.x = plot.env$lim.x * (1/15),
   label.bump.y = plot.env$lim.y * (1/15),
   round = 2,
   ...
@@ -37,7 +37,7 @@ add_bound_to_contour(...)
   sensitivity.of = plot.env$sensitivity.of,
   label.text = TRUE,
   cex.label.text = 0.7,
-  label.bump.x = plot.env$lim * (1/15),
+  label.bump.x = plot.env$lim.x * (1/15),
   label.bump.y = plot.env$lim.y * (1/15),
   round = 2,
   ...
@@ -51,7 +51,7 @@ add_bound_to_contour(...)
   label.text = TRUE,
   cex.label.text = 0.7,
   font.label.text = 1,
-  label.bump.x = plot.env$lim * (1/15),
+  label.bump.x = plot.env$lim.x * (1/15),
   label.bump.y = plot.env$lim.y * (1/15),
   round = 2,
   point.pch = 23,

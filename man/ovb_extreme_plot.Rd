@@ -109,7 +109,7 @@ absolute value of the estimated coefficient? Default is \code{TRUE}.}
 
 \item{threshold}{estimate threshold.}
 
-\item{lim}{sets limit for x-axis. If `NULL`, limits are computed automatically.}
+\item{lim}{sets limit for both axis. If `NULL`, limits are computed automatically.}
 
 \item{legend}{should legend be plotted? Default is \code{TRUE}.}
 

@@ -2,17 +2,21 @@
 % Please edit documentation in R/sensitivity_stats.R
 \name{robustness_value}
 \alias{robustness_value}
+\alias{rv}
 \alias{robustness_value.lm}
 \alias{robustness_value.fixest}
 \alias{robustness_value.numeric}
 \alias{extreme_robustness_value}
+\alias{xrv}
 \alias{extreme_robustness_value.lm}
 \alias{extreme_robustness_value.fixest}
-\alias{robustness_value.default}
+\alias{extreme_robustness_value.default}
 \alias{extreme_robustness_value.numeric}
 \title{Computes the (extreme) robustness value}
 \usage{
 robustness_value(...)
+
+rv(...)
 
 \method{robustness_value}{lm}(model, covariates = NULL, q = 1, alpha = 0.05, ...)
 
@@ -29,6 +33,8 @@ robustness_value(...)
 
 extreme_robustness_value(...)
 
+xrv(...)
+
 \method{extreme_robustness_value}{lm}(model, covariates = NULL, q = 1, alpha = 0.05, ...)
 
 \method{extreme_robustness_value}{fixest}(
@@ -40,7 +46,7 @@ extreme_robustness_value(...)
   ...
 )
 
-\method{robustness_value}{default}(model, ...)
+\method{extreme_robustness_value}{default}(model, ...)
 
 \method{extreme_robustness_value}{numeric}(t_statistic, dof, q = 1, alpha = 0.05, ...)
 }
@@ -84,6 +90,10 @@ means that any unobserved confounder that explain less than 90\% of the residual
 fully account for the observed effect. You may also compute robustness value taking into account sampling uncertainty. See details in Cinelli and Hazlett (2020).
 
 The functions \link{robustness_value} and \link{extreme_robustness_value} can take as input an \code{\link{lm}} object or you may directly pass the t-value and degrees of freedom.
+
+\code{rv} is a shorthand wrapper for \code{robustness_value}.
+
+\code{xrv} is a shorthand wrapper for \code{extreme_robustness_value}.
 }
 \examples{
 
