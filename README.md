@@ -33,9 +33,12 @@ Methodology).](https://doi.org/10.1111/rssb.12348)
 - Check out the [software paper
   preprint](https://www.researchgate.net/publication/340965014_sensemakr_Sensitivity_Analysis_Tools_for_OLS_in_R_and_Stata)!
 
-- Check out the new [Stata
+- Check out the [Stata
   version](https://github.com/resonance1/sensemakr-stata) of the
   package!
+
+- Check out the [Python
+  version](https://github.com/nlapier2/PySensemakr) of the package!
 
 - Check out the Robustness Value Shiny App at:
   <https://carloscinelli.shinyapps.io/robustness_value/>
@@ -73,7 +76,7 @@ package `devtools` installed.
 
 ``` r
 # install.packages("devtools") 
-devtools::install_github("chadhazlett/sensemakr")
+devtools::install_github("carloscinelli/sensemakr")
 ```
 
 # Citation
