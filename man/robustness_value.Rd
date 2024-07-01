@@ -25,6 +25,7 @@ rv(...)
   covariates = NULL,
   q = 1,
   alpha = 0.05,
+  invert = FALSE,
   message = TRUE,
   ...
 )
@@ -42,6 +43,7 @@ xrv(...)
   covariates = NULL,
   q = 1,
   alpha = 0.05,
+  invert = FALSE,
   message = TRUE,
   ...
 )
@@ -63,6 +65,8 @@ the robustness value of all covariates.}
 which means a reduction of 100\% of the current effect estimate (bring estimate to zero). It has to be greater than zero.}
 
 \item{alpha}{significance level.}
+
+\item{invert}{should IRV be computed instead of RV? (i.e. Is the restricted estimate insignificant?) Default = FALSE.}
 
 \item{message}{should messages be printed? Default = TRUE.}
 
