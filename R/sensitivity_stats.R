@@ -243,7 +243,7 @@ extreme_robustness_value.lm = function(model,
                                        covariates = NULL,
                                        q = 1,
                                        alpha = 0.05,
-                                       invert = FALSE) {
+                                       invert = FALSE, ...) {
 
   # check arguments
   check_q(q)
