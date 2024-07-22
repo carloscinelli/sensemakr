@@ -146,6 +146,8 @@ robustness_value.fixest = function(model,
 
 }
 
+#' @rdname robustness_value
+#' @export
 robustness_value.default = function(model, ...) {
   stop("The `robustness_value` function must be passed either an `lm` model object, a `fixest` model object, ",
        "or the t-statistics and degrees of freedom directly. ",
@@ -538,9 +540,12 @@ partial_f.numeric <- function(t_statistic, dof, ...) {
 }
 
 
-
+#' @rdname partial_r2
+#' @export
 partial_f.numeric <- function(t_statistic, dof, ...) sqrt(partial_f2.numeric(t_statistic, dof, ...))
 
+#' @rdname partial_r2
+#' @export
 partial_r2.default = function(model, ...) {
   stop("The `partial_f` function must be passed either an `lm`/`fixest` model object, ",
        "or the t-statistics and degrees of freedom directly. ",

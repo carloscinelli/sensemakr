@@ -5,6 +5,7 @@
 \alias{rv}
 \alias{robustness_value.lm}
 \alias{robustness_value.fixest}
+\alias{robustness_value.default}
 \alias{robustness_value.numeric}
 \alias{extreme_robustness_value}
 \alias{xrv}
@@ -36,6 +37,8 @@ rv(...)
   message = TRUE,
   ...
 )
+
+\method{robustness_value}{default}(model, ...)
 
 \method{robustness_value}{numeric}(t_statistic, dof, q = 1, alpha = 0.05, invert = FALSE, ...)
 
