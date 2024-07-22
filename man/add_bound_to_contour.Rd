@@ -110,7 +110,7 @@ with outcome Y, given covariates X and treatment D.}
 
 \item{point.col}{color code or name for \code{\link{points}}.}
 
-\item{point.bg}{backgrounf (fill) color for \code{\link{points}}.}
+\item{point.bg}{background (fill) color for \code{\link{points}}.}
 
 \item{point.cex}{size of \code{\link{points}}.}
 

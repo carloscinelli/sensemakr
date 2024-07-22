@@ -957,7 +957,7 @@ add_bound_to_contour.fixest <- function(model,
 #' @param font.label.text font for the label text.
 #' @param point.pch plotting character for \code{\link{points}}.
 #' @param point.col color code or name for \code{\link{points}}.
-#' @param point.bg backgrounf (fill) color for \code{\link{points}}.
+#' @param point.bg background (fill) color for \code{\link{points}}.
 #' @param point.cex size of \code{\link{points}}.
 #' @param point.font font for \code{\link{points}}.
 #' @export
