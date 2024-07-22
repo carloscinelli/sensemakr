@@ -519,14 +519,20 @@ partial_f = function(...) {
   UseMethod("partial_f")
   }
 
+#' @rdname partial_r2
+#' @export
 partial_f.fixest <- function(model, covariates = NULL, ...){
   sqrt(partial_f2.fixest(model, covariates = NULL, ...))
 }
 
+#' @rdname partial_r2
+#' @export
 partial_f.lm <- function(model, covariates = NULL, ...) {
   sqrt(partial_f2.lm(model, covariates = NULL, ...))
 }
 
+#' @rdname partial_r2
+#' @export
 partial_f.numeric <- function(t_statistic, dof, ...) {
   sqrt(partial_f2.numeric(t_statistic, dof, ...))
 }
@@ -918,24 +924,12 @@ model_helper.fixest = function(model, covariates = NULL, ...) {
 #   }
 # }
 
-#' Helper function for checking dof statistics
-#'
-#' This is an internal function used for checking dof statistics.
-#'
-#' @param ... arguments passed to other methods.
-#' @export
-#' @keywords internal
+
 error_if_no_dof = function(model, ...) {
   UseMethod("error_if_no_dof")
 }
 
-#' Helper function for checking dof statistics
-#'
-#' This is an internal function used for checking dof statistics.
-#'
-#' @param model model to check dof in
-#' @param ... arguments passed to other methods.
-#' @keywords internal
+
 error_if_no_dof.lm = function(model, ...) {
   if (model$df.residual == 0) {
     stop("There are 0 residual ",
@@ -943,13 +937,7 @@ error_if_no_dof.lm = function(model, ...) {
   }
 }
 
-#' Helper function for checking dof statistics
-#'
-#' This is an internal function used for checking dof statistics.
-#'
-#' @param model model to check dof in
-#' @param ... arguments passed to other methods.
-#' @keywords internal
+
 error_if_no_dof.fixest = function(model, ...) {
   if (fixest::degrees_freedom(model, type = "resid", vcov = "iid") == 0) {
     stop("There are 0 residual ",

@@ -10,6 +10,9 @@
 \alias{partial_f2.lm}
 \alias{partial_f2.fixest}
 \alias{partial_f}
+\alias{partial_f.fixest}
+\alias{partial_f.lm}
+\alias{partial_f.numeric}
 \title{Computes the partial R2 and partial (Cohen's) f2}
 \usage{
 partial_r2(...)
@@ -29,6 +32,12 @@ partial_f2(...)
 \method{partial_f2}{fixest}(model, covariates = NULL, ...)
 
 partial_f(...)
+
+\method{partial_f}{fixest}(model, covariates = NULL, ...)
+
+\method{partial_f}{lm}(model, covariates = NULL, ...)
+
+\method{partial_f}{numeric}(t_statistic, dof, ...)
 }
 \arguments{
 \item{...}{arguments passed to other methods. First argument should either be an \code{lm} model or a \code{fixest} model with the
