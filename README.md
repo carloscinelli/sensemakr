@@ -5,16 +5,11 @@
 
 <!-- badges: start -->
 
-[![Travis-CI build
-Status](https://travis-ci.org/carloscinelli/sensemakr.svg?branch=master)](https://travis-ci.org/carloscinelli/sensemakr)
-[![Appveyor build
-status](https://ci.appveyor.com/api/projects/status/utoc0803j4fxoje3?svg=true)](https://ci.appveyor.com/project/carloscinelli/sensemakr)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/sensemakr)](https://CRAN.R-project.org/package=sensemakr)
-[![Coverage
-status](https://codecov.io/gh/carloscinelli/sensemakr/branch/master/graph/badge.svg)](https://codecov.io/github/carloscinelli/sensemakr?branch=master)
 [![Downloads](https://cranlogs.r-pkg.org/badges/sensemakr)](https://cran.r-project.org/package=sensemakr)
 [![R-CMD-check](https://github.com/chadhazlett/sensemakr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/chadhazlett/sensemakr/actions/workflows/R-CMD-check.yaml)
+[![test-coverage](https://github.com/chadhazlett/sensemakr/actions/workflows/test-coverage.yaml/badge.svg)](https://github.com/chadhazlett/sensemakr/actions/workflows/test-coverage.yaml)
 <!-- badges: end -->
 
 `sensemakr` implements a suite of sensitivity analysis tools that
