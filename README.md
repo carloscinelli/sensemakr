@@ -9,7 +9,6 @@
 status](https://www.r-pkg.org/badges/version/sensemakr)](https://CRAN.R-project.org/package=sensemakr)
 [![Downloads](https://cranlogs.r-pkg.org/badges/sensemakr)](https://cran.r-project.org/package=sensemakr)
 [![R-CMD-check](https://github.com/chadhazlett/sensemakr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/chadhazlett/sensemakr/actions/workflows/R-CMD-check.yaml)
-[![test-coverage](https://github.com/chadhazlett/sensemakr/actions/workflows/test-coverage.yaml/badge.svg)](https://github.com/chadhazlett/sensemakr/actions/workflows/test-coverage.yaml)
 <!-- badges: end -->
 
 `sensemakr` implements a suite of sensitivity analysis tools that
