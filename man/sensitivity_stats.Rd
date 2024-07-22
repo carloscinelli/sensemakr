@@ -9,7 +9,15 @@
 \usage{
 sensitivity_stats(...)
 
-\method{sensitivity_stats}{lm}(model, treatment, q = 1, alpha = 0.05, reduce = TRUE, invert = FALSE, ...)
+\method{sensitivity_stats}{lm}(
+  model,
+  treatment,
+  q = 1,
+  alpha = 0.05,
+  reduce = TRUE,
+  invert = FALSE,
+  ...
+)
 
 \method{sensitivity_stats}{fixest}(
   model,
@@ -50,9 +58,9 @@ which means a reduction of 100\% of the current effect estimate (bring estimate 
 \item{reduce}{should the bias adjustment reduce or increase the
 absolute value of the estimated coefficient? Default is \code{TRUE}.}
 
-\item{message}{should messages be printed? Default = TRUE.}
+\item{invert}{should IRV be computed instead of RV? (i.e. is the estimate insignificant?). Default is \code{FALSE}.}
 
-\item{invert}{should IRV be computed instead of RV? (i.e. is the estimate insignificant?). Default = FALSE.}
+\item{message}{should messages be printed? Default = TRUE.}
 
 \item{estimate}{Coefficient estimate.}
 

@@ -23,7 +23,9 @@ rv(...)
   covariates = NULL,
   q = 1,
   alpha = 0.05,
-  invert = FALSE, ...)
+  invert = FALSE,
+  ...
+)
 
 \method{robustness_value}{fixest}(
   model,
@@ -35,12 +37,7 @@ rv(...)
   ...
 )
 
-\method{robustness_value}{numeric}(
-  t_statistic,
-  dof,
-  q = 1,
-  alpha = 0.05,
-  invert = FALSE, ...)
+\method{robustness_value}{numeric}(t_statistic, dof, q = 1, alpha = 0.05, invert = FALSE, ...)
 
 extreme_robustness_value(...)
 
@@ -51,7 +48,9 @@ xrv(...)
   covariates = NULL,
   q = 1,
   alpha = 0.05,
-  invert = FALSE, ...)
+  invert = FALSE,
+  ...
+)
 
 \method{extreme_robustness_value}{fixest}(
   model,
@@ -65,11 +64,14 @@ xrv(...)
 
 \method{extreme_robustness_value}{default}(model, ...)
 
-\method{extreme_robustness_value}{numeric}(t_statistic,
-dof,
-q = 1,
-alpha = 0.05,
-invert = FALSE, ...)
+\method{extreme_robustness_value}{numeric}(
+  t_statistic,
+  dof,
+  q = 1,
+  alpha = 0.05,
+  invert = FALSE,
+  ...
+)
 }
 \arguments{
 \item{...}{arguments passed to other methods. First argument should either be an \code{lm} model or a \code{fixest} model with the
@@ -85,7 +87,7 @@ which means a reduction of 100\% of the current effect estimate (bring estimate 
 
 \item{alpha}{significance level.}
 
-\item{invert}{should IRV be computed instead of RV? (i.e. Is the restricted estimate insignificant?) Default = FALSE.}
+\item{invert}{should IRV be computed instead of RV? (i.e. is the estimate insignificant?). Default is \code{FALSE}.}
 
 \item{message}{should messages be printed? Default = TRUE.}
 
