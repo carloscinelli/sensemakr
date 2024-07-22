@@ -9,7 +9,7 @@
 \usage{
 sensitivity_stats(...)
 
-\method{sensitivity_stats}{lm}(model, treatment, q = 1, alpha = 0.05, reduce = TRUE, ...)
+\method{sensitivity_stats}{lm}(model, treatment, q = 1, alpha = 0.05, reduce = TRUE, invert = FALSE, ...)
 
 \method{sensitivity_stats}{fixest}(
   model,
@@ -17,6 +17,7 @@ sensitivity_stats(...)
   q = 1,
   alpha = 0.05,
   reduce = TRUE,
+  invert = FALSE,
   message = T,
   ...
 )
@@ -29,6 +30,7 @@ sensitivity_stats(...)
   q = 1,
   alpha = 0.05,
   reduce = TRUE,
+  invert = FALSE,
   ...
 )
 }
@@ -49,6 +51,8 @@ which means a reduction of 100\% of the current effect estimate (bring estimate 
 absolute value of the estimated coefficient? Default is \code{TRUE}.}
 
 \item{message}{should messages be printed? Default = TRUE.}
+
+\item{invert}{should IRV be computed instead of RV? (i.e. is the estimate insignificant?). Default = FALSE.}
 
 \item{estimate}{Coefficient estimate.}
 

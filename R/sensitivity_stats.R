@@ -83,17 +83,20 @@ rv <- function(...){
 #' @param q percent change of the effect estimate that would be deemed problematic.  Default is \code{1},
 #' which means a reduction of 100\% of the current effect estimate (bring estimate to zero). It has to be greater than zero.
 #' @param alpha significance level.
+#' @param invert should IRV be computed instead of RV? (i.e. is the estimate insignificant?). Default is \code{FALSE}.
 #' @rdname robustness_value
 #' @export
 #' @importFrom stats setNames
 robustness_value.lm = function(model,
                                covariates = NULL,
                                q = 1,
-                               alpha = 0.05, ...) {
+                               alpha = 0.05,
+                               invert = FALSE, ...) {
 
   # check arguments
   check_q(q)
   check_alpha(alpha)
+  check_invert(invert)
 
   # extract model data
   model_data <- model_helper.lm(model, covariates = covariates)
@@ -101,7 +104,7 @@ robustness_value.lm = function(model,
   dof         = model_data$dof
 
   # compute rv
-  robustness_value(t_statistic = t_statistic, dof = dof, q = q, alpha = alpha)
+  robustness_value(t_statistic = t_statistic, dof = dof, q = q, alpha = alpha, invert = invert)
 
 }
 
@@ -112,6 +115,7 @@ robustness_value.lm = function(model,
 #' which means a reduction of 100\% of the current effect estimate (bring estimate to zero). It has to be greater than zero.
 #' @param alpha significance level.
 #' @param message should messages be printed? Default = TRUE.
+#' @param invert should IRV be computed instead of RV? (i.e. is the estimate insignificant?). Default is \code{FALSE}.
 #' @rdname robustness_value
 #' @export
 #' @importFrom stats setNames
@@ -119,12 +123,14 @@ robustness_value.fixest = function(model,
                                covariates = NULL,
                                q = 1,
                                alpha = 0.05,
+                               invert = FALSE,
                                message = TRUE,
                                ...) {
 
   # check arguments
   check_q(q)
   check_alpha(alpha)
+  check_invert(invert)
   if(message){
     if(alpha <1){
       message_vcov.fixest(model)
@@ -136,7 +142,7 @@ robustness_value.fixest = function(model,
   dof         = model_data$dof
 
   # compute rv
-  robustness_value(t_statistic = t_statistic, dof = dof, q = q, alpha = alpha)
+  robustness_value(t_statistic = t_statistic, dof = dof, q = q, alpha = alpha, invert = invert)
 
 }
 
@@ -151,12 +157,17 @@ robustness_value.default = function(model, ...) {
 #' @param  dof residual degrees of freedom of the regression
 #' @rdname robustness_value
 #' @export
-robustness_value.numeric <- function(t_statistic, dof, q =1, alpha = 0.05, ...){
+robustness_value.numeric <- function(t_statistic,
+                                     dof,
+                                     q = 1,
+                                     alpha = 0.05,
+                                     invert = FALSE, ...){
 
   # check arguments
   check_q(q)
   check_alpha(alpha)
-
+  check_invert(invert)
+  check_dof(dof)
 
   # computes fq
   fq  <-  q * abs(t_statistic / sqrt(dof))
@@ -164,8 +175,16 @@ robustness_value.numeric <- function(t_statistic, dof, q =1, alpha = 0.05, ...){
   # computes critical f
   f.crit <- abs(qt(alpha / 2, df = dof - 1)) / sqrt(dof - 1)
 
+  # switches the algebraic position of fq and f.crit for invert
+  if (invert) { # invert case
+    f1 <- f.crit
+    f2 <- fq
+  } else { # RV case
+    f1 <- fq
+    f2 <- f.crit
+  }
   # computes fqa
-  fqa <- fq - f.crit
+  fqa <- f1 - f2
 
   # constraint binding case
   # rv  <-  0.5 * (sqrt(fqa^4 + (4 * fqa^2)) - fqa^2)
@@ -173,14 +192,23 @@ robustness_value.numeric <- function(t_statistic, dof, q =1, alpha = 0.05, ...){
   rv  <-  2 / (1 + sqrt(1 + 4/fqa^2))
 
   # constraint not binding case
-  rvx <- extreme_robustness_value.numeric(t_statistic, dof = dof, q=q, alpha = alpha)
+  xrv <- extreme_robustness_value.numeric(t_statistic,
+                                          dof = dof,
+                                          q=q,
+                                          alpha = alpha,
+                                          invert = invert)
 
   # combine results
+  is.xrv <- (fqa > 0 & f1 > 1/f2)
   rv.out <- rv # initiate everyone as binding
   rv.out[fqa < 0] <- 0 # zero for those who have negative fqa
-  rv.out[fqa > 0 & fq > 1/f.crit] <- rvx[fqa > 0 & fq > 1/f.crit] # extreme rv for those who are not binding
+  rv.out[is.xrv] <- xrv[is.xrv] # extreme rv for those who are not binding
 
-  attributes(rv.out) <- list(names = names(rv.out), q = q, alpha = alpha, class = c("numeric","rv"))
+  attributes(rv.out) <- list(names = names(rv.out),
+                             invert = invert, q = q,
+                             alpha = alpha,
+                             class = c("numeric","rv"),
+                             is.xrv = is.xrv)
   rv.out
 }
 
@@ -214,19 +242,23 @@ xrv <- function(...){
 extreme_robustness_value.lm = function(model,
                                        covariates = NULL,
                                        q = 1,
-                                       alpha = 0.05, ...) {
+                                       alpha = 0.05,
+                                       invert = FALSE, ...) {
 
   # check arguments
   check_q(q)
   check_alpha(alpha)
+  check_invert(invert)
 
   # extract model data
   model_data <- model_helper.lm(model, covariates = covariates)
   t_statistic = setNames(model_data$t_statistics, model_data$covariates)
   dof         = model_data$dof
 
-  # compute rv
-  extreme_robustness_value(t_statistic = t_statistic, dof = dof, q = q, alpha = alpha)
+  # compute xrv
+  extreme_robustness_value(t_statistic = t_statistic,
+                           dof = dof, q = q,
+                           alpha = alpha, invert = invert)
 
 }
 
@@ -236,12 +268,14 @@ extreme_robustness_value.fixest = function(model,
                                    covariates = NULL,
                                    q = 1,
                                    alpha = 0.05,
+                                   invert = FALSE,
                                    message = TRUE,
                                    ...) {
 
   # check arguments
   check_q(q)
   check_alpha(alpha)
+  check_invert(invert)
   if(message){
     if(alpha < 1){
       message_vcov.fixest(model)
@@ -252,8 +286,10 @@ extreme_robustness_value.fixest = function(model,
   t_statistic = setNames(model_data$t_statistics, model_data$covariates)
   dof         = model_data$dof
 
-  # compute rv
-  extreme_robustness_value(t_statistic = t_statistic, dof = dof, q = q, alpha = alpha)
+  # compute xrv
+  extreme_robustness_value(t_statistic = t_statistic,
+                           dof = dof, q = q,
+                           alpha = alpha, invert = invert)
 
 }
 
@@ -269,22 +305,40 @@ extreme_robustness_value.default = function(model, ...) {
 
 #' @export
 #' @rdname robustness_value
-extreme_robustness_value.numeric <- function(t_statistic, dof, q =1, alpha = 0.05, ...){
+extreme_robustness_value.numeric <- function(t_statistic,
+                                             dof, q =1,
+                                             alpha = 0.05,
+                                             invert = FALSE, ...){
 
   # check arguments
   check_q(q)
   check_alpha(alpha)
+  check_invert(invert)
+  check_dof(dof)
 
+  # computes fq^2
+  fq <- q * abs(t_statistic/sqrt(dof))
+  fq2 <- (fq)^2
 
-  # computes fq
-  fq  <-  q * abs(t_statistic / sqrt(dof))
+  # computes critical f^2
+  t.crit <- abs(qt(alpha/2, df = dof - 1))
+  f.crit2 <- (t.crit/sqrt(dof - 1))^2
 
-  # computes critical f
-  f.crit <- abs(qt(alpha / 2, df = dof - 1)) / sqrt(dof - 1)
-  xrv <- (fq^2 - f.crit^2)/(1 + fq^2)
-  xrv[fq < f.crit] <- 0
+  if (invert) { # XIRV case
+    f1 <- f.crit2
+    f2 <- fq2
+  } else { # XRV case
+    f1 <- fq2
+    f2 <- f.crit2
+  }
 
-  attributes(xrv) <- list(names = names(xrv), q = q, alpha = alpha, class = c("numeric","rv"))
+  xrv <- (f1 - f2)/(1 + f1)
+  xrv[f1 <= f2] <- 0
+
+  attributes(xrv) <- list(names = names(xrv), q = q,
+                          alpha = alpha,
+                          class = c("numeric","rv"),
+                          invert = invert)
   xrv
 }
 
@@ -298,9 +352,12 @@ print.rv <- function(x, digits = 3, ...){
   print(value, digits = digits)
   q <- attr(x, "q")
   alpha <- attr(x, "alpha")
+  invert <- attr(x, "invert")
   cat("Parameters: q =", q)
-  if (!is.null(alpha)) cat(", alpha =", alpha,"\n")
+  if (!is.null(alpha)) cat(", alpha =", alpha)
+  cat(", invert =", invert, "\n")
 }
+
 
 
 
@@ -646,6 +703,7 @@ sensitivity_stats.lm <- function(model,
                                  q = 1,
                                  alpha = 0.05,
                                  reduce = TRUE,
+                                 invert = FALSE,
                                  ...)
 {
 
@@ -657,6 +715,7 @@ sensitivity_stats.lm <- function(model,
                                                           q = q,
                                                           alpha = alpha,
                                                           reduce = reduce,
+                                                          invert = invert,
                                                           ...))
   sensitivity_stats
 }
@@ -671,6 +730,7 @@ sensitivity_stats.fixest <- function(model,
                                  q = 1,
                                  alpha = 0.05,
                                  reduce = TRUE,
+                                 invert = FALSE,
                                  message = T,
                                  ...)
 {
@@ -684,6 +744,7 @@ sensitivity_stats.fixest <- function(model,
                                                           q = q,
                                                           alpha = alpha,
                                                           reduce = reduce,
+                                                          invert = invert,
                                                           ...))
   sensitivity_stats
 }
@@ -698,6 +759,7 @@ sensitivity_stats.numeric <- function(estimate,
                                       q = 1,
                                       alpha = 0.05,
                                       reduce = TRUE,
+                                      invert = FALSE,
                                       ...)
 {
   check_se(se)
@@ -710,8 +772,8 @@ sensitivity_stats.numeric <- function(estimate,
   sensitivity_stats[["se"]] <- se
   sensitivity_stats[["t_statistic"]] <- t_statistic
   sensitivity_stats[["r2yd.x"]] <- as.numeric(partial_r2(t_statistic = original_t, dof = dof))
-  sensitivity_stats[["rv_q"]] <- (robustness_value(t_statistic = original_t, dof = dof, q = q, alpha = 1))
-  sensitivity_stats[["rv_qa"]] <- (robustness_value(t_statistic = original_t, dof = dof, q = q, alpha = alpha))
+  sensitivity_stats[["rv_q"]] <- (robustness_value(t_statistic = original_t, dof = dof, q = q, alpha = 1, invert = invert))
+  sensitivity_stats[["rv_qa"]] <- (robustness_value(t_statistic = original_t, dof = dof, q = q, alpha = alpha, invert = invert))
   sensitivity_stats[["f2yd.x"]] <- as.numeric(partial_f2(t_statistic = original_t, dof = dof))
   sensitivity_stats[["dof"]] <- dof
   sensitivity_stats
@@ -749,7 +811,17 @@ check_dof <- function(dof){
     }
 }
 
+check_invert <- function(invert) {
+  if ((!is.logical(invert) || length(invert) > 1)) {
+    stop("`invert` must be TRUE or FALSE.")
+  }
+}
 
+check_r <- function(r) {
+  if ((!is.numeric(r) || length(r) > 1 || r > 1 || r < 0)) {
+    stop("`r` must be between 0 and 1.")
+  }
+}
 
 
 

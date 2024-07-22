@@ -89,12 +89,12 @@ test_that("Simulated tests",
 test_that("Print tests",
           {
             skip_on_cran()
-            print_rv <- c("[1] 0.463325", "Parameters: q = 1, alpha = 1 ")
+            print_rv <- c("[1] 0.463325", "Parameters: q = 1, alpha = 1, invert = FALSE ")
             rvcheck <- robustness_value(t = 2, dof = 10, alpha = 1)
             expect_equal(capture.output(print(rvcheck, digits = 6)),
                          print_rv)
 
-            print_rvqa <- c("[1] 0", "Parameters: q = 1, alpha = 0.05 ")
+            print_rvqa <- c("[1] 0", "Parameters: q = 1, alpha = 0.05, invert = FALSE ")
             expect_equal(capture.output(robustness_value(t = 2, dof = 10, alpha = 0.05)), print_rvqa)
           }
           )
