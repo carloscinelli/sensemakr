@@ -7,12 +7,14 @@ Authors@R: c(
   person("Carlos", "Cinelli", role = c("aut", "cre"), email = "carloscinelli@hotmail.com"),
   person("Jeremy", "Ferwerda", role = "aut"),
   person("Chad", "Hazlett", role = "aut"),
+  person("Tsao", "Danielle", role = "ctb"),
   person("Aaron", "Rudkin", role = "ctb"),
   person("Grigorij", "Ljubownikow", role = "ctb")
   )
 Author: Carlos Cinelli [aut, cre],
   Jeremy Ferwerda [aut],
   Chad Hazlett [aut],
+  Danielle Tsao [ctb],
   Aaron Rudkin [ctb], 
   Grigorij Ljubownikow [ctb]
 Maintainer: Carlos Cinelli <carloscinelli@hotmail.com>
