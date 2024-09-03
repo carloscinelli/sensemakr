@@ -96,7 +96,7 @@
 #'                  benchmark_covariates = "female",
 #'                  kd = 1:3, lim = 0.05)
 #' @name sensemakr-package
-NULL
+"_PACKAGE"
 
 #' Sensitivity analysis to unobserved confounders
 #'

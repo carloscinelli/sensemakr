@@ -95,6 +95,7 @@ ovb_contour_plot(...)
   alpha = 0.05,
   t.threshold = NULL,
   show.unadjusted = TRUE,
+  label.unadjusted = "Unadjusted",
   lim = NULL,
   lim.x = lim,
   lim.y = lim,
@@ -182,6 +183,8 @@ absolute value of the estimated coefficient? Default is \code{TRUE}.}
 \item{dof}{residual degrees of freedom of the regression.}
 
 \item{show.unadjusted}{should the unadjusted estimates be shown? Default is `TRUE`.}
+
+\item{label.unadjusted}{label for the unadjusted estimate.}
 
 \item{lim}{sets limit for both axis. If `NULL`, limits are computed automatically.}
 

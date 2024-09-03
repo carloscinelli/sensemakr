@@ -928,13 +928,14 @@ model_helper.fixest = function(model, covariates = NULL, ...) {
 #             "performed for coefficient: ", coefficient_string)
 #   }
 # }
+#
 
 
 error_if_no_dof = function(model, ...) {
   UseMethod("error_if_no_dof")
 }
 
-
+#' @export
 error_if_no_dof.lm = function(model, ...) {
   if (model$df.residual == 0) {
     stop("There are 0 residual ",
@@ -942,7 +943,7 @@ error_if_no_dof.lm = function(model, ...) {
   }
 }
 
-
+#' @export
 error_if_no_dof.fixest = function(model, ...) {
   if (fixest::degrees_freedom(model, type = "resid", vcov = "iid") == 0) {
     stop("There are 0 residual ",

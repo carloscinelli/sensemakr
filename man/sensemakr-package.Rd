@@ -103,3 +103,28 @@ ovb_extreme_plot(model,
 \references{
 Cinelli, C. and Hazlett, C. (2020), "Making Sense of Sensitivity: Extending Omitted Variable Bias." Journal of the Royal Statistical Society, Series B (Statistical Methodology).
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/carloscinelli/sensemakr}
+  \item Report bugs at \url{https://github.com/carloscinelli/sensemakr/issues}
+}
+
+}
+\author{
+\strong{Maintainer}: Carlos Cinelli \email{carloscinelli@hotmail.com}
+
+Authors:
+\itemize{
+  \item Jeremy Ferwerda
+  \item Chad Hazlett
+}
+
+Other contributors:
+\itemize{
+  \item Danielle Tsao [contributor]
+  \item Aaron Rudkin [contributor]
+  \item Grigorij Ljubownikow [contributor]
+}
+
+}
