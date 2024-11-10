@@ -52,7 +52,7 @@ print.sensemakr = function(x,
 
   cat("Null hypothesis:", "q =", q, "and", "reduce =", reduce,"\n\n")
 
-  cat("Unadjusted Estimates of '", treatment <- x$sensitivity_stats$treatment, "':\n ")
+  cat("Observed Estimates of '", treatment <- x$sensitivity_stats$treatment, "':\n ")
   cat(" Coef. estimate:", estimate <- round(x$sensitivity_stats$estimate, digits), "\n ")
   cat(" Standard Error:", se <- round(x$sensitivity_stats$se, digits), "\n ")
   cat(" t-value:", t_statistic <- round(x$sensitivity_stats$t_statistic, digits), "\n")
@@ -95,7 +95,7 @@ summary.sensemakr <- function(object, digits = max(3L, getOption("digits") - 3L)
   cat("-- The null hypothesis deemed problematic is H0:tau =", h0, "\n")
   cat("\n")
 
-  cat("Unadjusted Estimates of", paste0("'",treatment <- x$sensitivity_stats$treatment,"':"), "\n ")
+  cat("Observed Estimates of", paste0("'",treatment <- x$sensitivity_stats$treatment,"':"), "\n ")
   cat(" Coef. estimate:", estimate <- round(x$sensitivity_stats$estimate, digits), "\n ")
   cat(" Standard Error:", se <- round(x$sensitivity_stats$se, digits), "\n ")
   cat(" t-value", "(H0:tau =", paste0(h0,"):"), t_statistic <- round(x$sensitivity_stats$t_statistic, digits), "\n")
