@@ -95,7 +95,7 @@ ovb_contour_plot(...)
   alpha = 0.05,
   t.threshold = NULL,
   show.unadjusted = TRUE,
-  label.unadjusted = "Unadjusted",
+  label.unadjusted = "Observed",
   lim = NULL,
   lim.x = lim,
   lim.y = lim,
