@@ -305,11 +305,11 @@ sensemakr.fixest <- function(model,
 
   # senstivity statistics
   out$sensitivity_stats <- sensitivity_stats.fixest(model = model,
-                                                treatment = treatment,
-                                                q = q,
-                                                alpha = alpha,
-                                                reduce = reduce,
-                                                message = F)
+                                                    treatment = treatment,
+                                                    q = q,
+                                                    alpha = alpha,
+                                                    reduce = reduce,
+                                                    message = F)
   estimate <- out$sensitivity_stats$estimate
 
   h0 <- ifelse(reduce, estimate*(1 - q), estimate*(1 + q))

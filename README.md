@@ -54,6 +54,7 @@ For a quick start, watch the 15 min tutorial on sensitivity analysis
 using sensemakr prepared for useR! 2020:
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/p3dfHj6ki68" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+
 </iframe>
 
 # CRAN
@@ -117,7 +118,7 @@ sensitivity
 #> 
 #> Null hypothesis: q = 1 and reduce = TRUE 
 #> 
-#> Unadjusted Estimates of ' directlyharmed ':
+#> Observed Estimates of ' directlyharmed ':
 #>   Coef. estimate: 0.09732 
 #>   Standard Error: 0.02326 
 #>   t-value: 4.18445 
@@ -140,7 +141,7 @@ summary(sensitivity)
 #> -- This means we are considering biases that reduce the absolute value of the current estimate.
 #> -- The null hypothesis deemed problematic is H0:tau = 0 
 #> 
-#> Unadjusted Estimates of 'directlyharmed': 
+#> Observed Estimates of 'directlyharmed': 
 #>   Coef. estimate: 0.0973 
 #>   Standard Error: 0.0233 
 #>   t-value (H0:tau = 0): 4.1844 
@@ -225,67 +226,114 @@ ovb_minimal_reporting(sensitivity, format = "pure_html")
 ```
 
 <table style="align:center">
+
 <thead>
+
 <tr>
+
 <th style="text-align:left;border-bottom: 1px solid transparent;border-top: 1px solid black">
+
 </th>
+
 <th colspan="6" style="text-align:center;border-bottom: 1px solid black;border-top: 1px solid black">
+
 Outcome: peacefactor
 </th>
+
 </tr>
+
 <tr>
+
 <th style="text-align:left;border-top: 1px solid black">
+
 Treatment
 </th>
+
 <th style="text-align:right;border-top: 1px solid black">
+
 Est.
 </th>
+
 <th style="text-align:right;border-top: 1px solid black">
+
 S.E.
 </th>
+
 <th style="text-align:right;border-top: 1px solid black">
+
 t-value
 </th>
+
 <th style="text-align:right;border-top: 1px solid black">
+
 R<sup>2</sup><sub>Y~D\|X</sub>
 </th>
+
 <th style="text-align:right;border-top: 1px solid black">
+
 RV<sub>q = 1</sub>
 </th>
+
 <th style="text-align:right;border-top: 1px solid black">
+
 RV<sub>q = 1, α = 0.05</sub>
 </th>
+
 </tr>
+
 </thead>
+
 <tbody>
+
 <tr>
+
 <td style="text-align:left; border-bottom: 1px solid black">
+
 <i>directlyharmed</i>
 </td>
+
 <td style="text-align:right;border-bottom: 1px solid black">
+
 0.097
 </td>
+
 <td style="text-align:right;border-bottom: 1px solid black">
+
 0.023
 </td>
+
 <td style="text-align:right;border-bottom: 1px solid black">
+
 4.184
 </td>
+
 <td style="text-align:right;border-bottom: 1px solid black">
+
 2.2%
 </td>
+
 <td style="text-align:right;border-bottom: 1px solid black">
+
 13.9%
 </td>
+
 <td style="text-align:right;border-bottom: 1px solid black">
+
 7.6%
 </td>
+
 </tr>
+
 </tbody>
+
 <tr>
+
 <td colspan="7" style="text-align:right;border-bottom: 1px solid transparent;font-size:11px">
+
 Note: df = 783; Bound ( 1x female ): R<sup>2</sup><sub>Y~Z\|X,D</sub> =
 12.5%, R<sup>2</sup><sub>D~Z\|X</sub> = 0.9%
 </td>
+
 </tr>
+
 </table>

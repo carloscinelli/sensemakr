@@ -6,28 +6,20 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Sensitivity Analysis Tools for Regression Models • sensemakr</title>
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="bootstrap-toc.css">
 <script src="bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
 <script src="pkgdown.js"></script><meta property="og:title" content="Sensitivity Analysis Tools for Regression Models">
-<meta property="og:description" content='Implements a suite of sensitivity analysis tools 
-  that extends the traditional omitted variable bias framework and makes it easier 
-  to understand the impact of omitted variables in regression models, as discussed in Cinelli, C. and Hazlett, C. (2020), "Making Sense of Sensitivity: Extending Omitted Variable Bias." Journal of the Royal Statistical Society, Series B (Statistical Methodology) &lt;doi:10.1111/rssb.12348&gt;.'>
+<meta property="og:description" content='Implements a suite of sensitivity analysis tools that extends the traditional omitted variable bias framework and makes it easier to understand the impact of omitted variables in regression models, as discussed in Cinelli, C. and Hazlett, C. (2020), "Making Sense of Sensitivity: Extending Omitted Variable Bias." Journal of the Royal Statistical Society, Series B (Statistical Methodology) &lt;doi:10.1111/rssb.12348&gt;.'>
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-<![endif]--><!-- Global site tag (gtag.js) - Google Analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=UA-158095434-1"></script><script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-158095434-1');
-</script>
+<![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
-    
+
 
     <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -41,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">sensemakr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.6</span>
       </span>
     </div>
 
@@ -51,23 +43,26 @@
   <a href="articles/sensemakr.html">Get started</a>
 </li>
 <li>
-  <a href="articles/index.html">Articles</a>
-</li>
-<li>
-  <a href="https://www.researchgate.net/publication/340965014_sensemakr_Sensitivity_Analysis_Tools_for_OLS_in_R_and_Stata" class="external-link">Software Paper</a>
-</li>
-<li>
   <a href="reference/index.html">Reference</a>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Articles
+
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
 <li>
-  <a href="https://carloscinelli.shinyapps.io/robustness_value/" class="external-link">Shiny App</a>
+      <a href="articles/informal_benchmarking.html">The Risks of Informal Benchmarking</a>
+    </li>
+  </ul>
 </li>
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="https://github.com/carloscinelli/sensemakr/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
-     
+
   </a>
 </li>
       </ul>
@@ -78,7 +73,7 @@
 </div>
 <!--/.navbar -->
 
-      
+
 
       </header><div class="row">
   <div class="contents col-md-9">
@@ -94,11 +89,10 @@
 <h1 id="news">News<a class="anchor" aria-label="anchor" href="#news"></a>
 </h1>
 <ul>
-<li><p>The <a href="https://www.youtube.com/watch?v=j7mN_G5Gpyg" class="external-link">Online Causal Inference Seminar presentation</a> is now available.</p></li>
-<li><p>Check out the new <a href="https://github.com/nlapier2/PySensemakr" class="external-link">Python version</a> of the package!</p></li>
 <li><p>Watch the <a href="https://www.youtube.com/watch?v=p3dfHj6ki68" class="external-link">useR! 2020 presentation</a> for a quick introduction on sensemakr.</p></li>
 <li><p>Check out the <a href="https://www.researchgate.net/publication/340965014_sensemakr_Sensitivity_Analysis_Tools_for_OLS_in_R_and_Stata" class="external-link">software paper preprint</a>!</p></li>
-<li><p>Check out the new <a href="https://github.com/resonance1/sensemakr-stata" class="external-link">Stata version</a> of the package!</p></li>
+<li><p>Check out the <a href="https://github.com/resonance1/sensemakr-stata" class="external-link">Stata version</a> of the package!</p></li>
+<li><p>Check out the <a href="https://github.com/nlapier2/PySensemakr" class="external-link">Python version</a> of the package!</p></li>
 <li><p>Check out the Robustness Value Shiny App at: <a href="https://carloscinelli.shinyapps.io/robustness_value/" class="external-link uri">https://carloscinelli.shinyapps.io/robustness_value/</a></p></li>
 <li><p>Check out the <a href="http://carloscinelli.com/sensemakr/" class="external-link">package website</a>!</p></li>
 </ul>
@@ -125,7 +119,7 @@
 <p>To install the development version on GitHub make sure you have the package <code>devtools</code> installed.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("devtools") </span></span>
-<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"chadhazlett/sensemakr"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"carloscinelli/sensemakr"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level1">
 <h1 id="citation">Citation<a class="anchor" aria-label="anchor" href="#citation"></a>
@@ -167,7 +161,7 @@
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Null hypothesis: q = 1 and reduce = TRUE </span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Unadjusted Estimates of ' directlyharmed ':</span></span>
+<span><span class="co">#&gt; Observed Estimates of ' directlyharmed ':</span></span>
 <span><span class="co">#&gt;   Coef. estimate: 0.09732 </span></span>
 <span><span class="co">#&gt;   Standard Error: 0.02326 </span></span>
 <span><span class="co">#&gt;   t-value: 4.18445 </span></span>
@@ -190,7 +184,7 @@
 <span><span class="co">#&gt; -- This means we are considering biases that reduce the absolute value of the current estimate.</span></span>
 <span><span class="co">#&gt; -- The null hypothesis deemed problematic is H0:tau = 0 </span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Unadjusted Estimates of 'directlyharmed': </span></span>
+<span><span class="co">#&gt; Observed Estimates of 'directlyharmed': </span></span>
 <span><span class="co">#&gt;   Coef. estimate: 0.0973 </span></span>
 <span><span class="co">#&gt;   Standard Error: 0.0233 </span></span>
 <span><span class="co">#&gt;   t-value (H0:tau = 0): 4.1844 </span></span>
@@ -225,15 +219,23 @@
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">sensitivity</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/figures-basic-usage-1.png" style="display: block; margin: auto;"></p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># plot bias contour of t-value</span></span>
+<code class="sourceCode R"><span></span>
+<span><span class="co"># plot bias contour of t-value</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">sensitivity</span>, sensitivity.of <span class="op">=</span> <span class="st">"t-value"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/figures-basic-usage-2.png" style="display: block; margin: auto;"></p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># plot extreme scenario</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">sensitivity</span>, type <span class="op">=</span> <span class="st">"extreme"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span></span>
+<span><span class="co"># plot bias contour of lower limit of confidence interval</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">sensitivity</span>, sensitivity.of <span class="op">=</span> <span class="st">"lwr"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/figures-basic-usage-3.png" style="display: block; margin: auto;"></p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># latex code for sensitivity table</span></span>
+<code class="sourceCode R"><span></span>
+<span><span class="co"># plot extreme scenario</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">sensitivity</span>, type <span class="op">=</span> <span class="st">"extreme"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="reference/figures/figures-basic-usage-4.png" style="display: block; margin: auto;"></p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="co"># latex code for sensitivity table</span></span>
 <span><span class="fu"><a href="reference/print.sensemakr.html">ovb_minimal_reporting</a></span><span class="op">(</span><span class="va">sensitivity</span><span class="op">)</span></span>
 <span><span class="co">#&gt; \begin{table}[!h]</span></span>
 <span><span class="co">#&gt; \centering</span></span>
@@ -247,6 +249,71 @@
 <span><span class="co">#&gt; df = 783 &amp; &amp; \multicolumn{5}{r}{ \small \textit{Bound (1x female)}: $R^2_{Y\sim Z| {\bf X}, D}$ = 12.5\%, $R^2_{D\sim Z| {\bf X} }$ = 0.9\%} \\</span></span>
 <span><span class="co">#&gt; \end{tabular}</span></span>
 <span><span class="co">#&gt; \end{table}</span></span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># html code for sensitivity table</span></span>
+<span><span class="fu"><a href="reference/print.sensemakr.html">ovb_minimal_reporting</a></span><span class="op">(</span><span class="va">sensitivity</span>, format <span class="op">=</span> <span class="st">"pure_html"</span><span class="op">)</span></span></code></pre></div>
+<table style="align:center" class="table">
+<thead>
+<tr>
+<th style="text-align:left;border-bottom: 1px solid transparent;border-top: 1px solid black">
+</th>
+<th colspan="6" style="text-align:center;border-bottom: 1px solid black;border-top: 1px solid black">
+Outcome: peacefactor
+</th>
+</tr>
+<tr>
+<th style="text-align:left;border-top: 1px solid black">
+Treatment
+</th>
+<th style="text-align:right;border-top: 1px solid black">
+Est.
+</th>
+<th style="text-align:right;border-top: 1px solid black">
+S.E.
+</th>
+<th style="text-align:right;border-top: 1px solid black">
+t-value
+</th>
+<th style="text-align:right;border-top: 1px solid black">
+R<sup>2</sup><sub>Y~D|X</sub>
+</th>
+<th style="text-align:right;border-top: 1px solid black">
+RV<sub>q = 1</sub>
+</th>
+<th style="text-align:right;border-top: 1px solid black">
+RV<sub>q = 1, α = 0.05</sub>
+</th>
+</tr>
+</thead>
+<tbody><tr>
+<td style="text-align:left; border-bottom: 1px solid black">
+<i>directlyharmed</i>
+</td>
+<td style="text-align:right;border-bottom: 1px solid black">
+0.097
+</td>
+<td style="text-align:right;border-bottom: 1px solid black">
+0.023
+</td>
+<td style="text-align:right;border-bottom: 1px solid black">
+4.184
+</td>
+<td style="text-align:right;border-bottom: 1px solid black">
+2.2%
+</td>
+<td style="text-align:right;border-bottom: 1px solid black">
+13.9%
+</td>
+<td style="text-align:right;border-bottom: 1px solid black">
+7.6%
+</td>
+</tr></tbody>
+<tr>
+<td colspan="7" style="text-align:right;border-bottom: 1px solid transparent;font-size:11px">
+Note: df = 783; Bound ( 1x female ): R<sup>2</sup><sub>Y~Z|X,D</sub> = 12.5%, R<sup>2</sup><sub>D~Z|X</sub> = 0.9%
+</td>
+</tr>
+</table>
 </div>
 
   </div>
@@ -279,12 +346,9 @@
 <div class="developers">
 <h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
-<li>
-<a href="https://carloscinelli.com" class="external-link">Carlos Cinelli</a> <br><small class="roles"> Author, maintainer </small>  </li>
-<li>
-<a href="https://www.jeremyferwerda.com/" class="external-link">Jeremy Ferwerda</a> <br><small class="roles"> Author </small>  </li>
-<li>
-<a href="https://chadhazlett.com" class="external-link">Chad Hazlett</a> <br><small class="roles"> Author </small>  </li>
+<li>Carlos Cinelli <br><small class="roles"> Author, maintainer </small>  </li>
+<li>Jeremy Ferwerda <br><small class="roles"> Author </small>  </li>
+<li>Chad Hazlett <br><small class="roles"> Author </small>  </li>
 <li><a href="authors.html">More about authors...</a></li>
 </ul>
 </div>
@@ -292,11 +356,9 @@
 <div class="dev-status">
 <h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://travis-ci.org/carloscinelli/sensemakr" class="external-link"><img src="https://travis-ci.org/carloscinelli/sensemakr.svg?branch=master" alt="Travis-CI build Status"></a></li>
-<li><a href="https://ci.appveyor.com/project/carloscinelli/sensemakr" class="external-link"><img src="https://ci.appveyor.com/api/projects/status/utoc0803j4fxoje3?svg=true" alt="Appveyor build status"></a></li>
 <li><a href="https://CRAN.R-project.org/package=sensemakr" class="external-link"><img src="https://www.r-pkg.org/badges/version/sensemakr" alt="CRAN status"></a></li>
-<li><a href="https://codecov.io/github/carloscinelli/sensemakr?branch=master" class="external-link"><img src="https://codecov.io/gh/carloscinelli/sensemakr/branch/master/graph/badge.svg" alt="Coverage status"></a></li>
 <li><a href="https://cran.r-project.org/package=sensemakr" class="external-link"><img src="https://cranlogs.r-pkg.org/badges/sensemakr" alt="Downloads"></a></li>
+<li><a href="https://github.com/chadhazlett/sensemakr/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/chadhazlett/sensemakr/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
 </ul>
 </div>
 
@@ -306,21 +368,21 @@
 
       <footer><div class="copyright">
   <p></p>
-<p>Developed by <a href="https://carloscinelli.com" class="external-link">Carlos Cinelli</a>, <a href="https://www.jeremyferwerda.com/" class="external-link">Jeremy Ferwerda</a>, <a href="https://chadhazlett.com" class="external-link">Chad Hazlett</a>.</p>
+<p>Developed by Carlos Cinelli, Jeremy Ferwerda, Chad Hazlett.</p>
 </div>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
 </div>
 
       </footer>
 </div>
 
-  
 
 
-  
+
+
 
   </body>
 </html>
