@@ -458,6 +458,10 @@ sensemakr.numeric <- function(estimate,
                                              treatment = treatment,
                                              q = q,
                                              alpha = alpha)
+  estimate <- out$sensitivity_stats$estimate
+
+  h0 <- ifelse(reduce, estimate*(1 - q), estimate*(1 + q))
+
   # bounds on ovb
   if (!is.null(r2dz.x)) {
     check_r2(r2dz.x = r2dz.x, r2yz.dx = r2yz.dx)
@@ -484,6 +488,7 @@ sensemakr.numeric <- function(estimate,
                                        dof = dof,
                                        r2yz.dx = r2yz.dx,
                                        r2dz.x = r2dz.x,
+                                       h0 = h0,
                                        reduce = reduce)
 
     se_multiple <- qt(alpha/2, df = dof, lower.tail = F)
@@ -522,6 +527,7 @@ sensemakr.numeric <- function(estimate,
                                          dof = dof,
                                          r2yz.dx = bench_bounds$r2yz.dx,
                                          r2dz.x =  bench_bounds$r2dz.x,
+                                         h0 = h0,
                                          reduce = reduce)
 
     se_multiple <- qt(alpha/2, df = dof, lower.tail = F)

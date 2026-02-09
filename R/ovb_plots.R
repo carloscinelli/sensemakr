@@ -318,7 +318,7 @@ ovb_contour_plot.fixest = function(model,
   se <- model_data$se
   dof <- model_data$dof
   if (is.null( t.threshold)) {
-    t.threshold <- qt(1 - alpha/2, df = dof)
+    t.threshold <- qt(1 - alpha/2, df = dof)*sign(estimate)
   }
 
   if (!is.null(r2dz.x)) {
@@ -355,6 +355,7 @@ ovb_contour_plot.fixest = function(model,
                    r2yz.dx = bounds$r2yz.dx,
                    bound_label = bounds$bound_label,
                    sensitivity.of = sensitivity.of,
+                   alpha = alpha,
                    t.threshold = t.threshold,
                    nlevels = nlevels,
                    col.contour = col.contour,
@@ -429,6 +430,7 @@ ovb_contour_plot.formula = function(formula,
                    r2yz.dx = r2dz.x,
                    bound_label = bound_label,
                    sensitivity.of = sensitivity.of,
+                   alpha = alpha,
                    t.threshold = t.threshold,
                    nlevels = nlevels,
                    col.contour = col.contour,

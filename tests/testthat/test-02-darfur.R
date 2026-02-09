@@ -241,6 +241,31 @@ test_that(desc = "testing darfur sensemakr manually",
             expect_equivalent(as.data.frame(darfur_out$bounds), as.data.frame(check_bounds))
           })
 
+test_that(desc = "sensemakr.numeric adjusted_t matches lm with q != 1",
+          {
+            model.treat <- lm(directlyharmed ~  age + farmer_dar + herder_dar +
+                          pastvoted + hhsize_darfur + female + village, data = darfur)
+
+            # run sensemakr with lm and q = 0.5
+            s_lm <- sensemakr(model, treatment = "directlyharmed", q = 0.5,
+                              benchmark_covariates = "female", kd = 1:3)
+
+            # run sensemakr with numeric inputs and q = 0.5
+            md <- model_helper(model, covariates = "directlyharmed")
+            s_num <- sensemakr(estimate = md$estimate, se = md$se, dof = md$dof,
+                               treatment = "directlyharmed", q = 0.5,
+                               benchmark_covariates = "female",
+                               r2dxj.x = partial_r2(model.treat, covariates = "female"),
+                               r2yxj.dx = partial_r2(model, covariates = "female"),
+                               kd = 1:3)
+
+            # adjusted_t should match between lm and numeric
+            expect_equal(s_num$bounds$adjusted_t, s_lm$bounds$adjusted_t, tolerance = 1e-5)
+
+            # also verify adjusted_estimate and adjusted_se still match
+            expect_equal(s_num$bounds$adjusted_estimate, s_lm$bounds$adjusted_estimate, tolerance = 1e-5)
+            expect_equal(s_num$bounds$adjusted_se, s_lm$bounds$adjusted_se, tolerance = 1e-5)
+          })
 
 test_that(desc = "testing darfur sensitivity stats",
           {

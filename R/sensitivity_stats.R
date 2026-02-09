@@ -457,7 +457,7 @@ partial_r2.numeric <- function(t_statistic, dof, ...){
   t_statistic^2 / (t_statistic^2 + dof)
 }
 
-partial_r2.default = function(model) {
+partial_r2.default = function(model, ...) {
   stop("The `partial_r2` function must be passed either an `lm`/`fixest` model object, ",
        "or the t-statistics and degrees of freedom directly. ",
        "Other object types are not supported. The object passed was of class ",
@@ -503,8 +503,8 @@ partial_f2.fixest = function(model, covariates = NULL, ...) {
   # coeff of interest later.
   partial_f2(t_statistic = t_statistic, dof = dof)
 }
-partial_r2.default = function(model, ...) {
-  stop("The `partial_f2` function must be passed either an `lm`/`fixest`  model object, ",
+partial_f2.default = function(model, ...) {
+  stop("The `partial_f2` function must be passed either an `lm`/`fixest` model object, ",
        "or the t-statistics and degrees of freedom directly. ",
        "Other object types are not supported. The object passed was of class ",
        class(model)[1])
@@ -524,13 +524,13 @@ partial_f = function(...) {
 #' @rdname partial_r2
 #' @export
 partial_f.fixest <- function(model, covariates = NULL, ...){
-  sqrt(partial_f2.fixest(model, covariates = NULL, ...))
+  sqrt(partial_f2.fixest(model, covariates = covariates, ...))
 }
 
 #' @rdname partial_r2
 #' @export
 partial_f.lm <- function(model, covariates = NULL, ...) {
-  sqrt(partial_f2.lm(model, covariates = NULL, ...))
+  sqrt(partial_f2.lm(model, covariates = covariates, ...))
 }
 
 #' @rdname partial_r2
@@ -539,14 +539,9 @@ partial_f.numeric <- function(t_statistic, dof, ...) {
   sqrt(partial_f2.numeric(t_statistic, dof, ...))
 }
 
-
 #' @rdname partial_r2
 #' @export
-partial_f.numeric <- function(t_statistic, dof, ...) sqrt(partial_f2.numeric(t_statistic, dof, ...))
-
-#' @rdname partial_r2
-#' @export
-partial_r2.default = function(model, ...) {
+partial_f.default = function(model, ...) {
   stop("The `partial_f` function must be passed either an `lm`/`fixest` model object, ",
        "or the t-statistics and degrees of freedom directly. ",
        "Other object types are not supported. The object passed was of class ",

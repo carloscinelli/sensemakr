@@ -119,3 +119,54 @@ test_that("contour plot tests", {
                                     benchmark_covariates = "female",
                                     kd = 1:3, ky = 1:3))
 })
+
+test_that("contour plot for negative coefficients: fixest matches lm", {
+
+  lm.out  <- lm(peacefactor ~ directlyharmed + age + farmer_dar +
+                   herder_dar + pastvoted + hhsize_darfur + female + village,
+                 data = darfur)
+
+  feols.out  <- fixest::feols(peacefactor ~ directlyharmed + age + farmer_dar +
+                                herder_dar + pastvoted + hhsize_darfur + female + village,
+                              data = darfur)
+
+  # age has a negative coefficient — verify t.threshold sign is handled correctly
+  expect_true(coef(lm.out)["age"] < 0)
+
+  # internally computed t.threshold should have sign(estimate) applied
+  # verify by checking that lm and fixest produce same results for all sensitivity.of types
+  for (s in c("estimate", "t-value", "lwr", "upr")) {
+    lm_plot <- ovb_contour_plot(lm.out, treatment = "age", sensitivity.of = s)
+    fe_plot <- ovb_contour_plot(feols.out, treatment = "age", sensitivity.of = s)
+    expect_equal(lm_plot$value, fe_plot$value, tolerance = 1e-4,
+                 info = paste("sensitivity.of =", s))
+  }
+})
+
+test_that("contour plot alpha parameter is respected for fixest", {
+
+  lm.out  <- lm(peacefactor ~ directlyharmed + age + farmer_dar +
+                   herder_dar + pastvoted + hhsize_darfur + female + village,
+                 data = darfur)
+
+  feols.out  <- fixest::feols(peacefactor ~ directlyharmed + age + farmer_dar +
+                                herder_dar + pastvoted + hhsize_darfur + female + village,
+                              data = darfur)
+
+  # with non-default alpha, lm and fixest should produce the same CI contour values
+  for (s in c("lwr", "upr")) {
+    lm_plot <- ovb_contour_plot(lm.out, treatment = "directlyharmed",
+                                sensitivity.of = s, alpha = 0.01)
+    fe_plot <- ovb_contour_plot(feols.out, treatment = "directlyharmed",
+                                sensitivity.of = s, alpha = 0.01)
+    expect_equal(lm_plot$value, fe_plot$value, tolerance = 1e-4,
+                 info = paste("sensitivity.of =", s, ", alpha = 0.01"))
+  }
+
+  # verify alpha actually changes the result (alpha=0.01 != alpha=0.05)
+  fe_01 <- ovb_contour_plot(feols.out, treatment = "directlyharmed",
+                             sensitivity.of = "lwr", alpha = 0.01)
+  fe_05 <- ovb_contour_plot(feols.out, treatment = "directlyharmed",
+                             sensitivity.of = "lwr", alpha = 0.05)
+  expect_false(isTRUE(all.equal(fe_01$value, fe_05$value, tolerance = 1e-4)))
+})
