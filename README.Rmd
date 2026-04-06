@@ -128,3 +128,6 @@ ovb_minimal_reporting(sensitivity, format = "pure_html")
 ```
 
 
+# Acknowledgements
+
+This research was supported in part by the Royalty Research Fund at the University of Washington, and by the National Science Foundation Grant No. MMS-2417955.

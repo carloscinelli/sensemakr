@@ -120,7 +120,7 @@ sensitivity
 #> 
 #> Null hypothesis: q = 1 and reduce = TRUE 
 #> 
-#> Observed Estimates of ' directlyharmed ':
+#> Unadjusted Estimates of ' directlyharmed ':
 #>   Coef. estimate: 0.09732 
 #>   Standard Error: 0.02326 
 #>   t-value: 4.18445 
@@ -143,7 +143,7 @@ summary(sensitivity)
 #> -- This means we are considering biases that reduce the absolute value of the current estimate.
 #> -- The null hypothesis deemed problematic is H0:tau = 0 
 #> 
-#> Observed Estimates of 'directlyharmed': 
+#> Unadjusted Estimates of 'directlyharmed': 
 #>   Coef. estimate: 0.0973 
 #>   Standard Error: 0.0233 
 #>   t-value (H0:tau = 0): 4.1844 
@@ -178,7 +178,7 @@ summary(sensitivity)
 plot(sensitivity)
 ```
 
-<img src="man/figures/figures-basic-usage-1.png" style="display: block; margin: auto;" />
+<img src="man/figures/figures-basic-usage-1.png" alt="" style="display: block; margin: auto;" />
 
 ``` r
 
@@ -186,7 +186,7 @@ plot(sensitivity)
 plot(sensitivity, sensitivity.of = "t-value")
 ```
 
-<img src="man/figures/figures-basic-usage-2.png" style="display: block; margin: auto;" />
+<img src="man/figures/figures-basic-usage-2.png" alt="" style="display: block; margin: auto;" />
 
 ``` r
 
@@ -194,7 +194,7 @@ plot(sensitivity, sensitivity.of = "t-value")
 plot(sensitivity, sensitivity.of = "lwr")
 ```
 
-<img src="man/figures/figures-basic-usage-3.png" style="display: block; margin: auto;" />
+<img src="man/figures/figures-basic-usage-3.png" alt="" style="display: block; margin: auto;" />
 
 ``` r
 
@@ -202,7 +202,7 @@ plot(sensitivity, sensitivity.of = "lwr")
 plot(sensitivity, type = "extreme")
 ```
 
-<img src="man/figures/figures-basic-usage-4.png" style="display: block; margin: auto;" />
+<img src="man/figures/figures-basic-usage-4.png" alt="" style="display: block; margin: auto;" />
 
 ``` r
 
@@ -339,3 +339,9 @@ Note: df = 783; Bound ( 1x female ): R<sup>2</sup><sub>Y~Z\|X,D</sub> =
 </tr>
 
 </table>
+
+# Acknowledgements
+
+This research was supported in part by the Royalty Research Fund at the
+University of Washington, and by the National Science Foundation Grant
+No. MMS-2417955.
