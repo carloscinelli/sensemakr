@@ -347,7 +347,12 @@ ovb_partial_r2_bound.lm <- function(model,
   keep   <- !(colnames(m) %in% treatment)
   d      <- m[,treatment]
   XX     <- m[, keep, drop = FALSE]
-  treatment_model <- lm(d ~ XX + 0)
+  # carry the model's weights into the auxiliary treatment regression (WLS)
+  if (is.null(model$weights)) {
+    treatment_model <- lm(d ~ XX + 0)
+  } else {
+    treatment_model <- lm(d ~ XX + 0, weights = model$weights)
+  }
   treatment_model
 
   # treatment_model <- lm.fit(y = m[,treatment, drop = F], x = m[,keep])
@@ -448,11 +453,22 @@ ovb_partial_r2_bound.fixest <- function(model,
 
   # vcov <- model$call$vcov
 
-  if (!is.null(model$fixef_id)) {
-    fixef_df <- data.frame(model$fixef_id[1:length(model$fixef_id)])
-    treatment_model <- fixest::feols.fit(y = d, X = XX, fixef_df = fixef_df)
+  # carry the model's weights into the auxiliary treatment regression (WLS).
+  # feols.fit() errors on weights = NULL, so branch instead of always passing it.
+  if (is.null(model$weights)) {
+    if (!is.null(model$fixef_id)) {
+      fixef_df <- data.frame(model$fixef_id[1:length(model$fixef_id)])
+      treatment_model <- fixest::feols.fit(y = d, X = XX, fixef_df = fixef_df)
+    } else {
+      treatment_model <- fixest::feols.fit(y = d, X = XX)
+    }
   } else {
-    treatment_model <- fixest::feols.fit(y = d, X = XX)
+    if (!is.null(model$fixef_id)) {
+      fixef_df <- data.frame(model$fixef_id[1:length(model$fixef_id)])
+      treatment_model <- fixest::feols.fit(y = d, X = XX, fixef_df = fixef_df, weights = model$weights)
+    } else {
+      treatment_model <- fixest::feols.fit(y = d, X = XX, weights = model$weights)
+    }
   }
 
   # treatment_model <- lm.fit(y = m[,treatment, drop = F], x = m[,keep])
