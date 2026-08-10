@@ -132,9 +132,7 @@ robustness_value.fixest = function(model,
   check_alpha(alpha)
   check_invert(invert)
   if(message){
-    if(alpha <1){
-      message_vcov.fixest(model)
-    }
+    message_vcov.fixest(model)
   }
   # extract model data
   model_data <- model_helper.fixest(model, covariates = covariates)
@@ -279,9 +277,7 @@ extreme_robustness_value.fixest = function(model,
   check_alpha(alpha)
   check_invert(invert)
   if(message){
-    if(alpha < 1){
-      message_vcov.fixest(model)
-    }
+    message_vcov.fixest(model)
   }
   # extract model data
   model_data <- model_helper.fixest(model, covariates = covariates)
