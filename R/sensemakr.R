@@ -256,6 +256,9 @@ sensemakr.lm <- function(model,
                                   h0 = h0,
                                   reduce = reduce)
     out$bounds <- rbind(out$bounds, bench_bounds)
+    # rbind takes its class from the first argument, and a manual bound is a
+    # plain data.frame, so the ovb_bounds class has to be restored here
+    class(out$bounds) <- c("ovb_bounds", "data.frame")
   }
 
   class(out) <- "sensemakr"
@@ -362,6 +365,9 @@ sensemakr.fixest <- function(model,
                                   reduce = reduce,
                                   message = F)
     out$bounds <- rbind(out$bounds, bench_bounds)
+    # rbind takes its class from the first argument, and a manual bound is a
+    # plain data.frame, so the ovb_bounds class has to be restored here
+    class(out$bounds) <- c("ovb_bounds", "data.frame")
   }
 
   class(out) <- "sensemakr"
@@ -404,7 +410,7 @@ sensemakr.formula <- function(formula,
     reg.call <- call(type, formula = substitute(formula), data = substitute(data))
     outcome_model <- eval(reg.call)
   } else if(type == "feols") {
-    if (!requireNamespace("fixest")) {
+    if (!requireNamespace("fixest", quietly = TRUE)) {
       stop("Please install the fixest package.")
     }
     outcome_model <- fixest::feols(fml = formula, data = data, vcov = vcov)
@@ -535,6 +541,9 @@ sensemakr.numeric <- function(estimate,
     bench_bounds$adjusted_upper_CI <- bench_bounds$adjusted_estimate + se_multiple*bench_bounds$adjusted_se
 
     out$bounds <- rbind(out$bounds, bench_bounds)
+    # rbind takes its class from the first argument, and a manual bound is a
+    # plain data.frame, so the ovb_bounds class has to be restored here
+    class(out$bounds) <- c("ovb_bounds", "data.frame")
   }
 
   class(out) <- "sensemakr"

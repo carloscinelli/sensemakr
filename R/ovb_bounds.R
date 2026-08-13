@@ -113,15 +113,19 @@ ovb_bounds.lm <- function(model,
 #' @param alpha significance level for computing the adjusted confidence intervals. Default is 0.05.
 #' @examples
 #'
-#'# run regression model
-#'model <- fixest::feols(peacefactor ~ directlyharmed + age + farmer_dar + herder_dar +
-#'              pastvoted + hhsize_darfur + female + village, data = darfur)
+#'# fixest is a suggested package, so the example is conditional on it
+#'if (requireNamespace("fixest", quietly = TRUE)) {
 #'
-#'# bounds on the strength of confounders 1, 2, or 3 times as strong as female
-#'# and 1,2, or 3 times as strong as pastvoted
-#'ovb_bounds(model, treatment = "directlyharmed",
-#'           benchmark_covariates = c("female", "pastvoted"),
-#'           kd = 1:3)
+#'  # run regression model
+#'  model <- fixest::feols(peacefactor ~ directlyharmed + age + farmer_dar + herder_dar +
+#'                pastvoted + hhsize_darfur + female + village, data = darfur)
+#'
+#'  # bounds on the strength of confounders 1, 2, or 3 times as strong as female
+#'  # and 1,2, or 3 times as strong as pastvoted
+#'  ovb_bounds(model, treatment = "directlyharmed",
+#'             benchmark_covariates = c("female", "pastvoted"),
+#'             kd = 1:3)
+#'}
 #'
 #' @references Cinelli, C. and Hazlett, C. (2020), "Making Sense of Sensitivity: Extending Omitted Variable Bias." Journal of the Royal Statistical Society, Series B (Statistical Methodology).
 #' @rdname ovb_bounds

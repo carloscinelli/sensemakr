@@ -4,6 +4,10 @@ context("Edge case tests: cross-method consistency, negative coefficients, non-d
 # Setup: shared data and models
 # =========================================================================
 
+# fixest is Suggests-only: R CMD check runs the test suite with a library
+# containing only the test framework, so this file must not error there.
+if (requireNamespace("fixest", quietly = TRUE)) {
+
 data("darfur")
 
 lm.out <- lm(peacefactor ~ directlyharmed + age + farmer_dar +
@@ -628,3 +632,5 @@ test_that("combined: positive coef + q = 2 + alpha = 0.01: lm vs fixest vs numer
   expect_equal(s_lm$sensitivity_stats$rv_qa, s_fe$sensitivity_stats$rv_qa, tolerance = 1e-4)
   expect_equal(s_lm$sensitivity_stats$rv_qa, s_num$sensitivity_stats$rv_qa, tolerance = 1e-5)
 })
+
+}

@@ -1,5 +1,9 @@
 context("Negative values and reduce = FALSE")
 
+# fixest is Suggests-only: R CMD check runs the test suite with a library
+# containing only the test framework, so this file must not error there.
+if (requireNamespace("fixest", quietly = TRUE)) {
+
 test_that("Symmetry", {
   data("darfur")
   library(sensemakr)
@@ -46,3 +50,5 @@ test_that("reduce = FALSE", {
   ts <- with(sens1$bounds, (adjusted_estimate-h01)/adjusted_se)
   expect_equivalent(ts, sens1$bounds$adjusted_t)
 })
+
+}

@@ -1,5 +1,9 @@
 context("Non-iid vcov note for fixest models")
 
+# fixest is Suggests-only: R CMD check runs the test suite with a library
+# containing only the test framework, so this file must not error there.
+if (requireNamespace("fixest", quietly = TRUE)) {
+
 data("darfur")
 
 fml <- peacefactor ~ directlyharmed + age + farmer_dar + herder_dar +
@@ -90,3 +94,5 @@ test_that("the note is emitted once per call, not once per statistic", {
                            benchmark_covariates = "female", kd = 1,
                            message = FALSE))
 })
+
+}

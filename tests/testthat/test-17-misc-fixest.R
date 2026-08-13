@@ -1,6 +1,10 @@
 context("test-misc fixest")
 
 
+# fixest is Suggests-only: R CMD check runs the test suite with a library
+# containing only the test framework, so this file must not error there.
+if (requireNamespace("fixest", quietly = TRUE)) {
+
 test_that("weird regression model with r^2",
           {
   mean = rnorm(10)
@@ -19,3 +23,5 @@ test_that("weird regression model with r^2",
   saturated_model = fixest::feols(fml = fml, data = data)
   expect_equal(TRUE, all(is.nan(partial_r2(saturated_model))))
 })
+
+}

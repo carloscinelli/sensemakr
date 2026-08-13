@@ -1,5 +1,9 @@
 context("Testing plots")
 
+# fixest is Suggests-only: R CMD check runs the test suite with a library
+# containing only the test framework, so this file must not error there.
+if (requireNamespace("fixest", quietly = TRUE)) {
+
 test_that("Plot warnings and errors",
           {
             data("darfur")
@@ -44,3 +48,5 @@ test_that("Plot warnings and errors",
             expect_warning(ovb_contour_plot(model, treatment = "directlyharmed", lim = -1))
 
           })
+
+}

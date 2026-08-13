@@ -1,5 +1,9 @@
 context("Print")
 
+# fixest is Suggests-only: R CMD check runs the test suite with a library
+# containing only the test framework, so this file must not error there.
+if (requireNamespace("fixest", quietly = TRUE)) {
+
 test_that("HTML tables", {
   data("darfur")
   # runs regression model
@@ -19,3 +23,5 @@ test_that("HTML tables", {
 
 }
 )
+
+}

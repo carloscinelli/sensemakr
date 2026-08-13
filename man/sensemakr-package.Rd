@@ -116,6 +116,7 @@ Useful links:
 
 Authors:
 \itemize{
+  \item Carlos Cinelli \email{carloscinelli@hotmail.com}
   \item Jeremy Ferwerda
   \item Chad Hazlett
 }

@@ -39,8 +39,18 @@ adjusted_critical_value <- function(r2dz.x, r2yz.dx, dof, alpha = 0.05, max = T)
 
   # traditional critical value
   t.crit <- sqrt(qf(p = log(alpha), df1 = 1, df2 = dof-1, lower.tail = F, log.p = T))
-  t.crit <- t.crit/rep(1, length(r2yz.dx))
-  f.crit <- t.crit/sqrt(dof)
+
+  # recycle both sensitivity parameters to a common length, so that either one
+  # may be the longer argument
+  n_out   <- max(length(r2dz.x), length(r2yz.dx))
+  r2dz.x  <- rep_len(r2dz.x,  n_out)
+  r2yz.dx <- rep_len(r2yz.dx, n_out)
+  t.crit  <- rep_len(t.crit,  n_out)
+
+  # Theorem 3 of Cinelli and Hazlett defines f* as t*/sqrt(df - 1). The df - 1
+  # comes from the sqrt(df/(df-1)) factor of the adjusted standard error, which
+  # survives the maximisation.
+  f.crit <- t.crit/sqrt(dof - 1)
   if (max == T) {
     cond <- r2dz.x  < f.crit^2 * (r2yz.dx/(1-r2yz.dx))
     r2ys <- rep(NA, length(cond))
@@ -165,11 +175,12 @@ adjusted_estimate.numeric <- function(estimate,
   }
 
   if (reduce) {
-    new_estimate <- sign(estimate)*(abs(estimate) - bias(r2yz.dx = r2yz.dx, r2dz.x = r2dz.x, se = se, dof = dof))
+    # ifelse rather than sign(): sign(0) is 0, which would zero out the bias
+    new_estimate <- ifelse(estimate < 0, -1, 1)*(abs(estimate) - bias(r2yz.dx = r2yz.dx, r2dz.x = r2dz.x, se = se, dof = dof))
   }
 
   if (!reduce) {
-    new_estimate <- sign(estimate)*(abs(estimate) + bias(r2yz.dx = r2yz.dx, r2dz.x = r2dz.x, se = se, dof = dof))
+    new_estimate <- ifelse(estimate < 0, -1, 1)*(abs(estimate) + bias(r2yz.dx = r2yz.dx, r2dz.x = r2dz.x, se = se, dof = dof))
   }
   new_estimate <- unname(new_estimate)
   return(new_estimate)
@@ -389,6 +400,8 @@ adjusted_partial_r2.numeric <- function(estimate, se, dof, r2dz.x, r2yz.dx, redu
   check_dof(dof = dof)
   check_r2(r2yz.dx = r2yz.dx, r2dz.x =  r2dz.x)
   new_t <- adjusted_t.numeric(estimate = estimate, r2yz.dx = r2yz.dx, r2dz.x = r2dz.x, se = se, dof = dof, reduce =  reduce, h0 = h0)
+  # strip the t_stats class, otherwise a partial R2 prints as a t-statistic
+  new_t <- as.numeric(new_t)
   partial_r2(t_statistic = new_t, dof = dof - 1)
 }
 

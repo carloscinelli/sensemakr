@@ -49,9 +49,11 @@ S3method(ovb_extreme_plot,sensemakr)
 S3method(ovb_partial_r2_bound,fixest)
 S3method(ovb_partial_r2_bound,lm)
 S3method(ovb_partial_r2_bound,numeric)
+S3method(partial_f,default)
 S3method(partial_f,fixest)
 S3method(partial_f,lm)
 S3method(partial_f,numeric)
+S3method(partial_f2,default)
 S3method(partial_f2,fixest)
 S3method(partial_f2,lm)
 S3method(partial_f2,numeric)
@@ -106,21 +108,25 @@ export(sensemakr)
 export(sensitivity_stats)
 export(xrv)
 import(stats)
-importFrom(graphics,abline)
-importFrom(graphics,contour)
-importFrom(graphics,legend)
-importFrom(graphics,lines)
-importFrom(graphics,par)
-importFrom(graphics,plot)
-importFrom(graphics,points)
-importFrom(graphics,rug)
-importFrom(graphics,text)
-importFrom(stats,coef)
-importFrom(stats,df.residual)
-importFrom(stats,formula)
-importFrom(stats,lm)
-importFrom(stats,qt)
-importFrom(stats,resid)
-importFrom(stats,setNames)
-importFrom(stats,update)
-importFrom(stats,vcov)
+importFrom(graphics,
+  abline,
+  contour,
+  legend,
+  lines,
+  par,
+  plot,
+  points,
+  rug,
+  text
+)
+importFrom(stats,
+  coef,
+  df.residual,
+  formula,
+  lm,
+  qt,
+  resid,
+  setNames,
+  update,
+  vcov
+)

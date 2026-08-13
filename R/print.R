@@ -52,7 +52,7 @@ print.sensemakr = function(x,
 
   cat("Null hypothesis:", "q =", q, "and", "reduce =", reduce,"\n\n")
 
-  cat("Observed Estimates of '", treatment <- x$sensitivity_stats$treatment, "':\n ")
+  cat(paste0("Observed Estimates of '", treatment <- x$sensitivity_stats$treatment, "':\n "))
   cat(" Coef. estimate:", estimate <- round(x$sensitivity_stats$estimate, digits), "\n ")
   cat(" Standard Error:", se <- round(x$sensitivity_stats$se, digits), "\n ")
   cat(" t-value:", t_statistic <- round(x$sensitivity_stats$t_statistic, digits), "\n")

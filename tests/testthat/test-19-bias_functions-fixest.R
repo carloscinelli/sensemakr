@@ -1,5 +1,9 @@
 context("Bias functions")
 
+# fixest is Suggests-only: R CMD check runs the test suite with a library
+# containing only the test framework, so this file must not error there.
+if (requireNamespace("fixest", quietly = TRUE)) {
+
 test_that("Adjusted Partial R2",{
 
   resid_maker <- function(var) c(resid(lm(rnorm(n)~ var)))
@@ -33,3 +37,5 @@ test_that("Adjusted Partial R2",{
   adj.r2 <- adjusted_partial_r2(model.r, treatment = "d", r2dz.x = r2d.z, r2yz.dx = r2yz.d, reduce = reduce)
   expect_equivalent(adj.r2, unname(r2yd.z))
 })
+
+}
