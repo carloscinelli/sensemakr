@@ -414,8 +414,7 @@ ovb_contour_plot.formula = function(formula,
   type <- match.arg(method, method)
 
   if(type == "lm") {
-    reg.call <- call(type, formula = substitute(formula), data = substitute(data))
-    outcome_model = eval(reg.call)
+    outcome_model <- lm(formula, data)
   } else if(type == "feols") {
     if (!requireNamespace("fixest", quietly = TRUE)) {
       stop("Please install the fixest package.")
@@ -1232,8 +1231,7 @@ ovb_extreme_plot.formula = function(formula,
   type <- match.arg(method, method)
 
   if(type == "lm") {
-    reg.call <- call(type, formula = substitute(formula), data = substitute(data))
-    outcome_model = eval(reg.call)
+    outcome_model <- lm(formula, data)
   } else if(type == "feols") {
     if (!requireNamespace("fixest", quietly = TRUE)) {
       stop("Please install the fixest package.")
