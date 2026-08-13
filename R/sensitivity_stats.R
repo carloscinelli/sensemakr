@@ -132,7 +132,11 @@ robustness_value.fixest = function(model,
   check_alpha(alpha)
   check_invert(invert)
   if(message){
-    message_vcov.fixest(model)
+    # at alpha = 1 the critical value drops out and the result depends only on
+    # the partial R2, which is the same under any vcov estimator.
+    if(alpha < 1){
+      message_vcov.fixest(model)
+    }
   }
   # extract model data
   model_data <- model_helper.fixest(model, covariates = covariates)
@@ -277,7 +281,11 @@ extreme_robustness_value.fixest = function(model,
   check_alpha(alpha)
   check_invert(invert)
   if(message){
-    message_vcov.fixest(model)
+    # at alpha = 1 the critical value drops out and the result depends only on
+    # the partial R2, which is the same under any vcov estimator.
+    if(alpha < 1){
+      message_vcov.fixest(model)
+    }
   }
   # extract model data
   model_data <- model_helper.fixest(model, covariates = covariates)
@@ -945,7 +953,10 @@ error_if_no_dof.fixest = function(model, ...) {
 
 
 message_vcov.fixest <- function(model){
-  vcov_type <- attr(summary(model)$coeftable, which = "type")
+  coeftable <- summary(model)$coeftable
+  # fixest renamed this attribute from "type" to "vcov_type" in 0.14.0
+  vcov_type <- attr(coeftable, which = "vcov_type")
+  if(is.null(vcov_type)) vcov_type <- attr(coeftable, which = "type")
   if(!is.null(vcov_type)){
     if(vcov_type != "IID"){
       message("Note for fixest: using 'iid' standard errors. Support for robust standard errors coming soon.")
