@@ -211,7 +211,7 @@ absolute value of the estimated coefficient? Default is \code{TRUE}.}
 \item{list.par}{arguments to be passed to \code{\link{par}}. It needs to be a named list.}
 }
 \value{
-The function returns invisibly the data used for the contour plot (contour grid and bounds).
+The function returns invisibly the data used for the contour plot (contour grid, bounds and the critical threshold).
 }
 \description{
 Contour plots of omitted variable bias for sensitivity analysis. The main inputs are an \code{\link{lm}} model, the treatment variable

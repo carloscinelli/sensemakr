@@ -79,6 +79,7 @@ ovb_contour_plot.sensemakr <- function(x,
                         bound_label = bound_label,
                         sensitivity.of = sensitivity.of,
                         reduce = reduce,
+                        alpha = alpha,
                         estimate.threshold = thr,
                         t.threshold = t.thr,
                         ...)
@@ -142,7 +143,7 @@ ovb_extreme_plot.sensemakr <- function(x, r2yz.dx = c(1, 0.75, 0.5), ...){
 #' @references Cinelli, C. and Hazlett, C. (2020), "Making Sense of Sensitivity: Extending Omitted Variable Bias." Journal of the Royal Statistical Society, Series B (Statistical Methodology).
 #'
 #' @return
-#' The function returns invisibly the data used for the contour plot (contour grid and bounds).
+#' The function returns invisibly the data used for the contour plot (contour grid, bounds and the critical threshold).
 #'
 #' @examples
 #'
@@ -222,6 +223,8 @@ ovb_contour_plot.lm = function(model,
 
   if (!is.null(r2dz.x)) {
     check_r2(r2dz.x = r2dz.x, r2yz.dx = r2yz.dx)
+    # the formula method defaults this to NULL, and data.frame() does not drop NULL
+    if (is.null(bound_label)) bound_label <- rep("manual", length(r2dz.x))
     bounds <-  data.frame(r2dz.x = r2dz.x,
                           r2yz.dx = r2yz.dx,
                           bound_label = bound_label,
@@ -323,6 +326,8 @@ ovb_contour_plot.fixest = function(model,
 
   if (!is.null(r2dz.x)) {
     check_r2(r2dz.x = r2dz.x, r2yz.dx = r2yz.dx)
+    # the formula method defaults this to NULL, and data.frame() does not drop NULL
+    if (is.null(bound_label)) bound_label <- rep("manual", length(r2dz.x))
     bounds <-  data.frame(r2dz.x = r2dz.x,
                           r2yz.dx = r2yz.dx,
                           bound_label = bound_label,
@@ -412,7 +417,7 @@ ovb_contour_plot.formula = function(formula,
     reg.call <- call(type, formula = substitute(formula), data = substitute(data))
     outcome_model = eval(reg.call)
   } else if(type == "feols") {
-    if (!requireNamespace("fixest")) {
+    if (!requireNamespace("fixest", quietly = TRUE)) {
       stop("Please install the fixest package.")
     }
     vcov <- vcov
@@ -493,7 +498,7 @@ ovb_contour_plot.numeric = function(estimate,
   check_estimate(estimate)
   check_r2(r2dz.x = r2dz.x, r2yz.dx = r2yz.dx)
   if (is.null( t.threshold)) {
-    t.threshold <- qt(1 - alpha/2, df = dof)
+    t.threshold <- qt(1 - alpha/2, df = dof)*sign(estimate)
   }
 
   if (length(r2dz.x) != length(r2yz.dx)) {
@@ -612,7 +617,11 @@ ovb_contour_plot.numeric = function(estimate,
 
   out = list(r2dz.x = grid_values.x,
              r2yz.dx = grid_values.y,
-             value = z_axis)
+             value = z_axis,
+             threshold = switch(sensitivity.of,
+                                "estimate" = estimate.threshold,
+                                "t-value"  = t.threshold,
+                                t.threshold))
 
   # Aesthetic: Override the 0 line; basically, check which contour curve is
   # the zero curve, and override that contour curve with alternate aesthetic
@@ -784,11 +793,11 @@ add_bound_to_contour.ovb_bounds <- function(bounds,
 }
 
   if (is.null(bound_value) & !is.null(plot.env$sensitivity.of)) {
-    if (plot.env$sensitivity.of == "estimate") {
-      bound_value <- bounds$adjusted_estimate
-    } else {
-      bound_value <- bounds$adjusted_t
-    }
+    bound_value <- switch(plot.env$sensitivity.of,
+                          "estimate" = bounds$adjusted_estimate,
+                          "t-value"  = bounds$adjusted_t,
+                          "lwr"      = bounds$adjusted_lower_CI,
+                          "upr"      = bounds$adjusted_upper_CI)
   }
   add_bound_to_contour(r2dz.x = bounds$r2dz.x,
                        r2yz.dx = bounds$r2yz.dx,
@@ -846,11 +855,12 @@ add_bound_to_contour.lm <- function(model,
                                     round = 2,
                                     ...)
 {
-  sensitivity.of <- match.arg(sensitivity.of)
-
   if (is.null(plot.env$treatment)) {
     stop("No treatment found. Please draw a contour plot first, or provide the treatment variable name manually.")
   }
+
+  sensitivity.of <- match.arg(sensitivity.of,
+                              c("estimate", "t-value", "lwr", "upr"))
 
   if (treatment != plot.env$treatment) {
     warning("Treament variable provided (",  treatment, ") ",
@@ -867,13 +877,11 @@ add_bound_to_contour.lm <- function(model,
                        adjusted_estimates = TRUE,
                        reduce = reduce)
 
-  if (sensitivity.of == "estimate") {
-    bound_value <- bounds$adjusted_estimate
-  }
-
-  if (sensitivity.of == "t-value") {
-    bound_value <- bounds$adjusted_t
-  }
+  bound_value <- switch(sensitivity.of,
+                        "estimate" = bounds$adjusted_estimate,
+                        "t-value"  = bounds$adjusted_t,
+                        "lwr"      = bounds$adjusted_lower_CI,
+                        "upr"      = bounds$adjusted_upper_CI)
 
   if (is.null(bound_label)) {
    bound_label <-  bounds$bound_label
@@ -909,11 +917,12 @@ add_bound_to_contour.fixest <- function(model,
                                     round = 2,
                                     ...)
 {
-  sensitivity.of <- match.arg(sensitivity.of)
-
   if (is.null(plot.env$treatment)) {
     stop("No treatment found. Please draw a contour plot first, or provide the treatment variable name manually.")
   }
+
+  sensitivity.of <- match.arg(sensitivity.of,
+                              c("estimate", "t-value", "lwr", "upr"))
 
   if (treatment != plot.env$treatment) {
     warning("Treament variable provided (",  treatment, ") ",
@@ -930,13 +939,11 @@ add_bound_to_contour.fixest <- function(model,
                           adjusted_estimates = TRUE,
                           reduce = reduce)
 
-  if (sensitivity.of == "estimate") {
-    bound_value <- bounds$adjusted_estimate
-  }
-
-  if (sensitivity.of == "t-value") {
-    bound_value <- bounds$adjusted_t
-  }
+  bound_value <- switch(sensitivity.of,
+                        "estimate" = bounds$adjusted_estimate,
+                        "t-value"  = bounds$adjusted_t,
+                        "lwr"      = bounds$adjusted_lower_CI,
+                        "upr"      = bounds$adjusted_upper_CI)
 
   if (is.null(bound_label)) {
     bound_label <-  bounds$bound_label
@@ -1067,7 +1074,7 @@ ovb_extreme_plot.lm <- function(model,
                                 r2dz.x = NULL,
                                 reduce = TRUE,
                                 threshold = 0,
-                                lim = min(c(r2dz.x + 0.1, 0.5)),
+                                lim = min(max(c(r2dz.x, 0.4), na.rm = TRUE) + 0.1, 0.5),
                                 legend = TRUE,
                                 cex.legend = 0.65,
                                 legend.bty = "n",
@@ -1077,14 +1084,6 @@ ovb_extreme_plot.lm <- function(model,
   if (!is.character(treatment)) stop("Argument treatment must be a string.")
   if (length(treatment) > 1) stop("You must pass only one treatment")
 
-  if (lim > 1) {
-    lim <- 1
-    warning("Plot limit larger than 1 was set to 1.")
-  }
-  if (lim < 0) {
-    lim <- 0.4
-    warning("Plot limit less than 0 was set to 0.4.")
-  }
 
 
   model_data <- model_helper.lm(model, covariates = treatment)
@@ -1103,6 +1102,18 @@ ovb_extreme_plot.lm <- function(model,
       r2dz.x <- c(r2dz.x, bounds$r2dz.x)
 
   }
+
+  # validated here rather than above: `lim` defaults to an expression in r2dz.x,
+  # so it must not be forced until the benchmark bounds have been appended.
+  if (lim > 1) {
+    lim <- 1
+    warning("Plot limit larger than 1 was set to 1.")
+  }
+  if (lim < 0) {
+    lim <- 0.4
+    warning("Plot limit less than 0 was set to 0.4.")
+  }
+
 
 
   ovb_extreme_plot(estimate = estimate,
@@ -1136,7 +1147,7 @@ ovb_extreme_plot.fixest <- function(model,
                                 r2dz.x = NULL,
                                 reduce = TRUE,
                                 threshold = 0,
-                                lim = min(c(r2dz.x + 0.1, 0.5)),
+                                lim = min(max(c(r2dz.x, 0.4), na.rm = TRUE) + 0.1, 0.5),
                                 legend = TRUE,
                                 cex.legend = 0.65,
                                 legend.bty = "n",
@@ -1146,14 +1157,6 @@ ovb_extreme_plot.fixest <- function(model,
   if (!is.character(treatment)) stop("Argument treatment must be a string.")
   if (length(treatment) > 1) stop("You must pass only one treatment")
 
-  if (lim > 1) {
-    lim <- 1
-    warning("Plot limit larger than 1 was set to 1.")
-  }
-  if (lim < 0) {
-    lim <- 0.4
-    warning("Plot limit less than 0 was set to 0.4.")
-  }
 
 
   model_data <- model_helper.fixest(model, covariates = treatment)
@@ -1171,6 +1174,17 @@ ovb_extreme_plot.fixest <- function(model,
 
     r2dz.x <- c(r2dz.x, bounds$r2dz.x)
 
+  }
+
+  # validated here rather than above: `lim` defaults to an expression in r2dz.x,
+  # so it must not be forced until the benchmark bounds have been appended.
+  if (lim > 1) {
+    lim <- 1
+    warning("Plot limit larger than 1 was set to 1.")
+  }
+  if (lim < 0) {
+    lim <- 0.4
+    warning("Plot limit less than 0 was set to 0.4.")
   }
 
 
@@ -1206,7 +1220,7 @@ ovb_extreme_plot.formula = function(formula,
                                     r2dz.x = NULL,
                                     reduce = TRUE,
                                     threshold = 0,
-                                    lim = min(c(r2dz.x + 0.1, 0.5)),
+                                    lim = min(max(c(r2dz.x, 0.4), na.rm = TRUE) + 0.1, 0.5),
                                     legend = TRUE,
                                     cex.legend = 0.65,
                                     legend.bty = "n",
@@ -1221,7 +1235,7 @@ ovb_extreme_plot.formula = function(formula,
     reg.call <- call(type, formula = substitute(formula), data = substitute(data))
     outcome_model = eval(reg.call)
   } else if(type == "feols") {
-    if (!requireNamespace("fixest")) {
+    if (!requireNamespace("fixest", quietly = TRUE)) {
       stop("Please install the fixest package.")
     }
     vcov <- vcov
@@ -1260,7 +1274,7 @@ ovb_extreme_plot.numeric = function(estimate,
                                     r2yz.dx = c(1, 0.75, 0.5),
                                     reduce = TRUE,
                                     threshold = 0,
-                                    lim = min(c(r2dz.x + 0.1, 0.5)),
+                                    lim = min(max(c(r2dz.x, 0.4), na.rm = TRUE) + 0.1, 0.5),
                                     legend = TRUE,
                                     legend.title  = NULL,
                                     cex.legend = 0.65,

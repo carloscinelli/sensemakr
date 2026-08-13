@@ -461,6 +461,8 @@ partial_r2.numeric <- function(t_statistic, dof, ...){
   t_statistic^2 / (t_statistic^2 + dof)
 }
 
+#' @rdname partial_r2
+#' @export
 partial_r2.default = function(model, ...) {
   stop("The `partial_r2` function must be passed either an `lm`/`fixest` model object, ",
        "or the t-statistics and degrees of freedom directly. ",
@@ -507,6 +509,8 @@ partial_f2.fixest = function(model, covariates = NULL, ...) {
   # coeff of interest later.
   partial_f2(t_statistic = t_statistic, dof = dof)
 }
+#' @rdname partial_r2
+#' @export
 partial_f2.default = function(model, ...) {
   stop("The `partial_f2` function must be passed either an `lm`/`fixest` model object, ",
        "or the t-statistics and degrees of freedom directly. ",
@@ -590,6 +594,9 @@ group_partial_r2 <- function(...){
 #' @rdname group_partial_r2
 #' @export
 group_partial_r2.lm <- function(model, covariates, ...){
+
+  # this method bypasses model_helper.lm, so it needs its own guard
+  check_ols_model(model)
 
   if (missing(covariates)) stop("Argument covariates missing.")
 
@@ -816,8 +823,10 @@ check_se <- function(se){
 }
 
 check_dof <- function(dof){
-    if (any(!is.numeric(dof) | dof < 0)) {
-      stop("Degrees of freedom provided must be a non-negative number.")
+    if (any(!is.numeric(dof) | dof < 2)) {
+      # below 2 the critical value is taken at df = dof - 1 < 1 and the
+      # robustness value comes back as NaN with only a warning from qt()
+      stop("Degrees of freedom provided must be a number greater than or equal to 2.")
     }
 }
 
@@ -860,6 +869,8 @@ model_helper = function(model, covariates = NULL, ...) {
 #' @export
 model_helper.lm = function(model, covariates = NULL, ...) {
   # Quickly extract things from an lm object
+
+  check_ols_model(model)
 
   # If we have a dropped coefficient (multicolinearity), we're not going to
   # get an R^2 for this coefficient.
@@ -961,6 +972,17 @@ message_vcov.fixest <- function(model){
     if(vcov_type != "IID"){
       message("Note for fixest: using 'iid' standard errors. Support for robust standard errors coming soon.")
     }
+  }
+}
+
+check_ols_model <- function(model) {
+  # glm, aov and mlm all inherit from "lm", so S3 dispatch sends them here and
+  # the informative .default messages are never reached.
+  if (!identical(class(model), "lm")) {
+    stop("Sensitivity analysis in this framework is defined for OLS regression. ",
+         "The object passed inherits from `lm` but is of class ",
+         paste(class(model), collapse = "/"), ". ",
+         "Models such as `glm`, `aov` and `mlm` are not supported.")
   }
 }
 

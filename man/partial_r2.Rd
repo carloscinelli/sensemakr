@@ -5,15 +5,17 @@
 \alias{partial_r2.lm}
 \alias{partial_r2.fixest}
 \alias{partial_r2.numeric}
+\alias{partial_r2.default}
 \alias{partial_f2}
 \alias{partial_f2.numeric}
 \alias{partial_f2.lm}
 \alias{partial_f2.fixest}
+\alias{partial_f2.default}
 \alias{partial_f}
 \alias{partial_f.fixest}
 \alias{partial_f.lm}
 \alias{partial_f.numeric}
-\alias{partial_r2.default}
+\alias{partial_f.default}
 \title{Computes the partial R2 and partial (Cohen's) f2}
 \usage{
 partial_r2(...)
@@ -24,6 +26,8 @@ partial_r2(...)
 
 \method{partial_r2}{numeric}(t_statistic, dof, ...)
 
+\method{partial_r2}{default}(model, ...)
+
 partial_f2(...)
 
 \method{partial_f2}{numeric}(t_statistic, dof, ...)
@@ -31,6 +35,8 @@ partial_f2(...)
 \method{partial_f2}{lm}(model, covariates = NULL, ...)
 
 \method{partial_f2}{fixest}(model, covariates = NULL, ...)
+
+\method{partial_f2}{default}(model, ...)
 
 partial_f(...)
 
@@ -40,9 +46,7 @@ partial_f(...)
 
 \method{partial_f}{numeric}(t_statistic, dof, ...)
 
-\method{partial_f}{numeric}(t_statistic, dof, ...)
-
-\method{partial_r2}{default}(model, ...)
+\method{partial_f}{default}(model, ...)
 }
 \arguments{
 \item{...}{arguments passed to other methods. First argument should either be an \code{lm} model or a \code{fixest} model with the
