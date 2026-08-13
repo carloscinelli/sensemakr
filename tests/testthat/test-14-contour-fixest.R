@@ -1,10 +1,6 @@
 context("Tests for Contour Plots fixest")
 
 
-# fixest is Suggests-only: R CMD check runs the test suite with a library
-# containing only the test framework, so this file must not error there.
-if (requireNamespace("fixest", quietly = TRUE)) {
-
 test_that("contour plot tests", {
 
   feols.out  <- fixest::feols(peacefactor ~ directlyharmed + age + farmer_dar +
@@ -174,5 +170,3 @@ test_that("contour plot alpha parameter is respected for fixest", {
                              sensitivity.of = "lwr", alpha = 0.05)
   expect_false(isTRUE(all.equal(fe_01$value, fe_05$value, tolerance = 1e-4)))
 })
-
-}

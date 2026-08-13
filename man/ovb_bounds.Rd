@@ -137,19 +137,15 @@ ovb_bounds(model, treatment = "directlyharmed",
           kd = 1:3)
 
 
-# fixest is a suggested package, so the example is conditional on it
-if (requireNamespace("fixest", quietly = TRUE)) {
+# run regression model
+model <- fixest::feols(peacefactor ~ directlyharmed + age + farmer_dar + herder_dar +
+             pastvoted + hhsize_darfur + female + village, data = darfur)
 
- # run regression model
- model <- fixest::feols(peacefactor ~ directlyharmed + age + farmer_dar + herder_dar +
-               pastvoted + hhsize_darfur + female + village, data = darfur)
-
- # bounds on the strength of confounders 1, 2, or 3 times as strong as female
- # and 1,2, or 3 times as strong as pastvoted
- ovb_bounds(model, treatment = "directlyharmed",
-            benchmark_covariates = c("female", "pastvoted"),
-            kd = 1:3)
-}
+# bounds on the strength of confounders 1, 2, or 3 times as strong as female
+# and 1,2, or 3 times as strong as pastvoted
+ovb_bounds(model, treatment = "directlyharmed",
+          benchmark_covariates = c("female", "pastvoted"),
+          kd = 1:3)
 
 
 #########################################################

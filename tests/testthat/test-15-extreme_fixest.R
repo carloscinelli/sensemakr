@@ -2,10 +2,6 @@ context("Tests for Extreme Plot")
 
 
 
-# fixest is Suggests-only: R CMD check runs the test suite with a library
-# containing only the test framework, so this file must not error there.
-if (requireNamespace("fixest", quietly = TRUE)) {
-
 test_that("extreme plot", {
 
   feols.out  <- fixest::feols(peacefactor ~ directlyharmed + age + farmer_dar +
@@ -32,5 +28,3 @@ test_that("extreme plot", {
                                     kd = 1:3))
 
 })
-
-}

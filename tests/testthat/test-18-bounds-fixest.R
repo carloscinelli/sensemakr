@@ -1,9 +1,5 @@
 context("Testing Bounds fixest")
 
-# fixest is Suggests-only: R CMD check runs the test suite with a library
-# containing only the test framework, so this file must not error there.
-if (requireNamespace("fixest", quietly = TRUE)) {
-
 test_that("Significance level of bounds",
           {
             data("darfur")
@@ -205,4 +201,8 @@ test_that("Factor treatment and factor benchmarks",{
 
 })
 
-}
+
+
+
+
+

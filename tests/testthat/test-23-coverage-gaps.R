@@ -4,10 +4,6 @@ context("Coverage gap tests")
 # Setup: shared data and models used across tests
 # =========================================================================
 
-# fixest is Suggests-only: R CMD check runs the test suite with a library
-# containing only the test framework, so this file must not error there.
-if (requireNamespace("fixest", quietly = TRUE)) {
-
 data("darfur")
 
 lm.out <- lm(peacefactor ~ directlyharmed + age + farmer_dar +
@@ -417,5 +413,3 @@ test_that("ovb_bounds errors on impossible kd value (r2dz.x >= 1)", {
 # Note: line 306 (r2zxj.xd >= 1 check) is mathematically unreachable:
 # If r2dz.x < 1 (line 298 passes), then r2zxj.xd = r2dxj.x * r2dz.x / (1 - kd*r2dxj.x)
 # is necessarily < 1. This is defensive dead code.
-
-}

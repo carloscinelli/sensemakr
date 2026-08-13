@@ -1,10 +1,6 @@
 context("test-robustness_value.R")
 
 
-# fixest is Suggests-only: R CMD check runs the test suite with a library
-# containing only the test framework, so this file must not error there.
-if (requireNamespace("fixest", quietly = TRUE)) {
-
 test_that("robustness value", {
   # Empty call
   expect_error(robustness_value())
@@ -56,5 +52,3 @@ test_that("robustness value", {
   expect_error(robustness_value(model = "hello world",
                                 covariate = "test"))
 })
-
-}

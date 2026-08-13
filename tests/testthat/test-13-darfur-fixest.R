@@ -1,10 +1,6 @@
 context("Testing Darfur Example with fixest model")
 # runs regression model
 
-# fixest is Suggests-only: R CMD check runs the test suite with a library
-# containing only the test framework, so this file must not error there.
-if (requireNamespace("fixest", quietly = TRUE)) {
-
 data("darfur")
 
 # fixest using village as fixed effects
@@ -413,5 +409,3 @@ test_that("Darfur group benchmarks",
             expect_equal(bounds$r2yz.dx, bounds.check$r2yz.dx)
 
           })
-
-}
