@@ -400,7 +400,7 @@ test_that("testing darfur print",
 
 
 
-            print.sense <- "Sensitivity Analysis to Unobserved Confounding\n\nModel Formula: peacefactor ~ directlyharmed + age + farmer_dar + herder_dar + \n    pastvoted + hhsize_darfur + female + village\n\nNull hypothesis: q = 1 and reduce = TRUE \n\nObserved Estimates of ' directlyharmed ':\n  Coef. estimate: 0.09732 \n  Standard Error: 0.02326 \n  t-value: 4.18445 \n\nSensitivity Statistics:\n  Partial R2 of treatment with outcome: 0.02187 \n  Robustness Value, q = 1 : 0.13878 \n  Robustness Value, q = 1 alpha = 0.05 : 0.07626 \n\nFor more information, check summary."
+            print.sense <- "Sensitivity Analysis to Unobserved Confounding\n\nModel Formula: peacefactor ~ directlyharmed + age + farmer_dar + herder_dar + \n    pastvoted + hhsize_darfur + female + village\n\nNull hypothesis: q = 1 and reduce = TRUE \n\nObserved Estimates of 'directlyharmed':\n  Coef. estimate: 0.09732 \n  Standard Error: 0.02326 \n  t-value: 4.18445 \n\nSensitivity Statistics:\n  Partial R2 of treatment with outcome: 0.02187 \n  Robustness Value, q = 1 : 0.13878 \n  Robustness Value, q = 1 alpha = 0.05 : 0.07626 \n\nFor more information, check summary."
             compare <- capture_output(print(darfur_out))
             expect_equal(compare, print.sense)
 
