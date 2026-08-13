@@ -142,6 +142,9 @@ ovb_bounds.fixest <- function(model,
 
   bound = match.arg(bound)
 
+  # emitted once here, rather than once per adjusted_* call below
+  if (message) message_vcov.fixest(model)
+
   bounder = switch(bound,
                    "partial r2" = ovb_partial_r2_bound,
                    "partial r2 no D" = stop("Only partial r2 implemented now."),
@@ -167,7 +170,7 @@ ovb_bounds.fixest <- function(model,
                                      treatment = treatment,
                                      r2yz.dx = bounds$r2yz.dx,
                                      r2dz.x = bounds$r2dz.x,
-                                     message = message)
+                                     message = FALSE)
 
     bounds$adjusted_t = adjusted_t.fixest(model = model,
                                    treatment = treatment,
@@ -175,7 +178,7 @@ ovb_bounds.fixest <- function(model,
                                    r2dz.x = bounds$r2dz.x,
                                    h0 = h0,
                                    reduce = reduce,
-                                   message = message)
+                                   message = FALSE)
 
     se_multiple <- qt(alpha/2, df = fixest::degrees_freedom(model, type = "resid", vcov = "iid"), lower.tail = F)
     bounds$adjusted_lower_CI <- bounds$adjusted_estimate - se_multiple*bounds$adjusted_se

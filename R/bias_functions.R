@@ -215,12 +215,7 @@ adjusted_se.lm <- function(model, treatment,  r2dz.x, r2yz.dx, ...){
 adjusted_se.fixest <- function(model, treatment,  r2dz.x, r2yz.dx, message = TRUE, ...){
   # extract model data
   if(message){
-    vcov_type <- model$call$vcov
-    if(!is.null(vcov_type)){
-      if(vcov_type!= "iid"){
-        message("Note for fixest: using 'iid' standard errors. Support for robust standard errors coming soon.")
-      }
-    }
+    message_vcov.fixest(model)
   }
   model_data <- model_helper.fixest(model, covariates = treatment)
   new_se <- with(model_data, adjusted_se.numeric(se = se, dof = dof, r2dz.x = r2dz.x, r2yz.dx = r2yz.dx))
@@ -262,12 +257,7 @@ adjusted_ci.fixest <- function(model, treatment,  r2dz.x, r2yz.dx,
                                which = c("both", "lwr", "upr"),
                                reduce = TRUE, alpha = 0.05, message = T, ...){
   if(message){
-    vcov_type <- model$call$vcov
-    if(!is.null(vcov_type)){
-      if(vcov_type!= "iid"){
-        message("Note for fixest: using 'iid' standard errors. Support for robust standard errors coming soon.")
-      }
-    }
+    message_vcov.fixest(model)
   }
   # extract model data
   model_data <- model_helper.fixest(model, covariates = treatment)
@@ -341,12 +331,7 @@ adjusted_t.lm <- function(model, treatment,  r2dz.x, r2yz.dx, reduce = TRUE, h0 
 #' @export
 adjusted_t.fixest <- function(model, treatment,  r2dz.x, r2yz.dx, reduce = TRUE, h0 = 0, message = T, ...){
   if(message){
-    vcov_type <- model$call$vcov
-    if(!is.null(vcov_type)){
-      if(vcov_type!= "iid"){
-        message("Note for fixest: using 'iid' standard errors. Support for robust standard errors coming soon.")
-      }
-    }
+    message_vcov.fixest(model)
   }
   # extract model data
   model_data <- model_helper.fixest(model, covariates = treatment)
