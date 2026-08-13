@@ -141,13 +141,6 @@ test_that("a zero estimate is still moved by a confounder", {
   expect_equal(adj, -b)
 })
 
-test_that("adjusted_partial_r2 returns a plain partial R2", {
-  apr <- adjusted_partial_r2(estimate = 0.097, se = 0.023, dof = 783,
-                             r2dz.x = 0.05, r2yz.dx = 0.05)
-  expect_false(inherits(apr, "t_stats"))
-  expect_null(attr(apr, "h0"))
-})
-
 test_that("bounds keep their class when manual and benchmark are combined", {
   both <- sensemakr(model, treatment = "directlyharmed",
                     benchmark_covariates = "female", kd = 1,

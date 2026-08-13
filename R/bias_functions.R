@@ -400,8 +400,6 @@ adjusted_partial_r2.numeric <- function(estimate, se, dof, r2dz.x, r2yz.dx, redu
   check_dof(dof = dof)
   check_r2(r2yz.dx = r2yz.dx, r2dz.x =  r2dz.x)
   new_t <- adjusted_t.numeric(estimate = estimate, r2yz.dx = r2yz.dx, r2dz.x = r2dz.x, se = se, dof = dof, reduce =  reduce, h0 = h0)
-  # strip the t_stats class, otherwise a partial R2 prints as a t-statistic
-  new_t <- as.numeric(new_t)
   partial_r2(t_statistic = new_t, dof = dof - 1)
 }
 
